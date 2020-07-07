@@ -12,7 +12,7 @@ using UnityEngine.Networking;
 using KinematicCharacterController;
 using EntityStates.Enforcer;
 
-namespace Enforcer
+namespace EnforcerPlugin
 {
     [BepInDependency("com.bepis.r2api")]
 
@@ -20,7 +20,7 @@ namespace Enforcer
     [R2APISubmoduleDependency(nameof(PrefabAPI), nameof(SurvivorAPI), nameof(LoadoutAPI), nameof(BuffAPI))]
 
 
-    public class Enforcer : BaseUnityPlugin
+    public class EnforcerPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.ok.Enforcer";
 
@@ -30,12 +30,25 @@ namespace Enforcer
 
         private static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
+        static BuffDef jackBootsDef = new BuffDef
+        {
+            name = "Gold Rush",
+            iconPath = "Textures/BuffIcons/texBuffTempestSpeedIcon",
+            buffColor = Color.blue,
+            canStack = false,
+            isDebuff = false
+        };
+
+        static CustomBuff jackBoots = new CustomBuff(jackBootsDef);
+        public static BuffIndex jackBootsIndex = BuffAPI.Add(jackBoots);
+
         private void Awake()
         {
             Assets.PopulateAssets();
             CreatePrefab();
             RegisterCharacter();
             CreateDoppelganger();
+            shieldHooks();
         }
 
         private static GameObject CreateModel(GameObject main)
@@ -126,6 +139,9 @@ namespace Enforcer
             bodyComponent.isChampion = false;
             bodyComponent.currentVehicle = null;
             bodyComponent.skinIndex = 0U;
+
+            var stateMachine = bodyComponent.GetComponent<EntityStateMachine>();
+            stateMachine.mainStateType = new SerializableEntityStateType(typeof(EntityStates.Enforcer.EnforcerMain));
 
             CharacterMotor characterMotor = characterPrefab.GetComponent<CharacterMotor>();
             characterMotor.walkSpeedPenaltyCoefficient = 1f;
@@ -491,6 +507,49 @@ namespace Enforcer
                 skillDef = mySkillDef,
                 unlockableName = "",
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
+            };
+        }
+
+        private void shieldHooks()
+        {
+            On.RoR2.HealthComponent.TakeDamage += (orig, self, info) =>
+            {
+                ShieldComponent sComp = self.GetComponent<ShieldComponent>();
+                if (sComp && info.attacker && sComp.isShielding)
+                {
+                    CharacterBody charB = self.GetComponent<CharacterBody>();
+                    Ray aimRay = sComp.aimRay;
+                    Vector3 relativePosition = info.attacker.transform.position - aimRay.origin;
+                    float angle = Vector3.Angle(aimRay.direction, relativePosition);
+                    if (angle < 60)
+                    {
+                        return;
+                    }
+                }
+                orig(self, info);
+            };
+
+            On.RoR2.CharacterBody.RecalculateStats += (orig, self) =>
+            {
+                orig(self);
+                if (self && self.HasBuff(jackBootsIndex))
+                {
+                    Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
+                    Reflection.SetPropertyValue<float>(self, "armor", self.armor + 20);
+                }
+            };
+
+            On.RoR2.CameraRigController.Update += (orig, self) =>
+            {
+                orig(self);
+                if (self.target)
+                {
+                    ShieldComponent sComp = self.target.GetComponent<ShieldComponent>();
+                    if (sComp && sComp.isShielding)
+                    {
+                        Reflection.SetFieldValue<float>(self, "currentCameraDistance", 2);
+                    }
+                }
             };
         }
     }

@@ -21,7 +21,7 @@ namespace EntityStates.Enforcer
             base.Update();
             sComp.aimRay = base.GetAimRay();
 
-            if (base.characterBody.HasBuff(andrewPlugin.jackBootsIndex))
+            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBootsIndex))
             {
                 characterBody.isSprinting = false;
             }

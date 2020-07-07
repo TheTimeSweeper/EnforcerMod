@@ -23,7 +23,7 @@ namespace EntityStates.Enforcer
                 sComp.isShielding = !sComp.isShielding;
                 if (sComp.isShielding)
                 {
-                    base.characterBody.AddBuff(andrewPlugin.jackBootsIndex);
+                    base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.jackBootsIndex);
 
                     base.PlayAnimation("Gesture, Override", "ShieldUp", "ShieldUp.playbackRate", this.duration);
                 }
@@ -34,7 +34,7 @@ namespace EntityStates.Enforcer
         {
             if (!sComp.isShielding)
             {
-                base.characterBody.RemoveBuff(andrewPlugin.jackBootsIndex);
+                base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.jackBootsIndex);
 
                 base.PlayAnimation("Gesture, Override", "BufferEmpty");
             }
