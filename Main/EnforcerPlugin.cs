@@ -308,6 +308,8 @@ namespace EnforcerPlugin
             aimAnimator.pitchGiveupRange = 30f;
             aimAnimator.yawGiveupRange = 10f;
             aimAnimator.giveupDuration = 8f;
+
+            ShieldComponent shieldComponent = characterPrefab.AddComponent<ShieldComponent>();
         }
 
         private void RegisterCharacter()
