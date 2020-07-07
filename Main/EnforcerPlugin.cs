@@ -429,7 +429,7 @@ namespace EnforcerPlugin
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(ShieldBash));
-            mySkillDef.activationStateMachineName = "Body";
+            mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 1;
             mySkillDef.baseRechargeInterval = 0f;
             mySkillDef.beginSkillCooldownOnSkillEnd = false;

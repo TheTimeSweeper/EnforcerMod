@@ -7,7 +7,7 @@ namespace EntityStates.Enforcer
 {
     public class ShieldBash : BaseSkillState
     {
-        public float baseDuration = 0.5f;
+        public float baseDuration = 0.4f;
         private float duration;
         Ray aimRay;
         BlastAttack blastAttack;
