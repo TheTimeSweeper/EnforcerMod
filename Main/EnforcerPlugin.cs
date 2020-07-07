@@ -32,9 +32,9 @@ namespace EnforcerPlugin
 
         static BuffDef jackBootsDef = new BuffDef
         {
-            name = "Gold Rush",
+            name = "Heavyweight",
             iconPath = "Textures/BuffIcons/texBuffTempestSpeedIcon",
-            buffColor = Color.blue,
+            buffColor = characterColor,
             canStack = false,
             isDebuff = false
         };
@@ -48,7 +48,7 @@ namespace EnforcerPlugin
             CreatePrefab();
             RegisterCharacter();
             CreateDoppelganger();
-            shieldHooks();
+            ShieldHooks();
         }
 
         private static GameObject CreateModel(GameObject main)
@@ -510,7 +510,7 @@ namespace EnforcerPlugin
             };
         }
 
-        private void shieldHooks()
+        private void ShieldHooks()
         {
             On.RoR2.HealthComponent.TakeDamage += (orig, self, info) =>
             {

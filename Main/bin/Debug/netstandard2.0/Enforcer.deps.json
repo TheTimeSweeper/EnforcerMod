@@ -16,8 +16,11 @@
           "BepInEx": "5.0.1.0",
           "BepInEx.Harmony": "2.0.0.0",
           "BepInEx.MonoMod.Loader": "1.0.0.0",
+          "BepInEx.Preloader": "5.0.1.0",
+          "MMHOOK_Assembly-CSharp": "0.0.0.0",
           "Mono.Cecil": "0.10.4.0",
           "Mono.Cecil.Mdb": "0.10.4.0",
+          "Mono.Cecil.Pdb": "0.10.4.0",
           "Mono.Cecil.Rocks": "0.10.4.0",
           "MonoMod": "20.3.5.1",
           "MonoMod.RuntimeDetour": "20.3.5.1",
@@ -74,6 +77,16 @@
           "BepInEx.MonoMod.Loader.dll": {}
         }
       },
+      "BepInEx.Preloader/5.0.1.0": {
+        "runtime": {
+          "BepInEx.Preloader.dll": {}
+        }
+      },
+      "MMHOOK_Assembly-CSharp/0.0.0.0": {
+        "runtime": {
+          "MMHOOK_Assembly-CSharp.dll": {}
+        }
+      },
       "Mono.Cecil/0.10.4.0": {
         "runtime": {
           "Mono.Cecil.dll": {}
@@ -82,6 +95,11 @@
       "Mono.Cecil.Mdb/0.10.4.0": {
         "runtime": {
           "Mono.Cecil.Mdb.dll": {}
+        }
+      },
+      "Mono.Cecil.Pdb/0.10.4.0": {
+        "runtime": {
+          "Mono.Cecil.Pdb.dll": {}
         }
       },
       "Mono.Cecil.Rocks/0.10.4.0": {
@@ -211,12 +229,27 @@
       "serviceable": false,
       "sha512": ""
     },
+    "BepInEx.Preloader/5.0.1.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MMHOOK_Assembly-CSharp/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "Mono.Cecil/0.10.4.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
     "Mono.Cecil.Mdb/0.10.4.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Mono.Cecil.Pdb/0.10.4.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
