@@ -8,6 +8,10 @@ namespace EntityStates.Enforcer
     public class ShieldBash : BaseSkillState
     {
         public float baseDuration = 0.4f;
+        public static float damageCoefficient = 2.5f;
+        public static float procCoefficient = 1f;
+        public static float knockbackForce = 0.2f;
+
         private float duration;
         Ray aimRay;
         BlastAttack blastAttack;
@@ -29,11 +33,11 @@ namespace EntityStates.Enforcer
 
                 blastAttack = new BlastAttack();
                 blastAttack.radius = 3.5f;
-                blastAttack.procCoefficient = 1f;
+                blastAttack.procCoefficient = ShieldBash.procCoefficient;
                 blastAttack.position = center;
                 blastAttack.attacker = base.gameObject;
                 blastAttack.crit = Util.CheckRoll(base.characterBody.crit, base.characterBody.master);
-                blastAttack.baseDamage = base.characterBody.damage * 5f;
+                blastAttack.baseDamage = base.characterBody.damage * ShieldBash.damageCoefficient;
                 blastAttack.falloffModel = BlastAttack.FalloffModel.SweetSpot;
                 blastAttack.baseForce = 3f;
                 blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
@@ -42,7 +46,7 @@ namespace EntityStates.Enforcer
 
                 blastAttack.Fire();
 
-                knockBack();
+                KnockBack();
             }
         }
 
@@ -55,7 +59,7 @@ namespace EntityStates.Enforcer
         {
             base.FixedUpdate();
 
-            deflect();
+            Deflect();
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
@@ -64,12 +68,7 @@ namespace EntityStates.Enforcer
             }
         }
 
-        public override InterruptPriority GetMinimumInterruptPriority()
-        {
-            return InterruptPriority.Skill;
-        }
-
-        private void knockBack()
+        private void KnockBack()
         {
             Collider[] array = Physics.OverlapSphere(base.characterBody.corePosition, 5.5f, LayerIndex.defaultLayer.mask);
             for (int i = 0; i < array.Length; i++)
@@ -99,7 +98,7 @@ namespace EntityStates.Enforcer
 
         void Push(CharacterBody charb)
         {
-            Vector3 velocity = ((aimRay.origin + 200 * aimRay.direction) - charb.corePosition) * .3f;
+            Vector3 velocity = ((aimRay.origin + 200 * aimRay.direction) - charb.corePosition) * ShieldBash.knockbackForce;
             if (charb.characterMotor)
             {
                 charb.characterMotor.velocity += velocity;
@@ -114,7 +113,7 @@ namespace EntityStates.Enforcer
             }
         }
 
-        private void deflect()
+        private void Deflect()
         {
             Collider[] array = Physics.OverlapSphere(base.characterBody.corePosition, 4f, LayerIndex.projectile.mask);
             for (int i = 0; i < array.Length; i++)
@@ -146,6 +145,11 @@ namespace EntityStates.Enforcer
                     }
                 }
             }
+        }
+
+        public override InterruptPriority GetMinimumInterruptPriority()
+        {
+            return InterruptPriority.PrioritySkill;
         }
     }
 }

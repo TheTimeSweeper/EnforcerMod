@@ -6,18 +6,20 @@ namespace EntityStates.Enforcer
 {
     public class ProtectAndServe : BaseSkillState
     {
-        public float baseDuration = 0.5f;
+        public float baseDuration = 0.4f;
         private float duration;
         ShieldComponent sComp;
 
         public override void OnEnter()
         {
             base.OnEnter();
+
             sComp = base.characterBody.GetComponent<ShieldComponent>();
             this.duration = this.baseDuration / base.attackSpeedStat;
-            if (sComp.isShielding) { this.duration += 1; }
+            if (sComp.isShielding) { this.duration += 0.8f; }
             Ray aimRay = base.GetAimRay();
             base.StartAimMode(aimRay, 2f, false);
+
             if (base.isAuthority)
             {
                 sComp.isShielding = !sComp.isShielding;

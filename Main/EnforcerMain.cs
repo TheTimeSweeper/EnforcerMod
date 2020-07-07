@@ -24,6 +24,7 @@ namespace EntityStates.Enforcer
             if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBootsIndex))
             {
                 characterBody.isSprinting = false;
+                base.characterBody.SetAimTimer(0.2f);
             }
 
             if (Input.GetKeyDown(KeyCode.O))

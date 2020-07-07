@@ -133,6 +133,7 @@ namespace EnforcerPlugin
             bodyComponent.sprintingSpeedMultiplier = 1.45f;
             bodyComponent.wasLucky = false;
             bodyComponent.hideCrosshair = false;
+            bodyComponent.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
             bodyComponent.aimOriginTransform = gameObject3.transform;
             bodyComponent.hullClassification = HullClassification.Human;
             bodyComponent.portraitIcon = Resources.Load<GameObject>("Prefabs/CharacterBodies/TitanBody").GetComponent<CharacterBody>().portraitIcon;
@@ -378,8 +379,8 @@ namespace EnforcerPlugin
         {
             SkillLocator component = characterPrefab.GetComponent<SkillLocator>();
 
-            LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION", "Riot Shotgun");
-            LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_NAME", "Fire a short range piercing blast for 4x90% damage.");
+            LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_NAME", "Riot Shotgun");
+            LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION", "Fire a short range piercing blast for 4x90% damage.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(RiotShotgun));
@@ -424,8 +425,8 @@ namespace EnforcerPlugin
         {
             SkillLocator component = characterPrefab.GetComponent<SkillLocator>();
 
-            LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", "Shield Bash");
-            LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Smash nearby enemies for x% damage, knocking them back. Deflects projectiles.");
+            LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
+            LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", "Smash nearby enemies for 250% damage, knocking them back. Deflects projectiles.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(ShieldBash));
@@ -470,12 +471,12 @@ namespace EnforcerPlugin
         {
             SkillLocator component = characterPrefab.GetComponent<SkillLocator>();
 
-            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION", "Protect and Serve");
-            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_NAME", "Take a defensive stance, blocking all damage from the front. Increases your rate of fire, but prevents sprinting and jumping.");
+            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_NAME", "Protect and Serve");
+            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION", "Take a defensive stance, blocking all damage from the front. Increases your rate of fire, but prevents sprinting and jumping.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(ProtectAndServe));
-            mySkillDef.activationStateMachineName = "Body";
+            mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 1;
             mySkillDef.baseRechargeInterval = 0f;
             mySkillDef.beginSkillCooldownOnSkillEnd = false;
@@ -541,7 +542,7 @@ namespace EnforcerPlugin
                 }
             };
 
-            On.RoR2.CameraRigController.Update += (orig, self) =>
+            /*On.RoR2.CameraRigController.Update += (orig, self) =>
             {
                 orig(self);
                 if (self.target)
@@ -552,7 +553,7 @@ namespace EnforcerPlugin
                         Reflection.SetFieldValue<float>(self, "currentCameraDistance", 2);
                     }
                 }
-            };
+            };*/
         }
     }
 

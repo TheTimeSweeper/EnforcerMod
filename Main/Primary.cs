@@ -10,7 +10,7 @@ namespace EntityStates.Enforcer
     {
         public float damageCoefficient = 0.9f;
         public float baseDuration = 0.9f; // the base skill duration
-        public float baseShieldDuration = 0.75f; // the duration used while shield is active
+        public float baseShieldDuration = 0.6f; // the duration used while shield is active
         public int projectileCount = 4;
         public float bulletRecoil = 3f;
         public static GameObject bulletTracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun");
@@ -24,26 +24,24 @@ namespace EntityStates.Enforcer
         public override void OnEnter()
         {
             base.OnEnter();
-            this.duration = this.baseDuration / this.attackSpeedStat;
-            this.fireDuration = 0.1f * this.duration;
             base.characterBody.SetAimTimer(2f);
             this.animator = base.GetModelAnimator();
             this.muzzleString = "Root"; //use root as the muzzle for now, until the childlocator is set up at least
             this.hasFired = false;
 
-            // use this later for the alt animation while shield is up
-            /*
-            if (base.characterBody.HasBuff(Twitch.Twitch.ambushBuff))
+
+            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBootsIndex))
             {
-                base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
+                this.duration = this.baseShieldDuration / this.attackSpeedStat;
+                this.fireDuration = 0.1f * this.duration;
             }
             else
             {
+                this.duration = this.baseDuration / this.attackSpeedStat;
+                this.fireDuration = 0.1f * this.duration;
+
                 base.PlayAnimation("Gesture, Override", "FireShotgunAlt", "FireShotgun.playbackRate", this.duration);
             }
-            */
-
-            base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
 
             //Util.PlaySound("", base.gameObject);
         }
@@ -87,7 +85,7 @@ namespace EntityStates.Enforcer
                         force = force,
                         hitMask = LayerIndex.CommonMasks.bullet,
                         minSpread = 0,
-                        maxSpread = 30f,
+                        maxSpread = 15f,
                         isCrit = isCrit,
                         owner = base.gameObject,
                         muzzleName = muzzleString,
