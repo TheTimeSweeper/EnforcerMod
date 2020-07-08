@@ -39,7 +39,7 @@ namespace EnforcerPlugin
         public static event Action awake;
         //public static event Action start;
 
-        private static readonly Color characterColor = new Color(0.26f, 0.27f, 0.461f);
+        private static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
         static BuffDef jackBootsDef = new BuffDef
         {
