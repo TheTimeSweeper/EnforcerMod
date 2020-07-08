@@ -28,6 +28,8 @@ namespace EntityStates.Enforcer
                     base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.jackBootsIndex);
 
                     base.PlayAnimation("Gesture, Override", "ShieldUp", "ShieldUp.playbackRate", this.duration);
+
+                    if (base.skillLocator) base.skillLocator.special.skillDef.icon = EnforcerPlugin.Assets.icon4B;
                 }
             }
         }
@@ -39,6 +41,8 @@ namespace EntityStates.Enforcer
                 base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.jackBootsIndex);
 
                 base.PlayAnimation("Gesture, Override", "BufferEmpty");
+
+                if (base.skillLocator) base.skillLocator.special.skillDef.icon = EnforcerPlugin.Assets.icon4;
             }
 
             base.OnExit();

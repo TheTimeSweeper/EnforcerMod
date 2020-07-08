@@ -6,33 +6,34 @@ namespace EntityStates.Enforcer
 {
     public class EnforcerMain : GenericCharacterMain
     {
-        ShieldComponent sComp;
-        bool toggle = false;
+        private ShieldComponent sComp;
+        private bool toggle = false;
 
         public override void OnEnter()
         {
             base.OnEnter();
 
-            sComp = base.characterBody.GetComponent<ShieldComponent>();
+            this.sComp = base.characterBody.GetComponent<ShieldComponent>();
         }
 
         public override void Update()
         {
             base.Update();
-            sComp.aimRay = base.GetAimRay();
+            this.sComp.aimRay = base.GetAimRay();
 
             if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBootsIndex))
             {
-                characterBody.isSprinting = false;
+                base.characterBody.isSprinting = false;
                 base.characterBody.SetAimTimer(0.2f);
             }
 
+            // this is a temp toggle, remove this later
             if (Input.GetKeyDown(KeyCode.O))
             {
-                toggle = !toggle;
+                this.toggle = !this.toggle;
             }
 
-            if (toggle)
+            if (this.toggle)
             {
                 getList();
             }

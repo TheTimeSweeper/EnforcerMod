@@ -175,7 +175,7 @@ namespace EnforcerPlugin
             Transform transform = model.transform;
             transform.parent = gameObject.transform;
             transform.localPosition = Vector3.zero;
-            transform.localScale = new Vector3(0.125f, 0.125f, 0.125f); // resizing due to awkward assetbundle scaling for now
+            transform.localScale = new Vector3(0.14f, 0.14f, 0.14f); // resizing due to awkward assetbundle scaling for now
             transform.localRotation = Quaternion.identity;
 
             CharacterDirection characterDirection = characterPrefab.GetComponent<CharacterDirection>();
@@ -220,7 +220,7 @@ namespace EnforcerPlugin
             bodyComponent.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
             bodyComponent.aimOriginTransform = gameObject3.transform;
             bodyComponent.hullClassification = HullClassification.Human;
-            bodyComponent.portraitIcon = Resources.Load<GameObject>("Prefabs/CharacterBodies/TitanBody").GetComponent<CharacterBody>().portraitIcon;
+            bodyComponent.portraitIcon = Assets.charPortrait;
             bodyComponent.isChampion = false;
             bodyComponent.currentVehicle = null;
             bodyComponent.skinIndex = 0U;
@@ -464,6 +464,7 @@ namespace EnforcerPlugin
 
             PrimarySetup();
             SecondarySetup();
+            UtilitySetup();
             SpecialSetup();
         }
 
@@ -491,7 +492,7 @@ namespace EnforcerPlugin
             mySkillDef.requiredStock = 1;
             mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = null; //change this when ready
+            mySkillDef.icon = Assets.icon1;
             mySkillDef.skillDescriptionToken = "ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION";
             mySkillDef.skillName = "ENFORCER_PRIMARY_SHOTGUN_NAME";
             mySkillDef.skillNameToken = "ENFORCER_PRIMARY_SHOTGUN_NAME";
@@ -524,7 +525,7 @@ namespace EnforcerPlugin
             mySkillDef.activationState = new SerializableEntityStateType(typeof(ShieldBash));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 1;
-            mySkillDef.baseRechargeInterval = 0f;
+            mySkillDef.baseRechargeInterval = 4f;
             mySkillDef.beginSkillCooldownOnSkillEnd = false;
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
@@ -537,7 +538,7 @@ namespace EnforcerPlugin
             mySkillDef.requiredStock = 1;
             mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
-            //mySkillDef.icon = Assets.icon2;
+            mySkillDef.icon = Assets.icon2;
             mySkillDef.skillDescriptionToken = "ENFORCER_SECONDARY_BASH_DESCRIPTION";
             mySkillDef.skillName = "ENFORCER_SECONDARY_BASH_NAME";
             mySkillDef.skillNameToken = "ENFORCER_SECONDARY_BASH_NAME";
@@ -550,6 +551,52 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkillFamily(newFamily);
             skillLocator.secondary.SetFieldValue("_skillFamily", newFamily);
             SkillFamily skillFamily = skillLocator.secondary.skillFamily;
+
+            skillFamily.variants[0] = new SkillFamily.Variant
+            {
+                skillDef = mySkillDef,
+                unlockableName = "",
+                viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
+            };
+        }
+
+        private void UtilitySetup()
+        {
+            LoadoutAPI.AddSkill(typeof(StunGrenade));
+
+            LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_NAME", "Stun Grenade");
+            LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION", "Launch a stun grenade, stunning enemies in a huge radius for 150% damage. Can bounce at shallow angles.");
+
+            SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(ShieldBash));
+            mySkillDef.activationStateMachineName = "Weapon";
+            mySkillDef.baseMaxStock = 6;
+            mySkillDef.baseRechargeInterval = 8f;
+            mySkillDef.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef.canceledFromSprinting = false;
+            mySkillDef.fullRestockOnAssign = true;
+            mySkillDef.interruptPriority = InterruptPriority.Skill;
+            mySkillDef.isBullets = false;
+            mySkillDef.isCombatSkill = true;
+            mySkillDef.mustKeyPress = false;
+            mySkillDef.noSprint = true;
+            mySkillDef.rechargeStock = 1;
+            mySkillDef.requiredStock = 1;
+            mySkillDef.shootDelay = 0f;
+            mySkillDef.stockToConsume = 1;
+            mySkillDef.icon = Assets.icon3B;
+            mySkillDef.skillDescriptionToken = "ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION";
+            mySkillDef.skillName = "ENFORCER_UTILITY_STUNGRENADE_NAME";
+            mySkillDef.skillNameToken = "ENFORCER_UTILITY_STUNGRENADE_NAME";
+
+            LoadoutAPI.AddSkillDef(mySkillDef);
+
+            skillLocator.utility = characterPrefab.AddComponent<GenericSkill>();
+            SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
+            newFamily.variants = new SkillFamily.Variant[1];
+            LoadoutAPI.AddSkillFamily(newFamily);
+            skillLocator.utility.SetFieldValue("_skillFamily", newFamily);
+            SkillFamily skillFamily = skillLocator.utility.skillFamily;
 
             skillFamily.variants[0] = new SkillFamily.Variant
             {
@@ -583,7 +630,7 @@ namespace EnforcerPlugin
             mySkillDef.requiredStock = 1;
             mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
-            //mySkillDef.icon = Assets.icon4;
+            mySkillDef.icon = Assets.icon4B;
             mySkillDef.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION";
             mySkillDef.skillName = "ENFORCER_SPECIAL_SHIELDUP_NAME";
             mySkillDef.skillNameToken = "ENFORCER_SPECIAL_SHIELDUP_NAME";
@@ -609,15 +656,18 @@ namespace EnforcerPlugin
     public static class Assets
     {
         public static AssetBundle MainAssetBundle = null;
-        public static AssetBundleResourcesProvider Provider;
 
-        //public static Texture charPortrait;
+        public static AssetBundle tempAssetBundle = null;
+
+        public static Texture charPortrait;
 
         //public static Sprite iconP;
-        //public static Sprite icon1;
-        //public static Sprite icon2;
-        //public static Sprite icon3;
-        //public static Sprite icon4;
+        public static Sprite icon1;//shotgun
+        public static Sprite icon2;//shield bash
+        public static Sprite icon3;//tear gas
+        public static Sprite icon3B;//stun grenade
+        public static Sprite icon4;//protect and serve
+        public static Sprite icon4B;//protect and serve cancel
 
         public static void PopulateAssets()
         {
@@ -626,7 +676,14 @@ namespace EnforcerPlugin
                 using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.enforcer"))
                 {
                     MainAssetBundle = AssetBundle.LoadFromStream(assetStream);
-                    Provider = new AssetBundleResourcesProvider("@Enforcer", MainAssetBundle);
+                }
+            }
+
+            if (tempAssetBundle == null)
+            {
+                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.grenadeBundle"))
+                {
+                    tempAssetBundle = AssetBundle.LoadFromStream(assetStream);
                 }
             }
 
@@ -638,13 +695,15 @@ namespace EnforcerPlugin
                 SoundAPI.SoundBanks.Add(array);
             }*/
 
-            //charPortrait = MainAssetBundle.LoadAsset<Sprite>("ExampleSurvivorBody").texture;
+            charPortrait = MainAssetBundle.LoadAsset<Sprite>("EnforcerBody").texture;
 
             //iconP = MainAssetBundle.LoadAsset<Sprite>("PassiveIcon");
-            //icon1 = MainAssetBundle.LoadAsset<Sprite>("Skill1Icon");
-            //icon2 = MainAssetBundle.LoadAsset<Sprite>("Skill2Icon");
-            //icon3 = MainAssetBundle.LoadAsset<Sprite>("Skill3Icon");
-            //icon4 = MainAssetBundle.LoadAsset<Sprite>("Skill4Icon");
+            icon1 = MainAssetBundle.LoadAsset<Sprite>("Skill1Icon");
+            icon2 = MainAssetBundle.LoadAsset<Sprite>("Skill2Icon");
+            icon3 = MainAssetBundle.LoadAsset<Sprite>("Skill3Icon");
+            icon3B = MainAssetBundle.LoadAsset<Sprite>("Skill3BIcon");
+            icon4 = MainAssetBundle.LoadAsset<Sprite>("Skill4Icon");
+            icon4B = MainAssetBundle.LoadAsset<Sprite>("Skill4BIcon");
         }
     }
 }
