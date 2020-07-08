@@ -110,6 +110,7 @@ namespace EnforcerPlugin
             {
                 Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
                 Reflection.SetPropertyValue<float>(self, "armor", self.armor + 20);
+                Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.5f);
             }
         }
 

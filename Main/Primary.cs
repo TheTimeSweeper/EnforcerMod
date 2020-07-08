@@ -8,7 +8,7 @@ namespace EntityStates.Enforcer
 {
     public class RiotShotgun : BaseSkillState
     {
-        public float damageCoefficient = 0.3f;
+        public float damageCoefficient = 0.6f;
         public float baseDuration = 0.9f; // the base skill duration
         public float baseShieldDuration = 0.6f; // the duration used while shield is active
         public int projectileCount = 4;
@@ -40,7 +40,7 @@ namespace EntityStates.Enforcer
                 this.duration = this.baseDuration / this.attackSpeedStat;
                 this.fireDuration = 0.1f * this.duration;
 
-                base.PlayAnimation("Gesture, Override", "FireShotgunAlt", "FireShotgun.playbackRate", this.duration);
+                base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
             }
 
             //Util.PlaySound("", base.gameObject);
