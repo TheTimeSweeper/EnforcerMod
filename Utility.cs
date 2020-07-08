@@ -1,5 +1,4 @@
-﻿using EntityStates;
-using RoR2;
+﻿using RoR2;
 using UnityEngine;
 
 namespace EntityStates.Enforcer
@@ -12,14 +11,15 @@ namespace EntityStates.Enforcer
         public static float blastRadius = 5f;
 
         private float duration;
-        public GameObject grenadePrefab = EnforcerPlugin.Assets.tempAssetBundle.LoadAsset<GameObject>("Grenade");
+        public GameObject grenadePrefab = EnforcerPlugin.Assets.grenade;
 
         public override void OnEnter()
         {
             base.OnEnter();
-            duration = baseDuration / base.attackSpeedStat;
+            this.duration = baseDuration / this.attackSpeedStat;
+
             Ray aimRay = base.GetAimRay();
-            if (base.isAuthority)
+            /*if (base.isAuthority)
             {
                 GameObject grenade = UnityEngine.Object.Instantiate<GameObject>(grenadePrefab, aimRay.origin + 2 * aimRay.direction, Quaternion.LookRotation(aimRay.direction));
 
@@ -40,8 +40,9 @@ namespace EntityStates.Enforcer
                 blastAttack.damageType = DamageType.Stun1s;
                 blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
                 grc.blastAttack = blastAttack;
-            }
+            }*/
         }
+
         public override void OnExit()
         {
             base.OnExit();

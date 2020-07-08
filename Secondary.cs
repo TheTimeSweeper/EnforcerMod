@@ -41,7 +41,7 @@ namespace EntityStates.Enforcer
                 blastAttack.falloffModel = BlastAttack.FalloffModel.SweetSpot;
                 blastAttack.baseForce = 3f;
                 blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
-                blastAttack.damageType = DamageType.Generic;
+                blastAttack.damageType = DamageType.Stun1s;
                 blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
 
                 blastAttack.Fire();

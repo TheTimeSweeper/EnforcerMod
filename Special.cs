@@ -1,24 +1,29 @@
-﻿using EntityStates;
-using RoR2;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace EntityStates.Enforcer
 {
     public class ProtectAndServe : BaseSkillState
     {
-        public float baseDuration = 0.4f;
+        public float enterDuration = 0.4f;
+        public float exitDuration = 1.2f;
+
         private float duration;
-        ShieldComponent sComp;
+        private ShieldComponent sComp;
 
         public override void OnEnter()
         {
             base.OnEnter();
 
-            sComp = base.characterBody.GetComponent<ShieldComponent>();
-            this.duration = this.baseDuration / base.attackSpeedStat;
-            if (sComp.isShielding) { this.duration += 0.8f; }
+            this.sComp = base.characterBody.GetComponent<ShieldComponent>();
+            if (sComp.isShielding) this.duration = this.exitDuration;
+            else this.duration = this.enterDuration;
+
+            this.duration /= this.attackSpeedStat;
+
             Ray aimRay = base.GetAimRay();
             base.StartAimMode(aimRay, 2f, false);
+
+            if (base.characterMotor) base.characterMotor.mass = 1500f;
 
             if (base.isAuthority)
             {
@@ -45,8 +50,11 @@ namespace EntityStates.Enforcer
                 if (base.skillLocator) base.skillLocator.special.skillDef.icon = EnforcerPlugin.Assets.icon4;
             }
 
+            if (base.characterMotor) base.characterMotor.mass = 100f;
+
             base.OnExit();
         }
+
         public override void FixedUpdate()
         {
             base.FixedUpdate();

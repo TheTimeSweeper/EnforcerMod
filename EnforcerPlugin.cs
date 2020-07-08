@@ -228,7 +228,7 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkill(typeof(EnforcerMain));
 
             var stateMachine = bodyComponent.GetComponent<EntityStateMachine>();
-            stateMachine.mainStateType = new SerializableEntityStateType(typeof(EntityStates.Enforcer.EnforcerMain));
+            stateMachine.mainStateType = new SerializableEntityStateType(typeof(EnforcerMain));
 
             CharacterMotor characterMotor = characterPrefab.GetComponent<CharacterMotor>();
             characterMotor.walkSpeedPenaltyCoefficient = 1f;
@@ -334,11 +334,6 @@ namespace EnforcerPlugin
             kinematicCharacterMotor.CharacterController = characterMotor;
             kinematicCharacterMotor.Capsule = capsuleCollider;
             kinematicCharacterMotor.Rigidbody = rigidbody;
-
-            capsuleCollider.radius = 0.5f;
-            capsuleCollider.height = 1.82f;
-            capsuleCollider.center = new Vector3(0, 0, 0);
-            capsuleCollider.material = null;
 
             kinematicCharacterMotor.DetectDiscreteCollisions = false;
             kinematicCharacterMotor.GroundDetectionExtraDistance = 0f;
@@ -519,7 +514,7 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkill(typeof(ShieldBash));
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
-            LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", "Smash nearby enemies for 250% damage, knocking them back. Deflects projectiles.");
+            LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", "Smash nearby enemies for 250% damage, stunning and knocking them back. Deflects projectiles.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(ShieldBash));
@@ -568,7 +563,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION", "Launch a stun grenade, stunning enemies in a huge radius for 150% damage. Can bounce at shallow angles.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            mySkillDef.activationState = new SerializableEntityStateType(typeof(ShieldBash));
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(StunGrenade));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 6;
             mySkillDef.baseRechargeInterval = 8f;
@@ -630,7 +625,7 @@ namespace EnforcerPlugin
             mySkillDef.requiredStock = 1;
             mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.icon4B;
+            mySkillDef.icon = Assets.icon4;
             mySkillDef.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION";
             mySkillDef.skillName = "ENFORCER_SPECIAL_SHIELDUP_NAME";
             mySkillDef.skillNameToken = "ENFORCER_SPECIAL_SHIELDUP_NAME";
@@ -657,7 +652,7 @@ namespace EnforcerPlugin
     {
         public static AssetBundle MainAssetBundle = null;
 
-        public static AssetBundle tempAssetBundle = null;
+        public static AssetBundle TempAssetBundle = null;
 
         public static Texture charPortrait;
 
@@ -669,6 +664,8 @@ namespace EnforcerPlugin
         public static Sprite icon4;//protect and serve
         public static Sprite icon4B;//protect and serve cancel
 
+        public static GameObject grenade;
+
         public static void PopulateAssets()
         {
             if (MainAssetBundle == null)
@@ -679,13 +676,14 @@ namespace EnforcerPlugin
                 }
             }
 
-            if (tempAssetBundle == null)
+            //this shit doesn't fucking work i give up i'm going to bed fuck this
+            /*if (TempAssetBundle == null)
             {
                 using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.grenadeBundle"))
                 {
-                    tempAssetBundle = AssetBundle.LoadFromStream(assetStream);
+                    TempAssetBundle = AssetBundle.LoadFromStream(assetStream);
                 }
-            }
+            }*/
 
             // for the soundbank later
             /*using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("ExampleSurvivor.ExampleSurvivor.bnk"))
@@ -703,7 +701,9 @@ namespace EnforcerPlugin
             icon3 = MainAssetBundle.LoadAsset<Sprite>("Skill3Icon");
             icon3B = MainAssetBundle.LoadAsset<Sprite>("Skill3BIcon");
             icon4 = MainAssetBundle.LoadAsset<Sprite>("Skill4Icon");
-            icon4B = MainAssetBundle.LoadAsset<Sprite>("Skill4BIcon");
+            icon4B = MainAssetBundle.LoadAsset<Sprite>("Skill4Icon");
+
+            //grenade = TempAssetBundle.LoadAsset<GameObject>("Grenade");
         }
     }
 }
