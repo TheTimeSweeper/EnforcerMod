@@ -14,19 +14,30 @@ using EntityStates.Enforcer;
 
 namespace EnforcerPlugin
 {
-    [BepInDependency("com.bepis.r2api")]
-
+    [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInPlugin(MODUID, "Enforcer", "0.0.1")]
-    [R2APISubmoduleDependency(nameof(PrefabAPI), nameof(SurvivorAPI), nameof(LoadoutAPI), nameof(BuffAPI))]
-
+    [R2APISubmoduleDependency(new string[]
+    {
+        "PrefabAPI",
+        "SurvivorAPI",
+        "LoadoutAPI",
+        "BuffAPI"
+    })]
 
     public class EnforcerPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.ok.Enforcer";
 
+        public static EnforcerPlugin instance;
+
+        //i didn't want this to be static considering we're using an instance now but it throws 23 erros if i remove the static modifier 
+        //i'm not dealing with that
         public static GameObject characterPrefab;
         public GameObject characterDisplay;
         public GameObject doppelganger;
+
+        public static event Action awake;
+        //public static event Action start;
 
         private static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
@@ -42,15 +53,79 @@ namespace EnforcerPlugin
         static CustomBuff jackBoots = new CustomBuff(jackBootsDef);
         public static BuffIndex jackBootsIndex = BuffAPI.Add(jackBoots);
 
-        private void Awake()
+        public SkillLocator skillLocator;
+        public EnforcerPlugin() {
+            //don't touch this
+            awake += EnforcerPlugin_Load;
+        }
+        private void EnforcerPlugin_Load()
         {
+            //touch this all you want tho
             Assets.PopulateAssets();
             CreatePrefab();
             RegisterCharacter();
             CreateDoppelganger();
-            ShieldHooks();
+            Hook();
         }
 
+        public void Awake()
+        {
+            Action awake = EnforcerPlugin.awake;
+            if (awake == null)
+            {
+                return;
+            }
+            awake();
+        }
+        private void Hook() {
+            //add hooks here
+            //using this approach means we'll only ever have to comment one line if we don't want a hook to fire
+            //it's much simpler this way, trust me
+            On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
+            On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
+            //On.RoR2.CameraRigController.Update += CameraRigController_Update;
+        }
+        #region Hooks
+        private void CameraRigController_Update(On.RoR2.CameraRigController.orig_Update orig, CameraRigController self)
+        {
+            orig(self);
+            if (self.target && self)
+            {
+                ShieldComponent sComp = self.target.GetComponent<ShieldComponent>();
+                if (sComp && sComp.isShielding)
+                {
+                    Reflection.SetFieldValue<float>(self, "currentCameraDistance", 2);
+                }
+            }
+        }
+
+        private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
+        {
+            orig(self);
+            if (self && self.HasBuff(jackBootsIndex))
+            {
+                Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
+                Reflection.SetPropertyValue<float>(self, "armor", self.armor + 20);
+            }
+        }
+
+        private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
+        {
+            ShieldComponent sComp = self.GetComponent<ShieldComponent>();
+            if (sComp && info.attacker && sComp.isShielding)
+            {
+                CharacterBody charB = self.GetComponent<CharacterBody>();
+                Ray aimRay = sComp.aimRay;
+                Vector3 relativePosition = info.attacker.transform.position - aimRay.origin;
+                float angle = Vector3.Angle(aimRay.direction, relativePosition);
+                if (angle < 60)
+                {
+                    return;
+                }
+            }
+            orig(self, info);
+        }
+        #endregion
         private static GameObject CreateModel(GameObject main)
         {
             Destroy(main.transform.Find("ModelBase").gameObject);
@@ -61,9 +136,10 @@ namespace EnforcerPlugin
 
             return model;
         }
-
         internal static void CreatePrefab()
         {
+            //...what?
+            
             characterPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), "EnforcerEpicBody");
 
             characterPrefab.GetComponent<NetworkIdentity>().localPlayerAuthority = true;
@@ -140,6 +216,8 @@ namespace EnforcerPlugin
             bodyComponent.isChampion = false;
             bodyComponent.currentVehicle = null;
             bodyComponent.skinIndex = 0U;
+
+            LoadoutAPI.AddSkill(typeof(EnforcerMain));
 
             var stateMachine = bodyComponent.GetComponent<EntityStateMachine>();
             stateMachine.mainStateType = new SerializableEntityStateType(typeof(EntityStates.Enforcer.EnforcerMain));
@@ -310,9 +388,10 @@ namespace EnforcerPlugin
             aimAnimator.yawGiveupRange = 10f;
             aimAnimator.giveupDuration = 8f;
 
-            ShieldComponent shieldComponent = characterPrefab.AddComponent<ShieldComponent>();
-        }
+            //why cache it if we're not gonna set it?
+            /*ShieldComponent shieldComponent =*/ characterPrefab.AddComponent<ShieldComponent>();
 
+        }
         private void RegisterCharacter()
         {
             characterDisplay = PrefabAPI.InstantiateClone(characterPrefab.GetComponent<ModelLocator>().modelBaseTransform.gameObject, "EnforcerDisplay");
@@ -348,7 +427,6 @@ namespace EnforcerPlugin
                 list.Add(characterPrefab);
             };
         }
-
         private void CreateDoppelganger()
         {
             // commando ai for now
@@ -362,14 +440,14 @@ namespace EnforcerPlugin
             CharacterMaster component = doppelganger.GetComponent<CharacterMaster>();
             component.bodyPrefab = characterPrefab;
         }
-
+        //add modifiers to your voids please 
         void SkillSetup()
         {
             foreach (GenericSkill obj in characterPrefab.GetComponentsInChildren<GenericSkill>())
             {
                 BaseUnityPlugin.DestroyImmediate(obj);
             }
-
+            skillLocator = characterPrefab.GetComponent<SkillLocator>();
             PrimarySetup();
             SecondarySetup();
             SpecialSetup();
@@ -377,10 +455,12 @@ namespace EnforcerPlugin
 
         void PrimarySetup()
         {
-            SkillLocator component = characterPrefab.GetComponent<SkillLocator>();
+            SkillLocator skillLocator = characterPrefab.GetComponent<SkillLocator>();
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_NAME", "Riot Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION", "Fire a short range piercing blast for 4x90% damage.");
+
+            LoadoutAPI.AddSkill(typeof(RiotShotgun));
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(RiotShotgun));
@@ -399,19 +479,19 @@ namespace EnforcerPlugin
             mySkillDef.requiredStock = 1;
             mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
-            //mySkillDef.icon = Assets.icon1;
+            mySkillDef.icon = null; //change this when ready
             mySkillDef.skillDescriptionToken = "ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION";
             mySkillDef.skillName = "ENFORCER_PRIMARY_SHOTGUN_NAME";
             mySkillDef.skillNameToken = "ENFORCER_PRIMARY_SHOTGUN_NAME";
 
             LoadoutAPI.AddSkillDef(mySkillDef);
 
-            component.primary = characterPrefab.AddComponent<GenericSkill>();
+            skillLocator.primary = characterPrefab.AddComponent<GenericSkill>();
             SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
             newFamily.variants = new SkillFamily.Variant[1];
             LoadoutAPI.AddSkillFamily(newFamily);
-            component.primary.SetFieldValue("_skillFamily", newFamily);
-            SkillFamily skillFamily = component.primary.skillFamily;
+            skillLocator.primary.SetFieldValue("_skillFamily", newFamily);
+            SkillFamily skillFamily = skillLocator.primary.skillFamily;
 
             skillFamily.variants[0] = new SkillFamily.Variant
             {
@@ -423,7 +503,7 @@ namespace EnforcerPlugin
 
         void SecondarySetup()
         {
-            SkillLocator component = characterPrefab.GetComponent<SkillLocator>();
+            LoadoutAPI.AddSkill(typeof(ShieldBash));
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", "Smash nearby enemies for 250% damage, knocking them back. Deflects projectiles.");
@@ -452,12 +532,12 @@ namespace EnforcerPlugin
 
             LoadoutAPI.AddSkillDef(mySkillDef);
 
-            component.secondary = characterPrefab.AddComponent<GenericSkill>();
+            skillLocator.secondary = characterPrefab.AddComponent<GenericSkill>();
             SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
             newFamily.variants = new SkillFamily.Variant[1];
             LoadoutAPI.AddSkillFamily(newFamily);
-            component.secondary.SetFieldValue("_skillFamily", newFamily);
-            SkillFamily skillFamily = component.secondary.skillFamily;
+            skillLocator.secondary.SetFieldValue("_skillFamily", newFamily);
+            SkillFamily skillFamily = skillLocator.secondary.skillFamily;
 
             skillFamily.variants[0] = new SkillFamily.Variant
             {
@@ -469,7 +549,7 @@ namespace EnforcerPlugin
 
         void SpecialSetup()
         {
-            SkillLocator component = characterPrefab.GetComponent<SkillLocator>();
+            LoadoutAPI.AddSkill(typeof(ProtectAndServe));
 
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_NAME", "Protect and Serve");
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION", "Take a defensive stance, blocking all damage from the front. Increases your rate of fire, but prevents sprinting and jumping.");
@@ -498,12 +578,12 @@ namespace EnforcerPlugin
 
             LoadoutAPI.AddSkillDef(mySkillDef);
 
-            component.special = characterPrefab.AddComponent<GenericSkill>();
+            skillLocator.special = characterPrefab.AddComponent<GenericSkill>();
             SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
             newFamily.variants = new SkillFamily.Variant[1];
             LoadoutAPI.AddSkillFamily(newFamily);
-            component.special.SetFieldValue("_skillFamily", newFamily);
-            SkillFamily skillFamily = component.special.skillFamily;
+            skillLocator.special.SetFieldValue("_skillFamily", newFamily);
+            SkillFamily skillFamily = skillLocator.special.skillFamily;
 
             skillFamily.variants[0] = new SkillFamily.Variant
             {
@@ -511,49 +591,6 @@ namespace EnforcerPlugin
                 unlockableName = "",
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
             };
-        }
-
-        private void ShieldHooks()
-        {
-            On.RoR2.HealthComponent.TakeDamage += (orig, self, info) =>
-            {
-                ShieldComponent sComp = self.GetComponent<ShieldComponent>();
-                if (sComp && info.attacker && sComp.isShielding)
-                {
-                    CharacterBody charB = self.GetComponent<CharacterBody>();
-                    Ray aimRay = sComp.aimRay;
-                    Vector3 relativePosition = info.attacker.transform.position - aimRay.origin;
-                    float angle = Vector3.Angle(aimRay.direction, relativePosition);
-                    if (angle < 60)
-                    {
-                        return;
-                    }
-                }
-                orig(self, info);
-            };
-
-            On.RoR2.CharacterBody.RecalculateStats += (orig, self) =>
-            {
-                orig(self);
-                if (self && self.HasBuff(jackBootsIndex))
-                {
-                    Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
-                    Reflection.SetPropertyValue<float>(self, "armor", self.armor + 20);
-                }
-            };
-
-            /*On.RoR2.CameraRigController.Update += (orig, self) =>
-            {
-                orig(self);
-                if (self.target)
-                {
-                    ShieldComponent sComp = self.target.GetComponent<ShieldComponent>();
-                    if (sComp && sComp.isShielding)
-                    {
-                        Reflection.SetFieldValue<float>(self, "currentCameraDistance", 2);
-                    }
-                }
-            };*/
         }
     }
 

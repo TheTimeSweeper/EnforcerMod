@@ -1,27 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jack\\Documents\\GitHub\\EnforcerMod\\Main\\Enforcer.csproj": {}
+    "C:\\Users\\kurog\\source\\repos\\EnforcerMod\\Main\\Enforcer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jack\\Documents\\GitHub\\EnforcerMod\\Main\\Enforcer.csproj": {
+    "C:\\Users\\kurog\\source\\repos\\EnforcerMod\\Main\\Enforcer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jack\\Documents\\GitHub\\EnforcerMod\\Main\\Enforcer.csproj",
+        "projectUniqueName": "C:\\Users\\kurog\\source\\repos\\EnforcerMod\\Main\\Enforcer.csproj",
         "projectName": "Enforcer",
-        "projectPath": "C:\\Users\\Jack\\Documents\\GitHub\\EnforcerMod\\Main\\Enforcer.csproj",
-        "packagesPath": "C:\\Users\\Jack\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jack\\Documents\\GitHub\\EnforcerMod\\Main\\obj\\",
+        "projectPath": "C:\\Users\\kurog\\source\\repos\\EnforcerMod\\Main\\Enforcer.csproj",
+        "packagesPath": "C:\\Users\\kurog\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kurog\\source\\repos\\EnforcerMod\\Main\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Jack\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\kurog\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -46,16 +47,10 @@
             }
           },
           "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48"
+            "net461"
           ],
           "assetTargetFallback": true,
-          "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "warn": true
         }
       }
     }
