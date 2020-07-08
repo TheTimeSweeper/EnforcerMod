@@ -128,7 +128,7 @@ namespace EnforcerPlugin
                 Ray aimRay = sComp.aimRay;
                 Vector3 relativePosition = info.attacker.transform.position - aimRay.origin;
                 float angle = Vector3.Angle(aimRay.direction, relativePosition);
-                if (angle < 60)
+                if (angle < 45)
                 {
                     return;
                 }

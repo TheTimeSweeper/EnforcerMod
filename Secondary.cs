@@ -98,7 +98,7 @@ namespace EntityStates.Enforcer
 
         void Push(CharacterBody charb)
         {
-            Vector3 velocity = ((aimRay.origin + 200 * aimRay.direction) - charb.corePosition) * ShieldBash.knockbackForce;
+            Vector3 velocity = ((aimRay.origin + 200 * aimRay.direction) - charb.corePosition + (75 * Vector3.up)) * ShieldBash.knockbackForce;
             if (charb.characterMotor)
             {
                 charb.characterMotor.velocity += velocity;
