@@ -1,3 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
 
-Main/.vs/Enforcer/DesignTimeBuild/.dtbcache
-Main/.vs/Enforcer/v15/.suo
+.vs/
+bin/
+obj/
