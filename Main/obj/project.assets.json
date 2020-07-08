@@ -180,28 +180,30 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\kurog\\.nuget\\packages\\": {},
+    "C:\\Users\\rseid\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kurog\\Source\\Repos\\EnforcerMod\\Main\\Enforcer.csproj",
+      "projectUniqueName": "C:\\Users\\rseid\\Documents\\GitHub\\EnforcerMod\\Main\\Enforcer.csproj",
       "projectName": "Enforcer",
-      "projectPath": "C:\\Users\\kurog\\Source\\Repos\\EnforcerMod\\Main\\Enforcer.csproj",
-      "packagesPath": "C:\\Users\\kurog\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kurog\\Source\\Repos\\EnforcerMod\\Main\\obj\\",
+      "projectPath": "C:\\Users\\rseid\\Documents\\GitHub\\EnforcerMod\\Main\\Enforcer.csproj",
+      "packagesPath": "C:\\Users\\rseid\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\rseid\\Documents\\GitHub\\EnforcerMod\\Main\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\kurog\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\rseid\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

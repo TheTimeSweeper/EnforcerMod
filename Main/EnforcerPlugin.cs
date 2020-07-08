@@ -54,10 +54,13 @@ namespace EnforcerPlugin
         public static BuffIndex jackBootsIndex = BuffAPI.Add(jackBoots);
 
         public SkillLocator skillLocator;
+
         public EnforcerPlugin() {
             //don't touch this
+            // what does all this even do anyway?
             awake += EnforcerPlugin_Load;
         }
+
         private void EnforcerPlugin_Load()
         {
             //touch this all you want tho
@@ -77,6 +80,7 @@ namespace EnforcerPlugin
             }
             awake();
         }
+
         private void Hook() {
             //add hooks here
             //using this approach means we'll only ever have to comment one line if we don't want a hook to fire
@@ -126,6 +130,7 @@ namespace EnforcerPlugin
             orig(self, info);
         }
         #endregion
+
         private static GameObject CreateModel(GameObject main)
         {
             Destroy(main.transform.Find("ModelBase").gameObject);
@@ -136,10 +141,12 @@ namespace EnforcerPlugin
 
             return model;
         }
+
         internal static void CreatePrefab()
         {
             //...what?
-            
+            // https://youtu.be/zRXl8Ow2bUs
+
             characterPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), "EnforcerEpicBody");
 
             characterPrefab.GetComponent<NetworkIdentity>().localPlayerAuthority = true;
@@ -389,9 +396,10 @@ namespace EnforcerPlugin
             aimAnimator.giveupDuration = 8f;
 
             //why cache it if we're not gonna set it?
+            // i dunno honestly
             /*ShieldComponent shieldComponent =*/ characterPrefab.AddComponent<ShieldComponent>();
-
         }
+
         private void RegisterCharacter()
         {
             characterDisplay = PrefabAPI.InstantiateClone(characterPrefab.GetComponent<ModelLocator>().modelBaseTransform.gameObject, "EnforcerDisplay");
@@ -427,6 +435,7 @@ namespace EnforcerPlugin
                 list.Add(characterPrefab);
             };
         }
+
         private void CreateDoppelganger()
         {
             // commando ai for now
@@ -440,27 +449,29 @@ namespace EnforcerPlugin
             CharacterMaster component = doppelganger.GetComponent<CharacterMaster>();
             component.bodyPrefab = characterPrefab;
         }
+
         //add modifiers to your voids please 
-        void SkillSetup()
+        // no go fuck yourself :^)
+        private void SkillSetup()
         {
             foreach (GenericSkill obj in characterPrefab.GetComponentsInChildren<GenericSkill>())
             {
                 BaseUnityPlugin.DestroyImmediate(obj);
             }
+
             skillLocator = characterPrefab.GetComponent<SkillLocator>();
+
             PrimarySetup();
             SecondarySetup();
             SpecialSetup();
         }
 
-        void PrimarySetup()
+        private void PrimarySetup()
         {
-            SkillLocator skillLocator = characterPrefab.GetComponent<SkillLocator>();
+            LoadoutAPI.AddSkill(typeof(RiotShotgun));
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_NAME", "Riot Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION", "Fire a short range piercing blast for 4x90% damage.");
-
-            LoadoutAPI.AddSkill(typeof(RiotShotgun));
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(RiotShotgun));
@@ -501,7 +512,7 @@ namespace EnforcerPlugin
             };
         }
 
-        void SecondarySetup()
+        private void SecondarySetup()
         {
             LoadoutAPI.AddSkill(typeof(ShieldBash));
 
@@ -547,7 +558,7 @@ namespace EnforcerPlugin
             };
         }
 
-        void SpecialSetup()
+        private void SpecialSetup()
         {
             LoadoutAPI.AddSkill(typeof(ProtectAndServe));
 
