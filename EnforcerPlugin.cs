@@ -50,6 +50,9 @@ namespace EnforcerPlugin
             isDebuff = false
         };
 
+        //更新许可证 DO WHAT THE FUCK YOU WANT TO
+
+
         static CustomBuff jackBoots = new CustomBuff(jackBootsDef);
         public static BuffIndex jackBootsIndex = BuffAPI.Add(jackBoots);
 
