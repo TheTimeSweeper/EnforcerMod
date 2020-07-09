@@ -36,6 +36,10 @@ namespace EntityStates.Enforcer
 
                     if (base.skillLocator) base.skillLocator.special.skillDef.icon = EnforcerPlugin.Assets.icon4B;
                 }
+                else
+                {
+                    base.PlayAnimation("Gesture, Override", "ShieldDown", "ShieldUp.playbackRate", this.duration);
+                }
             }
         }
 
@@ -44,8 +48,6 @@ namespace EntityStates.Enforcer
             if (!sComp.isShielding)
             {
                 base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.jackBootsIndex);
-
-                base.PlayAnimation("Gesture, Override", "BufferEmpty");
 
                 if (base.skillLocator) base.skillLocator.special.skillDef.icon = EnforcerPlugin.Assets.icon4;
             }

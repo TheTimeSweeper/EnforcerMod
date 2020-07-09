@@ -693,7 +693,7 @@ namespace EnforcerPlugin
             icon3 = MainAssetBundle.LoadAsset<Sprite>("Skill3Icon");
             icon3B = MainAssetBundle.LoadAsset<Sprite>("Skill3BIcon");
             icon4 = MainAssetBundle.LoadAsset<Sprite>("Skill4Icon");
-            icon4B = MainAssetBundle.LoadAsset<Sprite>("Skill4Icon");
+            icon4B = MainAssetBundle.LoadAsset<Sprite>("Skill4BIcon");
 
             //grenade = TempAssetBundle.LoadAsset<GameObject>("Grenade");
         }

@@ -7,46 +7,73 @@ namespace EntityStates.Enforcer
 {
     public class ShieldBash : BaseSkillState
     {
-        public float baseDuration = 0.4f;
+        public float baseDuration = 0.8f;
         public static float damageCoefficient = 2.5f;
         public static float procCoefficient = 1f;
         public static float knockbackForce = 0.2f;
+        public static float blastRadius = 3f;
+        public static float deflectRadius = 6f;
+        public static string hitboxString = "Shield"; //transform where the hitbox is fired
 
         private float duration;
-        Ray aimRay;
-        BlastAttack blastAttack;
+        private float fireDuration;
+        private Ray aimRay;
+        private BlastAttack blastAttack;
+        private ChildLocator childLocator;
+        private bool hasFired;
 
-        List<CharacterBody> victimList = new List<CharacterBody>();
+        private List<CharacterBody> victimList = new List<CharacterBody>();
 
         public override void OnEnter()
         {
             base.OnEnter();
             this.duration = this.baseDuration / this.attackSpeedStat;
-            aimRay = base.GetAimRay();
+            this.fireDuration = this.duration * 0.17f;
+            this.aimRay = base.GetAimRay();
+            this.hasFired = false;
+            this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
             base.StartAimMode(aimRay, 2f, false);
 
-            //base.PlayAnimation("Fullbody, Override", "ShieldBash");
-
-            if (base.isAuthority)
+            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBootsIndex))
             {
-                Vector3 center = aimRay.origin + 3 * aimRay.direction;
+                //this anim not added yet
+                //base.PlayAnimation("Gesture, Override", "ShieldBashAlt", "ShieldBash.playbackRate", this.duration);
+            }
+            else
+            {
+                base.PlayAnimation("Gesture, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
+            }
+        }
 
-                blastAttack = new BlastAttack();
-                blastAttack.radius = 3.5f;
-                blastAttack.procCoefficient = ShieldBash.procCoefficient;
-                blastAttack.position = center;
-                blastAttack.attacker = base.gameObject;
-                blastAttack.crit = Util.CheckRoll(base.characterBody.crit, base.characterBody.master);
-                blastAttack.baseDamage = base.characterBody.damage * ShieldBash.damageCoefficient;
-                blastAttack.falloffModel = BlastAttack.FalloffModel.SweetSpot;
-                blastAttack.baseForce = 3f;
-                blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
-                blastAttack.damageType = DamageType.Stun1s;
-                blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
+        private void FireBlast()
+        {
+            if (!this.hasFired)
+            {
+                this.hasFired = true;
 
-                blastAttack.Fire();
+                Deflect();
 
-                KnockBack();
+                if (base.isAuthority)
+                {
+                    Vector3 center = childLocator.FindChild(hitboxString).position;
+
+                    blastAttack = new BlastAttack();
+                    blastAttack.radius =
+                    blastAttack.procCoefficient = ShieldBash.procCoefficient;
+                    blastAttack.position = center;
+                    blastAttack.attacker = base.gameObject;
+                    blastAttack.crit = Util.CheckRoll(base.characterBody.crit, base.characterBody.master);
+                    blastAttack.baseDamage = base.characterBody.damage * ShieldBash.damageCoefficient;
+                    blastAttack.falloffModel = BlastAttack.FalloffModel.None;
+                    blastAttack.baseForce = 3f;
+                    blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
+                    blastAttack.damageType = DamageType.Stun1s;
+                    blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
+
+                    blastAttack.Fire();
+
+                    KnockBack();
+                }
             }
         }
 
@@ -59,7 +86,10 @@ namespace EntityStates.Enforcer
         {
             base.FixedUpdate();
 
-            Deflect();
+            if (base.fixedAge >= this.fireDuration)
+            {
+                FireBlast();
+            }
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
@@ -70,7 +100,7 @@ namespace EntityStates.Enforcer
 
         private void KnockBack()
         {
-            Collider[] array = Physics.OverlapSphere(base.characterBody.corePosition, 5.5f, LayerIndex.defaultLayer.mask);
+            Collider[] array = Physics.OverlapSphere(childLocator.FindChild(hitboxString).position, ShieldBash.blastRadius, LayerIndex.defaultLayer.mask);
             for (int i = 0; i < array.Length; i++)
             {
                 HealthComponent component = array[i].GetComponent<HealthComponent>();
@@ -98,7 +128,8 @@ namespace EntityStates.Enforcer
 
         void Push(CharacterBody charb)
         {
-            Vector3 velocity = ((aimRay.origin + 200 * aimRay.direction) - charb.corePosition + (75 * Vector3.up)) * ShieldBash.knockbackForce;
+            Vector3 velocity = ((aimRay.origin + 200 * aimRay.direction) - childLocator.FindChild(hitboxString).position + (75 * Vector3.up)) * ShieldBash.knockbackForce;
+
             if (charb.characterMotor)
             {
                 charb.characterMotor.velocity += velocity;
@@ -115,7 +146,8 @@ namespace EntityStates.Enforcer
 
         private void Deflect()
         {
-            Collider[] array = Physics.OverlapSphere(base.characterBody.corePosition, 4f, LayerIndex.projectile.mask);
+            Collider[] array = Physics.OverlapSphere(base.characterBody.corePosition, ShieldBash.deflectRadius, LayerIndex.projectile.mask);
+
             for (int i = 0; i < array.Length; i++)
             {
                 ProjectileController pc = array[i].GetComponentInParent<ProjectileController>();

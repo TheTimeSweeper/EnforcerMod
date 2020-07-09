@@ -26,9 +26,8 @@ namespace EntityStates.Enforcer
             base.OnEnter();
             base.characterBody.SetAimTimer(2f);
             this.animator = base.GetModelAnimator();
-            this.muzzleString = "Root"; //use root as the muzzle for now, until the childlocator is set up at least
+            this.muzzleString = "Muzzle";
             this.hasFired = false;
-
 
             if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBootsIndex))
             {

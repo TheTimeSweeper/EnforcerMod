@@ -10,18 +10,25 @@ namespace EntityStates.Enforcer
         public static float procCoefficient = 0.6f;
         public static float blastRadius = 5f;
 
+        public static string muzzleString = "Muzzle";
+
         private float duration;
         public GameObject grenadePrefab = EnforcerPlugin.Assets.grenade;
+
+        private ChildLocator childLocator;
 
         public override void OnEnter()
         {
             base.OnEnter();
             this.duration = baseDuration / this.attackSpeedStat;
+            this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
+
+            base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
 
             Ray aimRay = base.GetAimRay();
             /*if (base.isAuthority)
             {
-                GameObject grenade = UnityEngine.Object.Instantiate<GameObject>(grenadePrefab, aimRay.origin + 2 * aimRay.direction, Quaternion.LookRotation(aimRay.direction));
+                GameObject grenade = UnityEngine.Object.Instantiate<GameObject>(grenadePrefab, childLocator.FindChild(muzzleString).position, Quaternion.LookRotation(aimRay.direction));
 
                 Rigidbody rig = grenade.GetComponent<Rigidbody>();
                 rig.velocity = 50 * aimRay.direction;
