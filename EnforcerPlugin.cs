@@ -92,21 +92,8 @@ namespace EnforcerPlugin
             //it's much simpler this way, trust me
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
-            //On.RoR2.CameraRigController.Update += CameraRigController_Update;
         }
         #region Hooks
-        private void CameraRigController_Update(On.RoR2.CameraRigController.orig_Update orig, CameraRigController self)
-        {
-            orig(self);
-            if (self.target && self)
-            {
-                ShieldComponent sComp = self.target.GetComponent<ShieldComponent>();
-                if (sComp && sComp.isShielding)
-                {
-                    Reflection.SetFieldValue<float>(self, "currentCameraDistance", 2);
-                }
-            }
-        }
 
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
         {

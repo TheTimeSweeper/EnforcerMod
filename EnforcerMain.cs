@@ -37,6 +37,12 @@ namespace EntityStates.Enforcer
             {
                 getList();
             }
+
+            if (sComp.isShielding)
+            {
+                CameraTargetParams ctp = base.characterBody.GetComponent<CameraTargetParams>();
+                ctp.idealLocalCameraPos = new Vector3(1.2f, -0.5f, -2.4f);
+            }
         }
 
         public override void OnExit()
