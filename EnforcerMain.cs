@@ -8,6 +8,8 @@ namespace EntityStates.Enforcer
     {
         private ShieldComponent sComp;
         private bool toggle = false;
+        private bool wasShielding = false;
+        private float initialTime;
 
         public override void OnEnter()
         {
@@ -38,10 +40,19 @@ namespace EntityStates.Enforcer
                 getList();
             }
 
+            if (sComp.isShielding != this.wasShielding)
+            {
+                this.wasShielding = sComp.isShielding;
+                initialTime = Time.fixedTime;
+            }
+
             if (sComp.isShielding)
             {
                 CameraTargetParams ctp = base.characterBody.GetComponent<CameraTargetParams>();
-                ctp.idealLocalCameraPos = new Vector3(1.2f, -0.5f, -2.4f);
+                float deno = (1 + Time.fixedTime - this.initialTime);
+                float smoothFactor = 8 / Mathf.Pow(deno, 2);
+                Vector3 smoothVector = new Vector3(-3 /20, 1 / 16, -1);
+                ctp.idealLocalCameraPos = new Vector3(1.2f, -0.5f, -2.4f) + smoothFactor * smoothVector;
             }
         }
 
