@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using KinematicCharacterController;
 using EntityStates.Enforcer;
+using RoR2.Projectile;
 
 namespace EnforcerPlugin
 {
@@ -30,39 +31,28 @@ namespace EnforcerPlugin
 
         public static EnforcerPlugin instance;
 
-        //i didn't want this to be static considering we're using an instance now but it throws 23 erros if i remove the static modifier 
+        //i didn't want this to be static considering we're using an instance now but it throws 23 errors if i remove the static modifier 
         //i'm not dealing with that
         public static GameObject characterPrefab;
+        public static GameObject projectilePrefab;
         public GameObject characterDisplay;
         public GameObject doppelganger;
-
+        
         public static event Action awake;
         //public static event Action start;
 
         private static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
-        static BuffDef jackBootsDef = new BuffDef
-        {
-            name = "Heavyweight",
-            iconPath = "Textures/BuffIcons/texBuffTempestSpeedIcon",
-            buffColor = characterColor,
-            canStack = false,
-            isDebuff = false
-        };
+        public static BuffIndex protectAndServe;
 
         //更新许可证 DO WHAT THE FUCK YOU WANT TO
-        //更新许可证 DO WHAT THE FUCK YOU WANT TO
-        //更新许可证 DO WHAT THE FUCK YOU WANT TO
-
-
-        static CustomBuff jackBoots = new CustomBuff(jackBootsDef);
-        public static BuffIndex jackBootsIndex = BuffAPI.Add(jackBoots);
 
         public SkillLocator skillLocator;
 
         public EnforcerPlugin() {
             //don't touch this
             // what does all this even do anyway?
+            //its our plugin constructor
             awake += EnforcerPlugin_Load;
         }
 
@@ -72,6 +62,8 @@ namespace EnforcerPlugin
             Assets.PopulateAssets();
             CreatePrefab();
             RegisterCharacter();
+            RegisterBuffs();
+            RegisterProjectile();
             CreateDoppelganger();
             Hook();
         }
@@ -85,7 +77,6 @@ namespace EnforcerPlugin
             }
             awake();
         }
-
         private void Hook() {
             //add hooks here
             //using this approach means we'll only ever have to comment one line if we don't want a hook to fire
@@ -94,18 +85,16 @@ namespace EnforcerPlugin
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
         }
         #region Hooks
-
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
         {
             orig(self);
-            if (self && self.HasBuff(jackBootsIndex))
+            if (self && self.HasBuff(protectAndServe))
             {
                 Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
                 Reflection.SetPropertyValue<float>(self, "armor", self.armor + 20);
                 Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.5f);
             }
         }
-
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
             ShieldComponent sComp = self.GetComponent<ShieldComponent>();
@@ -123,7 +112,6 @@ namespace EnforcerPlugin
             orig(self, info);
         }
         #endregion
-
         private static GameObject CreateModel(GameObject main)
         {
             Destroy(main.transform.Find("ModelBase").gameObject);
@@ -134,7 +122,6 @@ namespace EnforcerPlugin
 
             return model;
         }
-
         internal static void CreatePrefab()
         {
             //...what?
@@ -385,9 +372,9 @@ namespace EnforcerPlugin
 
             //why cache it if we're not gonna set it?
             // i dunno honestly
-            /*ShieldComponent shieldComponent =*/ characterPrefab.AddComponent<ShieldComponent>();
+            /*ShieldComponent shieldComponent =*/
+            characterPrefab.AddComponent<ShieldComponent>();
         }
-
         private void RegisterCharacter()
         {
             characterDisplay = PrefabAPI.InstantiateClone(characterPrefab.GetComponent<ModelLocator>().modelBaseTransform.gameObject, "EnforcerDisplay");
@@ -423,6 +410,55 @@ namespace EnforcerPlugin
                 list.Add(characterPrefab);
             };
         }
+        private void RegisterBuffs() {
+            BuffDef protectAndServeDef = new BuffDef {
+                name = "Heavyweight",
+                iconPath = "Textures/BuffIcons/texBuffTempestSpeedIcon",
+                buffColor = characterColor,
+                canStack = false,
+                isDebuff = false,
+                eliteIndex = EliteIndex.None
+            };
+            CustomBuff protectAndServe = new CustomBuff(protectAndServeDef);
+            EnforcerPlugin.protectAndServe = BuffAPI.Add(protectAndServe);
+        }
+        private void RegisterProjectile()
+        {
+            projectilePrefab = Resources.Load<GameObject>("prefabs/projectiles/CommandoGrenadeProjectile");
+            ProjectileController controller = projectilePrefab.GetComponent<ProjectileController>();
+            ProjectileImpactExplosion impactExplosion = projectilePrefab.GetComponent<ProjectileImpactExplosion>();
+            ProjectileDamage damage = projectilePrefab.GetComponent<ProjectileDamage>();
+
+            //damage.force = -1000;
+            damage.damageType = DamageType.Stun1s;
+
+            //uncomment this line for funny
+            //controller.ghostPrefab = Assets.MainAssetBundle.LoadAsset<GameObject>("mdlEnforcer"); 
+
+            //uncomment this line when we have sfx
+            //impactExplosion.lifetimeExpiredSoundString = "Play_commando_M2_grenade_bounce";
+            impactExplosion.offsetForLifetimeExpiredSound = 1;
+            impactExplosion.destroyOnEnemy = false;
+            impactExplosion.destroyOnWorld = false;
+            impactExplosion.timerAfterImpact = true;
+            impactExplosion.falloffModel = BlastAttack.FalloffModel.SweetSpot;
+            impactExplosion.lifetime = 10;
+            impactExplosion.lifetimeAfterImpact = 0;
+            impactExplosion.lifetimeRandomOffset = 0;
+            impactExplosion.blastRadius = 12;
+            impactExplosion.blastDamageCoefficient = 1;
+            impactExplosion.blastProcCoefficient = 1;
+            impactExplosion.fireChildren = true;
+            impactExplosion.childrenCount = 1;
+            //impactExplosion.childrenProjectilePrefab = Resources.Load<GameObject>
+            impactExplosion.childrenDamageCoefficient = 3;
+
+
+            ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list) {
+                list.Add(projectilePrefab);
+            };
+
+        }
 
         private void CreateDoppelganger()
         {
@@ -440,6 +476,8 @@ namespace EnforcerPlugin
 
         //add modifiers to your voids please 
         // no go fuck yourself :^)
+        // suck my dick 
+
         private void SkillSetup()
         {
             foreach (GenericSkill obj in characterPrefab.GetComponentsInChildren<GenericSkill>())
@@ -678,7 +716,7 @@ namespace EnforcerPlugin
             }*/
 
             // for the soundbank later
-            /*using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("ExampleSurvivor.ExampleSurvivor.bnk"))
+            /*using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.OurReallyCoolFuckingSoundbank.bnk"))
             {
                 byte[] array = new byte[manifestResourceStream2.Length];
                 manifestResourceStream2.Read(array, 0, array.Length);

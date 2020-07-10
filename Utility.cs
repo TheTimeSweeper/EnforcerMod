@@ -1,4 +1,5 @@
 ﻿using RoR2;
+using RoR2.Projectile;
 using UnityEngine;
 
 namespace EntityStates.Enforcer
@@ -25,9 +26,9 @@ namespace EntityStates.Enforcer
 
             base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
 
-            Ray aimRay = base.GetAimRay();
-            /*if (base.isAuthority)
+            if (base.isAuthority)
             {
+                /*ok guys what the fuck?
                 GameObject grenade = UnityEngine.Object.Instantiate<GameObject>(grenadePrefab, childLocator.FindChild(muzzleString).position, Quaternion.LookRotation(aimRay.direction));
 
                 Rigidbody rig = grenade.GetComponent<Rigidbody>();
@@ -46,8 +47,27 @@ namespace EntityStates.Enforcer
                 blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
                 blastAttack.damageType = DamageType.Stun1s;
                 blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
-                grc.blastAttack = blastAttack;
-            }*/
+                grc.blastAttack = blastAttack;*/
+                //FireProjectileInfo 
+
+                //OH MY FUCKING GOD YOU RETARD THAT'S NOT THIS WORKS\\
+                Ray aimRay = base.GetAimRay();
+                FireProjectileInfo info = new FireProjectileInfo()
+                {
+                    crit = base.RollCrit(),
+                    damage = 3 * base.damageStat,
+                    damageColorIndex = DamageColorIndex.Default,
+                    //damageTypeOverride = DamageType.Stun1s,
+                    //force = ,
+                    owner = base.gameObject,
+                    rotation = Quaternion.LookRotation(base.GetAimRay().direction),
+                    position = aimRay.origin,
+                    procChainMask = default,
+                    projectilePrefab = EnforcerPlugin.EnforcerPlugin.projectilePrefab,
+                    
+                };
+                ProjectileManager.instance.FireProjectile(info);
+            }
         }
 
         public override void OnExit()

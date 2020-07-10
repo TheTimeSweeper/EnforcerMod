@@ -1,9 +1,7 @@
 ﻿using RoR2;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
-using UnityEngine.Experimental.PlayerLoop;
+//sidenote what the fuck is this using??
+//using UnityEngine.Experimental.PlayerLoop;
 
 public class GrenadeController : MonoBehaviour
 {

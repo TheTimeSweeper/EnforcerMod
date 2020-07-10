@@ -34,9 +34,10 @@ namespace EntityStates.Enforcer
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
             base.StartAimMode(aimRay, 2f, false);
 
-            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBootsIndex))
+            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.protectAndServe))
             {
                 //this anim not added yet
+
                 //base.PlayAnimation("Gesture, Override", "ShieldBashAlt", "ShieldBash.playbackRate", this.duration);
             }
             else
