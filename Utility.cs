@@ -52,6 +52,7 @@ namespace EntityStates.Enforcer
 
                 //OH MY FUCKING GOD YOU RETARD THAT'S NOT THIS WORKS\\
                 //At least mine didn't flood the console with null references >:^(\\
+                //literally 
                 Ray aimRay = base.GetAimRay();
                 FireProjectileInfo info = new FireProjectileInfo()
                 {

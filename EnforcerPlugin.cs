@@ -35,6 +35,7 @@ namespace EnforcerPlugin
         //i'm not dealing with that
         public static GameObject characterPrefab;
         public static GameObject projectilePrefab;
+        public GameObject tearGasPrefab;
         public GameObject characterDisplay;
         public GameObject doppelganger;
         
@@ -425,12 +426,21 @@ namespace EnforcerPlugin
         private void RegisterProjectile()
         {
             projectilePrefab = Resources.Load<GameObject>("prefabs/projectiles/CommandoGrenadeProjectile");
+            tearGasPrefab = Resources.Load<GameObject>("prefabs/projectiles/SporeGrenadeProjectileDotZone");
+
             ProjectileController controller = projectilePrefab.GetComponent<ProjectileController>();
             ProjectileImpactExplosion impactExplosion = projectilePrefab.GetComponent<ProjectileImpactExplosion>();
             ProjectileDamage damage = projectilePrefab.GetComponent<ProjectileDamage>();
 
+            ProjectileOverlapAttack overlapAttack = tearGasPrefab.GetComponent<ProjectileOverlapAttack>();
+            ProjectileDamage otherDamage = tearGasPrefab.GetComponent<ProjectileDamage>();
+
+
+
             //damage.force = -1000;
+            damage.damage = 1;
             damage.damageType = DamageType.Stun1s;
+            otherDamage.damageType = DamageType.BypassArmor;
 
             //uncomment this line for funny
             //controller.ghostPrefab = Assets.MainAssetBundle.LoadAsset<GameObject>("mdlEnforcer"); 
@@ -450,12 +460,13 @@ namespace EnforcerPlugin
             impactExplosion.blastProcCoefficient = 1;
             impactExplosion.fireChildren = true;
             impactExplosion.childrenCount = 1;
-            //impactExplosion.childrenProjectilePrefab = Resources.Load<GameObject>
+            impactExplosion.childrenProjectilePrefab = tearGasPrefab;
             impactExplosion.childrenDamageCoefficient = 3;
 
 
             ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list) {
                 list.Add(projectilePrefab);
+                list.Add(tearGasPrefab);
             };
 
         }
