@@ -59,7 +59,7 @@ namespace EntityStates.Enforcer
                     Vector3 center = childLocator.FindChild(hitboxString).position;
 
                     blastAttack = new BlastAttack();
-                    blastAttack.radius =
+                    blastAttack.radius = ShieldBash.blastRadius;
                     blastAttack.procCoefficient = ShieldBash.procCoefficient;
                     blastAttack.position = center;
                     blastAttack.attacker = base.gameObject;
