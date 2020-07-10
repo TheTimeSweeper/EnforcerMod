@@ -29,7 +29,7 @@ namespace EntityStates.Enforcer
             this.muzzleString = "Muzzle";
             this.hasFired = false;
 
-            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.protectAndServe))
+            if (base.characterBody.GetComponent<ShieldComponent>().isShielding)
             {
                 this.duration = this.baseShieldDuration / this.attackSpeedStat;
                 this.fireDuration = 0.1f * this.duration;

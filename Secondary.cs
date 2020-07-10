@@ -34,7 +34,7 @@ namespace EntityStates.Enforcer
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
             base.StartAimMode(aimRay, 2f, false);
 
-            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.protectAndServe))
+            if (base.characterBody.GetComponent<ShieldComponent>().isShielding)
             {
                 //this anim not added yet
 

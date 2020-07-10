@@ -23,7 +23,7 @@ namespace EntityStates.Enforcer
             base.Update();
             this.sComp.aimRay = base.GetAimRay();
 
-            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.protectAndServe))
+            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
             {
                 base.characterBody.isSprinting = false;
                 base.characterBody.SetAimTimer(0.2f);

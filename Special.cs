@@ -30,7 +30,7 @@ namespace EntityStates.Enforcer
                 sComp.isShielding = !sComp.isShielding;
                 if (sComp.isShielding)
                 {
-                    base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.protectAndServe);
+                    base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
 
                     base.PlayAnimation("Gesture, Override", "ShieldUp", "ShieldUp.playbackRate", this.duration);
 
@@ -47,7 +47,7 @@ namespace EntityStates.Enforcer
         {
             if (!sComp.isShielding)
             {
-                base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.protectAndServe);
+                base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
 
                 if (base.skillLocator) base.skillLocator.special.skillDef.icon = EnforcerPlugin.Assets.icon4;
             }

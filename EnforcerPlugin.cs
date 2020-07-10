@@ -43,7 +43,7 @@ namespace EnforcerPlugin
 
         private static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
-        public static BuffIndex protectAndServe;
+        public static BuffIndex jackBoots;
 
         //更新许可证 DO WHAT THE FUCK YOU WANT TO
 
@@ -88,7 +88,7 @@ namespace EnforcerPlugin
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
         {
             orig(self);
-            if (self && self.HasBuff(protectAndServe))
+            if (self && self.HasBuff(jackBoots))
             {
                 Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
                 Reflection.SetPropertyValue<float>(self, "armor", self.armor + 20);
@@ -411,7 +411,7 @@ namespace EnforcerPlugin
             };
         }
         private void RegisterBuffs() {
-            BuffDef protectAndServeDef = new BuffDef {
+            BuffDef jackBootsDef = new BuffDef {
                 name = "Heavyweight",
                 iconPath = "Textures/BuffIcons/texBuffTempestSpeedIcon",
                 buffColor = characterColor,
@@ -419,8 +419,8 @@ namespace EnforcerPlugin
                 isDebuff = false,
                 eliteIndex = EliteIndex.None
             };
-            CustomBuff protectAndServe = new CustomBuff(protectAndServeDef);
-            EnforcerPlugin.protectAndServe = BuffAPI.Add(protectAndServe);
+            CustomBuff jackBoots = new CustomBuff(jackBootsDef);
+            EnforcerPlugin.jackBoots = BuffAPI.Add(jackBoots);
         }
         private void RegisterProjectile()
         {
