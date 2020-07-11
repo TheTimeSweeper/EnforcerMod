@@ -12,6 +12,7 @@ using UnityEngine.Networking;
 using KinematicCharacterController;
 using EntityStates.Enforcer;
 using RoR2.Projectile;
+using System.Collections;
 
 namespace EnforcerPlugin
 {
@@ -398,6 +399,7 @@ namespace EnforcerPlugin
         {
             characterDisplay = PrefabAPI.InstantiateClone(characterPrefab.GetComponent<ModelLocator>().modelBaseTransform.gameObject, "EnforcerDisplay");
             characterDisplay.AddComponent<NetworkIdentity>();
+            characterDisplay.AddComponent<MenuAnimator>();
 
             string desc = "The Enforcer is a slow but powerful character.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine;
             desc = desc + "< ! > Batting away enemies with Shield Bash guarantees you will keep enemies at a safe range." + Environment.NewLine + Environment.NewLine;
@@ -408,6 +410,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_NAME", "Enforcer");
             LanguageAPI.Add("ENFORCER_DESCRIPTION", desc);
             LanguageAPI.Add("ENFORCER_SUBTITLE", "Mutated Beyond Recognition");
+            LanguageAPI.Add("ENFORCER_LORE", "I'M FUCKING INVINCIBLE");
 
             SurvivorDef survivorDef = new SurvivorDef
             {
@@ -743,6 +746,44 @@ namespace EnforcerPlugin
                 unlockableName = "",
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
             };
+        }
+    }
+
+    //this is temporary and not networked, i'll add a custom animator later on
+    public class MenuAnimator : MonoBehaviour
+    {
+        internal void OnEnable()
+        {
+            bool flag = base.gameObject.transform.parent.gameObject.name == "CharacterPad";
+            if (flag)
+            {
+                base.StartCoroutine(this.SpawnAnimation());
+            }
+        }
+
+        private IEnumerator SpawnAnimation()
+        {
+            Animator animator = base.GetComponentInChildren<Animator>();
+
+            EffectManager.SpawnEffect(EntityStates.ImpMonster.BlinkState.blinkPrefab, new EffectData
+            {
+                origin = base.gameObject.transform.position
+            }, false);
+
+            Util.PlaySound(EntityStates.ScavMonster.Sit.soundString, base.gameObject);
+            PlayAnimation("FullBody, Override", "Menu", "", 1, animator);
+
+            yield break;
+        }
+
+        private void PlayAnimation(string layerName, string animationStateName, string playbackRateParam, float duration, Animator animator)
+        {
+            int layerIndex = animator.GetLayerIndex(layerName);
+            animator.SetFloat(playbackRateParam, 1f);
+            animator.PlayInFixedTime(animationStateName, layerIndex, 0f);
+            animator.Update(0f);
+            float length = animator.GetCurrentAnimatorStateInfo(layerIndex).length;
+            animator.SetFloat(playbackRateParam, length / duration);
         }
     }
 
