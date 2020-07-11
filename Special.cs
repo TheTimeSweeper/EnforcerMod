@@ -32,13 +32,14 @@ namespace EntityStates.Enforcer
                 {
                     base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
 
-                    base.PlayAnimation("Gesture, Override", "ShieldUp", "ShieldUp.playbackRate", this.duration);
+                    //base.PlayAnimation("Gesture, Override", "ShieldUp", "ShieldUp.playbackRate", this.duration);
 
                     if (base.skillLocator) base.skillLocator.special.skillDef.icon = EnforcerPlugin.Assets.icon4B;
                 }
                 else
                 {
-                    base.PlayAnimation("Gesture, Override", "ShieldDown", "ShieldUp.playbackRate", this.duration);
+                    //base.PlayAnimation("Gesture, Override", "ShieldDown", "ShieldUp.playbackRate", this.duration);
+                    if (base.skillLocator) base.skillLocator.special.skillDef.icon = EnforcerPlugin.Assets.icon4;
                 }
             }
         }
@@ -48,8 +49,6 @@ namespace EntityStates.Enforcer
             if (!sComp.isShielding)
             {
                 base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
-
-                if (base.skillLocator) base.skillLocator.special.skillDef.icon = EnforcerPlugin.Assets.icon4;
             }
 
             if (base.characterMotor) base.characterMotor.mass = 100f;

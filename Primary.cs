@@ -42,7 +42,7 @@ namespace EntityStates.Enforcer
                 base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
             }
 
-            //Util.PlaySound("", base.gameObject);
+            Util.PlayScaledSound(EntityStates.Commando.CommandoWeapon.FireLightsOut.attackSoundString, base.gameObject, 0.75f);
         }
 
         public override void OnExit()
@@ -91,7 +91,7 @@ namespace EntityStates.Enforcer
                         smartCollision = false,
                         procChainMask = default(ProcChainMask),
                         procCoefficient = procCoefficient,
-                        radius = 1.75f,
+                        radius = 1.25f,
                         sniper = false,
                         stopperMask = LayerIndex.background.collisionMask,
                         weapon = null,

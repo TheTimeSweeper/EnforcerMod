@@ -52,14 +52,12 @@ namespace EntityStates.Enforcer
                 float deno = (1 + Time.fixedTime - this.initialTime);
                 float smoothFactor = 8 / Mathf.Pow(deno, 2);
                 Vector3 smoothVector = new Vector3(-3 /20, 1 / 16, -1);
-                ctp.idealLocalCameraPos = new Vector3(1.2f, -0.5f, -2.4f) + smoothFactor * smoothVector;
+                ctp.idealLocalCameraPos = new Vector3(1.2f, -0.5f, -2.8f) + smoothFactor * smoothVector;
             }
         }
 
         public override void OnExit()
         {
-
-
             base.OnExit();
         }
 

@@ -12,6 +12,7 @@ using UnityEngine.Networking;
 using KinematicCharacterController;
 using EntityStates.Enforcer;
 using RoR2.Projectile;
+using System.Collections;
 
 namespace EnforcerPlugin
 {
@@ -22,7 +23,8 @@ namespace EnforcerPlugin
         "PrefabAPI",
         "SurvivorAPI",
         "LoadoutAPI",
-        "BuffAPI"
+        "BuffAPI",
+        "LanguageAPI"
     })]
 
     public class EnforcerPlugin : BaseUnityPlugin
@@ -42,7 +44,7 @@ namespace EnforcerPlugin
         public static event Action awake;
         //public static event Action start;
 
-        private static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
+        public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
         public static BuffIndex jackBoots;
 
@@ -63,6 +65,7 @@ namespace EnforcerPlugin
             Assets.PopulateAssets();
             CreatePrefab();
             RegisterCharacter();
+            Skins.RegisterSkins();
             RegisterBuffs();
             RegisterProjectile();
             CreateDoppelganger();
@@ -155,7 +158,7 @@ namespace EnforcerPlugin
             Transform transform = model.transform;
             transform.parent = gameObject.transform;
             transform.localPosition = Vector3.zero;
-            transform.localScale = new Vector3(0.14f, 0.14f, 0.14f); // resizing due to awkward assetbundle scaling for now
+            //transform.localScale = new Vector3(0.14f, 0.14f, 0.14f);
             transform.localRotation = Quaternion.identity;
 
             CharacterDirection characterDirection = characterPrefab.GetComponent<CharacterDirection>();
@@ -254,12 +257,28 @@ namespace EnforcerPlugin
                     renderer = model.GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = model.GetComponent<ChildLocator>().FindChild("Shotgun").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = model.GetComponent<ChildLocator>().FindChild("Shotgun").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = model.GetComponent<ChildLocator>().FindChild("Shield").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = model.GetComponent<ChildLocator>().FindChild("Shield").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
                 }
             };
 
             characterModel.autoPopulateLightInfos = true;
             characterModel.invisibilityCount = 0;
             characterModel.temporaryOverlays = new List<TemporaryOverlay>();
+
+            characterModel.SetFieldValue("mainSkinnedMeshRenderer", characterModel.baseRendererInfos[0].renderer.gameObject.GetComponent<SkinnedMeshRenderer>());
 
             TeamComponent teamComponent = null;
             if (characterPrefab.GetComponent<TeamComponent>() != null) teamComponent = characterPrefab.GetComponent<TeamComponent>();
@@ -380,6 +399,7 @@ namespace EnforcerPlugin
         {
             characterDisplay = PrefabAPI.InstantiateClone(characterPrefab.GetComponent<ModelLocator>().modelBaseTransform.gameObject, "EnforcerDisplay");
             characterDisplay.AddComponent<NetworkIdentity>();
+            characterDisplay.AddComponent<MenuAnimator>();
 
             string desc = "The Enforcer is a slow but powerful character.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine;
             desc = desc + "< ! > Batting away enemies with Shield Bash guarantees you will keep enemies at a safe range." + Environment.NewLine + Environment.NewLine;
@@ -390,6 +410,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_NAME", "Enforcer");
             LanguageAPI.Add("ENFORCER_DESCRIPTION", desc);
             LanguageAPI.Add("ENFORCER_SUBTITLE", "Mutated Beyond Recognition");
+            LanguageAPI.Add("ENFORCER_LORE", "I'M FUCKING INVINCIBLE");
 
             SurvivorDef survivorDef = new SurvivorDef
             {
@@ -429,36 +450,18 @@ namespace EnforcerPlugin
             tearGasPrefab = Resources.Load<GameObject>("prefabs/projectiles/SporeGrenadeProjectileDotZone");
 
             ProjectileController controller = projectilePrefab.GetComponent<ProjectileController>();
-            ProjectileController otherController = projectilePrefab.GetComponent<ProjectileController>();
             ProjectileImpactExplosion impactExplosion = projectilePrefab.GetComponent<ProjectileImpactExplosion>();
             ProjectileDamage damage = projectilePrefab.GetComponent<ProjectileDamage>();
 
-            //i'm the treasure, baby, i'm the prize
-
-            ProjectileOverlapAttack SHITTYATTACK = tearGasPrefab.GetComponent<ProjectileOverlapAttack>();
-            //NOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOW
-            DestroyImmediate(SHITTYATTACK);
-            EProjectileDotZone CHADATTACK = tearGasPrefab.AddComponent<EProjectileDotZone>();
-
-            CHADATTACK.damageCoefficient = 0f;
-            CHADATTACK.iEffect = Resources.Load<GameObject>("prefabs/effects/impacteffects/SporeGrenadeRepeatHitImpact");
-            CHADATTACK.forceVector = new Vector3(0, 0, 0);
-            CHADATTACK.overlapProcCoefficient = 0f;
-            CHADATTACK.fireFrequency = 5;
-            CHADATTACK.resetFrequency = 20;
-            CHADATTACK.lifetime = 7;
-            CHADATTACK.onBegin = new UnityEngine.Events.UnityEvent();
-            CHADATTACK.onEnd = new UnityEngine.Events.UnityEvent();
-
+            ProjectileOverlapAttack overlapAttack = tearGasPrefab.GetComponent<ProjectileOverlapAttack>();
             ProjectileDamage otherDamage = tearGasPrefab.GetComponent<ProjectileDamage>();
 
+
+
             //damage.force = -1000;
-            damage.damage = 0;
-            damage.damageType = DamageType.Stun1s;
-            otherDamage.damageType = (DamageType.BypassArmor | DamageType.WeakOnHit);
-            otherDamage.damage = 0;
-            otherDamage.force = -5000f;
-            otherController.procCoefficient = 0;
+            damage.damage = 1;
+            damage.damageType = DamageType.WeakOnHit;
+            otherDamage.damageType = DamageType.SlowOnHit;
 
             //uncomment this line for funny
             //controller.ghostPrefab = Assets.MainAssetBundle.LoadAsset<GameObject>("mdlEnforcer"); 
@@ -469,7 +472,7 @@ namespace EnforcerPlugin
             impactExplosion.destroyOnEnemy = false;
             impactExplosion.destroyOnWorld = false;
             impactExplosion.timerAfterImpact = true;
-            impactExplosion.falloffModel = BlastAttack.FalloffModel.SweetSpot;
+            impactExplosion.falloffModel = BlastAttack.FalloffModel.Linear;
             impactExplosion.lifetime = 10;
             impactExplosion.lifetimeAfterImpact = 0;
             impactExplosion.lifetimeRandomOffset = 0;
@@ -479,7 +482,7 @@ namespace EnforcerPlugin
             impactExplosion.fireChildren = true;
             impactExplosion.childrenCount = 1;
             impactExplosion.childrenProjectilePrefab = tearGasPrefab;
-            impactExplosion.childrenDamageCoefficient = 3;
+            impactExplosion.childrenDamageCoefficient = 0.5f;
 
 
             ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list) {
@@ -616,12 +619,57 @@ namespace EnforcerPlugin
 
         private void UtilitySetup()
         {
+            //these currently are the same skill, just getting the skilldefs out of the way for now
+
             LoadoutAPI.AddSkill(typeof(StunGrenade));
 
-            LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_NAME", "Stun Grenade");
-            LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION", "Launch a stun grenade, stunning enemies in a huge radius for 150% damage. Can bounce at shallow angles.");
+            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_NAME", "Tear Gas");
+            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Throw a grenade that deals 150% damage weakens enemies and leaves an aoe that slows");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(StunGrenade));
+            mySkillDef.activationStateMachineName = "Weapon";
+            mySkillDef.baseMaxStock = 1;
+            mySkillDef.baseRechargeInterval = 16f;
+            mySkillDef.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef.canceledFromSprinting = false;
+            mySkillDef.fullRestockOnAssign = true;
+            mySkillDef.interruptPriority = InterruptPriority.Skill;
+            mySkillDef.isBullets = false;
+            mySkillDef.isCombatSkill = true;
+            mySkillDef.mustKeyPress = false;
+            mySkillDef.noSprint = true;
+            mySkillDef.rechargeStock = 1;
+            mySkillDef.requiredStock = 1;
+            mySkillDef.shootDelay = 0f;
+            mySkillDef.stockToConsume = 1;
+            mySkillDef.icon = Assets.icon3;
+            mySkillDef.skillDescriptionToken = "ENFORCER_UTILITY_TEARGAS_DESCRIPTION";
+            mySkillDef.skillName = "ENFORCER_UTILITY_TEARGAS_NAME";
+            mySkillDef.skillNameToken = "ENFORCER_UTILITY_TEARGAS_NAME";
+
+            LoadoutAPI.AddSkillDef(mySkillDef);
+
+            skillLocator.utility = characterPrefab.AddComponent<GenericSkill>();
+            SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
+            newFamily.variants = new SkillFamily.Variant[1];
+            LoadoutAPI.AddSkillFamily(newFamily);
+            skillLocator.utility.SetFieldValue("_skillFamily", newFamily);
+            SkillFamily skillFamily = skillLocator.utility.skillFamily;
+
+            skillFamily.variants[0] = new SkillFamily.Variant
+            {
+                skillDef = mySkillDef,
+                unlockableName = "",
+                viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
+            };
+
+            //LoadoutAPI.AddSkill(typeof(StunGrenade));
+
+            LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_NAME", "Stun Grenade");
+            LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION", "Launch a stun grenade, stunning enemies in a huge radius for 150% damage. Holds up to 6 stock. Can bounce at shallow angles.");
+
+            mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(StunGrenade));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 6;
@@ -645,14 +693,8 @@ namespace EnforcerPlugin
 
             LoadoutAPI.AddSkillDef(mySkillDef);
 
-            skillLocator.utility = characterPrefab.AddComponent<GenericSkill>();
-            SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
-            newFamily.variants = new SkillFamily.Variant[1];
-            LoadoutAPI.AddSkillFamily(newFamily);
-            skillLocator.utility.SetFieldValue("_skillFamily", newFamily);
-            SkillFamily skillFamily = skillLocator.utility.skillFamily;
-
-            skillFamily.variants[0] = new SkillFamily.Variant
+            Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
+            skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
             {
                 skillDef = mySkillDef,
                 unlockableName = "",
@@ -704,6 +746,39 @@ namespace EnforcerPlugin
                 unlockableName = "",
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
             };
+        }
+    }
+
+    //this is temporary and not networked, i'll add a custom animator later on
+    public class MenuAnimator : MonoBehaviour
+    {
+        internal void OnEnable()
+        {
+            bool flag = base.gameObject.transform.parent.gameObject.name == "CharacterPad";
+            if (flag)
+            {
+                base.StartCoroutine(this.SpawnAnimation());
+            }
+        }
+
+        private IEnumerator SpawnAnimation()
+        {
+            Animator animator = base.GetComponentInChildren<Animator>();
+
+            Util.PlayScaledSound(EntityStates.ScavMonster.FindItem.sound, base.gameObject, 0.75f);
+            PlayAnimation("FullBody, Override", "Menu", "", 1, animator);
+
+            yield break;
+        }
+
+        private void PlayAnimation(string layerName, string animationStateName, string playbackRateParam, float duration, Animator animator)
+        {
+            int layerIndex = animator.GetLayerIndex(layerName);
+            animator.SetFloat(playbackRateParam, 1f);
+            animator.PlayInFixedTime(animationStateName, layerIndex, 0f);
+            animator.Update(0f);
+            float length = animator.GetCurrentAnimatorStateInfo(layerIndex).length;
+            animator.SetFloat(playbackRateParam, length / duration);
         }
     }
 
