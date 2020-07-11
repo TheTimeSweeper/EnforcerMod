@@ -811,6 +811,7 @@ namespace EnforcerPlugin
             }
 
             //this shit doesn't fucking work i give up i'm going to bed fuck this
+            //get fucked kiddo
             /*if (TempAssetBundle == null)
             {
                 using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.grenadeBundle"))
