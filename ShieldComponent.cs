@@ -1,9 +1,4 @@
-﻿    using RoR2;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
-using UnityEngine.Experimental.PlayerLoop;
+﻿using UnityEngine;
 
 public class ShieldComponent : MonoBehaviour
 {

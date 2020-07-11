@@ -91,7 +91,7 @@ namespace EntityStates.Enforcer
                         smartCollision = false,
                         procChainMask = default(ProcChainMask),
                         procCoefficient = procCoefficient,
-                        radius = 1.75f,
+                        radius = 1.25f,
                         sniper = false,
                         stopperMask = LayerIndex.background.collisionMask,
                         weapon = null,

@@ -11,8 +11,8 @@ namespace EntityStates.Enforcer
         public static float damageCoefficient = 2.5f;
         public static float procCoefficient = 1f;
         public static float knockbackForce = 0.2f;
-        public static float blastRadius = 3f;
-        public static float deflectRadius = 6f;
+        public static float blastRadius = 5f;
+        public static float deflectRadius = 8f;
         public static string hitboxString = "Shield"; //transform where the hitbox is fired
 
         private float duration;
@@ -36,13 +36,11 @@ namespace EntityStates.Enforcer
 
             if (base.characterBody.GetComponent<ShieldComponent>().isShielding)
             {
-                //this anim not added yet
-
                 //base.PlayAnimation("Gesture, Override", "ShieldBashAlt", "ShieldBash.playbackRate", this.duration);
             }
             else
             {
-                base.PlayAnimation("Gesture, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
+                //base.PlayAnimation("Gesture, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
             }
         }
 
@@ -51,8 +49,6 @@ namespace EntityStates.Enforcer
             if (!this.hasFired)
             {
                 this.hasFired = true;
-
-                Deflect();
 
                 if (base.isAuthority)
                 {
@@ -90,6 +86,10 @@ namespace EntityStates.Enforcer
             if (base.fixedAge >= this.fireDuration)
             {
                 FireBlast();
+            }
+            else
+            {
+                Deflect();
             }
 
             if (base.fixedAge >= this.duration && base.isAuthority)
@@ -147,7 +147,7 @@ namespace EntityStates.Enforcer
 
         private void Deflect()
         {
-            Collider[] array = Physics.OverlapSphere(base.characterBody.corePosition, ShieldBash.deflectRadius, LayerIndex.projectile.mask);
+            Collider[] array = Physics.OverlapSphere(childLocator.FindChild(hitboxString).position, ShieldBash.deflectRadius, LayerIndex.projectile.mask);
 
             for (int i = 0; i < array.Length; i++)
             {

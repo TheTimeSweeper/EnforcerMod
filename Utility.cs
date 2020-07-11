@@ -24,7 +24,7 @@ namespace EntityStates.Enforcer
             this.duration = baseDuration / this.attackSpeedStat;
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
 
-            base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
+            //base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
 
             if (base.isAuthority)
             {
@@ -53,6 +53,8 @@ namespace EntityStates.Enforcer
                 //OH MY FUCKING GOD YOU RETARD THAT'S NOT THIS WORKS\\
                 //At least mine didn't flood the console with null references >:^(\\
                 //literally 
+
+                // holy shit you're both fucking retarded what are you doing my god
                 Ray aimRay = base.GetAimRay();
                 FireProjectileInfo info = new FireProjectileInfo()
                 {
@@ -64,7 +66,7 @@ namespace EntityStates.Enforcer
                     owner = base.gameObject,
                     rotation = Quaternion.LookRotation(base.GetAimRay().direction),
                     position = aimRay.origin,
-                    procChainMask = default,
+                    procChainMask = default(ProcChainMask),
                     projectilePrefab = EnforcerPlugin.EnforcerPlugin.projectilePrefab,
                     
                 };
