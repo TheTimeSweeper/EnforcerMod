@@ -429,18 +429,36 @@ namespace EnforcerPlugin
             tearGasPrefab = Resources.Load<GameObject>("prefabs/projectiles/SporeGrenadeProjectileDotZone");
 
             ProjectileController controller = projectilePrefab.GetComponent<ProjectileController>();
+            ProjectileController otherController = projectilePrefab.GetComponent<ProjectileController>();
             ProjectileImpactExplosion impactExplosion = projectilePrefab.GetComponent<ProjectileImpactExplosion>();
             ProjectileDamage damage = projectilePrefab.GetComponent<ProjectileDamage>();
 
-            ProjectileOverlapAttack overlapAttack = tearGasPrefab.GetComponent<ProjectileOverlapAttack>();
+            //i'm the treasure, baby, i'm the prize
+
+            ProjectileOverlapAttack SHITTYATTACK = tearGasPrefab.GetComponent<ProjectileOverlapAttack>();
+            //NOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOW
+            DestroyImmediate(SHITTYATTACK);
+            EProjectileDotZone CHADATTACK = tearGasPrefab.AddComponent<EProjectileDotZone>();
+
+            CHADATTACK.damageCoefficient = 0f;
+            CHADATTACK.iEffect = Resources.Load<GameObject>("prefabs/effects/impacteffects/SporeGrenadeRepeatHitImpact");
+            CHADATTACK.forceVector = new Vector3(0, 0, 0);
+            CHADATTACK.overlapProcCoefficient = 0f;
+            CHADATTACK.fireFrequency = 5;
+            CHADATTACK.resetFrequency = 20;
+            CHADATTACK.lifetime = 7;
+            CHADATTACK.onBegin = new UnityEngine.Events.UnityEvent();
+            CHADATTACK.onEnd = new UnityEngine.Events.UnityEvent();
+
             ProjectileDamage otherDamage = tearGasPrefab.GetComponent<ProjectileDamage>();
 
-
-
             //damage.force = -1000;
-            damage.damage = 1;
+            damage.damage = 0;
             damage.damageType = DamageType.Stun1s;
-            otherDamage.damageType = DamageType.BypassArmor;
+            otherDamage.damageType = (DamageType.BypassArmor | DamageType.WeakOnHit);
+            otherDamage.damage = 0;
+            otherDamage.force = -5000f;
+            otherController.procCoefficient = 0;
 
             //uncomment this line for funny
             //controller.ghostPrefab = Assets.MainAssetBundle.LoadAsset<GameObject>("mdlEnforcer"); 

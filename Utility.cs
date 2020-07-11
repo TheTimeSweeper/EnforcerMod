@@ -56,8 +56,8 @@ namespace EntityStates.Enforcer
                 Ray aimRay = base.GetAimRay();
                 FireProjectileInfo info = new FireProjectileInfo()
                 {
-                    crit = base.RollCrit(),
-                    damage = 3 * base.damageStat,
+                    crit = false,
+                    damage = 0,
                     damageColorIndex = DamageColorIndex.Default,
                     //damageTypeOverride = DamageType.Stun1s,
                     //force = ,
