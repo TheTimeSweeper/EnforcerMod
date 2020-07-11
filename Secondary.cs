@@ -42,6 +42,8 @@ namespace EntityStates.Enforcer
             {
                 //base.PlayAnimation("Gesture, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
             }
+
+            Util.PlayScaledSound(Croco.Leap.leapSoundString, base.gameObject, 1.5f);
         }
 
         private void FireBlast()

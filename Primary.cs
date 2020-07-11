@@ -42,7 +42,7 @@ namespace EntityStates.Enforcer
                 base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
             }
 
-            //Util.PlaySound("", base.gameObject);
+            Util.PlayScaledSound(EntityStates.Commando.CommandoWeapon.FireLightsOut.attackSoundString, base.gameObject, 0.75f);
         }
 
         public override void OnExit()

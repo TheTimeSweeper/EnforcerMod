@@ -765,12 +765,7 @@ namespace EnforcerPlugin
         {
             Animator animator = base.GetComponentInChildren<Animator>();
 
-            EffectManager.SpawnEffect(EntityStates.ImpMonster.BlinkState.blinkPrefab, new EffectData
-            {
-                origin = base.gameObject.transform.position
-            }, false);
-
-            Util.PlaySound(EntityStates.ScavMonster.Sit.soundString, base.gameObject);
+            Util.PlayScaledSound(EntityStates.ScavMonster.FindItem.sound, base.gameObject, 0.75f);
             PlayAnimation("FullBody, Override", "Menu", "", 1, animator);
 
             yield break;
