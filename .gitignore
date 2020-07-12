@@ -49,7 +49,7 @@ ExportedObj/
 .consulo/
 *.csproj
 *.unityproj
-*.sln
+EnforcerMod_Unity*.sln
 *.suo
 *.tmp
 *.user
