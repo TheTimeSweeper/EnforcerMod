@@ -61,13 +61,15 @@ namespace EntityStates.Enforcer
                     crit = false,
                     damage = 0,
                     damageColorIndex = DamageColorIndex.Default,
-                    //damageTypeOverride = DamageType.Stun1s,
-                    //force = ,
+                    damageTypeOverride = DamageType.WeakOnHit,
+                    force = -1000,
                     owner = base.gameObject,
-                    rotation = Quaternion.LookRotation(base.GetAimRay().direction),
-                    position = aimRay.origin,
-                    procChainMask = default(ProcChainMask),
+                    position = base.transform.position,
+                    procChainMask = default,
                     projectilePrefab = EnforcerPlugin.EnforcerPlugin.projectilePrefab,
+                    rotation = Quaternion.LookRotation(base.GetAimRay().direction),
+                    useFuseOverride = false,
+                    useSpeedOverride = false,
                     
                 };
                 ProjectileManager.instance.FireProjectile(info);

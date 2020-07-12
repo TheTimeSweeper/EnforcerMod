@@ -446,22 +446,88 @@ namespace EnforcerPlugin
         }
         private void RegisterProjectile()
         {
-            projectilePrefab = Resources.Load<GameObject>("prefabs/projectiles/CommandoGrenadeProjectile");
-            tearGasPrefab = Resources.Load<GameObject>("prefabs/projectiles/SporeGrenadeProjectileDotZone");
+            //i'm the treasure, baby, i'm the prize
 
-            ProjectileController controller = projectilePrefab.GetComponent<ProjectileController>();
+            projectilePrefab = Resources.Load<GameObject>("prefabs/projectiles/CommandoGrenadeProjectile").InstantiateClone("EnforcerTearGasGrenade", true);
+            tearGasPrefab = Resources.Load<GameObject>("prefabs/projectiles/SporeGrenadeProjectileDotZone").InstantiateClone("TearGasDotZone", true);
+
+            ProjectileController grenadeController = projectilePrefab.GetComponent<ProjectileController>();
+            ProjectileController tearGasController = tearGasPrefab.GetComponent<ProjectileController>();
+
+            ProjectileDamage grenadeDamage = projectilePrefab.GetComponent<ProjectileDamage>();
+            ProjectileDamage tearGasDamage = tearGasPrefab.GetComponent<ProjectileDamage>();
+
+            ProjectileImpactExplosion grenadeImpact = projectilePrefab.GetComponent<ProjectileImpactExplosion>();
+
+            Destroy(tearGasPrefab.GetComponent<ProjectileDotZone>());
+
+            EProjectileDotZone dotZone = tearGasPrefab.AddComponent<EProjectileDotZone>();
+
+            grenadeController.procCoefficient = 1;
+            tearGasController.procCoefficient = 0;
+
+            grenadeDamage.crit = false;
+            grenadeDamage.damage = 1.5f;
+            grenadeDamage.damageColorIndex = DamageColorIndex.Default;
+            grenadeDamage.damageType = DamageType.Stun1s;
+            grenadeDamage.force = -1000;
+
+            tearGasDamage.crit = false;
+            tearGasDamage.damage = 0;
+            tearGasDamage.damageColorIndex = DamageColorIndex.WeakPoint;
+            tearGasDamage.damageType = DamageType.WeakOnHit;
+            tearGasDamage.force = -1000;
+
+            dotZone.damageCoefficient = 0f;
+            dotZone.iEffect = Resources.Load<GameObject>("prefabs/effects/impacteffects/SporeGrenadeRepeatHitImpact");
+            dotZone.forceVector = new Vector3(0, 0, 0);
+            dotZone.overlapProcCoefficient = 0f;
+            dotZone.fireFrequency = 5;
+            dotZone.resetFrequency = 20;
+            dotZone.lifetime = 7;
+            dotZone.onBegin = new UnityEngine.Events.UnityEvent();
+            dotZone.onEnd = new UnityEngine.Events.UnityEvent();
+
+            //change "Play_commando_M2_grenade_bounce" to whatever the event name of enforcer's tear gas grenade is
+            grenadeImpact.lifetimeExpiredSoundString = "Play_commando_M2_grenade_bounce";
+            grenadeImpact.offsetForLifetimeExpiredSound = 1;
+            grenadeImpact.destroyOnEnemy = false;
+            grenadeImpact.destroyOnWorld = false;
+            grenadeImpact.timerAfterImpact = true;
+            grenadeImpact.falloffModel = BlastAttack.FalloffModel.SweetSpot;
+            grenadeImpact.lifetime = 10;
+            grenadeImpact.lifetimeAfterImpact = 0;
+            grenadeImpact.lifetimeRandomOffset = 0;
+            grenadeImpact.blastRadius = 12;
+            grenadeImpact.blastDamageCoefficient = 1;
+            grenadeImpact.blastProcCoefficient = 1;
+            grenadeImpact.fireChildren = true;
+            grenadeImpact.childrenCount = 1;
+            grenadeImpact.childrenProjectilePrefab = tearGasPrefab;
+            grenadeImpact.childrenDamageCoefficient = 0;
+
+            /*ProjectileController controller = projectilePrefab.GetComponent<ProjectileController>();
+            ProjectileController otherController = projectilePrefab.GetComponent<ProjectileController>();
             ProjectileImpactExplosion impactExplosion = projectilePrefab.GetComponent<ProjectileImpactExplosion>();
             ProjectileDamage damage = projectilePrefab.GetComponent<ProjectileDamage>();
 
-            ProjectileOverlapAttack overlapAttack = tearGasPrefab.GetComponent<ProjectileOverlapAttack>();
+
+            ProjectileOverlapAttack SHITTYATTACK = tearGasPrefab.GetComponent<EProjectileDotZone>();
+            //NOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOW
+            Destroy(SHITTYATTACK);
+            EProjectileDotZone CHADATTACK = tearGasPrefab.AddComponent<EProjectileDotZone>();
+
+
+
             ProjectileDamage otherDamage = tearGasPrefab.GetComponent<ProjectileDamage>();
 
-
-
             //damage.force = -1000;
-            damage.damage = 1;
+            damage.damage = 0;
             damage.damageType = DamageType.WeakOnHit;
-            otherDamage.damageType = DamageType.SlowOnHit;
+            otherDamage.damageType = DamageType.WeakOnHit;
+            otherDamage.damage = 0;
+            otherDamage.force = -5000f; 
+            otherController.procCoefficient = 0;
 
             //uncomment this line for funny
             //controller.ghostPrefab = Assets.MainAssetBundle.LoadAsset<GameObject>("mdlEnforcer"); 
@@ -472,7 +538,7 @@ namespace EnforcerPlugin
             impactExplosion.destroyOnEnemy = false;
             impactExplosion.destroyOnWorld = false;
             impactExplosion.timerAfterImpact = true;
-            impactExplosion.falloffModel = BlastAttack.FalloffModel.Linear;
+            impactExplosion.falloffModel = BlastAttack.FalloffModel.SweetSpot;
             impactExplosion.lifetime = 10;
             impactExplosion.lifetimeAfterImpact = 0;
             impactExplosion.lifetimeRandomOffset = 0;
@@ -482,15 +548,16 @@ namespace EnforcerPlugin
             impactExplosion.fireChildren = true;
             impactExplosion.childrenCount = 1;
             impactExplosion.childrenProjectilePrefab = tearGasPrefab;
-            impactExplosion.childrenDamageCoefficient = 0.5f;
+            impactExplosion.childrenDamageCoefficient = 0*/
+
 
 
             ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list) {
                 list.Add(projectilePrefab);
                 list.Add(tearGasPrefab);
             };
-
         }
+
 
         private void CreateDoppelganger()
         {
@@ -530,7 +597,7 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkill(typeof(RiotShotgun));
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_NAME", "Riot Shotgun");
-            LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION", "Fire a short range piercing blast for 4x90% damage.");
+            LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION", "Fire a short range <style=cIsUtility>piercing blast</style> for <style=cIsDamage>4x90% damage.</style>");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(RiotShotgun));
@@ -576,7 +643,7 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkill(typeof(ShieldBash));
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
-            LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", "Smash nearby enemies for 250% damage, stunning and knocking them back. Deflects projectiles.");
+            LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", "Smash nearby enemies for <style=cIsDamage>250% damage, stunning</style> and <style=cIsUtility>knocking them back</style>. Deflects projectiles.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(ShieldBash));
@@ -624,13 +691,13 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkill(typeof(StunGrenade));
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_NAME", "Tear Gas");
-            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Throw a grenade that deals 150% damage weakens enemies and leaves an aoe that slows");
+            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Throw a grenade that deals <style=cIsDamage>150% damage</style> which explodes into tear gas that <style=cIsDamage>weakens enemies</style>.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(StunGrenade));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 1;
-            mySkillDef.baseRechargeInterval = 16f;
+            mySkillDef.baseRechargeInterval = 12;
             mySkillDef.beginSkillCooldownOnSkillEnd = false;
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
@@ -707,7 +774,7 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkill(typeof(ProtectAndServe));
 
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_NAME", "Protect and Serve");
-            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION", "Take a defensive stance, blocking all damage from the front. Increases your rate of fire, but prevents sprinting and jumping.");
+            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases your rate of fire</style>, but prevents sprinting and jumping.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(ProtectAndServe));
