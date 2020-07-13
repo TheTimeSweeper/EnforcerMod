@@ -1,0 +1,79 @@
+ManifestFileVersion: 0
+CRC: 3729523063
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: e4934a537b1eb68e998635ea208cd028
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2a4e89482639225e45e1417430751cc1
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 67079b849227b734694872d8810229b8, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 24f98ceb39626e542bce4568de94b61d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: aaabc320440a02340b0239f0cf1745a2, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 319
+  Script: {instanceID: 0}
+Assets:
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Animations/ExampleSurvivorRunForward.anim
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/ExampleSurvivorBody.png
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Skill4Icon.png
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Animations/ExampleSurvivorRunBackward.anim
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Animations/ExampleSurvivorFireArrow.anim
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Junk/Run.dae
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/PassiveIcon.png
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Animations/animExampleSurvivor.controller
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Junk/ExampleSurvivorMesh.mesh
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Materials/matExampleSurvivor.mat
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Skill2Icon.png
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Animations/ExampleSurvivorIdle.anim
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Junk/Model.dae
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Skill3Icon.png
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Skill1Icon.png
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Animations/ExampleSurvivorJump.anim
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Animations/ExampleSurvivorRunLeft.anim
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Animations/ExampleSurvivorGestureMask.mask
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Animations/ExampleSurvivorFallDown.anim
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Textures/texExampleSurvivor.png
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Animations/ExampleSurvivorRunRight.anim
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Animations/ExampleSurvivorIdleIn.anim
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Animations/ExampleSurvivorFallUp.anim
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Animations/ExampleSurvivorSprint.anim
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/Animations/ExampleSurvivorDeath.anim
+- Assets/ExampleSurvivor/ExampleSurvivorAssets/mdlExampleSurvivor.prefab
+Dependencies: []
