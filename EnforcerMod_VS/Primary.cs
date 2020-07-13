@@ -8,10 +8,12 @@ namespace EntityStates.Enforcer
 {
     public class RiotShotgun : BaseSkillState
     {
-        public float damageCoefficient = 0.6f;
+        public static float damageCoefficient = 0.55f;
+        public static float procCoefficient = 0.4f;
+        public static float bulletForce = 100f;
         public float baseDuration = 0.9f; // the base skill duration
         public float baseShieldDuration = 0.6f; // the duration used while shield is active
-        public int projectileCount = 4;
+        public static int projectileCount = 4;
         public float bulletRecoil = 3f;
         public static GameObject bulletTracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun");
 
@@ -64,9 +66,7 @@ namespace EntityStates.Enforcer
 
                 if (base.isAuthority)
                 {
-                    float damage = this.damageCoefficient * this.damageStat;
-                    float force = 10;
-                    float procCoefficient = 0.5f;
+                    float damage = RiotShotgun.damageCoefficient * this.damageStat;
                     bool isCrit = base.RollCrit();
 
                     Ray aimRay = base.GetAimRay();
@@ -81,7 +81,7 @@ namespace EntityStates.Enforcer
                         damageType = DamageType.Generic,
                         falloffModel = BulletAttack.FalloffModel.None,
                         maxDistance = 48,
-                        force = force,
+                        force = RiotShotgun.bulletForce,
                         hitMask = LayerIndex.CommonMasks.bullet,
                         minSpread = 0,
                         maxSpread = 15f,
@@ -90,7 +90,7 @@ namespace EntityStates.Enforcer
                         muzzleName = muzzleString,
                         smartCollision = false,
                         procChainMask = default(ProcChainMask),
-                        procCoefficient = procCoefficient,
+                        procCoefficient = RiotShotgun.procCoefficient,
                         radius = 1.25f,
                         sniper = false,
                         stopperMask = LayerIndex.background.collisionMask,

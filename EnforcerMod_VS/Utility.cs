@@ -65,7 +65,7 @@ namespace EntityStates.Enforcer
                     force = -1000,
                     owner = base.gameObject,
                     position = base.transform.position,
-                    procChainMask = default,
+                    procChainMask = default(ProcChainMask),
                     projectilePrefab = EnforcerPlugin.EnforcerPlugin.projectilePrefab,
                     rotation = Quaternion.LookRotation(base.GetAimRay().direction),
                     useFuseOverride = false,

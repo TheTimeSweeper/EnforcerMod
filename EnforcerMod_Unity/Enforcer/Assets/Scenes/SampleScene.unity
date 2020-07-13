@@ -458,21 +458,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1960626186908855264, guid: e71c997b32471a147bc5c983c13620c7,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: f8e1e105d388a6541bcc2e44ee71c9a7, type: 2}
-    - target: {fileID: 1960626186912929056, guid: e71c997b32471a147bc5c983c13620c7,
-        type: 3}
-      propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed by
-        Humanoid clips.\n\tTransform 'Spine3'\n\tTransform 'Spine1'\n\tTransform 'Head'\n\tTransform
-        'ElbowL'\n\tTransform 'ClavicleL'\n\tTransform 'ClavicleR'\n\tTransform 'ShoulderR'\n\tTransform
-        'ShoulderL'\n\tTransform 'HandR'\n\tTransform 'ElbowR'\n\tand more ...\n\tFrom
-        animation clip 'EnforcerShieldDown'"
-      objectReference: {fileID: 0}
     - target: {fileID: 1960626186922031828, guid: e71c997b32471a147bc5c983c13620c7,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2321613664
+CRC: 3120708568
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b8d8f6ba18828d46a53b0f2837e86d72
+    Hash: 32ad898f32b8c20945eeeb4797e587a9
   TypeTreeHash:
     serializedVersion: 2
     Hash: 2a4e89482639225e45e1417430751cc1
@@ -36,9 +36,9 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 67079b849227b734694872d8810229b8, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 24f98ceb39626e542bce4568de94b61d, type: 3}
-- Class: 114
   Script: {fileID: 11500000, guid: aaabc320440a02340b0239f0cf1745a2, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 24f98ceb39626e542bce4568de94b61d, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 136
@@ -50,14 +50,11 @@ ClassTypes:
 - Class: 319
   Script: {instanceID: 0}
 Assets:
-- Assets/Enforcer/EnforcerAssets/Textures/texPigforcer.png
 - Assets/Enforcer/EnforcerAssets/EnforcerBody.png
 - Assets/Enforcer/EnforcerAssets/Skill4Icon.png
-- Assets/Enforcer/EnforcerAssets/Animations/Old/EnforcerShieldIdleUp.anim
 - Assets/Enforcer/EnforcerAssets/Skill4BIcon.png
 - Assets/Enforcer.fbx
 - Assets/Enforcer/EnforcerAssets/Textures/texEnforcerEmissive.png
-- Assets/Enforcer/EnforcerAssets/PassiveIcon.png
 - Assets/Enforcer/EnforcerAssets/Animations/animEnforcer.controller
 - Assets/Enforcer/EnforcerAssets/Skill3BIcon.png
 - Assets/Enforcer/EnforcerAssets/Textures/texDoomEnforcerEmissive.png
@@ -68,32 +65,22 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Skill3Icon.png
 - Assets/Enforcer/EnforcerAssets/Textures/texEnforcer.png
 - Assets/Enforcer/EnforcerAssets/Skill1Icon.png
-- Assets/Enforcer/EnforcerAssets/Animations/Old/EnforcerShieldBash.anim
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerGestureMask.mask
-- Assets/Enforcer/EnforcerAssets/Animations/Old/EnforcerShieldDown.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matSpaceEnforcer.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matEngiforcer.mat
 - Assets/Enforcer/EnforcerAssets/Textures/texSpaceforcer.png
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerWalkForward.anim
 - Assets/Enforcer/EnforcerAssets/Animations/DanceMoves.anim
 - Assets/Enforcer/EnforcerAssets/Textures/texIronManforcer.png
-- Assets/Enforcer/EnforcerAssets/Animations/Old/EnforcerDescend.anim
-- Assets/Enforcer/EnforcerAssets/Animations/Old/EnforcerIdle.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matIronManforcer.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matEquipment.mat
 - Assets/Enforcer/EnforcerAssets/Textures/texDoomEnforcer.png
-- Assets/Enforcer/EnforcerAssets/Animations/Old/EnforcerShieldIdle.anim
 - Assets/Enforcer/EnforcerAssets/Textures/texEngiforcerEmissive.png
 - Assets/Enforcer/EnforcerAssets/mdlEnforcer.prefab
-- Assets/Enforcer/EnforcerAssets/Animations/Old/EnforcerShieldIdleDown.anim
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerCombatIdle.anim
 - Assets/Enforcer/EnforcerAssets/Textures/texEngiforcer.png
-- Assets/Enforcer/EnforcerAssets/Animations/Old/EnforcerFireShotgun.anim
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerCalmIdleIn.anim
-- Assets/Enforcer/EnforcerAssets/Animations/Old/EnforcerAscend.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matDoomEnforcer.mat
 - Assets/EnforcerShield.fbx
-- Assets/Enforcer/EnforcerAssets/Animations/Old/EnforcerShieldUp.anim
 - Assets/Enforcer2.fbx
-- Assets/Enforcer/EnforcerAssets/Textures/texVoidEnforcer.png
 Dependencies: []
