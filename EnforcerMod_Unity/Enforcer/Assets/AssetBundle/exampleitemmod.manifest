@@ -1,0 +1,33 @@
+ManifestFileVersion: 0
+CRC: 353010941
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 466783294c4b65bb0d05c90f31f4c2a6
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 21747e4ee48f36c7a65f9afbfd77f392
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Import/belt_icon/belt_icon.png
+- Assets/Import/belt/belt.prefab
+Dependencies: []

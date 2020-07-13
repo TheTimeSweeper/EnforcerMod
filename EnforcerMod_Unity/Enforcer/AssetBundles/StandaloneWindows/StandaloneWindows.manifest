@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 270064001
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: enforcer
+      Dependencies: {}

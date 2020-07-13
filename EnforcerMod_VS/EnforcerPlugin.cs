@@ -370,6 +370,25 @@ namespace EnforcerPlugin
             hurtBoxGroup.mainHurtBox = componentInChildren;
             hurtBoxGroup.bullseyeCount = 1;
 
+            //make a hitbox for shoulder bash
+            HitBoxGroup hitBoxGroup = model.AddComponent<HitBoxGroup>();
+
+            GameObject chargeHitbox = new GameObject("ChargeHitbox");
+            chargeHitbox.transform.parent = characterPrefab.transform;
+            chargeHitbox.transform.localPosition = new Vector3(0f, 0f, 0f);
+            chargeHitbox.transform.localRotation = Quaternion.identity;
+            chargeHitbox.transform.localScale = new Vector3(8f, 8f, 8f);
+
+            HitBox hitBox = chargeHitbox.AddComponent<HitBox>();
+            chargeHitbox.layer = LayerIndex.projectile.intVal;
+
+            hitBoxGroup.hitBoxes = new HitBox[]
+            {
+                hitBox
+            };
+
+            hitBoxGroup.groupName = "Charge";
+
             FootstepHandler footstepHandler = model.AddComponent<FootstepHandler>();
             footstepHandler.baseFootstepString = "Play_player_footstep";
             footstepHandler.sprintFootstepOverrideString = "";
@@ -398,6 +417,7 @@ namespace EnforcerPlugin
 
 #endregion
         }
+
         private void RegisterCharacter()
         {
             characterDisplay = PrefabAPI.InstantiateClone(characterPrefab.GetComponent<ModelLocator>().modelBaseTransform.gameObject, "EnforcerDisplay");
@@ -435,6 +455,7 @@ namespace EnforcerPlugin
                 list.Add(characterPrefab);
             };
         }
+
         private void RegisterBuffs() {
             BuffDef jackBootsDef = new BuffDef {
                 name = "Heavyweight",
@@ -447,6 +468,7 @@ namespace EnforcerPlugin
             CustomBuff jackBoots = new CustomBuff(jackBootsDef);
             EnforcerPlugin.jackBoots = BuffAPI.Add(jackBoots);
         }
+
         private void RegisterProjectile()
         {
             //i'm the treasure, baby, i'm the prize
@@ -519,7 +541,7 @@ namespace EnforcerPlugin
             //NOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOW
             Destroy(SHITTYATTACK);
             EProjectileDotZone CHADATTACK = tearGasPrefab.AddComponent<EProjectileDotZone>();
-
+            ....what the hell happened here??
 
 
             ProjectileDamage otherDamage = tearGasPrefab.GetComponent<ProjectileDamage>();
@@ -599,8 +621,10 @@ namespace EnforcerPlugin
         {
             LoadoutAPI.AddSkill(typeof(RiotShotgun));
 
+            string desc = "Fire a short range <style=cIsUtility>piercing blast</style> for <style=cIsDamage>" + RiotShotgun.projectileCount + "x" + 100f * RiotShotgun.damageCoefficient + "% damage.";
+
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_NAME", "Riot Shotgun");
-            LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION", "Fire a short range <style=cIsUtility>piercing blast</style> for <style=cIsDamage>4x90% damage.</style>");
+            LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION", desc);
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(RiotShotgun));
@@ -644,15 +668,20 @@ namespace EnforcerPlugin
         private void SecondarySetup()
         {
             LoadoutAPI.AddSkill(typeof(ShieldBash));
+            LoadoutAPI.AddSkill(typeof(ExperimentalShieldBash));
+            LoadoutAPI.AddSkill(typeof(ShoulderBash));
+            LoadoutAPI.AddSkill(typeof(ShoulderBashImpact));
+
+            string desc = "Smash nearby enemies for <style=cIsDamage>" + 100f * ShieldBash.damageCoefficient + " damage, stunning</style> and <style=cIsUtility>knocking them back</style>. <style=cIsUtility>Deflects projectiles.</style>";
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
-            LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", "Smash nearby enemies for <style=cIsDamage>250% damage, stunning</style> and <style=cIsUtility>knocking them back</style>. Deflects projectiles.");
+            LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", desc);
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            mySkillDef.activationState = new SerializableEntityStateType(typeof(ShieldBash));
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(ExperimentalShieldBash));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 1;
-            mySkillDef.baseRechargeInterval = 4f;
+            mySkillDef.baseRechargeInterval = 6f;
             mySkillDef.beginSkillCooldownOnSkillEnd = false;
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
@@ -660,7 +689,7 @@ namespace EnforcerPlugin
             mySkillDef.isBullets = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = false;
-            mySkillDef.noSprint = true;
+            mySkillDef.noSprint = false;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
             mySkillDef.shootDelay = 0f;

@@ -9,6 +9,7 @@ namespace EntityStates.Enforcer
 
         private float duration;
         private ShieldComponent shieldComponent;
+        private bool sprintBuffer;
 
         public override void OnEnter()
         {
@@ -60,12 +61,20 @@ namespace EntityStates.Enforcer
 
             if (base.characterMotor) base.characterMotor.mass = 100f;
 
+            if (this.sprintBuffer) base.characterBody.isSprinting = true;
+
             base.OnExit();
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+
+            if (base.inputBank)
+            {
+                if (base.inputBank.sprint.down) this.sprintBuffer = true;
+            }
+
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
                 this.outer.SetNextStateToMain();
