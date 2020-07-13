@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+# Then fucked with by TheTimesweeper c:
+
+.vs/
+bin/
+obj/
+*.csproj
+
+# EnforcerMod_VS/bin/
+# EnforcerMod_VS/obj/
+# EnforcerMod_VS/Enforcer.csproj
