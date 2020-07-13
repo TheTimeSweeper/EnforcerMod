@@ -8,15 +8,22 @@ namespace EntityStates.Enforcer
         public float exitDuration = 1.2f;
 
         private float duration;
-        private ShieldComponent sComp;
+        private ShieldComponent shieldComponent;
 
         public override void OnEnter()
         {
             base.OnEnter();
 
-            this.sComp = base.characterBody.GetComponent<ShieldComponent>();
-            if (sComp.isShielding) this.duration = this.exitDuration;
-            else this.duration = this.enterDuration;
+            this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
+
+            //sorry I like Ternary Operators, they're cool -ts
+            duration = shieldComponent.isShielding? exitDuration : enterDuration;
+
+            //if (shieldComponent.isShielding)
+            //    this.duration = this.exitDuration;
+            //else
+            //    this.duration = this.enterDuration; 
+            
 
             this.duration /= this.attackSpeedStat;
 
@@ -27,8 +34,8 @@ namespace EntityStates.Enforcer
 
             if (base.isAuthority)
             {
-                sComp.isShielding = !sComp.isShielding;
-                if (sComp.isShielding)
+                shieldComponent.isShielding = !shieldComponent.isShielding;
+                if (shieldComponent.isShielding)
                 {
                     base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
 
@@ -46,7 +53,7 @@ namespace EntityStates.Enforcer
 
         public override void OnExit()
         {
-            if (!sComp.isShielding)
+            if (!shieldComponent.isShielding)
             {
                 base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
             }

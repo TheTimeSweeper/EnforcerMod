@@ -6,7 +6,7 @@ namespace EntityStates.Enforcer
 {
     public class EnforcerMain : GenericCharacterMain
     {
-        private ShieldComponent sComp;
+        private ShieldComponent shieldComponent;
         private bool toggle = false;
         private bool wasShielding = false;
         private float initialTime;
@@ -15,13 +15,13 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
 
-            this.sComp = base.characterBody.GetComponent<ShieldComponent>();
+            this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
         }
 
         public override void Update()
         {
             base.Update();
-            this.sComp.aimRay = base.GetAimRay();
+            this.shieldComponent.aimRay = base.GetAimRay();
 
             if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
             {
@@ -40,17 +40,17 @@ namespace EntityStates.Enforcer
                 getList();
             }
 
-            if (sComp.isShielding != this.wasShielding)
+            if (shieldComponent.isShielding != this.wasShielding)
             {
-                this.wasShielding = sComp.isShielding;
+                this.wasShielding = shieldComponent.isShielding;
                 initialTime = Time.fixedTime;
             }
 
-            if (sComp.isShielding)
+            if (shieldComponent.isShielding)
             {
                 CameraTargetParams ctp = base.characterBody.GetComponent<CameraTargetParams>();
-                float deno = (1 + Time.fixedTime - this.initialTime);
-                float smoothFactor = 8 / Mathf.Pow(deno, 2);
+                float denom = (1 + Time.fixedTime - this.initialTime);
+                float smoothFactor = 8 / Mathf.Pow(denom, 2);
                 Vector3 smoothVector = new Vector3(-3 /20, 1 / 16, -1);
                 ctp.idealLocalCameraPos = new Vector3(1.2f, -0.5f, -2.8f) + smoothFactor * smoothVector;
             }

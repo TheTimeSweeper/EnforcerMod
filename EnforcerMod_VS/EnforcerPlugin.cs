@@ -101,11 +101,11 @@ namespace EnforcerPlugin
         }
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
-            ShieldComponent sComp = self.GetComponent<ShieldComponent>();
-            if (sComp && info.attacker && sComp.isShielding)
+            ShieldComponent shieldComponent = self.GetComponent<ShieldComponent>();
+            if (shieldComponent && info.attacker && shieldComponent.isShielding)
             {
                 CharacterBody charB = self.GetComponent<CharacterBody>();
-                Ray aimRay = sComp.aimRay;
+                Ray aimRay = shieldComponent.aimRay;
                 Vector3 relativePosition = info.attacker.transform.position - aimRay.origin;
                 float angle = Vector3.Angle(aimRay.direction, relativePosition);
                 if (angle < 45)
