@@ -16,7 +16,7 @@ namespace EntityStates.Enforcer
 
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
 
-            //sorry I like Ternary Operators, they're cool -ts
+            //I like Ternary Operators, they're cool -ts
             duration = shieldComponent.isShielding? exitDuration : enterDuration;
 
             //if (shieldComponent.isShielding)

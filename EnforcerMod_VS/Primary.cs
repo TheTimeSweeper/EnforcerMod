@@ -8,12 +8,13 @@ namespace EntityStates.Enforcer
 {
     public class RiotShotgun : BaseSkillState
     {
+        public static GameObject bulletTracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun");
+
         public float damageCoefficient = 0.6f;
         public float baseDuration = 0.9f; // the base skill duration
         public float baseShieldDuration = 0.6f; // the duration used while shield is active
         public int projectileCount = 4;
         public float bulletRecoil = 3f;
-        public static GameObject bulletTracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun");
 
         private float duration;
         private float fireDuration;

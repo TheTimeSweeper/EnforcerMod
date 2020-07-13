@@ -94,9 +94,9 @@ namespace EnforcerPlugin
             orig(self);
             if (self && self.HasBuff(jackBoots))
             {
-                Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
-                Reflection.SetPropertyValue<float>(self, "armor", self.armor + 20);
-                Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.5f);
+                R2API.Utils.Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
+                R2API.Utils.Reflection.SetPropertyValue<float>(self, "armor", self.armor + 20);
+                R2API.Utils.Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.5f);
             }
         }
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
@@ -126,11 +126,12 @@ namespace EnforcerPlugin
 
             return model;
         }
-        internal static void CreatePrefab()
+        private static void CreatePrefab()
         {
             //...what?
             // https://youtu.be/zRXl8Ow2bUs
 
+            #region add all the things
             characterPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), "EnforcerEpicBody");
 
             characterPrefab.GetComponent<NetworkIdentity>().localPlayerAuthority = true;
@@ -394,6 +395,8 @@ namespace EnforcerPlugin
             // i dunno honestly
             /*ShieldComponent shieldComponent =*/
             characterPrefab.AddComponent<ShieldComponent>();
+
+#endregion
         }
         private void RegisterCharacter()
         {
