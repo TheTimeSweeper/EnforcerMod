@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace EntityStates.Enforcer
 {
@@ -10,6 +11,7 @@ namespace EntityStates.Enforcer
         private float duration;
         private ShieldComponent shieldComponent;
         private bool sprintBuffer;
+        private Animator animator;
 
         public override void OnEnter()
         {
@@ -17,7 +19,7 @@ namespace EntityStates.Enforcer
 
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
 
-            //I like Ternary Operators, they're cool -ts
+            //I like Ternary Operators -ts
             duration = shieldComponent.isShielding? exitDuration : enterDuration;
 
             //if (shieldComponent.isShielding)
@@ -30,6 +32,7 @@ namespace EntityStates.Enforcer
 
             Ray aimRay = base.GetAimRay();
             base.StartAimMode(aimRay, 2f, false);
+            animator = GetModelAnimator();
 
             if (base.characterMotor) base.characterMotor.mass = 1500f;
 
@@ -43,13 +46,21 @@ namespace EntityStates.Enforcer
                     //base.PlayAnimation("Gesture, Override", "ShieldUp", "ShieldUp.playbackRate", this.duration);
 
                     if (base.skillLocator) base.skillLocator.special.skillDef.icon = EnforcerPlugin.Assets.icon4B;
+
+                    playShieldAnimation(true);
                 }
                 else
                 {
                     //base.PlayAnimation("Gesture, Override", "ShieldDown", "ShieldUp.playbackRate", this.duration);
                     if (base.skillLocator) base.skillLocator.special.skillDef.icon = EnforcerPlugin.Assets.icon4;
+                    playShieldAnimation(false);
+
                 }
             }
+        }
+
+        private void playShieldAnimation(bool setting) {
+            animator.SetBool("shieldUp", setting);
         }
 
         public override void OnExit()

@@ -13,6 +13,7 @@ using KinematicCharacterController;
 using EntityStates.Enforcer;
 using RoR2.Projectile;
 using System.Collections;
+using System.Xml.Schema;
 
 namespace EnforcerPlugin
 {
@@ -94,7 +95,8 @@ namespace EnforcerPlugin
             orig(self);
             if (self && self.HasBuff(jackBoots))
             {
-                R2API.Utils.Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
+                int jumps = self.HasBuff(jackBoots) ? 0 : 1;
+                R2API.Utils.Reflection.SetPropertyValue<int>(self, "maxJumpCount", jumps);
                 R2API.Utils.Reflection.SetPropertyValue<float>(self, "armor", self.armor + 20);
                 R2API.Utils.Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.5f);
             }

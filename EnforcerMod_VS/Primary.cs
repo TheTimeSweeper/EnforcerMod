@@ -8,7 +8,6 @@ namespace EntityStates.Enforcer
 {
     public class RiotShotgun : BaseSkillState 
     {
-
         public static GameObject bulletTracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun");
 
         public static float damageCoefficient = 0.55f;
@@ -46,7 +45,14 @@ namespace EntityStates.Enforcer
                 base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
             }
 
+            setGunAnimation(true);
+
+
             Util.PlayScaledSound(EntityStates.Commando.CommandoWeapon.FireLightsOut.attackSoundString, base.gameObject, 0.75f);
+        }
+
+        private void setGunAnimation(bool setting) {
+            animator.SetBool("gunUp", setting);
         }
 
         public override void OnExit()
@@ -97,7 +103,7 @@ namespace EntityStates.Enforcer
                         sniper = false,
                         stopperMask = LayerIndex.background.collisionMask,
                         weapon = null,
-                        //tracerEffectPrefab = bulletTracerEffectPrefab,
+                        tracerEffectPrefab = bulletTracerEffectPrefab,
                         spreadPitchScale = 0.5f,
                         spreadYawScale = 0.5f,
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
@@ -119,6 +125,7 @@ namespace EntityStates.Enforcer
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
+                setGunAnimation(false);
                 this.outer.SetNextStateToMain();
             }
         }
