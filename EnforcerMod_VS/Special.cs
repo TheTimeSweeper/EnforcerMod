@@ -32,9 +32,9 @@ namespace EntityStates.Enforcer
 
             Ray aimRay = base.GetAimRay();
             base.StartAimMode(aimRay, 2f, false);
-            animator = GetModelAnimator();
+            this.animator = GetModelAnimator();
 
-            if (base.characterMotor) base.characterMotor.mass = 1500f;
+            if (base.characterMotor) base.characterMotor.mass = 15000f;
 
             if (base.isAuthority)
             {

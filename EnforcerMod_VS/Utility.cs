@@ -17,12 +17,16 @@ namespace EntityStates.Enforcer
         public GameObject grenadePrefab = EnforcerPlugin.Assets.grenade;
 
         private ChildLocator childLocator;
+        private Animator animator;
 
         public override void OnEnter()
         {
             base.OnEnter();
             this.duration = baseDuration / this.attackSpeedStat;
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
+            this.animator = base.GetModelAnimator();
+
+            animator.SetBool("gunUp", true);
 
             //base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
 
@@ -64,7 +68,7 @@ namespace EntityStates.Enforcer
                     damageTypeOverride = DamageType.WeakOnHit,
                     force = -1000,
                     owner = base.gameObject,
-                    position = base.transform.position,
+                    position = childLocator.FindChild("Muzzle").position,
                     procChainMask = default(ProcChainMask),
                     projectilePrefab = EnforcerPlugin.EnforcerPlugin.projectilePrefab,
                     rotation = Quaternion.LookRotation(base.GetAimRay().direction),
@@ -79,6 +83,8 @@ namespace EntityStates.Enforcer
         public override void OnExit()
         {
             base.OnExit();
+
+            animator.SetBool("gunUp", false);
         }
 
         public override void FixedUpdate()

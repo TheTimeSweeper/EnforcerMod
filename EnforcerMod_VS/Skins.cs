@@ -28,7 +28,7 @@ namespace EnforcerPlugin
             LoadoutAPI.SkinDefInfo skinDefInfo = default(LoadoutAPI.SkinDefInfo);
             skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             skinDefInfo.GameObjectActivations = Array.Empty<SkinDef.GameObjectActivation>();
-            skinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(EnforcerPlugin.characterColor, Color.black, Color.blue, Color.grey);
+            skinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.31f, 0.49f, 0.69f), new Color(0.86f, 0.83f, 0.63f), new Color(0.1f, 0.07f, 0.06f), new Color(0.21f, 0.29f, 0.38f));
             skinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
                 new SkinDef.MeshReplacement
@@ -48,7 +48,7 @@ namespace EnforcerPlugin
             LoadoutAPI.SkinDefInfo spaceSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             spaceSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             spaceSkinDefInfo.GameObjectActivations = Array.Empty<SkinDef.GameObjectActivation>();
-            spaceSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(Color.white, Color.black, Color.grey, Color.black);
+            spaceSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.83f, 0.83f, 0.83f), new Color(0.64f, 0.64f, 0.64f), new Color(0.25f, 0.25f, 0.25f), new Color(0f, 0f, 0f));
             spaceSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
                 new SkinDef.MeshReplacement
@@ -122,7 +122,7 @@ namespace EnforcerPlugin
             LoadoutAPI.SkinDefInfo doomSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             doomSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             doomSkinDefInfo.GameObjectActivations = Array.Empty<SkinDef.GameObjectActivation>();
-            doomSkinDefInfo.Icon = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<ModelSkinController>().skins[1].icon;
+            doomSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.41f, 0.49f, 0.4f), new Color(0.14f, 0.18f, 0.16f), new Color(0.46f, 0.46f, 0.46f), new Color(0.64f, 0.64f, 0.64f));
             doomSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
                 new SkinDef.MeshReplacement
@@ -159,7 +159,7 @@ namespace EnforcerPlugin
             LoadoutAPI.SkinDefInfo ironSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             ironSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             ironSkinDefInfo.GameObjectActivations = Array.Empty<SkinDef.GameObjectActivation>();
-            ironSkinDefInfo.Icon = Resources.Load<GameObject>("Prefabs/CharacterBodies/HuntressBody").GetComponentInChildren<ModelSkinController>().skins[0].icon;
+            ironSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.43f, 0.1f, 0.1f), new Color(0.86f, 0.83f, 0.63f), new Color(0.48f, 0.44f, 0.29f), new Color(0.48f, 0.44f, 0.29f));
             ironSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
                 new SkinDef.MeshReplacement

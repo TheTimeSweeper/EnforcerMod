@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3120708568
+CRC: 473299770
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 32ad898f32b8c20945eeeb4797e587a9
+    Hash: 9360e92b8c60a284454d6703adf35760
   TypeTreeHash:
     serializedVersion: 2
     Hash: 2a4e89482639225e45e1417430751cc1
@@ -51,15 +51,18 @@ ClassTypes:
   Script: {instanceID: 0}
 Assets:
 - Assets/Enforcer/EnforcerAssets/EnforcerBody.png
+- Assets/Enforcer/EnforcerAssets/Animations/EnforcerArmLeftMask.mask
 - Assets/Enforcer/EnforcerAssets/Skill4Icon.png
 - Assets/Enforcer/EnforcerAssets/Skill4BIcon.png
-- Assets/Enforcer.fbx
+- Assets/Enforcer/EnforcerAssets/Textures/texShotgun.png
+- Assets/FBX/Enforcer.fbx
+- Assets/Enforcer/EnforcerAssets/Textures/texRiotShield.png
 - Assets/Enforcer/EnforcerAssets/Textures/texEnforcerEmissive.png
 - Assets/Enforcer/EnforcerAssets/Animations/animEnforcer.controller
 - Assets/Enforcer/EnforcerAssets/Skill3BIcon.png
 - Assets/Enforcer/EnforcerAssets/Textures/texDoomEnforcerEmissive.png
 - Assets/Enforcer/EnforcerAssets/Skill2Icon.png
-- Assets/Shotgun.dae
+- Assets/FBX/Shotgun.dae
 - Assets/Enforcer/EnforcerAssets/Materials/matEnforcer.mat
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerCalmIdle.anim
 - Assets/Enforcer/EnforcerAssets/Skill3Icon.png
@@ -68,12 +71,15 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerGestureMask.mask
 - Assets/Enforcer/EnforcerAssets/Materials/matSpaceEnforcer.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matEngiforcer.mat
+- Assets/Enforcer/EnforcerAssets/Animations/EnforcerArmRightMask.mask
 - Assets/Enforcer/EnforcerAssets/Textures/texSpaceforcer.png
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerWalkForward.anim
 - Assets/Enforcer/EnforcerAssets/Animations/DanceMoves.anim
 - Assets/Enforcer/EnforcerAssets/Textures/texIronManforcer.png
+- Assets/Enforcer/EnforcerAssets/Animations/EnforcerArmRightTemp.anim
+- Assets/Enforcer/EnforcerAssets/Materials/matEquippedShield.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matIronManforcer.mat
-- Assets/Enforcer/EnforcerAssets/Materials/matEquipment.mat
+- Assets/Enforcer/EnforcerAssets/Materials/matShotgun.mat
 - Assets/Enforcer/EnforcerAssets/Textures/texDoomEnforcer.png
 - Assets/Enforcer/EnforcerAssets/Textures/texEngiforcerEmissive.png
 - Assets/Enforcer/EnforcerAssets/mdlEnforcer.prefab
@@ -81,6 +87,8 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Textures/texEngiforcer.png
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerCalmIdleIn.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matDoomEnforcer.mat
-- Assets/EnforcerShield.fbx
-- Assets/Enforcer2.fbx
+- Assets/Enforcer/EnforcerAssets/Materials/matHitboxPreview.mat
+- Assets/FBX/EnforcerShield.fbx
+- Assets/Enforcer/EnforcerAssets/Animations/EnforcerArmLeftTemp.anim
+- Assets/FBX/Enforcer2.fbx
 Dependencies: []

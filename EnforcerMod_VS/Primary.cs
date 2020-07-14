@@ -1,8 +1,5 @@
-﻿using EntityStates;
-using RoR2;
-using RoR2.Projectile;
+﻿using RoR2;
 using UnityEngine;
-using System.Collections.Generic;
 
 namespace EntityStates.Enforcer
 {
@@ -10,12 +7,12 @@ namespace EntityStates.Enforcer
     {
         public static GameObject bulletTracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun");
 
-        public static float damageCoefficient = 0.55f;
+        public static float damageCoefficient = 0.25f;
         public static float procCoefficient = 0.4f;
         public static float bulletForce = 100f;
         public float baseDuration = 0.9f; // the base skill duration
         public float baseShieldDuration = 0.6f; // the duration used while shield is active
-        public static int projectileCount = 4;
+        public static int projectileCount = 8;
         public float bulletRecoil = 3f;
 
         private float duration;
@@ -58,6 +55,8 @@ namespace EntityStates.Enforcer
         public override void OnExit()
         {
             base.OnExit();
+
+            setGunAnimation(false);
         }
 
         private void FireBullet()
@@ -92,14 +91,14 @@ namespace EntityStates.Enforcer
                         force = RiotShotgun.bulletForce,
                         hitMask = LayerIndex.CommonMasks.bullet,
                         minSpread = 0,
-                        maxSpread = 15f,
+                        maxSpread = 12f,
                         isCrit = isCrit,
                         owner = base.gameObject,
                         muzzleName = muzzleString,
                         smartCollision = false,
                         procChainMask = default(ProcChainMask),
                         procCoefficient = RiotShotgun.procCoefficient,
-                        radius = 1.25f,
+                        radius = 0.5f,
                         sniper = false,
                         stopperMask = LayerIndex.background.collisionMask,
                         weapon = null,
@@ -125,7 +124,6 @@ namespace EntityStates.Enforcer
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
-                setGunAnimation(false);
                 this.outer.SetNextStateToMain();
             }
         }
