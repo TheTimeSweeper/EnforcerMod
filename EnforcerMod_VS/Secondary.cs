@@ -15,7 +15,7 @@ namespace EntityStates.Enforcer
         public static float knockbackForce = 0.2f;
         public static float blastRadius = 5f;
         public static float deflectRadius = 8f;
-        public static string hitboxString = "Shield"; //transform where the hitbox is fired
+        public static string hitboxString = "ShieldHitbox"; //transform where the hitbox is fired
 
         private float duration;
         private float fireDuration;
