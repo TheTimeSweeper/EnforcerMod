@@ -6,8 +6,11 @@ using System.Collections.Generic;
 
 namespace EntityStates.Enforcer
 {
-    public class RiotShotgun : BaseSkillState
+    public class RiotShotgun : BaseSkillState 
     {
+
+        public static GameObject bulletTracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun");
+
         public static float damageCoefficient = 0.55f;
         public static float procCoefficient = 0.4f;
         public static float bulletForce = 100f;
@@ -94,7 +97,7 @@ namespace EntityStates.Enforcer
                         sniper = false,
                         stopperMask = LayerIndex.background.collisionMask,
                         weapon = null,
-                        tracerEffectPrefab = bulletTracerEffectPrefab,
+                        //tracerEffectPrefab = bulletTracerEffectPrefab,
                         spreadPitchScale = 0.5f,
                         spreadYawScale = 0.5f,
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
