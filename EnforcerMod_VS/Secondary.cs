@@ -16,7 +16,10 @@ namespace EntityStates.Enforcer
         public static float blastRadius = 5f;
         public static float deflectRadius = 8f;
         public static string hitboxString = "ShieldHitbox"; //transform where the hitbox is fired
+        public static float beefDurationNoShield = 0.4f;
+        public static float beefDurationShield = 0.4f;
 
+        private float attackStopDuration;
         private float duration;
         private float fireDuration;
         private Ray aimRay;
@@ -39,10 +42,12 @@ namespace EntityStates.Enforcer
             if (base.characterBody.GetComponent<ShieldComponent>().isShielding)
             {
                 //base.PlayAnimation("Gesture, Override", "ShieldBashAlt", "ShieldBash.playbackRate", this.duration);
+                attackStopDuration = beefDurationShield / attackSpeedStat;
             }
             else
             {
                 //base.PlayAnimation("Gesture, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
+                attackStopDuration = beefDurationNoShield / attackSpeedStat;
             }
 
             Util.PlayScaledSound(Croco.Leap.leapSoundString, base.gameObject, 1.5f);
@@ -86,6 +91,15 @@ namespace EntityStates.Enforcer
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+
+            Debug.Log("bashing");
+
+            if(fixedAge < attackStopDuration) {
+
+                if (characterMotor) {
+                    characterMotor.moveDirection = Vector3.zero;
+                }
+            }
 
             if (base.fixedAge >= this.fireDuration)
             {

@@ -95,8 +95,7 @@ namespace EnforcerPlugin
             orig(self);
             if (self && self.HasBuff(jackBoots))
             {
-                int jumps = self.HasBuff(jackBoots) ? 0 : 1;
-                R2API.Utils.Reflection.SetPropertyValue<int>(self, "maxJumpCount", jumps);
+                R2API.Utils.Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
                 R2API.Utils.Reflection.SetPropertyValue<float>(self, "armor", self.armor + 20);
                 R2API.Utils.Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.5f);
             }

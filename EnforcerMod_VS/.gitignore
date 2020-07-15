@@ -8,6 +8,7 @@ bin/
 obj/
 *.csproj
 
+# this was when .gitignore was in root folder, but now it is in the EnforcerMod_VS
 # EnforcerMod_VS/bin/
 # EnforcerMod_VS/obj/
 # EnforcerMod_VS/Enforcer.csproj

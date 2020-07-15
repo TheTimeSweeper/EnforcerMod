@@ -54,6 +54,31 @@ namespace EntityStates.Enforcer
                 Vector3 smoothVector = new Vector3(-3 /20, 1 / 16, -1);
                 ctp.idealLocalCameraPos = new Vector3(1.2f, -0.5f, -2.8f) + smoothFactor * smoothVector;
             }
+
+            manageTestValues();
+        }
+
+        private void manageTestValues() {
+
+            setTestValue(ref ShieldBash.beefDurationShield, 0.05f, KeyCode.O, "bash shielded");
+            setTestValue(ref ShieldBash.beefDurationShield, -0.05f, KeyCode.K, "bash shielded");
+
+            setTestValue(ref ShieldBash.beefDurationNoShield, 0.05f, KeyCode.P, "bash unShielded");
+            setTestValue(ref ShieldBash.beefDurationNoShield, -0.05f, KeyCode.L, "bash unShielded");
+
+            setTestValue(ref RiotShotgun.beefDurationShield, 0.05f, KeyCode.LeftBracket, "gun shielded");
+            setTestValue(ref RiotShotgun.beefDurationShield, -0.05f, KeyCode.Semicolon, "gun shielded");
+
+            setTestValue(ref RiotShotgun.beefDurationNoShield, 0.05f, KeyCode.RightBracket, "gun unShielded");
+            setTestValue(ref RiotShotgun.beefDurationNoShield, -0.05f, KeyCode.Quote, "gun unShielded");
+        }
+
+        private static void setTestValue(ref float field, float value, KeyCode key, string subject) {
+            if (Input.GetKeyDown(key)) {
+                field += value;
+
+                Chat.AddMessage($"{subject} set to: {field}");
+            }
         }
 
         public override void OnExit()

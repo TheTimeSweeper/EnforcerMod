@@ -17,7 +17,10 @@ namespace EntityStates.Enforcer
         public float baseShieldDuration = 0.6f; // the duration used while shield is active
         public static int projectileCount = 4;
         public float bulletRecoil = 3f;
+        public static float beefDurationNoShield = 0.0f;
+        public static float beefDurationShield = 0.15f;
 
+        private float attackStopDuration;
         private float duration;
         private float fireDuration;
         private bool hasFired;
@@ -35,15 +38,17 @@ namespace EntityStates.Enforcer
             if (base.characterBody.GetComponent<ShieldComponent>().isShielding)
             {
                 this.duration = this.baseShieldDuration / this.attackSpeedStat;
-                this.fireDuration = 0.1f * this.duration;
+                attackStopDuration = beefDurationShield / attackSpeedStat;
             }
             else
             {
                 this.duration = this.baseDuration / this.attackSpeedStat;
-                this.fireDuration = 0.1f * this.duration;
+                attackStopDuration = beefDurationNoShield / attackSpeedStat;
 
                 base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
             }
+
+            this.fireDuration = 0.1f * this.duration;
 
             setGunAnimation(true);
 
@@ -118,6 +123,13 @@ namespace EntityStates.Enforcer
         {
             base.FixedUpdate();
 
+            if(fixedAge < attackStopDuration) {
+
+                if (characterMotor) {
+                    characterMotor.moveDirection = Vector3.zero;
+                }
+            }
+
             if (base.fixedAge >= this.fireDuration)
             {
                 FireBullet();
@@ -126,7 +138,7 @@ namespace EntityStates.Enforcer
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
                 setGunAnimation(false);
-                this.outer.SetNextStateToMain();
+                this.outer.SetNextStateToMain();  
             }
         }
 
