@@ -13,7 +13,6 @@ using KinematicCharacterController;
 using EntityStates.Enforcer;
 using RoR2.Projectile;
 using System.Collections;
-using System.Xml.Schema;
 
 namespace EnforcerPlugin
 {
@@ -67,6 +66,7 @@ namespace EnforcerPlugin
             CreatePrefab();
             RegisterCharacter();
             Skins.RegisterSkins();
+            ItemDisplays.RegisterDisplays();
             RegisterBuffs();
             RegisterProjectile();
             CreateDoppelganger();

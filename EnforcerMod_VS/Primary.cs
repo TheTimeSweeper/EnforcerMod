@@ -7,7 +7,7 @@ namespace EntityStates.Enforcer
     {
         public static GameObject bulletTracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun");
 
-        public static float damageCoefficient = 0.25f;
+        public static float damageCoefficient = 0.3f;
         public static float procCoefficient = 0.4f;
         public static float bulletForce = 100f;
         public float baseDuration = 0.9f; // the base skill duration
@@ -15,7 +15,7 @@ namespace EntityStates.Enforcer
         public static int projectileCount = 8;
         public float bulletRecoil = 3f;
         public static float beefDurationNoShield = 0.0f;
-        public static float beefDurationShield = 0.3f;
+        public static float beefDurationShield = 0.2f;
 
         private float attackStopDuration;
         private float duration;
