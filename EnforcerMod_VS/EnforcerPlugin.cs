@@ -689,7 +689,7 @@ namespace EnforcerPlugin
             mySkillDef.interruptPriority = InterruptPriority.Skill;
             mySkillDef.isBullets = false;
             mySkillDef.isCombatSkill = true;
-            mySkillDef.mustKeyPress = false;
+            mySkillDef.mustKeyPress = true;
             mySkillDef.noSprint = false;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;

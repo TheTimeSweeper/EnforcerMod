@@ -6,7 +6,7 @@ namespace EntityStates.Enforcer
     public class ProtectAndServe : BaseSkillState
     {
         public float enterDuration = 0.4f;
-        public float exitDuration = 1.2f;
+        public float exitDuration = 0.7f;
 
         private float duration;
         private ShieldComponent shieldComponent;

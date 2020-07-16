@@ -15,7 +15,7 @@ namespace EntityStates.Enforcer
         public static int projectileCount = 8;
         public float bulletRecoil = 3f;
         public static float beefDurationNoShield = 0.0f;
-        public static float beefDurationShield = 0.15f;
+        public static float beefDurationShield = 0.3f;
 
         private float attackStopDuration;
         private float duration;
