@@ -108,7 +108,7 @@ namespace EnforcerPlugin
                 CharacterBody charB = self.GetComponent<CharacterBody>();
                 Ray aimRay = shieldComponent.aimRay;
                 Vector3 relativePosition = info.attacker.transform.position - aimRay.origin;
-                float angle = Vector3.Angle(aimRay.direction, relativePosition);
+                float angle = Vector3.Angle(shieldComponent.shieldDirection, relativePosition);
                 if (angle < 45)
                 {
                     return;
