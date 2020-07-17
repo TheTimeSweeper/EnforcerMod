@@ -11,6 +11,8 @@ namespace EntityStates.Enforcer
         private bool wasShielding = false;
         private float initialTime;
 
+        public static bool shotgunToggle = false;
+
         public override void OnEnter()
         {
             base.OnEnter();
@@ -23,10 +25,20 @@ namespace EntityStates.Enforcer
             base.Update();
             this.shieldComponent.aimRay = base.GetAimRay();
 
-            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+            //for ror1 shotgun sounds
+            if (Input.GetKeyDown(KeyCode.X))
             {
-                base.characterBody.isSprinting = false;
-                base.characterBody.SetAimTimer(0.2f);
+                ToggleShotgun();
+            }
+
+            //default dance
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                if (base.characterMotor.isGrounded)
+                {
+                    this.outer.SetNextState(new DefaultDance());
+                    return;
+                }
             }
 
             // this is a temp toggle, remove this later
@@ -48,14 +60,27 @@ namespace EntityStates.Enforcer
 
             if (shieldComponent.isShielding)
             {
-                CameraTargetParams ctp = base.characterBody.GetComponent<CameraTargetParams>();
+                CameraTargetParams ctp = base.cameraTargetParams;
                 float denom = (1 + Time.fixedTime - this.initialTime);
                 float smoothFactor = 8 / Mathf.Pow(denom, 2);
                 Vector3 smoothVector = new Vector3(-3 /20, 1 / 16, -1);
-                ctp.idealLocalCameraPos = new Vector3(1.2f, -0.5f, -2.8f) + smoothFactor * smoothVector;
+                ctp.idealLocalCameraPos = new Vector3(1.2f, -0.5f, -3.25f) + smoothFactor * smoothVector;
             }
 
             manageTestValues();
+        }
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+
+            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+            {
+                base.characterBody.isSprinting = false;
+                base.characterBody.SetAimTimer(0.2f);
+                base.characterMotor.mass = 15000;
+            }
+            else base.characterMotor.mass = 100;
         }
 
         private void manageTestValues() {
@@ -119,6 +144,20 @@ namespace EntityStates.Enforcer
                     }
                 }
                 num++;
+            }
+        }
+
+        private void ToggleShotgun()
+        {
+            EnforcerMain.shotgunToggle = !EnforcerMain.shotgunToggle;
+
+            if (EnforcerMain.shotgunToggle)
+            {
+                Chat.AddMessage("Using classic shotgun sounds");
+            }
+            else
+            {
+                Chat.AddMessage("Using modern shotgun sounds");
             }
         }
     }

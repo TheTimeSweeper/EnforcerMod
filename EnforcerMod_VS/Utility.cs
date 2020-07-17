@@ -4,12 +4,13 @@ using UnityEngine;
 
 namespace EntityStates.Enforcer
 {
-    public class StunGrenade : BaseSkillState
+    public class TearGas : BaseSkillState
     {
-        public float baseDuration = 0.5f;
+        public static float baseDuration = 0.5f;
         public static float damageCoefficient = 1.5f;
         public static float procCoefficient = 0.6f;
         public static float blastRadius = 5f;
+        public static float bulletRecoil = 1f;
 
         public static string muzzleString = "Muzzle";
 
@@ -22,13 +23,19 @@ namespace EntityStates.Enforcer
         public override void OnEnter()
         {
             base.OnEnter();
-            this.duration = baseDuration / this.attackSpeedStat;
+            this.duration = TearGas.baseDuration / this.attackSpeedStat;
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
             this.animator = base.GetModelAnimator();
 
-            animator.SetBool("gunUp", true);
+            this.animator.SetBool("gunUp", true);
 
             //base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
+
+            Util.PlaySound(EnforcerPlugin.Sounds.LaunchTearGas, base.gameObject);
+
+            base.AddRecoil(-2f * TearGas.bulletRecoil, -3f * TearGas.bulletRecoil, -1f * TearGas.bulletRecoil, 1f * TearGas.bulletRecoil);
+            base.characterBody.AddSpreadBloom(0.33f * TearGas.bulletRecoil);
+            EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol.effectPrefab, base.gameObject, TearGas.muzzleString, false);
 
             if (base.isAuthority)
             {
@@ -66,9 +73,9 @@ namespace EntityStates.Enforcer
                     damage = 0,
                     damageColorIndex = DamageColorIndex.Default,
                     damageTypeOverride = DamageType.WeakOnHit,
-                    force = -1000,
+                    force = 0,
                     owner = base.gameObject,
-                    position = childLocator.FindChild("Muzzle").position,
+                    position = childLocator.FindChild(TearGas.muzzleString).position,
                     procChainMask = default(ProcChainMask),
                     projectilePrefab = EnforcerPlugin.EnforcerPlugin.projectilePrefab,
                     rotation = Quaternion.LookRotation(base.GetAimRay().direction),
@@ -84,12 +91,13 @@ namespace EntityStates.Enforcer
         {
             base.OnExit();
 
-            animator.SetBool("gunUp", false);
+            this.animator.SetBool("gunUp", false);
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
                 this.outer.SetNextStateToMain();

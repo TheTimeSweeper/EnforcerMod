@@ -9,15 +9,15 @@ namespace EntityStates.Enforcer
 {
     public class ShieldBash : BaseSkillState
     {
-        public float baseDuration = 0.8f;
+        public static float baseDuration = 0.8f;
         public static float damageCoefficient = 2.5f;
         public static float procCoefficient = 1f;
         public static float knockbackForce = 0.2f;
         public static float blastRadius = 5f;
         public static float deflectRadius = 8f;
-        public static string hitboxString = "ShieldHitbox"; //transform where the hitbox is fired
+        public static string hitboxString = "Shield"; //transform where the hitbox is fired
         public static float beefDurationNoShield = 0.4f;
-        public static float beefDurationShield = 0.4f;
+        public static float beefDurationShield = 0.6f;
 
         private float attackStopDuration;
         private float duration;
@@ -32,210 +32,18 @@ namespace EntityStates.Enforcer
         public override void OnEnter()
         {
             base.OnEnter();
-            this.duration = this.baseDuration / this.attackSpeedStat;
+
+            this.duration = ShieldBash.baseDuration / this.attackSpeedStat;
             this.fireDuration = this.duration * 0.17f;
             this.aimRay = base.GetAimRay();
             this.hasFired = false;
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
             base.StartAimMode(aimRay, 2f, false);
 
-            if (base.characterBody.GetComponent<ShieldComponent>().isShielding)
-            {
-                //base.PlayAnimation("Gesture, Override", "ShieldBashAlt", "ShieldBash.playbackRate", this.duration);
-                attackStopDuration = beefDurationShield / attackSpeedStat;
-            }
-            else
-            {
-                //base.PlayAnimation("Gesture, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
-                attackStopDuration = beefDurationNoShield / attackSpeedStat;
-            }
-
-            Util.PlayScaledSound(Croco.Leap.leapSoundString, base.gameObject, 1.5f);
-        }
-
-        private void FireBlast()
-        {
-            if (!this.hasFired)
-            {
-                this.hasFired = true;
-
-                if (base.isAuthority)
-                {
-                    Vector3 center = childLocator.FindChild(hitboxString).position;
-
-                    blastAttack = new BlastAttack();
-                    blastAttack.radius = ShieldBash.blastRadius;
-                    blastAttack.procCoefficient = ShieldBash.procCoefficient;
-                    blastAttack.position = center;
-                    blastAttack.attacker = base.gameObject;
-                    blastAttack.crit = Util.CheckRoll(base.characterBody.crit, base.characterBody.master);
-                    blastAttack.baseDamage = base.characterBody.damage * ShieldBash.damageCoefficient;
-                    blastAttack.falloffModel = BlastAttack.FalloffModel.None;
-                    blastAttack.baseForce = 3f;
-                    blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
-                    blastAttack.damageType = DamageType.Stun1s;
-                    blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
-
-                    blastAttack.Fire();
-
-                    KnockBack();
-                }
-            }
-        }
-
-        public override void OnExit()
-        {
-            base.OnExit();
-        }
-
-        public override void FixedUpdate()
-        {
-            base.FixedUpdate();
-
-            Debug.Log("bashing");
-
-            if(fixedAge < attackStopDuration) {
-
-                if (characterMotor) {
-                    characterMotor.moveDirection = Vector3.zero;
-                }
-            }
-
-            if (base.fixedAge >= this.fireDuration)
-            {
-                FireBlast();
-            }
-            else
-            {
-                Deflect();
-            }
-
-            if (base.fixedAge >= this.duration && base.isAuthority)
-            {
-                this.outer.SetNextStateToMain();
-                return;
-            }
-        }
-
-        private void KnockBack()
-        {
-            Collider[] array = Physics.OverlapSphere(childLocator.FindChild(hitboxString).position, ShieldBash.blastRadius, LayerIndex.defaultLayer.mask);
-            for (int i = 0; i < array.Length; i++)
-            {
-                HealthComponent component = array[i].GetComponent<HealthComponent>();
-                if (component)
-                {
-                    TeamComponent component2 = component.GetComponent<TeamComponent>();
-                    if (component2.teamIndex != TeamIndex.Player)
-                    {
-                        AddToList(component.gameObject);
-                    }
-                }
-            }
-
-            victimList.ForEach(Push);
-        }
-
-        private void AddToList(GameObject affectedObject)
-        {
-            CharacterBody component = affectedObject.GetComponent<CharacterBody>();
-            if (!this.victimList.Contains(component))
-            {
-                this.victimList.Add(component);
-            }
-        }
-
-        void Push(CharacterBody charb)
-        {
-            Vector3 velocity = ((aimRay.origin + 200 * aimRay.direction) - childLocator.FindChild(hitboxString).position + (75 * Vector3.up)) * ShieldBash.knockbackForce;
-
-            if (charb.characterMotor)
-            {
-                charb.characterMotor.velocity += velocity;
-            }
-            else
-            {
-                Rigidbody component2 = charb.GetComponent<Rigidbody>();
-                if (component2)
-                {
-                    component2.velocity += velocity;
-                }
-            }
-        }
-
-        private void Deflect()
-        {
-            Collider[] array = Physics.OverlapSphere(childLocator.FindChild(hitboxString).position, ShieldBash.deflectRadius, LayerIndex.projectile.mask);
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                ProjectileController pc = array[i].GetComponentInParent<ProjectileController>();
-                if (pc)
-                {
-                    if (pc.teamFilter.teamIndex != TeamIndex.Player)
-                    {
-                        Ray aimRay = base.GetAimRay();
-                        Vector3 aimSpot = (aimRay.origin + 100 * aimRay.direction) - pc.gameObject.transform.position;
-                        FireProjectileInfo info = new FireProjectileInfo()
-                        {
-                            projectilePrefab = pc.gameObject,
-                            position = pc.gameObject.transform.position,
-                            rotation = base.characterBody.transform.rotation * Quaternion.FromToRotation(new Vector3(0, 0, 1), aimSpot),
-                            owner = base.characterBody.gameObject,
-                            damage = base.characterBody.damage * 10f,
-                            force = 200f,
-                            crit = base.RollCrit(),
-                            damageColorIndex = DamageColorIndex.Default,
-                            target = null,
-                            speedOverride = 120f,
-                            fuseOverride = -1f
-                        };
-                        ProjectileManager.instance.FireProjectile(info);
-
-                        Destroy(pc.gameObject);
-                    }
-                }
-            }
-        }
-
-        public override InterruptPriority GetMinimumInterruptPriority()
-        {
-            return InterruptPriority.PrioritySkill;
-        }
-    }
-
-    public class ExperimentalShieldBash : BaseSkillState
-    {
-        public float baseDuration = 0.8f;
-        public static float damageCoefficient = 2.5f;
-        public static float procCoefficient = 1f;
-        public static float knockbackForce = 0.2f;
-        public static float blastRadius = 5f;
-        public static float deflectRadius = 8f;
-        public static string hitboxString = "Shield"; //transform where the hitbox is fired
-
-        private float duration;
-        private float fireDuration;
-        private Ray aimRay;
-        private BlastAttack blastAttack;
-        private ChildLocator childLocator;
-        private bool hasFired;
-
-        private List<CharacterBody> victimList = new List<CharacterBody>();
-
-        public override void OnEnter()
-        {
-            base.OnEnter();
-            this.duration = this.baseDuration / this.attackSpeedStat;
-            this.fireDuration = this.duration * 0.17f;
-            this.aimRay = base.GetAimRay();
-            this.hasFired = false;
-            this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
-            base.StartAimMode(aimRay, 2f, false);
-
-            //yeah
+            //yep cock
             if (base.characterBody.isSprinting)
             {
+                this.hasFired = true;
                 base.skillLocator.secondary.skillDef.activationStateMachineName = "Body";
                 this.outer.SetNextState(new ShoulderBash());
                 return;
@@ -244,13 +52,15 @@ namespace EntityStates.Enforcer
             if (base.characterBody.GetComponent<ShieldComponent>().isShielding)
             {
                 //base.PlayAnimation("Gesture, Override", "ShieldBashAlt", "ShieldBash.playbackRate", this.duration);
+                this.attackStopDuration = ShieldBash.beefDurationShield / this.attackSpeedStat;
             }
             else
             {
                 //base.PlayAnimation("Gesture, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
+                this.attackStopDuration = ShieldBash.beefDurationNoShield / this.attackSpeedStat;
             }
 
-            Util.PlayScaledSound(Croco.Leap.leapSoundString, base.gameObject, 1.5f);
+            Util.PlayScaledSound(EnforcerPlugin.Sounds.ShieldBash, base.gameObject, this.attackSpeedStat);
         }
 
         private void FireBlast()
@@ -275,6 +85,7 @@ namespace EntityStates.Enforcer
                     blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
                     blastAttack.damageType = DamageType.Stun1s;
                     blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
+                    blastAttack.impactEffect = EntityStates.ImpBossMonster.GroundPound.hitEffectPrefab.GetComponent<EffectComponent>().effectIndex;
 
                     blastAttack.Fire();
 
@@ -292,13 +103,21 @@ namespace EntityStates.Enforcer
         {
             base.FixedUpdate();
 
+            if (base.fixedAge < this.attackStopDuration)
+            {
+                if (base.characterMotor)
+                {
+                    base.characterMotor.moveDirection = Vector3.zero;
+                }
+            }
+
             if (base.fixedAge >= this.fireDuration)
             {
-                FireBlast();
+                this.FireBlast();
             }
             else
             {
-                Deflect();
+                this.Deflect();
             }
 
             if (base.fixedAge >= this.duration && base.isAuthority)
@@ -320,6 +139,8 @@ namespace EntityStates.Enforcer
                     if (component2.teamIndex != TeamIndex.Player)
                     {
                         AddToList(component.gameObject);
+
+                        Util.PlaySound(EnforcerPlugin.Sounds.BashHitEnemy, component.gameObject);
                     }
                 }
             }
@@ -382,6 +203,8 @@ namespace EntityStates.Enforcer
                             fuseOverride = -1f
                         };
                         ProjectileManager.instance.FireProjectile(info);
+
+                        Util.PlayScaledSound(EnforcerPlugin.Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
 
                         Destroy(pc.gameObject);
                     }
@@ -434,6 +257,8 @@ namespace EntityStates.Enforcer
                 base.characterDirection.forward = this.idealDirection;
             }
 
+            base.characterBody.isSprinting = true;
+
             Util.PlayScaledSound(Croco.Leap.leapSoundString, base.gameObject, 1.75f);
 
             HitBoxGroup hitBoxGroup = null;
@@ -460,7 +285,7 @@ namespace EntityStates.Enforcer
         {
             if (base.characterBody)
             {
-                base.characterBody.isSprinting = true;
+                base.characterBody.isSprinting = false;
             }
 
             if (base.characterMotor && !base.characterMotor.disableAirControlUntilCollision)

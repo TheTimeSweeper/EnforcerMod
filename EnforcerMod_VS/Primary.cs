@@ -9,9 +9,9 @@ namespace EntityStates.Enforcer
 
         public static float damageCoefficient = 0.3f;
         public static float procCoefficient = 0.4f;
-        public static float bulletForce = 100f;
-        public float baseDuration = 0.9f; // the base skill duration
-        public float baseShieldDuration = 0.6f; // the duration used while shield is active
+        public static float bulletForce = 50f;
+        public static float baseDuration = 0.9f; // the base skill duration
+        public static float baseShieldDuration = 0.6f; // the duration used while shield is active
         public static int projectileCount = 8;
         public float bulletRecoil = 3f;
         public static float beefDurationNoShield = 0.0f;
@@ -34,34 +34,32 @@ namespace EntityStates.Enforcer
 
             if (base.characterBody.GetComponent<ShieldComponent>().isShielding)
             {
-                this.duration = this.baseShieldDuration / this.attackSpeedStat;
-                attackStopDuration = beefDurationShield / attackSpeedStat;
+                this.duration = RiotShotgun.baseShieldDuration / this.attackSpeedStat;
+                this.attackStopDuration = RiotShotgun.beefDurationShield / this.attackSpeedStat;
             }
             else
             {
-                this.duration = this.baseDuration / this.attackSpeedStat;
-                attackStopDuration = beefDurationNoShield / attackSpeedStat;
+                this.duration = RiotShotgun.baseDuration / this.attackSpeedStat;
+                this.attackStopDuration = RiotShotgun.beefDurationNoShield / this.attackSpeedStat;
 
                 base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
             }
 
             this.fireDuration = 0.1f * this.duration;
 
-            setGunAnimation(true);
-
-
-            Util.PlayScaledSound(EntityStates.Commando.CommandoWeapon.FireLightsOut.attackSoundString, base.gameObject, 0.75f);
+            this.setGunAnimation(true);
         }
 
-        private void setGunAnimation(bool setting) {
-            animator.SetBool("gunUp", setting);
+        private void setGunAnimation(bool setting)
+        {
+            this.animator.SetBool("gunUp", setting);
         }
 
         public override void OnExit()
         {
             base.OnExit();
 
-            setGunAnimation(false);
+            this.setGunAnimation(false);
         }
 
         private void FireBullet()
@@ -70,16 +68,28 @@ namespace EntityStates.Enforcer
             {
                 this.hasFired = true;
 
-                //Util.PlaySound("", base.gameObject);
+                string soundString = "";
+
+                bool isCrit = base.RollCrit();
+
+                if (EnforcerMain.shotgunToggle)
+                {
+                    soundString = EnforcerPlugin.Sounds.FireClassicShotgun;
+                }
+                else
+                {
+                    soundString = isCrit ? EnforcerPlugin.Sounds.FireShotgun : EnforcerPlugin.Sounds.FireShotgunCrit;
+                }
+
+                Util.PlaySound(soundString, base.gameObject);
 
                 base.AddRecoil(-2f * this.bulletRecoil, -3f * this.bulletRecoil, -1f * this.bulletRecoil, 1f * this.bulletRecoil);
                 base.characterBody.AddSpreadBloom(0.33f * this.bulletRecoil);
-                EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireShotgun.effectPrefab, base.gameObject, this.muzzleString, false);
+                EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, base.gameObject, this.muzzleString, false);
 
                 if (base.isAuthority)
                 {
                     float damage = RiotShotgun.damageCoefficient * this.damageStat;
-                    bool isCrit = base.RollCrit();
 
                     Ray aimRay = base.GetAimRay();
 
@@ -107,7 +117,7 @@ namespace EntityStates.Enforcer
                         sniper = false,
                         stopperMask = LayerIndex.background.collisionMask,
                         weapon = null,
-                        tracerEffectPrefab = bulletTracerEffectPrefab,
+                        tracerEffectPrefab = RiotShotgun.bulletTracerEffectPrefab,
                         spreadPitchScale = 0.5f,
                         spreadYawScale = 0.5f,
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
@@ -122,24 +132,23 @@ namespace EntityStates.Enforcer
         {
             base.FixedUpdate();
 
-            if(fixedAge < attackStopDuration) {
-
-                if (characterMotor) {
-                    characterMotor.moveDirection = Vector3.zero;
+            if (base.fixedAge < this.attackStopDuration)
+            {
+                if (base.characterMotor)
+                {
+                    base.characterMotor.moveDirection = Vector3.zero;
                 }
             }
 
             if (base.fixedAge >= this.fireDuration)
             {
-                FireBullet();
+                this.FireBullet();
             }
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
-
                 setGunAnimation(false);
-                this.outer.SetNextStateToMain();  
-
+                this.outer.SetNextStateToMain();
             }
         }
 

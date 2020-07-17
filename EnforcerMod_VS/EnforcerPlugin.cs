@@ -13,6 +13,7 @@ using KinematicCharacterController;
 using EntityStates.Enforcer;
 using RoR2.Projectile;
 using System.Collections;
+using System.IO;
 
 namespace EnforcerPlugin
 {
@@ -36,9 +37,10 @@ namespace EnforcerPlugin
         //i didn't want this to be static considering we're using an instance now but it throws 23 errors if i remove the static modifier 
         //i'm not dealing with that
         public static GameObject characterPrefab;
+        public static GameObject characterDisplay;
+
         public static GameObject projectilePrefab;
         public GameObject tearGasPrefab;
-        public GameObject characterDisplay;
         public GameObject doppelganger;
         
         public static event Action awake;
@@ -47,6 +49,9 @@ namespace EnforcerPlugin
         public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
         public static BuffIndex jackBoots;
+
+        public static SkillDef shieldDownDef;//skilldef used while shield is down
+        public static SkillDef shieldUpDef;//skilldef used while shield is up
 
         //更新许可证 DO WHAT THE FUCK YOU WANT TO
 
@@ -63,6 +68,7 @@ namespace EnforcerPlugin
         {
             //touch this all you want tho
             Assets.PopulateAssets();
+            CreateDisplayPrefab();
             CreatePrefab();
             RegisterCharacter();
             Skins.RegisterSkins();
@@ -111,22 +117,102 @@ namespace EnforcerPlugin
                 float angle = Vector3.Angle(shieldComponent.shieldDirection, relativePosition);
                 if (angle < 45)
                 {
+                    string soundString = Sounds.ShieldBlockLight;
+                    if (info.damage >= (0.8f * self.fullCombinedHealth)) soundString = Sounds.ShieldBlockHeavy;
+
+                    Util.PlaySound(soundString, self.gameObject);
+
                     return;
                 }
             }
             orig(self, info);
         }
         #endregion
-        private static GameObject CreateModel(GameObject main)
+        private static GameObject CreateModel(GameObject main, int index)
         {
             Destroy(main.transform.Find("ModelBase").gameObject);
             Destroy(main.transform.Find("CameraPivot").gameObject);
             Destroy(main.transform.Find("AimOrigin").gameObject);
 
-            GameObject model = Assets.MainAssetBundle.LoadAsset<GameObject>("mdlEnforcer");
+            GameObject model = null;
+
+            if (index == 0) model = Assets.MainAssetBundle.LoadAsset<GameObject>("mdlEnforcer");
+            else if (index == 1) model = Assets.MainAssetBundle.LoadAsset<GameObject>("EnforcerDisplay");
 
             return model;
         }
+
+        private static void CreateDisplayPrefab()
+        {
+            //i know this is jank but it WORKS leave me the fuck alone :(
+            GameObject tempDisplay = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), "EnforcerDisplay");
+
+            GameObject model = CreateModel(tempDisplay, 1);
+
+            GameObject gameObject = new GameObject("ModelBase");
+            gameObject.transform.parent = tempDisplay.transform;
+            gameObject.transform.localPosition = new Vector3(0f, -0.81f, 0f);
+            gameObject.transform.localRotation = Quaternion.identity;
+            gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
+
+            GameObject gameObject2 = new GameObject("CameraPivot");
+            gameObject2.transform.parent = gameObject.transform;
+            gameObject2.transform.localPosition = new Vector3(0f, 1.6f, 0f);
+            gameObject2.transform.localRotation = Quaternion.identity;
+            gameObject2.transform.localScale = Vector3.one;
+
+            GameObject gameObject3 = new GameObject("AimOrigin");
+            gameObject3.transform.parent = gameObject.transform;
+            gameObject3.transform.localPosition = new Vector3(0f, 1.4f, 0f);
+            gameObject3.transform.localRotation = Quaternion.identity;
+            gameObject3.transform.localScale = Vector3.one;
+
+            Transform transform = model.transform;
+            transform.parent = gameObject.transform;
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
+
+            ModelLocator modelLocator = tempDisplay.GetComponent<ModelLocator>();
+            modelLocator.modelTransform = transform;
+            modelLocator.modelBaseTransform = gameObject.transform;
+
+            ChildLocator childLocator = model.GetComponent<ChildLocator>();
+
+            CharacterModel characterModel = model.AddComponent<CharacterModel>();
+            characterModel.body = null;
+            characterModel.baseRendererInfos = new CharacterModel.RendererInfo[]
+            {
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = model.GetComponentInChildren<SkinnedMeshRenderer>().material,
+                    renderer = model.GetComponentInChildren<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("Shotgun").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("Shotgun").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("Shield").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("Shield").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+            };
+            characterModel.autoPopulateLightInfos = true;
+            characterModel.invisibilityCount = 0;
+            characterModel.temporaryOverlays = new List<TemporaryOverlay>();
+
+            characterModel.SetFieldValue("mainSkinnedMeshRenderer", characterModel.baseRendererInfos[0].renderer.gameObject.GetComponent<SkinnedMeshRenderer>());
+
+            characterDisplay = PrefabAPI.InstantiateClone(tempDisplay.GetComponent<ModelLocator>().modelBaseTransform.gameObject, "EnforcerDisplay", true);
+        }
+
         private static void CreatePrefab()
         {
             //...what?
@@ -137,7 +223,7 @@ namespace EnforcerPlugin
 
             characterPrefab.GetComponent<NetworkIdentity>().localPlayerAuthority = true;
 
-            GameObject model = CreateModel(characterPrefab);
+            GameObject model = CreateModel(characterPrefab, 0);
 
             GameObject gameObject = new GameObject("ModelBase");
             gameObject.transform.parent = characterPrefab.transform;
@@ -160,7 +246,6 @@ namespace EnforcerPlugin
             Transform transform = model.transform;
             transform.parent = gameObject.transform;
             transform.localPosition = Vector3.zero;
-            //transform.localScale = new Vector3(0.14f, 0.14f, 0.14f);
             transform.localRotation = Quaternion.identity;
 
             CharacterDirection characterDirection = characterPrefab.GetComponent<CharacterDirection>();
@@ -262,15 +347,43 @@ namespace EnforcerPlugin
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = model.GetComponent<ChildLocator>().FindChild("Shotgun").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = model.GetComponent<ChildLocator>().FindChild("Shotgun").GetComponentInChildren<MeshRenderer>(),
+                    defaultMaterial = childLocator.FindChild("Shotgun").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("Shotgun").GetComponentInChildren<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = model.GetComponent<ChildLocator>().FindChild("Shield").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = model.GetComponent<ChildLocator>().FindChild("Shield").GetComponentInChildren<MeshRenderer>(),
+                    defaultMaterial = childLocator.FindChild("Shield").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("Shield").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("Attachment").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("Attachment").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("Pump").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("Pump").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("Rifle").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("Rifle").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("EngiShield").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("EngiShield").GetComponentInChildren<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 }
@@ -415,16 +528,15 @@ namespace EnforcerPlugin
             // i dunno honestly
             /*ShieldComponent shieldComponent =*/
             characterPrefab.AddComponent<ShieldComponent>();
+            characterPrefab.AddComponent<EnforcerWeaponComponent>();
+
+            childLocator.FindChild("EngiShield").gameObject.AddComponent<EngiShieldAnimator>();
 
 #endregion
         }
 
         private void RegisterCharacter()
         {
-            characterDisplay = PrefabAPI.InstantiateClone(characterPrefab.GetComponent<ModelLocator>().modelBaseTransform.gameObject, "EnforcerDisplay");
-            characterDisplay.AddComponent<NetworkIdentity>();
-            characterDisplay.AddComponent<MenuAnimator>();
-
             string desc = "The Enforcer is a slow but powerful character.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine;
             desc = desc + "< ! > Batting away enemies with Shield Bash guarantees you will keep enemies at a safe range." + Environment.NewLine + Environment.NewLine;
             desc = desc + "< ! > Make sure to use Protect and Serve against walls to prevent enemies from flanking you." + Environment.NewLine + Environment.NewLine;
@@ -510,12 +622,12 @@ namespace EnforcerPlugin
             dotZone.overlapProcCoefficient = 0f;
             dotZone.fireFrequency = 5;
             dotZone.resetFrequency = 20;
-            dotZone.lifetime = 7;
+            dotZone.lifetime = 16;
             dotZone.onBegin = new UnityEngine.Events.UnityEvent();
             dotZone.onEnd = new UnityEngine.Events.UnityEvent();
 
-            //change "Play_commando_M2_grenade_bounce" to whatever the event name of enforcer's tear gas grenade is
-            grenadeImpact.lifetimeExpiredSoundString = "Play_commando_M2_grenade_bounce";
+            grenadeImpact.lifetimeExpiredSoundString = "";
+            grenadeImpact.explosionSoundString = Sounds.GasExplosion;
             grenadeImpact.offsetForLifetimeExpiredSound = 1;
             grenadeImpact.destroyOnEnemy = false;
             grenadeImpact.destroyOnWorld = false;
@@ -664,22 +776,60 @@ namespace EnforcerPlugin
                 unlockableName = "",
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
             };
+
+            LoadoutAPI.AddSkill(typeof(RiotShotgun));
+
+            desc = "Rapidly fire bullets dealing <style=cIsDamage>" + 100f * AssaultRifle.damageCoefficient + "% damage.";
+
+            LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_NAME", "Assault Rifle");
+            LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_DESCRIPTION", desc);
+
+            mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(AssaultRifle));
+            mySkillDef.activationStateMachineName = "Weapon";
+            mySkillDef.baseMaxStock = 1;
+            mySkillDef.baseRechargeInterval = 0f;
+            mySkillDef.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef.canceledFromSprinting = false;
+            mySkillDef.fullRestockOnAssign = true;
+            mySkillDef.interruptPriority = InterruptPriority.Any;
+            mySkillDef.isBullets = false;
+            mySkillDef.isCombatSkill = true;
+            mySkillDef.mustKeyPress = false;
+            mySkillDef.noSprint = true;
+            mySkillDef.rechargeStock = 1;
+            mySkillDef.requiredStock = 1;
+            mySkillDef.shootDelay = 0f;
+            mySkillDef.stockToConsume = 1;
+            mySkillDef.icon = Assets.icon1;
+            mySkillDef.skillDescriptionToken = "ENFORCER_PRIMARY_RIFLE_DESCRIPTION";
+            mySkillDef.skillName = "ENFORCER_PRIMARY_RIFLE_NAME";
+            mySkillDef.skillNameToken = "ENFORCER_PRIMARY_RIFLE_NAME";
+
+            LoadoutAPI.AddSkillDef(mySkillDef);
+
+            Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
+            skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
+            {
+                skillDef = mySkillDef,
+                unlockableName = "",
+                viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
+            };
         }
 
         private void SecondarySetup()
         {
             LoadoutAPI.AddSkill(typeof(ShieldBash));
-            LoadoutAPI.AddSkill(typeof(ExperimentalShieldBash));
             LoadoutAPI.AddSkill(typeof(ShoulderBash));
             LoadoutAPI.AddSkill(typeof(ShoulderBashImpact));
 
-            string desc = "Smash nearby enemies for <style=cIsDamage>" + 100f * ShieldBash.damageCoefficient + " damage, stunning</style> and <style=cIsUtility>knocking them back</style>. <style=cIsUtility>Deflects projectiles.</style>";
+            string desc = "Smash nearby enemies for <style=cIsDamage>" + 100f * ShieldBash.damageCoefficient + " damage, stunning</style> and <style=cIsUtility>knocking them back</style>. <style=cIsUtility>Deflects projectiles.</style> Use while sprinting to perform a <style=cIsDamage>shoulder bash</style> instead.";
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", desc);
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            mySkillDef.activationState = new SerializableEntityStateType(typeof(ExperimentalShieldBash));
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(ShieldBash));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 1;
             mySkillDef.baseRechargeInterval = 6f;
@@ -719,18 +869,16 @@ namespace EnforcerPlugin
 
         private void UtilitySetup()
         {
-            //these currently are the same skill, just getting the skilldefs out of the way for now
-
-            LoadoutAPI.AddSkill(typeof(StunGrenade));
+            LoadoutAPI.AddSkill(typeof(TearGas));
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_NAME", "Tear Gas");
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Throw a grenade that deals <style=cIsDamage>150% damage</style> which explodes into tear gas that <style=cIsDamage>weakens enemies</style>.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            mySkillDef.activationState = new SerializableEntityStateType(typeof(StunGrenade));
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(TearGas));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 1;
-            mySkillDef.baseRechargeInterval = 12;
+            mySkillDef.baseRechargeInterval = 24;
             mySkillDef.beginSkillCooldownOnSkillEnd = false;
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
@@ -770,7 +918,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION", "Launch a stun grenade, stunning enemies in a huge radius for 150% damage. Holds up to 6 stock. Can bounce at shallow angles.");
 
             mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            mySkillDef.activationState = new SerializableEntityStateType(typeof(StunGrenade));
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(TearGas));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 6;
             mySkillDef.baseRechargeInterval = 8f;
@@ -846,39 +994,38 @@ namespace EnforcerPlugin
                 unlockableName = "",
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
             };
-        }
-    }
 
-    //this is temporary and not networked, i'll add a custom animator later on
-    public class MenuAnimator : MonoBehaviour
-    {
-        internal void OnEnable()
-        {
-            bool flag = base.gameObject.transform.parent.gameObject.name == "CharacterPad";
-            if (flag)
-            {
-                base.StartCoroutine(this.SpawnAnimation());
-            }
-        }
+            LoadoutAPI.AddSkill(typeof(ProtectAndServe));
 
-        private IEnumerator SpawnAnimation()
-        {
-            Animator animator = base.GetComponentInChildren<Animator>();
+            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDDOWN_NAME", "Protect and Serve");
+            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDDOWN_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases your rate of fire</style>, but prevents sprinting and jumping.");
 
-            Util.PlayScaledSound(EntityStates.ScavMonster.FindItem.sound, base.gameObject, 0.75f);
-            PlayAnimation("FullBody, Override", "Menu", "", 1, animator);
+            SkillDef mySkillDef2 = ScriptableObject.CreateInstance<SkillDef>();
+            mySkillDef2.activationState = new SerializableEntityStateType(typeof(ProtectAndServe));
+            mySkillDef2.activationStateMachineName = "Weapon";
+            mySkillDef2.baseMaxStock = 1;
+            mySkillDef2.baseRechargeInterval = 0f;
+            mySkillDef2.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef2.canceledFromSprinting = false;
+            mySkillDef2.fullRestockOnAssign = true;
+            mySkillDef2.interruptPriority = InterruptPriority.PrioritySkill;
+            mySkillDef2.isBullets = false;
+            mySkillDef2.isCombatSkill = true;
+            mySkillDef2.mustKeyPress = false;
+            mySkillDef2.noSprint = false;
+            mySkillDef2.rechargeStock = 1;
+            mySkillDef2.requiredStock = 1;
+            mySkillDef2.shootDelay = 0f;
+            mySkillDef2.stockToConsume = 1;
+            mySkillDef2.icon = Assets.icon4B;
+            mySkillDef2.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDDOWN_DESCRIPTION";
+            mySkillDef2.skillName = "ENFORCER_SPECIAL_SHIELDDOWN_NAME";
+            mySkillDef2.skillNameToken = "ENFORCER_SPECIAL_SHIELDDOWN_NAME";
 
-            yield break;
-        }
+            LoadoutAPI.AddSkillDef(mySkillDef2);
 
-        private void PlayAnimation(string layerName, string animationStateName, string playbackRateParam, float duration, Animator animator)
-        {
-            int layerIndex = animator.GetLayerIndex(layerName);
-            animator.SetFloat(playbackRateParam, 1f);
-            animator.PlayInFixedTime(animationStateName, layerIndex, 0f);
-            animator.Update(0f);
-            float length = animator.GetCurrentAnimatorStateInfo(layerIndex).length;
-            animator.SetFloat(playbackRateParam, length / duration);
+            shieldDownDef = mySkillDef;
+            shieldUpDef = mySkillDef2;
         }
     }
 
@@ -920,13 +1067,12 @@ namespace EnforcerPlugin
                 }
             }*/
 
-            // for the soundbank later
-            /*using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.OurReallyCoolFuckingSoundbank.bnk"))
+            using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.EnforcerBank.bnk"))
             {
                 byte[] array = new byte[manifestResourceStream2.Length];
                 manifestResourceStream2.Read(array, 0, array.Length);
                 SoundAPI.SoundBanks.Add(array);
-            }*/
+            }
 
             charPortrait = MainAssetBundle.LoadAsset<Sprite>("EnforcerBody").texture;
 
@@ -940,5 +1086,29 @@ namespace EnforcerPlugin
 
             //grenade = TempAssetBundle.LoadAsset<GameObject>("Grenade");
         }
+    }
+
+    public static class Sounds
+    {
+        public static readonly string FireShotgun = "Shotgun_shot";
+        public static readonly string FireShotgunCrit = "Shotgun_shot_crit";
+        public static readonly string FireClassicShotgun = "Ror1_Shotgun";
+
+        public static readonly string ShieldBash = "Bash";
+        public static readonly string BashHitEnemy = "Bash_Hit_Enemy";
+        public static readonly string BashDeflect = "Bash_Deflect";
+
+        public static readonly string LaunchStunGrenade = "Launch_Stun";
+
+        public static readonly string LaunchTearGas = "Launch_Gas";
+        public static readonly string GasExplosion = "Gas_Explosion";
+        public static readonly string GasContinuous = "Gas_Continous";
+
+        public static readonly string ShieldBlockLight = "Shield_Block_light";
+        public static readonly string ShieldBlockHeavy = "Shield_Block_heavy";
+
+        public static readonly string ShellHittingFloor = "Shell_Hitting_floor";
+
+        public static readonly string DefaultDance = "Default_forcer";
     }
 }

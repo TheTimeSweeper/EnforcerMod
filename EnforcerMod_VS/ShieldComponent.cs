@@ -4,7 +4,7 @@ using UnityEngine;
 public class ShieldComponent : MonoBehaviour
 {
     static float maxSpeed = 0.1f;
-    static float coef = 1; // affects how quicly it reaches max speed
+    static float coef = 1; // affects how quickly it reaches max speed
 
     public bool isShielding = false;
     public Ray aimRay;
@@ -13,11 +13,12 @@ public class ShieldComponent : MonoBehaviour
 
     public static GameObject bulletTracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun");
     GameObject dummy;
-    GameObject boyPrefab = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody");
+    GameObject boyPrefab = Resources.Load<GameObject>("Prefabs/CharacterBodies/LemurianBody");
 
     void Start()
     {
-        dummy = UnityEngine.Object.Instantiate<GameObject>(boyPrefab, aimRay.origin, Quaternion.LookRotation(shieldDirection));
+        //enough of this tomfoolery
+        //dummy = UnityEngine.Object.Instantiate<GameObject>(boyPrefab, aimRay.origin, Quaternion.LookRotation(shieldDirection));
     }
 
     void Update()
@@ -38,15 +39,19 @@ public class ShieldComponent : MonoBehaviour
             initialTime = Time.fixedTime;
         }
 
-        var hc = dummy.GetComponent<HealthComponent>();
-        if (hc && hc.health <= 0)
+        if (dummy)
         {
-            respawnDummy();
+            var hc = dummy.GetComponent<HealthComponent>();
+            if (hc && hc.health <= 0)
+            {
+                //stop this madness i swear to god
+                //respawnDummy();
+            }
+
+            dummy.transform.position = aimRay.origin + shieldDirection;
         }
 
-        dummy.transform.position = aimRay.origin + shieldDirection;
-
-        BulletAttack bullet = new RoR2.BulletAttack
+        /*BulletAttack bullet = new RoR2.BulletAttack
         {
             bulletCount = 1,
             aimVector = shieldDirection,
@@ -74,7 +79,7 @@ public class ShieldComponent : MonoBehaviour
             spreadPitchScale = 0.5f,
             spreadYawScale = 0.5f,
             queryTriggerInteraction = QueryTriggerInteraction.UseGlobal
-        };
+        };*/
         //bullet.Fire();
 
         //RoR2.Chat.AddMessage("---------------");
