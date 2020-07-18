@@ -25,7 +25,8 @@ namespace EnforcerPlugin
         "SurvivorAPI",
         "LoadoutAPI",
         "BuffAPI",
-        "LanguageAPI"
+        "LanguageAPI",
+        "SoundAPI"
     })]
 
     public class EnforcerPlugin : BaseUnityPlugin
@@ -529,8 +530,6 @@ namespace EnforcerPlugin
             /*ShieldComponent shieldComponent =*/
             characterPrefab.AddComponent<ShieldComponent>();
             characterPrefab.AddComponent<EnforcerWeaponComponent>();
-
-            childLocator.FindChild("EngiShield").gameObject.AddComponent<EngiShieldAnimator>();
 
 #endregion
         }
@@ -1049,10 +1048,13 @@ namespace EnforcerPlugin
 
         public static void PopulateAssets()
         {
+            Debug.Log("1");
             if (MainAssetBundle == null)
             {
+            Debug.Log("2");
                 using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.enforcer"))
                 {
+            Debug.Log("3");
                     MainAssetBundle = AssetBundle.LoadFromStream(assetStream);
                 }
             }
@@ -1069,6 +1071,7 @@ namespace EnforcerPlugin
 
             using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.EnforcerBank.bnk"))
             {
+                Debug.Log(manifestResourceStream2 == null);
                 byte[] array = new byte[manifestResourceStream2.Length];
                 manifestResourceStream2.Read(array, 0, array.Length);
                 SoundAPI.SoundBanks.Add(array);

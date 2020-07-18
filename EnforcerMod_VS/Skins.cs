@@ -248,9 +248,4 @@ namespace EnforcerPlugin
             };
         }
     }
-
-    public class EngiShieldAnimator : MonoBehaviour
-    {
-        //someone else figure this shit out i can't
-    }
 }

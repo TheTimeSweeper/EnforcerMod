@@ -1,19 +1,24 @@
 fileFormatVersion: 2
-guid: 8526fae317dc528418fa5eb8c1f940a4
+guid: f2a812f90665e6945bbc815edb52bbed
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Pump
-    100002: //RootNode
-    400000: Pump
-    400002: //RootNode
-    2100000: No Name
-    2300000: Pump
-    2300002: //RootNode
-    3300000: Pump
-    3300002: //RootNode
+    100000: Attachment
+    100002: Pump
+    100004: //RootNode
+    400000: Attachment
+    400002: Pump
+    400004: //RootNode
+    2100000: matShotgun
+    2300000: Attachment
+    2300002: Pump
+    2300004: //RootNode
+    3300000: Attachment
+    3300002: Pump
+    3300004: //RootNode
     4300000: Shotgun
     4300002: Pump
+    4300004: Attachment
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -98,5 +103,5 @@ ModelImporter:
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
-  assetBundleName: enforcer
+  assetBundleName: 
   assetBundleVariant: 

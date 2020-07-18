@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 9769945
+CRC: 3851906329
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 3cdce5de3ccfd847c3f68739409900b4
+    Hash: 3edebb0007a39efc6240ea4723edf843
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 2a4e89482639225e45e1417430751cc1
+    Hash: 51fbc92e172247da84e4d800de740928
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -25,6 +25,10 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
 - Class: 74
   Script: {instanceID: 0}
 - Class: 90
@@ -36,9 +40,13 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 67079b849227b734694872d8810229b8, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: aaabc320440a02340b0239f0cf1745a2, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 24f98ceb39626e542bce4568de94b61d, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: aaabc320440a02340b0239f0cf1745a2, type: 3}
+  Script: {fileID: 11500000, guid: 7ade51fc5319ad3459ce2de62570bf78, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: b0f08e644e13c7d46a78c4e7fa299176, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 136
@@ -64,7 +72,6 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/EnforcerDisplay.prefab
 - Assets/Enforcer/EnforcerAssets/Textures/texDoomEnforcerEmissive.png
 - Assets/Enforcer/EnforcerAssets/Skill2Icon.png
-- Assets/FBX/Shotgun.dae
 - Assets/Enforcer/EnforcerAssets/Materials/matEnforcer.mat
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerCalmIdle.anim
 - Assets/Enforcer/EnforcerAssets/Skill3Icon.png
@@ -92,6 +99,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerCalmIdleIn.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matDoomEnforcer.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matHitboxPreview.mat
+- Assets/Enforcer/EnforcerAssets/Materials/texEngiShield.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matEngiShield.mat
 - Assets/FBX/EnforcerShield.fbx
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerArmLeftTemp.anim

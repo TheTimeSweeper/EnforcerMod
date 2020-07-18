@@ -2163,6 +2163,7 @@ GameObject:
   - component: {fileID: 585413370475355330}
   - component: {fileID: 1732606618487769068}
   - component: {fileID: 6372375147012598316}
+  - component: {fileID: 2852616120825920147}
   m_Layer: 0
   m_Name: EngiShield
   m_TagString: Untagged
@@ -2230,6 +2231,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &2852616120825920147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5521874103105329550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ade51fc5319ad3459ce2de62570bf78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offsetRate: 0.2
 --- !u!1 &5545910315533051372
 GameObject:
   m_ObjectHideFlags: 0
