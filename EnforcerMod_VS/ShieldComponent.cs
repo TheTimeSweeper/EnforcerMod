@@ -12,6 +12,9 @@ public class ShieldComponent : MonoBehaviour
     float initialTime = 0;
 
     public static GameObject bulletTracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun");
+
+    private EnergyShieldControler energyShieldControler;
+
     GameObject dummy;
     GameObject boyPrefab = Resources.Load<GameObject>("Prefabs/CharacterBodies/LemurianBody");
 
@@ -19,10 +22,13 @@ public class ShieldComponent : MonoBehaviour
     {
         //enough of this tomfoolery
         //dummy = UnityEngine.Object.Instantiate<GameObject>(boyPrefab, aimRay.origin, Quaternion.LookRotation(shieldDirection));
+        energyShieldControler = GetComponentInChildren<EnergyShieldControler>();
     }
 
     void Update()
     {
+        energyShieldControler.aimRayDirection = aimRay.direction;
+
         float time = Time.fixedTime - initialTime;
 
         Vector3 cross = Vector3.Cross(aimRay.direction, shieldDirection);
@@ -90,5 +96,10 @@ public class ShieldComponent : MonoBehaviour
     private void respawnDummy()
     {
         dummy = UnityEngine.Object.Instantiate<GameObject>(boyPrefab, aimRay.origin, Quaternion.LookRotation(shieldDirection));
+    }
+
+    public void toggleEngergyShield()
+    {
+        energyShieldControler.Toggle();
     }
 }

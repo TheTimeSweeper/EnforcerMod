@@ -1,7 +1,7 @@
 ManifestFileVersion: 0
-CRC: 3899954407
+CRC: 309959404
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: exampleitemmod
+      Name: enforcer
       Dependencies: {}

@@ -47,6 +47,11 @@ namespace EntityStates.Enforcer
                 this.toggle = !this.toggle;
             }
 
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                shieldComponent.toggleEngergyShield();
+            }
+
             if (this.toggle)
             {
                 getList();
