@@ -34,7 +34,7 @@ namespace EntityStates.Enforcer
             base.OnEnter();
 
             this.duration = ShieldBash.baseDuration / this.attackSpeedStat;
-            this.fireDuration = this.duration * 0.17f;
+            this.fireDuration = this.duration * 0.15f;
             this.aimRay = base.GetAimRay();
             this.hasFired = false;
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
@@ -51,12 +51,12 @@ namespace EntityStates.Enforcer
 
             if (base.characterBody.GetComponent<ShieldComponent>().isShielding)
             {
-                //base.PlayAnimation("Gesture, Override", "ShieldBashAlt", "ShieldBash.playbackRate", this.duration);
+                base.PlayAnimation("Gesture, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
                 this.attackStopDuration = ShieldBash.beefDurationShield / this.attackSpeedStat;
             }
             else
             {
-                //base.PlayAnimation("Gesture, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
+                base.PlayAnimation("Gesture, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
                 this.attackStopDuration = ShieldBash.beefDurationNoShield / this.attackSpeedStat;
             }
 
@@ -261,6 +261,8 @@ namespace EntityStates.Enforcer
 
             Util.PlayScaledSound(Croco.Leap.leapSoundString, base.gameObject, 1.75f);
 
+            base.PlayAnimation("FullBody, Override", "ShoulderBash");//, "ShoulderBash.playbackRate", this.duration
+
             HitBoxGroup hitBoxGroup = null;
             Transform modelTransform = base.GetModelTransform();
 
@@ -411,6 +413,8 @@ namespace EntityStates.Enforcer
         public override void OnEnter()
         {
             base.OnEnter();
+
+            base.PlayAnimation("FullBody, Override", "BufferEmpty");
 
             base.SmallHop(base.characterMotor, ShoulderBash.smallHopVelocity);
 
