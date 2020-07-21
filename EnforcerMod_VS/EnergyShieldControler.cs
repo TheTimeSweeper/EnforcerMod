@@ -5,18 +5,18 @@ public class EnergyShieldControler : MonoBehaviour
 {
     public Vector3 aimRayDirection = new Vector3(0, 0, 0);
 
-    private MeshCollider[] colliders;
+    private MeshCollider collider;
     private MeshRenderer[] renderers;
     private float angle;
 
     void Start()
     {
-        colliders = GetComponentsInChildren<MeshCollider>();
+        collider = GetComponentInChildren<MeshCollider>();
         renderers = GetComponentsInChildren<MeshRenderer>();
 
+        collider.enabled = false;
         for (int i = 0; i < 2; i++)
         {
-            colliders[i].enabled = false;
             renderers[i].enabled = false;
         }
     }
@@ -34,9 +34,9 @@ public class EnergyShieldControler : MonoBehaviour
 
     public void Toggle()
     {
+        collider.enabled = !collider.enabled;
         for (int i = 0; i < 2; i++)
         {
-            colliders[i].enabled = !colliders[i].enabled;
             renderers[i].enabled = !renderers[i].enabled;
         }
     }

@@ -23,6 +23,25 @@ public class ShieldComponent : MonoBehaviour
         //enough of this tomfoolery
         //dummy = UnityEngine.Object.Instantiate<GameObject>(boyPrefab, aimRay.origin, Quaternion.LookRotation(shieldDirection));
         energyShieldControler = GetComponentInChildren<EnergyShieldControler>();
+
+        HealthComponent healthComponent = energyShieldControler.gameObject.AddComponent<HealthComponent>();
+        healthComponent.health = 15f;
+        healthComponent.shield = 0f;
+        healthComponent.barrier = 0f;
+        healthComponent.magnetiCharge = 0f;
+        healthComponent.body = null;
+        healthComponent.dontShowHealthbar = false;
+        healthComponent.globalDeathEventChanceCoefficient = 1f;
+
+        HurtBoxGroup hurtBoxGroup = energyShieldControler.gameObject.AddComponent<HurtBoxGroup>();
+
+        HurtBox componentInChildren = energyShieldControler.GetComponentInChildren<MeshCollider>().gameObject.AddComponent<HurtBox>();
+        componentInChildren.gameObject.layer = LayerIndex.entityPrecise.intVal;
+        componentInChildren.healthComponent = healthComponent;
+        componentInChildren.isBullseye = true;
+        componentInChildren.damageModifier = HurtBox.DamageModifier.Normal;
+        componentInChildren.hurtBoxGroup = hurtBoxGroup;
+        componentInChildren.indexInGroup = 0;
     }
 
     void Update()
