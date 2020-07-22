@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2078486511
+CRC: 1771806146
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 55c96cc403b2a3fe80515171e1fc42a2
+    Hash: 63d6adf9f9fc49c1b022d5e4c60eb6cb
   TypeTreeHash:
     serializedVersion: 2
     Hash: 595cbe04ab5fa1cf732a83ec817ab446
@@ -56,7 +56,7 @@ ClassTypes:
 - Class: 319
   Script: {instanceID: 0}
 Assets:
-- Assets/Enforcer/EnforcerAssets/EnforcerBody.png
+- Assets/Enforcer/EnforcerAssets/EnforcerBodyOld.png
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerArmLeftMask.mask
 - Assets/Enforcer/EnforcerAssets/Skill4Icon.png
 - Assets/Enforcer/EnforcerAssets/Skill4BIcon.png
@@ -82,6 +82,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerGestureMask.mask
 - Assets/Enforcer/EnforcerAssets/Materials/matSpaceEnforcer.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matEngiforcer.mat
+- Assets/Enforcer/EnforcerAssets/EnforcerBody.png
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerArmRightMask.mask
 - Assets/Enforcer/EnforcerAssets/Textures/texSpaceforcer.png
 - Assets/Enforcer/EnforcerAssets/Animations/Temp/Flinch4.anim
