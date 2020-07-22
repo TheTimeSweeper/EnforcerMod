@@ -15,6 +15,9 @@ public class ShieldComponent : MonoBehaviour
 
     private EnergyShieldControler energyShieldControler;
 
+    private Light[] lights;
+    private int lightCounter = 201;
+
     GameObject dummy;
     GameObject boyPrefab = Resources.Load<GameObject>("Prefabs/CharacterBodies/LemurianBody");
 
@@ -42,6 +45,8 @@ public class ShieldComponent : MonoBehaviour
         componentInChildren.damageModifier = HurtBox.DamageModifier.Normal;
         componentInChildren.hurtBoxGroup = hurtBoxGroup;
         componentInChildren.indexInGroup = 0;
+
+        lights = GetComponentsInChildren<Light>();
     }
 
     void Update()
@@ -76,40 +81,21 @@ public class ShieldComponent : MonoBehaviour
             dummy.transform.position = aimRay.origin + shieldDirection;
         }
 
-        /*BulletAttack bullet = new RoR2.BulletAttack
+        if (lightCounter < 100)
         {
-            bulletCount = 1,
-            aimVector = shieldDirection,
-            origin = aimRay.origin,
-            damage = 1,
-            damageColorIndex = DamageColorIndex.Default,
-            damageType = DamageType.Generic,
-            falloffModel = BulletAttack.FalloffModel.None,
-            maxDistance = 48,
-            force = 1,
-            hitMask = LayerIndex.CommonMasks.bullet,
-            minSpread = 0,
-            maxSpread = 12f,
-            isCrit = false,
-            owner = base.gameObject,
-            muzzleName = "hey",
-            smartCollision = false,
-            procChainMask = default(ProcChainMask),
-            procCoefficient =2,
-            radius = 0.5f,
-            sniper = false,
-            stopperMask = LayerIndex.background.collisionMask,
-            weapon = null,
-            tracerEffectPrefab = bulletTracerEffectPrefab,
-            spreadPitchScale = 0.5f,
-            spreadYawScale = 0.5f,
-            queryTriggerInteraction = QueryTriggerInteraction.UseGlobal
-        };*/
-        //bullet.Fire();
+            if (lightCounter % 10 == 0)
+            {
+                lights[0].enabled = !lights[0].enabled;
+                lights[1].enabled = !lights[1].enabled;
+            }
 
-        //RoR2.Chat.AddMessage("---------------");
-        //RoR2.Chat.AddMessage("Aim Direction:    " + aimRay.direction.x.ToString() + ", " + aimRay.direction.y.ToString() + ", " + aimRay.direction.z.ToString());
-        //RoR2.Chat.AddMessage("Shield Direction: " + shieldDirection.x.ToString() + ", " + shieldDirection.y.ToString() + ", " + shieldDirection.z.ToString());
+            lightCounter++;
+        }
+        else
+        {
+            lights[0].enabled = false;
+            lights[1].enabled = false;
+        }
     }
 
     private void respawnDummy()
@@ -120,5 +106,10 @@ public class ShieldComponent : MonoBehaviour
     public void toggleEngergyShield()
     {
         energyShieldControler.Toggle();
+    }
+
+    public void flashLights()
+    {
+        lightCounter = 0;
     }
 }
