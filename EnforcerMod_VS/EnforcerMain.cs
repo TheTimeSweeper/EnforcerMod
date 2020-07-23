@@ -18,6 +18,10 @@ namespace EntityStates.Enforcer
             base.OnEnter();
 
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
+
+            Loadout loadout = base.characterBody.master.loadout;
+            uint specialVar = loadout.bodyLoadoutManager.GetSkillVariant(base.characterBody.bodyIndex, 3);
+            this.shieldComponent.isAlternate = specialVar == 1;
         }
 
         public override void Update()
@@ -47,11 +51,6 @@ namespace EntityStates.Enforcer
                 this.toggle = !this.toggle;
             }
 
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                shieldComponent.toggleEngergyShield();
-            }
-
             if (this.toggle)
             {
                 getList();
@@ -70,6 +69,12 @@ namespace EntityStates.Enforcer
                 float smoothFactor = 8 / Mathf.Pow(denom, 2);
                 Vector3 smoothVector = new Vector3(-3 /20, 1 / 16, -1);
                 ctp.idealLocalCameraPos = new Vector3(1.2f, -0.5f, -3.25f) + smoothFactor * smoothVector;
+            }
+
+            if (shieldComponent.shieldHealth <= 0)
+            {
+                outer.SetNextState(new EntityStates.Enforcer.ProtectAndServe());
+                return;
             }
 
             manageTestValues();

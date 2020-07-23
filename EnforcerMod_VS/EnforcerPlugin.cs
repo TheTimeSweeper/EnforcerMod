@@ -53,6 +53,8 @@ namespace EnforcerPlugin
 
         public static SkillDef shieldDownDef;//skilldef used while shield is down
         public static SkillDef shieldUpDef;//skilldef used while shield is up
+        public static SkillDef shieldOffDef;//skilldef used while shield is off
+        public static SkillDef shieldOnDef;//skilldef used while shield is on
 
         //更新许可证 DO WHAT THE FUCK YOU WANT TO
 
@@ -111,7 +113,7 @@ namespace EnforcerPlugin
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
             ShieldComponent shieldComponent = self.GetComponent<ShieldComponent>();
-            if (shieldComponent && info.attacker && shieldComponent.isShielding)
+            if (shieldComponent && info.attacker && shieldComponent.isShielding && !shieldComponent.isAlternate)
             {
                 CharacterBody charB = self.GetComponent<CharacterBody>();
                 Ray aimRay = shieldComponent.aimRay;
@@ -126,6 +128,10 @@ namespace EnforcerPlugin
 
                     return;
                 }
+            }
+            if (self.body.name == "EnergyShield")
+            {
+                info.damage = info.procCoefficient;
             }
             orig(self, info);
         }
@@ -712,6 +718,7 @@ namespace EnforcerPlugin
             SecondarySetup();
             UtilitySetup();
             SpecialSetup();
+            AltSpecialSetup();
         }
 
         private void PrimarySetup()
@@ -1010,6 +1017,81 @@ namespace EnforcerPlugin
 
             shieldDownDef = mySkillDef;
             shieldUpDef = mySkillDef2;
+        }
+
+        private void AltSpecialSetup()
+        {
+            LoadoutAPI.AddSkill(typeof(ProtectAndServe));
+
+            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDON_NAME", "Project and Swerve");
+            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDON_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>projecting an Energy Shield in front of you</style>. <style=cIsDamage>Increases your rate of fire</style>, but prevents sprinting and jumping.");
+
+            SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(ProtectAndServe));
+            mySkillDef.activationStateMachineName = "Weapon";
+            mySkillDef.baseMaxStock = 1;
+            mySkillDef.baseRechargeInterval = 0f;
+            mySkillDef.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef.canceledFromSprinting = false;
+            mySkillDef.fullRestockOnAssign = true;
+            mySkillDef.interruptPriority = InterruptPriority.PrioritySkill;
+            mySkillDef.isBullets = false;
+            mySkillDef.isCombatSkill = true;
+            mySkillDef.mustKeyPress = false;
+            mySkillDef.noSprint = true;
+            mySkillDef.rechargeStock = 1;
+            mySkillDef.requiredStock = 1;
+            mySkillDef.shootDelay = 0f;
+            mySkillDef.stockToConsume = 1;
+            mySkillDef.icon = Assets.icon3;
+            mySkillDef.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION";
+            mySkillDef.skillName = "ENFORCER_SPECIAL_SHIELDUP_NAME";
+            mySkillDef.skillNameToken = "ENFORCER_SPECIAL_SHIELDUP_NAME";
+
+            LoadoutAPI.AddSkillDef(mySkillDef);
+
+            SkillLocator skillLocator = characterPrefab.GetComponent<SkillLocator>();
+            SkillFamily skillFamily = skillLocator.special.skillFamily;
+
+            Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
+            skillFamily.variants[1] = new SkillFamily.Variant
+            {
+                skillDef = mySkillDef,
+                unlockableName = "",
+                viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
+            };
+
+            LoadoutAPI.AddSkill(typeof(ProtectAndServe));
+
+            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDOFF_NAME", "Project and Swerve");
+            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDOFF_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>projecting an Energy Shield in front of you</style>. <style=cIsDamage>Increases your rate of fire</style>, but prevents sprinting and jumping.");
+
+            SkillDef mySkillDef2 = ScriptableObject.CreateInstance<SkillDef>();
+            mySkillDef2.activationState = new SerializableEntityStateType(typeof(ProtectAndServe));
+            mySkillDef2.activationStateMachineName = "Weapon";
+            mySkillDef2.baseMaxStock = 1;
+            mySkillDef2.baseRechargeInterval = 0f;
+            mySkillDef2.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef2.canceledFromSprinting = false;
+            mySkillDef2.fullRestockOnAssign = true;
+            mySkillDef2.interruptPriority = InterruptPriority.PrioritySkill;
+            mySkillDef2.isBullets = false;
+            mySkillDef2.isCombatSkill = true;
+            mySkillDef2.mustKeyPress = false;
+            mySkillDef2.noSprint = false;
+            mySkillDef2.rechargeStock = 1;
+            mySkillDef2.requiredStock = 1;
+            mySkillDef2.shootDelay = 0f;
+            mySkillDef2.stockToConsume = 1;
+            mySkillDef2.icon = Assets.icon3B;
+            mySkillDef2.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDDOWN_DESCRIPTION";
+            mySkillDef2.skillName = "ENFORCER_SPECIAL_SHIELDDOWN_NAME";
+            mySkillDef2.skillNameToken = "ENFORCER_SPECIAL_SHIELDDOWN_NAME";
+
+            LoadoutAPI.AddSkillDef(mySkillDef2);
+
+            shieldOffDef = mySkillDef;
+            shieldOnDef = mySkillDef2;
         }
     }
 
