@@ -545,7 +545,10 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_NAME", "Enforcer");
             LanguageAPI.Add("ENFORCER_DESCRIPTION", desc);
             LanguageAPI.Add("ENFORCER_SUBTITLE", "Mutated Beyond Recognition");
-            LanguageAPI.Add("ENFORCER_LORE", "I'M FUCKING INVINCIBLE");
+            //LanguageAPI.Add("ENFORCER_LORE", "I'M FUCKING INVINCIBLE");
+            LanguageAPI.Add("ENFORCER_LORE", "\n<style=cMono>\"You don't have to do this.\"</style>\r\n\r\nThe words echoed in his head, but yet he continued. The pod was only five feet away, he had a chance to leave, but yet something in his core kept him moving. It was unknown what kept him moving, but he didn't question it. He had always done as he was told, so why would he stop now? Why would he stray now?");
+
+            characterDisplay.AddComponent<NetworkIdentity>();
 
             SurvivorDef survivorDef = new SurvivorDef
             {
@@ -594,36 +597,17 @@ namespace EnforcerPlugin
             ProjectileDamage grenadeDamage = projectilePrefab.GetComponent<ProjectileDamage>();
             ProjectileDamage tearGasDamage = tearGasPrefab.GetComponent<ProjectileDamage>();
 
-            ProjectileImpactExplosion grenadeImpact = projectilePrefab.GetComponent<ProjectileImpactExplosion>();
+            ProjectileSimple simple = projectilePrefab.GetComponent<ProjectileSimple>();
 
+            TeamFilter filter = tearGasPrefab.GetComponent<TeamFilter>();
+
+            ProjectileImpactExplosion grenadeImpact = projectilePrefab.GetComponent<ProjectileImpactExplosion>();
+            
             Destroy(tearGasPrefab.GetComponent<ProjectileDotZone>());
 
-            EProjectileDotZone dotZone = tearGasPrefab.AddComponent<EProjectileDotZone>();
+            BuffWard buffWard = tearGasPrefab.AddComponent<BuffWard>();
 
-            grenadeController.procCoefficient = 1;
-            tearGasController.procCoefficient = 0;
-
-            grenadeDamage.crit = false;
-            grenadeDamage.damage = 1.5f;
-            grenadeDamage.damageColorIndex = DamageColorIndex.Default;
-            grenadeDamage.damageType = DamageType.Stun1s;
-            grenadeDamage.force = -1000;
-
-            tearGasDamage.crit = false;
-            tearGasDamage.damage = 0;
-            tearGasDamage.damageColorIndex = DamageColorIndex.WeakPoint;
-            tearGasDamage.damageType = DamageType.WeakOnHit;
-            tearGasDamage.force = -1000;
-
-            dotZone.damageCoefficient = 0f;
-            dotZone.iEffect = Resources.Load<GameObject>("prefabs/effects/impacteffects/SporeGrenadeRepeatHitImpact");
-            dotZone.forceVector = new Vector3(0, 0, 0);
-            dotZone.overlapProcCoefficient = 0f;
-            dotZone.fireFrequency = 5;
-            dotZone.resetFrequency = 20;
-            dotZone.lifetime = 16;
-            dotZone.onBegin = new UnityEngine.Events.UnityEvent();
-            dotZone.onEnd = new UnityEngine.Events.UnityEvent();
+            filter.teamIndex = TeamIndex.Player;
 
             grenadeImpact.lifetimeExpiredSoundString = "";
             grenadeImpact.explosionSoundString = Sounds.GasExplosion;
@@ -643,51 +627,43 @@ namespace EnforcerPlugin
             grenadeImpact.childrenProjectilePrefab = tearGasPrefab;
             grenadeImpact.childrenDamageCoefficient = 0;
 
-            /*ProjectileController controller = projectilePrefab.GetComponent<ProjectileController>();
-            ProjectileController otherController = projectilePrefab.GetComponent<ProjectileController>();
-            ProjectileImpactExplosion impactExplosion = projectilePrefab.GetComponent<ProjectileImpactExplosion>();
-            ProjectileDamage damage = projectilePrefab.GetComponent<ProjectileDamage>();
 
+            grenadeController.procCoefficient = 1;
+            tearGasController.procCoefficient = 0;
 
-            ProjectileOverlapAttack SHITTYATTACK = tearGasPrefab.GetComponent<EProjectileDotZone>();
-            //NOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOWNOW
-            Destroy(SHITTYATTACK);
-            EProjectileDotZone CHADATTACK = tearGasPrefab.AddComponent<EProjectileDotZone>();
-            ....what the hell happened here??
+            grenadeDamage.crit = false;
+            grenadeDamage.damage = 0f;
+            grenadeDamage.damageColorIndex = DamageColorIndex.Default;
+            grenadeDamage.damageType = DamageType.Stun1s;
+            grenadeDamage.force = 0;
 
+            tearGasDamage.crit = false;
+            tearGasDamage.damage = 0;
+            tearGasDamage.damageColorIndex = DamageColorIndex.WeakPoint;
+            tearGasDamage.damageType = DamageType.WeakOnHit;
+            tearGasDamage.force = -1000;
 
-            ProjectileDamage otherDamage = tearGasPrefab.GetComponent<ProjectileDamage>();
+            buffWard.radius = 10;
+            buffWard.interval = 1;
+            buffWard.rangeIndicator = null;
+            buffWard.buffType = BuffIndex.Weak;
+            buffWard.buffDuration = 1.5f;
+            buffWard.floorWard = true;
+            buffWard.expires = false;
+            buffWard.invertTeamFilter = true;
+            buffWard.expireDuration = 0;
+            buffWard.animateRadius = false;
+            //buffWard.radiusCoefficientCurve = null;
 
-            //damage.force = -1000;
-            damage.damage = 0;
-            damage.damageType = DamageType.WeakOnHit;
-            otherDamage.damageType = DamageType.WeakOnHit;
-            otherDamage.damage = 0;
-            otherDamage.force = -5000f; 
-            otherController.procCoefficient = 0;
-
-            //uncomment this line for funny
-            //controller.ghostPrefab = Assets.MainAssetBundle.LoadAsset<GameObject>("mdlEnforcer"); 
-
-            //uncomment this line when we have sfx
-            //impactExplosion.lifetimeExpiredSoundString = "Play_commando_M2_grenade_bounce";
-            impactExplosion.offsetForLifetimeExpiredSound = 1;
-            impactExplosion.destroyOnEnemy = false;
-            impactExplosion.destroyOnWorld = false;
-            impactExplosion.timerAfterImpact = true;
-            impactExplosion.falloffModel = BlastAttack.FalloffModel.SweetSpot;
-            impactExplosion.lifetime = 10;
-            impactExplosion.lifetimeAfterImpact = 0;
-            impactExplosion.lifetimeRandomOffset = 0;
-            impactExplosion.blastRadius = 12;
-            impactExplosion.blastDamageCoefficient = 1;
-            impactExplosion.blastProcCoefficient = 1;
-            impactExplosion.fireChildren = true;
-            impactExplosion.childrenCount = 1;
-            impactExplosion.childrenProjectilePrefab = tearGasPrefab;
-            impactExplosion.childrenDamageCoefficient = 0*/
-
-
+            /*dotZone.damageCoefficient = 0f;
+            dotZone.iEffect = Resources.Load<GameObject>("prefabs/effects/impacteffects/SporeGrenadeRepeatHitImpact");
+            dotZone.forceVector = new Vector3(0, 0, 0);
+            dotZone.overlapProcCoefficient = 0f;
+            dotZone.fireFrequency = 5;
+            dotZone.resetFrequency = 20;
+            dotZone.lifetime = 16;
+            dotZone.onBegin = new UnityEngine.Events.UnityEvent();
+            dotZone.onEnd = new UnityEngine.Events.UnityEvent();*/
 
             ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list) {
                 list.Add(projectilePrefab);
@@ -1049,11 +1025,9 @@ namespace EnforcerPlugin
         public static void PopulateAssets()
         {
             Debug.Log("1");
-            if (MainAssetBundle == null)
-            {
+            if (MainAssetBundle == null) {
             Debug.Log("2");
-                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.enforcer"))
-                {
+                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.enforcer")) {
             Debug.Log("3");
                     MainAssetBundle = AssetBundle.LoadFromStream(assetStream);
                 }
@@ -1069,13 +1043,14 @@ namespace EnforcerPlugin
                 }
             }*/
 
-            using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.EnforcerBank.bnk"))
+            //fuck whoever wrote this code and fuck you
+            /*using(Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.EnforcerBank.bnk"))
             {
                 Debug.Log(manifestResourceStream2 == null);
                 byte[] array = new byte[manifestResourceStream2.Length];
                 manifestResourceStream2.Read(array, 0, array.Length);
                 SoundAPI.SoundBanks.Add(array);
-            }
+            }*/
 
             charPortrait = MainAssetBundle.LoadAsset<Sprite>("EnforcerBody").texture;
 

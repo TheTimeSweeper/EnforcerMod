@@ -81,7 +81,7 @@ namespace EntityStates.Enforcer
                     rotation = Quaternion.LookRotation(base.GetAimRay().direction),
                     useFuseOverride = false,
                     useSpeedOverride = false,
-                    
+                    target = null
                 };
                 ProjectileManager.instance.FireProjectile(info);
             }
