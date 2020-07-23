@@ -6,25 +6,25 @@ public class ShieldComponent : MonoBehaviour
     static float maxSpeed = 0.1f;
     static float coef = 1; // affects how quickly it reaches max speed
 
+    public bool isAlternate = false;
     public bool isShielding = false;
     public Ray aimRay;
     public Vector3 shieldDirection = new Vector3(1,0,0);
     float initialTime = 0;
 
-    public static GameObject bulletTracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun");
-
     private EnergyShieldControler energyShieldControler;
+    private HealthComponent healthComponent;
+    public float shieldHealth
+    {
+        get { return healthComponent.health; }
+        set { ; }
+    }
 
     private Light[] lights;
     private int lightCounter = 201;
 
-    GameObject dummy;
-    GameObject boyPrefab = Resources.Load<GameObject>("Prefabs/CharacterBodies/LemurianBody");
-
     void Start()
     {
-        //enough of this tomfoolery
-        //dummy = UnityEngine.Object.Instantiate<GameObject>(boyPrefab, aimRay.origin, Quaternion.LookRotation(shieldDirection));
         energyShieldControler = GetComponentInChildren<EnergyShieldControler>();
 
         CharacterBody characterBody = energyShieldControler.gameObject.AddComponent<CharacterBody>(); 
@@ -66,7 +66,7 @@ public class ShieldComponent : MonoBehaviour
         characterBody.currentVehicle = null;
         characterBody.skinIndex = 0U;
 
-        HealthComponent healthComponent = energyShieldControler.gameObject.AddComponent<HealthComponent>();
+        healthComponent = energyShieldControler.gameObject.AddComponent<HealthComponent>();
         healthComponent.health = 15f;
         healthComponent.shield = 0f;
         healthComponent.barrier = 0f;
@@ -108,18 +108,6 @@ public class ShieldComponent : MonoBehaviour
             initialTime = Time.fixedTime;
         }
 
-        if (dummy)
-        {
-            var hc = dummy.GetComponent<HealthComponent>();
-            if (hc && hc.health <= 0)
-            {
-                //stop this madness i swear to god
-                //respawnDummy();
-            }
-
-            dummy.transform.position = aimRay.origin + shieldDirection;
-        }
-
         if (lightCounter < 100)
         {
             if (lightCounter % 10 == 0)
@@ -137,13 +125,9 @@ public class ShieldComponent : MonoBehaviour
         }
     }
 
-    private void respawnDummy()
-    {
-        dummy = UnityEngine.Object.Instantiate<GameObject>(boyPrefab, aimRay.origin, Quaternion.LookRotation(shieldDirection));
-    }
-
     public void toggleEngergyShield()
     {
+        healthComponent.health = healthComponent.fullHealth;
         energyShieldControler.Toggle();
     }
 
