@@ -91,7 +91,7 @@ namespace EnforcerPlugin
         }
         private void Hook() {
             //add hooks here
-            //using this approach means we'll only ever have to comment one line if we don't want a hook to fire
+            //using this approach means we'll on    ly ever have to comment one line if we don't want a hook to fire
             //it's much simpler this way, trust me
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
@@ -101,12 +101,20 @@ namespace EnforcerPlugin
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
         {
             orig(self);
-            if (self && self.HasBuff(jackBoots))
+            if (self)
             {
-                R2API.Utils.Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
-                R2API.Utils.Reflection.SetPropertyValue<float>(self, "armor", self.armor + 20);
-                R2API.Utils.Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.5f);
+                if (self.HasBuff(jackBoots)) {
+                    R2API.Utils.Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
+                    R2API.Utils.Reflection.SetPropertyValue<float>(self, "armor", self.armor + 20);
+                    R2API.Utils.Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.5f);
+                }   
+                if (self.name == "EnergyShield") {
+                    //gnome you fucking suck
+                    return;
+                }
             }
+            //orig(self);
+
         }
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
