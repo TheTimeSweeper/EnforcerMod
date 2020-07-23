@@ -95,6 +95,7 @@ namespace EnforcerPlugin
             //it's much simpler this way, trust me
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
+            On.RoR2.CharacterBody.Update += CharacterBody_Update;
         }
         #region Hooks
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
@@ -127,6 +128,14 @@ namespace EnforcerPlugin
                 }
             }
             orig(self, info);
+        }
+        private void CharacterBody_Update(On.RoR2.CharacterBody.orig_Update orig, CharacterBody self)
+        {
+            if (self.name == "EnergyShield")
+            {
+                return;
+            }
+            orig(self);
         }
         #endregion
         private static GameObject CreateModel(GameObject main, int index)
