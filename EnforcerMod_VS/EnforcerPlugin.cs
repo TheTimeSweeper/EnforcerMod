@@ -33,6 +33,7 @@ namespace EnforcerPlugin
     {
         public const string MODUID = "com.ok.Enforcer";
 
+        public static float ShieldBlockAngle = 45;
         public static EnforcerPlugin instance;
 
         //i didn't want this to be static considering we're using an instance now but it throws 23 errors if i remove the static modifier 
@@ -110,14 +111,11 @@ namespace EnforcerPlugin
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
             ShieldComponent shieldComponent = self.GetComponent<ShieldComponent>();
-            if (shieldComponent && info.attacker && shieldComponent.isShielding)
-            {
-                CharacterBody charB = self.GetComponent<CharacterBody>();
-                Ray aimRay = shieldComponent.aimRay;
-                Vector3 relativePosition = info.attacker.transform.position - aimRay.origin;
-                float angle = Vector3.Angle(shieldComponent.shieldDirection, relativePosition);
-                if (angle < 45)
-                {
+            if (shieldComponent && info.attacker && shieldComponent.isShielding) {
+
+                bool canBlock = getShieldBlock(self, info, shieldComponent);
+
+                if (canBlock) {
                     string soundString = Sounds.ShieldBlockLight;
                     if (info.damage >= (0.8f * self.fullCombinedHealth)) soundString = Sounds.ShieldBlockHeavy;
 
@@ -127,6 +125,17 @@ namespace EnforcerPlugin
                 }
             }
             orig(self, info);
+        }
+
+        private static bool getShieldBlock(HealthComponent self, DamageInfo info, ShieldComponent shieldComponent) {
+
+            CharacterBody charB = self.GetComponent<CharacterBody>();
+            Ray aimRay = shieldComponent.aimRay;
+            Vector3 relativePosition = info.attacker.transform.position - aimRay.origin;
+            float angle = Vector3.Angle(shieldComponent.shieldDirection, relativePosition);
+
+            bool canBlock = angle < ShieldBlockAngle;
+            return canBlock;
         }
         #endregion
         private static GameObject CreateModel(GameObject main, int index)
