@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 4068821964
+CRC: 1306574706
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -69,6 +69,7 @@ Assets:
 - Assets/FBX/Enforcer.fbx
 - Assets/Enforcer/EnforcerAssets/Textures/texRiotShield.png
 - Assets/Enforcer/EnforcerAssets/Textures/texEnforcerEmissive.png
+- Assets/Enforcer/EnforcerAssets/ShieldPreviewCube.prefab
 - Assets/Enforcer/EnforcerAssets/Animations/animEnforcer.controller
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerFlinchMask.mask
 - Assets/Enforcer/EnforcerAssets/Skill3BIcon.png
