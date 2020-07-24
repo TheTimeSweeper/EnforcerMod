@@ -37,20 +37,40 @@ namespace EntityStates.Enforcer
             if (base.isAuthority)
             {
                 this.shieldComponent.isShielding = !this.shieldComponent.isShielding;
+
+                if (this.shieldComponent.isAlternate)
+                {
+                    this.shieldComponent.toggleEngergyShield();
+                }
+
                 if (this.shieldComponent.isShielding)
                 {
                     base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
 
                     //base.PlayAnimation("Gesture, Override", "ShieldUp", "ShieldUp.playbackRate", this.duration);
 
-                    if (base.skillLocator) base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerPlugin.shieldUpDef);
+                    if (base.skillLocator)
+                    {
+                        base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerPlugin.shieldUpDef);
+                        if (this.shieldComponent.isAlternate)
+                        {
+                            base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerPlugin.shieldOnDef);
+                        }
+                    }
 
                     this.playShieldAnimation(true);
                 }
                 else
                 {
                     //base.PlayAnimation("Gesture, Override", "ShieldDown", "ShieldUp.playbackRate", this.duration);
-                    if (base.skillLocator) base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerPlugin.shieldDownDef);
+                    if (base.skillLocator)
+                    {
+                        base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerPlugin.shieldDownDef);
+                        if (this.shieldComponent.isAlternate)
+                        {
+                            base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerPlugin.shieldOffDef);
+                        }
+                    }
                     this.playShieldAnimation(false);
                 }
             }

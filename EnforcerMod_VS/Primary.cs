@@ -17,7 +17,7 @@ namespace EntityStates.Enforcer
         public static float beefDurationNoShield = 0.0f;
         public static float beefDurationShield = 0.25f;
 
-        private float attackStopDuration;
+        private float attackStopDuration;   
         private float duration;
         private float fireDuration;
         private bool hasFired;

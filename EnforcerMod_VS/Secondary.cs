@@ -207,6 +207,8 @@ namespace EntityStates.Enforcer
                         Util.PlayScaledSound(EnforcerPlugin.Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
 
                         Destroy(pc.gameObject);
+
+                        base.characterBody.GetComponent<ShieldComponent>().flashLights();
                     }
                 }
             }

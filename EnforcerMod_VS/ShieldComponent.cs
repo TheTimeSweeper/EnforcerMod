@@ -8,12 +8,11 @@ public class ShieldComponent : MonoBehaviour
     static float maxSpeed = 0.1f;
     static float coef = 1; // affects how quickly it reaches max speed
 
+    public bool isAlternate = false;
     public bool isShielding = false;
     public Ray aimRay;
     public Vector3 shieldDirection = new Vector3(1,0,0);
     float initialTime = 0;
-
-    public static GameObject bulletTracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun");
 
     private EnergyShieldControler energyShieldControler;
 
@@ -25,20 +24,40 @@ public class ShieldComponent : MonoBehaviour
     GameObject dummy;
     GameObject boyPrefab = Resources.Load<GameObject>("Prefabs/CharacterBodies/LemurianBody");
 
+    private Light[] lights;
+    private int lightCounter = 201;
+    public float shieldHealth {
+        get => energyShieldControler.healthComponent.health;
+    }
+
     void Start()
     {
-        //enough of this tomfoolery
-        //dummy = UnityEngine.Object.Instantiate<GameObject>(boyPrefab, aimRay.origin, Quaternion.LookRotation(shieldDirection));
         energyShieldControler = GetComponentInChildren<EnergyShieldControler>();
+
+        lights = GetComponentsInChildren<Light>();
     }
 
     void Update() {
-        energyShieldControler.aimRayDirection = aimRay.direction;
 
         aimShield();
+
+        energyShieldControler.shieldAimRayDirection = aimRay.direction;
+
+        if (lightCounter < 100) {
+            if (lightCounter % 10 == 0) {
+                lights[0].enabled = !lights[0].enabled;
+                lights[1].enabled = !lights[1].enabled;
+            }
+
+            lightCounter++;
+        } else {
+            lights[0].enabled = false;
+            lights[1].enabled = false;
+        }
     }
 
     private void aimShield() {
+
         float time = Time.fixedTime - initialTime;
 
         Vector3 cross = Vector3.Cross(aimRay.direction, shieldDirection);
@@ -54,12 +73,15 @@ public class ShieldComponent : MonoBehaviour
             initialTime = Time.fixedTime;
         }
 
-        displayShieldPreviewCube();
+        displayPrometheus();
 
-        allHeKnowsIsPain();
+        displayShieldPreviewCube();
     }
 
-    private void allHeKnowsIsPain() {
+    #region previews
+
+    //cast to eternal torture for giving the humans fire
+    private void displayPrometheus() {
 
         if (dummy) {
             var hc = dummy.GetComponent<HealthComponent>();
@@ -68,7 +90,7 @@ public class ShieldComponent : MonoBehaviour
                 //respawnDummy();
             }
 
-            dummy.transform.position = aimRay.origin + shieldDirection;
+            lightCounter++;
         }
 
         #region old Piss Stream
@@ -108,14 +130,13 @@ public class ShieldComponent : MonoBehaviour
         //RoR2.Chat.AddMessage("Shield Direction: " + shieldDirection.x.ToString() + ", " + shieldDirection.y.ToString() + ", " + shieldDirection.z.ToString());
         #endregion
     }
-
     private void displayShieldPreviewCube() {
 
         if (_shieldParent == null)
             findShieldParent();
 
         if (_shieldPreview == null)
-            makeCube();
+            findPreviewCube();
 
         if (!isShielding) {
             _shieldPreview.gameObject.SetActive(false);
@@ -130,14 +151,15 @@ public class ShieldComponent : MonoBehaviour
 
         _shieldSize = Mathf.Tan(Mathf.Deg2Rad * angle) * zDistance * 2;
 
-        setCubeSize(_shieldSize);
+        setPreviewCubeSize(_shieldSize);
     }
 
     private void findShieldParent() {
+        //character body
         _shieldParent = GetComponent<ModelLocator>().modelTransform;
     }
 
-    private void makeCube() {
+    private void findPreviewCube() {
 
         _shieldPreview = _shieldParent.Find("ShieldPreviewCube");
 
@@ -153,7 +175,7 @@ public class ShieldComponent : MonoBehaviour
         Destroy(_shieldPreview.GetComponent<Collider>());
     }
 
-    private void setCubeSize(float size) {
+    private void setPreviewCubeSize(float size) {
         //_shieldPreview.parent = null;
         _shieldPreview.localScale = new Vector3(size, size, _shieldPreview.localScale.z);
         //_shieldPreview.parent = _shieldParent;
@@ -164,14 +186,15 @@ public class ShieldComponent : MonoBehaviour
         _shieldPreview.LookAt(aimRay.origin + shieldDirection*2, Vector3.up);
         _shieldPreview.position = aimRay.origin + shieldDirection* _shieldSizeMultiplier;
     }
-
-    private void respawnDummy()
-    {
-        dummy = UnityEngine.Object.Instantiate<GameObject>(boyPrefab, aimRay.origin, Quaternion.LookRotation(shieldDirection));
-    }
+    #endregion
 
     public void toggleEngergyShield()
     {
         energyShieldControler.Toggle();
+    }
+
+    public void flashLights()
+    {
+        lightCounter = 0;
     }
 }
