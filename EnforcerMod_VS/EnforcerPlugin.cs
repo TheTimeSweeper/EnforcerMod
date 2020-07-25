@@ -682,17 +682,10 @@ namespace EnforcerPlugin
             buffWard.invertTeamFilter = true;
             buffWard.expireDuration = 0;
             buffWard.animateRadius = false;
-            //buffWard.radiusCoefficientCurve = null;
 
-            /*dotZone.damageCoefficient = 0f;
-            dotZone.iEffect = Resources.Load<GameObject>("prefabs/effects/impacteffects/SporeGrenadeRepeatHitImpact");
-            dotZone.forceVector = new Vector3(0, 0, 0);
-            dotZone.overlapProcCoefficient = 0f;
-            dotZone.fireFrequency = 5;
-            dotZone.resetFrequency = 20;
-            dotZone.lifetime = 16;
-            dotZone.onBegin = new UnityEngine.Events.UnityEvent();
-            dotZone.onEnd = new UnityEngine.Events.UnityEvent();*/
+            //i have this really big cut on my shin and it's bleeding but i'm gonna code instead of doing something about it
+
+            tearGasPrefab.AddComponent<DestroyOnTimer>().duration = 10;
 
             ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list) {
                 list.Add(projectilePrefab);
@@ -877,13 +870,13 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkill(typeof(TearGas));
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_NAME", "Tear Gas");
-            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Throw a grenade that deals <style=cIsDamage>150% damage</style> which explodes into tear gas that <style=cIsDamage>weakens enemies</style>.");
+            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Throw a grenade that deals <style=cIsDamage>150% damage</style> which explodes into tear gas that <style=cIsDamage>weakens enemies</style> and lasts for 10 seconds.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(TearGas));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 1;
-            mySkillDef.baseRechargeInterval = 24;
+            mySkillDef.baseRechargeInterval = 20;
             mySkillDef.beginSkillCooldownOnSkillEnd = false;
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
