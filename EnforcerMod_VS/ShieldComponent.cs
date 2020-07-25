@@ -1,4 +1,6 @@
 ﻿using RoR2;
+using System;
+using System.Collections.Specialized;
 using UnityEngine;
 
 public class ShieldComponent : MonoBehaviour
@@ -13,84 +15,48 @@ public class ShieldComponent : MonoBehaviour
     float initialTime = 0;
 
     private EnergyShieldControler energyShieldControler;
-    private HealthComponent healthComponent;
-    public float shieldHealth
-    {
-        get { return healthComponent.health; }
-        set { ; }
-    }
+
+    private Transform _shieldPreview;
+    private Transform _shieldParent;
+    private float _shieldSize;
+    private float _shieldSizeMultiplier = 1.2f;
+
+    GameObject dummy;
+    GameObject boyPrefab = Resources.Load<GameObject>("Prefabs/CharacterBodies/LemurianBody");
 
     private Light[] lights;
     private int lightCounter = 201;
+    public float shieldHealth {
+        get => energyShieldControler.healthComponent.health;
+    }
 
     void Start()
     {
         energyShieldControler = GetComponentInChildren<EnergyShieldControler>();
 
-        CharacterBody characterBody = energyShieldControler.gameObject.AddComponent<CharacterBody>(); 
-        characterBody.bodyIndex = -1;
-        characterBody.name = "EnergyShield";
-        characterBody.baseNameToken = "";
-        characterBody.subtitleNameToken = "";
-        characterBody.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
-        characterBody.rootMotionInMainState = false;
-        characterBody.mainRootSpeed = 0;
-        characterBody.baseMaxHealth = 15;
-        characterBody.levelMaxHealth = 0;
-        characterBody.baseRegen = 0;
-        characterBody.levelRegen = 0f;
-        characterBody.baseMaxShield = 0;
-        characterBody.levelMaxShield = 0;
-        characterBody.baseMoveSpeed = 0;
-        characterBody.levelMoveSpeed = 0;
-        characterBody.baseAcceleration = 0;
-        characterBody.baseJumpPower = 0;
-        characterBody.levelJumpPower = 0;
-        characterBody.baseDamage = 0;
-        characterBody.levelDamage = 0f;
-        characterBody.baseAttackSpeed = 0;
-        characterBody.levelAttackSpeed = 0;
-        characterBody.baseCrit = 0;
-        characterBody.levelCrit = 0;
-        characterBody.baseArmor = 0;
-        characterBody.levelArmor = 0;
-        characterBody.baseJumpCount = 0;
-        characterBody.sprintingSpeedMultiplier = 0;
-        characterBody.wasLucky = false;
-        characterBody.hideCrosshair = true;
-        characterBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
-        characterBody.aimOriginTransform = transform;
-        characterBody.hullClassification = HullClassification.Human;
-        characterBody.portraitIcon = null;
-        characterBody.isChampion = false;
-        characterBody.currentVehicle = null;
-        characterBody.skinIndex = 0U;
-
-        healthComponent = energyShieldControler.gameObject.AddComponent<HealthComponent>();
-        healthComponent.health = 15f;
-        healthComponent.shield = 0f;
-        healthComponent.barrier = 0f;
-        healthComponent.magnetiCharge = 0f;
-        healthComponent.body = characterBody;
-        healthComponent.dontShowHealthbar = false;
-        healthComponent.globalDeathEventChanceCoefficient = 1f;
-
-        HurtBoxGroup hurtBoxGroup = energyShieldControler.gameObject.AddComponent<HurtBoxGroup>();
-
-        HurtBox componentInChildren = energyShieldControler.GetComponentInChildren<MeshCollider>().gameObject.AddComponent<HurtBox>();
-        componentInChildren.gameObject.layer = LayerIndex.entityPrecise.intVal;
-        componentInChildren.healthComponent = healthComponent;
-        componentInChildren.isBullseye = true;
-        componentInChildren.damageModifier = HurtBox.DamageModifier.Normal;
-        componentInChildren.hurtBoxGroup = hurtBoxGroup;
-        componentInChildren.indexInGroup = 0;
-
         lights = GetComponentsInChildren<Light>();
     }
 
-    void Update()
-    {
-        energyShieldControler.aimRayDirection = aimRay.direction;
+    void Update() {
+
+        aimShield();
+
+        energyShieldControler.shieldAimRayDirection = aimRay.direction;
+
+        if (lightCounter < 100) {
+            if (lightCounter % 10 == 0) {
+                lights[0].enabled = !lights[0].enabled;
+                lights[1].enabled = !lights[1].enabled;
+            }
+
+            lightCounter++;
+        } else {
+            lights[0].enabled = false;
+            lights[1].enabled = false;
+        }
+    }
+
+    private void aimShield() {
 
         float time = Time.fixedTime - initialTime;
 
@@ -103,31 +69,127 @@ public class ShieldComponent : MonoBehaviour
         shieldDirection = shieldDirection.normalized;
 
         Vector3 difference = aimRay.direction - shieldDirection;
-        if (difference.magnitude < 0.05)
-        {
+        if (difference.magnitude < 0.05) {
             initialTime = Time.fixedTime;
         }
 
-        if (lightCounter < 100)
-        {
-            if (lightCounter % 10 == 0)
-            {
-                lights[0].enabled = !lights[0].enabled;
-                lights[1].enabled = !lights[1].enabled;
+        displayPrometheus();
+
+        displayShieldPreviewCube();
+    }
+
+    #region previews
+
+    //cast to eternal torture for giving the humans fire
+    private void displayPrometheus() {
+
+        if (dummy) {
+            var hc = dummy.GetComponent<HealthComponent>();
+            if (hc && hc.health <= 0) {
+                //stop this madness i swear to god
+                //respawnDummy();
             }
 
             lightCounter++;
         }
-        else
-        {
-            lights[0].enabled = false;
-            lights[1].enabled = false;
-        }
+
+        #region old Piss Stream
+        //BulletAttack bullet = new RoR2.BulletAttack
+        //{
+        //    bulletCount = 1,
+        //    aimVector = shieldDirection,
+        //    origin = aimRay.origin,
+        //    damage = 1,
+        //    damageColorIndex = DamageColorIndex.Default,
+        //    damageType = DamageType.Generic,
+        //    falloffModel = BulletAttack.FalloffModel.None,
+        //    maxDistance = 48,
+        //    force = 1,
+        //    hitMask = LayerIndex.CommonMasks.bullet,
+        //    minSpread = 0,
+        //    maxSpread = 12f,
+        //    isCrit = false,
+        //    owner = base.gameObject,
+        //    muzzleName = "hey",
+        //    smartCollision = false,
+        //    procChainMask = default(ProcChainMask),
+        //    procCoefficient =2,
+        //    radius = 0.5f,
+        //    sniper = false,
+        //    stopperMask = LayerIndex.background.collisionMask,
+        //    weapon = null,
+        //    tracerEffectPrefab = bulletTracerEffectPrefab,
+        //    spreadPitchScale = 0.5f,
+        //    spreadYawScale = 0.5f,
+        //    queryTriggerInteraction = QueryTriggerInteraction.UseGlobal
+        //};
+        //bullet.Fire();
+
+        //RoR2.Chat.AddMessage("---------------");
+        //RoR2.Chat.AddMessage("Aim Direction:    " + aimRay.direction.x.ToString() + ", " + aimRay.direction.y.ToString() + ", " + aimRay.direction.z.ToString());
+        //RoR2.Chat.AddMessage("Shield Direction: " + shieldDirection.x.ToString() + ", " + shieldDirection.y.ToString() + ", " + shieldDirection.z.ToString());
+        #endregion
     }
+    private void displayShieldPreviewCube() {
+
+        if (_shieldParent == null)
+            findShieldParent();
+
+        if (_shieldPreview == null)
+            findPreviewCube();
+
+        if (!isShielding) {
+            _shieldPreview.gameObject.SetActive(false);
+            return;
+        }
+        _shieldPreview.gameObject.SetActive(true);
+
+        alignCube();
+
+        float angle = EnforcerPlugin.EnforcerPlugin.ShieldBlockAngle;
+        float zDistance = _shieldSizeMultiplier;// _shieldPreview.localPosition.z
+
+        _shieldSize = Mathf.Tan(Mathf.Deg2Rad * angle) * zDistance * 2;
+
+        setPreviewCubeSize(_shieldSize);
+    }
+
+    private void findShieldParent() {
+        //character body
+        _shieldParent = GetComponent<ModelLocator>().modelTransform;
+    }
+
+    private void findPreviewCube() {
+
+        _shieldPreview = _shieldParent.Find("ShieldPreviewCube");
+
+        if (_shieldPreview != null) {
+
+            _shieldPreview.parent = null;
+            return;
+        }
+
+        _shieldPreview = GameObject.CreatePrimitive(PrimitiveType.Cube).transform;
+        _shieldPreview.position = aimRay.origin + shieldDirection;
+        _shieldPreview.localRotation = Quaternion.identity;
+        Destroy(_shieldPreview.GetComponent<Collider>());
+    }
+
+    private void setPreviewCubeSize(float size) {
+        //_shieldPreview.parent = null;
+        _shieldPreview.localScale = new Vector3(size, size, _shieldPreview.localScale.z);
+        //_shieldPreview.parent = _shieldParent;
+    }
+
+    private void alignCube() {
+
+        _shieldPreview.LookAt(aimRay.origin + shieldDirection*2, Vector3.up);
+        _shieldPreview.position = aimRay.origin + shieldDirection* _shieldSizeMultiplier;
+    }
+    #endregion
 
     public void toggleEngergyShield()
     {
-        healthComponent.health = healthComponent.fullHealth;
         energyShieldControler.Toggle();
     }
 

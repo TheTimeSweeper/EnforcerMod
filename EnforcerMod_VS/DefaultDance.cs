@@ -24,7 +24,7 @@ namespace EntityStates.Enforcer
             base.PlayAnimation("FullBody, Override", "DefaultDance");
             this.activePlayID = Util.PlaySound(soundString, base.gameObject);
 
-            this.ShowShield(false);
+            //this.ShowShield(false);
         }
 
         public override void OnExit()
@@ -35,7 +35,7 @@ namespace EntityStates.Enforcer
 
             base.PlayAnimation("FullBody, Override", "BufferEmpty");
             if (this.activePlayID != 0) AkSoundEngine.StopPlayingID(this.activePlayID);
-            this.ShowShield(true);
+            //this.ShowShield(true);
         }
 
         private void ShowShield(bool show)
