@@ -103,6 +103,14 @@ namespace EnforcerPlugin
         #region Hooks
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
         {
+            if (self)
+            {
+                if (self.name == "EnergyShield")
+                {
+                    //Enigma you fucking suck
+                    return;
+                }
+            }
             orig(self);
             if (self)
             {
@@ -110,14 +118,8 @@ namespace EnforcerPlugin
                     R2API.Utils.Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
                     R2API.Utils.Reflection.SetPropertyValue<float>(self, "armor", self.armor + 20);
                     R2API.Utils.Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.5f);
-                }   
-                if (self.name == "EnergyShield") {
-                    //gnome you fucking suck
-                    return;
-                }
+                } 
             }
-            //orig(self);
-
         }
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
