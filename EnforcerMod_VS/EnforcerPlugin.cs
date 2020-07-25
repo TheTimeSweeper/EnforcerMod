@@ -569,7 +569,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_DESCRIPTION", desc);
             LanguageAPI.Add("ENFORCER_SUBTITLE", "Mutated Beyond Recognition");
             //LanguageAPI.Add("ENFORCER_LORE", "I'M FUCKING INVINCIBLE");
-            LanguageAPI.Add("ENFORCER_LORE", "\n<style=cMono>\"You don't have to do this.\"</style>\r\n\r\nThe words echoed in his head, but yet he continued. The pod was only five feet away, he had a chance to leave, but yet something in his core kept him moving. It was unknown what kept him moving, but he didn't question it. He had always done as he was told, so why would he stop now? Why would he stray now?");
+            LanguageAPI.Add("ENFORCER_LORE", "\n<style=cMono>\"You don't have to do this.\"</style>\r\n\r\nThe words echoed in his head, but yet he continued. The pod was only five feet away, he had a chance to leave, but yet something in his core kept him moving. It was unknown what kept him moving - even to him, but he didn't question it. The same thing kept him moving was the same thing that made him step when he had been given orders. To him, it was natural, but this time it didn't seem that way.");
 
             characterDisplay.AddComponent<NetworkIdentity>();
 
@@ -822,7 +822,7 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkill(typeof(ShoulderBash));
             LoadoutAPI.AddSkill(typeof(ShoulderBashImpact));
 
-            string desc = "Smash nearby enemies for <style=cIsDamage>" + 100f * ShieldBash.damageCoefficient + " damage, stunning</style> and <style=cIsUtility>knocking them back</style>. <style=cIsUtility>Deflects projectiles.</style> Use while sprinting to perform a <style=cIsDamage>shoulder bash</style> instead.";
+            string desc = "Smash nearby enemies for <style=cIsDamage>" + 100f * ShieldBash.damageCoefficient + "% damage, stunning</style> and <style=cIsUtility>knocking them back</style>. <style=cIsUtility>Deflects projectiles.</style> Use while sprinting to perform a <style=cIsDamage>shoulder bash</style> instead.";
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", desc);
