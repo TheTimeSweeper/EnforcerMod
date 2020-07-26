@@ -103,14 +103,7 @@ namespace EnforcerPlugin
         #region Hooks
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
         {
-            if (self)
-            {
-                if (self.name == "EnergyShield")
-                {
-                    //Enigma you fucking suck
-                    return;
-                }
-            }
+            // the energy shield thing was causing some wierd bugs. Need to find a better solution that just canceling this method lol
             orig(self);
             if (self)
             {

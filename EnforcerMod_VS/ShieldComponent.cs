@@ -43,17 +43,7 @@ public class ShieldComponent : MonoBehaviour
 
         energyShieldControler.shieldAimRayDirection = aimRay.direction;
 
-        if (lightCounter < 100) {
-            if (lightCounter % 10 == 0) {
-                lights[0].enabled = !lights[0].enabled;
-                lights[1].enabled = !lights[1].enabled;
-            }
-
-            lightCounter++;
-        } else {
-            lights[0].enabled = false;
-            lights[1].enabled = false;
-        }
+        handleShoulderLights();
     }
 
     private void aimShield() {
@@ -73,63 +63,35 @@ public class ShieldComponent : MonoBehaviour
             initialTime = Time.fixedTime;
         }
 
-        displayPrometheus();
-
         displayShieldPreviewCube();
     }
 
-    #region previews
-
-    //cast to eternal torture for giving the humans fire
-    private void displayPrometheus() {
-
-        if (dummy) {
-            var hc = dummy.GetComponent<HealthComponent>();
-            if (hc && hc.health <= 0) {
-                //stop this madness i swear to god
-                //respawnDummy();
+    // this code is inexplicably in this class because I am lazy
+    private void handleShoulderLights()
+    {
+        if (lightCounter < 100)
+        {
+            if (lightCounter % 10 == 0)
+            {
+                lights[0].enabled = !lights[0].enabled;
+                lights[1].enabled = !lights[1].enabled;
             }
 
             lightCounter++;
         }
-
-        #region old Piss Stream
-        //BulletAttack bullet = new RoR2.BulletAttack
-        //{
-        //    bulletCount = 1,
-        //    aimVector = shieldDirection,
-        //    origin = aimRay.origin,
-        //    damage = 1,
-        //    damageColorIndex = DamageColorIndex.Default,
-        //    damageType = DamageType.Generic,
-        //    falloffModel = BulletAttack.FalloffModel.None,
-        //    maxDistance = 48,
-        //    force = 1,
-        //    hitMask = LayerIndex.CommonMasks.bullet,
-        //    minSpread = 0,
-        //    maxSpread = 12f,
-        //    isCrit = false,
-        //    owner = base.gameObject,
-        //    muzzleName = "hey",
-        //    smartCollision = false,
-        //    procChainMask = default(ProcChainMask),
-        //    procCoefficient =2,
-        //    radius = 0.5f,
-        //    sniper = false,
-        //    stopperMask = LayerIndex.background.collisionMask,
-        //    weapon = null,
-        //    tracerEffectPrefab = bulletTracerEffectPrefab,
-        //    spreadPitchScale = 0.5f,
-        //    spreadYawScale = 0.5f,
-        //    queryTriggerInteraction = QueryTriggerInteraction.UseGlobal
-        //};
-        //bullet.Fire();
-
-        //RoR2.Chat.AddMessage("---------------");
-        //RoR2.Chat.AddMessage("Aim Direction:    " + aimRay.direction.x.ToString() + ", " + aimRay.direction.y.ToString() + ", " + aimRay.direction.z.ToString());
-        //RoR2.Chat.AddMessage("Shield Direction: " + shieldDirection.x.ToString() + ", " + shieldDirection.y.ToString() + ", " + shieldDirection.z.ToString());
-        #endregion
+        else
+        {
+            lights[0].enabled = false;
+            lights[1].enabled = false;
+        }
     }
+
+    #region previews
+
+    //here we pay respect to Prometheus
+    //a lifeless commando clone
+    //cast to eternal torture for giving modders fire
+
     private void displayShieldPreviewCube() {
 
         if (_shieldParent == null)
