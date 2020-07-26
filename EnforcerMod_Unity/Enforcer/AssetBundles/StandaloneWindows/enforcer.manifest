@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1306574706
+CRC: 2045453200
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: f300907a80082bf4c83be45bd6d8fc7f
+    Hash: 8b56ccee7e12ae78f9cb160adf6651fd
   TypeTreeHash:
     serializedVersion: 2
     Hash: 77972ce9d190888584b3404b9fdd4c3c
@@ -66,7 +66,6 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Skill4BIcon.png
 - Assets/Enforcer/EnforcerAssets/Materials/matTemp.mat
 - Assets/Enforcer/EnforcerAssets/Textures/texShotgun.png
-- Assets/FBX/Enforcer.fbx
 - Assets/Enforcer/EnforcerAssets/Textures/texRiotShield.png
 - Assets/Enforcer/EnforcerAssets/Textures/texEnforcerEmissive.png
 - Assets/Enforcer/EnforcerAssets/ShieldPreviewCube.prefab
@@ -114,7 +113,6 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Materials/matHitboxPreview.mat
 - Assets/Enforcer/EnforcerAssets/Materials/texEngiShield.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matEngiShield.mat
-- Assets/FBX/EnforcerShield.fbx
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerArmLeftTemp.anim
 - Assets/FBX/Enforcer2.fbx
 - Assets/Enforcer/EnforcerAssets/Animations/Temp/EnforcerFall.anim

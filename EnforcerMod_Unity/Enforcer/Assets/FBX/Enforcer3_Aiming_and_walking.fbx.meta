@@ -193,10 +193,10 @@ ModelImporter:
     7400022: Armature|PoseLib
     7400024: Armature|RIotShieldAction
     7400026: Armature|ShotgunAction
-    7400028: Armature|WalkBalkward
-    7400030: Armature|WalkForward
-    7400032: Armature|WalkLeft
-    7400034: Armature|WalkRight
+    7400028: Enforcer|WalkBalkward
+    7400030: Enforcer|WalkForward
+    7400032: Enforcer|WalkLeft
+    7400034: Enforcer|WalkRight
     7400036: Shotgun|Action
     7400038: Shotgun|ArmatureAction
     7400040: Shotgun|P&SIn
@@ -208,19 +208,19 @@ ModelImporter:
     7400052: RIotShield|P&SIn
     7400054: RIotShield|RIotShieldAction
     7400056: RIotShield|ShotgunAction
-    7400058: Armature|PS_Aim_1_Behind
-    7400060: Armature|PS_Aim_1-1_Behind_Transition
-    7400062: Armature|PS_Aim_2_SSW
-    7400064: Armature|PS_Aim_3_SW
-    7400066: Armature|PS_Aim_4_WSW
-    7400068: Armature|PS_Aim_5_W
-    7400070: Armature|PS_Aim_7_WNW
-    7400072: Armature|PS_Aim_8_NW
-    7400074: Armature|PS_Aim_10_NNW
-    7400076: Armature|PS_Aim_11_N
-    7400078: Armature|PS_Aim_13_NE
-    7400080: Armature|PS_Aim_15_E
-    7400082: Armature|PS_Aim_17_SE
+    7400058: Enforcer|PS_Aim_1_Behind
+    7400060: Enforcer|PS_Aim_1-1_Behind_Transition
+    7400062: Enforcer|PS_Aim_2_SSW
+    7400064: Enforcer|PS_Aim_3_SW
+    7400066: Enforcer|PS_Aim_4_WSW
+    7400068: Enforcer|PS_Aim_5_W
+    7400070: Enforcer|PS_Aim_7_WNW
+    7400072: Enforcer|PS_Aim_8_NW
+    7400074: Enforcer|PS_Aim_10_NNW
+    7400076: Enforcer|PS_Aim_11_N
+    7400078: Enforcer|PS_Aim_13_NE
+    7400080: Enforcer|PS_Aim_15_E
+    7400082: Enforcer|PS_Aim_17_Enforcer
     9500000: //RootNode
     13700000: Model
     2186277476908879412: ImportLogs
@@ -243,8 +243,50 @@ ModelImporter:
       that might lower retargeting quality:\nNote: Activate translation DOF on avatar
       to improve retargeting quality.\n\t'ClavicleL' has translation animation that
       will be discarded.\n\t'ShoulderL' has translation animation that will be discarded.\n"
-    animationRetargetingWarnings: 
-    animationDoRetargetingWarnings: 0
+    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Armature|Action':\n\tRetargeting
+      quality is good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Armature|Action.001':\n\tRetargeting quality is good.
+      No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Armature|ArmatureAction':\n\tRetargeting quality is
+      good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Armature|Idlecombat':\n\tRetargeting quality is good.
+      No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Armature|Idlecombat.001':\n\tRetargeting quality is
+      good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Armature|IdleOutOfCombat':\n\tRetargeting quality is
+      good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Armature|IdleOutOfCombat.001':\n\tRetargeting quality
+      is good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Armature|IdleOutOfCombatIn':\n\tRetargeting quality
+      is good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Armature|P&S 2':\n\tRetargeting quality is good. No
+      significant differences with original animation were found.\n\nRetargeting quality
+      report for clip 'Armature|P&S Aiming':\n\tLeftUpperArm average position error
+      42.4 mm and maximum position error 43.5 mm at time 0: 0 (0.0%) Frame 0\n\tLeftLowerArm
+      average position error 42.4 mm and maximum position error 43.5 mm at time 1:21
+      (90.0%) Frame 45\n\tLeftHand average position error 42.4 mm and maximum position
+      error 43.5 mm at time 0: 0 (0.0%) Frame 0\n\tRightUpperArm average position
+      error 58.3 mm and maximum position error 152.9 mm at time 0: 8 (16.0%) Frame
+      8\n\tRightLowerArm average position error 57.5 mm and maximum position error
+      146.3 mm at time 0: 8 (16.0%) Frame 8\n\tRightHand average position error 58.0
+      mm and maximum position error 146.2 mm at time 0: 8 (16.0%) Frame 8\n\nRetargeting
+      quality report for clip 'Armature|P&SIn':\n\tRetargeting quality is good. No
+      significant differences with original animation were found.\n\nRetargeting quality
+      report for clip 'Armature|PoseLib':\n\tRetargeting quality is good. No significant
+      differences with original animation were found.\n\nRetargeting quality report
+      for clip 'Armature|RIotShieldAction':\n\tRetargeting quality is good. No significant
+      differences with original animation were found.\n\nRetargeting quality report
+      for clip 'Armature|ShotgunAction':\n\tRetargeting quality is good. No significant
+      differences with original animation were found.\n\nRetargeting quality report
+      for clip 'Armature|WalkBalkward':\n\tRetargeting quality is good. No significant
+      differences with original animation were found.\n\nRetargeting quality report
+      for clip 'Armature|WalkForward':\n\tRetargeting quality is good. No significant
+      differences with original animation were found.\n\nRetargeting quality report
+      for clip 'Armature|WalkLeft':\n\tRetargeting quality is good. No significant
+      differences with original animation were found.\n\nRetargeting quality report
+      for clip 'Armature|WalkRight':\n\tRetargeting quality is good. No significant
+      differences with original animation were found.\n"
+    animationDoRetargetingWarnings: 1
     importAnimatedCustomProperties: 0
     importConstraints: 0
     animationCompression: 3
@@ -312,7 +354,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|WalkBalkward
+      name: Enforcer|WalkBalkward
       takeName: Armature|WalkBalkward
       firstFrame: 0
       lastFrame: 29
@@ -322,11 +364,11 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
@@ -340,7 +382,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|WalkForward
+      name: Enforcer|WalkForward
       takeName: Armature|WalkForward
       firstFrame: 0
       lastFrame: 29
@@ -350,15 +392,15 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
+      keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0
-      heightFromFeet: 0
+      heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
@@ -368,7 +410,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|WalkLeft
+      name: Enforcer|WalkLeft
       takeName: Armature|WalkLeft
       firstFrame: 0
       lastFrame: 29
@@ -378,11 +420,11 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
@@ -396,7 +438,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|WalkRight
+      name: Enforcer|WalkRight
       takeName: Armature|WalkRight
       firstFrame: 0
       lastFrame: 29
@@ -406,11 +448,11 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
@@ -424,7 +466,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|PS_Aim_1_Behind
+      name: Enforcer|PS_Aim_1_Behind
       takeName: Armature|P&S Aiming
       firstFrame: 0
       lastFrame: 0
@@ -452,7 +494,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|PS_Aim_1-1_Behind_Transition
+      name: Enforcer|PS_Aim_1-1_Behind_Transition
       takeName: Armature|P&S Aiming
       firstFrame: 2
       lastFrame: 2
@@ -480,7 +522,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|PS_Aim_2_SSW
+      name: Enforcer|PS_Aim_2_SSW
       takeName: Armature|P&S Aiming
       firstFrame: 5
       lastFrame: 5
@@ -508,7 +550,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|PS_Aim_3_SW
+      name: Enforcer|PS_Aim_3_SW
       takeName: Armature|P&S Aiming
       firstFrame: 8
       lastFrame: 8
@@ -536,7 +578,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|PS_Aim_4_WSW
+      name: Enforcer|PS_Aim_4_WSW
       takeName: Armature|P&S Aiming
       firstFrame: 11
       lastFrame: 11
@@ -564,7 +606,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|PS_Aim_5_W
+      name: Enforcer|PS_Aim_5_W
       takeName: Armature|P&S Aiming
       firstFrame: 14
       lastFrame: 14
@@ -592,7 +634,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|PS_Aim_7_WNW
+      name: Enforcer|PS_Aim_7_WNW
       takeName: Armature|P&S Aiming
       firstFrame: 17
       lastFrame: 17
@@ -620,7 +662,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|PS_Aim_8_NW
+      name: Enforcer|PS_Aim_8_NW
       takeName: Armature|P&S Aiming
       firstFrame: 20
       lastFrame: 20
@@ -648,7 +690,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|PS_Aim_10_NNW
+      name: Enforcer|PS_Aim_10_NNW
       takeName: Armature|P&S Aiming
       firstFrame: 23
       lastFrame: 23
@@ -676,7 +718,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|PS_Aim_11_N
+      name: Enforcer|PS_Aim_11_N
       takeName: Armature|P&S Aiming
       firstFrame: 26
       lastFrame: 26
@@ -704,7 +746,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|PS_Aim_13_NE
+      name: Enforcer|PS_Aim_13_NE
       takeName: Armature|P&S Aiming
       firstFrame: 32
       lastFrame: 32
@@ -732,7 +774,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|PS_Aim_15_E
+      name: Enforcer|PS_Aim_15_E
       takeName: Armature|P&S Aiming
       firstFrame: 38
       lastFrame: 38
@@ -760,7 +802,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|PS_Aim_17_SE
+      name: Enforcer|PS_Aim_17_Enforcer
       takeName: Armature|P&S Aiming
       firstFrame: 44
       lastFrame: 44
