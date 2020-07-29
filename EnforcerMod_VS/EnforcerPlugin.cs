@@ -122,8 +122,16 @@ namespace EnforcerPlugin
                 bool canBlock = getShieldBlock(self, info, shieldComponent);
 
                 if (canBlock) {
+                    if (info.attacker.GetComponent<CharacterBody>()) {
+                        CharacterBody attackerBody = info.attacker.GetComponent<CharacterBody>();
+                        bool blazingElite = attackerBody.HasBuff(BuffIndex.AffixRed);
+                        if (blazingElite && self.body.GetBuffCount(BuffIndex.OnFire) > 0) {
+                            DotController.RemoveAllDots(self.gameObject);
+                        }
+                    };
                     string soundString = Sounds.ShieldBlockLight;
                     if (info.damage >= (0.8f * self.fullCombinedHealth)) soundString = Sounds.ShieldBlockHeavy;
+                    DamageNumberManager.instance.SpawnDamageNumber(0, info.position, false, self.body.teamComponent.teamIndex, DamageColorIndex.CritHeal);
 
                     Util.PlaySound(soundString, self.gameObject);
 
@@ -720,9 +728,9 @@ namespace EnforcerPlugin
             SecondarySetup();
             UtilitySetup();
             SpecialSetup();
-            AltSpecialSetup();
+            //AltSpecialSetup();
         }
-
+        
         private void PrimarySetup()
         {
             LoadoutAPI.AddSkill(typeof(RiotShotgun));
@@ -770,7 +778,7 @@ namespace EnforcerPlugin
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
             };
 
-            LoadoutAPI.AddSkill(typeof(RiotShotgun));
+            /*LoadoutAPI.AddSkill(typeof(RiotShotgun));
 
             desc = "Rapidly fire bullets dealing <style=cIsDamage>" + 100f * AssaultRifle.damageCoefficient + "% damage.";
 
@@ -807,7 +815,7 @@ namespace EnforcerPlugin
                 skillDef = mySkillDef,
                 unlockableName = "",
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
-            };
+            };*/
         }
 
         private void SecondarySetup()
@@ -905,7 +913,7 @@ namespace EnforcerPlugin
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
             };
 
-            //LoadoutAPI.AddSkill(typeof(StunGrenade));
+            /*LoadoutAPI.AddSkill(typeof(StunGrenade));
 
             LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_NAME", "Stun Grenade");
             LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION", "Launch a stun grenade, stunning enemies in a huge radius for 150% damage. Holds up to 6 stock. Can bounce at shallow angles.");
@@ -940,7 +948,7 @@ namespace EnforcerPlugin
                 skillDef = mySkillDef,
                 unlockableName = "",
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
-            };
+            };*/
         }
 
         private void SpecialSetup()

@@ -161,6 +161,7 @@ namespace EntityStates.Enforcer
         {
             Vector3 velocity = ((aimRay.origin + 200 * aimRay.direction) - childLocator.FindChild(hitboxString).position + (75 * Vector3.up)) * ShieldBash.knockbackForce;
 
+            
             if (charb.characterMotor)
             {
                 charb.characterMotor.velocity += velocity;

@@ -103,7 +103,7 @@ namespace EntityStates.Enforcer
             {
                 if (base.inputBank.sprint.down) this.sprintBuffer = true;
             }
-
+                
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
                 this.outer.SetNextStateToMain();

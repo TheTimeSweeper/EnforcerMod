@@ -14,7 +14,7 @@ public class ShieldComponent : MonoBehaviour
     public Vector3 shieldDirection = new Vector3(1,0,0);
     float initialTime = 0;
 
-    private EnergyShieldControler energyShieldControler;
+    //private EnergyShieldControler energyShieldControler;
 
     private Transform _shieldPreview;
     private Transform _shieldParent;
@@ -26,13 +26,13 @@ public class ShieldComponent : MonoBehaviour
 
     private Light[] lights;
     private int lightCounter = 201;
-    public float shieldHealth {
+    /*public float shieldHealth {
         get => energyShieldControler.healthComponent.health;
-    }
+    }*/
 
     void Start()
     {
-        energyShieldControler = GetComponentInChildren<EnergyShieldControler>();
+        //energyShieldControler = GetComponentInChildren<EnergyShieldControler>();
 
         lights = GetComponentsInChildren<Light>();
     }
@@ -41,7 +41,7 @@ public class ShieldComponent : MonoBehaviour
 
         aimShield();
 
-        energyShieldControler.shieldAimRayDirection = aimRay.direction;
+        //energyShieldControler.shieldAimRayDirection = aimRay.direction;
 
         handleShoulderLights();
     }
@@ -63,7 +63,7 @@ public class ShieldComponent : MonoBehaviour
             initialTime = Time.fixedTime;
         }
 
-        displayShieldPreviewCube();
+        //displayShieldPreviewCube();
     }
 
     // this code is inexplicably in this class because I am lazy
@@ -92,7 +92,7 @@ public class ShieldComponent : MonoBehaviour
     //a lifeless commando clone
     //cast to eternal torture for giving modders fire
 
-    private void displayShieldPreviewCube() {
+    /*private void displayShieldPreviewCube() {
 
         if (_shieldParent == null)
             findShieldParent();
@@ -147,12 +147,12 @@ public class ShieldComponent : MonoBehaviour
 
         _shieldPreview.LookAt(aimRay.origin + shieldDirection*2, Vector3.up);
         _shieldPreview.position = aimRay.origin + shieldDirection* _shieldSizeMultiplier;
-    }
+    }*/
     #endregion
 
     public void toggleEngergyShield()
     {
-        energyShieldControler.Toggle();
+        //energyShieldControler.Toggle();
     }
 
     public void flashLights()
