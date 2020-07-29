@@ -100,7 +100,7 @@ namespace EntityStates.Enforcer
                 smartCollision = false,
                 procChainMask = default(ProcChainMask),
                 procCoefficient = FireAssaultRifle.procCoefficient,
-                radius = FireAssaultRifle.bulletRange,
+                radius = FireAssaultRifle.bulletRadius,
                 sniper = false,
                 stopperMask = LayerIndex.CommonMasks.bullet,
                 weapon = null,
@@ -112,7 +112,7 @@ namespace EntityStates.Enforcer
                 HitEffectNormal = MinigunFire.bulletHitEffectNormal
             }.Fire();
         }
-        //this is FUCKING stupid i hate coding
+
         public override void FixedUpdate()
         {
             base.FixedUpdate();
