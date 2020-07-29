@@ -12,7 +12,7 @@ namespace EntityStates.Enforcer
         public static float blastRadius = 5f;
         public static float bulletRecoil = 1f;
 
-        public static string muzzleString = "Muzzle";
+        public static string muzzleString = "GrenadeMuzzle";
 
         private float duration;
         public GameObject grenadePrefab = EnforcerPlugin.Assets.grenade;

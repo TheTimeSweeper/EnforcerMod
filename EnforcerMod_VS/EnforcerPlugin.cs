@@ -97,6 +97,7 @@ namespace EnforcerPlugin
             //using this approach means we'll on    ly ever have to comment one line if we don't want a hook to fire
             //it's much simpler this way, trust me
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
+            On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnEnemyHit;
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
             On.RoR2.CharacterBody.Update += CharacterBody_Update;
         }
@@ -117,20 +118,33 @@ namespace EnforcerPlugin
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
             ShieldComponent shieldComponent = self.GetComponent<ShieldComponent>();
-            if (shieldComponent && info.attacker && shieldComponent.isShielding) {
-
+            if (shieldComponent && info.attacker && shieldComponent.isShielding)
+            {
                 bool canBlock = getShieldBlock(self, info, shieldComponent);
 
-                if (canBlock) {
-                    if (info.attacker.GetComponent<CharacterBody>()) {
+                //fix for blood shrines
+                if (info.damageType.HasFlag(DamageType.BypassArmor)) canBlock = false;
+
+                //fuck you no blocking void reavers. go to brazil cunt
+                // it probably kills anyway but couldn't hurt to check
+                if (info.damageType.HasFlag(DamageType.VoidDeath)) canBlock = false;
+
+                if (canBlock)
+                {
+                    //what even is this man
+                    /*if (info.attacker.GetComponent<CharacterBody>())
+                    {
                         CharacterBody attackerBody = info.attacker.GetComponent<CharacterBody>();
                         bool blazingElite = attackerBody.HasBuff(BuffIndex.AffixRed);
-                        if (blazingElite && self.body.GetBuffCount(BuffIndex.OnFire) > 0) {
+                        if (blazingElite && self.body.GetBuffCount(BuffIndex.OnFire) > 0)
+                        {
                             DotController.RemoveAllDots(self.gameObject);
                         }
-                    };
+                    };*/
+
                     string soundString = Sounds.ShieldBlockLight;
-                    if (info.damage >= (0.8f * self.fullCombinedHealth)) soundString = Sounds.ShieldBlockHeavy;
+                    if (info.damage >= (0.5f * self.fullCombinedHealth)) soundString = Sounds.ShieldBlockHeavy;
+
                     DamageNumberManager.instance.SpawnDamageNumber(0, info.position, false, self.body.teamComponent.teamIndex, DamageColorIndex.CritHeal);
 
                     Util.PlaySound(soundString, self.gameObject);
@@ -138,13 +152,46 @@ namespace EnforcerPlugin
                     return;
                 }
             }
+
             if (self.body.name == "EnergyShield")
             {
                 info.damage = info.procCoefficient;
             }
+
             orig(self, info);
         }
+
         private bool getShieldBlock(HealthComponent self, DamageInfo info, ShieldComponent shieldComponent) {
+
+            CharacterBody charB = self.GetComponent<CharacterBody>();
+            Ray aimRay = shieldComponent.aimRay;
+            Vector3 relativePosition = info.attacker.transform.position - aimRay.origin;
+            float angle = Vector3.Angle(shieldComponent.shieldDirection, relativePosition);
+
+            return angle < ShieldBlockAngle;
+        }
+
+        private void GlobalEventManager_OnEnemyHit(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo info, GameObject victim)
+        {
+            ShieldComponent shieldComponent = self.GetComponent<ShieldComponent>();
+            if (shieldComponent && info.attacker && shieldComponent.isShielding)
+            {
+                bool canBlock = GetShieldDebuffBlock(victim, info, shieldComponent);
+
+                if (canBlock)
+                {
+                    //this is gross and i don't even know if it works but i'm too tired to test it rn
+                    if (info.damageType.HasFlag(DamageType.IgniteOnHit) || info.damageType.HasFlag(DamageType.PercentIgniteOnHit) || info.damageType.HasFlag(DamageType.BleedOnHit) || info.damageType.HasFlag(DamageType.ClayGoo) || info.damageType.HasFlag(DamageType.Nullify) || info.damageType.HasFlag(DamageType.SlowOnHit)) info.damageType = DamageType.Generic;
+
+                    return;
+                }
+            }
+
+            orig(self, info, victim);
+        }
+
+        private bool GetShieldDebuffBlock(GameObject self, DamageInfo info, ShieldComponent shieldComponent)
+        {
 
             CharacterBody charB = self.GetComponent<CharacterBody>();
             Ray aimRay = shieldComponent.aimRay;
@@ -161,6 +208,7 @@ namespace EnforcerPlugin
             orig(self);
         }
         #endregion
+
         private static GameObject CreateModel(GameObject main, int index)
         {
             Destroy(main.transform.Find("ModelBase").gameObject);
@@ -408,8 +456,8 @@ namespace EnforcerPlugin
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("Rifle").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("Rifle").GetComponentInChildren<MeshRenderer>(),
+                    defaultMaterial = childLocator.FindChild("RifleModel").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("RifleModel").GetComponentInChildren<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
@@ -417,6 +465,13 @@ namespace EnforcerPlugin
                 {
                     defaultMaterial = childLocator.FindChild("EngiShield").GetComponentInChildren<MeshRenderer>().material,
                     renderer = childLocator.FindChild("EngiShield").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("RifleAttachment").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("RifleAttachment").GetComponentInChildren<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 }
@@ -568,11 +623,11 @@ namespace EnforcerPlugin
 
         private void RegisterCharacter()
         {
-            string desc = "The Enforcer is a slow but powerful character.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine;
+            string desc = "The Enforcer is a defensive juggernaut who can take a beating.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine;
+            desc = desc + "< ! > Riot Shotgun can pierce through many enemies at once." + Environment.NewLine + Environment.NewLine;
             desc = desc + "< ! > Batting away enemies with Shield Bash guarantees you will keep enemies at a safe range." + Environment.NewLine + Environment.NewLine;
+            desc = desc + "< ! > Use Tear Gas to weaken large crowds of enemies, then get in close and crush them." + Environment.NewLine + Environment.NewLine;
             desc = desc + "< ! > Make sure to use Protect and Serve against walls to prevent enemies from flanking you." + Environment.NewLine + Environment.NewLine;
-            desc = desc + "< ! > Sample Text 3." + Environment.NewLine + Environment.NewLine;
-            desc = desc + "< ! > Sample Text 4.</color>" + Environment.NewLine + Environment.NewLine;
 
             LanguageAPI.Add("ENFORCER_NAME", "Enforcer");
             LanguageAPI.Add("ENFORCER_DESCRIPTION", desc);
@@ -606,7 +661,7 @@ namespace EnforcerPlugin
         private void RegisterBuffs() {
             BuffDef jackBootsDef = new BuffDef {
                 name = "Heavyweight",
-                iconPath = "Textures/BuffIcons/texBuffTempestSpeedIcon",
+                iconPath = "Textures/BuffIcons/texBuffTempestSpeedIcon",//someone needs to add this already
                 buffColor = characterColor,
                 canStack = false,
                 isDebuff = false,
@@ -687,6 +742,7 @@ namespace EnforcerPlugin
             buffWard.animateRadius = false;
 
             //i have this really big cut on my shin and it's bleeding but i'm gonna code instead of doing something about it
+            // that's the spirit, champ
 
             tearGasPrefab.AddComponent<DestroyOnTimer>().duration = 10;
 
@@ -778,15 +834,15 @@ namespace EnforcerPlugin
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
             };
 
-            /*LoadoutAPI.AddSkill(typeof(RiotShotgun));
+            LoadoutAPI.AddSkill(typeof(RiotShotgun));
 
-            desc = "Rapidly fire bullets dealing <style=cIsDamage>" + 100f * AssaultRifle.damageCoefficient + "% damage.";
+            desc = "Rapidly fire bullets dealing <style=cIsDamage>" + 100f * FireAssaultRifle.damageCoefficient + "% damage.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_NAME", "Assault Rifle");
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_DESCRIPTION", desc);
 
             mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            mySkillDef.activationState = new SerializableEntityStateType(typeof(AssaultRifle));
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(FireAssaultRifle));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 1;
             mySkillDef.baseRechargeInterval = 0f;
@@ -795,7 +851,7 @@ namespace EnforcerPlugin
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Any;
             mySkillDef.isBullets = false;
-            mySkillDef.isCombatSkill = true;
+            mySkillDef.isCombatSkill = true;    
             mySkillDef.mustKeyPress = false;
             mySkillDef.noSprint = true;
             mySkillDef.rechargeStock = 1;
@@ -815,7 +871,7 @@ namespace EnforcerPlugin
                 skillDef = mySkillDef,
                 unlockableName = "",
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
-            };*/
+            };
         }
 
         private void SecondarySetup()
@@ -840,7 +896,7 @@ namespace EnforcerPlugin
             mySkillDef.interruptPriority = InterruptPriority.Skill;
             mySkillDef.isBullets = false;
             mySkillDef.isCombatSkill = true;
-            mySkillDef.mustKeyPress = true;
+            mySkillDef.mustKeyPress = false;
             mySkillDef.noSprint = false;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
@@ -969,7 +1025,7 @@ namespace EnforcerPlugin
             mySkillDef.interruptPriority = InterruptPriority.PrioritySkill;
             mySkillDef.isBullets = false;
             mySkillDef.isCombatSkill = true;
-            mySkillDef.mustKeyPress = false;
+            mySkillDef.mustKeyPress = true;
             mySkillDef.noSprint = true;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
@@ -1012,7 +1068,7 @@ namespace EnforcerPlugin
             mySkillDef2.interruptPriority = InterruptPriority.PrioritySkill;
             mySkillDef2.isBullets = false;
             mySkillDef2.isCombatSkill = true;
-            mySkillDef2.mustKeyPress = false;
+            mySkillDef2.mustKeyPress = true;
             mySkillDef2.noSprint = false;
             mySkillDef2.rechargeStock = 1;
             mySkillDef2.requiredStock = 1;
@@ -1047,7 +1103,7 @@ namespace EnforcerPlugin
             mySkillDef.interruptPriority = InterruptPriority.PrioritySkill;
             mySkillDef.isBullets = false;
             mySkillDef.isCombatSkill = true;
-            mySkillDef.mustKeyPress = false;
+            mySkillDef.mustKeyPress = true;
             mySkillDef.noSprint = true;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
@@ -1087,7 +1143,7 @@ namespace EnforcerPlugin
             mySkillDef2.interruptPriority = InterruptPriority.PrioritySkill;
             mySkillDef2.isBullets = false;
             mySkillDef2.isCombatSkill = true;
-            mySkillDef2.mustKeyPress = false;
+            mySkillDef2.mustKeyPress = true;
             mySkillDef2.noSprint = false;
             mySkillDef2.rechargeStock = 1;
             mySkillDef2.requiredStock = 1;
@@ -1125,11 +1181,10 @@ namespace EnforcerPlugin
 
         public static void PopulateAssets()
         {
-            Debug.Log("1");
-            if (MainAssetBundle == null) {
-            Debug.Log("2");
-                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.enforcer")) {
-            Debug.Log("3");
+            if (MainAssetBundle == null)
+            {
+                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.enforcer"))
+                {
                     MainAssetBundle = AssetBundle.LoadFromStream(assetStream);
                 }
             }
@@ -1145,13 +1200,14 @@ namespace EnforcerPlugin
             }*/
 
             //fuck whoever wrote this code and fuck you
-            /*using(Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.EnforcerBank.bnk"))
+            // comment out the soundbank shit and then wonder why sounds aren't working you're literally fucking retarded holy hell
+            using(Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.EnforcerBank.bnk"))
             {
                 Debug.Log(manifestResourceStream2 == null);
                 byte[] array = new byte[manifestResourceStream2.Length];
                 manifestResourceStream2.Read(array, 0, array.Length);
                 SoundAPI.SoundBanks.Add(array);
-            }*/
+            }
 
             charPortrait = MainAssetBundle.LoadAsset<Sprite>("EnforcerBody").texture;
 
@@ -1173,11 +1229,15 @@ namespace EnforcerPlugin
         public static readonly string FireShotgunCrit = "Shotgun_shot_crit";
         public static readonly string FireClassicShotgun = "Ror1_Shotgun";
 
+        public static readonly string FireAssaultRifleSlow = "Assault_Shots_1";
+        public static readonly string FireAssaultRifleFast = "Assault_Shots_2";
+
         public static readonly string ShieldBash = "Bash";
         public static readonly string BashHitEnemy = "Bash_Hit_Enemy";
         public static readonly string BashDeflect = "Bash_Deflect";
 
         public static readonly string LaunchStunGrenade = "Launch_Stun";
+        public static readonly string StunExplosion = "Stun_Explosion";
 
         public static readonly string LaunchTearGas = "Launch_Gas";
         public static readonly string GasExplosion = "Gas_Explosion";
