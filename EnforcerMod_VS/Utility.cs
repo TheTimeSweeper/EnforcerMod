@@ -15,8 +15,6 @@ namespace EntityStates.Enforcer
         public static string muzzleString = "GrenadeMuzzle";
 
         private float duration;
-        public GameObject grenadePrefab = EnforcerPlugin.Assets.grenade;
-
         private ChildLocator childLocator;
         private Animator animator;
 
@@ -72,7 +70,7 @@ namespace EntityStates.Enforcer
                     crit = false,
                     damage = 0,
                     damageColorIndex = DamageColorIndex.Default,
-                    damageTypeOverride = DamageType.WeakOnHit,
+                    damageTypeOverride = DamageType.Stun1s,
                     force = 0,
                     owner = base.gameObject,
                     position = childLocator.FindChild(TearGas.muzzleString).position,

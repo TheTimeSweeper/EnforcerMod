@@ -1875,9 +1875,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayFrostRelic"),
                             childName = "Spine3",
-                            localPos = new Vector3(-48, -32, -88),
+                            localPos = new Vector3(0.05f, 0, -0.1f),
                             localAngles = new Vector3(90, 0, 0),
-                            localScale = new Vector3(0.01f, 0.01f, 0.01f),
+                            localScale = new Vector3(1, 1, 1),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -1896,16 +1896,16 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayTalisman"),
                             childName = "Spine3",
-                            localPos = new Vector3(48, -32, -88),
+                            localPos = new Vector3(-0.05f, 0, -0.1f),
                             localAngles = new Vector3(0, 0, 0),
-                            localScale = new Vector3(0.01f, 0.01f, 0.01f),
+                            localScale = new Vector3(1, 1, 1),
                             limbMask = LimbFlags.None
                         }
                     }
                 }
             });
 
-            list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            /*list.Add(new ItemDisplayRuleSet.NamedRuleGroup
             {
                 name = "LaserTurbine",
                 displayRuleGroup = new DisplayRuleGroup
@@ -1924,7 +1924,7 @@ namespace EnforcerPlugin
                         }
                     }
                 }
-            });
+            });*/
 
             list.Add(new ItemDisplayRuleSet.NamedRuleGroup
             {
@@ -1938,9 +1938,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayFocusedConvergence"),
                             childName = "Spine3",
-                            localPos = new Vector3(48, 32, -88),
+                            localPos = new Vector3(0, 0, -0.15f),
                             localAngles = new Vector3(0, 0, 0),
-                            localScale = new Vector3(0.001f, 0.001f, 0.001f),
+                            localScale = new Vector3(0.1f, 0.1f, 0.1f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -2167,7 +2167,7 @@ namespace EnforcerPlugin
                         {
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayLightningArmRight"),
-                            childName = "ClavicleL",
+                            childName = "ClavicleR",
                             localPos = new Vector3(-0.0128f, -0.0046f, 0.0311f),
                             localAngles = new Vector3(64, 12, 120),
                             localScale = new Vector3(0.06833912f, 0.06833912f, 0.06833912f),
@@ -2378,9 +2378,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayMeteor"),
                             childName = "Spine3",
-                            localPos = new Vector3(0, 10.5f, -128),
+                            localPos = new Vector3(0, 0.05f, -0.15f),
                             localAngles = new Vector3(0, 0, 0),
-                            localScale = new Vector3(0.01f, 0.01f, 0.01f),
+                            localScale = new Vector3(1, 1, 1),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -2399,9 +2399,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplaySawmerang"),
                             childName = "Spine3",
-                            localPos = new Vector3(0, 10.5f, -80f),
+                            localPos = new Vector3(0, 0.05f, -0.15f),
                             localAngles = new Vector3(90, 0, 0),
-                            localScale = new Vector3(0.002f, 0.002f, 0.002f),
+                            localScale = new Vector3(0.25f, 0.25f, 0.25f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -2420,9 +2420,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayGravCube"),
                             childName = "Spine3",
-                            localPos = new Vector3(0, 10.5f, -128),
+                            localPos = new Vector3(0, 0.05f, -0.15f),
                             localAngles = new Vector3(0, 0, 0),
-                            localScale = new Vector3(0.01f, 0.01f, 0.01f),
+                            localScale = new Vector3(1, 1, 1),
                             limbMask = LimbFlags.None
                         }
                     }

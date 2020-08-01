@@ -46,7 +46,7 @@ namespace EntityStates.Enforcer
             }
 
             // this is a temp toggle, remove this later
-            if (Input.GetKeyDown(KeyCode.O))
+            /*if (Input.GetKeyDown(KeyCode.O))
             {
                 this.toggle = !this.toggle;
             }
@@ -54,7 +54,7 @@ namespace EntityStates.Enforcer
             if (this.toggle)
             {
                 getList();
-            }
+            }*/
 
             if (shieldComponent.isShielding != this.wasShielding)
             {
@@ -68,7 +68,7 @@ namespace EntityStates.Enforcer
                 float denom = (1 + Time.fixedTime - this.initialTime);
                 float smoothFactor = 8 / Mathf.Pow(denom, 2);
                 Vector3 smoothVector = new Vector3(-3 /20, 1 / 16, -1);
-                ctp.idealLocalCameraPos = new Vector3(1.2f, -0.5f, -3.25f) + smoothFactor * smoothVector;
+                ctp.idealLocalCameraPos = new Vector3(1.8f, -0.5f, -6f) + smoothFactor * smoothVector;
             }
 
             /*if (shieldComponent.shieldHealth <= 0)
@@ -77,7 +77,7 @@ namespace EntityStates.Enforcer
                 return;
             }*/
 
-            manageTestValues();
+            //manageTestValues();
         }
 
         public override void FixedUpdate()

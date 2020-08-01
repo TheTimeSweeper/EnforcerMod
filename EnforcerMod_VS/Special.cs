@@ -1,12 +1,13 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace EntityStates.Enforcer
 {
     public class ProtectAndServe : BaseSkillState
     {
-        public float enterDuration = 0.4f;
-        public float exitDuration = 0.7f;
+        public float enterDuration = 0.3f;
+        public float exitDuration = 0.4f;
 
         private float duration;
         private ShieldComponent shieldComponent;
@@ -45,7 +46,7 @@ namespace EntityStates.Enforcer
 
                 if (this.shieldComponent.isShielding)
                 {
-                    base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
+                    if (NetworkServer.active) base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
 
                     //base.PlayAnimation("Gesture, Override", "ShieldUp", "ShieldUp.playbackRate", this.duration);
 
@@ -83,10 +84,14 @@ namespace EntityStates.Enforcer
 
         public override void OnExit()
         {
-            if (!this.shieldComponent.isShielding)
+            if (NetworkServer.active)
             {
-                base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
+                if (!this.shieldComponent.isShielding)
+                {
+                    base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
+                }
             }
+
 
             if (base.characterMotor) base.characterMotor.mass = 100f;
 

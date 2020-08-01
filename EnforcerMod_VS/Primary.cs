@@ -5,7 +5,7 @@ namespace EntityStates.Enforcer
 {
     public class RiotShotgun : BaseSkillState 
     {
-        public static GameObject bulletTracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun");
+        public static GameObject stormtrooperTracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoBoost");
 
         public static float damageCoefficient = 0.45f;
         public static float procCoefficient = 0.4f;
@@ -13,7 +13,8 @@ namespace EntityStates.Enforcer
         public static float baseDuration = 0.9f; // the base skill duration
         public static float baseShieldDuration = 0.6f; // the duration used while shield is active
         public static int projectileCount = 8;
-        public float bulletRecoil = 3f;
+        public static float bulletRecoil = 3f;
+        public static float shieldedBulletRecoil = 1.5f;
         public static float beefDurationNoShield = 0.0f;
         public static float beefDurationShield = 0.25f;
 
@@ -30,6 +31,7 @@ namespace EntityStates.Enforcer
             base.characterBody.SetAimTimer(2f);
             this.animator = base.GetModelAnimator();
             this.muzzleString = "Muzzle";
+            if (base.characterBody.skinIndex == 3) this.muzzleString = "BlasterMuzzle";
             this.hasFired = false;
 
             if (base.characterBody.GetComponent<ShieldComponent>().isShielding)
@@ -83,13 +85,22 @@ namespace EntityStates.Enforcer
 
                 Util.PlaySound(soundString, base.gameObject);
 
-                base.AddRecoil(-2f * this.bulletRecoil, -3f * this.bulletRecoil, -1f * this.bulletRecoil, 1f * this.bulletRecoil);
-                base.characterBody.AddSpreadBloom(0.33f * this.bulletRecoil);
+                float recoil = RiotShotgun.bulletRecoil;
+
+                if (base.characterBody.GetComponent<ShieldComponent>().isShielding) recoil = RiotShotgun.shieldedBulletRecoil;
+
+                base.AddRecoil(-2f * recoil, -3f * recoil, -1f * recoil, 1f * recoil);
+                base.characterBody.AddSpreadBloom(0.33f * recoil);
                 EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, base.gameObject, this.muzzleString, false);
 
                 if (base.isAuthority)
                 {
                     float damage = RiotShotgun.damageCoefficient * this.damageStat;
+
+                    //unique tracer for stormtrooper skin because this is oddly high effort
+                    GameObject tracerEffect = EnforcerPlugin.EnforcerPlugin.bulletTracer;
+
+                    if (base.characterBody.skinIndex == 3) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
 
                     Ray aimRay = base.GetAimRay();
 
@@ -117,7 +128,7 @@ namespace EntityStates.Enforcer
                         sniper = false,
                         stopperMask = LayerIndex.background.collisionMask,
                         weapon = null,
-                        tracerEffectPrefab = RiotShotgun.bulletTracerEffectPrefab,
+                        tracerEffectPrefab = tracerEffect,
                         spreadPitchScale = 0.5f,
                         spreadYawScale = 0.5f,
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,

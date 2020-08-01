@@ -18,7 +18,7 @@ using System.IO;
 namespace EnforcerPlugin
 {
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
-    [BepInPlugin(MODUID, "Enforcer", "0.0.1")]
+    [BepInPlugin(MODUID, "Enforcer", "0.0.2")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -41,8 +41,11 @@ namespace EnforcerPlugin
         public static GameObject characterPrefab;
         public static GameObject characterDisplay;
 
+        public static GameObject bulletTracer;
+        public static GameObject laserTracer;
         public static GameObject projectilePrefab;
         public GameObject tearGasPrefab;
+
         public GameObject doppelganger;
         
         public static event Action awake;
@@ -51,6 +54,7 @@ namespace EnforcerPlugin
         public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
         public static BuffIndex jackBoots;
+        public static BuffIndex tearGasDebuff;
 
         public static SkillDef shieldDownDef;//skilldef used while shield is down
         public static SkillDef shieldUpDef;//skilldef used while shield is up
@@ -94,7 +98,7 @@ namespace EnforcerPlugin
         }
         private void Hook() {
             //add hooks here
-            //using this approach means we'll on    ly ever have to comment one line if we don't want a hook to fire
+            //using this approach means we'll on              ly ever have to comment one line if we don't want a hook to fire
             //it's much simpler this way, trust me
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnEnemyHit;
@@ -108,11 +112,20 @@ namespace EnforcerPlugin
             orig(self);
             if (self)
             {
-                if (self.HasBuff(jackBoots)) {
-                    R2API.Utils.Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
-                    R2API.Utils.Reflection.SetPropertyValue<float>(self, "armor", self.armor + 20);
-                    R2API.Utils.Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.5f);
-                } 
+                if (self.HasBuff(jackBoots))
+                {
+                    Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
+                    Reflection.SetPropertyValue<float>(self, "armor", self.armor + 20);
+                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.5f);
+                }
+
+                if (self.HasBuff(tearGasDebuff))
+                {
+                    Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
+                    Reflection.SetPropertyValue<float>(self, "armor", self.armor - 10);
+                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.3f);
+                    Reflection.SetPropertyValue<float>(self, "attackSpeed", self.attackSpeed * 0.8f);
+                }
             }
         }
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
@@ -162,7 +175,6 @@ namespace EnforcerPlugin
         }
 
         private bool getShieldBlock(HealthComponent self, DamageInfo info, ShieldComponent shieldComponent) {
-
             CharacterBody charB = self.GetComponent<CharacterBody>();
             Ray aimRay = shieldComponent.aimRay;
             Vector3 relativePosition = info.attacker.transform.position - aimRay.origin;
@@ -181,6 +193,7 @@ namespace EnforcerPlugin
                 if (canBlock)
                 {
                     //this is gross and i don't even know if it works but i'm too tired to test it rn
+                    // yeah ok it literally doesn't work, ig ive up, we'll call it a feature if no one else can fix it
                     if (info.damageType.HasFlag(DamageType.IgniteOnHit) || info.damageType.HasFlag(DamageType.PercentIgniteOnHit) || info.damageType.HasFlag(DamageType.BleedOnHit) || info.damageType.HasFlag(DamageType.ClayGoo) || info.damageType.HasFlag(DamageType.Nullify) || info.damageType.HasFlag(DamageType.SlowOnHit)) info.damageType = DamageType.Generic;
 
                     return;
@@ -192,7 +205,6 @@ namespace EnforcerPlugin
 
         private bool GetShieldDebuffBlock(GameObject self, DamageInfo info, ShieldComponent shieldComponent)
         {
-
             CharacterBody charB = self.GetComponent<CharacterBody>();
             Ray aimRay = shieldComponent.aimRay;
             Vector3 relativePosition = info.attacker.transform.position - aimRay.origin;
@@ -272,8 +284,8 @@ namespace EnforcerPlugin
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("Shotgun").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("Shotgun").GetComponentInChildren<MeshRenderer>(),
+                    defaultMaterial = childLocator.FindChild("ShotgunModel").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("ShotgunModel").GetComponentInChildren<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
@@ -284,6 +296,76 @@ namespace EnforcerPlugin
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("Attachment").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("Attachment").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("Pump").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("Pump").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("RifleModel").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("RifleModel").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("EngiShield").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("EngiShield").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("RifleAttachment").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("RifleAttachment").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("Blaster").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("Blaster").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("BlasterAttachment").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("BlasterAttachment").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("BlasterRifle").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("BlasterRifle").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("BlasterRifleAttachment").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("BlasterRifleAttachment").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("StormtrooperHelm").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("StormtrooperHelm").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                }
             };
             characterModel.autoPopulateLightInfos = true;
             characterModel.invisibilityCount = 0;
@@ -362,7 +444,7 @@ namespace EnforcerPlugin
             bodyComponent.levelAttackSpeed = 0;
             bodyComponent.baseCrit = 1;
             bodyComponent.levelCrit = 0;
-            bodyComponent.baseArmor = 0;
+            bodyComponent.baseArmor = 20;
             bodyComponent.levelArmor = 0;
             bodyComponent.baseJumpCount = 1;
             bodyComponent.sprintingSpeedMultiplier = 1.45f;
@@ -428,8 +510,8 @@ namespace EnforcerPlugin
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("Shotgun").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("Shotgun").GetComponentInChildren<MeshRenderer>(),
+                    defaultMaterial = childLocator.FindChild("ShotgunModel").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("ShotgunModel").GetComponentInChildren<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
@@ -472,6 +554,41 @@ namespace EnforcerPlugin
                 {
                     defaultMaterial = childLocator.FindChild("RifleAttachment").GetComponentInChildren<MeshRenderer>().material,
                     renderer = childLocator.FindChild("RifleAttachment").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("Blaster").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("Blaster").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("BlasterAttachment").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("BlasterAttachment").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("BlasterRifle").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("BlasterRifle").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("BlasterRifleAttachment").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("BlasterRifleAttachment").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("StormtrooperHelm").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("StormtrooperHelm").GetComponentInChildren<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 }
@@ -661,7 +778,7 @@ namespace EnforcerPlugin
         private void RegisterBuffs() {
             BuffDef jackBootsDef = new BuffDef {
                 name = "Heavyweight",
-                iconPath = "Textures/BuffIcons/texBuffTempestSpeedIcon",//someone needs to add this already
+                iconPath = "Textures/BuffIcons/texBuffGenericShield",//someone needs to add this already
                 buffColor = characterColor,
                 canStack = false,
                 isDebuff = false,
@@ -669,6 +786,18 @@ namespace EnforcerPlugin
             };
             CustomBuff jackBoots = new CustomBuff(jackBootsDef);
             EnforcerPlugin.jackBoots = BuffAPI.Add(jackBoots);
+
+            BuffDef tearGasDef = new BuffDef
+            {
+                name = "TearGasDebuff",
+                iconPath = "Textures/BuffIcons/texBuffCloakIcon",
+                buffColor = Color.grey,
+                canStack = false,
+                isDebuff = true,
+                eliteIndex = EliteIndex.None
+            };
+            CustomBuff tearGas = new CustomBuff(tearGasDef);
+            EnforcerPlugin.tearGasDebuff = BuffAPI.Add(tearGas);
         }
 
         private void RegisterProjectile()
@@ -696,6 +825,13 @@ namespace EnforcerPlugin
 
             filter.teamIndex = TeamIndex.Player;
 
+            GameObject grenadeModel = Assets.tearGasGrenadeModel.InstantiateClone("TearGasGhost", true);
+            grenadeModel.AddComponent<NetworkIdentity>();
+            grenadeModel.AddComponent<ProjectileGhostController>();
+
+            grenadeController.ghostPrefab = grenadeModel;
+            tearGasController.ghostPrefab = Assets.tearGasEffectPrefab;
+
             grenadeImpact.lifetimeExpiredSoundString = "";
             grenadeImpact.explosionSoundString = Sounds.GasExplosion;
             grenadeImpact.offsetForLifetimeExpiredSound = 1;
@@ -703,16 +839,17 @@ namespace EnforcerPlugin
             grenadeImpact.destroyOnWorld = false;
             grenadeImpact.timerAfterImpact = true;
             grenadeImpact.falloffModel = BlastAttack.FalloffModel.SweetSpot;
-            grenadeImpact.lifetime = 10;
-            grenadeImpact.lifetimeAfterImpact = 0;
+            grenadeImpact.lifetime = 18;
+            grenadeImpact.lifetimeAfterImpact = 0.5f;
             grenadeImpact.lifetimeRandomOffset = 0;
-            grenadeImpact.blastRadius = 12;
+            grenadeImpact.blastRadius = 6;
             grenadeImpact.blastDamageCoefficient = 1;
             grenadeImpact.blastProcCoefficient = 1;
             grenadeImpact.fireChildren = true;
             grenadeImpact.childrenCount = 1;
             grenadeImpact.childrenProjectilePrefab = tearGasPrefab;
             grenadeImpact.childrenDamageCoefficient = 0;
+            //grenadeImpact.impactEffect = Assets.tearGasEffectPrefab;
 
 
             grenadeController.procCoefficient = 1;
@@ -727,13 +864,13 @@ namespace EnforcerPlugin
             tearGasDamage.crit = false;
             tearGasDamage.damage = 0;
             tearGasDamage.damageColorIndex = DamageColorIndex.WeakPoint;
-            tearGasDamage.damageType = DamageType.WeakOnHit;
+            tearGasDamage.damageType = DamageType.Stun1s;
             tearGasDamage.force = -1000;
 
-            buffWard.radius = 10;
+            buffWard.radius = 24;
             buffWard.interval = 1;
             buffWard.rangeIndicator = null;
-            buffWard.buffType = BuffIndex.Weak;
+            buffWard.buffType = tearGasDebuff;
             buffWard.buffDuration = 1.5f;
             buffWard.floorWard = true;
             buffWard.expires = false;
@@ -741,15 +878,63 @@ namespace EnforcerPlugin
             buffWard.expireDuration = 0;
             buffWard.animateRadius = false;
 
+            //this is weird but it works
+
+            Destroy(tearGasPrefab.transform.GetChild(0).gameObject);
+            GameObject gasFX = Assets.tearGasEffectPrefab.InstantiateClone("FX", true);
+            gasFX.transform.parent = tearGasPrefab.transform;
+            gasFX.transform.localPosition = Vector3.zero;
+
             //i have this really big cut on my shin and it's bleeding but i'm gonna code instead of doing something about it
             // that's the spirit, champ
 
-            tearGasPrefab.AddComponent<DestroyOnTimer>().duration = 10;
+            tearGasPrefab.AddComponent<DestroyOnTimer>().duration = 18;
 
-            ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list) {
+
+            bulletTracer = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun").InstantiateClone("EnforcerBulletTracer", true);
+
+            if (!bulletTracer.GetComponent<EffectComponent>()) bulletTracer.AddComponent<EffectComponent>();
+            if (!bulletTracer.GetComponent<VFXAttributes>()) bulletTracer.AddComponent<VFXAttributes>();
+            if (!bulletTracer.GetComponent<NetworkIdentity>()) bulletTracer.AddComponent<NetworkIdentity>();
+
+            foreach (LineRenderer i in bulletTracer.GetComponentsInChildren<LineRenderer>())
+            {
+                if (i)
+                {
+                    Material material = UnityEngine.Object.Instantiate<Material>(i.material);
+                    material.SetColor("_TintColor", Color.yellow);
+                    i.material = material;
+                    i.startColor = Color.yellow;
+                    i.endColor = Color.yellow;
+                }
+            }
+
+            laserTracer = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun").InstantiateClone("EnforcerLaserTracer", true);
+
+            if (!laserTracer.GetComponent<EffectComponent>()) laserTracer.AddComponent<EffectComponent>();
+            if (!laserTracer.GetComponent<VFXAttributes>()) laserTracer.AddComponent<VFXAttributes>();
+            if (!laserTracer.GetComponent<NetworkIdentity>()) laserTracer.AddComponent<NetworkIdentity>();
+
+            foreach (LineRenderer i in laserTracer.GetComponentsInChildren<LineRenderer>())
+            {
+                if (i)
+                {
+                    Material material = UnityEngine.Object.Instantiate<Material>(i.material);
+                    material.SetColor("_TintColor", Color.red);
+                    i.material = material;
+                    i.startColor = Color.red;
+                    i.endColor = Color.red;
+                }
+            }
+
+            ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list)
+            {
                 list.Add(projectilePrefab);
                 list.Add(tearGasPrefab);
             };
+
+            EffectAPI.AddEffect(bulletTracer);
+            EffectAPI.AddEffect(laserTracer);
         }
 
 
@@ -929,7 +1114,7 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkill(typeof(TearGas));
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_NAME", "Tear Gas");
-            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Throw a grenade that deals <style=cIsDamage>150% damage</style> which explodes into tear gas that <style=cIsDamage>weakens enemies</style> and lasts for 10 seconds.");
+            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Throw a grenade that explodes into <style=cIsUtility>tear gas</style> that <style=cIsDamage>heavily debilitates enemies</style> and lasts for 16 seconds.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(TearGas));
@@ -1179,6 +1364,11 @@ namespace EnforcerPlugin
 
         public static GameObject grenade;
 
+        public static GameObject tearGasGrenadeModel;
+        public static GameObject tearGasEffectPrefab;
+
+        public static Mesh stormtrooperMesh;
+
         public static void PopulateAssets()
         {
             if (MainAssetBundle == null)
@@ -1189,21 +1379,10 @@ namespace EnforcerPlugin
                 }
             }
 
-            //this shit doesn't fucking work i give up i'm going to bed fuck this
-            //get fucked kiddo
-            /*if (TempAssetBundle == null)
-            {
-                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.grenadeBundle"))
-                {
-                    TempAssetBundle = AssetBundle.LoadFromStream(assetStream);
-                }
-            }*/
-
             //fuck whoever wrote this code and fuck you
             // comment out the soundbank shit and then wonder why sounds aren't working you're literally fucking retarded holy hell
             using(Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.EnforcerBank.bnk"))
             {
-                Debug.Log(manifestResourceStream2 == null);
                 byte[] array = new byte[manifestResourceStream2.Length];
                 manifestResourceStream2.Read(array, 0, array.Length);
                 SoundAPI.SoundBanks.Add(array);
@@ -1220,6 +1399,15 @@ namespace EnforcerPlugin
             icon4B = MainAssetBundle.LoadAsset<Sprite>("Skill4BIcon");
 
             //grenade = TempAssetBundle.LoadAsset<GameObject>("Grenade");
+            tearGasGrenadeModel = MainAssetBundle.LoadAsset<GameObject>("TearGasGrenade");
+            tearGasEffectPrefab = MainAssetBundle.LoadAsset<GameObject>("TearGasEffect");
+
+            //add vfx shit so nothing breaks
+            //tearGasEffectPrefab.AddComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Always;
+            //tearGasEffectPrefab.AddComponent<EffectComponent>().applyScale = false;
+            //actually this wasn't even needed
+
+            stormtrooperMesh = MainAssetBundle.LoadAsset<Mesh>("StormtrooperMesh");
         }
     }
 

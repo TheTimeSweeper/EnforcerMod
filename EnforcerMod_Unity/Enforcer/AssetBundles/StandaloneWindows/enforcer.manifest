@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 430396316
+CRC: 1909416603
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2083a8e71fd09e2b66faad49e9206dfe
+    Hash: c7c0a5fef6f3295523a2a0786896f6f4
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 77972ce9d190888584b3404b9fdd4c3c
+    Hash: f240f48b63355cdb5a5003bf2a73bc66
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -35,6 +35,8 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 95
   Script: {instanceID: 0}
+- Class: 96
+  Script: {instanceID: 0}
 - Class: 108
   Script: {instanceID: 0}
 - Class: 114
@@ -55,72 +57,96 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 137
   Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
 - Class: 319
   Script: {instanceID: 0}
 Assets:
 - Assets/Enforcer/EnforcerAssets/EnforcerBodyOld.png
+- Assets/Enforcer/EnforcerAssets/Particles/matSpark.mat
 - Assets/Enforcer/EnforcerAssets/Animations/Masks/EnforcerArmLeftMask.mask
 - Assets/Enforcer/EnforcerAssets/Skill4Icon.png
+- Assets/Enforcer/EnforcerAssets/Particles/matRay.mat
+- Assets/Enforcer/EnforcerAssets/Materials/matEquippedShieldSpace.mat
+- Assets/Enforcer/EnforcerAssets/StormtrooperMesh.mesh
 - Assets/Enforcer/EnforcerAssets/Skill4BIcon.png
 - Assets/Enforcer/EnforcerAssets/Materials/matTemp.mat
-- Assets/Enforcer/EnforcerAssets/Textures/texShotgun.png
-- Assets/Enforcer/EnforcerAssets/Textures/texRiotShield.png
-- Assets/Enforcer/EnforcerAssets/Textures/texEnforcerEmissive.png
+- Assets/Enforcer/EnforcerAssets/Textures/Weapon/texShotgun.png
+- Assets/Enforcer/EnforcerAssets/Textures/Weapon/texRiotShield.png
+- Assets/Enforcer/EnforcerAssets/Textures/Body/texEnforcerEmissive.png
 - Assets/Enforcer/EnforcerAssets/ShieldPreviewCube.prefab
 - Assets/Enforcer/EnforcerAssets/Animations/animEnforcer.controller
 - Assets/Enforcer/EnforcerAssets/Animations/Masks/EnforcerFlinchMask.mask
 - Assets/Enforcer/EnforcerAssets/Skill3BIcon.png
 - Assets/Enforcer/EnforcerAssets/EnforcerDisplay.prefab
-- Assets/Enforcer/EnforcerAssets/Textures/texDoomEnforcerEmissive.png
+- Assets/Enforcer/EnforcerAssets/Textures/Body/texDoomEnforcerEmissive.png
 - Assets/Enforcer/EnforcerAssets/Skill2Icon.png
 - Assets/Enforcer/EnforcerAssets/Animations/Temp/EnforcerSprintBash.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Temp/EnforcerShieldBash.anim
+- Assets/Enforcer/EnforcerAssets/Particles/matSmoke.mat
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerWalkB.anim
+- Assets/Enforcer/EnforcerAssets/Particles/texRing.png
 - Assets/Enforcer/EnforcerAssets/Materials/matEnforcer.mat
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerCalmIdle.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Temp/ProtectAndServe.anim
 - Assets/Enforcer/EnforcerAssets/Skill3Icon.png
-- Assets/Enforcer/EnforcerAssets/Textures/texEnforcer.png
+- Assets/Enforcer/EnforcerAssets/Textures/Body/texEnforcer.png
+- Assets/Enforcer/EnforcerAssets/Textures/texTearGas.png
 - Assets/Enforcer/EnforcerAssets/Skill1Icon.png
 - Assets/Enforcer/EnforcerAssets/Animations/Masks/EnforcerGestureMask.mask
 - Assets/Enforcer/EnforcerAssets/Materials/matSpaceEnforcer.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matEngiforcer.mat
 - Assets/Enforcer/EnforcerAssets/EnforcerBody.png
 - Assets/Enforcer/EnforcerAssets/Animations/Masks/EnforcerArmRightMask.mask
-- Assets/Enforcer/EnforcerAssets/Textures/texSpaceforcer.png
+- Assets/Enforcer/EnforcerAssets/Materials/matEnforcerBulletTracer.mat
+- Assets/Enforcer/EnforcerAssets/Textures/Body/texSpaceforcer.png
 - Assets/Enforcer/EnforcerAssets/Animations/Temp/Flinch4.anim
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerWalkForward.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Emote/DanceMoves.anim
-- Assets/Enforcer/EnforcerAssets/Textures/texIronManforcer.png
+- Assets/Enforcer/EnforcerAssets/Textures/Body/texIronManforcer.png
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerArmRightTemp.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Temp/Flinch1.anim
+- Assets/Enforcer/EnforcerAssets/Materials/matStormtrooper.mat
+- Assets/Enforcer/EnforcerAssets/Particles/texSmoke.png
 - Assets/Enforcer/EnforcerAssets/Materials/matEquippedShield.mat
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerWalkR.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matIronManforcer.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matShotgun.mat
-- Assets/Enforcer/EnforcerAssets/Textures/texDoomEnforcer.png
+- Assets/Enforcer/EnforcerAssets/Textures/Body/texDoomEnforcer.png
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerWalkF.anim
+- Assets/Enforcer/EnforcerAssets/TearGasGrenade.prefab
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerWalkL.anim
 - Assets/Enforcer/EnforcerAssets/Materials/texEnergy.mat
+- Assets/Enforcer/EnforcerAssets/Particles/texRay.png
 - Assets/Enforcer/EnforcerAssets/Animations/Temp/EnforcerDeath.anim
-- Assets/Enforcer/EnforcerAssets/Textures/texShotgunEmissive.png
-- Assets/Enforcer/EnforcerAssets/Textures/texEngiforcerEmissive.png
+- Assets/Enforcer/EnforcerAssets/Materials/matEnforcerLaserTracer.mat
+- Assets/Enforcer/EnforcerAssets/Textures/Weapon/texShotgunEmissive.png
+- Assets/Enforcer/EnforcerAssets/Textures/Body/texEngiforcerEmissive.png
 - Assets/Enforcer/EnforcerAssets/mdlEnforcer.prefab
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerCombatIdle.anim
 - Assets/Enforcer/EnforcerAssets/Animations/animEnforcerMenu.controller
-- Assets/Enforcer/EnforcerAssets/Textures/texEngiforcer.png
+- Assets/Enforcer/EnforcerAssets/Textures/Body/texEngiforcer.png
+- Assets/Enforcer/EnforcerAssets/Textures/Weapon/texRiotShieldSpace.png
 - Assets/Enforcer/EnforcerAssets/Animations/Temp/Flinch2.anim
+- Assets/Enforcer/EnforcerAssets/Materials/matTearGasGrenade.mat
+- Assets/Enforcer/EnforcerAssets/Textures/Weapon/texTearGas.png
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerCalmIdleIn.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matDoomEnforcer.mat
+- Assets/Enforcer/EnforcerAssets/Particles/texSpark.png
 - Assets/Enforcer/EnforcerAssets/Materials/matHitboxPreview.mat
 - Assets/Enforcer/EnforcerAssets/Materials/texEngiShield.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matEngiShield.mat
+- Assets/Enforcer/EnforcerAssets/Textures/Body/texStormtrooper.png
+- Assets/Enforcer/EnforcerAssets/TearGasEffect.prefab
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerArmLeftTemp.anim
 - Assets/FBX/Enforcer2.fbx
+- Assets/Enforcer/EnforcerAssets/Particles/matRing.mat
 - Assets/Enforcer/EnforcerAssets/Animations/Temp/EnforcerFall.anim
-- Assets/Enforcer/EnforcerAssets/Textures/texEngiShield.png
+- Assets/Enforcer/EnforcerAssets/Textures/Weapon/texEngiShield.png
 - Assets/Enforcer/EnforcerAssets/Animations/Temp/Flinch3.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Temp/EnforcerJump.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matEngiShield soft.mat

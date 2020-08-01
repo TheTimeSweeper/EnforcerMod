@@ -13,15 +13,16 @@ namespace EntityStates.Enforcer
         public static float damageCoefficient = 2.5f;
         public static float procCoefficient = 1f;
         public static float knockbackForce = 0.2f;
-        public static float blastRadius = 5f;
-        public static float deflectRadius = 8f;
-        public static string hitboxString = "Shield"; //transform where the hitbox is fired
+        public static float blastRadius = 6f;
+        public static float deflectRadius = 4f;
+        public static string hitboxString = "ShieldHitbox"; //transform where the hitbox is fired
         public static float beefDurationNoShield = 0.4f;
         public static float beefDurationShield = 0.6f;
 
         private float attackStopDuration;
         private float duration;
         private float fireDuration;
+        private float deflectDuration;
         private Ray aimRay;
         private BlastAttack blastAttack;
         private ChildLocator childLocator;
@@ -35,6 +36,7 @@ namespace EntityStates.Enforcer
 
             this.duration = ShieldBash.baseDuration / this.attackSpeedStat;
             this.fireDuration = this.duration * 0.15f;
+            this.deflectDuration = this.duration * 0.4f;
             this.aimRay = base.GetAimRay();
             this.hasFired = false;
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
@@ -115,7 +117,8 @@ namespace EntityStates.Enforcer
             {
                 this.FireBlast();
             }
-            else
+
+            if (base.fixedAge < this.deflectDuration)
             {
                 this.Deflect();
             }
@@ -227,8 +230,8 @@ namespace EntityStates.Enforcer
         public float baseDuration = 0.4f;
         [SerializeField]
         public float speedMultiplier = 1.1f;
-        public static float chargeDamageCoefficient = 4.5f;
-        public static float knockbackDamageCoefficient = 6f;
+        public static float chargeDamageCoefficient = 5.5f;
+        public static float knockbackDamageCoefficient = 6.5f;
         public static float massThresholdForKnockback = 150;
         public static float knockbackForce = 3400;
         public static float smallHopVelocity = 16f;
@@ -244,6 +247,8 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
             this.duration = this.baseDuration;
+
+            //base.characterBody.GetComponent<ShieldComponent>().flashLights();
 
             if (base.isAuthority)
             {
@@ -300,6 +305,8 @@ namespace EntityStates.Enforcer
 
             if (base.skillLocator) base.skillLocator.secondary.skillDef.activationStateMachineName = "Weapon";
 
+            base.PlayAnimation("FullBody, Override", "BufferEmpty");
+
             base.OnExit();
         }
 
@@ -325,6 +332,8 @@ namespace EntityStates.Enforcer
         {
             base.FixedUpdate();
 
+            base.characterBody.isSprinting = true;
+
             if (base.fixedAge >= this.duration)
             {
                 this.outer.SetNextStateToMain();
@@ -333,11 +342,6 @@ namespace EntityStates.Enforcer
 
             if (base.isAuthority)
             {
-                if (base.characterBody)
-                {
-                    base.characterBody.isSprinting = true;
-                }
-
                 if (!this.inHitPause)
                 {
                     if (base.characterDirection)
