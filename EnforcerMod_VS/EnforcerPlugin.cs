@@ -884,6 +884,7 @@ namespace EnforcerPlugin
             GameObject gasFX = Assets.tearGasEffectPrefab.InstantiateClone("FX", true);
             gasFX.transform.parent = tearGasPrefab.transform;
             gasFX.transform.localPosition = Vector3.zero;
+            gasFX.AddComponent<NetworkIdentity>();
 
             //i have this really big cut on my shin and it's bleeding but i'm gonna code instead of doing something about it
             // that's the spirit, champ
