@@ -840,7 +840,7 @@ namespace EnforcerPlugin
             grenadeImpact.timerAfterImpact = true;
             grenadeImpact.falloffModel = BlastAttack.FalloffModel.SweetSpot;
             grenadeImpact.lifetime = 18;
-            grenadeImpact.lifetimeAfterImpact = 0.5f;
+            grenadeImpact.lifetimeAfterImpact = 0f;
             grenadeImpact.lifetimeRandomOffset = 0;
             grenadeImpact.blastRadius = 6;
             grenadeImpact.blastDamageCoefficient = 1;
