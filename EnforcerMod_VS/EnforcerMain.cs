@@ -71,11 +71,11 @@ namespace EntityStates.Enforcer
                 ctp.idealLocalCameraPos = new Vector3(1.8f, -0.5f, -6f) + smoothFactor * smoothVector;
             }
 
-            /*if (shieldComponent.shieldHealth <= 0)
+            if (shieldComponent.shieldHealth <= 0)
             {
                 outer.SetNextState(new EntityStates.Enforcer.ProtectAndServe());
                 return;
-            }*/
+            }
 
             //manageTestValues();
         }

@@ -1,4 +1,4 @@
-﻿/*using RoR2;
+﻿using RoR2;
 using UnityEngine;
 
 public class EnergyShieldControler : MonoBehaviour
@@ -109,4 +109,3 @@ public class EnergyShieldControler : MonoBehaviour
         }
     }
 }
-*/

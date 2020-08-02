@@ -131,7 +131,7 @@ namespace EnforcerPlugin
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
             ShieldComponent shieldComponent = self.GetComponent<ShieldComponent>();
-            if (shieldComponent && info.attacker && shieldComponent.isShielding)
+            if (shieldComponent && info.attacker && shieldComponent.isShielding && !shieldComponent.isAlternate)
             {
                 bool canBlock = getShieldBlock(self, info, shieldComponent);
 
@@ -970,7 +970,7 @@ namespace EnforcerPlugin
             SecondarySetup();
             UtilitySetup();
             SpecialSetup();
-            //AltSpecialSetup();
+            AltSpecialSetup();
         }
         
         private void PrimarySetup()
