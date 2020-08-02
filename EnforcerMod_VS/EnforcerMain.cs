@@ -11,7 +11,10 @@ namespace EntityStates.Enforcer
         private bool wasShielding = false;
         private float initialTime;
 
+        private uint sirenPlayID;
+
         public static bool shotgunToggle = false;
+        private bool sirenToggle;
 
         public override void OnEnter()
         {
@@ -19,9 +22,16 @@ namespace EntityStates.Enforcer
 
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
 
-            Loadout loadout = base.characterBody.master.loadout;
-            uint specialVar = loadout.bodyLoadoutManager.GetSkillVariant(base.characterBody.bodyIndex, 3);
-            this.shieldComponent.isAlternate = specialVar == 1;
+            //Loadout loadout = base.characterBody.master.loadout;
+            //uint specialVar = loadout.bodyLoadoutManager.GetSkillVariant(base.characterBody.bodyIndex, 3);
+            //this.shieldComponent.isAlternate = specialVar == 1;
+            //bruh just use a new entitystate for this what
+
+            if (!EnforcerPlugin.EnforcerPlugin.cum && base.characterBody.skinIndex == 1)
+            {
+                EnforcerPlugin.EnforcerPlugin.cum = true;
+                Util.PlaySound(EnforcerPlugin.Sounds.DOOM, base.gameObject);
+            }
         }
 
         public override void Update()
@@ -32,17 +42,23 @@ namespace EntityStates.Enforcer
             //for ror1 shotgun sounds
             if (Input.GetKeyDown(KeyCode.X))
             {
-                ToggleShotgun();
+                this.ToggleShotgun();
             }
 
             //default dance
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (base.isAuthority && Input.GetKeyDown(KeyCode.Z))
             {
                 if (base.characterMotor.isGrounded)
                 {
                     this.outer.SetNextState(new DefaultDance());
                     return;
                 }
+            }
+
+            //sirens
+            if (base.isAuthority && Input.GetKeyDown(KeyCode.C))
+            {
+                this.ToggleSirens();
             }
 
             // this is a temp toggle, remove this later
@@ -73,7 +89,7 @@ namespace EntityStates.Enforcer
 
             if (shieldComponent.shieldHealth <= 0)
             {
-                outer.SetNextState(new EntityStates.Enforcer.ProtectAndServe());
+                outer.SetNextState(new EnergyShield());
                 return;
             }
 
@@ -88,9 +104,7 @@ namespace EntityStates.Enforcer
             {
                 base.characterBody.isSprinting = false;
                 base.characterBody.SetAimTimer(0.2f);
-                base.characterMotor.mass = 15000;
             }
-            else base.characterMotor.mass = 100;
         }
 
         private void manageTestValues() {
@@ -168,6 +182,20 @@ namespace EntityStates.Enforcer
             else
             {
                 Chat.AddMessage("Using modern shotgun sounds");
+            }
+        }
+
+        private void ToggleSirens()
+        {
+            this.sirenToggle = !this.sirenToggle;
+
+            if (this.sirenToggle)
+            {
+                this.sirenPlayID = Util.PlaySound(EnforcerPlugin.Sounds.SirenButton, base.gameObject);
+            }
+            else
+            {
+                if (this.sirenPlayID != 0) AkSoundEngine.StopPlayingID(this.sirenPlayID);
             }
         }
     }

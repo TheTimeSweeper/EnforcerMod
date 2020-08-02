@@ -8,7 +8,6 @@ public class ShieldComponent : MonoBehaviour
     static float maxSpeed = 0.1f;
     static float coef = 1; // affects how quickly it reaches max speed
 
-    public bool isAlternate = false;
     public bool isShielding = false;
     public Ray aimRay;
     public Vector3 shieldDirection = new Vector3(1,0,0);
@@ -150,7 +149,7 @@ public class ShieldComponent : MonoBehaviour
     }*/
     #endregion
 
-    public void toggleEngergyShield()
+    public void toggleEnergyShield()
     {
         energyShieldControler.Toggle();
     }

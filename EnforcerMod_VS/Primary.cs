@@ -7,7 +7,7 @@ namespace EntityStates.Enforcer
     {
         public static GameObject stormtrooperTracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoBoost");
 
-        public static float damageCoefficient = 0.45f;
+        public static float damageCoefficient = 0.4f;
         public static float procCoefficient = 0.4f;
         public static float bulletForce = 50f;
         public static float baseDuration = 0.9f; // the base skill duration
@@ -82,6 +82,8 @@ namespace EntityStates.Enforcer
                 {
                     soundString = isCrit ? EnforcerPlugin.Sounds.FireShotgun : EnforcerPlugin.Sounds.FireShotgunCrit;
                 }
+
+                if (base.characterBody.skinIndex == 3) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
 
                 Util.PlaySound(soundString, base.gameObject);
 

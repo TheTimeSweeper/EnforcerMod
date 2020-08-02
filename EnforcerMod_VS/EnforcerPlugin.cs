@@ -45,11 +45,12 @@ namespace EnforcerPlugin
         public static GameObject laserTracer;
         public static GameObject projectilePrefab;
         public GameObject tearGasPrefab;
+        public static GameObject stunGrenade;
 
         public GameObject doppelganger;
         
         public static event Action awake;
-        //public static event Action start;
+        public static event Action start;
 
         public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
@@ -61,6 +62,9 @@ namespace EnforcerPlugin
         public static SkillDef shieldOffDef;//skilldef used while shield is off
         public static SkillDef shieldOnDef;//skilldef used while shield is on
 
+        public static bool cum; //don't ask
+        public static bool harbCrateInstalled = false;
+
         //更新许可证 DO WHAT THE FUCK YOU WANT TO
 
         public SkillLocator skillLocator;
@@ -70,6 +74,7 @@ namespace EnforcerPlugin
             // what does all this even do anyway?
             //its our plugin constructor
             awake += EnforcerPlugin_Load;
+            start += EnforcerPlugin_LoadStart;
         }
 
         private void EnforcerPlugin_Load()
@@ -87,6 +92,16 @@ namespace EnforcerPlugin
             Hook();
         }
 
+        private void EnforcerPlugin_LoadStart()
+        {
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.harbingerofme.HarbCrate"))
+            {
+                harbCrateInstalled = true;
+                //ItemDisplays.RegisterHarbCrateDisplays();
+                //i'll get back to this later, shit's not working
+            }
+        }
+
         public void Awake()
         {
             Action awake = EnforcerPlugin.awake;
@@ -95,6 +110,15 @@ namespace EnforcerPlugin
                 return;
             }
             awake();
+        }
+        public void Start()
+        {
+            Action start = EnforcerPlugin.start;
+            if (start == null)
+            {
+                return;
+            }
+            start();
         }
         private void Hook() {
             //add hooks here
@@ -131,9 +155,9 @@ namespace EnforcerPlugin
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
             ShieldComponent shieldComponent = self.GetComponent<ShieldComponent>();
-            if (shieldComponent && info.attacker && shieldComponent.isShielding && !shieldComponent.isAlternate)
+            if (shieldComponent && info.attacker && self.body.HasBuff(jackBoots))
             {
-                bool canBlock = getShieldBlock(self, info, shieldComponent);
+                bool canBlock = GetShieldBlock(self, info, shieldComponent);
 
                 //fix for blood shrines
                 if (info.damageType.HasFlag(DamageType.BypassArmor)) canBlock = false;
@@ -174,7 +198,7 @@ namespace EnforcerPlugin
             orig(self, info);
         }
 
-        private bool getShieldBlock(HealthComponent self, DamageInfo info, ShieldComponent shieldComponent) {
+        private bool GetShieldBlock(HealthComponent self, DamageInfo info, ShieldComponent shieldComponent) {
             CharacterBody charB = self.GetComponent<CharacterBody>();
             Ray aimRay = shieldComponent.aimRay;
             Vector3 relativePosition = info.attacker.transform.position - aimRay.origin;
@@ -186,7 +210,7 @@ namespace EnforcerPlugin
         private void GlobalEventManager_OnEnemyHit(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo info, GameObject victim)
         {
             ShieldComponent shieldComponent = self.GetComponent<ShieldComponent>();
-            if (shieldComponent && info.attacker && shieldComponent.isShielding)
+            if (shieldComponent && info.attacker && victim.GetComponent<CharacterBody>().HasBuff(jackBoots))
             {
                 bool canBlock = GetShieldDebuffBlock(victim, info, shieldComponent);
 
@@ -374,6 +398,8 @@ namespace EnforcerPlugin
             characterModel.SetFieldValue("mainSkinnedMeshRenderer", characterModel.baseRendererInfos[0].renderer.gameObject.GetComponent<SkinnedMeshRenderer>());
 
             characterDisplay = PrefabAPI.InstantiateClone(tempDisplay.GetComponent<ModelLocator>().modelBaseTransform.gameObject, "EnforcerDisplay", true);
+
+            characterDisplay.AddComponent<MenuSound>();
         }
 
         private static void CreatePrefab()
@@ -467,7 +493,7 @@ namespace EnforcerPlugin
             characterMotor.walkSpeedPenaltyCoefficient = 1f;
             characterMotor.characterDirection = characterDirection;
             characterMotor.muteWalkMotion = false;
-            characterMotor.mass = 100f;
+            characterMotor.mass = 200f;
             characterMotor.airControl = 0.25f;
             characterMotor.disableAirControlUntilCollision = false;
             characterMotor.generateParametersOnAwake = true;
@@ -623,7 +649,7 @@ namespace EnforcerPlugin
             characterDeathBehavior.deathState = new SerializableEntityStateType(typeof(GenericCharacterDeath));
 
             SfxLocator sfxLocator = characterPrefab.GetComponent<SfxLocator>();
-            sfxLocator.deathSound = "Play_ui_player_death";
+            sfxLocator.deathSound = Sounds.DeathSound;
             sfxLocator.barkSound = "";
             sfxLocator.openSound = "";
             sfxLocator.landingSound = "Play_char_land";
@@ -804,8 +830,36 @@ namespace EnforcerPlugin
         {
             //i'm the treasure, baby, i'm the prize
 
-            projectilePrefab = Resources.Load<GameObject>("prefabs/projectiles/CommandoGrenadeProjectile").InstantiateClone("EnforcerTearGasGrenade", true);
-            tearGasPrefab = Resources.Load<GameObject>("prefabs/projectiles/SporeGrenadeProjectileDotZone").InstantiateClone("TearGasDotZone", true);
+            stunGrenade = Resources.Load<GameObject>("Prefabs/Projectiles/CommandoGrenadeProjectile").InstantiateClone("EnforcerStunGrenade", true);
+
+            ProjectileController stunGrenadeController = stunGrenade.GetComponent<ProjectileController>();
+            ProjectileImpactExplosion stunGrenadeImpact = stunGrenade.GetComponent<ProjectileImpactExplosion>();
+            ProjectileSimple stunGrenadeSimple = stunGrenade.GetComponent<ProjectileSimple>();
+
+            GameObject stunGrenadeModel = Assets.tearGasGrenadeModel.InstantiateClone("StunGrenadeGhost", true);
+            stunGrenadeModel.AddComponent<NetworkIdentity>();
+            stunGrenadeModel.AddComponent<ProjectileGhostController>();
+
+            stunGrenadeController.ghostPrefab = stunGrenadeModel;
+
+            stunGrenadeImpact.lifetimeExpiredSoundString = "";
+            stunGrenadeImpact.explosionSoundString = Sounds.StunExplosion;
+            stunGrenadeImpact.offsetForLifetimeExpiredSound = 1;
+            stunGrenadeImpact.destroyOnEnemy = false;
+            stunGrenadeImpact.destroyOnWorld = false;
+            stunGrenadeImpact.timerAfterImpact = true;
+            stunGrenadeImpact.falloffModel = BlastAttack.FalloffModel.Linear;
+            stunGrenadeImpact.lifetimeAfterImpact = 0f;
+            stunGrenadeImpact.lifetimeRandomOffset = 0;
+            stunGrenadeImpact.blastRadius = 8;
+            stunGrenadeImpact.blastDamageCoefficient = 1;
+            stunGrenadeImpact.blastProcCoefficient = 0.6f;
+            stunGrenadeImpact.fireChildren = false;
+            stunGrenadeImpact.childrenCount = 0;
+            stunGrenadeController.procCoefficient = 1;
+
+            projectilePrefab = Resources.Load<GameObject>("Prefabs/Projectiles/CommandoGrenadeProjectile").InstantiateClone("EnforcerTearGasGrenade", true);
+            tearGasPrefab = Resources.Load<GameObject>("Prefabs/Projectiles/SporeGrenadeProjectileDotZone").InstantiateClone("TearGasDotZone", true);
 
             ProjectileController grenadeController = projectilePrefab.GetComponent<ProjectileController>();
             ProjectileController tearGasController = tearGasPrefab.GetComponent<ProjectileController>();
@@ -840,7 +894,7 @@ namespace EnforcerPlugin
             grenadeImpact.timerAfterImpact = true;
             grenadeImpact.falloffModel = BlastAttack.FalloffModel.SweetSpot;
             grenadeImpact.lifetime = 18;
-            grenadeImpact.lifetimeAfterImpact = 0f;
+            grenadeImpact.lifetimeAfterImpact = 0.5f;
             grenadeImpact.lifetimeRandomOffset = 0;
             grenadeImpact.blastRadius = 6;
             grenadeImpact.blastDamageCoefficient = 1;
@@ -882,9 +936,9 @@ namespace EnforcerPlugin
 
             Destroy(tearGasPrefab.transform.GetChild(0).gameObject);
             GameObject gasFX = Assets.tearGasEffectPrefab.InstantiateClone("FX", true);
+            gasFX.AddComponent<NetworkIdentity>();
             gasFX.transform.parent = tearGasPrefab.transform;
             gasFX.transform.localPosition = Vector3.zero;
-            gasFX.AddComponent<NetworkIdentity>();
 
             //i have this really big cut on my shin and it's bleeding but i'm gonna code instead of doing something about it
             // that's the spirit, champ
@@ -932,6 +986,7 @@ namespace EnforcerPlugin
             {
                 list.Add(projectilePrefab);
                 list.Add(tearGasPrefab);
+                list.Add(stunGrenade);
             };
 
             EffectAPI.AddEffect(bulletTracer);
@@ -1066,7 +1121,7 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkill(typeof(ShoulderBash));
             LoadoutAPI.AddSkill(typeof(ShoulderBashImpact));
 
-            string desc = "Smash nearby enemies for <style=cIsDamage>" + 100f * ShieldBash.damageCoefficient + "% damage, stunning</style> and <style=cIsUtility>knocking them back</style>. <style=cIsUtility>Deflects projectiles.</style> Use while sprinting to perform a <style=cIsDamage>shoulder bash</style> instead.";
+            string desc = "Smash nearby enemies for <style=cIsDamage>" + 100f * ShieldBash.damageCoefficient + "% damage, stunning</style> and <style=cIsUtility>knocking them back</style>. Use while sprinting to perform a <style=cIsDamage>shoulder bash</style> instead. <style=cIsUtility>Deflects projectiles.</style>";
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", desc);
@@ -1121,7 +1176,7 @@ namespace EnforcerPlugin
             mySkillDef.activationState = new SerializableEntityStateType(typeof(TearGas));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 1;
-            mySkillDef.baseRechargeInterval = 20;
+            mySkillDef.baseRechargeInterval = 24;
             mySkillDef.beginSkillCooldownOnSkillEnd = false;
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
@@ -1155,13 +1210,13 @@ namespace EnforcerPlugin
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
             };
 
-            /*LoadoutAPI.AddSkill(typeof(StunGrenade));
+            LoadoutAPI.AddSkill(typeof(StunGrenade));
 
             LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_NAME", "Stun Grenade");
-            LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION", "Launch a stun grenade, stunning enemies in a huge radius for 150% damage. Holds up to 6 stock. Can bounce at shallow angles.");
+            LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION", "Launch a stun grenade, dealing <style=cIsDamage>" + 100f * StunGrenade.damageCoefficient + "% damage</style> and <style=cIsUtility>stunning</style>. <style=cIsUtility>Store up to 6 grenades</style>.");
 
             mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            mySkillDef.activationState = new SerializableEntityStateType(typeof(TearGas));
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(StunGrenade));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 6;
             mySkillDef.baseRechargeInterval = 8f;
@@ -1190,7 +1245,7 @@ namespace EnforcerPlugin
                 skillDef = mySkillDef,
                 unlockableName = "",
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
-            };*/
+            };
         }
 
         private void SpecialSetup()
@@ -1273,13 +1328,13 @@ namespace EnforcerPlugin
 
         private void AltSpecialSetup()
         {
-            LoadoutAPI.AddSkill(typeof(ProtectAndServe));
+            LoadoutAPI.AddSkill(typeof(EnergyShield));
 
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDON_NAME", "Project and Swerve");
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDON_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>projecting an Energy Shield in front of you</style>. <style=cIsDamage>Increases your rate of fire</style>, but prevents sprinting and jumping.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            mySkillDef.activationState = new SerializableEntityStateType(typeof(ProtectAndServe));
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(EnergyShield));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 1;
             mySkillDef.baseRechargeInterval = 0f;
@@ -1296,9 +1351,9 @@ namespace EnforcerPlugin
             mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
             mySkillDef.icon = Assets.icon3;
-            mySkillDef.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION";
-            mySkillDef.skillName = "ENFORCER_SPECIAL_SHIELDUP_NAME";
-            mySkillDef.skillNameToken = "ENFORCER_SPECIAL_SHIELDUP_NAME";
+            mySkillDef.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDON_DESCRIPTION";
+            mySkillDef.skillName = "ENFORCER_SPECIAL_SHIELDON_NAME";
+            mySkillDef.skillNameToken = "ENFORCER_SPECIAL_SHIELDON_NAME";
 
             LoadoutAPI.AddSkillDef(mySkillDef);
 
@@ -1319,7 +1374,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDOFF_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>projecting an Energy Shield in front of you</style>. <style=cIsDamage>Increases your rate of fire</style>, but prevents sprinting and jumping.");
 
             SkillDef mySkillDef2 = ScriptableObject.CreateInstance<SkillDef>();
-            mySkillDef2.activationState = new SerializableEntityStateType(typeof(ProtectAndServe));
+            mySkillDef2.activationState = new SerializableEntityStateType(typeof(EnergyShield));
             mySkillDef2.activationStateMachineName = "Weapon";
             mySkillDef2.baseMaxStock = 1;
             mySkillDef2.baseRechargeInterval = 0f;
@@ -1336,14 +1391,22 @@ namespace EnforcerPlugin
             mySkillDef2.shootDelay = 0f;
             mySkillDef2.stockToConsume = 1;
             mySkillDef2.icon = Assets.icon3B;
-            mySkillDef2.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDDOWN_DESCRIPTION";
-            mySkillDef2.skillName = "ENFORCER_SPECIAL_SHIELDDOWN_NAME";
-            mySkillDef2.skillNameToken = "ENFORCER_SPECIAL_SHIELDDOWN_NAME";
+            mySkillDef2.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDOFF_DESCRIPTION";
+            mySkillDef2.skillName = "ENFORCER_SPECIAL_SHIELDOFF_NAME";
+            mySkillDef2.skillNameToken = "ENFORCER_SPECIAL_SHIELDOFF_NAME";
 
             LoadoutAPI.AddSkillDef(mySkillDef2);
 
             shieldOffDef = mySkillDef;
             shieldOnDef = mySkillDef2;
+        }
+    }
+
+    public class MenuSound : MonoBehaviour
+    {
+        private void OnEnable()
+        {
+            Util.PlaySound(Sounds.SirenSpawn, base.gameObject);
         }
     }
 
@@ -1421,6 +1484,9 @@ namespace EnforcerPlugin
         public static readonly string FireAssaultRifleSlow = "Assault_Shots_1";
         public static readonly string FireAssaultRifleFast = "Assault_Shots_2";
 
+        public static readonly string FireBlasterShotgun = "Blaster_Shotgun";
+        public static readonly string FireBlasterRifle = "Blaster_Rifle";
+
         public static readonly string ShieldBash = "Bash";
         public static readonly string BashHitEnemy = "Bash_Hit_Enemy";
         public static readonly string BashDeflect = "Bash_Deflect";
@@ -1437,6 +1503,11 @@ namespace EnforcerPlugin
 
         public static readonly string ShellHittingFloor = "Shell_Hitting_floor";
 
+        public static readonly string DeathSound = "Death_Siren";
+        public static readonly string SirenButton = "Siren_Button";
+        public static readonly string SirenSpawn = "Siren_Spawn";
+
         public static readonly string DefaultDance = "Default_forcer";
+        public static readonly string DOOM = "DOOM";
     }
 }

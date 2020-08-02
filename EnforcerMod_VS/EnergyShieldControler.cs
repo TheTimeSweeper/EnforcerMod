@@ -85,6 +85,11 @@ public class EnergyShieldControler : MonoBehaviour
         componentInChildren.damageModifier = HurtBox.DamageModifier.Normal;
         componentInChildren.hurtBoxGroup = hurtBoxGroup;
         componentInChildren.indexInGroup = 0;
+
+        hurtBoxGroup.hurtBoxes = new HurtBox[]
+        {
+                componentInChildren
+        };
     }
 
     void Update()

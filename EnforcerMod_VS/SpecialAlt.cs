@@ -4,10 +4,10 @@ using UnityEngine.Networking;
 
 namespace EntityStates.Enforcer
 {
-    public class ProtectAndServe : BaseSkillState
+    public class EnergyShield : BaseSkillState
     {
-        public static float enterDuration = 0.5f;
-        public static float exitDuration = 0.6f;
+        public static float enterDuration = 0.7f;
+        public static float exitDuration = 0.9f;
         public static float bonusMass = 15000;
 
         private float duration;
@@ -23,9 +23,10 @@ namespace EntityStates.Enforcer
 
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
             {
-                this.duration = ProtectAndServe.exitDuration / this.attackSpeedStat;
+                this.duration/= EnergyShield.exitDuration / this.attackSpeedStat;
 
                 this.shieldComponent.isShielding = false;
+                this.shieldComponent.toggleEnergyShield();
 
                 this.playShieldAnimation(false);
 
@@ -43,9 +44,10 @@ namespace EntityStates.Enforcer
             }
             else
             {
-                this.duration = ProtectAndServe.enterDuration / this.attackSpeedStat;
+                this.duration /= EnergyShield.enterDuration / this.attackSpeedStat;
 
                 this.shieldComponent.isShielding = true;
+                this.shieldComponent.toggleEnergyShield();
 
                 this.playShieldAnimation(true);
 
@@ -86,7 +88,7 @@ namespace EntityStates.Enforcer
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            return InterruptPriority.Pain;
+            return InterruptPriority.Death;
         }
     }
 }

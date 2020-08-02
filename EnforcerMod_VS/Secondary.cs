@@ -14,7 +14,7 @@ namespace EntityStates.Enforcer
         public static float procCoefficient = 1f;
         public static float knockbackForce = 0.2f;
         public static float blastRadius = 6f;
-        public static float deflectRadius = 4f;
+        public static float deflectRadius = 3f;
         public static string hitboxString = "ShieldHitbox"; //transform where the hitbox is fired
         public static float beefDurationNoShield = 0.4f;
         public static float beefDurationShield = 0.6f;
@@ -27,6 +27,8 @@ namespace EntityStates.Enforcer
         private BlastAttack blastAttack;
         private ChildLocator childLocator;
         private bool hasFired;
+        private bool usingBash;
+        private bool hasDeflected;
 
         private List<CharacterBody> victimList = new List<CharacterBody>();
 
@@ -36,15 +38,19 @@ namespace EntityStates.Enforcer
 
             this.duration = ShieldBash.baseDuration / this.attackSpeedStat;
             this.fireDuration = this.duration * 0.15f;
-            this.deflectDuration = this.duration * 0.4f;
+            this.deflectDuration = this.duration * 0.45f;
             this.aimRay = base.GetAimRay();
             this.hasFired = false;
+            this.hasDeflected = false;
+            this.usingBash = false;
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
             base.StartAimMode(aimRay, 2f, false);
 
             //yep cock
             if (base.characterBody.isSprinting)
             {
+                this.hasDeflected = true;
+                this.usingBash = true;
                 this.hasFired = true;
                 base.skillLocator.secondary.skillDef.activationStateMachineName = "Body";
                 this.outer.SetNextState(new ShoulderBash());
@@ -181,6 +187,8 @@ namespace EntityStates.Enforcer
 
         private void Deflect()
         {
+            if (this.usingBash) return;
+
             Collider[] array = Physics.OverlapSphere(childLocator.FindChild(hitboxString).position, ShieldBash.deflectRadius, LayerIndex.projectile.mask);
 
             for (int i = 0; i < array.Length; i++)
@@ -213,6 +221,12 @@ namespace EntityStates.Enforcer
                         Destroy(pc.gameObject);
 
                         base.characterBody.GetComponent<ShieldComponent>().flashLights();
+
+                        if (!this.hasDeflected)
+                        {
+                            this.hasDeflected = true;
+                            Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
+                        }
                     }
                 }
             }
@@ -227,7 +241,7 @@ namespace EntityStates.Enforcer
     public class ShoulderBash : BaseSkillState
     {
         [SerializeField]
-        public float baseDuration = 0.4f;
+        public float baseDuration = 0.65f;
         [SerializeField]
         public float speedMultiplier = 1.1f;
         public static float chargeDamageCoefficient = 5.5f;
