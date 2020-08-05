@@ -58,7 +58,8 @@ namespace EntityStates.Enforcer
             //sirens
             if (base.isAuthority && Input.GetKeyDown(KeyCode.C))
             {
-                this.ToggleSirens();
+                //enough of this fucking earrape i swear to god
+                //this.ToggleSirens();
             }
 
             // this is a temp toggle, remove this later
@@ -87,10 +88,13 @@ namespace EntityStates.Enforcer
                 ctp.idealLocalCameraPos = new Vector3(1.8f, -0.5f, -6f) + smoothFactor * smoothVector;
             }
 
-            if (shieldComponent.shieldHealth <= 0)
+            if (base.characterBody.skillLocator.special.skillNameToken == "")
             {
-                outer.SetNextState(new EnergyShield());
-                return;
+                if (shieldComponent.shieldHealth <= 0)
+                {
+                    outer.SetNextState(new EnergyShield());
+                    return;
+                }
             }
 
             //manageTestValues();

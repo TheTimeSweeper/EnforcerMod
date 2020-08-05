@@ -836,7 +836,7 @@ namespace EnforcerPlugin
             ProjectileImpactExplosion stunGrenadeImpact = stunGrenade.GetComponent<ProjectileImpactExplosion>();
             ProjectileSimple stunGrenadeSimple = stunGrenade.GetComponent<ProjectileSimple>();
 
-            GameObject stunGrenadeModel = Assets.tearGasGrenadeModel.InstantiateClone("StunGrenadeGhost", true);
+            GameObject stunGrenadeModel = Assets.stunGrenadeModel.InstantiateClone("StunGrenadeGhost", true);
             stunGrenadeModel.AddComponent<NetworkIdentity>();
             stunGrenadeModel.AddComponent<ProjectileGhostController>();
 
@@ -1025,7 +1025,7 @@ namespace EnforcerPlugin
             SecondarySetup();
             UtilitySetup();
             SpecialSetup();
-            AltSpecialSetup();
+            //AltSpecialSetup();
         }
         
         private void PrimarySetup()
@@ -1431,6 +1431,8 @@ namespace EnforcerPlugin
         public static GameObject tearGasGrenadeModel;
         public static GameObject tearGasEffectPrefab;
 
+        public static GameObject stunGrenadeModel;
+
         public static Mesh stormtrooperMesh;
 
         public static void PopulateAssets()
@@ -1465,6 +1467,8 @@ namespace EnforcerPlugin
             //grenade = TempAssetBundle.LoadAsset<GameObject>("Grenade");
             tearGasGrenadeModel = MainAssetBundle.LoadAsset<GameObject>("TearGasGrenade");
             tearGasEffectPrefab = MainAssetBundle.LoadAsset<GameObject>("TearGasEffect");
+
+            stunGrenadeModel = MainAssetBundle.LoadAsset<GameObject>("StunGrenade");
 
             //add vfx shit so nothing breaks
             //tearGasEffectPrefab.AddComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Always;

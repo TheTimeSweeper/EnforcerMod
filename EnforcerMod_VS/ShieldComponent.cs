@@ -40,7 +40,7 @@ public class ShieldComponent : MonoBehaviour
 
         aimShield();
 
-        energyShieldControler.shieldAimRayDirection = aimRay.direction;
+        if (energyShieldControler) energyShieldControler.shieldAimRayDirection = aimRay.direction;
 
         handleShoulderLights();
     }
@@ -72,16 +72,22 @@ public class ShieldComponent : MonoBehaviour
         {
             if (lightCounter % 10 == 0)
             {
-                lights[0].enabled = !lights[0].enabled;
-                lights[1].enabled = !lights[1].enabled;
+                if (lights.Length > 0 && lights[0] != null && lights[1] != null)
+                {
+                    lights[0].enabled = !lights[0].enabled;
+                    lights[1].enabled = !lights[1].enabled;
+                }
             }
 
             lightCounter++;
         }
         else
         {
-            lights[0].enabled = false;
-            lights[1].enabled = false;
+            if (lights.Length > 0 && lights[0] != null && lights[1] != null)
+            {
+                lights[0].enabled = false;
+                lights[1].enabled = false;
+            }
         }
     }
 
@@ -151,7 +157,7 @@ public class ShieldComponent : MonoBehaviour
 
     public void toggleEnergyShield()
     {
-        energyShieldControler.Toggle();
+        if (energyShieldControler) energyShieldControler.Toggle();
     }
 
     public void flashLights()

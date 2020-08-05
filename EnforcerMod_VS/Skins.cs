@@ -25,6 +25,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCERBODY_ENGI_SKIN_NAME", "Engineer?");
             LanguageAPI.Add("ENFORCERBODY_DOOM_SKIN_NAME", "Doom Slayer");
             LanguageAPI.Add("ENFORCERBODY_IRONMAN_SKIN_NAME", "IronManforcer");
+            LanguageAPI.Add("ENFORCERBODY_DESPERADO_SKIN_NAME", "Desperado");
 
             LoadoutAPI.SkinDefInfo skinDefInfo = default(LoadoutAPI.SkinDefInfo);
             skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
@@ -59,6 +60,11 @@ namespace EnforcerPlugin
                 new SkinDef.GameObjectActivation
                 {
                     gameObject = childLocator.FindChild("BlasterRifle").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("EngiHelm").gameObject,
                     shouldActivate = false
                 }
             };
@@ -114,6 +120,11 @@ namespace EnforcerPlugin
                 {
                     gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("EngiHelm").gameObject,
+                    shouldActivate = false
                 }
             };
 
@@ -154,7 +165,8 @@ namespace EnforcerPlugin
             if (material)
             {
                 material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldSpace").GetTexture("_MainTex"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldWhite").GetTexture("_MainTex"));
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldWhite").GetColor("_Color"));
 
                 array[2].defaultMaterial = material;
             }
@@ -197,6 +209,11 @@ namespace EnforcerPlugin
                 {
                     gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("EngiHelm").gameObject,
+                    shouldActivate = true
                 }
             };
 
@@ -206,7 +223,7 @@ namespace EnforcerPlugin
                 new SkinDef.MeshReplacement
                 {
                     renderer = mainRenderer,
-                    mesh = mainRenderer.sharedMesh
+                    mesh = Assets.stormtrooperMesh
                 }
             };
             engiSkinDefInfo.Name = "ENFORCERBODY_ENGI_SKIN_NAME";
@@ -228,6 +245,17 @@ namespace EnforcerPlugin
                 material.SetTexture("_EmissionMap", Assets.MainAssetBundle.LoadAsset<Material>("matEngiforcer").GetTexture("_EmissionMap"));
 
                 array[0].defaultMaterial = material;
+            }
+
+            material = array[2].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldEngi").GetTexture("_MainTex"));
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldEngi").GetColor("_Color"));
+
+                array[2].defaultMaterial = material;
             }
 
             engiSkinDefInfo.RendererInfos = array;
@@ -268,6 +296,11 @@ namespace EnforcerPlugin
                 {
                     gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("EngiHelm").gameObject,
+                    shouldActivate = false
                 }
             };
 
@@ -306,7 +339,8 @@ namespace EnforcerPlugin
             if (material)
             {
                 material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldSpace").GetTexture("_MainTex"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldBlack").GetTexture("_MainTex"));
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldBlack").GetColor("_Color"));
 
                 array[2].defaultMaterial = material;
             }
@@ -349,6 +383,11 @@ namespace EnforcerPlugin
                 {
                     gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("EngiHelm").gameObject,
+                    shouldActivate = false
                 }
             };
 
@@ -381,17 +420,116 @@ namespace EnforcerPlugin
                 array[0].defaultMaterial = material;
             }
 
+            material = array[2].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldBlack").GetTexture("_MainTex"));
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldBlack").GetColor("_Color"));
+
+                array[2].defaultMaterial = material;
+            }
+
             ironSkinDefInfo.RendererInfos = array;
 
             SkinDef ironSkin = LoadoutAPI.CreateNewSkinDef(ironSkinDefInfo);
 
-            skinController.skins = new SkinDef[5]
+            LoadoutAPI.SkinDefInfo desperadoSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            desperadoSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+
+            desperadoSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
+            {
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("EngiShield").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("StormtrooperHelm").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShotgunModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("RifleModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("Blaster").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("EngiHelm").gameObject,
+                    shouldActivate = false
+                }
+            };
+
+            desperadoSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.43f, 0.1f, 0.1f), Color.red, new Color(0.31f, 0.04f, 0.07f), Color.black);
+            desperadoSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                new SkinDef.MeshReplacement
+                {
+                    renderer = mainRenderer,
+                    mesh = mainRenderer.sharedMesh
+                }
+            };
+            desperadoSkinDefInfo.Name = "ENFORCERBODY_DESPERADO_SKIN_NAME";
+            desperadoSkinDefInfo.NameToken = "ENFORCERBODY_DESPERADO_SKIN_NAME";
+            desperadoSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            desperadoSkinDefInfo.RootObject = model;
+            desperadoSkinDefInfo.UnlockableName = "";
+
+            rendererInfos = skinDefInfo.RendererInfos;
+            array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos.CopyTo(array, 0);
+
+            material = array[0].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_MainTex"));
+                material.SetTexture("_EmissionMap", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_EmissionMap"));
+
+                array[0].defaultMaterial = material;
+            }
+
+            material = array[2].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldBlack").GetTexture("_MainTex"));
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldBlack").GetColor("_Color"));
+
+                array[2].defaultMaterial = material;
+            }
+
+            desperadoSkinDefInfo.RendererInfos = array;
+
+            SkinDef desperadoSkin = LoadoutAPI.CreateNewSkinDef(desperadoSkinDefInfo);
+
+            skinController.skins = new SkinDef[6]
             {
                 defaultSkin,
                 doomSkin,
                 engiSkin,
                 spaceSkin,
-                ironSkin
+                ironSkin,
+                desperadoSkin
             };
         }
     }

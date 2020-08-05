@@ -245,7 +245,7 @@ namespace EntityStates.Enforcer
         [SerializeField]
         public float speedMultiplier = 1.1f;
         public static float chargeDamageCoefficient = 5.5f;
-        public static float knockbackDamageCoefficient = 6.5f;
+        public static float knockbackDamageCoefficient = 7f;
         public static float massThresholdForKnockback = 150;
         public static float knockbackForce = 3400;
         public static float smallHopVelocity = 16f;
@@ -298,7 +298,7 @@ namespace EntityStates.Enforcer
             this.attack.inflictor = base.gameObject;
             this.attack.teamIndex = base.GetTeam();
             this.attack.damage = ShoulderBash.chargeDamageCoefficient * this.damageStat;
-            this.attack.hitEffectPrefab = Toolbot.ToolbotDash.impactEffectPrefab;
+            this.attack.hitEffectPrefab = Loader.SwingChargedFist.overchargeImpactEffectPrefab;
             this.attack.forceVector = Vector3.up * Toolbot.ToolbotDash.upwardForceMagnitude;
             this.attack.pushAwayForce = Toolbot.ToolbotDash.awayForceMagnitude;
             this.attack.hitBoxGroup = hitBoxGroup;
@@ -465,7 +465,7 @@ namespace EntityStates.Enforcer
             if (base.isAuthority)
             {
                 base.AddRecoil(-0.5f * Toolbot.ToolbotDash.recoilAmplitude * 3f, -0.5f * Toolbot.ToolbotDash.recoilAmplitude * 3f, -0.5f * Toolbot.ToolbotDash.recoilAmplitude * 8f, 0.5f * Toolbot.ToolbotDash.recoilAmplitude * 3f);
-                EffectManager.SimpleImpactEffect(Toolbot.ToolbotDash.knockbackEffectPrefab, base.characterBody.corePosition, base.characterDirection.forward, true);
+                EffectManager.SimpleImpactEffect(Loader.SwingZapFist.overchargeImpactEffectPrefab, base.characterBody.corePosition, base.characterDirection.forward, true);
                 this.outer.SetNextStateToMain();
             }
         }
