@@ -220,12 +220,12 @@ namespace EntityStates.Enforcer
 
                         Destroy(pc.gameObject);
 
-                        base.characterBody.GetComponent<ShieldComponent>().flashLights();
-
                         if (!this.hasDeflected)
                         {
                             this.hasDeflected = true;
                             Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
+
+                            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
                         }
                     }
                 }
@@ -263,6 +263,8 @@ namespace EntityStates.Enforcer
             this.duration = this.baseDuration;
 
             //base.characterBody.GetComponent<ShieldComponent>().flashLights();
+
+            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(1);
 
             if (base.isAuthority)
             {

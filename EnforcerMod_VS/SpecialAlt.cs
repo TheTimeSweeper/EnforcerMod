@@ -13,20 +13,21 @@ namespace EntityStates.Enforcer
         private float duration;
         private ShieldComponent shieldComponent;
         private Animator animator;
+        private ChildLocator childLocator;
 
         public override void OnEnter()
         {
             base.OnEnter();
             this.animator = GetModelAnimator();
-
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
+            this.childLocator = base.characterBody.GetComponentInChildren<ChildLocator>();
 
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
             {
                 this.duration/= EnergyShield.exitDuration / this.attackSpeedStat;
 
                 this.shieldComponent.isShielding = false;
-                this.shieldComponent.toggleEnergyShield();
+                if (this.childLocator.FindChild("EnergyShield")) this.childLocator.FindChild("EnergyShield").gameObject.SetActive(false);
 
                 this.playShieldAnimation(false);
 
@@ -47,7 +48,7 @@ namespace EntityStates.Enforcer
                 this.duration /= EnergyShield.enterDuration / this.attackSpeedStat;
 
                 this.shieldComponent.isShielding = true;
-                this.shieldComponent.toggleEnergyShield();
+                if (this.childLocator.FindChild("EnergyShield")) this.childLocator.FindChild("EnergyShield").gameObject.SetActive(true);
 
                 this.playShieldAnimation(true);
 
@@ -56,7 +57,7 @@ namespace EntityStates.Enforcer
                     base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerPlugin.shieldUpDef);
                 }
 
-                if (base.characterMotor) base.characterMotor.mass = ProtectAndServe.bonusMass;
+                if (base.characterMotor) base.characterMotor.mass = EnergyShield.bonusMass;
 
                 if (NetworkServer.active)
                 {

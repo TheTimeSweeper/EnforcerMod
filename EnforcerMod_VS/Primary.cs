@@ -7,7 +7,7 @@ namespace EntityStates.Enforcer
     {
         public static GameObject stormtrooperTracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoBoost");
 
-        public static float damageCoefficient = 0.4f;
+        public static float damageCoefficient = 0.35f;
         public static float procCoefficient = 0.4f;
         public static float bulletForce = 50f;
         public static float baseDuration = 0.9f; // the base skill duration

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2032095179
+CRC: 396649208
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 309946a983aa87c6fe0e4266a27645da
+    Hash: 13aab924186d1d7b47a14e634ab6dc05
   TypeTreeHash:
     serializedVersion: 2
     Hash: f240f48b63355cdb5a5003bf2a73bc66
@@ -85,7 +85,9 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/EnforcerDisplay.prefab
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texDoomEnforcerEmissive.png
 - Assets/Enforcer/EnforcerAssets/Materials/matEnforcerDesperado.mat
+- Assets/Enforcer/EnforcerAssets/Materials/matRiotShieldDesperado.mat
 - Assets/Enforcer/EnforcerAssets/Skill2Icon.png
+- Assets/Enforcer/EnforcerAssets/Textures/Weapon/texRiotShieldDesperado.png
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texEnforcerDesperadoEmissive.png
 - Assets/Enforcer/EnforcerAssets/Animations/Temp/EnforcerSprintBash.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Temp/EnforcerShieldBash.anim
@@ -113,6 +115,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerWalkForward.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Emote/DanceMoves.anim
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texIronManforcer.png
+- Assets/Enforcer/EnforcerAssets/EngiforcerMesh.mesh
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerArmRightTemp.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Temp/Flinch1.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matStormtrooper.mat

@@ -55,6 +55,7 @@ namespace EnforcerPlugin
         public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
         public static BuffIndex jackBoots;
+        public static BuffIndex energyShieldBuff;
         public static BuffIndex tearGasDebuff;
 
         public static SkillDef shieldDownDef;//skilldef used while shield is down
@@ -133,6 +134,11 @@ namespace EnforcerPlugin
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
         {
             // the energy shield thing was causing some wierd bugs. Need to find a better solution that just canceling this method lol
+
+            // it works for now
+
+            if (self.name == "EnergyShield") return;
+
             orig(self);
             if (self)
             {
@@ -141,6 +147,13 @@ namespace EnforcerPlugin
                     Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
                     Reflection.SetPropertyValue<float>(self, "armor", self.armor + 20);
                     Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.5f);
+                }
+
+                if (self.HasBuff(energyShieldBuff))
+                {
+                    Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
+                    Reflection.SetPropertyValue<float>(self, "armor", self.armor + 40);
+                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.65f);
                 }
 
                 if (self.HasBuff(tearGasDebuff))
@@ -760,8 +773,9 @@ namespace EnforcerPlugin
             /*ShieldComponent shieldComponent =*/
             characterPrefab.AddComponent<ShieldComponent>();
             characterPrefab.AddComponent<EnforcerWeaponComponent>();
+            characterPrefab.AddComponent<EnforcerLightController>();
 
-#endregion
+            #endregion
         }
 
         private void RegisterCharacter()
@@ -804,7 +818,7 @@ namespace EnforcerPlugin
         private void RegisterBuffs() {
             BuffDef jackBootsDef = new BuffDef {
                 name = "Heavyweight",
-                iconPath = "Textures/BuffIcons/texBuffGenericShield",//someone needs to add this already
+                iconPath = "Textures/BuffIcons/texBuffGenericShield",//i'll add this soon
                 buffColor = characterColor,
                 canStack = false,
                 isDebuff = false,
@@ -812,6 +826,18 @@ namespace EnforcerPlugin
             };
             CustomBuff jackBoots = new CustomBuff(jackBootsDef);
             EnforcerPlugin.jackBoots = BuffAPI.Add(jackBoots);
+
+            BuffDef energyShieldBuffDef = new BuffDef
+            {
+                name = "Heavyweight",
+                iconPath = "Textures/BuffIcons/texBuffGenericShield",
+                buffColor = characterColor,
+                canStack = false,
+                isDebuff = false,
+                eliteIndex = EliteIndex.None
+            };
+            CustomBuff energyShieldBuff = new CustomBuff(energyShieldBuffDef);
+            EnforcerPlugin.energyShieldBuff = BuffAPI.Add(energyShieldBuff);
 
             BuffDef tearGasDef = new BuffDef
             {
@@ -959,8 +985,8 @@ namespace EnforcerPlugin
                     Material material = UnityEngine.Object.Instantiate<Material>(i.material);
                     material.SetColor("_TintColor", Color.yellow);
                     i.material = material;
-                    i.startColor = Color.yellow;
-                    i.endColor = Color.yellow;
+                    i.startColor = new Color(0.88f, 0.78f, 0.25f);
+                    i.endColor = new Color(0.88f, 0.78f, 0.25f);
                 }
             }
 
@@ -977,8 +1003,8 @@ namespace EnforcerPlugin
                     Material material = UnityEngine.Object.Instantiate<Material>(i.material);
                     material.SetColor("_TintColor", Color.red);
                     i.material = material;
-                    i.startColor = Color.red;
-                    i.endColor = Color.red;
+                    i.startColor = new Color(0.8f, 0.19f, 0.19f);
+                    i.endColor = new Color(0.8f, 0.19f, 0.19f);
                 }
             }
 
@@ -1025,7 +1051,7 @@ namespace EnforcerPlugin
             SecondarySetup();
             UtilitySetup();
             SpecialSetup();
-            //AltSpecialSetup();
+            AltSpecialSetup();
         }
         
         private void PrimarySetup()
@@ -1434,6 +1460,7 @@ namespace EnforcerPlugin
         public static GameObject stunGrenadeModel;
 
         public static Mesh stormtrooperMesh;
+        public static Mesh engiMesh;
 
         public static void PopulateAssets()
         {
@@ -1476,6 +1503,7 @@ namespace EnforcerPlugin
             //actually this wasn't even needed
 
             stormtrooperMesh = MainAssetBundle.LoadAsset<Mesh>("StormtrooperMesh");
+            engiMesh = MainAssetBundle.LoadAsset<Mesh>("EngiforcerMesh");
         }
     }
 

@@ -61,11 +61,6 @@ namespace EnforcerPlugin
                 {
                     gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = childLocator.FindChild("EngiHelm").gameObject,
-                    shouldActivate = false
                 }
             };
 
@@ -120,11 +115,6 @@ namespace EnforcerPlugin
                 {
                     gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = childLocator.FindChild("EngiHelm").gameObject,
-                    shouldActivate = false
                 }
             };
 
@@ -209,11 +199,6 @@ namespace EnforcerPlugin
                 {
                     gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = childLocator.FindChild("EngiHelm").gameObject,
-                    shouldActivate = true
                 }
             };
 
@@ -223,7 +208,7 @@ namespace EnforcerPlugin
                 new SkinDef.MeshReplacement
                 {
                     renderer = mainRenderer,
-                    mesh = Assets.stormtrooperMesh
+                    mesh = Assets.engiMesh
                 }
             };
             engiSkinDefInfo.Name = "ENFORCERBODY_ENGI_SKIN_NAME";
@@ -295,11 +280,6 @@ namespace EnforcerPlugin
                 new SkinDef.GameObjectActivation
                 {
                     gameObject = childLocator.FindChild("BlasterRifle").gameObject,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = childLocator.FindChild("EngiHelm").gameObject,
                     shouldActivate = false
                 }
             };
@@ -383,11 +363,6 @@ namespace EnforcerPlugin
                 {
                     gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = childLocator.FindChild("EngiHelm").gameObject,
-                    shouldActivate = false
                 }
             };
 
@@ -469,11 +444,6 @@ namespace EnforcerPlugin
                 {
                     gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = childLocator.FindChild("EngiHelm").gameObject,
-                    shouldActivate = false
                 }
             };
 
@@ -512,8 +482,8 @@ namespace EnforcerPlugin
             if (material)
             {
                 material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldBlack").GetTexture("_MainTex"));
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldBlack").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matRiotShieldDesperado").GetTexture("_MainTex"));
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matRiotShieldDesperado").GetColor("_Color"));
 
                 array[2].defaultMaterial = material;
             }

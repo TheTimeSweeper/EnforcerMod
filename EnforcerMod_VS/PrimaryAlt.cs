@@ -74,7 +74,7 @@ namespace EntityStates.Enforcer
 
             if (base.characterBody.skinIndex == 3) soundString = EnforcerPlugin.Sounds.FireBlasterRifle;
 
-            Util.PlaySound(soundString, base.gameObject);
+            Util.PlayScaledSound(soundString, base.gameObject, this.attackSpeedStat);
 
             if (base.isAuthority)
             {

@@ -15,17 +15,13 @@ namespace EntityStates.Enforcer
 
         public static bool shotgunToggle = false;
         private bool sirenToggle;
+        private ChildLocator childLocator;
 
         public override void OnEnter()
         {
             base.OnEnter();
-
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
-
-            //Loadout loadout = base.characterBody.master.loadout;
-            //uint specialVar = loadout.bodyLoadoutManager.GetSkillVariant(base.characterBody.bodyIndex, 3);
-            //this.shieldComponent.isAlternate = specialVar == 1;
-            //bruh just use a new entitystate for this what
+            this.childLocator = base.characterBody.GetComponentInChildren<ChildLocator>();
 
             if (!EnforcerPlugin.EnforcerPlugin.cum && base.characterBody.skinIndex == 1)
             {
