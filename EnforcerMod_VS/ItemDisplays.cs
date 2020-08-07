@@ -1803,7 +1803,7 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplaySteakCurved"),
                             childName = "Shield",
-                            localPos = new Vector3(2, -0.4f, 7.8f),
+                            localPos = new Vector3(2, 0, 7.8f),
                             localAngles = new Vector3(-25, 0, 180),
                             localScale = new Vector3(2, 2, 2),
                             limbMask = LimbFlags.None

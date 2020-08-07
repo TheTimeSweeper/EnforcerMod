@@ -963,6 +963,7 @@ namespace EnforcerPlugin
             Destroy(tearGasPrefab.transform.GetChild(0).gameObject);
             GameObject gasFX = Assets.tearGasEffectPrefab.InstantiateClone("FX", true);
             gasFX.AddComponent<NetworkIdentity>();
+            gasFX.AddComponent<TearGasSound>();
             gasFX.transform.parent = tearGasPrefab.transform;
             gasFX.transform.localPosition = Vector3.zero;
 
@@ -1436,6 +1437,21 @@ namespace EnforcerPlugin
         }
     }
 
+    public class TearGasSound : MonoBehaviour
+    {
+        private uint playID;
+
+        private void Awake()
+        {
+            playID = Util.PlaySound(Sounds.GasContinuous, base.gameObject);
+        }
+
+        private void OnDestroy()
+        {
+            AkSoundEngine.StopPlayingID(playID);
+        }
+    }
+
     public static class Assets
     {
         public static AssetBundle MainAssetBundle = null;
@@ -1523,6 +1539,8 @@ namespace EnforcerPlugin
         public static readonly string BashHitEnemy = "Bash_Hit_Enemy";
         public static readonly string BashDeflect = "Bash_Deflect";
 
+        public static readonly string ShoulderBashHit = "Shoulder_Bash_Hit";
+
         public static readonly string LaunchStunGrenade = "Launch_Stun";
         public static readonly string StunExplosion = "Stun_Explosion";
 
@@ -1530,8 +1548,14 @@ namespace EnforcerPlugin
         public static readonly string GasExplosion = "Gas_Explosion";
         public static readonly string GasContinuous = "Gas_Continous";
 
+        public static readonly string ShieldUp = "R_up";
+        public static readonly string ShieldDown = "R_down";
+
         public static readonly string ShieldBlockLight = "Shield_Block_light";
         public static readonly string ShieldBlockHeavy = "Shield_Block_heavy";
+
+        public static readonly string EnergyShieldUp = "Energy_R_Up";
+        public static readonly string EnergyShieldDown = "Energy_R_down";
 
         public static readonly string ShellHittingFloor = "Shell_Hitting_floor";
 

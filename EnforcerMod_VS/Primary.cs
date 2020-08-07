@@ -34,7 +34,7 @@ namespace EntityStates.Enforcer
             if (base.characterBody.skinIndex == 3) this.muzzleString = "BlasterMuzzle";
             this.hasFired = false;
 
-            if (base.characterBody.GetComponent<ShieldComponent>().isShielding)
+            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
             {
                 this.duration = RiotShotgun.baseShieldDuration / this.attackSpeedStat;
                 this.attackStopDuration = RiotShotgun.beefDurationShield / this.attackSpeedStat;
@@ -89,7 +89,7 @@ namespace EntityStates.Enforcer
 
                 float recoil = RiotShotgun.bulletRecoil;
 
-                if (base.characterBody.GetComponent<ShieldComponent>().isShielding) recoil = RiotShotgun.shieldedBulletRecoil;
+                if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff)) recoil = RiotShotgun.shieldedBulletRecoil;
 
                 base.AddRecoil(-2f * recoil, -3f * recoil, -1f * recoil, 1f * recoil);
                 base.characterBody.AddSpreadBloom(0.33f * recoil);

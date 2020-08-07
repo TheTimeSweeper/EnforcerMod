@@ -12,7 +12,7 @@ class EnforcerLightController : MonoBehaviour
     private void Start()
     {
         this.childLocator = this.gameObject.GetComponentInChildren<ChildLocator>();
-        this.flashDuration = 0.5f;
+        this.flashDuration = 0.3f;
 
         this.lights = new Light[]
         {

@@ -225,7 +225,7 @@ namespace EntityStates.Enforcer
                             this.hasDeflected = true;
                             Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
 
-                            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
+                            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(8);
                         }
                     }
                 }
@@ -262,9 +262,7 @@ namespace EntityStates.Enforcer
             base.OnEnter();
             this.duration = this.baseDuration;
 
-            //base.characterBody.GetComponent<ShieldComponent>().flashLights();
-
-            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(1);
+            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(4);
 
             if (base.isAuthority)
             {
@@ -373,7 +371,7 @@ namespace EntityStates.Enforcer
 
                     if (this.attack.Fire(this.victimsStruck))
                     {
-                        Util.PlaySound(Toolbot.ToolbotDash.impactSoundString, base.gameObject);
+                        Util.PlaySound(EnforcerPlugin.Sounds.ShoulderBashHit, base.gameObject);
                         this.inHitPause = true;
                         this.hitPauseTimer = Toolbot.ToolbotDash.hitPauseDuration;
                         base.AddRecoil(-0.5f * Toolbot.ToolbotDash.recoilAmplitude, -0.5f * Toolbot.ToolbotDash.recoilAmplitude, -0.5f * Toolbot.ToolbotDash.recoilAmplitude, 0.5f * Toolbot.ToolbotDash.recoilAmplitude);
@@ -433,6 +431,8 @@ namespace EntityStates.Enforcer
         public Vector3 idealDirection;
         public bool isCrit;
 
+        public float duration = 0.2f;
+
         public override void OnEnter()
         {
             base.OnEnter();
@@ -469,6 +469,17 @@ namespace EntityStates.Enforcer
                 base.AddRecoil(-0.5f * Toolbot.ToolbotDash.recoilAmplitude * 3f, -0.5f * Toolbot.ToolbotDash.recoilAmplitude * 3f, -0.5f * Toolbot.ToolbotDash.recoilAmplitude * 8f, 0.5f * Toolbot.ToolbotDash.recoilAmplitude * 3f);
                 EffectManager.SimpleImpactEffect(Loader.SwingZapFist.overchargeImpactEffectPrefab, base.characterBody.corePosition, base.characterDirection.forward, true);
                 this.outer.SetNextStateToMain();
+            }
+        }
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+
+            if (base.fixedAge >= this.duration)
+            {
+                this.outer.SetNextStateToMain();
+                return;
             }
         }
 

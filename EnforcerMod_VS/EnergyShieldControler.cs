@@ -6,27 +6,33 @@ public class EnergyShieldControler : MonoBehaviour
     //messily being set from ShieldComponent.Update()
     public Vector3 shieldAimRayDirection = new Vector3(0, 0, 0);
 
-    private MeshCollider collider;
-    private MeshRenderer[] renderers;
+    //private MeshCollider collider;
+    //private MeshRenderer[] renderers;
     private float angle;
 
     public HealthComponent healthComponent;
 
+    private bool isSet;
 
     void Start() {
 
         SetCharacterbody();
 
-        collider = GetComponentInChildren<MeshCollider>();
-        renderers = GetComponentsInChildren<MeshRenderer>();
 
-        collider.enabled = false;
-        for (int i = 0; i < 2; i++) {
-            renderers[i].enabled = false;
-        }
+        //just deactivate the entire gameobject when the skill isn't active rather than doing all this
+
+        //collider = GetComponentInChildren<MeshCollider>();
+        //renderers = GetComponentsInChildren<MeshRenderer>();
+
+        //collider.enabled = false;
+        //for (int i = 0; i < 2; i++) {
+        //    renderers[i].enabled = false;
+        //}
     }
 
     private void SetCharacterbody() {
+        if (isSet) return;
+        isSet = true;
 
         CharacterBody characterBody = gameObject.AddComponent<CharacterBody>();
         characterBody.bodyIndex = -1;
@@ -88,11 +94,11 @@ public class EnergyShieldControler : MonoBehaviour
 
         hurtBoxGroup.hurtBoxes = new HurtBox[]
         {
-                componentInChildren
+            componentInChildren
         };
     }
 
-    void Update()
+    private void Update()
     {
         Vector3 horizontal = new Vector3(shieldAimRayDirection.x, 0, shieldAimRayDirection.z);
         float sign = -1 * (shieldAimRayDirection.y / Mathf.Abs(shieldAimRayDirection.y));
@@ -107,10 +113,17 @@ public class EnergyShieldControler : MonoBehaviour
 
         healthComponent.health = healthComponent.fullHealth;
 
-        collider.enabled = !collider.enabled;
-        for (int i = 0; i < 2; i++)
-        {
-            renderers[i].enabled = !renderers[i].enabled;
-        }
+        //collider.enabled = !collider.enabled;
+        //for (int i = 0; i < 2; i++)
+        //{
+        //    renderers[i].enabled = !renderers[i].enabled;
+        //}
+    }
+
+    private void OnEnable()
+    {
+        if (!isSet) SetCharacterbody();
+
+        healthComponent.health = healthComponent.fullHealth;
     }
 }

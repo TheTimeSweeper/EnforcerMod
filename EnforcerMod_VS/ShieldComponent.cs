@@ -13,6 +13,7 @@ public class ShieldComponent : MonoBehaviour
     public Vector3 shieldDirection = new Vector3(1,0,0);
     float initialTime = 0;
 
+    private GameObject energyShield;
     private EnergyShieldControler energyShieldControler;
 
     private Transform _shieldPreview;
@@ -32,6 +33,7 @@ public class ShieldComponent : MonoBehaviour
         var childLocator = GetComponentInChildren<ChildLocator>();
         childLocator.FindChild("EnergyShield").gameObject.SetActive(true);// i don't know if the object has to be active to get the component but i'm playing it safe
         energyShieldControler = childLocator.FindChild("EnergyShield").GetComponentInChildren<EnergyShieldControler>();
+        energyShield = childLocator.FindChild("EnergyShield").gameObject;
         childLocator.FindChild("EnergyShield").gameObject.SetActive(false);
     }
 
@@ -61,5 +63,10 @@ public class ShieldComponent : MonoBehaviour
         }
 
         //displayShieldPreviewCube();
+    }
+
+    public void ToggleEnergyShield(bool shieldToggle)
+    {
+        if (energyShield) energyShield.SetActive(shieldToggle);
     }
 }

@@ -25,7 +25,7 @@ namespace EntityStates.Enforcer
             this.activePlayID = Util.PlaySound(soundString, base.gameObject);
 
             //no don't comment this out it looks fucking stupid with the shield
-            this.ShowShield(false);
+            this.ToggleShield(false);
         }
 
         public override void OnExit()
@@ -36,19 +36,12 @@ namespace EntityStates.Enforcer
 
             base.PlayAnimation("FullBody, Override", "BufferEmpty");
             if (this.activePlayID != 0) AkSoundEngine.StopPlayingID(this.activePlayID);
-            this.ShowShield(true);
+            this.ToggleShield(true);
         }
 
-        private void ShowShield(bool show)
+        private void ToggleShield(bool sex)
         {
-            if (show)
-            {
-                this.childLocator.FindChild("Shield").gameObject.SetActive(true);
-            }
-            else
-            {
-                this.childLocator.FindChild("Shield").gameObject.SetActive(false);
-            }
+            if (this.childLocator) this.childLocator.FindChild("Shield").gameObject.SetActive(sex);
         }
 
         public override void FixedUpdate()

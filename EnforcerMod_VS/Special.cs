@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Networking;
+using RoR2;
 
 namespace EntityStates.Enforcer
 {
@@ -18,7 +19,6 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
             this.animator = GetModelAnimator();
-
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
 
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
@@ -40,6 +40,8 @@ namespace EntityStates.Enforcer
                 {
                     base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
                 }
+
+                Util.PlaySound(EnforcerPlugin.Sounds.ShieldDown, base.gameObject);
             }
             else
             {
@@ -60,6 +62,8 @@ namespace EntityStates.Enforcer
                 {
                     base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
                 }
+
+                Util.PlaySound(EnforcerPlugin.Sounds.ShieldUp, base.gameObject);
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Networking;
+using RoR2;
 
 namespace EntityStates.Enforcer
 {
@@ -20,49 +21,57 @@ namespace EntityStates.Enforcer
             base.OnEnter();
             this.animator = GetModelAnimator();
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
-            this.childLocator = base.characterBody.GetComponentInChildren<ChildLocator>();
+            this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
 
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+            this.shieldComponent.isShielding = !base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff);
+
+            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
             {
-                this.duration/= EnergyShield.exitDuration / this.attackSpeedStat;
-
-                this.shieldComponent.isShielding = false;
-                if (this.childLocator.FindChild("EnergyShield")) this.childLocator.FindChild("EnergyShield").gameObject.SetActive(false);
-
+                this.duration = EnergyShield.exitDuration / this.attackSpeedStat;
+                this.EnableEnergyShield(false);
                 this.playShieldAnimation(false);
 
                 if (base.skillLocator)
                 {
-                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerPlugin.shieldDownDef);
+                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerPlugin.shieldOffDef);
                 }
 
                 if (base.characterMotor) base.characterMotor.mass = 200f;
 
                 if (NetworkServer.active)
                 {
-                    base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
+                    base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff);
                 }
+
+                Util.PlaySound(EnforcerPlugin.Sounds.EnergyShieldDown, base.gameObject);
             }
             else
             {
-                this.duration /= EnergyShield.enterDuration / this.attackSpeedStat;
-
-                this.shieldComponent.isShielding = true;
-                if (this.childLocator.FindChild("EnergyShield")) this.childLocator.FindChild("EnergyShield").gameObject.SetActive(true);
-
+                this.duration = EnergyShield.enterDuration / this.attackSpeedStat;
+                this.EnableEnergyShield(true);
                 this.playShieldAnimation(true);
 
                 if (base.skillLocator)
                 {
-                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerPlugin.shieldUpDef);
+                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerPlugin.shieldOnDef);
                 }
 
                 if (base.characterMotor) base.characterMotor.mass = EnergyShield.bonusMass;
 
                 if (NetworkServer.active)
                 {
-                    base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
+                    base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff);
                 }
+
+                Util.PlaySound(EnforcerPlugin.Sounds.EnergyShieldUp, base.gameObject);
+            }
+        }
+
+        private void EnableEnergyShield(bool what)
+        {
+            if (this.childLocator)
+            {
+                this.childLocator.FindChild("EnergyShield").gameObject.SetActive(what);
             }
         }
 
