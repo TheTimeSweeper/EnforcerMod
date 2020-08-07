@@ -123,12 +123,24 @@ namespace EnforcerPlugin
         }
         private void Hook() {
             //add hooks here
-            //using this approach means we'll on              ly ever have to comment one line if we don't want a hook to fire
+            //using this approach means we'll only ever have to comment one line if we don't want a hook to fire
             //it's much simpler this way, trust me
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnEnemyHit;
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
             On.RoR2.CharacterBody.Update += CharacterBody_Update;
+            On.RoR2.BodyCatalog.SetBodyPrefabs += BodyCatalog_SetBodyPrefabs;
+        }
+
+        private void BodyCatalog_SetBodyPrefabs(On.RoR2.BodyCatalog.orig_SetBodyPrefabs orig, GameObject[] newBodyPrefabs)
+        {
+            
+            for (int i = 0; i < newBodyPrefabs.Length; i++) {
+                if (newBodyPrefabs[i].name == "EnforcerBody" && newBodyPrefabs[i] != characterPrefab) {
+                    newBodyPrefabs[i].name = "OldEnforcerBody";
+                }
+            }
+            orig(newBodyPrefabs);
         }
         #region Hooks
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
@@ -421,7 +433,7 @@ namespace EnforcerPlugin
             // https://youtu.be/zRXl8Ow2bUs
 
             #region add all the things
-            characterPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), "EnforcerEpicBody");
+            characterPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), "EnforcerBody");
 
             characterPrefab.GetComponent<NetworkIdentity>().localPlayerAuthority = true;
 

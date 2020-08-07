@@ -309,7 +309,8 @@ namespace EntityStates.Enforcer
         {
             if (base.characterBody)
             {
-                base.characterBody.isSprinting = false;
+                //eat shit
+                base.characterBody.isSprinting = true;
             }
 
             if (base.characterMotor && !base.characterMotor.disableAirControlUntilCollision)
