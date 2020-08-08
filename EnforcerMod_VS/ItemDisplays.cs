@@ -1814,6 +1814,27 @@ namespace EnforcerPlugin
 
             list.Add(new ItemDisplayRuleSet.NamedRuleGroup
             {
+                name = "Tooth",
+                displayRuleGroup = new DisplayRuleGroup
+                {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayToothNecklaceDecal"),
+                            childName = "Spine3",
+                            localPos = new Vector3(0, 0, 0),
+                            localAngles = new Vector3(0, 0, 0),
+                            localScale = new Vector3(1, 1, 1),
+                            limbMask = LimbFlags.None
+                        }
+                    }
+                }
+            });
+
+            list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            {
                 name = "Pearl",
                 displayRuleGroup = new DisplayRuleGroup
                 {

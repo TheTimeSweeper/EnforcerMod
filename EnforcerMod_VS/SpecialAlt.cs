@@ -29,7 +29,8 @@ namespace EntityStates.Enforcer
             {
                 this.duration = EnergyShield.exitDuration / this.attackSpeedStat;
                 this.EnableEnergyShield(false);
-                this.playShieldAnimation(false);
+
+                base.PlayAnimation("LeftArm, Override", "ShieldDown", "ShieldUp.playbackRate", this.duration);
 
                 if (base.skillLocator)
                 {
@@ -49,7 +50,8 @@ namespace EntityStates.Enforcer
             {
                 this.duration = EnergyShield.enterDuration / this.attackSpeedStat;
                 this.EnableEnergyShield(true);
-                this.playShieldAnimation(true);
+
+                base.PlayAnimation("LeftArm, Override", "ShieldUp", "ShieldUp.playbackRate", this.duration);
 
                 if (base.skillLocator)
                 {
@@ -73,11 +75,6 @@ namespace EntityStates.Enforcer
             {
                 this.childLocator.FindChild("EnergyShield").gameObject.SetActive(what);
             }
-        }
-
-        private void playShieldAnimation(bool setting)
-        {
-            this.animator.SetBool("shieldUp", setting);
         }
 
         public override void OnExit()

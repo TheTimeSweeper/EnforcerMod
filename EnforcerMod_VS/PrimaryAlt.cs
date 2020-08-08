@@ -84,6 +84,8 @@ namespace EntityStates.Enforcer
 
         private void OnFireAuthority()
         {
+            base.PlayAnimation("RightArm, Override", "FireShotgun");
+
             this.isCrit = this.RollCrit();
 
             base.AddRecoil(-0.5f * FireAssaultRifle.recoilAmplitude, -0.5f * FireAssaultRifle.recoilAmplitude, -0.5f * FireAssaultRifle.recoilAmplitude, 0.5f * FireAssaultRifle.recoilAmplitude);
@@ -199,8 +201,6 @@ namespace EntityStates.Enforcer
             if (base.characterBody.skinIndex == 3) muzzleString = "BlasterRifleMuzzle";
             this.muzzleTransform = base.FindModelChild(muzzleString);
             this.animator = base.GetModelAnimator();
-
-            this.animator.SetBool("gunUp", true);
         }
 
         public override void FixedUpdate()
@@ -214,8 +214,6 @@ namespace EntityStates.Enforcer
         public override void OnExit()
         {
             base.OnExit();
-
-            this.animator.SetBool("gunUp", false);
         }
 
         protected ref InputBankTest.ButtonState skillButtonState

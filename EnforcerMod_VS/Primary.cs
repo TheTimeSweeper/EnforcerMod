@@ -43,25 +43,16 @@ namespace EntityStates.Enforcer
             {
                 this.duration = RiotShotgun.baseDuration / this.attackSpeedStat;
                 this.attackStopDuration = RiotShotgun.beefDurationNoShield / this.attackSpeedStat;
-
-                base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
             }
 
+            base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
+
             this.fireDuration = 0.1f * this.duration;
-
-            this.setGunAnimation(true);
-        }
-
-        private void setGunAnimation(bool setting)
-        {
-            this.animator.SetBool("gunUp", setting);
         }
 
         public override void OnExit()
         {
             base.OnExit();
-
-            this.setGunAnimation(false);
         }
 
         private void FireBullet()
@@ -160,7 +151,6 @@ namespace EntityStates.Enforcer
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
-                setGunAnimation(false);
                 this.outer.SetNextStateToMain();
             }
         }

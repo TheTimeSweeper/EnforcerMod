@@ -18,7 +18,7 @@ using System.IO;
 namespace EnforcerPlugin
 {
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
-    [BepInPlugin(MODUID, "Enforcer", "0.0.2")]
+    [BepInPlugin(MODUID, "Enforcer", "0.0.3")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -125,8 +125,8 @@ namespace EnforcerPlugin
             //add hooks here
             //using this approach means we'll only ever have to comment one line if we don't want a hook to fire
             //it's much simpler this way, trust me
-            On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
-            On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnEnemyHit;
+            //On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
+            //On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnEnemyHit;
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
             On.RoR2.CharacterBody.Update += CharacterBody_Update;
             On.RoR2.BodyCatalog.SetBodyPrefabs += BodyCatalog_SetBodyPrefabs;
@@ -134,7 +134,7 @@ namespace EnforcerPlugin
 
         private void BodyCatalog_SetBodyPrefabs(On.RoR2.BodyCatalog.orig_SetBodyPrefabs orig, GameObject[] newBodyPrefabs)
         {
-            
+            //nicely done brother
             for (int i = 0; i < newBodyPrefabs.Length; i++) {
                 if (newBodyPrefabs[i].name == "EnforcerBody" && newBodyPrefabs[i] != characterPrefab) {
                     newBodyPrefabs[i].name = "OldEnforcerBody";
@@ -473,6 +473,7 @@ namespace EnforcerPlugin
 
             CharacterBody bodyComponent = characterPrefab.GetComponent<CharacterBody>();
             bodyComponent.bodyIndex = -1;
+            bodyComponent.name = "EnforcerBody";
             bodyComponent.baseNameToken = "ENFORCER_NAME";
             bodyComponent.subtitleNameToken = "ENFORCER_SUBTITLE";
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
@@ -525,9 +526,6 @@ namespace EnforcerPlugin
             characterMotor.useGravity = true;
             characterMotor.isFlying = false;
 
-            InputBankTest inputBankTest = characterPrefab.GetComponent<InputBankTest>();
-            inputBankTest.moveVector = Vector3.zero;
-
             CameraTargetParams cameraTargetParams = characterPrefab.GetComponent<CameraTargetParams>();
             cameraTargetParams.cameraParams = Resources.Load<GameObject>("Prefabs/CharacterBodies/LoaderBody").GetComponent<CameraTargetParams>().cameraParams;
             cameraTargetParams.cameraPivotTransform = null;
@@ -539,12 +537,6 @@ namespace EnforcerPlugin
             ModelLocator modelLocator = characterPrefab.GetComponent<ModelLocator>();
             modelLocator.modelTransform = transform;
             modelLocator.modelBaseTransform = gameObject.transform;
-            modelLocator.dontReleaseModelOnDeath = false;
-            modelLocator.autoUpdateModelTransform = true;
-            modelLocator.dontDetatchFromParent = false;
-            modelLocator.noCorpse = false;
-            modelLocator.normalizeToFloor = false;
-            modelLocator.preserveModel = false;
 
             ChildLocator childLocator = model.GetComponent<ChildLocator>();
 
@@ -671,7 +663,7 @@ namespace EnforcerPlugin
 
             CharacterDeathBehavior characterDeathBehavior = characterPrefab.GetComponent<CharacterDeathBehavior>();
             characterDeathBehavior.deathStateMachine = characterPrefab.GetComponent<EntityStateMachine>();
-            characterDeathBehavior.deathState = new SerializableEntityStateType(typeof(GenericCharacterDeath));
+            //characterDeathBehavior.deathState = new SerializableEntityStateType(typeof(GenericCharacterDeath));
 
             SfxLocator sfxLocator = characterPrefab.GetComponent<SfxLocator>();
             sfxLocator.deathSound = Sounds.DeathSound;
@@ -683,7 +675,7 @@ namespace EnforcerPlugin
             sfxLocator.aliveLoopStop = "";
 
             Rigidbody rigidbody = characterPrefab.GetComponent<Rigidbody>();
-            rigidbody.mass = 100f;
+            rigidbody.mass = 200f;
             rigidbody.drag = 0f;
             rigidbody.angularDrag = 0f;
             rigidbody.useGravity = false;
@@ -724,20 +716,31 @@ namespace EnforcerPlugin
 
             HurtBoxGroup hurtBoxGroup = model.AddComponent<HurtBoxGroup>();
 
-            HurtBox componentInChildren = model.GetComponentInChildren<CapsuleCollider>().gameObject.AddComponent<HurtBox>();
-            componentInChildren.gameObject.layer = LayerIndex.entityPrecise.intVal;
-            componentInChildren.healthComponent = healthComponent;
-            componentInChildren.isBullseye = true;
-            componentInChildren.damageModifier = HurtBox.DamageModifier.Normal;
-            componentInChildren.hurtBoxGroup = hurtBoxGroup;
-            componentInChildren.indexInGroup = 0;
+            if (model.transform.Find("TempHurtbox") == null) Debug.Log("no hurtbox xd");
+            HurtBox mainHurtbox = model.transform.Find("TempHurtbox").GetComponent<CapsuleCollider>().gameObject.AddComponent<HurtBox>();
+            mainHurtbox.gameObject.layer = LayerIndex.entityPrecise.intVal;
+            mainHurtbox.healthComponent = healthComponent;
+            mainHurtbox.isBullseye = true;
+            mainHurtbox.damageModifier = HurtBox.DamageModifier.Normal;
+            mainHurtbox.hurtBoxGroup = hurtBoxGroup;
+            mainHurtbox.indexInGroup = 0;
+
+            //make a hurtbox for the shield since this works apparently !
+            HurtBox shieldHurtbox = childLocator.FindChild("ShieldHurtbox").gameObject.AddComponent<HurtBox>();
+            shieldHurtbox.gameObject.layer = LayerIndex.entityPrecise.intVal;
+            shieldHurtbox.healthComponent = healthComponent;
+            shieldHurtbox.isBullseye = false;
+            shieldHurtbox.damageModifier = HurtBox.DamageModifier.Barrier;
+            shieldHurtbox.hurtBoxGroup = hurtBoxGroup;
+            shieldHurtbox.indexInGroup = 1;
 
             hurtBoxGroup.hurtBoxes = new HurtBox[]
             {
-                componentInChildren
+                mainHurtbox,
+                shieldHurtbox
             };
 
-            hurtBoxGroup.mainHurtBox = componentInChildren;
+            hurtBoxGroup.mainHurtBox = mainHurtbox;
             hurtBoxGroup.bullseyeCount = 1;
 
             //make a hitbox for shoulder bash
@@ -765,24 +768,35 @@ namespace EnforcerPlugin
             footstepHandler.enableFootstepDust = true;
             footstepHandler.footstepDustPrefab = Resources.Load<GameObject>("Prefabs/GenericFootstepDust");
 
-            RagdollController ragdollController = model.AddComponent<RagdollController>();
-            ragdollController.bones = null;
-            ragdollController.componentsToDisableOnRagdoll = null;
+            RagdollController ragdollController = model.GetComponent<RagdollController>();
+
+            PhysicMaterial physicMat = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<RagdollController>().bones[1].GetComponent<Collider>().material;
+
+            foreach (Transform i in ragdollController.bones)
+            {
+                if (i)
+                {
+                    i.gameObject.layer = LayerIndex.ragdoll.intVal;
+                    Collider j = i.GetComponent<Collider>();
+                    if (j)
+                    {
+                        j.material = physicMat;
+                        j.sharedMaterial = physicMat;
+                    }
+                }
+            }
 
             AimAnimator aimAnimator = model.AddComponent<AimAnimator>();
-            aimAnimator.inputBank = inputBankTest;
             aimAnimator.directionComponent = characterDirection;
-            aimAnimator.pitchRangeMax = 55f;
-            aimAnimator.pitchRangeMin = -50f;
-            aimAnimator.yawRangeMin = -44f;
-            aimAnimator.yawRangeMax = 44f;
+            aimAnimator.pitchRangeMax = 60f;
+            aimAnimator.pitchRangeMin = -60f;
+            aimAnimator.yawRangeMin = -90f;
+            aimAnimator.yawRangeMax = 90f;
             aimAnimator.pitchGiveupRange = 30f;
             aimAnimator.yawGiveupRange = 10f;
-            aimAnimator.giveupDuration = 8f;
+            aimAnimator.giveupDuration = 3f;
+            aimAnimator.inputBank = characterPrefab.GetComponent<InputBankTest>();
 
-            //why cache it if we're not gonna set it?
-            // i dunno honestly
-            /*ShieldComponent shieldComponent =*/
             characterPrefab.AddComponent<ShieldComponent>();
             characterPrefab.AddComponent<EnforcerWeaponComponent>();
             characterPrefab.AddComponent<EnforcerLightController>();

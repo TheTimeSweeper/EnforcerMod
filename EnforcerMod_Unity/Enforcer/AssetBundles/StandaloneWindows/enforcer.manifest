@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 396649208
+CRC: 3169617897
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 13aab924186d1d7b47a14e634ab6dc05
+    Hash: 54b949cf58c1629a6bd502656e2021d7
   TypeTreeHash:
     serializedVersion: 2
-    Hash: f240f48b63355cdb5a5003bf2a73bc66
+    Hash: bb1a639f3a38105e2b9c79b7daef554f
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -25,7 +25,11 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
 - Class: 64
+  Script: {instanceID: 0}
+- Class: 65
   Script: {instanceID: 0}
 - Class: 74
   Script: {instanceID: 0}
@@ -44,6 +48,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 67079b849227b734694872d8810229b8, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: db294d07add6b364f99a346939dd2a8a, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 7ade51fc5319ad3459ce2de62570bf78, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: aaabc320440a02340b0239f0cf1745a2, type: 3}
@@ -56,6 +62,8 @@ ClassTypes:
 - Class: 136
   Script: {instanceID: 0}
 - Class: 137
+  Script: {instanceID: 0}
+- Class: 144
   Script: {instanceID: 0}
 - Class: 198
   Script: {instanceID: 0}
@@ -97,7 +105,6 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/StormtrooperMesh.mesh
 - Assets/Enforcer/EnforcerAssets/Materials/matEnforcer.mat
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerCalmIdle.anim
-- Assets/Enforcer/EnforcerAssets/Animations/Temp/ProtectAndServe.anim
 - Assets/Enforcer/EnforcerAssets/Skill3Icon.png
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texEnforcer.png
 - Assets/Enforcer/EnforcerAssets/Materials/matEquippedShieldEngi.mat
@@ -144,17 +151,19 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/Temp/Flinch2.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matTearGasGrenade.mat
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerCalmIdleIn.anim
+- Assets/Enforcer/EnforcerAssets/Animations/EnforcerAimPitch.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matDoomEnforcer.mat
 - Assets/Enforcer/EnforcerAssets/Particles/texSpark.png
 - Assets/Enforcer/EnforcerAssets/Materials/matStunGrenade.mat
+- Assets/Enforcer/EnforcerAssets/Animations/EnforcerAimYaw.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matHitboxPreview.mat
 - Assets/Enforcer/EnforcerAssets/Materials/texEngiShield.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matEngiShield.mat
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texStormtrooper.png
 - Assets/Enforcer/EnforcerAssets/TearGasEffect.prefab
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texEnforcerDesperado.png
+- Assets/Enforcer/EnforcerAssets/Animations/Masks/EnforcerAimMask.mask
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerArmLeftTemp.anim
-- Assets/FBX/Enforcer2.fbx
 - Assets/Enforcer/EnforcerAssets/Particles/matRing.mat
 - Assets/Enforcer/EnforcerAssets/Animations/Temp/EnforcerFall.anim
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texEngiShield.png

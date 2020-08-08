@@ -27,7 +27,9 @@ namespace EntityStates.Enforcer
 
                 this.shieldComponent.isShielding = false;
 
-                this.playShieldAnimation(false);
+                base.PlayAnimation("LeftArm, Override", "ShieldDown", "ShieldUp.playbackRate", this.duration);
+
+                base.GetModelTransform().GetComponent<ChildLocator>().FindChild("ShieldHurtbox").gameObject.SetActive(false);
 
                 if (base.skillLocator)
                 {
@@ -49,7 +51,9 @@ namespace EntityStates.Enforcer
 
                 this.shieldComponent.isShielding = true;
 
-                this.playShieldAnimation(true);
+                base.PlayAnimation("LeftArm, Override", "ShieldUp", "ShieldUp.playbackRate", this.duration);
+
+                base.GetModelTransform().GetComponent<ChildLocator>().FindChild("ShieldHurtbox").gameObject.SetActive(true);
 
                 if (base.skillLocator)
                 {
@@ -65,11 +69,6 @@ namespace EntityStates.Enforcer
 
                 Util.PlaySound(EnforcerPlugin.Sounds.ShieldUp, base.gameObject);
             }
-        }
-
-        private void playShieldAnimation(bool setting)
-        {
-            this.animator.SetBool("shieldUp", setting);
         }
 
         public override void OnExit()

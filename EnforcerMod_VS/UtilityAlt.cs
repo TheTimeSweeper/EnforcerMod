@@ -24,9 +24,7 @@ namespace EntityStates.Enforcer
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
             this.animator = base.GetModelAnimator();
 
-            this.animator.SetBool("gunUp", true);
-
-            //base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
+            base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
 
             Util.PlaySound(EnforcerPlugin.Sounds.LaunchStunGrenade, base.gameObject);
 
@@ -60,8 +58,6 @@ namespace EntityStates.Enforcer
         public override void OnExit()
         {
             base.OnExit();
-
-            this.animator.SetBool("gunUp", false);
         }
 
         public override void FixedUpdate()
