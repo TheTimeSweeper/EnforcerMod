@@ -26,14 +26,14 @@ namespace EnforcerPlugin
         "LoadoutAPI",
         "BuffAPI",
         "LanguageAPI",
-        "SoundAPI"
+        "SoundAPI",
+        "EffectAPI"
     })]
 
     public class EnforcerPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.ok.Enforcer";
 
-        public static float ShieldBlockAngle = 45;
         public static EnforcerPlugin instance;
 
         //i didn't want this to be static considering we're using an instance now but it throws 23 errors if i remove the static modifier 
@@ -46,6 +46,8 @@ namespace EnforcerPlugin
         public static GameObject projectilePrefab;
         public GameObject tearGasPrefab;
         public static GameObject stunGrenade;
+
+        public static GameObject blockEffectPrefab;
 
         public GameObject doppelganger;
         
@@ -125,7 +127,7 @@ namespace EnforcerPlugin
             //add hooks here
             //using this approach means we'll only ever have to comment one line if we don't want a hook to fire
             //it's much simpler this way, trust me
-            //On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
+            On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             //On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnEnemyHit;
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
             On.RoR2.CharacterBody.Update += CharacterBody_Update;
@@ -179,7 +181,25 @@ namespace EnforcerPlugin
         }
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
-            ShieldComponent shieldComponent = self.GetComponent<ShieldComponent>();
+            if ((info.damageType & DamageType.BarrierBlocked) != DamageType.Generic && self.body.baseNameToken == "ENFORCER_NAME")
+            {
+                string soundString = Sounds.ShieldBlockLight;
+                if (info.procCoefficient >= 1) soundString = Sounds.ShieldBlockHeavy;
+
+                Util.PlaySound(soundString, self.gameObject);
+
+                EffectData effectData = new EffectData
+                {
+                    origin = info.position,
+                    rotation = Util.QuaternionSafeLookRotation((info.force != Vector3.zero) ? info.force : UnityEngine.Random.onUnitSphere)
+                };
+
+                EffectManager.SpawnEffect(EnforcerPlugin.blockEffectPrefab, effectData, true);
+
+                info.rejected = true;
+            }
+
+            /*ShieldComponent shieldComponent = self.GetComponent<ShieldComponent>();
             if (shieldComponent && info.attacker && self.body.HasBuff(jackBoots))
             {
                 bool canBlock = GetShieldBlock(self, info, shieldComponent);
@@ -193,17 +213,6 @@ namespace EnforcerPlugin
 
                 if (canBlock)
                 {
-                    //what even is this man
-                    /*if (info.attacker.GetComponent<CharacterBody>())
-                    {
-                        CharacterBody attackerBody = info.attacker.GetComponent<CharacterBody>();
-                        bool blazingElite = attackerBody.HasBuff(BuffIndex.AffixRed);
-                        if (blazingElite && self.body.GetBuffCount(BuffIndex.OnFire) > 0)
-                        {
-                            DotController.RemoveAllDots(self.gameObject);
-                        }
-                    };*/
-
                     string soundString = Sounds.ShieldBlockLight;
                     if (info.damage >= (0.5f * self.fullCombinedHealth)) soundString = Sounds.ShieldBlockHeavy;
 
@@ -213,7 +222,7 @@ namespace EnforcerPlugin
 
                     return;
                 }
-            }
+            }*/
 
             if (self.body.name == "EnergyShield")
             {
@@ -223,16 +232,16 @@ namespace EnforcerPlugin
             orig(self, info);
         }
 
-        private bool GetShieldBlock(HealthComponent self, DamageInfo info, ShieldComponent shieldComponent) {
+        /*private bool GetShieldBlock(HealthComponent self, DamageInfo info, ShieldComponent shieldComponent) {
             CharacterBody charB = self.GetComponent<CharacterBody>();
             Ray aimRay = shieldComponent.aimRay;
             Vector3 relativePosition = info.attacker.transform.position - aimRay.origin;
             float angle = Vector3.Angle(shieldComponent.shieldDirection, relativePosition);
 
             return angle < ShieldBlockAngle;
-        }
+        }*/
 
-        private void GlobalEventManager_OnEnemyHit(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo info, GameObject victim)
+        /*private void GlobalEventManager_OnEnemyHit(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo info, GameObject victim)
         {
             ShieldComponent shieldComponent = self.GetComponent<ShieldComponent>();
             if (shieldComponent && info.attacker && victim.GetComponent<CharacterBody>().HasBuff(jackBoots))
@@ -250,9 +259,9 @@ namespace EnforcerPlugin
             }
 
             orig(self, info, victim);
-        }
+        }*/
 
-        private bool GetShieldDebuffBlock(GameObject self, DamageInfo info, ShieldComponent shieldComponent)
+        /*private bool GetShieldDebuffBlock(GameObject self, DamageInfo info, ShieldComponent shieldComponent)
         {
             CharacterBody charB = self.GetComponent<CharacterBody>();
             Ray aimRay = shieldComponent.aimRay;
@@ -260,7 +269,7 @@ namespace EnforcerPlugin
             float angle = Vector3.Angle(shieldComponent.shieldDirection, relativePosition);
 
             return angle < ShieldBlockAngle;
-        }
+        }*/
 
         private void CharacterBody_Update(On.RoR2.CharacterBody.orig_Update orig, CharacterBody self) {
             if (self.name == "EnergyShield") {
@@ -973,7 +982,7 @@ namespace EnforcerPlugin
             tearGasDamage.damageType = DamageType.Stun1s;
             tearGasDamage.force = -1000;
 
-            buffWard.radius = 24;
+            buffWard.radius = 20;
             buffWard.interval = 1;
             buffWard.rangeIndicator = null;
             buffWard.buffType = tearGasDebuff;
@@ -1035,6 +1044,13 @@ namespace EnforcerPlugin
                 }
             }
 
+            blockEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/BearProc").InstantiateClone("EnforcerBlockEffect", true);
+
+            if (blockEffectPrefab.GetComponent<AkEvent>()) Destroy(blockEffectPrefab.GetComponent<AkEvent>());
+            if (blockEffectPrefab.GetComponent<AkGameObj>()) Destroy(blockEffectPrefab.GetComponent<AkGameObj>());
+            blockEffectPrefab.GetComponent<EffectComponent>().soundName = "";
+            if (!blockEffectPrefab.GetComponent<NetworkIdentity>()) blockEffectPrefab.AddComponent<NetworkIdentity>();
+
             ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list)
             {
                 list.Add(projectilePrefab);
@@ -1044,6 +1060,7 @@ namespace EnforcerPlugin
 
             EffectAPI.AddEffect(bulletTracer);
             EffectAPI.AddEffect(laserTracer);
+            EffectAPI.AddEffect(blockEffectPrefab);
         }
 
 

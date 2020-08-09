@@ -243,8 +243,8 @@ namespace EntityStates.Enforcer
         [SerializeField]
         public float baseDuration = 0.65f;
         [SerializeField]
-        public float speedMultiplier = 1.1f;
-        public static float chargeDamageCoefficient = 5.5f;
+        public float speedMultiplier = 1.025f;
+        public static float chargeDamageCoefficient = 4.5f;
         public static float knockbackDamageCoefficient = 7f;
         public static float massThresholdForKnockback = 150;
         public static float knockbackForce = 3400;
