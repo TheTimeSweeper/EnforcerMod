@@ -41,8 +41,9 @@ namespace EntityStates.Enforcer
             {
                 this.duration = RiotShotgun.baseDuration / this.attackSpeedStat;
                 this.attackStopDuration = RiotShotgun.beefDurationNoShield / this.attackSpeedStat;
-                base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
             }
+
+            base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
 
             this.fireDuration = 0.1f * this.duration;
         }
@@ -160,7 +161,7 @@ namespace EntityStates.Enforcer
 
     public class SuperShotgun : RiotShotgun
     {
-        public new static float damageCoefficient = 0.75f;
+        public new static float damageCoefficient = 0.7f;
         public new static float procCoefficient = 0.75f;
         public new static float bulletForce = 75f;
 
@@ -218,7 +219,7 @@ namespace EntityStates.Enforcer
                         force = SuperShotgun.bulletForce,
                         hitMask = LayerIndex.CommonMasks.bullet,
                         minSpread = 0,
-                        maxSpread = 12f,
+                        maxSpread = 15f,
                         isCrit = isCrit,
                         owner = base.gameObject,
                         muzzleName = muzzleString,

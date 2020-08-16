@@ -173,9 +173,9 @@ namespace EnforcerPlugin
                 if (self.HasBuff(tearGasDebuff))
                 {
                     Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
-                    Reflection.SetPropertyValue<float>(self, "armor", self.armor - 10);
-                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.3f);
-                    Reflection.SetPropertyValue<float>(self, "attackSpeed", self.attackSpeed * 0.8f);
+                    Reflection.SetPropertyValue<float>(self, "armor", self.armor - 20);
+                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.25f);
+                    Reflection.SetPropertyValue<float>(self, "attackSpeed", self.attackSpeed * 0.75f);
                 }
             }
         }
@@ -847,6 +847,8 @@ namespace EnforcerPlugin
             {
                 list.Add(characterPrefab);
             };
+
+            characterPrefab.tag = "SkinReady";
         }
 
         private void RegisterBuffs() {
@@ -1094,7 +1096,7 @@ namespace EnforcerPlugin
             SecondarySetup();
             UtilitySetup();
             SpecialSetup();
-            AltSpecialSetup();
+            //AltSpecialSetup();
         }
         
         private void PrimarySetup()
@@ -1187,7 +1189,7 @@ namespace EnforcerPlugin
 
             LoadoutAPI.AddSkill(typeof(SuperShotgun));
 
-            desc = "Fire a short range <style=cIsUtility>blast</style> for <style=cIsDamage>" + RiotShotgun.projectileCount + "x" + 100f * SuperShotgun.damageCoefficient + "% damage. Deals more damage in close range.";
+            desc = "Fire a short range <style=cIsUtility>blast</style> for <style=cIsDamage>" + RiotShotgun.projectileCount + "x" + 100f * SuperShotgun.damageCoefficient + "% damage. Has harsh damage falloff.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_NAME", "Super Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION", desc);

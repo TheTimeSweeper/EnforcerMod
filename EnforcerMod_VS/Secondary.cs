@@ -59,12 +59,12 @@ namespace EntityStates.Enforcer
 
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
             {
-                base.PlayAnimation("Gesture, Override", "Bash", "ShieldBash.playbackRate", this.duration);
+                base.PlayAnimation("FullBody, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
                 this.attackStopDuration = ShieldBash.beefDurationShield / this.attackSpeedStat;
             }
             else
             {
-                base.PlayAnimation("FullBody, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
+                base.PlayAnimation("Gesture, Override", "Bash", "ShieldBash.playbackRate", this.duration);
                 this.attackStopDuration = ShieldBash.beefDurationNoShield / this.attackSpeedStat;
             }
 

@@ -29,6 +29,8 @@ namespace EnforcerPlugin
 
             LoadoutAPI.SkinDefInfo skinDefInfo = default(LoadoutAPI.SkinDefInfo);
             skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            skinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            skinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
             skinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
             {
@@ -83,6 +85,8 @@ namespace EnforcerPlugin
 
             LoadoutAPI.SkinDefInfo spaceSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             spaceSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            spaceSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            spaceSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
             spaceSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
             {
@@ -167,6 +171,8 @@ namespace EnforcerPlugin
 
             LoadoutAPI.SkinDefInfo engiSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             engiSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            engiSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            engiSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
             engiSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
             {
@@ -249,6 +255,8 @@ namespace EnforcerPlugin
 
             LoadoutAPI.SkinDefInfo doomSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             doomSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            doomSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            doomSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
             doomSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
             {
@@ -331,6 +339,8 @@ namespace EnforcerPlugin
 
             LoadoutAPI.SkinDefInfo ironSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             ironSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            ironSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            ironSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
             ironSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
             {
@@ -412,6 +422,8 @@ namespace EnforcerPlugin
 
             LoadoutAPI.SkinDefInfo desperadoSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             desperadoSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            desperadoSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            desperadoSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
             desperadoSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
             {
