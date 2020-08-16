@@ -5,25 +5,23 @@ namespace EntityStates.Enforcer
 {
     public class RiotShotgun : BaseSkillState 
     {
-        public static GameObject stormtrooperTracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoBoost");
-
-        public static float damageCoefficient = 0.35f;
-        public static float procCoefficient = 0.4f;
-        public static float bulletForce = 50f;
+        public static float damageCoefficient = 0.4f;
+        public static float procCoefficient = 0.5f;
+        public static float bulletForce = 35f;
         public static float baseDuration = 0.9f; // the base skill duration
         public static float baseShieldDuration = 0.6f; // the duration used while shield is active
         public static int projectileCount = 8;
         public static float bulletRecoil = 3f;
-        public static float shieldedBulletRecoil = 1.5f;
+        public static float shieldedBulletRecoil = 1.25f;
         public static float beefDurationNoShield = 0.0f;
         public static float beefDurationShield = 0.25f;
 
         private float attackStopDuration;   
         private float duration;
         private float fireDuration;
-        private bool hasFired;
+        public bool hasFired;
         private Animator animator;
-        private string muzzleString;
+        public string muzzleString;
 
         public override void OnEnter()
         {
@@ -43,9 +41,8 @@ namespace EntityStates.Enforcer
             {
                 this.duration = RiotShotgun.baseDuration / this.attackSpeedStat;
                 this.attackStopDuration = RiotShotgun.beefDurationNoShield / this.attackSpeedStat;
+                base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
             }
-
-            base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
 
             this.fireDuration = 0.1f * this.duration;
         }
@@ -55,7 +52,7 @@ namespace EntityStates.Enforcer
             base.OnExit();
         }
 
-        private void FireBullet()
+        public virtual void FireBullet()
         {
             if (!this.hasFired)
             {
@@ -76,7 +73,7 @@ namespace EntityStates.Enforcer
 
                 if (base.characterBody.skinIndex == 3) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
 
-                Util.PlaySound(soundString, base.gameObject);
+                Util.PlayScaledSound(soundString, base.gameObject, this.attackSpeedStat);
 
                 float recoil = RiotShotgun.bulletRecoil;
 
@@ -119,7 +116,7 @@ namespace EntityStates.Enforcer
                         procCoefficient = RiotShotgun.procCoefficient,
                         radius = 0.5f,
                         sniper = false,
-                        stopperMask = LayerIndex.background.collisionMask,
+                        stopperMask = LayerIndex.world.collisionMask,
                         weapon = null,
                         tracerEffectPrefab = tracerEffect,
                         spreadPitchScale = 0.5f,
@@ -158,6 +155,89 @@ namespace EntityStates.Enforcer
         public override InterruptPriority GetMinimumInterruptPriority()
         {
             return InterruptPriority.Skill;
+        }
+    }
+
+    public class SuperShotgun : RiotShotgun
+    {
+        public new static float damageCoefficient = 0.75f;
+        public new static float procCoefficient = 0.75f;
+        public new static float bulletForce = 75f;
+
+        public override void FireBullet()
+        {
+            if (!this.hasFired)
+            {
+                this.hasFired = true;
+
+                string soundString = "";
+
+                bool isCrit = base.RollCrit();
+
+                if (EnforcerMain.shotgunToggle)
+                {
+                    soundString = EnforcerPlugin.Sounds.FireClassicShotgun;
+                }
+                else
+                {
+                    soundString = isCrit ? EnforcerPlugin.Sounds.FireShotgun : EnforcerPlugin.Sounds.FireShotgunCrit;
+                }
+
+                if (base.characterBody.skinIndex == 3) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
+
+                Util.PlayScaledSound(soundString, base.gameObject, this.attackSpeedStat);
+
+                float recoil = RiotShotgun.bulletRecoil;
+
+                if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff)) recoil = RiotShotgun.shieldedBulletRecoil;
+
+                base.AddRecoil(-2f * recoil, -3f * recoil, -1f * recoil, 1f * recoil);
+                base.characterBody.AddSpreadBloom(0.33f * recoil);
+                EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, base.gameObject, this.muzzleString, false);
+
+                if (base.isAuthority)
+                {
+                    float damage = SuperShotgun.damageCoefficient * this.damageStat;
+
+                    GameObject tracerEffect = EnforcerPlugin.EnforcerPlugin.bulletTracer;
+
+                    if (base.characterBody.skinIndex == 3) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
+
+                    Ray aimRay = base.GetAimRay();
+
+                    new BulletAttack
+                    {
+                        bulletCount = (uint)projectileCount,
+                        aimVector = aimRay.direction,
+                        origin = aimRay.origin,
+                        damage = damage,
+                        damageColorIndex = DamageColorIndex.Default,
+                        damageType = DamageType.Generic,
+                        falloffModel = BulletAttack.FalloffModel.Buckshot,
+                        maxDistance = 80,
+                        force = SuperShotgun.bulletForce,
+                        hitMask = LayerIndex.CommonMasks.bullet,
+                        minSpread = 0,
+                        maxSpread = 12f,
+                        isCrit = isCrit,
+                        owner = base.gameObject,
+                        muzzleName = muzzleString,
+                        smartCollision = false,
+                        procChainMask = default(ProcChainMask),
+                        procCoefficient = SuperShotgun.procCoefficient,
+                        radius = 0.5f,
+                        sniper = false,
+                        stopperMask = LayerIndex.CommonMasks.bullet,
+                        weapon = null,
+                        tracerEffectPrefab = tracerEffect,
+                        spreadPitchScale = 0.5f,
+                        spreadYawScale = 0.5f,
+                        queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
+                        hitEffectPrefab = ClayBruiser.Weapon.MinigunFire.bulletHitEffectPrefab,
+                        HitEffectNormal = ClayBruiser.Weapon.MinigunFire.bulletHitEffectNormal
+                    }.Fire();
+                }
+            }
         }
     }
 }

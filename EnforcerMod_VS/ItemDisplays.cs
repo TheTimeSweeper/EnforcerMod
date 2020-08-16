@@ -244,7 +244,7 @@ namespace EnforcerPlugin
                             childName = "Spine3",
                             localPos = new Vector3(-0.0057f, -0.0011f, -0.022f),
                             localAngles = new Vector3(0, 180, 90),
-                            localScale = new Vector3(1.5f, 1.5f, 1.5f),
+                            localScale = new Vector3(0.05f, 0.05f, 0.05f),
                             limbMask = LimbFlags.None
                         }
                     }

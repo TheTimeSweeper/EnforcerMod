@@ -10,8 +10,8 @@ namespace EntityStates.Enforcer
         public static float procCoefficient = 0.7f;
         public static float bulletForce = 5f;
         public static float recoilAmplitude = 0.9f;
-        public static float baseFireInterval = 0.28f;
-        public static float shieldedBaseFireInterval = 0.18f;
+        public static float baseFireInterval = 0.18f;
+        public static float shieldedBaseFireInterval = 0.1f;
         public static int baseBulletCount = 2;
         public static float bulletRange = 128f;
         public static float bulletRadius = 0.1f;
