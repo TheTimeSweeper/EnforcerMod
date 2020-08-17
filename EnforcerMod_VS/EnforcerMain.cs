@@ -68,6 +68,7 @@ namespace EntityStates.Enforcer
                 this.ToggleSirens();
             }
 
+            //close camera
             if (this.shieldComponent.isShielding != this.wasShielding)
             {
                 this.wasShielding = shieldComponent.isShielding;
