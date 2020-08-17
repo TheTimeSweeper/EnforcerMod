@@ -244,7 +244,7 @@ namespace EnforcerPlugin
                             childName = "Spine3",
                             localPos = new Vector3(-0.0057f, -0.0011f, -0.022f),
                             localAngles = new Vector3(0, 180, 90),
-                            localScale = new Vector3(1.5f, 1.5f, 1.5f),
+                            localScale = new Vector3(0.05f, 0.05f, 0.05f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -1814,6 +1814,7 @@ namespace EnforcerPlugin
 
             list.Add(new ItemDisplayRuleSet.NamedRuleGroup
             {
+                //this one is supposed to be 6 display rules because hopoo is fuCKING RETARDED but i'm only doing one because it's a shit item anyway
                 name = "Tooth",
                 displayRuleGroup = new DisplayRuleGroup
                 {
@@ -1822,11 +1823,11 @@ namespace EnforcerPlugin
                         new ItemDisplayRule
                         {
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            followerPrefab = ItemDisplays.LoadDisplay("DisplayToothNecklaceDecal"),
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayToothMeshLarge"),
                             childName = "Spine3",
-                            localPos = new Vector3(0, 0, 0),
+                            localPos = new Vector3(0, 0.03f, 0.015f),
                             localAngles = new Vector3(0, 0, 0),
-                            localScale = new Vector3(1, 1, 1),
+                            localScale = new Vector3(0.5f, 0.5f, 0.5f),
                             limbMask = LimbFlags.None
                         }
                     }

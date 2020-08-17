@@ -10,8 +10,7 @@ namespace EntityStates.Enforcer
         public static float procCoefficient = 0.7f;
         public static float bulletForce = 5f;
         public static float recoilAmplitude = 0.9f;
-        public static float baseFireInterval = 0.28f;
-        public static float shieldedBaseFireInterval = 0.18f;
+        public static float baseFireInterval = 0.18f;
         public static int baseBulletCount = 2;
         public static float bulletRange = 128f;
         public static float bulletRadius = 0.1f;
@@ -42,7 +41,6 @@ namespace EntityStates.Enforcer
         private void UpdateFireRate()
         {
             float fireInterval = FireAssaultRifle.baseFireInterval;
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff)) fireInterval = FireAssaultRifle.shieldedBaseFireInterval;
 
             this.baseFireRate = 1f / fireInterval;
             this.baseBulletsPerSecond = ((float)FireAssaultRifle.baseBulletCount * 2f) * this.baseFireRate;
@@ -103,9 +101,12 @@ namespace EntityStates.Enforcer
             string muzzleString = FireAssaultRifle.muzzleName;
             if (base.characterBody.skinIndex == 3) muzzleString = "BlasterRifleMuzzle";
 
+            int bullets = FireAssaultRifle.baseBulletCount;
+            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots)) bullets++;
+
             new BulletAttack
             {
-                bulletCount = (uint)FireAssaultRifle.baseBulletCount,
+                bulletCount = (uint)bullets,
                 aimVector = aimRay.direction,
                 origin = aimRay.origin,
                 damage = damage,

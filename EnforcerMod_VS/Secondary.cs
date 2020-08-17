@@ -17,7 +17,7 @@ namespace EntityStates.Enforcer
         public static float deflectRadius = 3f;
         public static string hitboxString = "ShieldHitbox"; //transform where the hitbox is fired
         public static float beefDurationNoShield = 0.4f;
-        public static float beefDurationShield = 0.6f;
+        public static float beefDurationShield = 0.8f;
 
         private float attackStopDuration;
         private float duration;
@@ -57,14 +57,14 @@ namespace EntityStates.Enforcer
                 return;
             }
 
-            if (base.characterBody.GetComponent<ShieldComponent>().isShielding)
+            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
             {
-                base.PlayAnimation("Gesture, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
+                base.PlayAnimation("FullBody, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
                 this.attackStopDuration = ShieldBash.beefDurationShield / this.attackSpeedStat;
             }
             else
             {
-                base.PlayAnimation("Gesture, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
+                base.PlayAnimation("Gesture, Override", "Bash", "ShieldBash.playbackRate", this.duration);
                 this.attackStopDuration = ShieldBash.beefDurationNoShield / this.attackSpeedStat;
             }
 
@@ -243,8 +243,8 @@ namespace EntityStates.Enforcer
         [SerializeField]
         public float baseDuration = 0.65f;
         [SerializeField]
-        public float speedMultiplier = 1.1f;
-        public static float chargeDamageCoefficient = 5.5f;
+        public float speedMultiplier = 1.025f;
+        public static float chargeDamageCoefficient = 4.5f;
         public static float knockbackDamageCoefficient = 7f;
         public static float massThresholdForKnockback = 150;
         public static float knockbackForce = 3400;

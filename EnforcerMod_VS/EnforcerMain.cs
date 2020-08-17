@@ -63,10 +63,10 @@ namespace EntityStates.Enforcer
             }
 
             //sirens
-            if (base.isAuthority && Input.GetKeyDown(KeyCode.C))
+            /*if (base.isAuthority && Input.GetKeyDown(KeyCode.C))
             {
                 this.ToggleSirens();
-            }
+            }*/
 
             //close camera
             if (this.shieldComponent.isShielding != this.wasShielding)
