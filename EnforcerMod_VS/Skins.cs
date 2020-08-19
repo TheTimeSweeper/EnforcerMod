@@ -135,7 +135,7 @@ namespace EnforcerPlugin
             spaceSkinDefInfo.NameToken = "ENFORCERBODY_SPACE_SKIN_NAME";
             spaceSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             spaceSkinDefInfo.RootObject = model;
-            spaceSkinDefInfo.UnlockableName = "";
+            spaceSkinDefInfo.UnlockableName = "";//"ENFORCER_STORMTROOPERUNLOCKABLE_REWARD_ID"
 
             CharacterModel.RendererInfo[] rendererInfos = skinDefInfo.RendererInfos;
             CharacterModel.RendererInfo[] array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -221,7 +221,7 @@ namespace EnforcerPlugin
             engiSkinDefInfo.NameToken = "ENFORCERBODY_ENGI_SKIN_NAME";
             engiSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             engiSkinDefInfo.RootObject = model;
-            engiSkinDefInfo.UnlockableName = "";
+            engiSkinDefInfo.UnlockableName = "";//"ENFORCER_BUNGUSUNLOCKABLE_REWARD_ID"
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -305,7 +305,7 @@ namespace EnforcerPlugin
             doomSkinDefInfo.NameToken = "ENFORCERBODY_DOOM_SKIN_NAME";
             doomSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             doomSkinDefInfo.RootObject = model;
-            doomSkinDefInfo.UnlockableName = "";
+            doomSkinDefInfo.UnlockableName = "";//"ENFORCER_DOOMUNLOCKABLE_REWARD_ID"
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -389,7 +389,7 @@ namespace EnforcerPlugin
             ironSkinDefInfo.NameToken = "ENFORCERBODY_IRONMAN_SKIN_NAME";
             ironSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             ironSkinDefInfo.RootObject = model;
-            ironSkinDefInfo.UnlockableName = "";
+            ironSkinDefInfo.UnlockableName = "ENFORCER_MONSOONUNLOCKABLE_REWARD_ID";//this is just the mastery skin for now
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -472,7 +472,7 @@ namespace EnforcerPlugin
             desperadoSkinDefInfo.NameToken = "ENFORCERBODY_DESPERADO_SKIN_NAME";
             desperadoSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             desperadoSkinDefInfo.RootObject = model;
-            desperadoSkinDefInfo.UnlockableName = "";
+            desperadoSkinDefInfo.UnlockableName = "";//"ENFORCER_DESPERADOUNLOCKABLE_REWARD_ID"
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -504,13 +504,13 @@ namespace EnforcerPlugin
 
             SkinDef desperadoSkin = LoadoutAPI.CreateNewSkinDef(desperadoSkinDefInfo);
 
-            skinController.skins = new SkinDef[6]
+            skinController.skins = new SkinDef[]
             {
                 defaultSkin,
+                ironSkin,
                 doomSkin,
                 engiSkin,
                 spaceSkin,
-                ironSkin,
                 desperadoSkin
             };
         }

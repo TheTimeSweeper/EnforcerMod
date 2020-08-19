@@ -225,7 +225,7 @@ namespace EntityStates.Enforcer
                             this.hasDeflected = true;
                             Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
 
-                            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(8);
+                            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(4);
                         }
                     }
                 }
@@ -240,19 +240,22 @@ namespace EntityStates.Enforcer
 
     public class ShoulderBash : BaseSkillState
     {
-        [SerializeField]
-        public float baseDuration = 0.65f;
-        [SerializeField]
-        public float speedMultiplier = 1.025f;
+        public static float baseDuration = 0.65f;
         public static float chargeDamageCoefficient = 4.5f;
         public static float knockbackDamageCoefficient = 7f;
         public static float massThresholdForKnockback = 150;
         public static float knockbackForce = 3400;
         public static float smallHopVelocity = 16f;
 
+        public static float initialSpeedCoefficient = 6f;
+        public static float finalSpeedCoefficient = 0.1f;
+
+        private float dashSpeed;
+        private Vector3 forwardDirection;
+        private Vector3 previousPosition;
+
         private float duration;
         private float hitPauseTimer;
-        private Vector3 idealDirection;
         private OverlapAttack attack;
         private bool inHitPause;
         private List<HealthComponent> victimsStruck = new List<HealthComponent>();
@@ -260,30 +263,29 @@ namespace EntityStates.Enforcer
         public override void OnEnter()
         {
             base.OnEnter();
-            this.duration = this.baseDuration;
+            this.duration = ShoulderBash.baseDuration;
 
-            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(4);
-
-            if (base.isAuthority)
-            {
-                if (base.inputBank)
-                {
-                    this.idealDirection = base.inputBank.aimDirection;
-                    this.idealDirection.y = 0f;
-                }
-                this.UpdateDirection();
-            }
-
-            if (base.characterDirection)
-            {
-                base.characterDirection.forward = this.idealDirection;
-            }
-
+            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
             base.characterBody.isSprinting = true;
 
             Util.PlayScaledSound(Croco.Leap.leapSoundString, base.gameObject, 1.75f);
-
             base.PlayAnimation("FullBody, Override", "ShoulderBash");//, "ShoulderBash.playbackRate", this.duration
+
+            if (base.isAuthority && base.inputBank && base.characterDirection)
+            {
+                this.forwardDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.characterDirection.forward : base.inputBank.moveVector).normalized;
+            }
+
+            this.RecalculateSpeed();
+
+            if (base.characterMotor && base.characterDirection)
+            {
+                base.characterMotor.velocity.y *= 0.2f;
+                base.characterMotor.velocity = this.forwardDirection * this.dashSpeed;
+            }
+
+            Vector3 b = base.characterMotor ? base.characterMotor.velocity : Vector3.zero;
+            this.previousPosition = base.transform.position - b;
 
             HitBoxGroup hitBoxGroup = null;
             Transform modelTransform = base.GetModelTransform();
@@ -305,42 +307,28 @@ namespace EntityStates.Enforcer
             this.attack.isCrit = base.RollCrit();
         }
 
+        private void RecalculateSpeed()
+        {
+            this.dashSpeed = (4 + (0.25f * this.moveSpeedStat)) * Mathf.Lerp(ShoulderBash.initialSpeedCoefficient, ShoulderBash.finalSpeedCoefficient, base.fixedAge / this.duration);
+        }
+
         public override void OnExit()
         {
             if (base.characterBody)
             {
                 //eat shit
+                //die
                 base.characterBody.isSprinting = true;
-            }
-
-            if (base.characterMotor && !base.characterMotor.disableAirControlUntilCollision)
-            {
-                base.characterMotor.velocity += this.GetIdealVelocity();
             }
 
             if (base.skillLocator) base.skillLocator.secondary.skillDef.activationStateMachineName = "Weapon";
 
-            base.PlayAnimation("FullBody, Override", "BufferEmpty");
+            if (base.cameraTargetParams)
+            {
+                base.cameraTargetParams.fovOverride = -1f;
+            }
 
             base.OnExit();
-        }
-
-        private void UpdateDirection()
-        {
-            if (base.inputBank)
-            {
-                Vector2 vector = Util.Vector3XZToVector2XY(base.inputBank.moveVector);
-                if (vector != Vector2.zero)
-                {
-                    vector.Normalize();
-                    this.idealDirection = new Vector3(vector.x, 0f, vector.y).normalized;
-                }
-            }
-        }
-
-        private Vector3 GetIdealVelocity()
-        {
-            return base.characterDirection.forward * base.characterBody.moveSpeed * this.speedMultiplier;
         }
 
         public override void FixedUpdate()
@@ -355,18 +343,36 @@ namespace EntityStates.Enforcer
                 return;
             }
 
+            this.RecalculateSpeed();
+
+            if (base.cameraTargetParams)
+            {
+                base.cameraTargetParams.fovOverride = Mathf.Lerp(Commando.DodgeState.dodgeFOV, 60f, base.fixedAge / this.duration);
+            }
+
+
+
             if (base.isAuthority)
             {
                 if (!this.inHitPause)
                 {
+                    Vector3 normalized = (base.transform.position - this.previousPosition).normalized;
+
                     if (base.characterDirection)
                     {
-                        base.characterDirection.moveVector = this.idealDirection;
-                        if (base.characterMotor && !base.characterMotor.disableAirControlUntilCollision)
+                        if (normalized != Vector3.zero)
                         {
-                            base.characterMotor.rootMotion += this.GetIdealVelocity() * Time.fixedDeltaTime;
+                            Vector3 vector = normalized * this.dashSpeed;
+                            float d = Mathf.Max(Vector3.Dot(vector, this.forwardDirection), 0f);
+                            vector = this.forwardDirection * d;
+                            vector.y = base.characterMotor.velocity.y;
+                            base.characterMotor.velocity = vector;
                         }
+
+                        base.characterDirection.forward = this.forwardDirection;
                     }
+
+                    this.previousPosition = base.transform.position;
 
                     this.attack.damage = this.damageStat * ShoulderBash.chargeDamageCoefficient;
 
@@ -399,7 +405,7 @@ namespace EntityStates.Enforcer
                                 this.outer.SetNextState(new ShoulderBashImpact
                                 {
                                     victimHealthComponent = healthComponent,
-                                    idealDirection = this.idealDirection,
+                                    idealDirection = this.forwardDirection,
                                     isCrit = this.attack.isCrit
                                 });
                                 return;
@@ -424,6 +430,18 @@ namespace EntityStates.Enforcer
         {
             return InterruptPriority.Frozen;
         }
+
+        public override void OnSerialize(NetworkWriter writer)
+        {
+            base.OnSerialize(writer);
+            writer.Write(this.forwardDirection);
+        }
+
+        public override void OnDeserialize(NetworkReader reader)
+        {
+            base.OnDeserialize(reader);
+            this.forwardDirection = reader.ReadVector3();
+        }
     }
 
     public class ShoulderBashImpact : BaseState
@@ -432,7 +450,7 @@ namespace EntityStates.Enforcer
         public Vector3 idealDirection;
         public bool isCrit;
 
-        public float duration = 0.2f;
+        public float duration = 0.25f;
 
         public override void OnEnter()
         {

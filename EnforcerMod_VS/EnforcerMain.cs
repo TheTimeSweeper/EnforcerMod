@@ -10,7 +10,6 @@ namespace EntityStates.Enforcer
 
         private ShieldComponent shieldComponent;
         private EnforcerLightController lightComponent;
-        private bool toggle = false;
         private bool wasShielding = false;
         private float initialTime;
 
@@ -28,7 +27,7 @@ namespace EntityStates.Enforcer
             this.lightComponent = base.characterBody.GetComponent<EnforcerLightController>();
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
 
-            if (!EnforcerPlugin.EnforcerPlugin.cum && base.characterBody.skinIndex == 1)
+            if (!EnforcerPlugin.EnforcerPlugin.cum && base.characterBody.skinIndex == 2)
             {
                 EnforcerPlugin.EnforcerPlugin.cum = true;
                 Util.PlaySound(EnforcerPlugin.Sounds.DOOM, base.gameObject);
@@ -63,10 +62,10 @@ namespace EntityStates.Enforcer
             }
 
             //sirens
-            /*if (base.isAuthority && Input.GetKeyDown(KeyCode.C))
+            if (base.isAuthority && Input.GetKeyDown(KeyCode.CapsLock))
             {
                 this.ToggleSirens();
-            }*/
+            }
 
             if (this.shieldComponent.isShielding != this.wasShielding)
             {

@@ -13,6 +13,8 @@ namespace EnforcerPlugin
         public static List<ItemDisplayRuleSet.NamedRuleGroup> list;
         public static List<ItemDisplayRuleSet.NamedRuleGroup> list2;
 
+        public static GameObject capacitorPrefab;
+
         private static Dictionary<string, GameObject> itemDisplayPrefabs = new Dictionary<string, GameObject>();
 
         public static void RegisterDisplays()
@@ -64,8 +66,8 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayGoldGat"),
                             childName = "Spine3",
-                            localPos = new Vector3(0.0305f, 0.0562f, 0),
-                            localAngles = new Vector3(24, 90, 0),
+                            localPos = new Vector3(0.02f, 0.05f, 0),
+                            localAngles = new Vector3(0, 90, -45),
                             localScale = new Vector3(0.015f, 0.015f, 0.015f),
                             limbMask = LimbFlags.None
                         }
@@ -106,9 +108,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayGlasses"),
                             childName = "Head",
-                            localPos = new Vector3(0, 0.0115f, 0.0126f),
-                            localAngles = new Vector3(0, 0, 0),
-                            localScale = new Vector3(0.028f, 0.028f, 0.028f),
+                            localPos = new Vector3(0, 0.025f, 0.0126f),
+                            localAngles = new Vector3(-25, 0, 0),
+                            localScale = new Vector3(0.033f, 0.028f, 0.035f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -221,9 +223,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayHoof"),
                             childName = "KneeL",
-                            localPos = new Vector3(-0.003f, 0.0183f, -0.01f),
-                            localAngles = new Vector3(66, 0, 0),
-                            localScale = new Vector3(0.0138f, 0.0138816f, 0.0059f),
+                            localPos = new Vector3(-0.0025f, 0.012f, -0.0125f),
+                            localAngles = new Vector3(60, 0, 0),
+                            localScale = new Vector3(0.0125f, 0.0125f, 0.008f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -609,8 +611,8 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayWarhammer"),
                             childName = "Shield",
-                            localPos = new Vector3(4.33f, 0, 5.26f),
-                            localAngles = new Vector3(0, 0, 90),
+                            localPos = new Vector3(4, 0, 8),
+                            localAngles = new Vector3(0, -5, 0),
                             localScale = new Vector3(3, 3, 3),
                             limbMask = LimbFlags.None
                         }
@@ -650,10 +652,10 @@ namespace EnforcerPlugin
                         {
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayRepulsionArmorPlate"),
-                            childName = "ClavicleR",
-                            localPos = new Vector3(-0.0107f, -0.0297f, -0.003f),
-                            localAngles = new Vector3(-12, 12, -92),
-                            localScale = new Vector3(0.03113582f, 0.02533015f, 0.02533015f),
+                            childName = "Shield",
+                            localPos = new Vector3(2.5f, 0.5f, -2),
+                            localAngles = new Vector3(0, 0, 180),
+                            localScale = new Vector3(8, 4, 8),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -1405,9 +1407,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayRazorwireLeft"),
                             childName = "ElbowR",
-                            localPos = new Vector3(-0.004f, 0, 0),
-                            localAngles = new Vector3(-90, 0, 0),
-                            localScale = new Vector3(0.05f, 0.075f, 0.05f),
+                            localPos = new Vector3(-0.006f, 0, 0),
+                            localAngles = new Vector3(270, 0, 0),
+                            localScale = new Vector3(0.04f, 0.06f, 0.05f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -1583,9 +1585,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplaySeed"),
                             childName = "Spine3",
-                            localPos = new Vector3(0, 0.03f, -0.015f),
-                            localAngles = new Vector3(-45, 0, -45),
-                            localScale = new Vector3(0.004f, 0.004f, 0.004f),
+                            localPos = new Vector3(0, 0.035f, -0.01f),
+                            localAngles = new Vector3(-90, 0, 0),
+                            localScale = new Vector3(0.006f, 0.006f, 0.006f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -1666,9 +1668,9 @@ namespace EnforcerPlugin
                         {
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayShieldGenerator"),
-                            childName = "KneeR",
-                            localPos = new Vector3(0.0025f, 0.01f, -0.01f),
-                            localAngles = new Vector3(90, 0, 0),
+                            childName = "Spine3",
+                            localPos = new Vector3(-0.0075f, 0.01f, 0.02f),
+                            localAngles = new Vector3(45, 90, -90),
                             localScale = new Vector3(0.02f, 0.02f, 0.02f),
                             limbMask = LimbFlags.None
                         }
@@ -2023,6 +2025,111 @@ namespace EnforcerPlugin
                 }
             });
 
+            list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            {
+                name = "FireballsOnHit",
+                displayRuleGroup = new DisplayRuleGroup
+                {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayFireballsOnHit"),
+                            childName = "ElbowL",
+                            localPos = new Vector3(0, 0.02f, -0.015f),
+                            localAngles = new Vector3(-90, 0, 0),
+                            localScale = new Vector3(0.0075f, 0.0075f, 0.0075f),
+                            limbMask = LimbFlags.None
+                        }
+                    }
+                }
+            });
+
+            list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            {
+                name = "SiphonOnLowHealth",
+                displayRuleGroup = new DisplayRuleGroup
+                {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplaySiphonOnLowHealth"),
+                            childName = "Spine1",
+                            localPos = new Vector3(0.01f, 0.0075f, 0.02f),
+                            localAngles = new Vector3(0, 0, 0),
+                            localScale = new Vector3(0.0075f, 0.0075f, 0.0075f),
+                            limbMask = LimbFlags.None
+                        }
+                    }
+                }
+            });
+
+            list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            {
+                name = "BleedOnHitAndExplode",
+                displayRuleGroup = new DisplayRuleGroup
+                {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayBleedOnHitAndExplode"),
+                            childName = "LegR",
+                            localPos = new Vector3(-0.002f, 0.01f, 0.02f),
+                            localAngles = new Vector3(0, 0, 0),
+                            localScale = new Vector3(0.005f, 0.005f, 0.005f),
+                            limbMask = LimbFlags.None
+                        }
+                    }
+                }
+            });
+
+            list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            {
+                name = "MonstersOnShrineUse",
+                displayRuleGroup = new DisplayRuleGroup
+                {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayMonstersOnShrineUse"),
+                            childName = "LegR",
+                            localPos = new Vector3(0, 0.01f, -0.0125f),
+                            localAngles = new Vector3(0, -90, 0),
+                            localScale = new Vector3(0.0075f, 0.0075f, 0.0075f),
+                            limbMask = LimbFlags.None
+                        }
+                    }
+                }
+            });
+
+            list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            {
+                name = "RandomDamageZone",
+                displayRuleGroup = new DisplayRuleGroup
+                {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayRandomDamageZone"),
+                            childName = "HandL",
+                            localPos = new Vector3(-0.01f, 0.005f, 0.005f),
+                            localAngles = new Vector3(0, 90, 90),
+                            localScale = new Vector3(0.01f, 0.005f, 0.007f),
+                            limbMask = LimbFlags.None
+                        }
+                    }
+                }
+            });
+
             list2.Add(new ItemDisplayRuleSet.NamedRuleGroup
             {
                 name = "Fruit",
@@ -2221,7 +2328,7 @@ namespace EnforcerPlugin
                         new ItemDisplayRule
                         {
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            followerPrefab = ItemDisplays.LoadDisplay("DisplayLightningArmRight"),
+                            followerPrefab = ItemDisplays.capacitorPrefab,
                             childName = "ClavicleL",
                             localPos = new Vector3(-0.0128f, -0.0046f, 0.0311f),
                             localAngles = new Vector3(64, 12, 120),
@@ -2306,9 +2413,9 @@ namespace EnforcerPlugin
                         {
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayElephantFigure"),
-                            childName = "Spine3",
-                            localPos = new Vector3(0.0154f, 0.0366f, 0),
-                            localAngles = new Vector3(0, 0, 0),
+                            childName = "KneeR",
+                            localPos = new Vector3(0, 0.02f, 0.008f),
+                            localAngles = new Vector3(115, 0, 0),
                             localScale = new Vector3(0.05f, 0.05f, 0.05f),
                             limbMask = LimbFlags.None
                         }
@@ -2327,10 +2434,10 @@ namespace EnforcerPlugin
                         {
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayRecycler"),
-                            childName = "Spine1",
-                            localPos = new Vector3(0.0225f, 0.02f, 0),
-                            localAngles = new Vector3(0, 0, 10),
-                            localScale = new Vector3(0.005f, 0.005f, 0.005f),
+                            childName = "Spine3",
+                            localPos = new Vector3(0, 0.015f, -0.03f),
+                            localAngles = new Vector3(0, 90, 0),
+                            localScale = new Vector3(0.01f, 0.01f, 0.01f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -2505,6 +2612,69 @@ namespace EnforcerPlugin
                 }
             });
 
+            list2.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            {
+                name = "DeathProjectile",
+                displayRuleGroup = new DisplayRuleGroup
+                {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayDeathProjectile"),
+                            childName = "Spine1",
+                            localPos = new Vector3(-0.01f, 0.005f, -0.025f),
+                            localAngles = new Vector3(0, 180, 0),
+                            localScale = new Vector3(0.01f, 0.01f, 0.01f),
+                            limbMask = LimbFlags.None
+                        }
+                    }
+                }
+            });
+
+            list2.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            {
+                name = "LifestealOnHit",
+                displayRuleGroup = new DisplayRuleGroup
+                {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayLifestealOnHit"),
+                            childName = "Shield",
+                            localPos = new Vector3(-5, -0.8f, 8),
+                            localAngles = new Vector3(0, 125, 0),
+                            localScale = new Vector3(1.25f, 1.25f, 1.25f),
+                            limbMask = LimbFlags.None
+                        }
+                    }
+                }
+            });
+
+            list2.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            {
+                name = "TeamWarCry",
+                displayRuleGroup = new DisplayRuleGroup
+                {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayTeamWarCry"),
+                            childName = "Spine1",
+                            localPos = new Vector3(0, 0.015f, 0.03f),
+                            localAngles = new Vector3(0, 0, 0),
+                            localScale = new Vector3(0.01f, 0.01f, 0.01f),
+                            limbMask = LimbFlags.None
+                        }
+                    }
+                }
+            });
+
 
             //apply displays here
 
@@ -2658,10 +2828,21 @@ namespace EnforcerPlugin
         private static void PopulateDisplays()
         {
             ItemDisplayRuleSet itemDisplayRuleSet = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponent<ModelLocator>().modelTransform.GetComponent<CharacterModel>().itemDisplayRuleSet;
+
+            capacitorPrefab = PrefabAPI.InstantiateClone(itemDisplayRuleSet.FindEquipmentDisplayRuleGroup("Lightning").rules[0].followerPrefab, "DisplayEnforcerLightning", true);
+            capacitorPrefab.AddComponent<UnityEngine.Networking.NetworkIdentity>();
+
+            var limbMatcher = capacitorPrefab.GetComponent<LimbMatcher>();
+
+            limbMatcher.limbPairs[0].targetChildLimb = "ShoulderL";
+            limbMatcher.limbPairs[1].targetChildLimb = "ElbowL";
+            limbMatcher.limbPairs[2].targetChildLimb = "HandL";
+
             BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
             ItemDisplayRuleSet.NamedRuleGroup[] array = typeof(ItemDisplayRuleSet).GetField("namedItemRuleGroups", bindingAttr).GetValue(itemDisplayRuleSet) as ItemDisplayRuleSet.NamedRuleGroup[];
             ItemDisplayRuleSet.NamedRuleGroup[] array2 = typeof(ItemDisplayRuleSet).GetField("namedEquipmentRuleGroups", bindingAttr).GetValue(itemDisplayRuleSet) as ItemDisplayRuleSet.NamedRuleGroup[];
             ItemDisplayRuleSet.NamedRuleGroup[] array3 = array;
+
             for (int i = 0; i < array3.Length; i++)
             {
                 ItemDisplayRule[] rules = array3[i].displayRuleGroup.rules;
@@ -2679,6 +2860,7 @@ namespace EnforcerPlugin
                     }
                 }
             }
+
             array3 = array2;
             for (int i = 0; i < array3.Length; i++)
             {
