@@ -72,7 +72,7 @@ namespace EntityStates.Enforcer
                     soundString = isCrit ? EnforcerPlugin.Sounds.FireShotgun : EnforcerPlugin.Sounds.FireShotgunCrit;
                 }
 
-                if (base.characterBody.skinIndex == 3) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
+                if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
 
                 Util.PlayScaledSound(soundString, base.gameObject, this.attackSpeedStat);
 
@@ -92,7 +92,7 @@ namespace EntityStates.Enforcer
                     //unique tracer for stormtrooper skin because this is oddly high effort
                     GameObject tracerEffect = EnforcerPlugin.EnforcerPlugin.bulletTracer;
 
-                    if (base.characterBody.skinIndex == 3) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
+                    if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
 
                     Ray aimRay = base.GetAimRay();
 
@@ -187,7 +187,7 @@ namespace EntityStates.Enforcer
                     soundString = isCrit ? EnforcerPlugin.Sounds.FireShotgun : EnforcerPlugin.Sounds.FireShotgunCrit;
                 }
 
-                if (base.characterBody.skinIndex == 3) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
+                if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
 
                 Util.PlayScaledSound(soundString, base.gameObject, this.attackSpeedStat);
 
@@ -205,7 +205,7 @@ namespace EntityStates.Enforcer
 
                     GameObject tracerEffect = EnforcerPlugin.EnforcerPlugin.bulletTracer;
 
-                    if (base.characterBody.skinIndex == 3) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
+                    if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
 
                     Ray aimRay = base.GetAimRay();
 

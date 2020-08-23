@@ -12,10 +12,12 @@ using KinematicCharacterController;
 using EntityStates.Enforcer;
 using RoR2.Projectile;
 using System.Collections;
+using System.IO;
+using BepInEx.Configuration;
 
 namespace EnforcerPlugin {
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
-    [BepInPlugin(MODUID, "Enforcer", "0.0.4")]
+    [BepInPlugin(MODUID, "Enforcer", "0.0.5")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -24,12 +26,13 @@ namespace EnforcerPlugin {
         "BuffAPI",
         "LanguageAPI",
         "SoundAPI",
-        "EffectAPI"
+        "EffectAPI",
+        "UnlockablesAPI"
     })]
 
     public class EnforcerPlugin : BaseUnityPlugin
     {
-        public const string MODUID = "com.ok.Enforcer";
+        public const string MODUID = "com.EnforcerGang.Enforcer";
 
         public static EnforcerPlugin instance;
 
@@ -65,6 +68,10 @@ namespace EnforcerPlugin {
         public static bool cum; //don't ask
         public static bool harbCrateInstalled = false;
 
+        public static uint stormtrooperIndex = 4;
+
+        public static ConfigEntry<bool> forceUnlock;
+
         //更新许可证 DO WHAT THE FUCK YOU WANT TO
 
         public SkillLocator skillLocator;
@@ -81,15 +88,22 @@ namespace EnforcerPlugin {
         {
             //touch this all you want tho
             Assets.PopulateAssets();
+            ConfigShit();
             CreateDisplayPrefab();
             CreatePrefab();
             RegisterCharacter();
             Skins.RegisterSkins();
             ItemDisplays.RegisterDisplays();
+            Unlockables.RegisterUnlockables();
             RegisterBuffs();
             RegisterProjectile();
             CreateDoppelganger();
             Hook();
+        }
+
+        private void ConfigShit()
+        {
+            forceUnlock = base.Config.Bind<bool>(new ConfigDefinition("", "Force Unlock"), false, new ConfigDescription("Makes Enforcer unlocked by default", null, Array.Empty<object>()));
         }
 
         private void EnforcerPlugin_LoadStart()
@@ -195,31 +209,6 @@ namespace EnforcerPlugin {
 
                 info.rejected = true;
             }
-
-            /*ShieldComponent shieldComponent = self.GetComponent<ShieldComponent>();
-            if (shieldComponent && info.attacker && self.body.HasBuff(jackBoots))
-            {
-                bool canBlock = GetShieldBlock(self, info, shieldComponent);
-
-                //fix for blood shrines
-                if (info.damageType.HasFlag(DamageType.BypassArmor)) canBlock = false;
-
-                //fuck you no blocking void reavers. go to brazil cunt
-                // it probably kills anyway but couldn't hurt to check
-                if (info.damageType.HasFlag(DamageType.VoidDeath)) canBlock = false;
-
-                if (canBlock)
-                {
-                    string soundString = Sounds.ShieldBlockLight;
-                    if (info.damage >= (0.5f * self.fullCombinedHealth)) soundString = Sounds.ShieldBlockHeavy;
-
-                    DamageNumberManager.instance.SpawnDamageNumber(0, info.position, false, self.body.teamComponent.teamIndex, DamageColorIndex.CritHeal);
-
-                    Util.PlaySound(soundString, self.gameObject);
-
-                    return;
-                }
-            }*/
 
             if (self.body.name == "EnergyShield")
             {
@@ -821,18 +810,22 @@ namespace EnforcerPlugin {
             LanguageAPI.Add("ENFORCER_SUBTITLE", "Mutated Beyond Recognition");
             //LanguageAPI.Add("ENFORCER_LORE", "I'M FUCKING INVINCIBLE");
             LanguageAPI.Add("ENFORCER_LORE", "\n<style=cMono>\"You don't have to do this.\"</style>\r\n\r\nThe words echoed in his head, but yet he continued. The pod was only five feet away, he had a chance to leave, but yet something in his core kept him moving. It was unknown what kept him moving - even to him, but he didn't question it. The same thing kept him moving was the same thing that made him step when he had been given orders. To him, it was natural, but this time it didn't seem that way.");
-            LanguageAPI.Add("ENFORCER_OUTRO_FLAVOR", "..and so he left, mutated beyond recognition.");
+            LanguageAPI.Add("ENFORCER_OUTRO_FLAVOR", "..and so he left, unsure of his title as protector.");
 
             characterDisplay.AddComponent<NetworkIdentity>();
+
+            string unlockString = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
+            if (forceUnlock.Value) unlockString = "";
 
             SurvivorDef survivorDef = new SurvivorDef
             {
                 name = "ENFORCER_NAME",
-                unlockableName = "",
+                unlockableName = unlockString,
                 descriptionToken = "ENFORCER_DESCRIPTION",
                 primaryColor = characterColor,
                 bodyPrefab = characterPrefab,
-                displayPrefab = characterDisplay
+                displayPrefab = characterDisplay,
+                outroFlavorToken = "ENFORCER_OUTRO_FLAVOR"
             };
 
 
@@ -943,7 +936,7 @@ namespace EnforcerPlugin {
             grenadeModel.AddComponent<ProjectileGhostController>();
 
             grenadeController.ghostPrefab = grenadeModel;
-            tearGasController.ghostPrefab = Assets.tearGasEffectPrefab;
+            //tearGasController.ghostPrefab = Assets.tearGasEffectPrefab;
 
             grenadeImpact.lifetimeExpiredSoundString = "";
             grenadeImpact.explosionSoundString = Sounds.GasExplosion;
@@ -964,7 +957,7 @@ namespace EnforcerPlugin {
             grenadeImpact.childrenDamageCoefficient = 0;
             grenadeImpact.impactEffect = null;
 
-
+            grenadeController.startSound = "";
             grenadeController.procCoefficient = 1;
             tearGasController.procCoefficient = 0;
 
@@ -980,7 +973,7 @@ namespace EnforcerPlugin {
             tearGasDamage.damageType = DamageType.Stun1s;
             tearGasDamage.force = -1000;
 
-            buffWard.radius = 20;
+            buffWard.radius = 18;
             buffWard.interval = 1;
             buffWard.rangeIndicator = null;
             buffWard.buffType = tearGasDebuff;
@@ -996,7 +989,7 @@ namespace EnforcerPlugin {
             Destroy(tearGasPrefab.transform.GetChild(0).gameObject);
             GameObject gasFX = Assets.tearGasEffectPrefab.InstantiateClone("FX", true);
             gasFX.AddComponent<NetworkIdentity>();
-            gasFX.AddComponent<TearGasSound>();
+            gasFX.AddComponent<TearGasComponent>();
             gasFX.transform.parent = tearGasPrefab.transform;
             gasFX.transform.localPosition = Vector3.zero;
 
@@ -1064,8 +1057,9 @@ namespace EnforcerPlugin {
 
         private void CreateDoppelganger()
         {
-            // commando ai for now
-            doppelganger = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/CommandoMonsterMaster"), "EnforcerMonsterMaster");
+            // mul-t ai?
+            // who wants to write ai for our boy, please someone
+            doppelganger = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/ToolbotMonsterMaster"), "EnforcerMonsterMaster");
 
             MasterCatalog.getAdditionalEntries += delegate (List<GameObject> list)
             {
@@ -1143,6 +1137,45 @@ namespace EnforcerPlugin {
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
             };
 
+            LoadoutAPI.AddSkill(typeof(SuperShotgun));
+
+            desc = "Fire a short range <style=cIsUtility>blast</style> for <style=cIsDamage>" + RiotShotgun.projectileCount + "x" + 100f * SuperShotgun.damageCoefficient + "% damage. Has harsh damage falloff.";
+
+            LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_NAME", "Super Shotgun");
+            LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION", desc);
+
+            mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(SuperShotgun));
+            mySkillDef.activationStateMachineName = "Weapon";
+            mySkillDef.baseMaxStock = 1;
+            mySkillDef.baseRechargeInterval = 0f;
+            mySkillDef.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef.canceledFromSprinting = false;
+            mySkillDef.fullRestockOnAssign = true;
+            mySkillDef.interruptPriority = InterruptPriority.Any;
+            mySkillDef.isBullets = false;
+            mySkillDef.isCombatSkill = true;
+            mySkillDef.mustKeyPress = false;
+            mySkillDef.noSprint = true;
+            mySkillDef.rechargeStock = 1;
+            mySkillDef.requiredStock = 1;
+            mySkillDef.shootDelay = 0f;
+            mySkillDef.stockToConsume = 1;
+            mySkillDef.icon = Assets.icon1;
+            mySkillDef.skillDescriptionToken = "ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION";
+            mySkillDef.skillName = "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME";
+            mySkillDef.skillNameToken = "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME";
+
+            LoadoutAPI.AddSkillDef(mySkillDef);
+
+            Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
+            skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
+            {
+                skillDef = mySkillDef,
+                unlockableName = "",//"ENFORCER_SHOTGUNUNLOCKABLE_REWARD_ID"
+                viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
+            };
+
             LoadoutAPI.AddSkill(typeof(AssaultRifleState));
             LoadoutAPI.AddSkill(typeof(FireAssaultRifle));
             LoadoutAPI.AddSkill(typeof(AssaultRifleExit));
@@ -1180,46 +1213,7 @@ namespace EnforcerPlugin {
             skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
             {
                 skillDef = mySkillDef,
-                unlockableName = "",
-                viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
-            };
-
-            LoadoutAPI.AddSkill(typeof(SuperShotgun));
-
-            desc = "Fire a short range <style=cIsUtility>blast</style> for <style=cIsDamage>" + RiotShotgun.projectileCount + "x" + 100f * SuperShotgun.damageCoefficient + "% damage. Has harsh damage falloff.";
-
-            LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_NAME", "Super Shotgun");
-            LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION", desc);
-
-            mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            mySkillDef.activationState = new SerializableEntityStateType(typeof(SuperShotgun));
-            mySkillDef.activationStateMachineName = "Weapon";
-            mySkillDef.baseMaxStock = 1;
-            mySkillDef.baseRechargeInterval = 0f;
-            mySkillDef.beginSkillCooldownOnSkillEnd = false;
-            mySkillDef.canceledFromSprinting = false;
-            mySkillDef.fullRestockOnAssign = true;
-            mySkillDef.interruptPriority = InterruptPriority.Any;
-            mySkillDef.isBullets = false;
-            mySkillDef.isCombatSkill = true;
-            mySkillDef.mustKeyPress = false;
-            mySkillDef.noSprint = true;
-            mySkillDef.rechargeStock = 1;
-            mySkillDef.requiredStock = 1;
-            mySkillDef.shootDelay = 0f;
-            mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.icon1;
-            mySkillDef.skillDescriptionToken = "ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION";
-            mySkillDef.skillName = "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME";
-            mySkillDef.skillNameToken = "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME";
-
-            LoadoutAPI.AddSkillDef(mySkillDef);
-
-            Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
-            skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
-            {
-                skillDef = mySkillDef,
-                unlockableName = "",
+                unlockableName = "ENFORCER_RIFLEUNLOCKABLE_REWARD_ID",
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
             };
         }
@@ -1352,7 +1346,7 @@ namespace EnforcerPlugin {
             skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
             {
                 skillDef = mySkillDef,
-                unlockableName = "",
+                unlockableName = "ENFORCER_STUNGRENADEUNLOCKABLE_REWARD_ID",
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
             };
         }
@@ -1515,13 +1509,33 @@ namespace EnforcerPlugin {
         }
     }
 
-    public class TearGasSound : MonoBehaviour
+    public class TearGasComponent : MonoBehaviour
     {
+        private int count;
+        private int lastCount;
         private uint playID;
+
+        public static event Action<int> GasCheck = delegate { };
 
         private void Awake()
         {
             playID = Util.PlaySound(Sounds.GasContinuous, base.gameObject);
+        }
+
+        private void FixedUpdate()
+        {
+            //this is gross and hacky pls someone do this a different way eventually
+
+            count = 0;
+
+            foreach(CharacterBody i in GameObject.FindObjectsOfType<CharacterBody>())
+            {
+                if (i && i.HasBuff(EnforcerPlugin.tearGasDebuff)) count++;
+            }
+
+            if (lastCount != count) GasCheck(count);
+
+            lastCount = count;
         }
 
         private void OnDestroy()

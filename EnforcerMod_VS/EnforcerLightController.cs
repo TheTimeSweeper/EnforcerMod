@@ -32,16 +32,16 @@ class EnforcerLightController : MonoBehaviour
                     lightColor = Color.red;
                     break;
                 case 1:
-                    lightColor = Color.red;
+                    lightColor = Color.yellow;
                     break;
                 case 2:
-                    lightColor = Color.green;
+                    lightColor = Color.red;
                     break;
                 case 3:
-                    lightColor = Color.white;
+                    lightColor = Color.green;
                     break;
                 case 4:
-                    lightColor = Color.yellow;
+                    lightColor = Color.white;
                     break;
                 case 5:
                     lightColor = Color.red;
@@ -57,7 +57,7 @@ class EnforcerLightController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        HandleShoulderLights();
+        this.HandleShoulderLights();
     }
 
     private void HandleShoulderLights()
@@ -73,9 +73,12 @@ class EnforcerLightController : MonoBehaviour
                     if (i) i.enabled = false;
                 }
 
-                this.lightFlashes--;
+                if (this.lightFlashes > 0)
+                {
+                    this.lightFlashes--;
 
-                if (this.lightFlashes > 0) this.FlashLights(0);
+                    this.FlashLights(0);
+                }
             }
         }
     }

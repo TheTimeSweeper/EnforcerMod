@@ -70,7 +70,7 @@ namespace EntityStates.Enforcer
                 soundString = EnforcerPlugin.Sounds.FireAssaultRifleSlow;
             }
 
-            if (base.characterBody.skinIndex == 3) soundString = EnforcerPlugin.Sounds.FireBlasterRifle;
+            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex) soundString = EnforcerPlugin.Sounds.FireBlasterRifle;
 
             Util.PlayScaledSound(soundString, base.gameObject, this.attackSpeedStat);
 
@@ -94,12 +94,12 @@ namespace EntityStates.Enforcer
             //unique tracer for stormtrooper skin
             GameObject tracerEffect = EnforcerPlugin.EnforcerPlugin.bulletTracer;
 
-            if (base.characterBody.skinIndex == 3) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
+            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
 
             Ray aimRay = base.GetAimRay();
 
             string muzzleString = FireAssaultRifle.muzzleName;
-            if (base.characterBody.skinIndex == 3) muzzleString = "BlasterRifleMuzzle";
+            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex) muzzleString = "BlasterRifleMuzzle";
 
             int bullets = FireAssaultRifle.baseBulletCount;
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots)) bullets++;
