@@ -1721,7 +1721,7 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayShieldBug"),
                             childName = "Head",
-                            localPos = new Vector3(0.0083f, 0.0207f, -0.0054f),
+                            localPos = new Vector3(-0.0083f, 0.0207f, -0.0054f),
                             localAngles = new Vector3(0, 0, 0),
                             localScale = new Vector3(-0.035f, 0.035f, 0.035f),
                             limbMask = LimbFlags.None
@@ -2173,9 +2173,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayEliteHorn"),
                             childName = "Head",
-                            localPos = new Vector3(-0.0093f, 0.0224f, -0.0002f),
-                            localAngles = new Vector3(-1.313f, 5.823f, 18.19f),
-                            localScale = new Vector3(0.009661668f, 0.009661668f, 0.009661668f),
+                            localPos = new Vector3(-0.0072f, 0.0227f, 0),
+                            localAngles = new Vector3(0, 0, 0),
+                            localScale = new Vector3(-0.009661668f, 0.009661668f, 0.009661668f),
                             limbMask = LimbFlags.None
                         }
                     }

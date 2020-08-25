@@ -18,6 +18,7 @@ namespace EntityStates.Enforcer
         public static string hitboxString = "ShieldHitbox"; //transform where the hitbox is fired
         public static float beefDurationNoShield = 0.4f;
         public static float beefDurationShield = 0.8f;
+        public static float recoilAmplitude = 1f;
 
         private float attackStopDuration;
         private float duration;
@@ -57,14 +58,18 @@ namespace EntityStates.Enforcer
                 return;
             }
 
+            bool grounded = base.characterMotor.isGrounded;
+
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
             {
-                base.PlayAnimation("FullBody, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
+                if (grounded) base.PlayAnimation("FullBody, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
+                else base.PlayAnimation("Gesture, Override", "Bash", "ShieldBash.playbackRate", this.duration);
                 this.attackStopDuration = ShieldBash.beefDurationShield / this.attackSpeedStat;
             }
             else
             {
-                base.PlayAnimation("Gesture, Override", "Bash", "ShieldBash.playbackRate", this.duration);
+                if (grounded) base.PlayAnimation("FullBody, Override", "Bash", "ShieldBash.playbackRate", this.duration);
+                else base.PlayAnimation("Gesture, Override", "Bash", "ShieldBash.playbackRate", this.duration);
                 this.attackStopDuration = ShieldBash.beefDurationNoShield / this.attackSpeedStat;
             }
 
@@ -77,8 +82,12 @@ namespace EntityStates.Enforcer
             {
                 this.hasFired = true;
 
+                EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.shieldBashFX, base.gameObject, hitboxString, true);
+
                 if (base.isAuthority)
                 {
+                    base.AddRecoil(-0.5f * ShieldBash.recoilAmplitude * 3f, -0.5f * ShieldBash.recoilAmplitude * 3f, -0.5f * ShieldBash.recoilAmplitude * 8f, 0.5f * ShieldBash.recoilAmplitude * 3f);
+
                     Vector3 center = childLocator.FindChild(hitboxString).position;
 
                     blastAttack = new BlastAttack();
@@ -93,7 +102,7 @@ namespace EntityStates.Enforcer
                     blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
                     blastAttack.damageType = DamageType.Stun1s;
                     blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
-                    blastAttack.impactEffect = EntityStates.ImpBossMonster.GroundPound.hitEffectPrefab.GetComponent<EffectComponent>().effectIndex;
+                    blastAttack.impactEffect = BeetleGuardMonster.GroundSlam.hitEffectPrefab.GetComponent<EffectComponent>().effectIndex;
 
                     blastAttack.Fire();
 
@@ -166,14 +175,14 @@ namespace EntityStates.Enforcer
             }
         }
 
-        void Push(CharacterBody charb)
+        private void Push(CharacterBody charb)
         {
             Vector3 velocity = ((aimRay.origin + 200 * aimRay.direction) - childLocator.FindChild(hitboxString).position + (75 * Vector3.up)) * ShieldBash.knockbackForce;
-
             
             if (charb.characterMotor)
             {
-                charb.characterMotor.velocity += velocity;
+                Vector3 newVelocity = charb.characterMotor.velocity + velocity;
+                charb.characterMotor.velocity = newVelocity;
             }
             else
             {
@@ -223,9 +232,9 @@ namespace EntityStates.Enforcer
                         if (!this.hasDeflected)
                         {
                             this.hasDeflected = true;
-                            Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
+                            //Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
 
-                            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(4);
+                            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
                         }
                     }
                 }
@@ -244,8 +253,8 @@ namespace EntityStates.Enforcer
         public static float chargeDamageCoefficient = 4.5f;
         public static float knockbackDamageCoefficient = 7f;
         public static float massThresholdForKnockback = 150;
-        public static float knockbackForce = 3400;
-        public static float smallHopVelocity = 16f;
+        public static float knockbackForce = 24f;
+        public static float smallHopVelocity = 12f;
 
         public static float initialSpeedCoefficient = 6f;
         public static float finalSpeedCoefficient = 0.1f;
@@ -305,6 +314,8 @@ namespace EntityStates.Enforcer
             this.attack.pushAwayForce = Toolbot.ToolbotDash.awayForceMagnitude;
             this.attack.hitBoxGroup = hitBoxGroup;
             this.attack.isCrit = base.RollCrit();
+
+            EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.shoulderBashFX, base.gameObject, "ShieldHitbox", true);
         }
 
         private void RecalculateSpeed()
@@ -320,6 +331,8 @@ namespace EntityStates.Enforcer
                 //die
                 base.characterBody.isSprinting = true;
             }
+
+            if (base.characterMotor) base.characterMotor.disableAirControlUntilCollision = false;// this should be a thing on all movement skills tbh
 
             if (base.skillLocator) base.skillLocator.secondary.skillDef.activationStateMachineName = "Weapon";
 
@@ -450,15 +463,19 @@ namespace EntityStates.Enforcer
         public Vector3 idealDirection;
         public bool isCrit;
 
-        public float duration = 0.25f;
+        public static float baseDuration = 0.35f;
+        public static float recoilAmplitude = 4.5f;
+
+        private float duration;
 
         public override void OnEnter()
         {
             base.OnEnter();
-
-            base.PlayAnimation("FullBody, Override", "BufferEmpty");
-
+            this.duration = ShoulderBashImpact.baseDuration / this.attackSpeedStat;
+            base.PlayAnimation("FullBody, Override", "BashRecoil");
             base.SmallHop(base.characterMotor, ShoulderBash.smallHopVelocity);
+
+            Util.PlayScaledSound(EnforcerPlugin.Sounds.ShoulderBashHit, base.gameObject, 0.5f);
 
             if (NetworkServer.active)
             {
@@ -479,15 +496,14 @@ namespace EntityStates.Enforcer
                     GlobalEventManager.instance.OnHitEnemy(damageInfo, this.victimHealthComponent.gameObject);
                     GlobalEventManager.instance.OnHitAll(damageInfo, this.victimHealthComponent.gameObject);
                 }
-
-                base.healthComponent.TakeDamageForce(this.idealDirection * -ShoulderBash.knockbackForce, true, false);
             }
+
+            if (base.characterMotor) base.characterMotor.velocity = this.idealDirection * -ShoulderBash.knockbackForce;
 
             if (base.isAuthority)
             {
-                base.AddRecoil(-0.5f * Toolbot.ToolbotDash.recoilAmplitude * 3f, -0.5f * Toolbot.ToolbotDash.recoilAmplitude * 3f, -0.5f * Toolbot.ToolbotDash.recoilAmplitude * 8f, 0.5f * Toolbot.ToolbotDash.recoilAmplitude * 3f);
-                EffectManager.SimpleImpactEffect(Loader.SwingZapFist.overchargeImpactEffectPrefab, base.characterBody.corePosition, base.characterDirection.forward, true);
-                this.outer.SetNextStateToMain();
+                base.AddRecoil(-0.5f * ShoulderBashImpact.recoilAmplitude * 3f, -0.5f * ShoulderBashImpact.recoilAmplitude * 3f, -0.5f * ShoulderBashImpact.recoilAmplitude * 8f, 0.5f * ShoulderBashImpact.recoilAmplitude * 3f);
+                EffectManager.SimpleImpactEffect(Loader.SwingZapFist.overchargeImpactEffectPrefab, this.victimHealthComponent.transform.position, base.characterDirection.forward, true);
             }
         }
 
@@ -498,7 +514,6 @@ namespace EntityStates.Enforcer
             if (base.fixedAge >= this.duration)
             {
                 this.outer.SetNextStateToMain();
-                return;
             }
         }
 

@@ -6,7 +6,7 @@ namespace EntityStates.Enforcer
 {
     public class FireAssaultRifle : AssaultRifleState
     {
-        public static float damageCoefficient = 0.5f;
+        public static float damageCoefficient = 0.45f;
         public static float procCoefficient = 0.7f;
         public static float bulletForce = 5f;
         public static float recoilAmplitude = 0.9f;
