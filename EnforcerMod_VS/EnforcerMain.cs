@@ -1,12 +1,12 @@
 ﻿using RoR2;
-using System;
+using RoR2.Projectile;
 using UnityEngine;
 
 namespace EntityStates.Enforcer
 {
     public class EnforcerMain : GenericCharacterMain
     {
-        public static float lightFlashInterval = 0.5f;
+        public static float lightFlashInterval = 0.6f;
 
         private ShieldComponent shieldComponent;
         private EnforcerLightController lightComponent;
@@ -15,13 +15,10 @@ namespace EntityStates.Enforcer
 
         private uint sirenPlayID;
         private float flashStopwatch;
-        private float bungusStopwatch;
 
         public static bool shotgunToggle = false;
         private bool sirenToggle;
         private ChildLocator childLocator;
-
-        public static event Action<float> Bungus = delegate { };
 
         public override void OnEnter()
         {
@@ -29,8 +26,6 @@ namespace EntityStates.Enforcer
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
             this.lightComponent = base.characterBody.GetComponent<EnforcerLightController>();
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
-
-            this.childLocator.FindChild("ShieldHurtbox").gameObject.SetActive(false);
 
             if (!EnforcerPlugin.EnforcerPlugin.cum && base.characterBody.skinIndex == 2)
             {
@@ -51,10 +46,10 @@ namespace EntityStates.Enforcer
             this.shieldComponent.aimRay = base.GetAimRay();
 
             //for ror1 shotgun sounds
-            /*if (Input.GetKeyDown(KeyCode.X))
+            if (Input.GetKeyDown(KeyCode.X))
             {
                 this.ToggleShotgun();
-            }*/
+            }
 
             //default dance
             if (base.isAuthority && Input.GetKeyDown(KeyCode.Z))
@@ -72,26 +67,7 @@ namespace EntityStates.Enforcer
                 this.ToggleSirens();
             }
 
-            //bungus achievement
-            if (base.isAuthority && base.hasCharacterMotor)
-            {
-                bool flag = false;
-
-                if (base.characterMotor.velocity == Vector3.zero && base.characterMotor.isGrounded)
-                {
-                    if (base.characterBody.master.inventory.GetItemCount(ItemIndex.Mushroom) > 0)
-                    {
-                        flag = true;
-                        this.bungusStopwatch += Time.fixedDeltaTime;
-
-                        Bungus(this.bungusStopwatch);
-                    }
-                }
-
-                if (!flag) this.bungusStopwatch = 0;
-            }
-
-            //shield mode camera stuff
+            //close camera
             if (this.shieldComponent.isShielding != this.wasShielding)
             {
                 this.wasShielding = shieldComponent.isShielding;
@@ -166,9 +142,7 @@ namespace EntityStates.Enforcer
 
             if (this.sirenToggle)
             {
-                string sound = EnforcerPlugin.Sounds.SirenButton;
-                if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.frogIndex) sound = EnforcerPlugin.Sounds.Croak;
-                this.sirenPlayID = Util.PlaySound(sound, base.gameObject);
+                this.sirenPlayID = Util.PlaySound(EnforcerPlugin.Sounds.SirenButton, base.gameObject);
                 this.flashStopwatch = 0;
             }
             else

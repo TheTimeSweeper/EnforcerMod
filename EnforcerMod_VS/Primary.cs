@@ -79,7 +79,8 @@ namespace EntityStates.Enforcer
 
                 float recoil = RiotShotgun.bulletRecoil;
 
-                if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff)) recoil = RiotShotgun.shieldedBulletRecoil;
+                if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff)) 
+                    recoil = RiotShotgun.shieldedBulletRecoil;
 
                 base.AddRecoil(-2f * recoil, -3f * recoil, -1f * recoil, 1f * recoil);
                 base.characterBody.AddSpreadBloom(0.33f * recoil);
@@ -137,10 +138,12 @@ namespace EntityStates.Enforcer
         {
             base.FixedUpdate();
 
+            animator.speed = 1;
             if (base.fixedAge < this.attackStopDuration)
             {
                 if (base.characterMotor)
                 {
+                    animator.speed = 0;
                     base.characterMotor.moveDirection = Vector3.zero;
                 }
             }
