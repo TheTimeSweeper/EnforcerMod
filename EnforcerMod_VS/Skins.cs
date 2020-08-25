@@ -21,11 +21,12 @@ namespace EnforcerPlugin
             SkinnedMeshRenderer mainRenderer = Reflection.GetFieldValue<SkinnedMeshRenderer>(characterModel, "mainSkinnedMeshRenderer");
 
             LanguageAPI.Add("ENFORCERBODY_DEFAULT_SKIN_NAME", "Default");
+            LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Coming Soon");
             LanguageAPI.Add("ENFORCERBODY_SPACE_SKIN_NAME", "Stormtrooper");
             LanguageAPI.Add("ENFORCERBODY_ENGI_SKIN_NAME", "Engineer?");
             LanguageAPI.Add("ENFORCERBODY_DOOM_SKIN_NAME", "Doom Slayer");
-            LanguageAPI.Add("ENFORCERBODY_IRONMAN_SKIN_NAME", "IronManforcer");
             LanguageAPI.Add("ENFORCERBODY_DESPERADO_SKIN_NAME", "Desperado");
+            LanguageAPI.Add("ENFORCERBODY_FROG_SKIN_NAME", "Zero Suit");
 
             LoadoutAPI.SkinDefInfo skinDefInfo = default(LoadoutAPI.SkinDefInfo);
             skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
@@ -37,11 +38,6 @@ namespace EnforcerPlugin
                 new SkinDef.GameObjectActivation
                 {
                     gameObject = childLocator.FindChild("EngiShield").gameObject,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = childLocator.FindChild("StormtrooperHelm").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
@@ -62,6 +58,16 @@ namespace EnforcerPlugin
                 new SkinDef.GameObjectActivation
                 {
                     gameObject = childLocator.FindChild("BlasterRifle").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
                     shouldActivate = false
                 }
             };
@@ -81,6 +87,212 @@ namespace EnforcerPlugin
             skinDefInfo.RootObject = model;
             skinDefInfo.UnlockableName = "";
 
+            CharacterModel.RendererInfo[] rendererInfos = skinDefInfo.RendererInfos;
+            CharacterModel.RendererInfo[] array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos.CopyTo(array, 0);
+
+            //clone commando material for that spicy hopoo shader
+            Material material = array[0].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Color.white);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcer").GetTexture("_MainTex"));
+                material.SetColor("_EmColor", Color.white);
+                material.SetFloat("_EmPower", 1);
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcer").GetTexture("_EmissionMap"));
+                material.SetFloat("_NormalStrength", 0);
+
+                array[0].defaultMaterial = material;
+            }
+
+            //change the shield texture too
+            material = array[2].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Color.white);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShield").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[2].defaultMaterial = material;
+            }
+
+            //and guns
+            material = array[1].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[1].defaultMaterial = material;
+            }
+
+            material = array[3].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[3].defaultMaterial = material;
+            }
+
+            material = array[4].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[4].defaultMaterial = material;
+            }
+
+            material = array[5].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matRifle").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matRifle").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[5].defaultMaterial = material;
+            }
+
+            material = array[7].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[7].defaultMaterial = material;
+            }
+
+            material = array[8].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[8].defaultMaterial = material;
+            }
+
+            material = array[9].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[9].defaultMaterial = material;
+            }
+
+            material = array[10].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[10].defaultMaterial = material;
+            }
+
+            material = array[11].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[11].defaultMaterial = material;
+            }
+
+            material = array[12].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matSuperShotgun").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSuperShotgun").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[12].defaultMaterial = material;
+            }
+
+            material = array[13].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[13].defaultMaterial = material;
+            }
+
+            material = array[14].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[14].defaultMaterial = material;
+            }
+
+            material = array[15].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[15].defaultMaterial = material;
+            }
+
+            skinDefInfo.RendererInfos = array;
+
             SkinDef defaultSkin = LoadoutAPI.CreateNewSkinDef(skinDefInfo);
 
             LoadoutAPI.SkinDefInfo spaceSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
@@ -94,11 +306,6 @@ namespace EnforcerPlugin
                 {
                     gameObject = childLocator.FindChild("EngiShield").gameObject,
                     shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = childLocator.FindChild("StormtrooperHelm").gameObject,
-                    shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
@@ -119,6 +326,16 @@ namespace EnforcerPlugin
                 {
                     gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    shouldActivate = true
                 }
             };
 
@@ -137,18 +354,18 @@ namespace EnforcerPlugin
             spaceSkinDefInfo.RootObject = model;
             spaceSkinDefInfo.UnlockableName = "";//"ENFORCER_STORMTROOPERUNLOCKABLE_REWARD_ID"
 
-            CharacterModel.RendererInfo[] rendererInfos = skinDefInfo.RendererInfos;
-            CharacterModel.RendererInfo[] array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos = skinDefInfo.RendererInfos;
+            array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
             //change the body texture
-            Material material = array[0].defaultMaterial;
+            material = array[0].defaultMaterial;
 
             if (material)
             {
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSpaceEnforcer").GetTexture("_MainTex"));
-                material.SetColor("_EmissionColor", Color.black);
+                material.SetColor("_EmColor", Color.black);
 
                 array[0].defaultMaterial = material;
             }
@@ -183,11 +400,6 @@ namespace EnforcerPlugin
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("StormtrooperHelm").gameObject,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
                     gameObject = childLocator.FindChild("ShotgunModel").gameObject,
                     shouldActivate = true
                 },
@@ -205,6 +417,16 @@ namespace EnforcerPlugin
                 {
                     gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    shouldActivate = false
                 }
             };
 
@@ -221,7 +443,7 @@ namespace EnforcerPlugin
             engiSkinDefInfo.NameToken = "ENFORCERBODY_ENGI_SKIN_NAME";
             engiSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             engiSkinDefInfo.RootObject = model;
-            engiSkinDefInfo.UnlockableName = "";//"ENFORCER_BUNGUSUNLOCKABLE_REWARD_ID"
+            engiSkinDefInfo.UnlockableName = "ENFORCER_BUNGUSUNLOCKABLE_REWARD_ID";
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -233,7 +455,7 @@ namespace EnforcerPlugin
             {
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEngiforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmissionMap", Assets.MainAssetBundle.LoadAsset<Material>("matEngiforcer").GetTexture("_EmissionMap"));
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEngiforcer").GetTexture("_EmissionMap"));
 
                 array[0].defaultMaterial = material;
             }
@@ -267,11 +489,6 @@ namespace EnforcerPlugin
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("StormtrooperHelm").gameObject,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
                     gameObject = childLocator.FindChild("ShotgunModel").gameObject,
                     shouldActivate = true
                 },
@@ -289,6 +506,16 @@ namespace EnforcerPlugin
                 {
                     gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    shouldActivate = false
                 }
             };
 
@@ -305,7 +532,7 @@ namespace EnforcerPlugin
             doomSkinDefInfo.NameToken = "ENFORCERBODY_DOOM_SKIN_NAME";
             doomSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             doomSkinDefInfo.RootObject = model;
-            doomSkinDefInfo.UnlockableName = "";//"ENFORCER_DOOMUNLOCKABLE_REWARD_ID"
+            doomSkinDefInfo.UnlockableName = "ENFORCER_DOOMUNLOCKABLE_REWARD_ID";
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -317,7 +544,7 @@ namespace EnforcerPlugin
             {
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matDoomEnforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmissionMap", Assets.MainAssetBundle.LoadAsset<Material>("matDoomEnforcer").GetTexture("_EmissionMap"));
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matDoomEnforcer").GetTexture("_EmissionMap"));
 
                 array[0].defaultMaterial = material;
             }
@@ -337,21 +564,16 @@ namespace EnforcerPlugin
 
             SkinDef doomSkin = LoadoutAPI.CreateNewSkinDef(doomSkinDefInfo);
 
-            LoadoutAPI.SkinDefInfo ironSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
-            ironSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
-            ironSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
-            ironSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+            LoadoutAPI.SkinDefInfo masterySkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            masterySkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            masterySkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            masterySkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            ironSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
+            masterySkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
             {
                 new SkinDef.GameObjectActivation
                 {
                     gameObject = childLocator.FindChild("EngiShield").gameObject,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = childLocator.FindChild("StormtrooperHelm").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
@@ -373,11 +595,21 @@ namespace EnforcerPlugin
                 {
                     gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    shouldActivate = false
                 }
             };
 
-            ironSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.43f, 0.1f, 0.1f), new Color(0.86f, 0.83f, 0.63f), new Color(0.31f, 0.04f, 0.07f), new Color(0.48f, 0.44f, 0.29f));
-            ironSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            masterySkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.31f, 0.49f, 0.69f), new Color(0.86f, 0.83f, 0.63f), new Color(0.1f, 0.07f, 0.06f), new Color(0.21f, 0.29f, 0.38f));
+            masterySkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
                 new SkinDef.MeshReplacement
                 {
@@ -385,40 +617,13 @@ namespace EnforcerPlugin
                     mesh = mainRenderer.sharedMesh
                 }
             };
-            ironSkinDefInfo.Name = "ENFORCERBODY_IRONMAN_SKIN_NAME";
-            ironSkinDefInfo.NameToken = "ENFORCERBODY_IRONMAN_SKIN_NAME";
-            ironSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
-            ironSkinDefInfo.RootObject = model;
-            ironSkinDefInfo.UnlockableName = "ENFORCER_MONSOONUNLOCKABLE_REWARD_ID";//this is just the mastery skin for now
+            masterySkinDefInfo.Name = "ENFORCERBODY_MASTERY_SKIN_NAME";
+            masterySkinDefInfo.NameToken = "ENFORCERBODY_MASTERY_SKIN_NAME";
+            masterySkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            masterySkinDefInfo.RootObject = model;
+            masterySkinDefInfo.UnlockableName = "ENFORCER_MONSOONUNLOCKABLE_REWARD_ID";
 
-            rendererInfos = skinDefInfo.RendererInfos;
-            array = new CharacterModel.RendererInfo[rendererInfos.Length];
-            rendererInfos.CopyTo(array, 0);
-
-            material = array[0].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matIronManforcer").GetTexture("_MainTex"));
-
-                array[0].defaultMaterial = material;
-            }
-
-            material = array[2].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldBlack").GetTexture("_MainTex"));
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldBlack").GetColor("_Color"));
-
-                array[2].defaultMaterial = material;
-            }
-
-            ironSkinDefInfo.RendererInfos = array;
-
-            SkinDef ironSkin = LoadoutAPI.CreateNewSkinDef(ironSkinDefInfo);
+            SkinDef masterySkin = LoadoutAPI.CreateNewSkinDef(masterySkinDefInfo);
 
             LoadoutAPI.SkinDefInfo desperadoSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             desperadoSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
@@ -434,11 +639,6 @@ namespace EnforcerPlugin
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("StormtrooperHelm").gameObject,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
                     gameObject = childLocator.FindChild("ShotgunModel").gameObject,
                     shouldActivate = true
                 },
@@ -455,6 +655,16 @@ namespace EnforcerPlugin
                 new SkinDef.GameObjectActivation
                 {
                     gameObject = childLocator.FindChild("BlasterRifle").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
                     shouldActivate = false
                 }
             };
@@ -472,7 +682,7 @@ namespace EnforcerPlugin
             desperadoSkinDefInfo.NameToken = "ENFORCERBODY_DESPERADO_SKIN_NAME";
             desperadoSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             desperadoSkinDefInfo.RootObject = model;
-            desperadoSkinDefInfo.UnlockableName = "";//"ENFORCER_DESPERADOUNLOCKABLE_REWARD_ID"
+            desperadoSkinDefInfo.UnlockableName = "ENFORCER_DESPERADOUNLOCKABLE_REWARD_ID";
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -484,7 +694,7 @@ namespace EnforcerPlugin
             {
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_MainTex"));
-                material.SetTexture("_EmissionMap", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_EmissionMap"));
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_EmissionMap"));
 
                 array[0].defaultMaterial = material;
             }
@@ -504,15 +714,106 @@ namespace EnforcerPlugin
 
             SkinDef desperadoSkin = LoadoutAPI.CreateNewSkinDef(desperadoSkinDefInfo);
 
-            skinController.skins = new SkinDef[]
+            LoadoutAPI.SkinDefInfo frogSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            frogSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            frogSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            frogSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+
+            frogSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
             {
-                defaultSkin,
-                ironSkin,
-                doomSkin,
-                engiSkin,
-                spaceSkin,
-                desperadoSkin
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("EngiShield").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShotgunModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("RifleModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("Blaster").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    shouldActivate = false
+                }
             };
+
+            frogSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.43f, 0.1f, 0.1f), Color.red, new Color(0.31f, 0.04f, 0.07f), Color.black);
+            frogSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                new SkinDef.MeshReplacement
+                {
+                    renderer = mainRenderer,
+                    mesh = Assets.zeroSuitMesh
+                }
+            };
+            frogSkinDefInfo.Name = "ENFORCERBODY_FROG_SKIN_NAME";
+            frogSkinDefInfo.NameToken = "ENFORCERBODY_FROG_SKIN_NAME";
+            frogSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            frogSkinDefInfo.RootObject = model;
+            frogSkinDefInfo.UnlockableName = "ENFORCER_FROGUNLOCKABLE_REWARD_ID";
+
+            rendererInfos = skinDefInfo.RendererInfos;
+            array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos.CopyTo(array, 0);
+
+            material = array[0].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matZeroSuit").GetTexture("_MainTex"));
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcer").GetTexture("_EmissionMap"));
+
+                array[0].defaultMaterial = material;
+            }
+
+            frogSkinDefInfo.RendererInfos = array;
+
+            SkinDef frogSkin = LoadoutAPI.CreateNewSkinDef(frogSkinDefInfo);
+
+            if (EnforcerPlugin.antiFun.Value)
+            {
+                skinController.skins = new SkinDef[]
+                {
+                    defaultSkin,
+                    masterySkin,
+                    doomSkin
+                };
+            }
+            else
+            {
+                skinController.skins = new SkinDef[]
+                {
+                    defaultSkin,
+                    masterySkin,
+                    doomSkin,
+                    engiSkin,
+                    spaceSkin,
+                    desperadoSkin,
+                    frogSkin
+                };
+            }
         }
     }
 }

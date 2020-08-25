@@ -8,11 +8,18 @@ class EnforcerLightController : MonoBehaviour
     private float lightStopwatch;
     private int lightFlashes;
     private ChildLocator childLocator;
+    private bool sex;
 
     private void Start()
     {
+        if (!this.sex) this.InitLights();
+    }
+
+    private void InitLights()
+    {
+        this.sex = true;
         this.childLocator = this.gameObject.GetComponentInChildren<ChildLocator>();
-        this.flashDuration = 0.3f;
+        this.flashDuration = 0.5f;
 
         this.lights = new Light[]
         {
@@ -26,13 +33,13 @@ class EnforcerLightController : MonoBehaviour
         {
             Color lightColor = Color.red;
 
-            switch(charBody.skinIndex)
+            switch (charBody.skinIndex)
             {
                 case 0:
                     lightColor = Color.red;
                     break;
                 case 1:
-                    lightColor = Color.yellow;
+                    lightColor = Color.black;
                     break;
                 case 2:
                     lightColor = Color.red;
@@ -50,7 +57,12 @@ class EnforcerLightController : MonoBehaviour
 
             foreach (Light i in this.lights)
             {
-                if (i) i.color = lightColor;
+                if (i)
+                {
+                    i.color = lightColor;
+                    i.intensity *= 1.5f;
+                    i.range *= 1.5f;
+                }
             }
         }
     }
@@ -64,7 +76,7 @@ class EnforcerLightController : MonoBehaviour
     {
         this.lightStopwatch -= Time.fixedDeltaTime;
 
-        if (this.lightStopwatch <= 0)
+        if (this.lightStopwatch <= 0.5f * this.flashDuration)
         {
             if (this.lights.Length > 0)
             {
@@ -72,7 +84,10 @@ class EnforcerLightController : MonoBehaviour
                 {
                     if (i) i.enabled = false;
                 }
+            }
 
+            if (this.lightStopwatch <= 0)
+            {
                 if (this.lightFlashes > 0)
                 {
                     this.lightFlashes--;
@@ -85,11 +100,16 @@ class EnforcerLightController : MonoBehaviour
 
     private void EnableLights()
     {
-        if (this.lights.Length > 0)
+        if (!this.sex) this.InitLights();
+
+        if (this.lights != null)
         {
-            foreach (Light i in this.lights)
+            if (this.lights.Length > 0)
             {
-                if (i) i.enabled = true;
+                foreach (Light i in this.lights)
+                {
+                    if (i) i.enabled = true;
+                }
             }
         }
     }

@@ -32,21 +32,24 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_MONSOONUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Mastery");
 
             LanguageAPI.Add("ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Rip and Tear");
-            LanguageAPI.Add("ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, kill 75 imps in a single run.");
+            LanguageAPI.Add("ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, kill 50 imps in a single stage.");
             LanguageAPI.Add("ENFORCER_DOOMUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Rip and Tear");
 
             LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Enforcing Perfection");
-            LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, stand still with Bustling Fungus for 4 minutes straight.");
+            LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, become one with the Bungus.");
             LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Enforcing Perfection");
 
             LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Long Live the Empire");
             LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, kill 50 enemies by knocking them off the edge of the map.");
             LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Long Live the Empire");
 
-            LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Fucking Invincible");
-            LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, deflect 100 projectiles with Shield Bash.");
-            LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Fucking Invincible");
+            LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Rules of Nature");
+            LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, Defeat the unique guardian of Gilded Coast by pushing it off the edge of the map.");
+            LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Rules of Nature");
 
+            LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Through Thick and Thin");
+            LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, make a friend on the moon.");
+            LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Through Thick and Thin");
 
             UnlockablesAPI.AddUnlockable<Achievements.UnlockAchievement>(true);
             UnlockablesAPI.AddUnlockable<Achievements.SuperShotgunAchievement>(true);
@@ -57,6 +60,7 @@ namespace EnforcerPlugin
             UnlockablesAPI.AddUnlockable<Achievements.BungusAchievement>(true);
             UnlockablesAPI.AddUnlockable<Achievements.StormtrooperAchievement>(true);
             UnlockablesAPI.AddUnlockable<Achievements.DesperadoAchievement>(true);
+            UnlockablesAPI.AddUnlockable<Achievements.FrogAchievement>(true);
         }
     }
 }
@@ -78,8 +82,7 @@ namespace EnforcerPlugin.Achievements
         public static bool magmaWormKilled;
         public static bool wanderingVagrantKilled;
         public static bool stoneTitanKilled;
-        //this implementation really isn't good but hey as long as it works right
-        //really doubt it'll work at all in multiplayer
+        //need to network this, only gives it to the host rn
 
         private void CheckDeath(DamageReport report)
         {
@@ -103,6 +106,9 @@ namespace EnforcerPlugin.Achievements
         private void ResetOnRunStart(Run run)
         {
             this.ResetKills();
+
+            //throwing this in here because lazy
+            EnforcerPlugin.cum = false;
         }
 
         private void ResetKills()
@@ -191,30 +197,41 @@ namespace EnforcerPlugin.Achievements
         public override String UnlockableNameToken { get; } = "ENFORCER_BUNGUSUNLOCKABLE_UNLOCKABLE_NAME";
         protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
 
+        public static float bungusTime = 180f;
+
         public override int LookUpRequiredBodyIndex()
         {
             return BodyCatalog.FindBodyIndex("EnforcerBody");
         }
 
+        public void BungusCheck(float bungus)
+        {
+            if (base.meetsBodyRequirement && bungus >= BungusAchievement.bungusTime) base.Grant();
+        }
+
         public override void OnInstall()
         {
             base.OnInstall();
+
+            EntityStates.Enforcer.EnforcerMain.Bungus += BungusCheck;
         }
 
         public override void OnUninstall()
         {
             base.OnUninstall();
+
+            EntityStates.Enforcer.EnforcerMain.Bungus -= BungusCheck;
         }
     }
 
     public class DesperadoAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider>
     {
-        public override String AchievementIdentifier { get; } = "ENFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_ID";
-        public override String UnlockableIdentifier { get; } = "ENFORCER_MASTERYUNLOCKABLE_REWARD_ID";
-        public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_MASTERYUNLOCKABLE_PREREQ_ID";
-        public override String AchievementNameToken { get; } = "ENFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME";
-        public override String AchievementDescToken { get; } = "ENFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC";
-        public override String UnlockableNameToken { get; } = "ENFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME";
+        public override String AchievementIdentifier { get; } = "ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_ID";
+        public override String UnlockableIdentifier { get; } = "ENFORCER_DESPERADOUNLOCKABLE_REWARD_ID";
+        public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_DESPERADOUNLOCKABLE_PREREQ_ID";
+        public override String AchievementNameToken { get; } = "ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_NAME";
+        public override String AchievementDescToken { get; } = "ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_DESC";
+        public override String UnlockableNameToken { get; } = "ENFORCER_DESPERADOUNLOCKABLE_UNLOCKABLE_NAME";
         protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
 
         public override int LookUpRequiredBodyIndex()
@@ -222,14 +239,36 @@ namespace EnforcerPlugin.Achievements
             return BodyCatalog.FindBodyIndex("EnforcerBody");
         }
 
+        private void CheckDeath(DamageReport report)
+        {
+            if (!report.victimBody) return;
+            if (report.damageInfo is null) return;
+            if (report.damageInfo.inflictor is null) return;
+
+            GameObject inflictor = report.damageInfo.inflictor;
+            if (!inflictor || !inflictor.GetComponent<MapZone>())
+            {
+                return;
+            }
+
+            if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("TitanGoldBody") && report.victimBody.teamComponent.teamIndex != TeamIndex.Player)
+            {
+                if (base.meetsBodyRequirement) base.Grant();
+            }
+        }
+
         public override void OnInstall()
         {
             base.OnInstall();
+
+            GlobalEventManager.onCharacterDeathGlobal += CheckDeath;
         }
 
         public override void OnUninstall()
         {
             base.OnUninstall();
+
+            GlobalEventManager.onCharacterDeathGlobal -= CheckDeath;
         }
     }
 
@@ -269,19 +308,65 @@ namespace EnforcerPlugin.Achievements
         public override String UnlockableNameToken { get; } = "ENFORCER_DOOMUNLOCKABLE_UNLOCKABLE_NAME";
         protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
 
+        public static int impCount = 50;
+
         public override int LookUpRequiredBodyIndex()
         {
             return BodyCatalog.FindBodyIndex("EnforcerBody");
         }
 
+        public void ImpCheck(int imps)
+        {
+            if (base.meetsBodyRequirement && imps >= DoomAchievement.impCount) base.Grant();
+        }
+
         public override void OnInstall()
         {
             base.OnInstall();
+
+            EnforcerWeaponComponent.Imp += ImpCheck;
         }
 
         public override void OnUninstall()
         {
             base.OnUninstall();
+
+            EnforcerWeaponComponent.Imp -= ImpCheck;
+        }
+    }
+
+    public class FrogAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider>
+    {
+        public override String AchievementIdentifier { get; } = "ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_ID";
+        public override String UnlockableIdentifier { get; } = "ENFORCER_FROGUNLOCKABLE_REWARD_ID";
+        public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_FROGUNLOCKABLE_PREREQ_ID";
+        public override String AchievementNameToken { get; } = "ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_NAME";
+        public override String AchievementDescToken { get; } = "ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_DESC";
+        public override String UnlockableNameToken { get; } = "ENFORCER_FROGUNLOCKABLE_UNLOCKABLE_NAME";
+        protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
+
+        public override int LookUpRequiredBodyIndex()
+        {
+            return BodyCatalog.FindBodyIndex("EnforcerBody");
+        }
+
+        private void Froge(bool cum)
+        {
+            if (cum && base.meetsBodyRequirement) base.Grant();
+        }
+
+        public override void OnInstall()
+        {
+            base.OnInstall();
+
+            EnforcerFrogComponent.FrogGet += Froge;
+        }
+
+        public override void OnUninstall()
+        {
+            base.OnUninstall();
+
+            EnforcerFrogComponent.FrogGet -= Froge;
         }
     }
 
