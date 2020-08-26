@@ -10,14 +10,13 @@ namespace EnforcerPlugin {
     {
         public static AssetBundle MainAssetBundle = null;
 
-        public static AssetBundle TempAssetBundle = null;
-
         public static Texture charPortrait;
 
         public static Sprite iconP;
         public static Sprite icon1;//shotgun
         public static Sprite icon1B;//super shotgun
         public static Sprite icon1C;//assault rifle
+        public static Sprite icon1D;//hammer
         public static Sprite icon2;//shield bash
         public static Sprite icon3;//tear gas
         public static Sprite icon3B;//stun grenade
@@ -89,7 +88,6 @@ namespace EnforcerPlugin {
                 icon4B = MainAssetBundle.LoadAsset<Sprite>("ShieldDownIcon");
             }
 
-            //grenade = TempAssetBundle.LoadAsset<GameObject>("Grenade");
             tearGasGrenadeModel = MainAssetBundle.LoadAsset<GameObject>("TearGasGrenade");
             tearGasEffectPrefab = MainAssetBundle.LoadAsset<GameObject>("TearGasEffect");
 
@@ -120,11 +118,6 @@ namespace EnforcerPlugin {
 
             EffectAPI.AddEffect(shieldBashFX);
             EffectAPI.AddEffect(shoulderBashFX);
-
-            //add vfx shit so nothing breaks
-            //tearGasEffectPrefab.AddComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Always;
-            //tearGasEffectPrefab.AddComponent<EffectComponent>().applyScale = false;
-            //actually this wasn't even needed
 
             stormtrooperMesh = MainAssetBundle.LoadAsset<Mesh>("StormtrooperMesh");
             engiMesh = MainAssetBundle.LoadAsset<Mesh>("EngiforcerMesh");

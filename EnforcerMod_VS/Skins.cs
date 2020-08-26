@@ -291,6 +291,32 @@ namespace EnforcerPlugin
                 array[15].defaultMaterial = material;
             }
 
+            material = array[16].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[16].defaultMaterial = material;
+            }
+
+            material = array[17].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[17].defaultMaterial = material;
+            }
+
             skinDefInfo.RendererInfos = array;
 
             SkinDef defaultSkin = LoadoutAPI.CreateNewSkinDef(skinDefInfo);

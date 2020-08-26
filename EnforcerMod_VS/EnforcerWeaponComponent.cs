@@ -43,6 +43,10 @@ public class EnforcerWeaponComponent : MonoBehaviour
             {
                 return 2;
             }
+            else if (charBody.skillLocator.primary.skillDef.skillNameToken == "ENFORCER_PRIMARY_HAMMER_NAME")
+            {
+                return 3;
+            }
         }
         return -1;
     }
@@ -65,16 +69,25 @@ public class EnforcerWeaponComponent : MonoBehaviour
                     childLocator.FindChild("Shotgun").gameObject.SetActive(true);
                     childLocator.FindChild("Rifle").gameObject.SetActive(false);
                     childLocator.FindChild("SuperShotgun").gameObject.SetActive(false);
+                    childLocator.FindChild("Hammer").gameObject.SetActive(false);
                     break;
                 case 1:
                     childLocator.FindChild("Shotgun").gameObject.SetActive(false);
                     childLocator.FindChild("Rifle").gameObject.SetActive(true);
                     childLocator.FindChild("SuperShotgun").gameObject.SetActive(false);
+                    childLocator.FindChild("Hammer").gameObject.SetActive(false);
                     break;
                 case 2:
                     childLocator.FindChild("Shotgun").gameObject.SetActive(false);
                     childLocator.FindChild("Rifle").gameObject.SetActive(false);
                     childLocator.FindChild("SuperShotgun").gameObject.SetActive(true);
+                    childLocator.FindChild("Hammer").gameObject.SetActive(false);
+                    break;
+                case 3:
+                    childLocator.FindChild("Shotgun").gameObject.SetActive(false);
+                    childLocator.FindChild("Rifle").gameObject.SetActive(false);
+                    childLocator.FindChild("SuperShotgun").gameObject.SetActive(false);
+                    childLocator.FindChild("Hammer").gameObject.SetActive(true);
                     break;
             }
         }
@@ -110,6 +123,9 @@ public class EnforcerWeaponComponent : MonoBehaviour
                     break;
                 case 2:
                     charBody.crosshairPrefab = Resources.Load<GameObject>("prefabs/crosshair/BanditCrosshair");
+                    break;
+                case 3:
+                    charBody.crosshairPrefab = Resources.Load<GameObject>("prefabs/crosshair/SimpleDotCrosshair");
                     break;
             }
         }

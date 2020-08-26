@@ -506,6 +506,20 @@ namespace EnforcerPlugin
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("HammerModel1").GetComponentInChildren<SkinnedMeshRenderer>().material,
+                    renderer = childLocator.FindChild("HammerModel1").GetComponentInChildren<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("HammerModel2").GetComponentInChildren<SkinnedMeshRenderer>().material,
+                    renderer = childLocator.FindChild("HammerModel2").GetComponentInChildren<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                }
             };
             characterModel.autoPopulateLightInfos = true;
             characterModel.invisibilityCount = 0;
@@ -547,7 +561,7 @@ namespace EnforcerPlugin
 
             GameObject gameObject3 = new GameObject("AimOrigin");
             gameObject3.transform.parent = gameObject.transform;
-            gameObject3.transform.localPosition = new Vector3(0f, 1.4f, 0f);
+            gameObject3.transform.localPosition = new Vector3(0f, 1.8f, 0f);
             gameObject3.transform.localRotation = Quaternion.identity;
             gameObject3.transform.localScale = Vector3.one;
 
@@ -748,6 +762,20 @@ namespace EnforcerPlugin
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("HammerModel1").GetComponentInChildren<SkinnedMeshRenderer>().material,
+                    renderer = childLocator.FindChild("HammerModel1").GetComponentInChildren<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("HammerModel2").GetComponentInChildren<SkinnedMeshRenderer>().material,
+                    renderer = childLocator.FindChild("HammerModel2").GetComponentInChildren<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                }
             };
 
             characterModel.autoPopulateLightInfos = true;
@@ -1342,6 +1370,45 @@ namespace EnforcerPlugin
                 unlockableName = "ENFORCER_RIFLEUNLOCKABLE_REWARD_ID",
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
             };
+
+            //LoadoutAPI.AddSkill(typeof(AssaultRifleExit));
+
+            /*desc = "Fire a short range <style=cIsUtility>piercing blast</style> for <style=cIsDamage>" + RiotShotgun.projectileCount + "x" + 100f * RiotShotgun.damageCoefficient + "% damage.";
+
+            LanguageAPI.Add("ENFORCER_PRIMARY_HAMMER_NAME", "Fubar Hammer");
+            LanguageAPI.Add("ENFORCER_PRIMARY_HAMMER_DESCRIPTION", desc);
+
+            mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(RiotShotgun));
+            mySkillDef.activationStateMachineName = "Weapon";
+            mySkillDef.baseMaxStock = 1;
+            mySkillDef.baseRechargeInterval = 0f;
+            mySkillDef.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef.canceledFromSprinting = false;
+            mySkillDef.fullRestockOnAssign = true;
+            mySkillDef.interruptPriority = InterruptPriority.Any;
+            mySkillDef.isBullets = false;
+            mySkillDef.isCombatSkill = true;
+            mySkillDef.mustKeyPress = false;
+            mySkillDef.noSprint = true;
+            mySkillDef.rechargeStock = 1;
+            mySkillDef.requiredStock = 1;
+            mySkillDef.shootDelay = 0f;
+            mySkillDef.stockToConsume = 1;
+            mySkillDef.icon = Assets.icon1C;
+            mySkillDef.skillDescriptionToken = "ENFORCER_PRIMARY_HAMMER_DESCRIPTION";
+            mySkillDef.skillName = "ENFORCER_PRIMARY_HAMMER_NAME";
+            mySkillDef.skillNameToken = "ENFORCER_PRIMARY_HAMMER_NAME";
+
+            LoadoutAPI.AddSkillDef(mySkillDef);
+
+            Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
+            skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
+            {
+                skillDef = mySkillDef,
+                unlockableName = "",
+                viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
+            };*/
         }
 
         private void SecondarySetup()

@@ -263,6 +263,7 @@ namespace EntityStates.Enforcer
         private Vector3 forwardDirection;
         private Vector3 previousPosition;
 
+        private bool shieldCancel;
         private float duration;
         private float hitPauseTimer;
         private OverlapAttack attack;
@@ -273,6 +274,7 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
             this.duration = ShoulderBash.baseDuration;
+            this.shieldCancel = false;
 
             base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
             base.characterBody.isSprinting = true;
@@ -352,6 +354,7 @@ namespace EntityStates.Enforcer
 
             if (base.fixedAge >= this.duration)
             {
+                if (this.shieldCancel) this.outer.SetNextState(new ProtectAndServe());
                 this.outer.SetNextStateToMain();
                 return;
             }
@@ -365,6 +368,14 @@ namespace EntityStates.Enforcer
 
             if (base.isAuthority)
             {
+                if (base.skillLocator && base.inputBank)
+                {
+                    if (base.inputBank.skill4.down && base.fixedAge >= 0.4f * this.duration)
+                    {
+                        this.shieldCancel = true;
+                    }
+                }
+
                 if (!this.inHitPause)
                 {
                     Vector3 normalized = (base.transform.position - this.previousPosition).normalized;
@@ -439,7 +450,6 @@ namespace EntityStates.Enforcer
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            if (base.fixedAge >= this.duration * 0.6f) return InterruptPriority.PrioritySkill;
             return InterruptPriority.Frozen;
         }
 
