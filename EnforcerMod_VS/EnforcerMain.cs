@@ -20,6 +20,8 @@ namespace EntityStates.Enforcer
         public static bool shotgunToggle = false;
         private bool sirenToggle;
         private ChildLocator childLocator;
+        private bool sprintCancelEnabled;
+        private bool hasSprintCancelled;
 
         public static event Action<float> Bungus = delegate { };
 
@@ -43,12 +45,13 @@ namespace EntityStates.Enforcer
             {
                 if (this.childLocator) this.childLocator.FindChild("Shield").gameObject.SetActive(false);
             }
+
+            this.sprintCancelEnabled = EnforcerPlugin.EnforcerPlugin.sprintShieldCancel.Value;
         }
 
         public override void Update()
         {
             base.Update();
-            this.shieldComponent.aimRay = base.GetAimRay();
 
             //for ror1 shotgun sounds
             /*if (Input.GetKeyDown(KeyCode.X))
@@ -72,25 +75,6 @@ namespace EntityStates.Enforcer
                 this.ToggleSirens();
             }
 
-            //bungus achievement
-            if (base.isAuthority && base.hasCharacterMotor)
-            {
-                bool flag = false;
-
-                if (base.characterMotor.velocity == Vector3.zero && base.characterMotor.isGrounded)
-                {
-                    if (base.characterBody.master.inventory.GetItemCount(ItemIndex.Mushroom) > 0)
-                    {
-                        flag = true;
-                        this.bungusStopwatch += Time.fixedDeltaTime;
-
-                        Bungus(this.bungusStopwatch);
-                    }
-                }
-
-                if (!flag) this.bungusStopwatch = 0;
-            }
-
             //shield mode camera stuff
             if (this.shieldComponent.isShielding != this.wasShielding)
             {
@@ -111,6 +95,7 @@ namespace EntityStates.Enforcer
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+            this.shieldComponent.aimRay = base.GetAimRay();
 
             if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
             {
@@ -128,7 +113,46 @@ namespace EntityStates.Enforcer
                 }
             }
 
-            if (base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDOFF_NAME")
+            if (this.hasSprintCancelled)
+            {
+                this.hasSprintCancelled = false;
+                base.characterBody.isSprinting = true;
+            }
+
+            //bungus achievement
+            if (base.isAuthority && base.hasCharacterMotor)
+            {
+                bool flag = false;
+
+                if (base.characterMotor.velocity == Vector3.zero && base.characterMotor.isGrounded)
+                {
+                    if (base.characterBody.master.inventory.GetItemCount(ItemIndex.Mushroom) > 0)
+                    {
+                        flag = true;
+                        this.bungusStopwatch += Time.fixedDeltaTime;
+
+                        Bungus(this.bungusStopwatch);
+                    }
+                }
+
+                if (!flag) this.bungusStopwatch = 0;
+
+
+                //sprint shield cancel
+                if (this.sprintCancelEnabled && base.inputBank)
+                {
+                    if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) && base.inputBank.sprint.down)
+                    {
+                        if (base.skillLocator)
+                        {
+                            if (base.skillLocator.special.CanExecute()) this.hasSprintCancelled = true;
+                            base.skillLocator.special.ExecuteIfReady();
+                        }
+                    }
+                }
+            }
+
+            /*if (base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDOFF_NAME")
             {
                 if (this.shieldComponent.shieldHealth <= 0 && this.shieldComponent.isShielding)
                 {
@@ -136,7 +160,7 @@ namespace EntityStates.Enforcer
                     //outer.SetNextState(new EnergyShield());
                     //return;
                 }
-            }
+            }*/
         }
 
         public override void OnExit()

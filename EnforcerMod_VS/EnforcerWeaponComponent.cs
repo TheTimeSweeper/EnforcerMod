@@ -6,16 +6,13 @@ public class EnforcerWeaponComponent : MonoBehaviour
 {
     public static event Action<int> Imp = delegate { };
 
-    public static int maxShellCount = 12;
-
     private CharacterBody charBody;
     private CharacterMotor charMotor;
     private HealthComponent charHealth;
     private ChildLocator childLocator;
     private InputBankTest inputBank;
+    private ParticleSystem shellController;
     private int impCount;
-    private int currentShell;
-    private GameObject[] shellObjects;
 
     private void Start()
     {
@@ -127,42 +124,25 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
     private void InitShells()
     {
-        if (!childLocator) return;
+        if (childLocator is null) return;
 
-        currentShell = 0;
+        GameObject shellObject = GameObject.Instantiate<GameObject>(EnforcerPlugin.Assets.shotgunShell, childLocator.FindChild("GrenadeMuzzle"));
 
-        shellObjects = new GameObject[EnforcerWeaponComponent.maxShellCount + 1];
+        shellObject.transform.localPosition = Vector3.zero;
+        shellObject.transform.localRotation = Quaternion.identity;
 
-        for(int i = 0; i < EnforcerWeaponComponent.maxShellCount; i++)
-        {
-            shellObjects[i] = GameObject.Instantiate(EnforcerPlugin.Assets.shotgunShell, childLocator.FindChild("GrenadeMuzzle"), false);
-            shellObjects[i].transform.localScale *= 0.075f;
-            shellObjects[i].layer = LayerIndex.uiWorldSpace.intVal;
-            shellObjects[i].SetActive(false);
-        }
+        shellController = shellObject.GetComponentInChildren<ParticleSystem>();
+
+        shellController.transform.localPosition = Vector3.zero;
+
+        var x = shellController.main;
+        x.simulationSpace = ParticleSystemSimulationSpace.World;
     }
 
-    public void DropShell(Vector3 force)
+    public void DropShell()
     {
-        if (shellObjects == null) return;
-        if (childLocator == null) return;
+        if (childLocator is null) return;
 
-        if (shellObjects[currentShell] == null) return;
-
-        Transform origin = childLocator.FindChild("GrenadeMuzzle");
-
-        shellObjects[currentShell].SetActive(false);
-
-        shellObjects[currentShell].transform.position = origin.position - origin.right;
-        shellObjects[currentShell].transform.rotation = Quaternion.identity;
-        shellObjects[currentShell].transform.parent = null;
-
-        shellObjects[currentShell].SetActive(true);
-
-        Rigidbody rb = shellObjects[currentShell].gameObject.GetComponent<Rigidbody>();
-        if (rb) rb.velocity = force;
-
-        currentShell++;
-        if (currentShell >= EnforcerWeaponComponent.maxShellCount) currentShell = 0;
+        if (shellController) shellController.Play();
     }
 }

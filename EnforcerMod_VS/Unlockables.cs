@@ -197,7 +197,7 @@ namespace EnforcerPlugin.Achievements
         public override String UnlockableNameToken { get; } = "ENFORCER_BUNGUSUNLOCKABLE_UNLOCKABLE_NAME";
         protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
 
-        public static float bungusTime = 180f;
+        public static float bungusTime = 240f;
 
         public override int LookUpRequiredBodyIndex()
         {

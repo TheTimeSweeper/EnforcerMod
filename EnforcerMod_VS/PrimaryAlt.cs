@@ -6,16 +6,16 @@ namespace EntityStates.Enforcer
 {
     public class FireAssaultRifle : AssaultRifleState
     {
-        public static float damageCoefficient = 0.45f;
+        public static float damageCoefficient = 0.7f;
         public static float procCoefficient = 0.7f;
         public static float bulletForce = 5f;
-        public static float recoilAmplitude = 0.9f;
+        public static float recoilAmplitude = 1.1f;
         public static float baseFireInterval = 0.18f;
-        public static int baseBulletCount = 2;
+        public static int baseBulletCount = 1;
         public static float bulletRange = 128f;
         public static float bulletRadius = 0.1f;
         public static float minSpread = 0;
-        public static float maxSpread = 10;
+        public static float maxSpread = 7;
 
         private float fireTimer;
         private Transform muzzleVfxTransform;

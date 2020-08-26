@@ -363,8 +363,6 @@ namespace EntityStates.Enforcer
                 base.cameraTargetParams.fovOverride = Mathf.Lerp(Commando.DodgeState.dodgeFOV, 60f, base.fixedAge / this.duration);
             }
 
-
-
             if (base.isAuthority)
             {
                 if (!this.inHitPause)
@@ -441,6 +439,7 @@ namespace EntityStates.Enforcer
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
+            if (base.fixedAge >= this.duration * 0.6f) return InterruptPriority.PrioritySkill;
             return InterruptPriority.Frozen;
         }
 

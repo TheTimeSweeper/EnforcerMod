@@ -79,14 +79,13 @@ namespace EntityStates.Enforcer
 
                 float recoil = RiotShotgun.bulletRecoil;
 
-                if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff)) 
-                    recoil = RiotShotgun.shieldedBulletRecoil;
+                if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff)) recoil = RiotShotgun.shieldedBulletRecoil;
 
                 base.AddRecoil(-2f * recoil, -3f * recoil, -1f * recoil, 1f * recoil);
                 base.characterBody.AddSpreadBloom(0.33f * recoil);
                 EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, base.gameObject, this.muzzleString, false);
 
-                //if (!this.isStormtrooper) base.GetComponent<EnforcerWeaponComponent>().DropShell(base.GetAimRay().direction * -Random.Range(6, 12));
+                if (!this.isStormtrooper) base.GetComponent<EnforcerWeaponComponent>().DropShell();
 
                 if (base.isAuthority)
                 {
@@ -108,7 +107,7 @@ namespace EntityStates.Enforcer
                         damageColorIndex = DamageColorIndex.Default,
                         damageType = DamageType.Generic,
                         falloffModel = BulletAttack.FalloffModel.None,
-                        maxDistance = 48,
+                        maxDistance = 64,
                         force = RiotShotgun.bulletForce,
                         hitMask = LayerIndex.CommonMasks.bullet,
                         minSpread = 0,
@@ -201,12 +200,12 @@ namespace EntityStates.Enforcer
                 base.characterBody.AddSpreadBloom(0.33f * recoil);
                 EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, base.gameObject, this.muzzleString, false);
 
-                /*if (!this.isStormtrooper)
+                if (!this.isStormtrooper)
                 {
-                    Vector3 shellForce = base.GetModelBaseTransform().transform.right * -Random.Range(6, 16);
-                    base.GetComponent<EnforcerWeaponComponent>().DropShell(shellForce);
-                    base.GetComponent<EnforcerWeaponComponent>().DropShell(shellForce);
-                }*/
+                    var poopy = base.GetComponent<EnforcerWeaponComponent>();
+                    poopy.DropShell();
+                    poopy.DropShell();
+                }
 
                 if (base.isAuthority)
                 {
