@@ -94,7 +94,8 @@ namespace EntityStates.Enforcer
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            return InterruptPriority.PrioritySkill;
+            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots)) return InterruptPriority.PrioritySkill;
+            else return InterruptPriority.Skill;
         }
     }
 }

@@ -36,6 +36,11 @@ namespace EnforcerPlugin
     {
         public const string MODUID = "com.EnforcerGang.Enforcer";
 
+        public const string characterName = "Enforcer";
+        public const string characterSubtitle = "Unwavering Bastion";
+        public const string characterOutro = "..and so he left, unsure of his title as protector.";
+        public const string characterLore = "\n<style=cMono>\"You don't have to do this.\"</style>\r\n\r\nThe words echoed in his head, yet he continued forward. The pod was only a few steps away -- he had a chance to leave -- but something in his core kept him moving. He didn't know what it was, but he didn't question it. It was a natural force: the same force that always drove him to follow orders.\n\nBut this time, it didn't seem so natural.";
+
         public static EnforcerPlugin instance;
 
         //i didn't want this to be static considering we're using an instance now but it throws 23 errors if i remove the static modifier 
@@ -80,6 +85,7 @@ namespace EnforcerPlugin
         public static ConfigEntry<bool> classicIcons;
         public static ConfigEntry<float> headSize;
         public static ConfigEntry<bool> sprintShieldCancel;
+        public static ConfigEntry<bool> sirenOnDeflect;
 
         //更新许可证 DO WHAT THE FUCK YOU WANT TO
 
@@ -118,6 +124,7 @@ namespace EnforcerPlugin
             classicIcons = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Classic Icons"), false, new ConfigDescription("Use RoR1 skill icons", null, Array.Empty<object>()));
             headSize = base.Config.Bind<float>(new ConfigDefinition("01 - General Settings", "Head Size"), 1f, new ConfigDescription("Changes the size of Enforcer's head", null, Array.Empty<object>()));
             sprintShieldCancel = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Sprint Cancels Shield"), true, new ConfigDescription("Allows Protect and Serve to be cancelled by pressing sprint rather than special again", null, Array.Empty<object>()));
+            sirenOnDeflect = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Siren on Deflect"), true, new ConfigDescription("Play siren sound upon deflecting a projectile", null, Array.Empty<object>()));
         }
 
         private void EnforcerPlugin_LoadStart()
@@ -236,7 +243,7 @@ namespace EnforcerPlugin
                 blocked = true;
             }
 
-            if (self.body.baseNameToken == "ENFORCER_NAME" && info.attacker)
+            if (self.body.baseNameToken == "ENFORCER_NAME" && info.attacker && self.body.HasBuff(jackBoots))
             {
                 CharacterBody cb = info.attacker.GetComponent<CharacterBody>();
                 if (cb)
@@ -956,14 +963,14 @@ namespace EnforcerPlugin
             desc = desc + "< ! > Use Tear Gas to weaken large crowds of enemies, then get in close and crush them." + Environment.NewLine + Environment.NewLine;
             desc = desc + "< ! > Make sure to use Protect and Serve against walls to prevent enemies from flanking you." + Environment.NewLine + Environment.NewLine;
 
-            string outro = "..and so he left, unsure of his title as protector.";
+            string outro = characterOutro;
             if (forceUnlock.Value) outro = "..and so he left, having cheated not the game, but himself. He didn't grow. He didn't improve. He took a shortcut and gained nothing. He experienced a hollow victory. Nothing was risked and nothing was rained.";
 
-            LanguageAPI.Add("ENFORCER_NAME", "Enforcer");
+            LanguageAPI.Add("ENFORCER_NAME", characterName);
             LanguageAPI.Add("ENFORCER_DESCRIPTION", desc);
-            LanguageAPI.Add("ENFORCER_SUBTITLE", "Mutated Beyond Recognition");
+            LanguageAPI.Add("ENFORCER_SUBTITLE", characterSubtitle);
             //LanguageAPI.Add("ENFORCER_LORE", "I'M FUCKING INVINCIBLE");
-            LanguageAPI.Add("ENFORCER_LORE", "\n<style=cMono>\"You don't have to do this.\"</style>\r\n\r\nThe words echoed in his head, but yet he continued. The pod was only five feet away, he had a chance to leave, but yet something in his core kept him moving. It was unknown what kept him moving - even to him, but he didn't question it. The same thing kept him moving was the same thing that made him step when he had been given orders. To him, it was natural, but this time it didn't seem that way.");
+            LanguageAPI.Add("ENFORCER_LORE", characterLore);
             LanguageAPI.Add("ENFORCER_OUTRO_FLAVOR", outro);
 
             characterDisplay.AddComponent<NetworkIdentity>();
@@ -1470,23 +1477,24 @@ namespace EnforcerPlugin
 
         private void UtilitySetup()
         {
+            LoadoutAPI.AddSkill(typeof(AimTearGas));
             LoadoutAPI.AddSkill(typeof(TearGas));
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_NAME", "Tear Gas");
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Throw a grenade that explodes into <style=cIsUtility>tear gas</style> that <style=cIsDamage>heavily debilitates enemies</style> and lasts for 16 seconds.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            mySkillDef.activationState = new SerializableEntityStateType(typeof(TearGas));
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(AimTearGas));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 1;
             mySkillDef.baseRechargeInterval = 24;
-            mySkillDef.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef.beginSkillCooldownOnSkillEnd = true;
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Skill;
             mySkillDef.isBullets = false;
             mySkillDef.isCombatSkill = true;
-            mySkillDef.mustKeyPress = false;
+            mySkillDef.mustKeyPress = true;
             mySkillDef.noSprint = true;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;

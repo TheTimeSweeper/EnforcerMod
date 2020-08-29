@@ -83,7 +83,7 @@ namespace EnforcerPlugin {
                 icon1C = MainAssetBundle.LoadAsset<Sprite>("TestIcon");
                 icon2 = MainAssetBundle.LoadAsset<Sprite>("ShieldBashIcon");
                 icon3 = MainAssetBundle.LoadAsset<Sprite>("TearGasIcon");
-                icon3B = MainAssetBundle.LoadAsset<Sprite>("Skill3BIcon");
+                icon3B = MainAssetBundle.LoadAsset<Sprite>("StunGrenadeIcon");
                 icon4 = MainAssetBundle.LoadAsset<Sprite>("ShieldUpIcon");
                 icon4B = MainAssetBundle.LoadAsset<Sprite>("ShieldDownIcon");
             }

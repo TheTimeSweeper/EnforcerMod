@@ -149,7 +149,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
         shellController = shellObject.GetComponentInChildren<ParticleSystem>();
 
-        shellController.transform.localPosition = Vector3.zero;
+        shellController.transform.localPosition = new Vector3(0, -0.1f, 0);
 
         var x = shellController.main;
         x.simulationSpace = ParticleSystemSimulationSpace.World;

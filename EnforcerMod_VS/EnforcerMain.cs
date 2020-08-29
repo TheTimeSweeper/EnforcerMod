@@ -78,8 +78,8 @@ namespace EntityStates.Enforcer
             //shield mode camera stuff
             if (this.shieldComponent.isShielding != this.wasShielding)
             {
-                this.wasShielding = shieldComponent.isShielding;
-                initialTime = Time.fixedTime;
+                this.wasShielding = this.shieldComponent.isShielding;
+                this.initialTime = Time.fixedTime;
             }
 
             if (this.shieldComponent.isShielding)

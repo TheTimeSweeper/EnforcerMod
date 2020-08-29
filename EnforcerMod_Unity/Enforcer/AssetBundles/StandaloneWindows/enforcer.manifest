@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2125439450
+CRC: 1094546888
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 84058e3ba91ae6db5cfa421604bc7650
+    Hash: 4ce382eeb24a5cc55136249f300d5206
   TypeTreeHash:
     serializedVersion: 2
     Hash: f574fcd82bb1b02c759406ba4ffb1445
@@ -202,6 +202,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/ShoulderBashFX.prefab
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texSpaceforcer.png
 - Assets/Enforcer/EnforcerAssets/DesperadoMesh.mesh
+- Assets/Enforcer/EnforcerAssets/StunGrenadeIcon.png
 - Assets/Enforcer/EnforcerAssets/SuperShotgunIcon.png
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerCalmIdleIn.anim
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerAimPitch.anim

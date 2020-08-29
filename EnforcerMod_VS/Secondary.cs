@@ -12,7 +12,7 @@ namespace EntityStates.Enforcer
         public static float baseDuration = 0.8f;
         public static float damageCoefficient = 2.5f;
         public static float procCoefficient = 1f;
-        public static float knockbackForce = 0.2f;
+        public static float knockbackForce = 0.14f;
         public static float blastRadius = 6f;
         public static float deflectRadius = 3f;
         public static string hitboxString = "ShieldHitbox"; //transform where the hitbox is fired
@@ -98,15 +98,61 @@ namespace EntityStates.Enforcer
                     blastAttack.crit = Util.CheckRoll(base.characterBody.crit, base.characterBody.master);
                     blastAttack.baseDamage = base.characterBody.damage * ShieldBash.damageCoefficient;
                     blastAttack.falloffModel = BlastAttack.FalloffModel.None;
-                    blastAttack.baseForce = 3f;
+                    blastAttack.baseForce = 0f;
                     blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
                     blastAttack.damageType = DamageType.Stun1s;
                     blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
                     blastAttack.impactEffect = BeetleGuardMonster.GroundSlam.hitEffectPrefab.GetComponent<EffectComponent>().effectIndex;
 
                     blastAttack.Fire();
+                }
 
-                    KnockBack();
+                if (NetworkServer.active)
+                {
+                    Vector3 pushForce = ((aimRay.origin + 200 * aimRay.direction) - childLocator.FindChild(hitboxString).position + (75 * Vector3.up)) * ShieldBash.knockbackForce;
+
+                    Collider[] array = Physics.OverlapSphere(childLocator.FindChild(hitboxString).position, ShieldBash.blastRadius, LayerIndex.defaultLayer.mask);
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        HealthComponent healthComponent = array[i].GetComponent<HealthComponent>();
+                        if (healthComponent)
+                        {
+                            TeamComponent component2 = healthComponent.GetComponent<TeamComponent>();
+                            if (component2.teamIndex != TeamIndex.Player)
+                            {
+                                Util.PlaySound(EnforcerPlugin.Sounds.BashHitEnemy, healthComponent.gameObject);
+
+                                var charb = healthComponent.body;
+                                if (charb)
+                                {
+                                    var motor = charb.GetComponent<CharacterMotor>();
+                                    var rb = charb.GetComponent<Rigidbody>();
+                                    Vector3 force = pushForce;
+
+                                    if (motor) force *= motor.mass;
+                                    else if (rb) force *= rb.mass;
+
+                                    DamageInfo info = new DamageInfo
+                                    {
+                                        attacker = base.gameObject,
+                                        inflictor = base.gameObject,
+                                        damage = 0,
+                                        damageColorIndex = DamageColorIndex.Default,
+                                        damageType = DamageType.Generic,
+                                        crit = false,
+                                        dotIndex = DotController.DotIndex.None,
+                                        force = force,
+                                        position = base.transform.position,
+                                        procChainMask = default(ProcChainMask),
+                                        procCoefficient = 0
+                                    };
+
+                                    charb.healthComponent.TakeDamageForce(info, true, true);
+                                }
+
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -142,55 +188,6 @@ namespace EntityStates.Enforcer
             {
                 this.outer.SetNextStateToMain();
                 return;
-            }
-        }
-
-        private void KnockBack()
-        {
-            Collider[] array = Physics.OverlapSphere(childLocator.FindChild(hitboxString).position, ShieldBash.blastRadius, LayerIndex.defaultLayer.mask);
-            for (int i = 0; i < array.Length; i++)
-            {
-                HealthComponent component = array[i].GetComponent<HealthComponent>();
-                if (component)
-                {
-                    TeamComponent component2 = component.GetComponent<TeamComponent>();
-                    if (component2.teamIndex != TeamIndex.Player)
-                    {
-                        AddToList(component.gameObject);
-
-                        Util.PlaySound(EnforcerPlugin.Sounds.BashHitEnemy, component.gameObject);
-                    }
-                }
-            }
-
-            victimList.ForEach(Push);
-        }
-
-        private void AddToList(GameObject affectedObject)
-        {
-            CharacterBody component = affectedObject.GetComponent<CharacterBody>();
-            if (!this.victimList.Contains(component))
-            {
-                this.victimList.Add(component);
-            }
-        }
-
-        private void Push(CharacterBody charb)
-        {
-            Vector3 velocity = ((aimRay.origin + 200 * aimRay.direction) - childLocator.FindChild(hitboxString).position + (75 * Vector3.up)) * ShieldBash.knockbackForce;
-            
-            if (charb.characterMotor)
-            {
-                Vector3 newVelocity = charb.characterMotor.velocity + velocity;
-                charb.characterMotor.velocity = newVelocity;
-            }
-            else
-            {
-                Rigidbody component2 = charb.GetComponent<Rigidbody>();
-                if (component2)
-                {
-                    component2.velocity += velocity;
-                }
             }
         }
 
@@ -232,7 +229,8 @@ namespace EntityStates.Enforcer
                         if (!this.hasDeflected)
                         {
                             this.hasDeflected = true;
-                            //Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
+
+                            if (EnforcerPlugin.EnforcerPlugin.sirenOnDeflect.Value) Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
 
                             base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
                         }
@@ -329,9 +327,8 @@ namespace EntityStates.Enforcer
         {
             if (base.characterBody)
             {
-                //eat shit
-                //die
-                base.characterBody.isSprinting = true;
+                if (this.shieldCancel) base.characterBody.isSprinting = false;
+                else base.characterBody.isSprinting = true;
             }
 
             if (base.characterMotor) base.characterMotor.disableAirControlUntilCollision = false;// this should be a thing on all movement skills tbh
@@ -354,8 +351,12 @@ namespace EntityStates.Enforcer
 
             if (base.fixedAge >= this.duration)
             {
-                if (this.shieldCancel) this.outer.SetNextState(new ProtectAndServe());
-                this.outer.SetNextStateToMain();
+                if (this.shieldCancel)
+                {
+                    base.characterBody.isSprinting = false;
+                    this.outer.SetNextState(new ProtectAndServe());
+                }
+                else this.outer.SetNextStateToMain();
                 return;
             }
 

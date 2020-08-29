@@ -8,6 +8,7 @@ namespace EntityStates.Enforcer
         public static string soundString = EnforcerPlugin.Sounds.DefaultDance;
 
         private uint activePlayID;
+        private float initialTime;
         private Animator animator;
         private ChildLocator childLocator;
 
@@ -23,6 +24,8 @@ namespace EntityStates.Enforcer
 
             base.PlayAnimation("FullBody, Override", "DefaultDance");
             this.activePlayID = Util.PlaySound(soundString, base.gameObject);
+
+            this.initialTime = Time.fixedTime;
 
             //no don't comment this out it looks fucking stupid with the shield
             this.ToggleShield(false);
@@ -65,6 +68,12 @@ namespace EntityStates.Enforcer
 
                 if (base.inputBank.moveVector != Vector3.zero) flag = true;
             }
+
+            CameraTargetParams ctp = base.cameraTargetParams;
+            float denom = (1 + Time.fixedTime - this.initialTime);
+            float smoothFactor = 8 / Mathf.Pow(denom, 2);
+            Vector3 smoothVector = new Vector3(-3 / 20, 1 / 16, -1);
+            ctp.idealLocalCameraPos = new Vector3(0f, -0.8f, -5.5f) + smoothFactor * smoothVector;
 
             if (flag)
             {

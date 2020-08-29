@@ -39,7 +39,7 @@ class EnforcerLightController : MonoBehaviour
                     lightColor = Color.red;
                     break;
                 case 1:
-                    lightColor = Color.black;
+                    lightColor = Color.red;
                     break;
                 case 2:
                     lightColor = Color.red;
@@ -52,6 +52,9 @@ class EnforcerLightController : MonoBehaviour
                     break;
                 case 5:
                     lightColor = Color.red;
+                    break;
+                case 6:
+                    lightColor = Color.black;
                     break;
             }
 
