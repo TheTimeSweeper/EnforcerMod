@@ -39,7 +39,7 @@ namespace EnforcerPlugin
         public const string characterName = "Enforcer";
         public const string characterSubtitle = "Unwavering Bastion";
         public const string characterOutro = "..and so he left, unsure of his title as protector.";
-        public const string characterLore = "\n<style=cMono>\"You don't have to do this.\"</style>\r\n\r\nThe words echoed in his head, yet he continued forward. The pod was only a few steps away -- he had a chance to leave -- but something in his core kept him moving. He didn't know what it was, but he didn't question it. It was a natural force: the same force that always drove him to follow orders.\n\nBut this time, it didn't seem so natural.";
+        public const string characterLore = "\n<style=cMono>\"You don't have to do this.\"</style>\r\n\r\nThe words echoed in his head, yet he pushed forward. The pod was only a few steps away — he had a chance to leave — but something in his core kept him moving. He didn't know what it was, but he didn't question it. It was a natural force: the same force that always drove him to follow orders.\n\nThis time, however, it didn't seem so natural. There were no orders. The heavy trigger and its rhythmic thunder were his — and his alone.";
 
         public static EnforcerPlugin instance;
 
@@ -86,6 +86,7 @@ namespace EnforcerPlugin
         public static ConfigEntry<float> headSize;
         public static ConfigEntry<bool> sprintShieldCancel;
         public static ConfigEntry<bool> sirenOnDeflect;
+        //public static ConfigEntry<bool> classicSkin;
 
         //更新许可证 DO WHAT THE FUCK YOU WANT TO
 
@@ -125,6 +126,7 @@ namespace EnforcerPlugin
             headSize = base.Config.Bind<float>(new ConfigDefinition("01 - General Settings", "Head Size"), 1f, new ConfigDescription("Changes the size of Enforcer's head", null, Array.Empty<object>()));
             sprintShieldCancel = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Sprint Cancels Shield"), true, new ConfigDescription("Allows Protect and Serve to be cancelled by pressing sprint rather than special again", null, Array.Empty<object>()));
             sirenOnDeflect = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Siren on Deflect"), true, new ConfigDescription("Play siren sound upon deflecting a projectile", null, Array.Empty<object>()));
+            //classicSkin = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Old Helmet"), true, new ConfigDescription("Adds a skin with the old helmet for the weirdos who prefer that one", null, Array.Empty<object>()));
         }
 
         private void EnforcerPlugin_LoadStart()
@@ -1333,7 +1335,7 @@ namespace EnforcerPlugin
             skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
             {
                 skillDef = mySkillDef,
-                unlockableName = "",//"ENFORCER_SHOTGUNUNLOCKABLE_REWARD_ID"
+                unlockableName = "ENFORCER_SHOTGUNUNLOCKABLE_REWARD_ID",
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
             };
 
@@ -1746,6 +1748,15 @@ namespace EnforcerPlugin
                     if (component.baseNameToken == "ENFORCER_NAME") FrogGet(true);
                 }
             }
+        }
+    }
+
+    public class ParticleFuckingShitComponent : MonoBehaviour
+    {
+        private void Start()
+        {
+            this.transform.parent = null;
+            this.gameObject.AddComponent<DestroyOnTimer>().duration = 8;
         }
     }
 

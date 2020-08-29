@@ -39,6 +39,7 @@ namespace EnforcerPlugin {
         public static Mesh engiMesh;
         public static Mesh desperadoMesh;
         public static Mesh zeroSuitMesh;
+        public static Mesh classicMesh;
 
         public static void PopulateAssets()
         {
@@ -79,8 +80,8 @@ namespace EnforcerPlugin {
             {
                 iconP = MainAssetBundle.LoadAsset<Sprite>("TestIcon");
                 icon1 = MainAssetBundle.LoadAsset<Sprite>("RiotShotgunIcon");
-                icon1B = MainAssetBundle.LoadAsset<Sprite>("TestIcon");
-                icon1C = MainAssetBundle.LoadAsset<Sprite>("TestIcon");
+                icon1B = MainAssetBundle.LoadAsset<Sprite>("SuperShotgunIcon");
+                icon1C = MainAssetBundle.LoadAsset<Sprite>("AssaultRifleIcon");
                 icon2 = MainAssetBundle.LoadAsset<Sprite>("ShieldBashIcon");
                 icon3 = MainAssetBundle.LoadAsset<Sprite>("TearGasIcon");
                 icon3B = MainAssetBundle.LoadAsset<Sprite>("StunGrenadeIcon");
@@ -98,6 +99,7 @@ namespace EnforcerPlugin {
             shieldBashFX = MainAssetBundle.LoadAsset<GameObject>("ShieldBashFX");
             shoulderBashFX = MainAssetBundle.LoadAsset<GameObject>("ShoulderBashFX");
 
+            shieldBashFX.AddComponent<DestroyOnTimer>().duration = 5;
             shieldBashFX.AddComponent<NetworkIdentity>();
             shieldBashFX.AddComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Always;
             var effect = shieldBashFX.AddComponent<EffectComponent>();
@@ -107,6 +109,9 @@ namespace EnforcerPlugin {
             effect.positionAtReferencedTransform = true;
             effect.soundName = "";
 
+            shieldBashFX.transform.Find("cum").Find("piss").gameObject.AddComponent<ParticleFuckingShitComponent>();
+
+            shoulderBashFX.AddComponent<DestroyOnTimer>().duration = 5;
             shoulderBashFX.AddComponent<NetworkIdentity>();
             shoulderBashFX.AddComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Always;
             effect = shoulderBashFX.AddComponent<EffectComponent>();
@@ -116,6 +121,8 @@ namespace EnforcerPlugin {
             effect.positionAtReferencedTransform = true;
             effect.soundName = "";
 
+            shoulderBashFX.transform.Find("cum").Find("poop").gameObject.AddComponent<ParticleFuckingShitComponent>();
+
             EffectAPI.AddEffect(shieldBashFX);
             EffectAPI.AddEffect(shoulderBashFX);
 
@@ -123,6 +130,7 @@ namespace EnforcerPlugin {
             engiMesh = MainAssetBundle.LoadAsset<Mesh>("EngiforcerMesh");
             desperadoMesh = MainAssetBundle.LoadAsset<Mesh>("DesperadoMesh");
             zeroSuitMesh = MainAssetBundle.LoadAsset<Mesh>("ZeroSuitMesh");
+            classicMesh = MainAssetBundle.LoadAsset<Mesh>("ClassicMesh");
         }
     }
 }

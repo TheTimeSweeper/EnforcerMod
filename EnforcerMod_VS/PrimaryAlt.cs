@@ -6,16 +6,17 @@ namespace EntityStates.Enforcer
 {
     public class FireAssaultRifle : AssaultRifleState
     {
-        public static float damageCoefficient = 0.7f;
-        public static float procCoefficient = 0.7f;
+        public static float damageCoefficient = 0.65f;
+        public static float procCoefficient = 0.6f;
         public static float bulletForce = 5f;
-        public static float recoilAmplitude = 1.1f;
+        public static float recoilAmplitude = 1.2f;
+        public static float spreadBloom = 0.8f;
         public static float baseFireInterval = 0.18f;
         public static int baseBulletCount = 1;
         public static float bulletRange = 128f;
         public static float bulletRadius = 0.1f;
         public static float minSpread = 0;
-        public static float maxSpread = 7;
+        public static float maxSpread = 8.5f;
 
         private float fireTimer;
         private Transform muzzleVfxTransform;
@@ -84,9 +85,11 @@ namespace EntityStates.Enforcer
         {
             base.PlayAnimation("RightArm, Override", "FireShotgun");
 
+            this.critStat = base.characterBody.crit;
             this.isCrit = this.RollCrit();
 
             base.AddRecoil(-0.5f * FireAssaultRifle.recoilAmplitude, -0.5f * FireAssaultRifle.recoilAmplitude, -0.5f * FireAssaultRifle.recoilAmplitude, 0.5f * FireAssaultRifle.recoilAmplitude);
+            base.characterBody.AddSpreadBloom(FireAssaultRifle.spreadBloom);
 
             float damage = FireAssaultRifle.damageCoefficient * this.damageStat;
             float force = FireAssaultRifle.bulletForce / this.baseBulletsPerSecond;
@@ -188,7 +191,7 @@ namespace EntityStates.Enforcer
         }
     }
 
-    public class AssaultRifleState : BaseState
+    public class AssaultRifleState : BaseSkillState
     {
         public static string muzzleName = "RifleMuzzle";
 
@@ -199,7 +202,7 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
             string muzzleString = FireAssaultRifle.muzzleName;
-            if (base.characterBody.skinIndex == 3) muzzleString = "BlasterRifleMuzzle";
+            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex) muzzleString = "BlasterRifleMuzzle";
             this.muzzleTransform = base.FindModelChild(muzzleString);
             this.animator = base.GetModelAnimator();
         }

@@ -73,7 +73,7 @@ namespace EntityStates.Enforcer
             float denom = (1 + Time.fixedTime - this.initialTime);
             float smoothFactor = 8 / Mathf.Pow(denom, 2);
             Vector3 smoothVector = new Vector3(-3 / 20, 1 / 16, -1);
-            ctp.idealLocalCameraPos = new Vector3(0f, -0.8f, -5.5f) + smoothFactor * smoothVector;
+            ctp.idealLocalCameraPos = new Vector3(0f, -1.4f, -5.75f) + smoothFactor * smoothVector;
 
             if (flag)
             {

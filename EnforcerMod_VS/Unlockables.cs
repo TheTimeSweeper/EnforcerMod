@@ -15,17 +15,17 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC", "Kill a Magma Worm, a Wandering Vagrant and a Stone Titan in a single run.");
             LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_UNLOCKABLE_NAME", "Riot");
 
-            LanguageAPI.Add("ENFORCER_SHOTGUNUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Super Shotgun");
-            LanguageAPI.Add("ENFORCER_SHOTGUNUNLOCKABLE_ACHIEVEMENT_DESC", "something");
-            LanguageAPI.Add("ENFORCER_SHOTGUNUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Super Shotgun");
+            LanguageAPI.Add("ENFORCER_SHOTGUNUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Schmoovin'");
+            LanguageAPI.Add("ENFORCER_SHOTGUNUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, show off your dance moves.");
+            LanguageAPI.Add("ENFORCER_SHOTGUNUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Schmoovin'");
 
-            LanguageAPI.Add("ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Assault Rifle");
+            LanguageAPI.Add("ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Rapidfire");
             LanguageAPI.Add("ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, reach +300% attack speed.");
-            LanguageAPI.Add("ENFORCER_RIFLEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Assault Rifle");
+            LanguageAPI.Add("ENFORCER_RIFLEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Rapidfire");
 
-            LanguageAPI.Add("ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Stun Grenade");
+            LanguageAPI.Add("ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Crowd Control");
             LanguageAPI.Add("ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, have 20 enemies under the effects of Tear Gas at once.");
-            LanguageAPI.Add("ENFORCER_STUNGRENADEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Stun Grenade");
+            LanguageAPI.Add("ENFORCER_STUNGRENADEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Crowd Control");
 
             LanguageAPI.Add("ENFORCER_MONSOONUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Mastery");
             LanguageAPI.Add("ENFORCER_MONSOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Monsoon.");
@@ -40,7 +40,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Enforcing Perfection");
 
             LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Long Live the Empire");
-            LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, kill 50 enemies by knocking them off the edge of the map.");
+            LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, defeat an elite Solus Control Unit.");
             LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Long Live the Empire");
 
             LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Rules of Nature");
@@ -79,9 +79,9 @@ namespace EnforcerPlugin.Achievements
         public override String UnlockableNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_UNLOCKABLE_NAME";
         protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
 
-        public static bool magmaWormKilled;
-        public static bool wanderingVagrantKilled;
-        public static bool stoneTitanKilled;
+        public bool magmaWormKilled;
+        public bool wanderingVagrantKilled;
+        public bool stoneTitanKilled;
         //need to network this, only gives it to the host rn
 
         private void CheckDeath(DamageReport report)
@@ -92,11 +92,11 @@ namespace EnforcerPlugin.Achievements
 
             if (report.victimTeamIndex != TeamIndex.Player)
             {
-                if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("MagmaWormBody")) UnlockAchievement.magmaWormKilled = true;
-                if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("VagrantBody")) UnlockAchievement.wanderingVagrantKilled = true;
-                if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("TitanBody")) UnlockAchievement.stoneTitanKilled = true;
+                if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("MagmaWormBody")) this.magmaWormKilled = true;
+                if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("VagrantBody")) this.wanderingVagrantKilled = true;
+                if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("TitanBody")) this.stoneTitanKilled = true;
 
-                if (UnlockAchievement.magmaWormKilled && UnlockAchievement.wanderingVagrantKilled && UnlockAchievement.stoneTitanKilled)
+                if (this.magmaWormKilled && this.wanderingVagrantKilled && this.stoneTitanKilled)
                 {
                     base.Grant();
                 }
@@ -113,9 +113,9 @@ namespace EnforcerPlugin.Achievements
 
         private void ResetKills()
         {
-            UnlockAchievement.magmaWormKilled = false;
-            UnlockAchievement.wanderingVagrantKilled = false;
-            UnlockAchievement.stoneTitanKilled = false;
+            this.magmaWormKilled = false;
+            this.wanderingVagrantKilled = false;
+            this.stoneTitanKilled = false;
         }
 
         public override void OnInstall()
@@ -287,14 +287,30 @@ namespace EnforcerPlugin.Achievements
             return BodyCatalog.FindBodyIndex("EnforcerBody");
         }
 
+        private void CheckDeath(DamageReport report)
+        {
+            if (!report.victimBody) return;
+            if (report.damageInfo is null) return;
+            if (report.damageInfo.inflictor is null) return;
+
+            if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("RoboBallBossBody") && report.victimBody.isElite)
+            {
+                if (base.meetsBodyRequirement) base.Grant();
+            }
+        }
+
         public override void OnInstall()
         {
             base.OnInstall();
+
+            GlobalEventManager.onCharacterDeathGlobal += CheckDeath;
         }
 
         public override void OnUninstall()
         {
             base.OnUninstall();
+
+            GlobalEventManager.onCharacterDeathGlobal -= CheckDeath;
         }
     }
 
@@ -385,14 +401,23 @@ namespace EnforcerPlugin.Achievements
             return BodyCatalog.FindBodyIndex("EnforcerBody");
         }
 
+        private void Schmoovin(bool isDancing)
+        {
+            if (base.meetsBodyRequirement && isDancing) base.Grant();
+        }
+
         public override void OnInstall()
         {
             base.OnInstall();
+
+            EntityStates.Enforcer.EnforcerMain.onDance += Schmoovin;
         }
 
         public override void OnUninstall()
         {
             base.OnUninstall();
+
+            EntityStates.Enforcer.EnforcerMain.onDance -= Schmoovin;
         }
     }
 

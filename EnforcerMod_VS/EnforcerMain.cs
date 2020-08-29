@@ -6,6 +6,8 @@ namespace EntityStates.Enforcer
 {
     public class EnforcerMain : GenericCharacterMain
     {
+        public static event Action<bool> onDance = delegate { };
+
         public static float lightFlashInterval = 0.5f;
 
         private ShieldComponent shieldComponent;
@@ -31,6 +33,8 @@ namespace EntityStates.Enforcer
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
             this.lightComponent = base.characterBody.GetComponent<EnforcerLightController>();
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
+
+            onDance(false);
 
             this.childLocator.FindChild("ShieldHurtbox").gameObject.SetActive(false);
 
@@ -62,8 +66,9 @@ namespace EntityStates.Enforcer
             //default dance
             if (base.isAuthority && Input.GetKeyDown(KeyCode.Z))
             {
-                if (base.characterMotor.isGrounded)
+                if (base.characterMotor.isGrounded && !base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
                 {
+                    onDance(true);
                     this.outer.SetNextState(new DefaultDance());
                     return;
                 }
@@ -139,7 +144,7 @@ namespace EntityStates.Enforcer
 
 
                 //sprint shield cancel
-                if (this.sprintCancelEnabled && base.inputBank)
+                if (base.isAuthority && this.sprintCancelEnabled && base.inputBank)
                 {
                     if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) && base.inputBank.sprint.down)
                     {
