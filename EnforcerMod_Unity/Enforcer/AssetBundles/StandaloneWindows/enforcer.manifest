@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1042660732
+CRC: 4147499109
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8ef9d31eab39c310b1a629fef0171275
+    Hash: 7e53181039d420eca1ac2502da737a54
   TypeTreeHash:
     serializedVersion: 2
     Hash: f574fcd82bb1b02c759406ba4ffb1445
@@ -126,6 +126,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/ShieldWalkB.anim
 - Assets/Enforcer/EnforcerAssets/Particles/matTrail.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matEnforcer.mat
+- Assets/Enforcer/EnforcerAssets/Textures/Body/texSexforcer.png
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerCalmIdle.anim
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texEnforcerNormal.png
 - Assets/Enforcer/EnforcerAssets/AssaultRifleIcon.png
@@ -148,6 +149,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/Masks/EnforcerArmRightMask.mask
 - Assets/Enforcer/EnforcerAssets/Animations/ShieldWalkR.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matEnforcerBulletTracer.mat
+- Assets/Enforcer/EnforcerAssets/SexforcerMesh.mesh
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texStunGrenade.png
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerWalkForward.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Emote/DanceMoves.anim
@@ -160,6 +162,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerShieldIdle.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Weapon/SuperShottyRest.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Weapon/TearGasGrenade 1.controller
+- Assets/Enforcer/EnforcerAssets/Materials/matSexforcer.mat
 - Assets/Enforcer/EnforcerAssets/Particles/texSmoke.png
 - Assets/Enforcer/EnforcerAssets/Animations/Weapon/SuperShottyFire2.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matEquippedShield.mat

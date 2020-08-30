@@ -40,6 +40,7 @@ namespace EnforcerPlugin {
         public static Mesh desperadoMesh;
         public static Mesh zeroSuitMesh;
         public static Mesh classicMesh;
+        public static Mesh sexMesh;
 
         public static void PopulateAssets()
         {
@@ -131,6 +132,7 @@ namespace EnforcerPlugin {
             desperadoMesh = MainAssetBundle.LoadAsset<Mesh>("DesperadoMesh");
             zeroSuitMesh = MainAssetBundle.LoadAsset<Mesh>("ZeroSuitMesh");
             classicMesh = MainAssetBundle.LoadAsset<Mesh>("ClassicMesh");
+            sexMesh = MainAssetBundle.LoadAsset<Mesh>("SexforcerMesh");
         }
     }
 }

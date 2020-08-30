@@ -21,7 +21,7 @@ namespace EnforcerPlugin
             SkinnedMeshRenderer mainRenderer = Reflection.GetFieldValue<SkinnedMeshRenderer>(characterModel, "mainSkinnedMeshRenderer");
 
             LanguageAPI.Add("ENFORCERBODY_DEFAULT_SKIN_NAME", "Default");
-            LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Coming Soon");
+            LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Sexforcer");
             LanguageAPI.Add("ENFORCERBODY_SPACE_SKIN_NAME", "Stormtrooper");
             LanguageAPI.Add("ENFORCERBODY_ENGI_SKIN_NAME", "Engineer?");
             LanguageAPI.Add("ENFORCERBODY_DOOM_SKIN_NAME", "Doom Slayer");
@@ -645,7 +645,7 @@ namespace EnforcerPlugin
                 new SkinDef.MeshReplacement
                 {
                     renderer = mainRenderer,
-                    mesh = mainRenderer.sharedMesh
+                    mesh = Assets.sexMesh
                 }
             };
             masterySkinDefInfo.Name = "ENFORCERBODY_MASTERY_SKIN_NAME";
@@ -653,6 +653,24 @@ namespace EnforcerPlugin
             masterySkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             masterySkinDefInfo.RootObject = model;
             masterySkinDefInfo.UnlockableName = "ENFORCER_MONSOONUNLOCKABLE_REWARD_ID";
+
+            rendererInfos = skinDefInfo.RendererInfos;
+            array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos.CopyTo(array, 0);
+
+            material = array[0].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_MainTex"));
+                //material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 0);
+
+                array[0].defaultMaterial = material;
+            }
+
+            masterySkinDefInfo.RendererInfos = array;
 
             SkinDef masterySkin = LoadoutAPI.CreateNewSkinDef(masterySkinDefInfo);
 

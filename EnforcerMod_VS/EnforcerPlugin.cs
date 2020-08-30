@@ -1526,12 +1526,12 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkill(typeof(StunGrenade));
 
             LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_NAME", "Stun Grenade");
-            LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION", "<style=cIsDamage>Stunning</style>. Launch a stun grenade, dealing <style=cIsDamage>" + 100f * StunGrenade.damageCoefficient + "% damage</style>. <style=cIsUtility>Store up to 6 grenades</style>.");
+            LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION", "<style=cIsDamage>Stunning</style>. Launch a stun grenade, dealing <style=cIsDamage>" + 100f * StunGrenade.damageCoefficient + "% damage</style>. <style=cIsUtility>Store up to 3 grenades</style>.");
 
             mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(StunGrenade));
             mySkillDef.activationStateMachineName = "Weapon";
-            mySkillDef.baseMaxStock = 6;
+            mySkillDef.baseMaxStock = 3;
             mySkillDef.baseRechargeInterval = 8f;
             mySkillDef.beginSkillCooldownOnSkillEnd = false;
             mySkillDef.canceledFromSprinting = false;
@@ -1843,6 +1843,8 @@ namespace EnforcerPlugin
         public static readonly string Croak = "Croak_siren";
 
         public static readonly string DefaultDance = "Default_forcer";
+        public static readonly string Floss = "Flossforcer";
+        public static readonly string InfiniteDab = "Infiniforcer";
         public static readonly string DOOM = "DOOM";
     }
 }

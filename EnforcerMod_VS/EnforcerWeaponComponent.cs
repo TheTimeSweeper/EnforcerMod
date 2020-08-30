@@ -59,6 +59,22 @@ public class EnforcerWeaponComponent : MonoBehaviour
         //SetWeaponDisplays(weapon);
     }
 
+    public void HideWeapon()
+    {
+        if (childLocator)
+        {
+            childLocator.FindChild("Shotgun").gameObject.SetActive(false);
+            childLocator.FindChild("Rifle").gameObject.SetActive(false);
+            childLocator.FindChild("SuperShotgun").gameObject.SetActive(false);
+            childLocator.FindChild("Hammer").gameObject.SetActive(false);
+        }
+    }
+
+    public void ResetWeapon()
+    {
+        EquipWeapon(GetWeapon());
+    }
+
     private void EquipWeapon(int weapon)
     {
         if (childLocator)

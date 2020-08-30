@@ -1,6 +1,8 @@
 ﻿using RoR2;
+using RoR2.Skills;
 using System;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace EntityStates.Enforcer
 {
@@ -69,7 +71,7 @@ namespace EntityStates.Enforcer
                 if (base.characterMotor.isGrounded && !base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
                 {
                     onDance(true);
-                    this.outer.SetNextState(new DefaultDance());
+                    this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(DefaultDance))), InterruptPriority.Any);
                     return;
                 }
             }
@@ -77,7 +79,19 @@ namespace EntityStates.Enforcer
             //sirens
             if (base.isAuthority && Input.GetKeyDown(KeyCode.CapsLock))
             {
-                this.ToggleSirens();
+                this.sirenToggle = !this.sirenToggle;
+
+                if (this.sirenToggle)
+                {
+                    string sound = EnforcerPlugin.Sounds.SirenButton;
+                    if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.frogIndex) sound = EnforcerPlugin.Sounds.Croak;
+                    this.sirenPlayID = Util.PlaySound(sound, base.gameObject);
+                    this.flashStopwatch = 0;
+                }
+                else
+                {
+                    if (this.sirenPlayID != 0) AkSoundEngine.StopPlayingID(this.sirenPlayID);
+                }
             }
 
             //shield mode camera stuff
@@ -144,7 +158,7 @@ namespace EntityStates.Enforcer
 
 
                 //sprint shield cancel
-                if (base.isAuthority && this.sprintCancelEnabled && base.inputBank)
+                if (base.isAuthority && NetworkServer.active && this.sprintCancelEnabled && base.inputBank)
                 {
                     if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) && base.inputBank.sprint.down)
                     {
@@ -186,23 +200,6 @@ namespace EntityStates.Enforcer
             else
             {
                 Chat.AddMessage("Using modern shotgun sounds");
-            }
-        }
-
-        private void ToggleSirens()
-        {
-            this.sirenToggle = !this.sirenToggle;
-
-            if (this.sirenToggle)
-            {
-                string sound = EnforcerPlugin.Sounds.SirenButton;
-                if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.frogIndex) sound = EnforcerPlugin.Sounds.Croak;
-                this.sirenPlayID = Util.PlaySound(sound, base.gameObject);
-                this.flashStopwatch = 0;
-            }
-            else
-            {
-                if (this.sirenPlayID != 0) AkSoundEngine.StopPlayingID(this.sirenPlayID);
             }
         }
 

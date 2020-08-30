@@ -6,11 +6,13 @@ namespace EntityStates.Enforcer
 {
     public class FireAssaultRifle : AssaultRifleState
     {
-        public static float damageCoefficient = 0.65f;
+        public static float damageCoefficient = 0.6f;
         public static float procCoefficient = 0.6f;
         public static float bulletForce = 5f;
-        public static float recoilAmplitude = 1.2f;
-        public static float spreadBloom = 0.8f;
+        public static float recoilAmplitude = 1.25f;
+        public static float shieldRecoilAmplitude = 0.2f;
+        public static float spreadBloom = 0.5f;
+        public static float shieldSpreadBloom = 0.1f;
         public static float baseFireInterval = 0.18f;
         public static int baseBulletCount = 1;
         public static float bulletRange = 128f;
@@ -88,6 +90,14 @@ namespace EntityStates.Enforcer
             this.critStat = base.characterBody.crit;
             this.isCrit = this.RollCrit();
 
+            float bloom = FireAssaultRifle.spreadBloom;
+            float recoil = FireAssaultRifle.recoilAmplitude;
+            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+            {
+                bloom = FireAssaultRifle.shieldSpreadBloom;
+                recoil = FireAssaultRifle.shieldRecoilAmplitude;
+            }
+
             base.AddRecoil(-0.5f * FireAssaultRifle.recoilAmplitude, -0.5f * FireAssaultRifle.recoilAmplitude, -0.5f * FireAssaultRifle.recoilAmplitude, 0.5f * FireAssaultRifle.recoilAmplitude);
             base.characterBody.AddSpreadBloom(FireAssaultRifle.spreadBloom);
 
@@ -164,8 +174,6 @@ namespace EntityStates.Enforcer
                 return;
             }
         }
-
-
     }
 
     public class AssaultRifleExit : AssaultRifleState

@@ -3,9 +3,10 @@ using UnityEngine;
 
 namespace EntityStates.Enforcer
 {
-    public class DefaultDance : BaseSkillState
+    public class BaseEmote : BaseState
     {
-        public static string soundString = EnforcerPlugin.Sounds.DefaultDance;
+        public string soundString;
+        public string animString;
 
         private uint activePlayID;
         private float initialTime;
@@ -22,12 +23,13 @@ namespace EntityStates.Enforcer
 
             if (base.characterMotor) base.characterMotor.velocity = Vector3.zero;
 
-            base.PlayAnimation("FullBody, Override", "DefaultDance");
+            base.PlayAnimation("FullBody, Override", this.animString);
             this.activePlayID = Util.PlaySound(soundString, base.gameObject);
 
             this.initialTime = Time.fixedTime;
 
-            //no don't comment this out it looks fucking stupid with the shield
+            if (base.GetComponent<EnforcerWeaponComponent>()) base.GetComponent<EnforcerWeaponComponent>().HideWeapon();
+
             this.ToggleShield(false);
         }
 
@@ -36,6 +38,8 @@ namespace EntityStates.Enforcer
             base.OnExit();
 
             base.characterBody.hideCrosshair = false;
+
+            if (base.GetComponent<EnforcerWeaponComponent>()) base.GetComponent<EnforcerWeaponComponent>().ResetWeapon();
 
             base.PlayAnimation("FullBody, Override", "BufferEmpty");
             if (this.activePlayID != 0) AkSoundEngine.StopPlayingID(this.activePlayID);
@@ -73,7 +77,7 @@ namespace EntityStates.Enforcer
             float denom = (1 + Time.fixedTime - this.initialTime);
             float smoothFactor = 8 / Mathf.Pow(denom, 2);
             Vector3 smoothVector = new Vector3(-3 / 20, 1 / 16, -1);
-            ctp.idealLocalCameraPos = new Vector3(0f, -1.4f, -5.75f) + smoothFactor * smoothVector;
+            ctp.idealLocalCameraPos = new Vector3(0f, -1.4f, -6f) + smoothFactor * smoothVector;
 
             if (flag)
             {
@@ -84,6 +88,36 @@ namespace EntityStates.Enforcer
         public override InterruptPriority GetMinimumInterruptPriority()
         {
             return InterruptPriority.Any;
+        }
+    }
+
+    public class DefaultDance : BaseEmote
+    {
+        public override void OnEnter()
+        {
+            this.animString = "DefaultDance";
+            this.soundString = EnforcerPlugin.Sounds.DefaultDance;
+            base.OnEnter();
+        }
+    }
+
+    public class Floss : BaseEmote
+    {
+        public override void OnEnter()
+        {
+            this.animString = "Floss";
+            this.soundString = EnforcerPlugin.Sounds.Floss;
+            base.OnEnter();
+        }
+    }
+
+    public class InfiniteDab : BaseEmote
+    {
+        public override void OnEnter()
+        {
+            this.animString = "InfiniteDab";
+            this.soundString = EnforcerPlugin.Sounds.InfiniteDab;
+            base.OnEnter();
         }
     }
 }
