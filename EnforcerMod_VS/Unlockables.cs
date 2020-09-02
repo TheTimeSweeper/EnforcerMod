@@ -4,6 +4,8 @@ using R2API;
 using RoR2;
 using R2API.Utils;
 using RoR2.Stats;
+using IL.RoR2.Achievements;
+using EnforcerPlugin.Achievements;
 
 namespace EnforcerPlugin
 {
@@ -51,6 +53,11 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, make a friend on the moon.");
             LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Through Thick and Thin");
 
+            ///this is the version that works with the altered AddUnlockable I changed in R2API.
+            ///look at #r2api in the discord to see what I mean. I went into more detail in #development as well
+            ///if the pull requests gets accepted I'll add the other needed ones to this
+            //UnlockablesAPI.AddUnlockable<Achievements.EnforcerUnlockAchievement>(true, typeof(EnforcerUnlockAchievement.EnforcerUnlockAchievementServer));
+
             UnlockablesAPI.AddUnlockable<Achievements.UnlockAchievement>(true);
             UnlockablesAPI.AddUnlockable<Achievements.SuperShotgunAchievement>(true);
             UnlockablesAPI.AddUnlockable<Achievements.AssaultRifleAchievement>(true);
@@ -69,8 +76,7 @@ namespace EnforcerPlugin.Achievements
 {
     [R2APISubmoduleDependency(nameof(UnlockablesAPI))]
 
-    public class UnlockAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider>
-    {
+    public class UnlockAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider> {
         public override String AchievementIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
         public override String UnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
         public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_PREREQ_ID";
@@ -84,42 +90,36 @@ namespace EnforcerPlugin.Achievements
         public bool stoneTitanKilled;
         //need to network this, only gives it to the host rn
 
-        private void CheckDeath(DamageReport report)
-        {
+        private void CheckDeath(DamageReport report) {
             if (report is null) return;
             if (report.victimBody is null) return;
             if (report.attackerBody is null) return;
 
-            if (report.victimTeamIndex != TeamIndex.Player)
-            {
+            if (report.victimTeamIndex != TeamIndex.Player) {
                 if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("MagmaWormBody")) this.magmaWormKilled = true;
                 if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("VagrantBody")) this.wanderingVagrantKilled = true;
                 if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("TitanBody")) this.stoneTitanKilled = true;
 
-                if (this.magmaWormKilled && this.wanderingVagrantKilled && this.stoneTitanKilled)
-                {
+                if (this.magmaWormKilled && this.wanderingVagrantKilled && this.stoneTitanKilled) {
                     base.Grant();
                 }
             }
         }
 
-        private void ResetOnRunStart(Run run)
-        {
+        private void ResetOnRunStart(Run run) {
             this.ResetKills();
 
             //throwing this in here because lazy
             EnforcerPlugin.cum = false;
         }
 
-        private void ResetKills()
-        {
+        private void ResetKills() {
             this.magmaWormKilled = false;
             this.wanderingVagrantKilled = false;
             this.stoneTitanKilled = false;
         }
 
-        public override void OnInstall()
-        {
+        public override void OnInstall() {
             base.OnInstall();
 
             this.ResetKills();
@@ -127,12 +127,103 @@ namespace EnforcerPlugin.Achievements
             Run.onRunStartGlobal += ResetOnRunStart;
         }
 
-        public override void OnUninstall()
-        {
+        public override void OnUninstall() {
             base.OnUninstall();
 
             GlobalEventManager.onCharacterDeathGlobal -= this.CheckDeath;
             Run.onRunStartGlobal -= ResetOnRunStart;
+        }
+    }
+    //networked
+    public class EnforcerUnlockAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider>
+    {
+        public override String AchievementIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
+        public override String UnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
+        public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_PREREQ_ID";
+        public override String AchievementNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME";
+        public override String AchievementDescToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC";
+        public override String UnlockableNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_UNLOCKABLE_NAME";
+        protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
+        //need to network this, only gives it to the host rn
+        public override void OnInstall() {
+            base.OnInstall();
+            base.SetServerTracked(true);
+        }
+
+        // Token: 0x0600310D RID: 12557 RVA: 0x000CD6EC File Offset: 0x000CB8EC
+        public override void OnUninstall() {
+            base.OnUninstall();
+        }
+
+
+
+        public class EnforcerUnlockAchievementServer : RoR2.Achievements.BaseServerAchievement {
+
+            public bool magmaWormKilled;
+            public bool wanderingVagrantKilled;
+            public bool stoneTitanKilled;
+
+            private void CheckDeath(DamageReport report) {
+                if (report is null) return;
+                if (report.victimBody is null) return;
+                if (report.attackerBody is null) return;
+
+                if (report.victimTeamIndex != TeamIndex.Player) {
+                    if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("MagmaWormBody")) {
+                        this.magmaWormKilled = true;
+
+                        Debug.LogWarning("killed worm");
+                        Debug.LogWarning($"worm: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
+                    }
+                    if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("VagrantBody")) {
+                        this.wanderingVagrantKilled = true;
+
+                        Debug.LogWarning("killed vag");
+                        Debug.LogWarning($"worm: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
+                    }
+                    if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("TitanBody")) {
+                        this.stoneTitanKilled = true;
+
+                        Debug.LogWarning("killed tit");
+                        Debug.LogWarning($"worm: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
+                    }
+
+                    if (this.magmaWormKilled && this.wanderingVagrantKilled && this.stoneTitanKilled) {
+                        Debug.LogWarning($"ya fuckin");
+                        base.Grant();
+                        Debug.LogWarning($"did it");
+                    }
+                }
+            }
+
+            private void ResetOnRunStart(Run run) {
+                this.ResetKills();
+
+                //throwing this in here because lazy
+                EnforcerPlugin.cum = false;
+            }
+
+            private void ResetKills() {
+                this.magmaWormKilled = false;
+                this.wanderingVagrantKilled = false;
+                this.stoneTitanKilled = false;
+            }
+
+            public override void OnInstall() {
+                base.OnInstall();
+
+                this.ResetKills();
+                GlobalEventManager.onCharacterDeathGlobal += this.CheckDeath;
+                Run.onRunStartGlobal += ResetOnRunStart;
+            }
+
+            public override void OnUninstall() {
+                base.OnUninstall();
+
+                GlobalEventManager.onCharacterDeathGlobal -= this.CheckDeath;
+                Run.onRunStartGlobal -= ResetOnRunStart;
+            }
+
         }
     }
 
