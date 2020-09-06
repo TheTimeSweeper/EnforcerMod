@@ -76,6 +76,17 @@ namespace EntityStates.Enforcer
                 }
             }
 
+            //floss
+            if (base.isAuthority && Input.GetKeyDown(KeyCode.Z))
+            {
+                if (base.characterMotor.isGrounded && !base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+                {
+                    onDance(true);
+                    this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Floss))), InterruptPriority.Any);
+                    return;
+                }
+            }
+
             //sirens
             if (base.isAuthority && Input.GetKeyDown(KeyCode.CapsLock))
             {

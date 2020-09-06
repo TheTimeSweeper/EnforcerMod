@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using System.Collections.Generic;
 using BepInEx;
 using R2API;
@@ -12,13 +11,12 @@ using UnityEngine.Networking;
 using KinematicCharacterController;
 using EntityStates.Enforcer;
 using RoR2.Projectile;
-using System.IO;
 using BepInEx.Configuration;
 
 namespace EnforcerPlugin
 {
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
-    [BepInPlugin(MODUID, "Enforcer", "0.0.5")]
+    [BepInPlugin(MODUID, "Enforcer", "0.0.6")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -157,7 +155,8 @@ namespace EnforcerPlugin
             }
             start();
         }
-        private void Hook() {
+        private void Hook()
+        {
             //add hooks here
             //using this approach means we'll only ever have to comment one line if we don't want a hook to fire
             //it's much simpler this way, trust me
@@ -1007,7 +1006,7 @@ namespace EnforcerPlugin
         private void RegisterBuffs() {
             BuffDef jackBootsDef = new BuffDef {
                 name = "Heavyweight",
-                iconPath = "@Enforcer:Assets/Enforcer/EnforcerAssets/texEnforcerBuffIcon.png",
+                iconPath = "@Enforcer:Assets/texBuffProtectAndServe.png",
                 buffColor = characterColor,
                 canStack = false,
                 isDebuff = false,
@@ -1019,7 +1018,7 @@ namespace EnforcerPlugin
             BuffDef energyShieldBuffDef = new BuffDef
             {
                 name = "Heavyweight",
-                iconPath = "@Enforcer:Assets/Enforcer/EnforcerAssets/texEnforcerBuffIcon.png",
+                iconPath = "@Enforcer:Assets/texBuffProtectAndServe.png",
                 buffColor = characterColor,
                 canStack = false,
                 isDebuff = false,
@@ -1222,7 +1221,7 @@ namespace EnforcerPlugin
         {
             // mul-t ai?
             // who wants to write ai for our boy, please someone
-            doppelganger = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/ToolbotMonsterMaster"), "EnforcerMonsterMaster");
+            doppelganger = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/MercMonsterMaster"), "EnforcerMonsterMaster");
 
             MasterCatalog.getAdditionalEntries += delegate (List<GameObject> list)
             {
@@ -1301,8 +1300,9 @@ namespace EnforcerPlugin
             };
 
             LoadoutAPI.AddSkill(typeof(SuperShotgun));
+            LoadoutAPI.AddSkill(typeof(SuperShotgunReload));
 
-            desc = "Fire a short range <style=cIsUtility>blast</style> for <style=cIsDamage>" + RiotShotgun.projectileCount + "x" + 100f * SuperShotgun.damageCoefficient + "% damage. Has harsh damage falloff.";
+            desc = "Quickly fire two short range <style=cIsUtility>blasts</style> for <style=cIsDamage>" + RiotShotgun.projectileCount + "x" + 100f * 0.65f + "% and " + RiotShotgun.projectileCount + "x" + 100f * 0.85f + "% damage</style>. Has harsh damage falloff.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_NAME", "Super Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION", desc);
@@ -1341,7 +1341,6 @@ namespace EnforcerPlugin
 
             LoadoutAPI.AddSkill(typeof(AssaultRifleState));
             LoadoutAPI.AddSkill(typeof(FireAssaultRifle));
-            LoadoutAPI.AddSkill(typeof(AssaultRifleExit));
 
             desc = "Rapidly fire bullets dealing <style=cIsDamage>" + 100f * FireAssaultRifle.damageCoefficient + "% damage.";
 
@@ -1716,15 +1715,22 @@ namespace EnforcerPlugin
 
     public class MenuSound : MonoBehaviour
     {
+        private uint playID;
+
         private void OnEnable()
         {
-            Util.PlaySound(Sounds.SirenSpawn, base.gameObject);
+            this.playID = Util.PlaySound(Sounds.SirenSpawn, base.gameObject);
 
             var i = GetComponentInChildren<EnforcerLightController>();
             if (i)
             {
-                i.FlashLights(2);
+                i.FlashLights(4);
             }
+        }
+
+        private void OnDestroy()
+        {
+            if (this.playID != 0) AkSoundEngine.StopPlayingID(this.playID);
         }
     }
 

@@ -10,6 +10,7 @@ namespace EntityStates.Enforcer
         public static float damageCoefficient = 4f;
         public static float procCoefficient = 0.6f;
         public static float bulletRecoil = 2.5f;
+        public static float projectileSpeed = 75f;
 
         public static string muzzleString = "GrenadeMuzzle";
 
@@ -48,7 +49,8 @@ namespace EntityStates.Enforcer
                     projectilePrefab = EnforcerPlugin.EnforcerPlugin.stunGrenade,
                     rotation = Quaternion.LookRotation(base.GetAimRay().direction),
                     useFuseOverride = false,
-                    useSpeedOverride = false,
+                    useSpeedOverride = true,
+                    speedOverride = StunGrenade.projectileSpeed,
                     target = null
                 };
                 ProjectileManager.instance.FireProjectile(info);

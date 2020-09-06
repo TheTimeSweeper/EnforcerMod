@@ -3,9 +3,6 @@ using UnityEngine;
 using R2API;
 using RoR2;
 using R2API.Utils;
-using RoR2.Stats;
-using IL.RoR2.Achievements;
-using EnforcerPlugin.Achievements;
 
 namespace EnforcerPlugin
 {
@@ -90,7 +87,8 @@ namespace EnforcerPlugin.Achievements
         public bool stoneTitanKilled;
         //need to network this, only gives it to the host rn
 
-        private void CheckDeath(DamageReport report) {
+        private void CheckDeath(DamageReport report)
+        {
             if (report is null) return;
             if (report.victimBody is null) return;
             if (report.attackerBody is null) return;
@@ -106,20 +104,23 @@ namespace EnforcerPlugin.Achievements
             }
         }
 
-        private void ResetOnRunStart(Run run) {
+        private void ResetOnRunStart(Run run)
+        {
             this.ResetKills();
 
             //throwing this in here because lazy
             EnforcerPlugin.cum = false;
         }
 
-        private void ResetKills() {
+        private void ResetKills()
+        {
             this.magmaWormKilled = false;
             this.wanderingVagrantKilled = false;
             this.stoneTitanKilled = false;
         }
 
-        public override void OnInstall() {
+        public override void OnInstall()
+        {
             base.OnInstall();
 
             this.ResetKills();
@@ -127,7 +128,8 @@ namespace EnforcerPlugin.Achievements
             Run.onRunStartGlobal += ResetOnRunStart;
         }
 
-        public override void OnUninstall() {
+        public override void OnUninstall()
+        {
             base.OnUninstall();
 
             GlobalEventManager.onCharacterDeathGlobal -= this.CheckDeath;
@@ -144,72 +146,56 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementDescToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_UNLOCKABLE_NAME";
         protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
-        //need to network this, only gives it to the host rn
-        public override void OnInstall() {
+
+        public override void OnInstall()
+        {
             base.OnInstall();
             base.SetServerTracked(true);
         }
 
-        // Token: 0x0600310D RID: 12557 RVA: 0x000CD6EC File Offset: 0x000CB8EC
-        public override void OnUninstall() {
+        public override void OnUninstall()
+        {
             base.OnUninstall();
         }
 
-
-
-        public class EnforcerUnlockAchievementServer : RoR2.Achievements.BaseServerAchievement {
-
+        public class EnforcerUnlockAchievementServer : RoR2.Achievements.BaseServerAchievement
+        {
             public bool magmaWormKilled;
             public bool wanderingVagrantKilled;
             public bool stoneTitanKilled;
 
-            private void CheckDeath(DamageReport report) {
+            private void CheckDeath(DamageReport report)
+            {
                 if (report is null) return;
                 if (report.victimBody is null) return;
                 if (report.attackerBody is null) return;
 
-                if (report.victimTeamIndex != TeamIndex.Player) {
-                    if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("MagmaWormBody")) {
-                        this.magmaWormKilled = true;
+                if (report.victimTeamIndex != TeamIndex.Player)
+                {
+                    if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("MagmaWormBody")) this.magmaWormKilled = true;
+                    if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("VagrantBody")) this.wanderingVagrantKilled = true;
+                    if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("TitanBody")) this.stoneTitanKilled = true;
 
-                        Debug.LogWarning("killed worm");
-                        Debug.LogWarning($"worm: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
-                    }
-                    if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("VagrantBody")) {
-                        this.wanderingVagrantKilled = true;
-
-                        Debug.LogWarning("killed vag");
-                        Debug.LogWarning($"worm: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
-                    }
-                    if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("TitanBody")) {
-                        this.stoneTitanKilled = true;
-
-                        Debug.LogWarning("killed tit");
-                        Debug.LogWarning($"worm: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
-                    }
-
-                    if (this.magmaWormKilled && this.wanderingVagrantKilled && this.stoneTitanKilled) {
-                        Debug.LogWarning($"ya fuckin");
-                        base.Grant();
-                        Debug.LogWarning($"did it");
-                    }
+                    if (this.magmaWormKilled && this.wanderingVagrantKilled && this.stoneTitanKilled) base.Grant();
                 }
             }
 
-            private void ResetOnRunStart(Run run) {
+            private void ResetOnRunStart(Run run)
+            {
                 this.ResetKills();
 
-                //throwing this in here because lazy
                 EnforcerPlugin.cum = false;
             }
 
-            private void ResetKills() {
+            private void ResetKills()
+            {
                 this.magmaWormKilled = false;
                 this.wanderingVagrantKilled = false;
                 this.stoneTitanKilled = false;
             }
 
-            public override void OnInstall() {
+            public override void OnInstall()
+            {
                 base.OnInstall();
 
                 this.ResetKills();
@@ -217,7 +203,8 @@ namespace EnforcerPlugin.Achievements
                 Run.onRunStartGlobal += ResetOnRunStart;
             }
 
-            public override void OnUninstall() {
+            public override void OnUninstall()
+            {
                 base.OnUninstall();
 
                 GlobalEventManager.onCharacterDeathGlobal -= this.CheckDeath;
@@ -384,9 +371,15 @@ namespace EnforcerPlugin.Achievements
             if (report.damageInfo is null) return;
             if (report.damageInfo.inflictor is null) return;
 
-            if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("RoboBallBossBody") && report.victimBody.isElite)
+            //hard coding this i guess since someone reported it only works on malachites
+            //i think that's bullshit but couldn't hurt to do it this way
+            if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("RoboBallBossBody"))
             {
-                if (base.meetsBodyRequirement) base.Grant();
+                bool flag = false;
+
+                if (report.victimBody.HasBuff(BuffIndex.AffixBlue) || report.victimBody.HasBuff(BuffIndex.AffixHaunted) || report.victimBody.HasBuff(BuffIndex.AffixPoison) || report.victimBody.HasBuff(BuffIndex.AffixRed) || report.victimBody.HasBuff(BuffIndex.AffixWhite)) flag = true;
+
+                if (flag && base.meetsBodyRequirement) base.Grant();
             }
         }
 
@@ -529,7 +522,7 @@ namespace EnforcerPlugin.Achievements
 
         public void CheckAttackSpeed()
         {
-            if (base.localUser != null && base.localUser.cachedBody && base.localUser.cachedBody.attackSpeed >= 4f && base.meetsBodyRequirement)
+            if (base.localUser != null && base.localUser.cachedBody != null && base.localUser.cachedBody.attackSpeed >= 4f && base.meetsBodyRequirement)
             {
                 base.Grant();
             }
