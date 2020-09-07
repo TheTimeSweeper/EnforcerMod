@@ -55,9 +55,16 @@ namespace EntityStates.Enforcer
             this.sprintCancelEnabled = EnforcerPlugin.EnforcerPlugin.sprintShieldCancel.Value;
         }
 
+        
+
         public override void Update()
         {
             base.Update();
+
+            if (Input.GetKeyDown(KeyCode.G)) {
+                RiotShotgun.spreadSpread = !RiotShotgun.spreadSpread;
+                Chat.AddMessage($"Spreading: {RiotShotgun.spreadSpread}");
+            }
 
             //for ror1 shotgun sounds
             /*if (Input.GetKeyDown(KeyCode.X))

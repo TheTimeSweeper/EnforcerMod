@@ -5,16 +5,21 @@ namespace EntityStates.Enforcer
 {
     public class RiotShotgun : BaseSkillState 
     {
+        const float RAD2 = 1.414f;
+
         public static float damageCoefficient = 0.4f;
         public static float procCoefficient = 0.5f;
         public static float bulletForce = 35f;
         public static float baseDuration = 0.9f; // the base skill duration
         public static float baseShieldDuration = 0.6f; // the duration used while shield is active
         public static int projectileCount = 8;
+        public static float bulletSpread = 12f;
         public static float bulletRecoil = 3f;
         public static float shieldedBulletRecoil = 1.25f;
         public static float beefDurationNoShield = 0.0f;
         public static float beefDurationShield = 0.25f;
+
+        public static bool spreadSpread = false;
 
         private float attackStopDuration;   
         private float duration;
@@ -98,37 +103,82 @@ namespace EntityStates.Enforcer
 
                     Ray aimRay = base.GetAimRay();
 
-                    new BulletAttack
-                    {
-                        bulletCount = (uint)projectileCount,
-                        aimVector = aimRay.direction,
-                        origin = aimRay.origin,
-                        damage = damage,
-                        damageColorIndex = DamageColorIndex.Default,
-                        damageType = DamageType.Generic,
-                        falloffModel = BulletAttack.FalloffModel.None,
-                        maxDistance = 64,
-                        force = RiotShotgun.bulletForce,
-                        hitMask = LayerIndex.CommonMasks.bullet,
-                        minSpread = 0,
-                        maxSpread = 12f,
-                        isCrit = isCrit,
-                        owner = base.gameObject,
-                        muzzleName = muzzleString,
-                        smartCollision = false,
-                        procChainMask = default(ProcChainMask),
-                        procCoefficient = RiotShotgun.procCoefficient,
-                        radius = 0.5f,
-                        sniper = false,
-                        stopperMask = LayerIndex.world.collisionMask,
-                        weapon = null,
-                        tracerEffectPrefab = tracerEffect,
-                        spreadPitchScale = 0.5f,
-                        spreadYawScale = 0.5f,
-                        queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
-                        hitEffectPrefab = ClayBruiser.Weapon.MinigunFire.bulletHitEffectPrefab,
-                        HitEffectNormal = ClayBruiser.Weapon.MinigunFire.bulletHitEffectNormal
-                    }.Fire();
+
+                    if (spreadSpread) {
+
+                        BulletAttack bulletAttack = new BulletAttack {
+                            bulletCount = (uint)Mathf.CeilToInt((float)projectileCount / 2),
+                            aimVector = aimRay.direction,
+                            origin = aimRay.origin,
+                            damage = damage,
+                            damageColorIndex = DamageColorIndex.Default,
+                            damageType = DamageType.Generic,
+                            falloffModel = BulletAttack.FalloffModel.None,
+                            maxDistance = 64,
+                            force = RiotShotgun.bulletForce,
+                            hitMask = LayerIndex.CommonMasks.bullet,
+                            minSpread = 0,
+                            maxSpread = bulletSpread / RAD2,
+                            isCrit = isCrit,
+                            owner = base.gameObject,
+                            muzzleName = muzzleString,
+                            smartCollision = false,
+                            procChainMask = default(ProcChainMask),
+                            procCoefficient = RiotShotgun.procCoefficient,
+                            radius = 0.5f,
+                            sniper = false,
+                            stopperMask = LayerIndex.world.collisionMask,
+                            weapon = null,
+                            tracerEffectPrefab = tracerEffect,
+                            spreadPitchScale = 0.5f,
+                            spreadYawScale = 0.5f,
+                            queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
+                            hitEffectPrefab = ClayBruiser.Weapon.MinigunFire.bulletHitEffectPrefab,
+                            HitEffectNormal = ClayBruiser.Weapon.MinigunFire.bulletHitEffectNormal
+                        };
+
+                        bulletAttack.Fire();
+
+                        bulletAttack.minSpread = bulletSpread / RAD2;
+                        bulletAttack.maxSpread = bulletSpread;
+                        bulletAttack.bulletCount = (uint)Mathf.FloorToInt((float)projectileCount / 2);
+
+                        bulletAttack.Fire();
+                    } else {
+                        BulletAttack bulletAttack = new BulletAttack {
+                            bulletCount = (uint)projectileCount,
+                            aimVector = aimRay.direction,
+                            origin = aimRay.origin,
+                            damage = damage,
+                            damageColorIndex = DamageColorIndex.Default,
+                            damageType = DamageType.Generic,
+                            falloffModel = BulletAttack.FalloffModel.None,
+                            maxDistance = 64,
+                            force = RiotShotgun.bulletForce,
+                            hitMask = LayerIndex.CommonMasks.bullet,
+                            minSpread = 0,
+                            maxSpread = bulletSpread,
+                            isCrit = isCrit,
+                            owner = base.gameObject,
+                            muzzleName = muzzleString,
+                            smartCollision = false,
+                            procChainMask = default(ProcChainMask),
+                            procCoefficient = RiotShotgun.procCoefficient,
+                            radius = 0.5f,
+                            sniper = false,
+                            stopperMask = LayerIndex.world.collisionMask,
+                            weapon = null,
+                            tracerEffectPrefab = tracerEffect,
+                            spreadPitchScale = 0.5f,
+                            spreadYawScale = 0.5f,
+                            queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
+                            hitEffectPrefab = ClayBruiser.Weapon.MinigunFire.bulletHitEffectPrefab,
+                            HitEffectNormal = ClayBruiser.Weapon.MinigunFire.bulletHitEffectNormal
+                        };
+
+                        bulletAttack.Fire();
+                    }
+
                 }
             }
         }

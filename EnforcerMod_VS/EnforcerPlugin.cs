@@ -1251,8 +1251,9 @@ namespace EnforcerPlugin
             UtilitySetup();
             SpecialSetup();
             //AltSpecialSetup();
+            MemeSetup();
         }
-        
+        #region skillSetups
         private void PrimarySetup()
         {
             LoadoutAPI.AddSkill(typeof(RiotShotgun));
@@ -1712,7 +1713,21 @@ namespace EnforcerPlugin
             shieldOffDef = mySkillDef;
             shieldOnDef = mySkillDef2;
         }
+
+        private void MemeSetup() {
+
+            Type[] memes = new Type[] {
+                typeof(DefaultDance),
+                typeof(Floss),
+                typeof(InfiniteDab),
+            };
+              
+            for (int i = 0; i < memes.Length; i++) {
+                LoadoutAPI.AddSkill(memes[i]);
+            }
+        }
     }
+    #endregion
 
     public class MenuSound : MonoBehaviour
     {

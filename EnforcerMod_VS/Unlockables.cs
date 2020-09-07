@@ -134,98 +134,102 @@ namespace EnforcerPlugin.Achievements
             Run.onRunStartGlobal -= ResetOnRunStart;
         }
     }
-    //networked
-    public class EnforcerUnlockAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider>
-    {
-        public override String AchievementIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
-        public override String UnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
-        public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_PREREQ_ID";
-        public override String AchievementNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME";
-        public override String AchievementDescToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC";
-        public override String UnlockableNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
-        //need to network this, only gives it to the host rn
-        public override void OnInstall() {
-            base.OnInstall();
-            base.SetServerTracked(true);
-        }
 
-        // Token: 0x0600310D RID: 12557 RVA: 0x000CD6EC File Offset: 0x000CB8EC
-        public override void OnUninstall() {
-            base.OnUninstall();
-        }
+    #region networked when R2API updates
+    ////networked
+    //public class EnforcerUnlockAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider>
+    //{
+    //    public override String AchievementIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
+    //    public override String UnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
+    //    public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_PREREQ_ID";
+    //    public override String AchievementNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME";
+    //    public override String AchievementDescToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC";
+    //    public override String UnlockableNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_UNLOCKABLE_NAME";
+    //    protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
+    //    //need to network this, only gives it to the host rn
+    //    public override void OnInstall() {
+    //        base.OnInstall();
+    //        base.SetServerTracked(true);
+    //    }
+
+    //    // Token: 0x0600310D RID: 12557 RVA: 0x000CD6EC File Offset: 0x000CB8EC
+    //    public override void OnUninstall() {
+    //        base.OnUninstall();
+    //    }
 
 
 
-        public class EnforcerUnlockAchievementServer : RoR2.Achievements.BaseServerAchievement {
+    //    public class EnforcerUnlockAchievementServer : RoR2.Achievements.BaseServerAchievement {
 
-            public bool magmaWormKilled;
-            public bool wanderingVagrantKilled;
-            public bool stoneTitanKilled;
+    //        public bool magmaWormKilled;
+    //        public bool wanderingVagrantKilled;
+    //        public bool stoneTitanKilled;
 
-            private void CheckDeath(DamageReport report) {
-                if (report is null) return;
-                if (report.victimBody is null) return;
-                if (report.attackerBody is null) return;
+    //        private void CheckDeath(DamageReport report) {
+    //            if (report is null) return;
+    //            if (report.victimBody is null) return;
+    //            if (report.attackerBody is null) return;
 
-                if (report.victimTeamIndex != TeamIndex.Player) {
-                    if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("MagmaWormBody")) {
-                        this.magmaWormKilled = true;
+    //            if (report.victimTeamIndex != TeamIndex.Player) {
+    //                if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("MagmaWormBody")) {
+    //                    this.magmaWormKilled = true;
 
-                        Debug.LogWarning("killed worm");
-                        Debug.LogWarning($"worm: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
-                    }
-                    if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("VagrantBody")) {
-                        this.wanderingVagrantKilled = true;
+    //                    Debug.LogWarning("killed worm");
+    //                    Debug.LogWarning($"worm: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
+    //                }
+    //                if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("VagrantBody")) {
+    //                    this.wanderingVagrantKilled = true;
 
-                        Debug.LogWarning("killed vag");
-                        Debug.LogWarning($"worm: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
-                    }
-                    if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("TitanBody")) {
-                        this.stoneTitanKilled = true;
+    //                    Debug.LogWarning("killed vag");
+    //                    Debug.LogWarning($"worm: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
+    //                }
+    //                if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("TitanBody")) {
+    //                    this.stoneTitanKilled = true;
 
-                        Debug.LogWarning("killed tit");
-                        Debug.LogWarning($"worm: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
-                    }
+    //                    Debug.LogWarning("killed tit");
+    //                    Debug.LogWarning($"worm: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
+    //                }
 
-                    if (this.magmaWormKilled && this.wanderingVagrantKilled && this.stoneTitanKilled) {
-                        Debug.LogWarning($"ya fuckin");
-                        base.Grant();
-                        Debug.LogWarning($"did it");
-                    }
-                }
-            }
+    //                if (this.magmaWormKilled && this.wanderingVagrantKilled && this.stoneTitanKilled) {
+    //                    Debug.LogWarning($"ya fuckin");
+    //                    base.Grant();
+    //                    Debug.LogWarning($"did it");
+    //                }
+    //            }
+    //        }
 
-            private void ResetOnRunStart(Run run) {
-                this.ResetKills();
+    //        private void ResetOnRunStart(Run run) {
+    //            this.ResetKills();
 
-                //throwing this in here because lazy
-                EnforcerPlugin.cum = false;
-            }
+    //            //throwing this in here because lazy
+    //            EnforcerPlugin.cum = false;
+    //        }
 
-            private void ResetKills() {
-                this.magmaWormKilled = false;
-                this.wanderingVagrantKilled = false;
-                this.stoneTitanKilled = false;
-            }
+    //        private void ResetKills() {
+    //            this.magmaWormKilled = false;
+    //            this.wanderingVagrantKilled = false;
+    //            this.stoneTitanKilled = false;
+    //        }
 
-            public override void OnInstall() {
-                base.OnInstall();
+    //        public override void OnInstall() {
+    //            base.OnInstall();
 
-                this.ResetKills();
-                GlobalEventManager.onCharacterDeathGlobal += this.CheckDeath;
-                Run.onRunStartGlobal += ResetOnRunStart;
-            }
+    //            this.ResetKills();
+    //            GlobalEventManager.onCharacterDeathGlobal += this.CheckDeath;
+    //            Run.onRunStartGlobal += ResetOnRunStart;
+    //        }
 
-            public override void OnUninstall() {
-                base.OnUninstall();
+    //        public override void OnUninstall() {
+    //            base.OnUninstall();
 
-                GlobalEventManager.onCharacterDeathGlobal -= this.CheckDeath;
-                Run.onRunStartGlobal -= ResetOnRunStart;
-            }
+    //            GlobalEventManager.onCharacterDeathGlobal -= this.CheckDeath;
+    //            Run.onRunStartGlobal -= ResetOnRunStart;
+    //        }
 
-        }
-    }
+    //    }
+    //}
+
+    #endregion
 
     public class MasteryAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider>
     {
