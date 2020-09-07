@@ -3,9 +3,6 @@ using UnityEngine;
 using R2API;
 using RoR2;
 using R2API.Utils;
-using RoR2.Stats;
-using IL.RoR2.Achievements;
-using EnforcerPlugin.Achievements;
 
 namespace EnforcerPlugin
 {
@@ -90,7 +87,8 @@ namespace EnforcerPlugin.Achievements
         public bool stoneTitanKilled;
         //need to network this, only gives it to the host rn
 
-        private void CheckDeath(DamageReport report) {
+        private void CheckDeath(DamageReport report)
+        {
             if (report is null) return;
             if (report.victimBody is null) return;
             if (report.attackerBody is null) return;
@@ -106,20 +104,23 @@ namespace EnforcerPlugin.Achievements
             }
         }
 
-        private void ResetOnRunStart(Run run) {
+        private void ResetOnRunStart(Run run)
+        {
             this.ResetKills();
 
             //throwing this in here because lazy
             EnforcerPlugin.cum = false;
         }
 
-        private void ResetKills() {
+        private void ResetKills()
+        {
             this.magmaWormKilled = false;
             this.wanderingVagrantKilled = false;
             this.stoneTitanKilled = false;
         }
 
-        public override void OnInstall() {
+        public override void OnInstall()
+        {
             base.OnInstall();
 
             this.ResetKills();
@@ -127,7 +128,8 @@ namespace EnforcerPlugin.Achievements
             Run.onRunStartGlobal += ResetOnRunStart;
         }
 
-        public override void OnUninstall() {
+        public override void OnUninstall()
+        {
             base.OnUninstall();
 
             GlobalEventManager.onCharacterDeathGlobal -= this.CheckDeath;
@@ -388,9 +390,15 @@ namespace EnforcerPlugin.Achievements
             if (report.damageInfo is null) return;
             if (report.damageInfo.inflictor is null) return;
 
-            if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("RoboBallBossBody") && report.victimBody.isElite)
+            //hard coding this i guess since someone reported it only works on malachites
+            //i think that's bullshit but couldn't hurt to do it this way
+            if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("RoboBallBossBody"))
             {
-                if (base.meetsBodyRequirement) base.Grant();
+                bool flag = false;
+
+                if (report.victimBody.HasBuff(BuffIndex.AffixBlue) || report.victimBody.HasBuff(BuffIndex.AffixHaunted) || report.victimBody.HasBuff(BuffIndex.AffixPoison) || report.victimBody.HasBuff(BuffIndex.AffixRed) || report.victimBody.HasBuff(BuffIndex.AffixWhite)) flag = true;
+
+                if (flag && base.meetsBodyRequirement) base.Grant();
             }
         }
 
@@ -533,7 +541,7 @@ namespace EnforcerPlugin.Achievements
 
         public void CheckAttackSpeed()
         {
-            if (base.localUser != null && base.localUser.cachedBody && base.localUser.cachedBody.attackSpeed >= 4f && base.meetsBodyRequirement)
+            if (base.localUser != null && base.localUser.cachedBody != null && base.localUser.cachedBody.attackSpeed >= 4f && base.meetsBodyRequirement)
             {
                 base.Grant();
             }

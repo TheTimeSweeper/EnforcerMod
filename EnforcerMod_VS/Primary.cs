@@ -22,7 +22,7 @@ namespace EntityStates.Enforcer
         public static bool spreadSpread = false;
 
         private float attackStopDuration;   
-        private float duration;
+        public float duration;
         private float fireDuration;
         public bool isStormtrooper;
         public bool hasFired;
@@ -216,9 +216,35 @@ namespace EntityStates.Enforcer
 
     public class SuperShotgun : RiotShotgun
     {
-        public new static float damageCoefficient = 0.75f;
-        public new static float procCoefficient = 0.75f;
-        public new static float bulletForce = 75f;
+        public new float damageCoefficient = 0.65f;
+        public new float procCoefficient = 0.75f;
+        public new float bulletForce = 75f;
+        public static float earlyExitDuration = 0.175f;
+        public float bulletSpread = 18f;
+
+        private float earlyExit;
+        public int shotCount = 0;
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+
+            this.earlyExit = SuperShotgun.earlyExitDuration / this.attackSpeedStat;
+        }
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+
+            if (base.inputBank && base.isAuthority && shotCount == 0)
+            {
+                if (base.inputBank.skill1.down && base.fixedAge >= (base.duration - this.earlyExit))
+                {
+                    this.outer.SetNextState(new SuperShotgunReload());
+                    return;
+                }
+            }
+        }
 
         public override void FireBullet()
         {
@@ -259,7 +285,7 @@ namespace EntityStates.Enforcer
 
                 if (base.isAuthority)
                 {
-                    float damage = SuperShotgun.damageCoefficient * this.damageStat;
+                    float damage = this.damageCoefficient * this.damageStat;
 
                     GameObject tracerEffect = EnforcerPlugin.EnforcerPlugin.bulletTracer;
 
@@ -276,17 +302,17 @@ namespace EntityStates.Enforcer
                         damageColorIndex = DamageColorIndex.Default,
                         damageType = DamageType.Generic,
                         falloffModel = BulletAttack.FalloffModel.Buckshot,
-                        maxDistance = 80,
-                        force = SuperShotgun.bulletForce,
+                        maxDistance = 128,
+                        force = this.bulletForce,
                         hitMask = LayerIndex.CommonMasks.bullet,
                         minSpread = 0,
-                        maxSpread = 15f,
+                        maxSpread = this.bulletSpread,
                         isCrit = isCrit,
                         owner = base.gameObject,
                         muzzleName = muzzleString,
                         smartCollision = false,
                         procChainMask = default(ProcChainMask),
-                        procCoefficient = SuperShotgun.procCoefficient,
+                        procCoefficient = this.procCoefficient,
                         radius = 0.5f,
                         sniper = false,
                         stopperMask = LayerIndex.CommonMasks.bullet,
@@ -300,12 +326,52 @@ namespace EntityStates.Enforcer
                     }.Fire();
                 }
 
-                if (this.GetModelChildLocator().FindChild("SuperShotgunModel"))
-                {
-                    var anim = this.GetModelChildLocator().FindChild("SuperShotgunModel").GetComponent<Animator>();
-                    anim.SetFloat("SuperShottyFire.playbackRate", this.attackSpeedStat);
-                    anim.SetTrigger("Fire");
-                }
+                this.PlayGunAnim();
+            }
+        }
+
+        public virtual void PlayGunAnim()
+        {
+            if (this.GetModelChildLocator().FindChild("SuperShotgunModel"))
+            {
+                var anim = this.GetModelChildLocator().FindChild("SuperShotgunModel").GetComponent<Animator>();
+                anim.SetFloat("SuperShottyFire.playbackRate", this.attackSpeedStat);
+                anim.SetTrigger("Fire");
+            }
+        }
+    }
+
+    public class SuperShotgunReload : SuperShotgun
+    {
+        public static float durationMultiplier = 2f;
+
+        public override void OnEnter()
+        {
+            base.shotCount = 1;
+            base.bulletSpread = 14f;
+            base.damageCoefficient = 0.85f;
+
+            base.OnEnter();
+
+            base.characterBody.isSprinting = false;
+
+            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+            {
+                base.duration = (SuperShotgun.baseShieldDuration * SuperShotgunReload.durationMultiplier) / this.attackSpeedStat;
+            }
+            else
+            {
+                base.duration = (SuperShotgun.baseDuration * SuperShotgunReload.durationMultiplier) / this.attackSpeedStat;
+            }
+        }
+
+        public override void PlayGunAnim()
+        {
+            if (this.GetModelChildLocator().FindChild("SuperShotgunModel"))
+            {
+                var anim = this.GetModelChildLocator().FindChild("SuperShotgunModel").GetComponent<Animator>();
+                anim.SetFloat("SuperShottyFire.playbackRate", this.attackSpeedStat);
+                anim.SetTrigger("Reload");
             }
         }
     }

@@ -11,14 +11,16 @@ namespace EntityStates.Enforcer
         public static float bulletForce = 5f;
         public static float recoilAmplitude = 1.25f;
         public static float shieldRecoilAmplitude = 0.2f;
-        public static float spreadBloom = 0.5f;
-        public static float shieldSpreadBloom = 0.1f;
+        public static float spreadBloom = 0.075f;
+        public static float shieldSpreadBloom = 0.025f;
         public static float baseFireInterval = 0.18f;
         public static int baseBulletCount = 1;
         public static float bulletRange = 128f;
         public static float bulletRadius = 0.1f;
         public static float minSpread = 0;
         public static float maxSpread = 8.5f;
+
+        public static GameObject bulletTracer = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoDefault");
 
         private float fireTimer;
         private Transform muzzleVfxTransform;
@@ -33,7 +35,10 @@ namespace EntityStates.Enforcer
             if (this.muzzleTransform && MinigunFire.muzzleVfxPrefab)
             {
                 this.muzzleVfxTransform = Object.Instantiate<GameObject>(MinigunFire.muzzleVfxPrefab, this.muzzleTransform).transform;
+
                 if (this.muzzleVfxTransform.Find("Ring, Dark")) Destroy(this.muzzleVfxTransform.Find("Ring, Dark").gameObject);
+                if (this.muzzleVfxTransform.Find("Ray")) Destroy(this.muzzleVfxTransform.Find("Ray").gameObject);
+
                 this.muzzleTransform.transform.localScale *= 0.35f;
                 this.muzzleTransform.GetComponentInChildren<Light>().range *= 0.25f;
             }
@@ -105,7 +110,7 @@ namespace EntityStates.Enforcer
             float force = FireAssaultRifle.bulletForce / this.baseBulletsPerSecond;
 
             //unique tracer for stormtrooper skin
-            GameObject tracerEffect = EnforcerPlugin.EnforcerPlugin.bulletTracer;
+            GameObject tracerEffect = FireAssaultRifle.bulletTracer;
 
             if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
 
@@ -170,31 +175,8 @@ namespace EntityStates.Enforcer
 
             if (base.isAuthority && !base.skillButtonState.down)
             {
-                this.outer.SetNextState(new AssaultRifleExit());
-                return;
-            }
-        }
-    }
-
-    public class AssaultRifleExit : AssaultRifleState
-    {
-        public static float baseDuration = 0.1f;
-
-        private float duration;
-        public override void OnEnter()
-        {
-            base.OnEnter();
-
-            this.duration = AssaultRifleExit.baseDuration / this.attackSpeedStat;
-        }
-
-        public override void FixedUpdate()
-        {
-            base.FixedUpdate();
-
-            if (base.fixedAge >= this.duration && base.isAuthority)
-            {
                 this.outer.SetNextStateToMain();
+                return;
             }
         }
     }

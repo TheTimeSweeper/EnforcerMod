@@ -13,7 +13,7 @@ namespace EntityStates.Enforcer
         {
             if (goodState == null) goodState = Instantiate(typeof(AimStunDrone)) as AimStunDrone;
 
-            maxDistance = 100;
+            maxDistance = 48;
             rayRadius = 2f;
             arcVisualizerPrefab = goodState.arcVisualizerPrefab;
             projectilePrefab = EnforcerPlugin.EnforcerPlugin.projectilePrefab;

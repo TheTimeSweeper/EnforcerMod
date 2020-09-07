@@ -521,6 +521,15 @@ namespace EntityStates.Enforcer
         {
             base.FixedUpdate();
 
+            if (base.inputBank && base.isAuthority)
+            {
+                if (base.inputBank.skill4.down)
+                {
+                    base.skillLocator.special.ExecuteIfReady();
+                    return;
+                }
+            }
+
             if (base.fixedAge >= this.duration)
             {
                 this.outer.SetNextStateToMain();

@@ -485,6 +485,7 @@ namespace EnforcerPlugin
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEngiforcer").GetTexture("_MainTex"));
                 material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEngiforcer").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 1);
 
                 array[0].defaultMaterial = material;
             }
@@ -575,6 +576,7 @@ namespace EnforcerPlugin
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matDoomEnforcer").GetTexture("_MainTex"));
                 material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matDoomEnforcer").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 1);
 
                 array[0].defaultMaterial = material;
             }
@@ -664,10 +666,22 @@ namespace EnforcerPlugin
             {
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_MainTex"));
-                //material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 0);
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 1);
 
                 array[0].defaultMaterial = material;
+            }
+
+            material = array[2].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldSex").GetTexture("_MainTex"));
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldSex").GetColor("_Color"));
+                material.SetFloat("_NormalStrength", 1);
+
+                array[2].defaultMaterial = material;
             }
 
             masterySkinDefInfo.RendererInfos = array;
@@ -744,6 +758,7 @@ namespace EnforcerPlugin
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_MainTex"));
                 material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 2.5f);
 
                 array[0].defaultMaterial = material;
             }
@@ -808,7 +823,7 @@ namespace EnforcerPlugin
                 }
             };
 
-            frogSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.43f, 0.1f, 0.1f), Color.red, new Color(0.31f, 0.04f, 0.07f), Color.black);
+            frogSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.13f, 0.10588f, 0.1137f), new Color(0.86f, 0.83f, 0.63f), new Color(0.13f, 0.07f, 0.04f), new Color(0.047f, 0.047f, 0.047f));
             frogSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
                 new SkinDef.MeshReplacement
@@ -834,6 +849,7 @@ namespace EnforcerPlugin
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matZeroSuit").GetTexture("_MainTex"));
                 material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcer").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 1);
 
                 array[0].defaultMaterial = material;
             }
