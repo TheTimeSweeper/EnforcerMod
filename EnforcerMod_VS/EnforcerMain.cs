@@ -10,7 +10,13 @@ namespace EntityStates.Enforcer
     {
         public static event Action<bool> onDance = delegate { };
 
+        public static event Action onLaserHit = delegate { };
+
+        public static bool deflecting;
+
         public static float lightFlashInterval = 0.5f;
+
+        public static EntityStateMachine drOctagonapus;
 
         private ShieldComponent shieldComponent;
         private EnforcerLightController lightComponent;
@@ -53,6 +59,10 @@ namespace EntityStates.Enforcer
             }
 
             this.sprintCancelEnabled = EnforcerPlugin.EnforcerPlugin.sprintShieldCancel.Value;
+
+            drOctagonapus = characterBody.gameObject.AddComponent<EntityStateMachine>();
+            drOctagonapus.customName = "EnforcerParry";
+            drOctagonapus.mainStateType = new SerializableEntityStateType(typeof(Idle));
         }
 
         
@@ -224,6 +234,10 @@ namespace EntityStates.Enforcer
         private void FlashLights()
         {
             if (this.lightComponent) this.lightComponent.FlashLights(1);
+        }
+
+        public static void invokeOnLaserHitEvent() {
+            onLaserHit?.Invoke();
         }
     }
 }

@@ -167,7 +167,9 @@ namespace EnforcerPlugin
             On.RoR2.BodyCatalog.SetBodyPrefabs += BodyCatalog_SetBodyPrefabs;
             On.RoR2.GlobalEventManager.OnCharacterDeath += GlobalEventManager_OnCharacterDeath;
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
+            On.EntityStates.BaseState.OnEnter += ParryState_OnEnter;
         }
+
         #region Hooks
         private void GlobalEventManager_OnCharacterDeath(On.RoR2.GlobalEventManager.orig_OnCharacterDeath orig, GlobalEventManager self, DamageReport report)
         {
@@ -244,14 +246,15 @@ namespace EnforcerPlugin
                 blocked = true;
             }
 
-            if (self.body.baseNameToken == "ENFORCER_NAME" && info.attacker && self.body.HasBuff(jackBoots))
+            if (self.body.baseNameToken == "ENFORCER_NAME" && info.attacker)
             {
                 CharacterBody cb = info.attacker.GetComponent<CharacterBody>();
                 if (cb)
                 {
                     if (cb.baseNameToken == "GOLEM_BODY_NAME" && GetShieldBlock(self, info, self.body.GetComponent<ShieldComponent>()))
                     {
-                        blocked = true;
+                        blocked = self.body.HasBuff(jackBoots) || EnforcerMain.deflecting;
+                        EnforcerMain.invokeOnLaserHitEvent();
                     }
                 }
             }
@@ -281,6 +284,15 @@ namespace EnforcerPlugin
 
             orig(self, info);
         }
+
+        private void ParryState_OnEnter(On.EntityStates.BaseState.orig_OnEnter orig, BaseState self) {
+
+            orig(self);
+            if (self.outer.customName == "EnforcerParry") {
+                Reflection.SetFieldValue(self, "damageStat", self.outer.commonComponents.characterBody.damage * 6);
+            }
+        }
+
         private void SceneDirector_Start(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
         {
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "moon")
