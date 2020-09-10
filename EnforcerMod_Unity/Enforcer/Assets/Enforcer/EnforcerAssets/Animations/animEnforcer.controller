@@ -3090,7 +3090,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ShieldIdleWalk
-  m_Speed: 0.375
+  m_Speed: 0.4
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101986932453319484}
@@ -3117,7 +3117,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Run
-  m_Speed: 0.24
+  m_Speed: 0.26
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101649948148132839}
@@ -3333,7 +3333,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Sprint
-  m_Speed: 0.22
+  m_Speed: 0.15
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101283823470775697}
@@ -3347,7 +3347,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: cfd69931bf4dd504ababb9937a6f767c, type: 2}
+  m_Motion: {fileID: 7400000, guid: 9533df5a5140b22469ba1b5576d287d4, type: 2}
   m_Tag: 
   m_SpeedParameter: walkSpeed
   m_MirrorParameter: 

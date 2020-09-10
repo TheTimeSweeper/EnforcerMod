@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3739319246
+CRC: 2474801665
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b4641788b79f075bb8c8fd9354544aeb
+    Hash: e00d25b30c8be9187c1cf1f68bec111d
   TypeTreeHash:
     serializedVersion: 2
     Hash: 88ea3a113f7d9156c5bde4ba273fd9e5
@@ -82,7 +82,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Materials/matEquippedShieldBlack.mat
 - Assets/Enforcer/EnforcerAssets/Skill4BIcon.png
 - Assets/Enforcer/EnforcerAssets/Materials/matTemp.mat
-- Assets/Enforcer/EnforcerAssets/Animations/Sprint.anim
+- Assets/Enforcer/EnforcerAssets/Animations/Sprint1_stiff.anim
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texShotgun.png
 - Assets/Enforcer/EnforcerAssets/Animations/ShieldIdle.anim
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerJump.anim
@@ -92,7 +92,6 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texEnforcerDesperado.png
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texRiotShield.png
 - Assets/Enforcer/EnforcerAssets/Materials/matShell.mat
-- Assets/Enforcer/EnforcerAssets/Animations/Sprint2.anim
 - Assets/Enforcer/EnforcerAssets/ShotgunShell.prefab
 - Assets/Enforcer/EnforcerAssets/ShieldBashIcon.png
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texEnforcerEmissive.png
@@ -146,7 +145,6 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/ShieldWalkL.anim
 - Assets/Enforcer/EnforcerAssets/ShieldUpIcon.png
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texTearGas.png
-- Assets/Enforcer/EnforcerAssets/Textures/Body/_MainTexf.PNG
 - Assets/Enforcer/EnforcerAssets/Skill1Icon.png
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texDoomEnforcer.png
 - Assets/Enforcer/EnforcerAssets/Animations/Masks/EnforcerGestureMask.mask
@@ -154,7 +152,6 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Materials/matEngiforcer.mat
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texAssaultRifle.png
 - Assets/texBuffProtectAndServe.png
-- Assets/Enforcer/EnforcerAssets/Textures/Body/Materials/_MainTexf.mat
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerAscend.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Masks/EnforcerArmRightMask.mask
 - Assets/Enforcer/EnforcerAssets/Animations/ShieldWalkR_old.anim
@@ -172,7 +169,6 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerShieldIdle.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Weapon/SuperShottyRest.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Weapon/TearGasGrenade 1.controller
-- Assets/Enforcer/EnforcerAssets/Textures/Body/_MainTex.PNG
 - Assets/Enforcer/EnforcerAssets/Materials/matSexforcer.mat
 - Assets/Enforcer/EnforcerAssets/Particles/texSmoke.png
 - Assets/Enforcer/EnforcerAssets/Animations/Weapon/SuperShottyFire2.anim
@@ -188,12 +184,12 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Materials/matIronManforcer.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matShotgun.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matEquippedShieldSex.mat
-- Assets/Enforcer/EnforcerAssets/Textures/Body/enforcer_MainTex.png
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texEngiforcer.png
 - Assets/Enforcer/EnforcerAssets/Materials/matEquippedShieldWhite.mat
 - Assets/Enforcer/EnforcerAssets/ShieldDownIcon.png
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerWalkF.anim
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerSprintTest.anim
+- Assets/Enforcer/EnforcerAssets/Animations/Sprint3_tweaked.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Emote/Emote_FlossDance_CMM.anim
 - Assets/Enforcer/EnforcerAssets/TearGasGrenade.prefab
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerWalkL.anim
@@ -228,7 +224,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerCalmIdleIn.anim
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerAimPitch.anim
 - Assets/Enforcer/EnforcerAssets/ZeroSuitMesh.mesh
-- Assets/Enforcer/EnforcerAssets/Animations/Sprint3.anim
+- Assets/Enforcer/EnforcerAssets/Animations/Sprint2_crazy.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Weapon/GrenadeSpawn.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matDoomEnforcer.mat
 - Assets/Enforcer/EnforcerAssets/Particles/texSpark.png

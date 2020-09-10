@@ -222,8 +222,8 @@ namespace EntityStates.Enforcer
                 ProjectileController pc = array[i].GetComponentInParent<ProjectileController>();
                 if (pc)
                 {
-                    //if (pc.teamFilter.teamIndex != TeamIndex.Player)
-                    //{
+                    if (pc.owner != gameObject)
+                    {
                         Ray aimRay = base.GetAimRay();
                         Vector3 aimSpot = (aimRay.origin + 100 * aimRay.direction) - pc.gameObject.transform.position;
                         FireProjectileInfo info = new FireProjectileInfo()
@@ -254,14 +254,20 @@ namespace EntityStates.Enforcer
 
                             base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
                         }
-                    //}
+                    }
                 }
             }
         }        
 
         private void ParryLasers() 
         {
-            if (this.usingBash) return;
+            if (this.usingBash) 
+                return;
+
+            if (_parries <= 0)
+                return;
+
+            Util.PlayScaledSound(EnforcerPlugin.Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
 
             characterBody.aimOriginTransform = childLocator.FindChild(hitboxString);
 
