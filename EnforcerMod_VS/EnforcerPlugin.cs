@@ -158,8 +158,6 @@ namespace EnforcerPlugin
         private void Hook()
         {
             //add hooks here
-            //using this approach means we'll only ever have to comment one line if we don't want a hook to fire
-            //it's much simpler this way, trust me
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             //On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnEnemyHit;
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
@@ -249,12 +247,21 @@ namespace EnforcerPlugin
             if (self.body.baseNameToken == "ENFORCER_NAME" && info.attacker)
             {
                 CharacterBody cb = info.attacker.GetComponent<CharacterBody>();
-                if (cb)
-                {
-                    if (cb.baseNameToken == "GOLEM_BODY_NAME" && GetShieldBlock(self, info, self.body.GetComponent<ShieldComponent>()))
+                if (cb) {
+
+                    ShieldComponent enforcerShield = self.body.GetComponent<ShieldComponent>();
+
+                    if (cb.baseNameToken == "GOLEM_BODY_NAME" && GetShieldBlock(self, info, enforcerShield))
                     {
-                        blocked = self.body.HasBuff(jackBoots) || EnforcerMain.deflecting;
-                        EnforcerMain.invokeOnLaserHitEvent();
+                        blocked = self.body.HasBuff(jackBoots);
+
+                        if (enforcerShield != null) {
+
+                            if (enforcerShield.isDeflecting) {
+                                blocked = true;
+                            }
+                            enforcerShield.invokeOnLaserHitEvent();
+                        }
                     }
                 }
             }

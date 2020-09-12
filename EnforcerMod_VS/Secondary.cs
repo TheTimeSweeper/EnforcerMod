@@ -33,6 +33,7 @@ namespace EntityStates.Enforcer
         private bool usingBash;
         private bool hasDeflected;
         private float parryDuration;
+        private ShieldComponent _shieldComponent;
 
         private Transform _origOrigin;
         private int _parries = 0;
@@ -51,6 +52,8 @@ namespace EntityStates.Enforcer
             this.hasDeflected = false;
             this.usingBash = false;
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
+            _shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
+
             base.StartAimMode(aimRay, 2f, false);
 
             //yep cock
@@ -66,7 +69,7 @@ namespace EntityStates.Enforcer
 
             _origOrigin = characterBody.aimOriginTransform;
 
-            EnforcerMain.onLaserHit += EnforcerMain_onLaserHit;
+            _shieldComponent.onLaserHit += EnforcerMain_onLaserHit;
 
             bool grounded = base.characterMotor.isGrounded;
 
@@ -195,11 +198,11 @@ namespace EntityStates.Enforcer
             {
                 this.Deflect();
 
-                EnforcerMain.deflecting = true;
+                _shieldComponent.isDeflecting = true;
             } 
             else 
             {
-                EnforcerMain.deflecting = false;
+                _shieldComponent.isDeflecting = false;
 
                 ParryLasers();
             }
@@ -273,12 +276,12 @@ namespace EntityStates.Enforcer
 
             for (int i = 0; i < _parries; i++) {
 
-                EnforcerMain.drOctagonapus.StartCoroutine(ShootParriedLaser(i * parryInterval));
+                _shieldComponent.drOctagonapus.StartCoroutine(ShootParriedLaser(i * parryInterval));
             }
 
             _parries = 0;
 
-            EnforcerMain.onLaserHit -= EnforcerMain_onLaserHit;
+            _shieldComponent.onLaserHit -= EnforcerMain_onLaserHit;
         }
 
         private IEnumerator ShootParriedLaser(float delay) {
@@ -290,7 +293,7 @@ namespace EntityStates.Enforcer
 
             GolemMonster.FireLaser fireLaser = new GolemMonster.FireLaser();
             fireLaser.laserDirection = laserDirection;
-            EnforcerMain.drOctagonapus.SetInterruptState(fireLaser, InterruptPriority.Skill);
+            _shieldComponent.drOctagonapus.SetInterruptState(fireLaser, InterruptPriority.Skill);
         }
 
         private void EnforcerMain_onLaserHit() {
