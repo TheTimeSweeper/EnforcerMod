@@ -8,6 +8,12 @@ public class ShieldComponent : MonoBehaviour
     static float maxSpeed = 0.1f;
     static float coef = 1; // affects how quickly it reaches max speed
 
+    public EntityStateMachine drOctagonapus { get; set; }
+
+    public bool isDeflecting { get; set; }
+
+    public event Action onLaserHit = delegate { };
+
     public bool isShielding = false;
     public Ray aimRay;
     public Vector3 shieldDirection = new Vector3(1,0,0);
@@ -70,5 +76,10 @@ public class ShieldComponent : MonoBehaviour
     public void ToggleEnergyShield(bool shieldToggle)
     {
         if (energyShield) energyShield.SetActive(shieldToggle);
+    }
+
+    public void invokeOnLaserHitEvent() {
+
+        onLaserHit?.Invoke();
     }
 }

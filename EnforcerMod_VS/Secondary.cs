@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using UnityEngine.Networking;
+using System.Collections;
 
 namespace EntityStates.Enforcer
 {
@@ -19,6 +20,7 @@ namespace EntityStates.Enforcer
         public static float beefDurationNoShield = 0.4f;
         public static float beefDurationShield = 0.8f;
         public static float recoilAmplitude = 1f;
+        public static float parryInterval = 0.12f;
 
         private float attackStopDuration;
         private float duration;
@@ -30,6 +32,11 @@ namespace EntityStates.Enforcer
         private bool hasFired;
         private bool usingBash;
         private bool hasDeflected;
+        private float parryDuration;
+        private ShieldComponent _shieldComponent;
+
+        private Transform _origOrigin;
+        private int _parries = 0;
 
         private List<CharacterBody> victimList = new List<CharacterBody>();
 
@@ -37,7 +44,7 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
 
-            this.duration = ShieldBash.baseDuration / this.attackSpeedStat;
+            this.duration = baseDuration / this.attackSpeedStat;
             this.fireDuration = this.duration * 0.15f;
             this.deflectDuration = this.duration * 0.45f;
             this.aimRay = base.GetAimRay();
@@ -45,6 +52,8 @@ namespace EntityStates.Enforcer
             this.hasDeflected = false;
             this.usingBash = false;
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
+            _shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
+
             base.StartAimMode(aimRay, 2f, false);
 
             //yep cock
@@ -57,6 +66,10 @@ namespace EntityStates.Enforcer
                 this.outer.SetNextState(new ShoulderBash());
                 return;
             }
+
+            _origOrigin = characterBody.aimOriginTransform;
+
+            _shieldComponent.onLaserHit += EnforcerMain_onLaserHit;
 
             bool grounded = base.characterMotor.isGrounded;
 
@@ -157,13 +170,15 @@ namespace EntityStates.Enforcer
             }
         }
 
-        public override void OnExit()
-        {
+        public override void OnExit() {
+
+            characterBody.aimOriginTransform = _origOrigin;
+
             base.OnExit();
         }
 
         public override void FixedUpdate()
-        {
+        {   
             base.FixedUpdate();
 
             if (base.fixedAge < this.attackStopDuration)
@@ -182,6 +197,14 @@ namespace EntityStates.Enforcer
             if (base.fixedAge < this.deflectDuration)
             {
                 this.Deflect();
+
+                _shieldComponent.isDeflecting = true;
+            } 
+            else 
+            {
+                _shieldComponent.isDeflecting = false;
+
+                ParryLasers();
             }
 
             if (base.fixedAge >= this.duration && base.isAuthority)
@@ -202,7 +225,7 @@ namespace EntityStates.Enforcer
                 ProjectileController pc = array[i].GetComponentInParent<ProjectileController>();
                 if (pc)
                 {
-                    if (pc.teamFilter.teamIndex != TeamIndex.Player)
+                    if (pc.owner != gameObject)
                     {
                         Ray aimRay = base.GetAimRay();
                         Vector3 aimSpot = (aimRay.origin + 100 * aimRay.direction) - pc.gameObject.transform.position;
@@ -237,6 +260,44 @@ namespace EntityStates.Enforcer
                     }
                 }
             }
+        }        
+
+        private void ParryLasers() 
+        {
+            if (this.usingBash) 
+                return;
+
+            if (_parries <= 0)
+                return;
+
+            Util.PlayScaledSound(EnforcerPlugin.Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
+
+            characterBody.aimOriginTransform = childLocator.FindChild(hitboxString);
+
+            for (int i = 0; i < _parries; i++) {
+
+                _shieldComponent.drOctagonapus.StartCoroutine(ShootParriedLaser(i * parryInterval));
+            }
+
+            _parries = 0;
+
+            _shieldComponent.onLaserHit -= EnforcerMain_onLaserHit;
+        }
+
+        private IEnumerator ShootParriedLaser(float delay) {
+
+            yield return new WaitForSeconds(delay);
+
+            Vector3 point = GetAimRay().GetPoint(1000);
+            Vector3 laserDirection = point - transform.position;
+
+            GolemMonster.FireLaser fireLaser = new GolemMonster.FireLaser();
+            fireLaser.laserDirection = laserDirection;
+            _shieldComponent.drOctagonapus.SetInterruptState(fireLaser, InterruptPriority.Skill);
+        }
+
+        private void EnforcerMain_onLaserHit() {
+            _parries++;
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
