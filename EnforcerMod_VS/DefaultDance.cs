@@ -22,6 +22,7 @@ namespace EntityStates.Enforcer
             base.characterBody.hideCrosshair = true;
 
             if (base.characterMotor) base.characterMotor.velocity = Vector3.zero;
+            if (base.GetAimAnimator()) base.GetAimAnimator().enabled = false;
 
             base.PlayAnimation("FullBody, Override", this.animString);
             this.activePlayID = Util.PlaySound(soundString, base.gameObject);
@@ -39,6 +40,7 @@ namespace EntityStates.Enforcer
 
             base.characterBody.hideCrosshair = false;
 
+            if (base.GetAimAnimator()) base.GetAimAnimator().enabled = true;
             if (base.GetComponent<EnforcerWeaponComponent>()) base.GetComponent<EnforcerWeaponComponent>().ResetWeapon();
 
             base.PlayAnimation("FullBody, Override", "BufferEmpty");

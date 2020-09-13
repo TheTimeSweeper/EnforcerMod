@@ -73,14 +73,15 @@ namespace EnforcerPlugin.Achievements
 {
     [R2APISubmoduleDependency(nameof(UnlockablesAPI))]
 
-    public class UnlockAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider> {
+    public class UnlockAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
+    {
         public override String AchievementIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
         public override String UnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
-        public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_PREREQ_ID";
+        public override String PrerequisiteUnlockableIdentifier { get; } = "";
         public override String AchievementNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texEnforcerUnlockAchievement.png");
 
         public bool magmaWormKilled;
         public bool wanderingVagrantKilled;
@@ -233,7 +234,7 @@ namespace EnforcerPlugin.Achievements
 
     #endregion
 
-    public class MasteryAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider>
+    public class MasteryAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
     {
         public override String AchievementIdentifier { get; } = "ENFORCER_MONSOONUNLOCKABLE_ACHIEVEMENT_ID";
         public override String UnlockableIdentifier { get; } = "ENFORCER_MONSOONUNLOCKABLE_REWARD_ID";
@@ -241,7 +242,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_MONSOONUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_MONSOONUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_MONSOONUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texEnforcerAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
         {
@@ -284,7 +285,7 @@ namespace EnforcerPlugin.Achievements
         }
     }
 
-    public class BungusAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider>
+    public class BungusAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
     {
         public override String AchievementIdentifier { get; } = "ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_ID";
         public override String UnlockableIdentifier { get; } = "ENFORCER_BUNGUSUNLOCKABLE_REWARD_ID";
@@ -292,7 +293,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_BUNGUSUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texBungusAchievement.png");
 
         public static float bungusTime = 240f;
 
@@ -321,7 +322,7 @@ namespace EnforcerPlugin.Achievements
         }
     }
 
-    public class DesperadoAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider>
+    public class DesperadoAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
     {
         public override String AchievementIdentifier { get; } = "ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_ID";
         public override String UnlockableIdentifier { get; } = "ENFORCER_DESPERADOUNLOCKABLE_REWARD_ID";
@@ -329,7 +330,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_DESPERADOUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texDesperadoAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
         {
@@ -369,7 +370,7 @@ namespace EnforcerPlugin.Achievements
         }
     }
 
-    public class StormtrooperAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider>
+    public class StormtrooperAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
     {
         public override String AchievementIdentifier { get; } = "ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_ID";
         public override String UnlockableIdentifier { get; } = "ENFORCER_STORMTROOPERUNLOCKABLE_REWARD_ID";
@@ -377,7 +378,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_STORMTROOPERUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texStormtrooperAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
         {
@@ -417,7 +418,7 @@ namespace EnforcerPlugin.Achievements
         }
     }
 
-    public class DoomAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider>
+    public class DoomAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
     {
         public override String AchievementIdentifier { get; } = "ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_ID";
         public override String UnlockableIdentifier { get; } = "ENFORCER_DOOMUNLOCKABLE_REWARD_ID";
@@ -425,7 +426,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_DOOMUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texDoomAchievement.png");
 
         public static int impCount = 50;
 
@@ -454,7 +455,7 @@ namespace EnforcerPlugin.Achievements
         }
     }
 
-    public class FrogAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider>
+    public class FrogAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
     {
         public override String AchievementIdentifier { get; } = "ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_ID";
         public override String UnlockableIdentifier { get; } = "ENFORCER_FROGUNLOCKABLE_REWARD_ID";
@@ -462,7 +463,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_FROGUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texZeroSuitAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
         {
@@ -489,7 +490,7 @@ namespace EnforcerPlugin.Achievements
         }
     }
 
-    public class SuperShotgunAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider>
+    public class SuperShotgunAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
     {
         public override String AchievementIdentifier { get; } = "ENFORCER_SHOTGUNUNLOCKABLE_ACHIEVEMENT_ID";
         public override String UnlockableIdentifier { get; } = "ENFORCER_SHOTGUNUNLOCKABLE_REWARD_ID";
@@ -497,7 +498,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_SHOTGUNUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_SHOTGUNUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_SHOTGUNUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texSuperShotgunAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
         {
@@ -524,7 +525,7 @@ namespace EnforcerPlugin.Achievements
         }
     }
 
-    public class AssaultRifleAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider>
+    public class AssaultRifleAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
     {
         public override String AchievementIdentifier { get; } = "ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_ID";
         public override String UnlockableIdentifier { get; } = "ENFORCER_RIFLEUNLOCKABLE_REWARD_ID";
@@ -532,7 +533,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_RIFLEUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texAssaultRifleAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
         {
@@ -562,7 +563,7 @@ namespace EnforcerPlugin.Achievements
         }
     }
 
-    public class StunGrenadeAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider>
+    public class StunGrenadeAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
     {
         public override String AchievementIdentifier { get; } = "ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_ID";
         public override String UnlockableIdentifier { get; } = "ENFORCER_STUNGRENADEUNLOCKABLE_REWARD_ID";
@@ -570,7 +571,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_STUNGRENADEUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texStunGrenadeAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
         {
