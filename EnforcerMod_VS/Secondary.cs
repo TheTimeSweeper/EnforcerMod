@@ -10,13 +10,13 @@ namespace EntityStates.Enforcer
 {
     public class ShieldBash : BaseSkillState
     {
+        public static string hitboxString = "ShieldHitbox"; //transform where the hitbox is fired
         public static float baseDuration = 0.8f;
         public static float damageCoefficient = 2.5f;
         public static float procCoefficient = 1f;
         public static float knockbackForce = 0.14f;
         public static float blastRadius = 6f;
         public static float deflectRadius = 3f;
-        public static string hitboxString = "ShieldHitbox"; //transform where the hitbox is fired
         public static float beefDurationNoShield = 0.4f;
         public static float beefDurationShield = 0.8f;
         public static float recoilAmplitude = 1f;
