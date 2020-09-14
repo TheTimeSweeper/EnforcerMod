@@ -297,7 +297,7 @@ namespace EnforcerPlugin
 
             orig(self);
             if (self.outer.customName == "EnforcerParry") {
-                Reflection.SetFieldValue(self, "damageStat", self.outer.commonComponents.characterBody.damage * 4);
+                Reflection.SetFieldValue(self, "damageStat", self.outer.commonComponents.characterBody.damage * 5);
             }
         }
 

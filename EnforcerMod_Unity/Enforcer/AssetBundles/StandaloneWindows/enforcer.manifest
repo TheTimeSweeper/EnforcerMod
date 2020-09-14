@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 4240308754
+CRC: 2347259752
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: cb0351897833f47d7dca5a20410332a8
+    Hash: 881f47a0f1e67fba431c4d2521e59aef
   TypeTreeHash:
     serializedVersion: 2
     Hash: f574fcd82bb1b02c759406ba4ffb1445
@@ -124,7 +124,6 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/ShieldWalkL_old.anim
 - Assets/Enforcer/EnforcerAssets/Animations/ShieldWalkB.anim
 - Assets/Enforcer/EnforcerAssets/texEnforcerIcon.png
-- Assets/Enforcer/EnforcerAssets/Animations/Emote/Flossbad.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Weapon/GrenadeFade.anim
 - Assets/Enforcer/EnforcerAssets/ClassicMesh.mesh
 - Assets/texEnforcerUnlockAchievement.png
@@ -168,7 +167,6 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texIronManforcer.png
 - Assets/Enforcer/EnforcerAssets/Materials/matRifle.mat
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerShoulderBash.anim
-- Assets/Enforcer/EnforcerAssets/SexForcerMesh.mesh
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerArmRightTemp.anim
 - Assets/Enforcer/EnforcerAssets/EnforcerMesh.mesh
 - Assets/Enforcer/EnforcerAssets/Animations/Emote/InfiniteDab.anim
@@ -248,6 +246,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Materials/matEngiShield.mat
 - Assets/Enforcer/EnforcerAssets/TearGasEffect.prefab
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texEnforcer.png
+- Assets/Enforcer/EnforcerAssets/SexForcerMesh.mesh
 - Assets/Enforcer/EnforcerAssets/Animations/Masks/EnforcerAimMask.mask
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerArmLeftTemp.anim
 - Assets/Enforcer/EnforcerAssets/ShellController.prefab
