@@ -8,26 +8,21 @@ namespace EntityStates.Enforcer
 {
     public class EnforcerMain : GenericCharacterMain
     {
-        public static float lightFlashInterval = 0.5f;
-
         public static event Action<bool> onDance = delegate { };
-
-        public static event Action<float> Bungus = delegate { };
 
         private ShieldComponent shieldComponent;
         private EnforcerLightController lightComponent;
         private bool wasShielding = false;
         private float initialTime;
 
-        private uint sirenPlayID;
-        private float flashStopwatch;
         private float bungusStopwatch;
 
         public static bool shotgunToggle = false;
-        private bool sirenToggle;
         private ChildLocator childLocator;
         private bool sprintCancelEnabled;
         private bool hasSprintCancelled;
+
+        public static event Action<float> Bungus = delegate { };
 
         public override void OnEnter()
         {
@@ -53,11 +48,6 @@ namespace EntityStates.Enforcer
             }
 
             this.sprintCancelEnabled = EnforcerPlugin.EnforcerPlugin.sprintShieldCancel.Value;
-
-            EntityStateMachine drOctagonapus = characterBody.gameObject.AddComponent<EntityStateMachine>();
-            drOctagonapus.customName = "EnforcerParry";
-            drOctagonapus.mainStateType = new SerializableEntityStateType(typeof(Idle));
-            shieldComponent.drOctagonapus = drOctagonapus;
         }
 
         
@@ -66,10 +56,10 @@ namespace EntityStates.Enforcer
         {
             base.Update();
 
-            if (Input.GetKeyDown(KeyCode.G)) {
+            /*if (Input.GetKeyDown(KeyCode.G)) {
                 RiotShotgun.spreadSpread = !RiotShotgun.spreadSpread;
                 Chat.AddMessage($"Spreading: {RiotShotgun.spreadSpread}");
-            }
+            }*/
 
             //for ror1 shotgun sounds
             /*if (Input.GetKeyDown(KeyCode.X))
@@ -78,20 +68,15 @@ namespace EntityStates.Enforcer
             }*/
 
             //default dance
-            if (base.isAuthority && Input.GetKeyDown(KeyCode.Z))
+            if (base.isAuthority && base.characterMotor.isGrounded && !base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
             {
-                if (base.characterMotor.isGrounded && !base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+                if (Input.GetKeyDown(KeyCode.Z))
                 {
                     onDance(true);
                     this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(DefaultDance))), InterruptPriority.Any);
                     return;
                 }
-            }
-
-            //floss
-            if (base.isAuthority && Input.GetKeyDown(KeyCode.Z))
-            {
-                if (base.characterMotor.isGrounded && !base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+                else if (Input.GetKeyDown(KeyCode.X))
                 {
                     onDance(true);
                     this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Floss))), InterruptPriority.Any);
@@ -102,19 +87,8 @@ namespace EntityStates.Enforcer
             //sirens
             if (base.isAuthority && Input.GetKeyDown(KeyCode.CapsLock))
             {
-                this.sirenToggle = !this.sirenToggle;
-
-                if (this.sirenToggle)
-                {
-                    string sound = EnforcerPlugin.Sounds.SirenButton;
-                    if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.frogIndex) sound = EnforcerPlugin.Sounds.Croak;
-                    this.sirenPlayID = Util.PlaySound(sound, base.gameObject);
-                    this.flashStopwatch = 0;
-                }
-                else
-                {
-                    if (this.sirenPlayID != 0) AkSoundEngine.StopPlayingID(this.sirenPlayID);
-                }
+                this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(SirenToggle))), InterruptPriority.Any);
+                return;
             }
 
             //shield mode camera stuff
@@ -143,16 +117,6 @@ namespace EntityStates.Enforcer
             {
                 base.characterBody.isSprinting = false;
                 base.characterBody.SetAimTimer(0.2f);
-            }
-
-            if (this.sirenToggle)
-            {
-                this.flashStopwatch -= Time.fixedDeltaTime;
-                if (this.flashStopwatch <= 0)
-                {
-                    this.flashStopwatch = EnforcerMain.lightFlashInterval;
-                    this.FlashLights();
-                }
             }
 
             if (this.hasSprintCancelled)
@@ -208,8 +172,6 @@ namespace EntityStates.Enforcer
         public override void OnExit()
         {
             base.OnExit();
-
-            if (this.sirenPlayID != 0) AkSoundEngine.StopPlayingID(this.sirenPlayID);
         }
 
         private void ToggleShotgun()

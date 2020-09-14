@@ -16,7 +16,7 @@ using BepInEx.Configuration;
 namespace EnforcerPlugin
 {
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
-    [BepInPlugin(MODUID, "Enforcer", "0.0.6")]
+    [BepInPlugin(MODUID, "Enforcer", "0.1.0")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -103,6 +103,7 @@ namespace EnforcerPlugin
             //touch this all you want tho
             ConfigShit();
             Assets.PopulateAssets();
+            MemeSetup();
             CreateDisplayPrefab();
             CreatePrefab();
             RegisterCharacter();
@@ -1268,8 +1269,6 @@ namespace EnforcerPlugin
             SecondarySetup();
             UtilitySetup();
             SpecialSetup();
-            //AltSpecialSetup();
-            MemeSetup();
         }
         #region skillSetups
         private void PrimarySetup()
@@ -1737,12 +1736,14 @@ namespace EnforcerPlugin
             Type[] memes = new Type[] {
                 typeof(DefaultDance),
                 typeof(Floss),
-                typeof(InfiniteDab),
+                typeof(InfiniteDab)
             };
               
             for (int i = 0; i < memes.Length; i++) {
                 LoadoutAPI.AddSkill(memes[i]);
             }
+
+            LoadoutAPI.AddSkill(typeof(SirenToggle));
         }
     }
     #endregion
