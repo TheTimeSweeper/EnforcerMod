@@ -331,6 +331,8 @@ ModelImporter:
     400324: ToeR_end 1
     2100000: TrueAtlas
     2100002: Body
+    2300000: SexBody
+    3300000: SexBody
     4300000: SexBody
     4300002: Model.Orig
     7400000: ShieldBash.001
@@ -391,7 +393,7 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: "Copied Avatar Rig Configuration mis-match. Transform hierarchy
-      does not match:\n\tTransform 'Armature.Orig' not found in HumanDescription.\n"
+      does not match:\n\tTransform 'Pelvis' for human bone 'Hips' not found\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
@@ -442,7 +444,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   importAnimation: 1
-  copyAvatar: 1
+  copyAvatar: 0
   humanDescription:
     serializedVersion: 2
     human:
@@ -1226,8 +1228,7 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: d605af0ff8b19de4199e743a7766f715,
-    type: 3}
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 3
   humanoidOversampling: 1
   additionalBone: 0

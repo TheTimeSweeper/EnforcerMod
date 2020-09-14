@@ -19,7 +19,7 @@ namespace EntityStates.Enforcer
         public static float beefDurationNoShield = 0.0f;
         public static float beefDurationShield = 0.25f;
 
-        public static bool spreadSpread = false;
+        public static bool spreadSpread = true;
 
         private float attackStopDuration;   
         public float duration;
