@@ -33,7 +33,11 @@ namespace EntityStates.Enforcer
 
             EntityStateMachine drOctagonapus = characterBody.gameObject.AddComponent<EntityStateMachine>();
             drOctagonapus.customName = "EnforcerParry";
-            drOctagonapus.mainStateType = new SerializableEntityStateType(typeof(Idle));
+
+            SerializableEntityStateType idleState = new SerializableEntityStateType(typeof(Idle));
+            drOctagonapus.initialStateType = idleState;
+            drOctagonapus.mainStateType = idleState;
+
             shieldComponent.drOctagonapus = drOctagonapus;
 
             onDance(false);
