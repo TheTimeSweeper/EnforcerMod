@@ -969,7 +969,7 @@ MonoBehaviour:
   - name: Attachment
     transform: {fileID: 6878283868285417597}
   - name: Rifle
-    transform: {fileID: 7727398905127470794}
+    transform: {fileID: 8135013192111841852}
   - name: RifleMuzzle
     transform: {fileID: 8141984702573399913}
   - name: GrenadeMuzzle

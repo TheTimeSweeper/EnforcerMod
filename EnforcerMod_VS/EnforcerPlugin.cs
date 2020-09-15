@@ -1445,9 +1445,9 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkill(typeof(ShoulderBashImpact));
 
             LanguageAPI.Add("KEYWORD_BASH", "<style=cKeywordName>Bash</style><style=cSub>Applies <style=cIsDamage>stun</style> and <style=cIsUtility>heavy knockback</style>.\n<style=cIsUtility>Deflects projectiles.</style></style>");
-            LanguageAPI.Add("KEYWORD_SPRINTBASH", "<style=cKeywordName>Shoulder Bash</style><style=cSub>A short charge that <style=cIsDamage>stuns</style> and deals up to <style=cIsDamage>" + ShoulderBash.knockbackDamageCoefficient * 100f + "%damage</style>.</style>");
+            LanguageAPI.Add("KEYWORD_SPRINTBASH", $"<style=cKeywordName>Shoulder Bash</style><style=cSub>A short charge that <style=cIsDamage>stuns</style>.\nHitting heavier enemies deals up to <style=cIsDamage>{ShoulderBash.knockbackDamageCoefficient * 100f}% damage</style>.</style>");
 
-            string desc = "<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>" + 100f * ShieldBash.damageCoefficient + "% damage</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> instead.";
+            string desc = $"<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> for <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage</style> instead.";
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", desc);

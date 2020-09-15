@@ -5,7 +5,7 @@ namespace EntityStates.Enforcer
 {
     public class RiotShotgun : BaseSkillState 
     {
-        const float RAD2 = 1.414f;
+        const float RAD2 = 1.414f;//for area calculation
 
         public static float damageCoefficient = 0.4f;
         public static float procCoefficient = 0.5f;

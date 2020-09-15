@@ -21,8 +21,8 @@ namespace EnforcerPlugin
             SkinnedMeshRenderer mainRenderer = Reflection.GetFieldValue<SkinnedMeshRenderer>(characterModel, "mainSkinnedMeshRenderer");
 
             LanguageAPI.Add("ENFORCERBODY_DEFAULT_SKIN_NAME", "Default");
-            LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Sexforcer");
-            LanguageAPI.Add("ENFORCERBODY_SPACE_SKIN_NAME", "Stormtrooper");
+            LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Riot");
+            LanguageAPI.Add("ENFORCERBODY_SPACE_SKIN_NAME", "Rainstormtrooper");
             LanguageAPI.Add("ENFORCERBODY_ENGI_SKIN_NAME", "Engineer?");
             LanguageAPI.Add("ENFORCERBODY_DOOM_SKIN_NAME", "Doom Slayer");
             LanguageAPI.Add("ENFORCERBODY_DESPERADO_SKIN_NAME", "Desperado");
