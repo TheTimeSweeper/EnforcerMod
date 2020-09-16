@@ -45,6 +45,8 @@ And thanks to all you folks on discord for help and feedback
 | Stun Grenade | ![](https://cdn.discordapp.com/attachments/739696016755785859/749012675169747094/enforcer_utility2.png) | `Stunning`. Launch a stun grenade, dealing `400%` damage. Store up to 3 grenades. | Proc: `0.6`, CD: `8 sec` |
 
 
+[![Gnomes true dedication](https://i.imgur.com/txUzvAY.png)]()
+
 ## Known Issues
 - Teleporter particles kinda big (We could fix this but we're not going to)
 - Crowdfunder bullets hit the shield during Protect and Serve 
