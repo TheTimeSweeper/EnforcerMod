@@ -84,6 +84,9 @@ namespace EnforcerPlugin
         public static ConfigEntry<float> headSize;
         public static ConfigEntry<bool> sprintShieldCancel;
         public static ConfigEntry<bool> sirenOnDeflect;
+        public static ConfigEntry<string> dance1Key;
+        public static ConfigEntry<string> dance2Key;
+        public static ConfigEntry<string> sirensKey;
         //public static ConfigEntry<bool> classicSkin;
 
         //更新许可证 DO WHAT THE FUCK YOU WANT TO
@@ -126,6 +129,9 @@ namespace EnforcerPlugin
             sprintShieldCancel = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Sprint Cancels Shield"), true, new ConfigDescription("Allows Protect and Serve to be cancelled by pressing sprint rather than special again", null, Array.Empty<object>()));
             sirenOnDeflect = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Siren on Deflect"), true, new ConfigDescription("Play siren sound upon deflecting a projectile", null, Array.Empty<object>()));
             //classicSkin = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Old Helmet"), true, new ConfigDescription("Adds a skin with the old helmet for the weirdos who prefer that one", null, Array.Empty<object>()));
+            dance1Key = base.Config.Bind<string>(new ConfigDefinition("02 - Keys", "Default Dance keybind"), "1", new ConfigDescription("Example: 1, z, left shift, caps lock, up, down", null, Array.Empty<object>()));
+            dance2Key = base.Config.Bind<string>(new ConfigDefinition("02 - Keys", "Floss keybind"), "2", new ConfigDescription("Example: 1, z, left shift, caps lock, up, down", null, Array.Empty<object>()));
+            sirensKey = base.Config.Bind<string>(new ConfigDefinition("02 - Keys", "Keybind to play sirens sound"), "caps lock", new ConfigDescription("Example: 1, z, left shift, caps lock, up, down", null, Array.Empty<object>()));
         }
 
         private void EnforcerPlugin_LoadStart()
@@ -905,6 +911,14 @@ namespace EnforcerPlugin
             shieldHurtbox.damageModifier = HurtBox.DamageModifier.Barrier;
             shieldHurtbox.hurtBoxGroup = hurtBoxGroup;
             shieldHurtbox.indexInGroup = 1;
+
+            HurtBox shieldHurtbox2 = childLocator.FindChild("ShieldHurtbox2").gameObject.AddComponent<HurtBox>();
+            shieldHurtbox2.gameObject.layer = LayerIndex.entityPrecise.intVal;
+            shieldHurtbox2.healthComponent = healthComponent;
+            shieldHurtbox2.isBullseye = false;
+            shieldHurtbox2.damageModifier = HurtBox.DamageModifier.Barrier;
+            shieldHurtbox2.hurtBoxGroup = hurtBoxGroup;
+            shieldHurtbox2.indexInGroup = 2;
 
             hurtBoxGroup.hurtBoxes = new HurtBox[]
             {

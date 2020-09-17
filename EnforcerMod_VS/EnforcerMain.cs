@@ -79,13 +79,13 @@ namespace EntityStates.Enforcer
             //default dance
             if (base.isAuthority && base.characterMotor.isGrounded && !base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
             {
-                if (Input.GetKeyDown(KeyCode.Z))
+                if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.dance1Key.Value))
                 {
                     onDance(true);
                     this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(DefaultDance))), InterruptPriority.Any);
                     return;
                 }
-                else if (Input.GetKeyDown(KeyCode.X))
+                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.dance2Key.Value))
                 {
                     onDance(true);
                     this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Floss))), InterruptPriority.Any);
@@ -94,7 +94,7 @@ namespace EntityStates.Enforcer
             }
 
             //sirens
-            if (base.isAuthority && Input.GetKeyDown(KeyCode.CapsLock))
+            if (base.isAuthority && Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.sirensKey.Value))
             {
                 this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(SirenToggle))), InterruptPriority.Any);
                 return;
