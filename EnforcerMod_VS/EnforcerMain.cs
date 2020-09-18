@@ -90,7 +90,7 @@ namespace EntityStates.Enforcer
             }
 
             //sirens
-            if (base.isAuthority && Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.sirensKey.Value))
+            if (base.isAuthority && Input.GetKeyDown(KeyCode.CapsLock))
             {
                 this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(SirenToggle))), InterruptPriority.Any);
                 return;

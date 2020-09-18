@@ -391,7 +391,6 @@ namespace EnforcerPlugin.Achievements
         {
             if (!report.victimBody) return;
             if (report.damageInfo is null) return;
-            if (report.damageInfo.inflictor is null) return;
 
             //hard coding this i guess since someone reported it only works on malachites
             //i think that's bullshit but couldn't hurt to do it this way
@@ -399,18 +398,9 @@ namespace EnforcerPlugin.Achievements
             {
                 bool flag = false;
 
-                if (report.victimBody.HasBuff(BuffIndex.AffixBlue) ||
-                    report.victimBody.HasBuff(BuffIndex.AffixHaunted) ||
-                    report.victimBody.HasBuff(BuffIndex.AffixPoison) ||
-                    report.victimBody.HasBuff(BuffIndex.AffixRed) ||
-                    report.victimBody.HasBuff(BuffIndex.AffixWhite)) {
+                if (report.victimBody.HasBuff(BuffIndex.AffixBlue) || report.victimBody.HasBuff(BuffIndex.AffixHaunted) || report.victimBody.HasBuff(BuffIndex.AffixPoison) || report.victimBody.HasBuff(BuffIndex.AffixRed) || report.victimBody.HasBuff(BuffIndex.AffixWhite)) flag = true;
 
-                    flag = true;
-                }
-
-                if (flag && base.meetsBodyRequirement) {
-                    base.Grant();
-                }
+                if (flag && base.meetsBodyRequirement) base.Grant();
             }
         }
 
