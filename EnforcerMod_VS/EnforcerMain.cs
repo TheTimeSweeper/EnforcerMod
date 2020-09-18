@@ -90,7 +90,7 @@ namespace EntityStates.Enforcer
             }
 
             //sirens
-            if (base.isAuthority && Input.GetKeyDown(KeyCode.CapsLock))
+            if (base.isAuthority && Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.sirensKey.Value))
             {
                 this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(SirenToggle))), InterruptPriority.Any);
                 return;
@@ -137,12 +137,12 @@ namespace EntityStates.Enforcer
 
                 if (base.characterMotor.velocity == Vector3.zero && base.characterMotor.isGrounded)
                 {
-                    int count = base.characterBody.master.inventory.GetItemCount(ItemIndex.Mushroom);
-                    if (count > 0)
+                    int bungusCount = base.characterBody.master.inventory.GetItemCount(ItemIndex.Mushroom);
+                    if (bungusCount > 0)
                     {
                         flag = true;
-                        count = Mathf.Clamp(count, 0, 30);
-                        this.bungusStopwatch += count * Time.fixedDeltaTime;
+                        float bungusMult = bungusCount * 0.01f;
+                        this.bungusStopwatch += (1 + bungusMult) * Time.fixedDeltaTime;
 
                         Bungus(this.bungusStopwatch);
                     }

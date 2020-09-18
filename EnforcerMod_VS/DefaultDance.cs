@@ -24,6 +24,8 @@ namespace EntityStates.Enforcer
             if (base.characterMotor) base.characterMotor.velocity = Vector3.zero;
             if (base.GetAimAnimator()) base.GetAimAnimator().enabled = false;
 
+            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) soundString = EnforcerPlugin.Sounds.DOOM;
+
             base.PlayAnimation("FullBody, Override", this.animString);
             this.activePlayID = Util.PlaySound(soundString, base.gameObject);
 

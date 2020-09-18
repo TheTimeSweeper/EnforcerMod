@@ -17,7 +17,7 @@ namespace EnforcerPlugin
 {
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "1.0.3")]
+    [BepInPlugin(MODUID, "Enforcer", "1.0.2")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -90,6 +90,29 @@ namespace EnforcerPlugin
         public static ConfigEntry<string> dance1Key;
         public static ConfigEntry<string> dance2Key;
         public static ConfigEntry<string> sirensKey;
+
+        //i don't wanna fucking buff him so i have no choice but to do this
+        public static ConfigEntry<float> baseHealth;
+        public static ConfigEntry<float> healthGrowth;
+        public static ConfigEntry<float> baseDamage;
+        public static ConfigEntry<float> damageGrowth;
+        public static ConfigEntry<float> baseArmor;
+        public static ConfigEntry<float> armorGrowth;
+        public static ConfigEntry<float> baseMovementSpeed;
+        public static ConfigEntry<float> baseCrit;
+        public static ConfigEntry<float> baseRegen;
+        public static ConfigEntry<float> regenGrowth;
+
+        public static ConfigEntry<float> shotgunDamage;
+        public static ConfigEntry<int> shotgunBulletCount;
+        public static ConfigEntry<float> shotgunProcCoefficient;
+        public static ConfigEntry<float> shotgunRange;
+        public static ConfigEntry<float> shotgunSpread;
+
+        public static ConfigEntry<float> rifleDamage;
+
+        public static ConfigEntry<float> superDamage;
+
         //public static ConfigEntry<bool> classicSkin;
 
         //更新许可证 DO WHAT THE FUCK YOU WANT TO
@@ -139,6 +162,27 @@ namespace EnforcerPlugin
             dance2Key = base.Config.Bind<string>(new ConfigDefinition("02 - Keys", "Floss keybind"), "2", new ConfigDescription("Example: 1, z, left shift, caps lock, up, down", null, Array.Empty<object>()));
             sirensKey = base.Config.Bind<string>(new ConfigDefinition("02 - Keys", "Keybind to play sirens sound"), "caps lock", new ConfigDescription("Example: 1, z, left shift, caps lock, up, down", null, Array.Empty<object>()));
             //classicSkin = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Old Helmet"), true, new ConfigDescription("Adds a skin with the old helmet for the weirdos who prefer that one", null, Array.Empty<object>()));
+
+            baseHealth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Health"), 160f, new ConfigDescription("", null, Array.Empty<object>()));
+            healthGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Health Growth"), 48f, new ConfigDescription("", null, Array.Empty<object>()));
+            baseRegen = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Regen"), 0.5f, new ConfigDescription("", null, Array.Empty<object>()));
+            regenGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Regen Growth"), 0.25f, new ConfigDescription("", null, Array.Empty<object>()));
+            baseArmor = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Armor"), 15f, new ConfigDescription("", null, Array.Empty<object>()));
+            armorGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Armor Growth"), 0f, new ConfigDescription("", null, Array.Empty<object>()));
+            baseDamage = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Damage"), 12f, new ConfigDescription("", null, Array.Empty<object>()));
+            damageGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Damage Growth"), 2.4f, new ConfigDescription("", null, Array.Empty<object>()));
+            baseMovementSpeed = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Movement Speed"), 7f, new ConfigDescription("", null, Array.Empty<object>()));
+            baseCrit = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Crit"), 1f, new ConfigDescription("", null, Array.Empty<object>()));
+
+            shotgunDamage = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Damage Coefficient"), 0.4f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
+            shotgunProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Proc Coefficient"), 0.5f, new ConfigDescription("Proc Coefficient of each pellet", null, Array.Empty<object>()));
+            shotgunBulletCount = base.Config.Bind<int>(new ConfigDefinition("04 - Riot Shotgun", "Bullet Count"), 8, new ConfigDescription("Amount of pellets fired", null, Array.Empty<object>()));
+            shotgunRange = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Range"), 64f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
+            shotgunSpread = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Spread"), 12f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
+
+            rifleDamage = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Damage Coefficient"), 0.4f, new ConfigDescription("Damage of each bullet", null, Array.Empty<object>()));
+
+            superDamage = base.Config.Bind<float>(new ConfigDefinition("06 - Super Shotgun", "Damage Coefficient"), 0.75f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
         }
 
         private void EnforcerPlugin_LoadStart()
@@ -649,25 +693,25 @@ namespace EnforcerPlugin
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             bodyComponent.rootMotionInMainState = false;
             bodyComponent.mainRootSpeed = 0;
-            bodyComponent.baseMaxHealth = 160;
-            bodyComponent.levelMaxHealth = 48;
-            bodyComponent.baseRegen = 0.5f;
-            bodyComponent.levelRegen = 0.25f;
+            bodyComponent.baseMaxHealth = baseHealth.Value;
+            bodyComponent.levelMaxHealth = healthGrowth.Value;
+            bodyComponent.baseRegen = baseRegen.Value;
+            bodyComponent.levelRegen = regenGrowth.Value;
             bodyComponent.baseMaxShield = 0;
             bodyComponent.levelMaxShield = 0;
-            bodyComponent.baseMoveSpeed = 7;
+            bodyComponent.baseMoveSpeed = baseMovementSpeed.Value;
             bodyComponent.levelMoveSpeed = 0;
             bodyComponent.baseAcceleration = 80;
             bodyComponent.baseJumpPower = 15;
             bodyComponent.levelJumpPower = 0;
-            bodyComponent.baseDamage = 12;
-            bodyComponent.levelDamage = 2.4f;
+            bodyComponent.baseDamage = baseDamage.Value;
+            bodyComponent.levelDamage = damageGrowth.Value;
             bodyComponent.baseAttackSpeed = 1;
             bodyComponent.levelAttackSpeed = 0;
-            bodyComponent.baseCrit = 1;
+            bodyComponent.baseCrit = baseCrit.Value;
             bodyComponent.levelCrit = 0;
-            bodyComponent.baseArmor = 20;
-            bodyComponent.levelArmor = 0;
+            bodyComponent.baseArmor = baseArmor.Value;
+            bodyComponent.levelArmor = armorGrowth.Value;
             bodyComponent.baseJumpCount = 1;
             bodyComponent.sprintingSpeedMultiplier = 1.45f;
             bodyComponent.wasLucky = false;
@@ -1322,7 +1366,7 @@ namespace EnforcerPlugin
         {
             LoadoutAPI.AddSkill(typeof(RiotShotgun));
 
-            string desc = "Fire a short range <style=cIsUtility>piercing blast</style> for <style=cIsDamage>" + RiotShotgun.projectileCount + "x" + 100f * RiotShotgun.damageCoefficient + "% damage.";
+            string desc = "Fire a short range <style=cIsUtility>piercing blast</style> for <style=cIsDamage>" + shotgunBulletCount.Value + "x" + 100f * shotgunDamage.Value + "% damage.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_NAME", "Riot Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION", desc);

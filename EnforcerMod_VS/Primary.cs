@@ -7,17 +7,18 @@ namespace EntityStates.Enforcer
     {
         const float RAD2 = 1.414f;//for area calculation
 
-        public static float damageCoefficient = 0.4f;
-        public static float procCoefficient = 0.5f;
+        public static float damageCoefficient = EnforcerPlugin.EnforcerPlugin.shotgunDamage.Value;
+        public static float procCoefficient = EnforcerPlugin.EnforcerPlugin.shotgunProcCoefficient.Value;
         public static float bulletForce = 35f;
         public float baseDuration = 0.9f; // the base skill duration
         public float baseShieldDuration = 0.6f; // the duration used while shield is active
-        public static int projectileCount = 8;
-        public static float bulletSpread = 12f;
+        public static int projectileCount = EnforcerPlugin.EnforcerPlugin.shotgunBulletCount.Value;
+        public static float bulletSpread = EnforcerPlugin.EnforcerPlugin.shotgunSpread.Value;
         public static float bulletRecoil = 3f;
-        public static float shieldedBulletRecoil = 1.25f;
+        public static float shieldedBulletRecoil = 0.5f;
         public static float beefDurationNoShield = 0.0f;
         public static float beefDurationShield = 0.25f;
+        public static float bulletRange = EnforcerPlugin.EnforcerPlugin.shotgunRange.Value;
 
         private float attackStopDuration;   
         public float duration;
@@ -107,7 +108,7 @@ namespace EntityStates.Enforcer
                         damageColorIndex = DamageColorIndex.Default,
                         damageType = DamageType.Generic,
                         falloffModel = BulletAttack.FalloffModel.None,
-                        maxDistance = 64,
+                        maxDistance = RiotShotgun.bulletRange,
                         force = RiotShotgun.bulletForce,
                         hitMask = LayerIndex.CommonMasks.bullet,
                         isCrit = isCrit,
@@ -176,7 +177,7 @@ namespace EntityStates.Enforcer
 
     public class SuperShotgun : RiotShotgun
     {
-        public new float damageCoefficient = 0.8f;
+        public new float damageCoefficient = EnforcerPlugin.EnforcerPlugin.superDamage.Value;
         public new float procCoefficient = 0.75f;
         public new float bulletForce = 25f;
         public new float projectileCount = 16;
@@ -186,11 +187,23 @@ namespace EntityStates.Enforcer
 
         public override void OnEnter()
         {
+            this.baseDuration = 1.55f;
+            this.baseShieldDuration = 1.3f;
             base.OnEnter();
         }
 
         public override void FixedUpdate()
         {
+            if (base.fixedAge >= 0.75f * this.duration)
+            {
+                if (!this.isStormtrooper)
+                {
+                    var poopy = base.GetComponent<EnforcerWeaponComponent>();
+                    poopy.DropShell();
+                    poopy.DropShell();
+                }
+            }
+
             base.FixedUpdate();
         }
 
@@ -223,13 +236,6 @@ namespace EntityStates.Enforcer
                 base.AddRecoil(-2f * recoil, -3f * recoil, -1f * recoil, 1f * recoil);
                 base.characterBody.AddSpreadBloom(0.33f * recoil);
                 EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, base.gameObject, this.muzzleString, false);
-
-                if (!this.isStormtrooper)
-                {
-                    var poopy = base.GetComponent<EnforcerWeaponComponent>();
-                    poopy.DropShell();
-                    poopy.DropShell();
-                }
 
                 if (base.isAuthority)
                 {
