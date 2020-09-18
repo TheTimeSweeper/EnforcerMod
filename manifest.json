@@ -1,0 +1,10 @@
+{
+    "name": "Enforcer",
+    "version_number": "1.0.1",
+    "website_url": "",
+    "description": "Adds the Enforcer Survivor from Risk of Rain 1. Fully playable",
+    "dependencies": [
+        "bbepis-BepInExPack-5.3.1",
+		"tristanmcpherson-R2API-2.5.14"
+    ]
+}

@@ -399,9 +399,18 @@ namespace EnforcerPlugin.Achievements
             {
                 bool flag = false;
 
-                if (report.victimBody.HasBuff(BuffIndex.AffixBlue) || report.victimBody.HasBuff(BuffIndex.AffixHaunted) || report.victimBody.HasBuff(BuffIndex.AffixPoison) || report.victimBody.HasBuff(BuffIndex.AffixRed) || report.victimBody.HasBuff(BuffIndex.AffixWhite)) flag = true;
+                if (report.victimBody.HasBuff(BuffIndex.AffixBlue) ||
+                    report.victimBody.HasBuff(BuffIndex.AffixHaunted) ||
+                    report.victimBody.HasBuff(BuffIndex.AffixPoison) ||
+                    report.victimBody.HasBuff(BuffIndex.AffixRed) ||
+                    report.victimBody.HasBuff(BuffIndex.AffixWhite)) {
 
-                if (flag && base.meetsBodyRequirement) base.Grant();
+                    flag = true;
+                }
+
+                if (flag && base.meetsBodyRequirement) {
+                    base.Grant();
+                }
             }
         }
 
