@@ -10,8 +10,8 @@ namespace EntityStates.Enforcer
         public static float damageCoefficient = 0.4f;
         public static float procCoefficient = 0.5f;
         public static float bulletForce = 35f;
-        public static float baseDuration = 0.9f; // the base skill duration
-        public static float baseShieldDuration = 0.6f; // the duration used while shield is active
+        public float baseDuration = 0.9f; // the base skill duration
+        public float baseShieldDuration = 0.6f; // the duration used while shield is active
         public static int projectileCount = 8;
         public static float bulletSpread = 12f;
         public static float bulletRecoil = 3f;
@@ -43,12 +43,12 @@ namespace EntityStates.Enforcer
 
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
             {
-                this.duration = RiotShotgun.baseShieldDuration / this.attackSpeedStat;
+                this.duration = this.baseShieldDuration / this.attackSpeedStat;
                 this.attackStopDuration = RiotShotgun.beefDurationShield / this.attackSpeedStat;
             }
             else
             {
-                this.duration = RiotShotgun.baseDuration / this.attackSpeedStat;
+                this.duration = this.baseDuration / this.attackSpeedStat;
                 this.attackStopDuration = RiotShotgun.beefDurationNoShield / this.attackSpeedStat;
 
                 base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
@@ -176,34 +176,22 @@ namespace EntityStates.Enforcer
 
     public class SuperShotgun : RiotShotgun
     {
-        public new float damageCoefficient = 0.65f;
+        public new float damageCoefficient = 0.8f;
         public new float procCoefficient = 0.75f;
-        public new float bulletForce = 75f;
-        public static float earlyExitDuration = 0.175f;
-        public float bulletSpread = 18f;
-
-        private float earlyExit;
-        public int shotCount = 0;
+        public new float bulletForce = 25f;
+        public new float projectileCount = 16;
+        public new float bulletSpread = 18f;
+        public new float baseDuration = 1.8f;
+        public new float baseShieldDuration = 1.5f;
 
         public override void OnEnter()
         {
             base.OnEnter();
-
-            this.earlyExit = SuperShotgun.earlyExitDuration / this.attackSpeedStat;
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-
-            if (base.inputBank && base.isAuthority && shotCount == 0)
-            {
-                if (base.inputBank.skill1.down && base.fixedAge >= (base.duration - this.earlyExit))
-                {
-                    this.outer.SetNextState(new SuperShotgunReload());
-                    return;
-                }
-            }
         }
 
         public override void FireBullet()
@@ -255,14 +243,14 @@ namespace EntityStates.Enforcer
 
                     new BulletAttack
                     {
-                        bulletCount = (uint)projectileCount,
+                        bulletCount = (uint)this.projectileCount,
                         aimVector = aimRay.direction,
                         origin = aimRay.origin,
                         damage = damage,
                         damageColorIndex = DamageColorIndex.Default,
                         damageType = DamageType.Generic,
                         falloffModel = BulletAttack.FalloffModel.Buckshot,
-                        maxDistance = 128,
+                        maxDistance = 156,
                         force = this.bulletForce,
                         hitMask = LayerIndex.CommonMasks.bullet,
                         minSpread = 0,
@@ -273,65 +261,30 @@ namespace EntityStates.Enforcer
                         smartCollision = false,
                         procChainMask = default(ProcChainMask),
                         procCoefficient = this.procCoefficient,
-                        radius = 0.5f,
+                        radius = 0.3f,
                         sniper = false,
                         stopperMask = LayerIndex.CommonMasks.bullet,
                         weapon = null,
                         tracerEffectPrefab = tracerEffect,
-                        spreadPitchScale = 0.5f,
-                        spreadYawScale = 0.5f,
+                        spreadPitchScale = 0.3f,
+                        spreadYawScale = 0.7f,
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
                         hitEffectPrefab = ClayBruiser.Weapon.MinigunFire.bulletHitEffectPrefab,
                         HitEffectNormal = ClayBruiser.Weapon.MinigunFire.bulletHitEffectNormal
                     }.Fire();
                 }
 
-                this.PlayGunAnim();
+                this.PlayGunAnim("Reload");
             }
         }
 
-        public virtual void PlayGunAnim()
+        public virtual void PlayGunAnim(string animString)
         {
             if (this.GetModelChildLocator().FindChild("SuperShotgunModel"))
             {
                 var anim = this.GetModelChildLocator().FindChild("SuperShotgunModel").GetComponent<Animator>();
                 anim.SetFloat("SuperShottyFire.playbackRate", this.attackSpeedStat);
-                anim.SetTrigger("Fire");
-            }
-        }
-    }
-
-    public class SuperShotgunReload : SuperShotgun
-    {
-        public static float durationMultiplier = 2f;
-
-        public override void OnEnter()
-        {
-            base.shotCount = 1;
-            base.bulletSpread = 14f;
-            base.damageCoefficient = 0.85f;
-
-            base.OnEnter();
-
-            base.characterBody.isSprinting = false;
-
-            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
-            {
-                base.duration = (SuperShotgun.baseShieldDuration * SuperShotgunReload.durationMultiplier) / this.attackSpeedStat;
-            }
-            else
-            {
-                base.duration = (SuperShotgun.baseDuration * SuperShotgunReload.durationMultiplier) / this.attackSpeedStat;
-            }
-        }
-
-        public override void PlayGunAnim()
-        {
-            if (this.GetModelChildLocator().FindChild("SuperShotgunModel"))
-            {
-                var anim = this.GetModelChildLocator().FindChild("SuperShotgunModel").GetComponent<Animator>();
-                anim.SetFloat("SuperShottyFire.playbackRate", this.attackSpeedStat);
-                anim.SetTrigger("Reload");
+                anim.SetTrigger(animString);
             }
         }
     }

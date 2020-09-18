@@ -35,6 +35,8 @@ namespace EnforcerPlugin {
         public static GameObject shieldBashFX;
         public static GameObject shoulderBashFX;
 
+        public static GameObject gatDrone;
+
         public static Mesh stormtrooperMesh;
         public static Mesh engiMesh;
         public static Mesh desperadoMesh;
@@ -126,6 +128,8 @@ namespace EnforcerPlugin {
 
             EffectAPI.AddEffect(shieldBashFX);
             EffectAPI.AddEffect(shoulderBashFX);
+
+            gatDrone = MainAssetBundle.LoadAsset<GameObject>("GatDrone");
 
             stormtrooperMesh = MainAssetBundle.LoadAsset<Mesh>("StormtrooperMesh");
             engiMesh = MainAssetBundle.LoadAsset<Mesh>("EngiforcerMesh");

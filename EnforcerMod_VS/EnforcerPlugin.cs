@@ -16,7 +16,8 @@ using BepInEx.Configuration;
 namespace EnforcerPlugin
 {
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
-    [BepInPlugin(MODUID, "Enforcer", "0.1.0")]
+    [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
+    [BepInPlugin(MODUID, "Enforcer", "1.0.3")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -74,6 +75,7 @@ namespace EnforcerPlugin
         public static bool harbCrateInstalled = false;
 
         public static uint doomGuyIndex = 2;
+        public static uint engiIndex = 3;
         public static uint stormtrooperIndex = 4;
         public static uint frogIndex = 6;
 
@@ -84,6 +86,10 @@ namespace EnforcerPlugin
         public static ConfigEntry<float> headSize;
         public static ConfigEntry<bool> sprintShieldCancel;
         public static ConfigEntry<bool> sirenOnDeflect;
+
+        public static ConfigEntry<string> dance1Key;
+        public static ConfigEntry<string> dance2Key;
+        public static ConfigEntry<string> sirensKey;
         //public static ConfigEntry<bool> classicSkin;
 
         //更新许可证 DO WHAT THE FUCK YOU WANT TO
@@ -113,6 +119,10 @@ namespace EnforcerPlugin
             RegisterBuffs();
             RegisterProjectile();
             CreateDoppelganger();
+
+            //var p = new NemforcerPlugin();
+            //p.Init();
+
             Hook();
         }
 
@@ -125,6 +135,9 @@ namespace EnforcerPlugin
             headSize = base.Config.Bind<float>(new ConfigDefinition("01 - General Settings", "Head Size"), 1f, new ConfigDescription("Changes the size of Enforcer's head", null, Array.Empty<object>()));
             sprintShieldCancel = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Sprint Cancels Shield"), true, new ConfigDescription("Allows Protect and Serve to be cancelled by pressing sprint rather than special again", null, Array.Empty<object>()));
             sirenOnDeflect = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Siren on Deflect"), true, new ConfigDescription("Play siren sound upon deflecting a projectile", null, Array.Empty<object>()));
+            dance1Key = base.Config.Bind<string>(new ConfigDefinition("02 - Keys", "Default Dance keybind"), "1", new ConfigDescription("Example: 1, z, left shift, caps lock, up, down", null, Array.Empty<object>()));
+            dance2Key = base.Config.Bind<string>(new ConfigDefinition("02 - Keys", "Floss keybind"), "2", new ConfigDescription("Example: 1, z, left shift, caps lock, up, down", null, Array.Empty<object>()));
+            sirensKey = base.Config.Bind<string>(new ConfigDefinition("02 - Keys", "Keybind to play sirens sound"), "caps lock", new ConfigDescription("Example: 1, z, left shift, caps lock, up, down", null, Array.Empty<object>()));
             //classicSkin = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Old Helmet"), true, new ConfigDescription("Adds a skin with the old helmet for the weirdos who prefer that one", null, Array.Empty<object>()));
         }
 
@@ -190,6 +203,7 @@ namespace EnforcerPlugin
 
             orig(self, report);
         }
+
         private void BodyCatalog_SetBodyPrefabs(On.RoR2.BodyCatalog.orig_SetBodyPrefabs orig, GameObject[] newBodyPrefabs)
         {
             //nicely done brother
@@ -202,6 +216,7 @@ namespace EnforcerPlugin
             }
             orig(newBodyPrefabs);
         }
+
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
         {
             // the energy shield thing was causing some wierd bugs. Need to find a better solution that just canceling this method lol
@@ -236,6 +251,7 @@ namespace EnforcerPlugin
                 }
             }
         }
+
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
             bool blocked = false;
@@ -438,8 +454,8 @@ namespace EnforcerPlugin
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("Shield").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("Shield").GetComponentInChildren<MeshRenderer>(),
+                    defaultMaterial = childLocator.FindChild("ShieldModel").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("ShieldModel").GetComponent<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
@@ -547,8 +563,23 @@ namespace EnforcerPlugin
                     renderer = childLocator.FindChild("HammerModel2").GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("SexShieldModel").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("SexShieldModel").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("SexShieldGlass").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("SexShieldGlass").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                    ignoreOverlays = false
                 }
             };
+
             characterModel.autoPopulateLightInfos = true;
             characterModel.invisibilityCount = 0;
             characterModel.temporaryOverlays = new List<TemporaryOverlay>();
@@ -561,6 +592,9 @@ namespace EnforcerPlugin
 
             characterDisplay.AddComponent<MenuSound>();
             characterDisplay.AddComponent<EnforcerLightController>();
+
+            var ragdollShit = characterDisplay.GetComponentInChildren<RagdollController>();
+            if (ragdollShit) Destroy(ragdollShit);
         }
 
         private static void CreatePrefab()
@@ -694,8 +728,8 @@ namespace EnforcerPlugin
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("Shield").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("Shield").GetComponentInChildren<MeshRenderer>(),
+                    defaultMaterial = childLocator.FindChild("ShieldModel").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("ShieldModel").GetComponent<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
@@ -803,6 +837,20 @@ namespace EnforcerPlugin
                     renderer = childLocator.FindChild("HammerModel2").GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("SexShieldModel").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("SexShieldModel").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("SexShieldGlass").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("SexShieldGlass").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                    ignoreOverlays = false
                 }
             };
 
@@ -888,7 +936,6 @@ namespace EnforcerPlugin
 
             HurtBoxGroup hurtBoxGroup = model.AddComponent<HurtBoxGroup>();
 
-            if (model.transform.Find("TempHurtbox") == null) Debug.Log("no hurtbox xd");
             HurtBox mainHurtbox = model.transform.Find("TempHurtbox").GetComponent<CapsuleCollider>().gameObject.AddComponent<HurtBox>();
             mainHurtbox.gameObject.layer = LayerIndex.entityPrecise.intVal;
             mainHurtbox.healthComponent = healthComponent;
@@ -985,7 +1032,7 @@ namespace EnforcerPlugin
             desc = desc + "< ! > Make sure to use Protect and Serve against walls to prevent enemies from flanking you." + Environment.NewLine + Environment.NewLine;
 
             string outro = characterOutro;
-            if (forceUnlock.Value) outro = "..and so he left, having cheated not the game, but himself. He didn't grow. He didn't improve. He took a shortcut and gained nothing. He experienced a hollow victory. Nothing was risked and nothing was rained.";
+            if (forceUnlock.Value) outro = "..and so he left, having cheated not only the game, but himself. He didn't grow. He didn't improve. He took a shortcut and gained nothing. He experienced a hollow victory. Nothing was risked and nothing was rained.";
 
             LanguageAPI.Add("ENFORCER_NAME", characterName);
             LanguageAPI.Add("ENFORCER_DESCRIPTION", desc);
@@ -1082,7 +1129,7 @@ namespace EnforcerPlugin
             stunGrenadeImpact.destroyOnEnemy = false;
             stunGrenadeImpact.destroyOnWorld = false;
             stunGrenadeImpact.timerAfterImpact = true;
-            stunGrenadeImpact.falloffModel = BlastAttack.FalloffModel.Linear;
+            stunGrenadeImpact.falloffModel = BlastAttack.FalloffModel.None;
             stunGrenadeImpact.lifetimeAfterImpact = 0f;
             stunGrenadeImpact.lifetimeRandomOffset = 0;
             stunGrenadeImpact.blastRadius = 8;
@@ -1319,9 +1366,8 @@ namespace EnforcerPlugin
             };
 
             LoadoutAPI.AddSkill(typeof(SuperShotgun));
-            LoadoutAPI.AddSkill(typeof(SuperShotgunReload));
 
-            desc = "Quickly fire two short range <style=cIsUtility>blasts</style> for <style=cIsDamage>" + RiotShotgun.projectileCount + "x" + 100f * 0.65f + "% and " + RiotShotgun.projectileCount + "x" + 100f * 0.85f + "% damage</style>. Has harsh damage falloff.";
+            desc = "Fire a powerful short range <style=cIsUtility>blast</style> for <style=cIsDamage>" + 16 + "x" + 100f * 0.65f + "% damage</style>. <style=cIsHealth>Has harsh damage falloff</style>.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_NAME", "Super Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION", desc);
@@ -1444,10 +1490,10 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkill(typeof(ShoulderBash));
             LoadoutAPI.AddSkill(typeof(ShoulderBashImpact));
 
-            LanguageAPI.Add("KEYWORD_BASH", "<style=cKeywordName>Bash</style><style=cSub>Applies <style=cIsDamage>stun</style> and <style=cIsUtility>heavy knockback</style>.\n<style=cIsUtility>Deflects projectiles.</style></style>");
+            LanguageAPI.Add("KEYWORD_BASH", "<style=cKeywordName>Bash</style><style=cSub>Applies <style=cIsDamage>stun</style> and <style=cIsUtility>heavy knockback</style>.");
             LanguageAPI.Add("KEYWORD_SPRINTBASH", $"<style=cKeywordName>Shoulder Bash</style><style=cSub>A short charge that <style=cIsDamage>stuns</style>.\nHitting heavier enemies deals up to <style=cIsDamage>{ShoulderBash.knockbackDamageCoefficient * 100f}% damage</style>.</style>");
 
-            string desc = $"<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> for <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage</style> instead.";
+            string desc = $"<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style>. <style=cIsUtility>Deflects projectiles.</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> for <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage</style> instead.";
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", desc);
@@ -1497,11 +1543,13 @@ namespace EnforcerPlugin
 
         private void UtilitySetup()
         {
+            LanguageAPI.Add("KEYWORD_BLINDED", "<style=cKeywordName>Blinded</style><style=cSub>Lowers <style=cIsDamage>movement speed</style> by <style=cIsDamage>75%</style>, <style=cIsDamage>attack speed</style> by <style=cIsDamage>25%</style> and <style=cIsHealth>armor</style> by <style=cIsDamage>20</style>.</style></style>");
+
             LoadoutAPI.AddSkill(typeof(AimTearGas));
             LoadoutAPI.AddSkill(typeof(TearGas));
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_NAME", "Tear Gas");
-            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Throw a grenade that explodes into <style=cIsUtility>tear gas</style> that <style=cIsDamage>heavily debilitates enemies</style> and lasts for 16 seconds.");
+            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Launch a grenade that explodes into a cloud of <style=cIsUtility>tear gas</style> that leaves enemies <style=cIsDamage>Blinded</style> and lasts for 16 seconds.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(AimTearGas));
@@ -1524,6 +1572,9 @@ namespace EnforcerPlugin
             mySkillDef.skillDescriptionToken = "ENFORCER_UTILITY_TEARGAS_DESCRIPTION";
             mySkillDef.skillName = "ENFORCER_UTILITY_TEARGAS_NAME";
             mySkillDef.skillNameToken = "ENFORCER_UTILITY_TEARGAS_NAME";
+            mySkillDef.keywordTokens = new string[] {
+                "KEYWORD_BLINDED"
+            };
 
             LoadoutAPI.AddSkillDef(mySkillDef);
 

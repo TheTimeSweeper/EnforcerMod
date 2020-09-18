@@ -1,5 +1,4 @@
 ﻿using RoR2;
-using RoR2.Skills;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,12 +10,10 @@ namespace EntityStates.Enforcer
         public static event Action<bool> onDance = delegate { };
 
         private ShieldComponent shieldComponent;
-        private EnforcerLightController lightComponent;
         private bool wasShielding = false;
         private float initialTime;
 
         private float bungusStopwatch;
-
         public static bool shotgunToggle = false;
         private ChildLocator childLocator;
         private bool sprintCancelEnabled;
@@ -28,7 +25,6 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
-            this.lightComponent = base.characterBody.GetComponent<EnforcerLightController>();
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
 
             EntityStateMachine drOctagonapus = characterBody.gameObject.AddComponent<EntityStateMachine>();
@@ -38,7 +34,9 @@ namespace EntityStates.Enforcer
             drOctagonapus.initialStateType = idleState;
             drOctagonapus.mainStateType = idleState;
 
-            shieldComponent.drOctagonapus = drOctagonapus;
+            this.shieldComponent.drOctagonapus = drOctagonapus;
+            drOctagonapus.mainStateType = new SerializableEntityStateType(typeof(Idle));
+            this.shieldComponent.drOctagonapus = drOctagonapus;
 
             onDance(false);
 
@@ -59,8 +57,6 @@ namespace EntityStates.Enforcer
             this.sprintCancelEnabled = EnforcerPlugin.EnforcerPlugin.sprintShieldCancel.Value;
         }
 
-        
-
         public override void Update()
         {
             base.Update();
@@ -79,13 +75,13 @@ namespace EntityStates.Enforcer
             //default dance
             if (base.isAuthority && base.characterMotor.isGrounded && !base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
             {
-                if (Input.GetKeyDown(KeyCode.Z))
+                if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.dance1Key.Value))
                 {
                     onDance(true);
                     this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(DefaultDance))), InterruptPriority.Any);
                     return;
                 }
-                else if (Input.GetKeyDown(KeyCode.X))
+                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.dance2Key.Value))
                 {
                     onDance(true);
                     this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Floss))), InterruptPriority.Any);
@@ -141,10 +137,12 @@ namespace EntityStates.Enforcer
 
                 if (base.characterMotor.velocity == Vector3.zero && base.characterMotor.isGrounded)
                 {
-                    if (base.characterBody.master.inventory.GetItemCount(ItemIndex.Mushroom) > 0)
+                    int count = base.characterBody.master.inventory.GetItemCount(ItemIndex.Mushroom);
+                    if (count > 0)
                     {
                         flag = true;
-                        this.bungusStopwatch += Time.fixedDeltaTime;
+                        count = Mathf.Clamp(count, 0, 30);
+                        this.bungusStopwatch += count * Time.fixedDeltaTime;
 
                         Bungus(this.bungusStopwatch);
                     }
@@ -195,11 +193,6 @@ namespace EntityStates.Enforcer
             {
                 Chat.AddMessage("Using modern shotgun sounds");
             }
-        }
-
-        private void FlashLights()
-        {
-            if (this.lightComponent) this.lightComponent.FlashLights(1);
         }
     }
 }

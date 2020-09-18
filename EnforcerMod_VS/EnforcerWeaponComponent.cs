@@ -79,30 +79,23 @@ public class EnforcerWeaponComponent : MonoBehaviour
     {
         if (childLocator)
         {
+            childLocator.FindChild("Shotgun").gameObject.SetActive(false);
+            childLocator.FindChild("Rifle").gameObject.SetActive(false);
+            childLocator.FindChild("SuperShotgun").gameObject.SetActive(false);
+            childLocator.FindChild("Hammer").gameObject.SetActive(false);
+
             switch (weapon)
             {
                 case 0:
                     childLocator.FindChild("Shotgun").gameObject.SetActive(true);
-                    childLocator.FindChild("Rifle").gameObject.SetActive(false);
-                    childLocator.FindChild("SuperShotgun").gameObject.SetActive(false);
-                    childLocator.FindChild("Hammer").gameObject.SetActive(false);
                     break;
                 case 1:
-                    childLocator.FindChild("Shotgun").gameObject.SetActive(false);
                     childLocator.FindChild("Rifle").gameObject.SetActive(true);
-                    childLocator.FindChild("SuperShotgun").gameObject.SetActive(false);
-                    childLocator.FindChild("Hammer").gameObject.SetActive(false);
                     break;
                 case 2:
-                    childLocator.FindChild("Shotgun").gameObject.SetActive(false);
-                    childLocator.FindChild("Rifle").gameObject.SetActive(false);
                     childLocator.FindChild("SuperShotgun").gameObject.SetActive(true);
-                    childLocator.FindChild("Hammer").gameObject.SetActive(false);
                     break;
                 case 3:
-                    childLocator.FindChild("Shotgun").gameObject.SetActive(false);
-                    childLocator.FindChild("Rifle").gameObject.SetActive(false);
-                    childLocator.FindChild("SuperShotgun").gameObject.SetActive(false);
                     childLocator.FindChild("Hammer").gameObject.SetActive(true);
                     break;
             }

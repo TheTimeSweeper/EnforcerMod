@@ -75,6 +75,23 @@ namespace EntityStates.Enforcer
                 if (base.inputBank.moveVector != Vector3.zero) flag = true;
             }
 
+            //dance cancels lol
+            if (base.isAuthority && base.characterMotor.isGrounded && !base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+            {
+                if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.dance1Key.Value))
+                {
+                    flag = false;
+                    this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(DefaultDance))), InterruptPriority.Any);
+                    return;
+                }
+                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.dance2Key.Value))
+                {
+                    flag = false;
+                    this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Floss))), InterruptPriority.Any);
+                    return;
+                }
+            }
+
             CameraTargetParams ctp = base.cameraTargetParams;
             float denom = (1 + Time.fixedTime - this.initialTime);
             float smoothFactor = 8 / Mathf.Pow(denom, 2);

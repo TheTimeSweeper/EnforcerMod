@@ -21,7 +21,7 @@ namespace EnforcerPlugin
             SkinnedMeshRenderer mainRenderer = Reflection.GetFieldValue<SkinnedMeshRenderer>(characterModel, "mainSkinnedMeshRenderer");
 
             LanguageAPI.Add("ENFORCERBODY_DEFAULT_SKIN_NAME", "Default");
-            LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Riot");
+            LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Peacekeeper");
             LanguageAPI.Add("ENFORCERBODY_SPACE_SKIN_NAME", "Rainstormtrooper");
             LanguageAPI.Add("ENFORCERBODY_ENGI_SKIN_NAME", "Engineer?");
             LanguageAPI.Add("ENFORCERBODY_DOOM_SKIN_NAME", "Doom Slayer");
@@ -68,6 +68,16 @@ namespace EnforcerPlugin
                 new SkinDef.GameObjectActivation
                 {
                     gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
                     shouldActivate = false
                 }
             };
@@ -320,6 +330,19 @@ namespace EnforcerPlugin
                 array[17].defaultMaterial = material;
             }
 
+            material = array[18].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matSexShield").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexShield").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[18].defaultMaterial = material;
+            }
+
             skinDefInfo.RendererInfos = array;
 
             SkinDef defaultSkin = LoadoutAPI.CreateNewSkinDef(skinDefInfo);
@@ -365,6 +388,16 @@ namespace EnforcerPlugin
                 {
                     gameObject = childLocator.FindChild("BlasterSuper").gameObject,
                     shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
+                    shouldActivate = false
                 }
             };
 
@@ -396,6 +429,7 @@ namespace EnforcerPlugin
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSpaceEnforcer").GetTexture("_MainTex"));
                 material.SetColor("_EmColor", Color.black);
+                material.SetFloat("_NormalStrength", 0);
 
                 array[0].defaultMaterial = material;
             }
@@ -427,7 +461,7 @@ namespace EnforcerPlugin
                 new SkinDef.GameObjectActivation
                 {
                     gameObject = childLocator.FindChild("EngiShield").gameObject,
-                    shouldActivate = true
+                    shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
@@ -457,6 +491,16 @@ namespace EnforcerPlugin
                 new SkinDef.GameObjectActivation
                 {
                     gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
                     shouldActivate = false
                 }
             };
@@ -548,6 +592,16 @@ namespace EnforcerPlugin
                 new SkinDef.GameObjectActivation
                 {
                     gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
                     shouldActivate = false
                 }
             };
@@ -641,6 +695,16 @@ namespace EnforcerPlugin
                 {
                     gameObject = childLocator.FindChild("BlasterSuper").gameObject,
                     shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
+                    shouldActivate = true
                 }
             };
 
@@ -670,22 +734,10 @@ namespace EnforcerPlugin
             {
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 1);
+                //material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 0);
 
                 array[0].defaultMaterial = material;
-            }
-
-            material = array[2].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldSex").GetTexture("_MainTex"));
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldSex").GetColor("_Color"));
-                material.SetFloat("_NormalStrength", 1);
-
-                array[2].defaultMaterial = material;
             }
 
             masterySkinDefInfo.RendererInfos = array;
@@ -733,6 +785,16 @@ namespace EnforcerPlugin
                 {
                     gameObject = childLocator.FindChild("BlasterSuper").gameObject,
                     shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
+                    shouldActivate = false
                 }
             };
 
@@ -763,7 +825,7 @@ namespace EnforcerPlugin
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_MainTex"));
                 material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 2.5f);
+                material.SetFloat("_EmPower", 5f);
 
                 array[0].defaultMaterial = material;
             }
@@ -824,6 +886,16 @@ namespace EnforcerPlugin
                 new SkinDef.GameObjectActivation
                 {
                     gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
                     shouldActivate = false
                 }
             };
@@ -904,6 +976,16 @@ namespace EnforcerPlugin
                 new SkinDef.GameObjectActivation
                 {
                     gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
                     shouldActivate = false
                 }
             };

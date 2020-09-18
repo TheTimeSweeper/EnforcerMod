@@ -14,6 +14,7 @@ namespace EnforcerPlugin
         public static List<ItemDisplayRuleSet.NamedRuleGroup> list2;
 
         public static GameObject capacitorPrefab;
+        public static GameObject gatDronePrefab;
 
         private static Dictionary<string, GameObject> itemDisplayPrefabs = new Dictionary<string, GameObject>();
 
@@ -64,11 +65,11 @@ namespace EnforcerPlugin
                         new ItemDisplayRule
                         {
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            followerPrefab = ItemDisplays.LoadDisplay("DisplayGoldGat"),
-                            childName = "Shield",
-                            localPos = new Vector3(-3.5f, -3.5f, 10),
-                            localAngles = new Vector3(0, -90, -120),
-                            localScale = new Vector3(2, 2, 2),
+                            followerPrefab = gatDronePrefab,
+                            childName = "Pelvis",
+                            localPos = new Vector3(-0.08f, 0.15f, 0.05f),
+                            localAngles = new Vector3(0, 90, 0),
+                            localScale = new Vector3(0.015f, 0.015f, 0.015f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -620,15 +621,20 @@ namespace EnforcerPlugin
                         {
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayWarhammer"),
-                            childName = "Shield",
-                            localPos = new Vector3(4, 0, 8),
-                            localAngles = new Vector3(0, -5, 0),
-                            localScale = new Vector3(3, 3, 3),
+                            childName = "Head",
+                            localPos = new Vector3(0, 0.1f, 0),
+                            localAngles = new Vector3(-90, 0, 0),
+                            localScale = new Vector3(0.025f, 0.025f, 0.025f),
                             limbMask = LimbFlags.None
                         }
                     }
                 }
             });
+            /*childName = "Shield",
+                            localPos = new Vector3(4, 0, 8),
+                            localAngles = new Vector3(0, -5, 0),
+                            localScale = new Vector3(3, 3, 3),
+                            limbMask = LimbFlags.None*/
 
             list.Add(new ItemDisplayRuleSet.NamedRuleGroup
             {
@@ -2867,6 +2873,39 @@ namespace EnforcerPlugin
             limbMatcher.limbPairs[0].targetChildLimb = "ShoulderL";
             limbMatcher.limbPairs[1].targetChildLimb = "ElbowL";
             limbMatcher.limbPairs[2].targetChildLimb = "HandL";
+
+            gatDronePrefab = PrefabAPI.InstantiateClone(itemDisplayRuleSet.FindEquipmentDisplayRuleGroup("GoldGat").rules[0].followerPrefab, "DisplayEnforcerGatDrone", false);
+
+            GameObject gatDrone = PrefabAPI.InstantiateClone(Assets.gatDrone, "GatDrone", false);
+
+            Material gatMaterial = gatDrone.GetComponentInChildren<MeshRenderer>().material;
+            Material newMaterial = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+
+            newMaterial.SetColor("_Color", gatMaterial.GetColor("_Color"));
+            newMaterial.SetTexture("_MainTex", gatMaterial.GetTexture("_MainTex"));
+            newMaterial.SetFloat("_EmPower", 0f);
+            newMaterial.SetColor("_EmColor", Color.black);
+            newMaterial.SetFloat("_NormalStrength", 0);
+
+            gatDrone.transform.parent = gatDronePrefab.transform;
+            gatDrone.transform.localPosition = new Vector3(-0.025f, -3.1f, 0);
+            gatDrone.transform.localRotation = Quaternion.Euler(new Vector3(-90, 90, 0));
+            gatDrone.transform.localScale = new Vector3(175, 175, 175);
+
+            CharacterModel.RendererInfo[] infos = gatDronePrefab.GetComponent<ItemDisplay>().rendererInfos;
+            CharacterModel.RendererInfo[] newInfos = new CharacterModel.RendererInfo[]
+            {
+                infos[0],
+                new CharacterModel.RendererInfo
+                {
+                    renderer = gatDrone.GetComponentInChildren<MeshRenderer>(),
+                    defaultMaterial = newMaterial,
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                }
+            };
+
+            gatDronePrefab.GetComponent<ItemDisplay>().rendererInfos = newInfos;
 
             BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
             ItemDisplayRuleSet.NamedRuleGroup[] array = typeof(ItemDisplayRuleSet).GetField("namedItemRuleGroups", bindingAttr).GetValue(itemDisplayRuleSet) as ItemDisplayRuleSet.NamedRuleGroup[];
