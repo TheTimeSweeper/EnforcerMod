@@ -469,22 +469,22 @@ namespace EntityStates.Enforcer
 
                         for (int i = 0; i < this.victimsStruck.Count; i++)
                         {
-                            float num = 0f;
+                            float mass = 0f;
                             HealthComponent healthComponent = this.victimsStruck[i];
-                            CharacterMotor component = healthComponent.GetComponent<CharacterMotor>();
-                            if (component)
+                            CharacterMotor characterMotor = healthComponent.GetComponent<CharacterMotor>();
+                            if (characterMotor)
                             {
-                                num = component.mass;
+                                mass = characterMotor.mass;
                             }
                             else
                             {
-                                Rigidbody component2 = healthComponent.GetComponent<Rigidbody>();
-                                if (component2)
+                                Rigidbody rigidbody = healthComponent.GetComponent<Rigidbody>();
+                                if (rigidbody)
                                 {
-                                    num = component2.mass;
+                                    mass = rigidbody.mass;
                                 }
                             }
-                            if (num >= ShoulderBash.massThresholdForKnockback)
+                            if (mass >= ShoulderBash.massThresholdForKnockback)
                             {
                                 this.outer.SetNextState(new ShoulderBashImpact
                                 {
