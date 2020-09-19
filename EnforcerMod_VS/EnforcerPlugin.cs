@@ -16,7 +16,8 @@ using BepInEx.Configuration;
 namespace EnforcerPlugin
 {
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
-    [BepInPlugin(MODUID, "Enforcer", "0.1.0")]
+    [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
+    [BepInPlugin(MODUID, "Enforcer", "1.0.2")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -74,6 +75,7 @@ namespace EnforcerPlugin
         public static bool harbCrateInstalled = false;
 
         public static uint doomGuyIndex = 2;
+        public static uint engiIndex = 3;
         public static uint stormtrooperIndex = 4;
         public static uint frogIndex = 6;
 
@@ -84,9 +86,33 @@ namespace EnforcerPlugin
         public static ConfigEntry<float> headSize;
         public static ConfigEntry<bool> sprintShieldCancel;
         public static ConfigEntry<bool> sirenOnDeflect;
+
         public static ConfigEntry<string> dance1Key;
         public static ConfigEntry<string> dance2Key;
         public static ConfigEntry<string> sirensKey;
+
+        //i don't wanna fucking buff him so i have no choice but to do this
+        public static ConfigEntry<float> baseHealth;
+        public static ConfigEntry<float> healthGrowth;
+        public static ConfigEntry<float> baseDamage;
+        public static ConfigEntry<float> damageGrowth;
+        public static ConfigEntry<float> baseArmor;
+        public static ConfigEntry<float> armorGrowth;
+        public static ConfigEntry<float> baseMovementSpeed;
+        public static ConfigEntry<float> baseCrit;
+        public static ConfigEntry<float> baseRegen;
+        public static ConfigEntry<float> regenGrowth;
+
+        public static ConfigEntry<float> shotgunDamage;
+        public static ConfigEntry<int> shotgunBulletCount;
+        public static ConfigEntry<float> shotgunProcCoefficient;
+        public static ConfigEntry<float> shotgunRange;
+        public static ConfigEntry<float> shotgunSpread;
+
+        public static ConfigEntry<float> rifleDamage;
+
+        public static ConfigEntry<float> superDamage;
+
         //public static ConfigEntry<bool> classicSkin;
 
         //更新许可证 DO WHAT THE FUCK YOU WANT TO
@@ -116,6 +142,10 @@ namespace EnforcerPlugin
             RegisterBuffs();
             RegisterProjectile();
             CreateDoppelganger();
+
+            //var p = new NemforcerPlugin();
+            //p.Init();
+
             Hook();
         }
 
@@ -128,10 +158,31 @@ namespace EnforcerPlugin
             headSize = base.Config.Bind<float>(new ConfigDefinition("01 - General Settings", "Head Size"), 1f, new ConfigDescription("Changes the size of Enforcer's head", null, Array.Empty<object>()));
             sprintShieldCancel = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Sprint Cancels Shield"), true, new ConfigDescription("Allows Protect and Serve to be cancelled by pressing sprint rather than special again", null, Array.Empty<object>()));
             sirenOnDeflect = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Siren on Deflect"), true, new ConfigDescription("Play siren sound upon deflecting a projectile", null, Array.Empty<object>()));
-            //classicSkin = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Old Helmet"), true, new ConfigDescription("Adds a skin with the old helmet for the weirdos who prefer that one", null, Array.Empty<object>()));
             dance1Key = base.Config.Bind<string>(new ConfigDefinition("02 - Keys", "Default Dance keybind"), "1", new ConfigDescription("Example: 1, z, left shift, caps lock, up, down", null, Array.Empty<object>()));
             dance2Key = base.Config.Bind<string>(new ConfigDefinition("02 - Keys", "Floss keybind"), "2", new ConfigDescription("Example: 1, z, left shift, caps lock, up, down", null, Array.Empty<object>()));
             sirensKey = base.Config.Bind<string>(new ConfigDefinition("02 - Keys", "Keybind to play sirens sound"), "caps lock", new ConfigDescription("Example: 1, z, left shift, caps lock, up, down", null, Array.Empty<object>()));
+            //classicSkin = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Old Helmet"), true, new ConfigDescription("Adds a skin with the old helmet for the weirdos who prefer that one", null, Array.Empty<object>()));
+
+            baseHealth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Health"), 160f, new ConfigDescription("", null, Array.Empty<object>()));
+            healthGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Health Growth"), 48f, new ConfigDescription("", null, Array.Empty<object>()));
+            baseRegen = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Regen"), 0.5f, new ConfigDescription("", null, Array.Empty<object>()));
+            regenGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Regen Growth"), 0.25f, new ConfigDescription("", null, Array.Empty<object>()));
+            baseArmor = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Armor"), 15f, new ConfigDescription("", null, Array.Empty<object>()));
+            armorGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Armor Growth"), 0f, new ConfigDescription("", null, Array.Empty<object>()));
+            baseDamage = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Damage"), 12f, new ConfigDescription("", null, Array.Empty<object>()));
+            damageGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Damage Growth"), 2.4f, new ConfigDescription("", null, Array.Empty<object>()));
+            baseMovementSpeed = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Movement Speed"), 7f, new ConfigDescription("", null, Array.Empty<object>()));
+            baseCrit = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Crit"), 1f, new ConfigDescription("", null, Array.Empty<object>()));
+
+            shotgunDamage = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Damage Coefficient"), 0.4f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
+            shotgunProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Proc Coefficient"), 0.5f, new ConfigDescription("Proc Coefficient of each pellet", null, Array.Empty<object>()));
+            shotgunBulletCount = base.Config.Bind<int>(new ConfigDefinition("04 - Riot Shotgun", "Bullet Count"), 8, new ConfigDescription("Amount of pellets fired", null, Array.Empty<object>()));
+            shotgunRange = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Range"), 64f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
+            shotgunSpread = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Spread"), 12f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
+
+            rifleDamage = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Damage Coefficient"), 0.4f, new ConfigDescription("Damage of each bullet", null, Array.Empty<object>()));
+
+            superDamage = base.Config.Bind<float>(new ConfigDefinition("06 - Super Shotgun", "Damage Coefficient"), 0.75f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
         }
 
         private void EnforcerPlugin_LoadStart()
@@ -196,6 +247,7 @@ namespace EnforcerPlugin
 
             orig(self, report);
         }
+
         private void BodyCatalog_SetBodyPrefabs(On.RoR2.BodyCatalog.orig_SetBodyPrefabs orig, GameObject[] newBodyPrefabs)
         {
             //nicely done brother
@@ -208,6 +260,7 @@ namespace EnforcerPlugin
             }
             orig(newBodyPrefabs);
         }
+
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
         {
             // the energy shield thing was causing some wierd bugs. Need to find a better solution that just canceling this method lol
@@ -242,6 +295,7 @@ namespace EnforcerPlugin
                 }
             }
         }
+
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
             bool blocked = false;
@@ -444,8 +498,8 @@ namespace EnforcerPlugin
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("Shield").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("Shield").GetComponentInChildren<MeshRenderer>(),
+                    defaultMaterial = childLocator.FindChild("ShieldModel").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("ShieldModel").GetComponent<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
@@ -553,8 +607,23 @@ namespace EnforcerPlugin
                     renderer = childLocator.FindChild("HammerModel2").GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("SexShieldModel").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("SexShieldModel").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("SexShieldGlass").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("SexShieldGlass").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                    ignoreOverlays = false
                 }
             };
+
             characterModel.autoPopulateLightInfos = true;
             characterModel.invisibilityCount = 0;
             characterModel.temporaryOverlays = new List<TemporaryOverlay>();
@@ -567,6 +636,9 @@ namespace EnforcerPlugin
 
             characterDisplay.AddComponent<MenuSound>();
             characterDisplay.AddComponent<EnforcerLightController>();
+
+            var ragdollShit = characterDisplay.GetComponentInChildren<RagdollController>();
+            if (ragdollShit) Destroy(ragdollShit);
         }
 
         private static void CreatePrefab()
@@ -621,25 +693,25 @@ namespace EnforcerPlugin
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             bodyComponent.rootMotionInMainState = false;
             bodyComponent.mainRootSpeed = 0;
-            bodyComponent.baseMaxHealth = 160;
-            bodyComponent.levelMaxHealth = 48;
-            bodyComponent.baseRegen = 0.5f;
-            bodyComponent.levelRegen = 0.25f;
+            bodyComponent.baseMaxHealth = baseHealth.Value;
+            bodyComponent.levelMaxHealth = healthGrowth.Value;
+            bodyComponent.baseRegen = baseRegen.Value;
+            bodyComponent.levelRegen = regenGrowth.Value;
             bodyComponent.baseMaxShield = 0;
             bodyComponent.levelMaxShield = 0;
-            bodyComponent.baseMoveSpeed = 7;
+            bodyComponent.baseMoveSpeed = baseMovementSpeed.Value;
             bodyComponent.levelMoveSpeed = 0;
             bodyComponent.baseAcceleration = 80;
             bodyComponent.baseJumpPower = 15;
             bodyComponent.levelJumpPower = 0;
-            bodyComponent.baseDamage = 12;
-            bodyComponent.levelDamage = 2.4f;
+            bodyComponent.baseDamage = baseDamage.Value;
+            bodyComponent.levelDamage = damageGrowth.Value;
             bodyComponent.baseAttackSpeed = 1;
             bodyComponent.levelAttackSpeed = 0;
-            bodyComponent.baseCrit = 1;
+            bodyComponent.baseCrit = baseCrit.Value;
             bodyComponent.levelCrit = 0;
-            bodyComponent.baseArmor = 20;
-            bodyComponent.levelArmor = 0;
+            bodyComponent.baseArmor = baseArmor.Value;
+            bodyComponent.levelArmor = armorGrowth.Value;
             bodyComponent.baseJumpCount = 1;
             bodyComponent.sprintingSpeedMultiplier = 1.45f;
             bodyComponent.wasLucky = false;
@@ -700,8 +772,8 @@ namespace EnforcerPlugin
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("Shield").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("Shield").GetComponentInChildren<MeshRenderer>(),
+                    defaultMaterial = childLocator.FindChild("ShieldModel").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("ShieldModel").GetComponent<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
@@ -808,6 +880,20 @@ namespace EnforcerPlugin
                     defaultMaterial = childLocator.FindChild("HammerModel2").GetComponentInChildren<SkinnedMeshRenderer>().material,
                     renderer = childLocator.FindChild("HammerModel2").GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("SexShieldModel").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("SexShieldModel").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("SexShieldGlass").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("SexShieldGlass").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
                     ignoreOverlays = false
                 }
             };
@@ -894,7 +980,6 @@ namespace EnforcerPlugin
 
             HurtBoxGroup hurtBoxGroup = model.AddComponent<HurtBoxGroup>();
 
-            if (model.transform.Find("TempHurtbox") == null) Debug.Log("no hurtbox xd");
             HurtBox mainHurtbox = model.transform.Find("TempHurtbox").GetComponent<CapsuleCollider>().gameObject.AddComponent<HurtBox>();
             mainHurtbox.gameObject.layer = LayerIndex.entityPrecise.intVal;
             mainHurtbox.healthComponent = healthComponent;
@@ -911,14 +996,6 @@ namespace EnforcerPlugin
             shieldHurtbox.damageModifier = HurtBox.DamageModifier.Barrier;
             shieldHurtbox.hurtBoxGroup = hurtBoxGroup;
             shieldHurtbox.indexInGroup = 1;
-
-            HurtBox shieldHurtbox2 = childLocator.FindChild("ShieldHurtbox2").gameObject.AddComponent<HurtBox>();
-            shieldHurtbox2.gameObject.layer = LayerIndex.entityPrecise.intVal;
-            shieldHurtbox2.healthComponent = healthComponent;
-            shieldHurtbox2.isBullseye = false;
-            shieldHurtbox2.damageModifier = HurtBox.DamageModifier.Barrier;
-            shieldHurtbox2.hurtBoxGroup = hurtBoxGroup;
-            shieldHurtbox2.indexInGroup = 2;
 
             hurtBoxGroup.hurtBoxes = new HurtBox[]
             {
@@ -999,7 +1076,7 @@ namespace EnforcerPlugin
             desc = desc + "< ! > Make sure to use Protect and Serve against walls to prevent enemies from flanking you." + Environment.NewLine + Environment.NewLine;
 
             string outro = characterOutro;
-            if (forceUnlock.Value) outro = "..and so he left, having cheated not the game, but himself. He didn't grow. He didn't improve. He took a shortcut and gained nothing. He experienced a hollow victory. Nothing was risked and nothing was rained.";
+            if (forceUnlock.Value) outro = "..and so he left, having cheated not only the game, but himself. He didn't grow. He didn't improve. He took a shortcut and gained nothing. He experienced a hollow victory. Nothing was risked and nothing was rained.";
 
             LanguageAPI.Add("ENFORCER_NAME", characterName);
             LanguageAPI.Add("ENFORCER_DESCRIPTION", desc);
@@ -1096,7 +1173,7 @@ namespace EnforcerPlugin
             stunGrenadeImpact.destroyOnEnemy = false;
             stunGrenadeImpact.destroyOnWorld = false;
             stunGrenadeImpact.timerAfterImpact = true;
-            stunGrenadeImpact.falloffModel = BlastAttack.FalloffModel.Linear;
+            stunGrenadeImpact.falloffModel = BlastAttack.FalloffModel.None;
             stunGrenadeImpact.lifetimeAfterImpact = 0f;
             stunGrenadeImpact.lifetimeRandomOffset = 0;
             stunGrenadeImpact.blastRadius = 8;
@@ -1289,7 +1366,7 @@ namespace EnforcerPlugin
         {
             LoadoutAPI.AddSkill(typeof(RiotShotgun));
 
-            string desc = "Fire a short range <style=cIsUtility>piercing blast</style> for <style=cIsDamage>" + RiotShotgun.projectileCount + "x" + 100f * RiotShotgun.damageCoefficient + "% damage.";
+            string desc = "Fire a short range <style=cIsUtility>piercing blast</style> for <style=cIsDamage>" + shotgunBulletCount.Value + "x" + 100f * shotgunDamage.Value + "% damage.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_NAME", "Riot Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION", desc);
@@ -1333,9 +1410,8 @@ namespace EnforcerPlugin
             };
 
             LoadoutAPI.AddSkill(typeof(SuperShotgun));
-            LoadoutAPI.AddSkill(typeof(SuperShotgunReload));
 
-            desc = "Quickly fire two short range <style=cIsUtility>blasts</style> for <style=cIsDamage>" + RiotShotgun.projectileCount + "x" + 100f * 0.65f + "% and " + RiotShotgun.projectileCount + "x" + 100f * 0.85f + "% damage</style>. Has harsh damage falloff.";
+            desc = "Fire a powerful short range <style=cIsUtility>blast</style> for <style=cIsDamage>" + 16 + "x" + 100f * 0.65f + "% damage</style>. <style=cIsHealth>Has harsh damage falloff</style>.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_NAME", "Super Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION", desc);
@@ -1461,7 +1537,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("KEYWORD_BASH", "<style=cKeywordName>Bash</style><style=cSub>Applies <style=cIsDamage>stun</style> and <style=cIsUtility>heavy knockback</style>.");
             LanguageAPI.Add("KEYWORD_SPRINTBASH", $"<style=cKeywordName>Shoulder Bash</style><style=cSub>A short charge that <style=cIsDamage>stuns</style>.\nHitting heavier enemies deals up to <style=cIsDamage>{ShoulderBash.knockbackDamageCoefficient * 100f}% damage</style>.</style>");
 
-            string desc = $"<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style>.<style=cIsUtility>Deflects projectiles.</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> for <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage</style> instead.";
+            string desc = $"<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style>. <style=cIsUtility>Deflects projectiles.</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> for <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage</style> instead.";
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", desc);
@@ -1511,11 +1587,13 @@ namespace EnforcerPlugin
 
         private void UtilitySetup()
         {
+            LanguageAPI.Add("KEYWORD_BLINDED", "<style=cKeywordName>Blinded</style><style=cSub>Lowers <style=cIsDamage>movement speed</style> by <style=cIsDamage>75%</style>, <style=cIsDamage>attack speed</style> by <style=cIsDamage>25%</style> and <style=cIsHealth>armor</style> by <style=cIsDamage>20</style>.</style></style>");
+
             LoadoutAPI.AddSkill(typeof(AimTearGas));
             LoadoutAPI.AddSkill(typeof(TearGas));
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_NAME", "Tear Gas");
-            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Throw a grenade that explodes into <style=cIsUtility>tear gas</style> that <style=cIsDamage>heavily debilitates enemies</style> and lasts for 16 seconds.");
+            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Launch a grenade that explodes into a cloud of <style=cIsUtility>tear gas</style> that leaves enemies <style=cIsDamage>Blinded</style> and lasts for 16 seconds.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(AimTearGas));
@@ -1538,6 +1616,9 @@ namespace EnforcerPlugin
             mySkillDef.skillDescriptionToken = "ENFORCER_UTILITY_TEARGAS_DESCRIPTION";
             mySkillDef.skillName = "ENFORCER_UTILITY_TEARGAS_NAME";
             mySkillDef.skillNameToken = "ENFORCER_UTILITY_TEARGAS_NAME";
+            mySkillDef.keywordTokens = new string[] {
+                "KEYWORD_BLINDED"
+            };
 
             LoadoutAPI.AddSkillDef(mySkillDef);
 

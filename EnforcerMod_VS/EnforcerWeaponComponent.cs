@@ -77,8 +77,8 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
     private void EquipWeapon(int weapon)
     {
-        if (childLocator) {
-
+        if (childLocator)
+        {
             childLocator.FindChild("Shotgun").gameObject.SetActive(false);
             childLocator.FindChild("Rifle").gameObject.SetActive(false);
             childLocator.FindChild("SuperShotgun").gameObject.SetActive(false);

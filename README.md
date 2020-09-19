@@ -8,6 +8,7 @@
 [![](https://i.imgur.com/wVL1Ilk.png)]()
 
 Join the discord server to share any feedback/bugs/suggestions- https://discord.gg/HpQB9fC
+Also consider getting the ScrollableLobbyUI mod, this guy has a lot of unlockable skins
 
 ## Credits
 Gnome - Coding
@@ -23,7 +24,7 @@ Destructor - Mod icon
 Moffein - Idea Guy™
 Ruxbieno - Idea Guy™
 
-And thanks to all you folks on discord for help and feedback
+And big thanks to everyone testing and giving their feedback, the mod wouldn't be the same without it
 
 ## Skills
 
@@ -44,26 +45,25 @@ And thanks to all you folks on discord for help and feedback
 | Assault Rifle | ![](https://i.imgur.com/VV3t6HU.png) | Rapidly fire bullets dealing `60%` damage. | Proc: `0.6` |
 | Stun Grenade | ![](https://i.imgur.com/yuL8mB2.png) | `Stunning`. Launch a stun grenade, dealing `400%` damage. Store up to 3 grenades. | Proc: `0.6`, CD: `8 sec` |
 
-Thanks to CWMlolzlz I totally stole your format for the skills table
-
 [![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)]()
 
 ## Known Issues
 - Teleporter particles kinda big (We could probably fix this but I doubt it. He's just that beefy)
 - Crowdfunder bullets hit the shield during Protect and Serve 
 - Cancelling shield with sprint does not work properly in multiplayer
-- Skins bunch up in the menu. get that ScrollableUI mod 
 - Pending an R2API update , some achievements can't be unlocked in multiplayer. (they only work for host or single player).
 
 ## Future Plans
 - Skills++ and Scepter support
-- More polish and skills maybe (absolutely no promises my dudes)
+- More polish and skills maybe (absolutely no promises)
 
 ## Changelog
-`1.X.X`
-- Readme
+`1.0.2`
 - Added keybinds to config
-- 
+- Added a custom Crowdfunder Drone display, to try and fix the Crowdfunder bug(it didn't)
+- Reworked Super Shotgun
+- Added config for base stats and Riot Shotgun, more might come eventually but this is really tedious to code
+- Enforcing Perfection achievement now scales better with the amount of Bustling Fungus you have
 
 `1.0.1`
 - Added dependencies oops

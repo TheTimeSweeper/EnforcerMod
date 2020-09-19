@@ -3,7 +3,6 @@ using UnityEngine;
 using R2API;
 using RoR2;
 using R2API.Utils;
-using System.Collections.Generic;
 
 namespace EnforcerPlugin
 {
@@ -22,20 +21,12 @@ namespace EnforcerPlugin
             SkinnedMeshRenderer mainRenderer = Reflection.GetFieldValue<SkinnedMeshRenderer>(characterModel, "mainSkinnedMeshRenderer");
 
             LanguageAPI.Add("ENFORCERBODY_DEFAULT_SKIN_NAME", "Default");
-            LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Riot");
+            LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Peacekeeper");
             LanguageAPI.Add("ENFORCERBODY_SPACE_SKIN_NAME", "Rainstormtrooper");
             LanguageAPI.Add("ENFORCERBODY_ENGI_SKIN_NAME", "Engineer?");
             LanguageAPI.Add("ENFORCERBODY_DOOM_SKIN_NAME", "Doom Slayer");
             LanguageAPI.Add("ENFORCERBODY_DESPERADO_SKIN_NAME", "Desperado");
             LanguageAPI.Add("ENFORCERBODY_FROG_SKIN_NAME", "Zero Suit");
-
-            GameObject engiShieldObject = childLocator.FindChild("EngiShield").gameObject;
-            GameObject ShotgunModelObject = childLocator.FindChild("ShotgunModel").gameObject;
-            GameObject rifleModelObject = childLocator.FindChild("RifleModel").gameObject;
-            GameObject blasterObject = childLocator.FindChild("Blaster").gameObject;
-            GameObject blasterRifleObject = childLocator.FindChild("BlasterRifle").gameObject;
-            GameObject superShotgunModelObject = childLocator.FindChild("SuperShotgunModel").gameObject;
-            GameObject blasterSuperObject = childLocator.FindChild("BlasterSuper").gameObject;
 
             LoadoutAPI.SkinDefInfo skinDefInfo = default(LoadoutAPI.SkinDefInfo);
             skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
@@ -46,37 +37,47 @@ namespace EnforcerPlugin
             {
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = engiShieldObject,
+                    gameObject = childLocator.FindChild("EngiShield").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = ShotgunModelObject,
+                    gameObject = childLocator.FindChild("ShotgunModel").gameObject,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = rifleModelObject,
+                    gameObject = childLocator.FindChild("RifleModel").gameObject,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterObject,
+                    gameObject = childLocator.FindChild("Blaster").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterRifleObject,
+                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = superShotgunModelObject,
+                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterSuperObject,
+                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
                     shouldActivate = false
                 }
             };
@@ -329,6 +330,19 @@ namespace EnforcerPlugin
                 array[17].defaultMaterial = material;
             }
 
+            material = array[18].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matSexShield").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexShield").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[18].defaultMaterial = material;
+            }
+
             skinDefInfo.RendererInfos = array;
 
             SkinDef defaultSkin = LoadoutAPI.CreateNewSkinDef(skinDefInfo);
@@ -342,7 +356,7 @@ namespace EnforcerPlugin
             {
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = engiShieldObject,
+                    gameObject = childLocator.FindChild("EngiShield").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
@@ -357,23 +371,33 @@ namespace EnforcerPlugin
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterObject,
+                    gameObject = childLocator.FindChild("Blaster").gameObject,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterRifleObject,
+                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = superShotgunModelObject,
+                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterSuperObject,
+                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
                     shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
+                    shouldActivate = false
                 }
             };
 
@@ -405,6 +429,7 @@ namespace EnforcerPlugin
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSpaceEnforcer").GetTexture("_MainTex"));
                 material.SetColor("_EmColor", Color.black);
+                material.SetFloat("_NormalStrength", 0);
 
                 array[0].defaultMaterial = material;
             }
@@ -435,8 +460,8 @@ namespace EnforcerPlugin
             {
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = engiShieldObject,
-                    shouldActivate = true
+                    gameObject = childLocator.FindChild("EngiShield").gameObject,
+                    shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
@@ -450,22 +475,32 @@ namespace EnforcerPlugin
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterObject,
+                    gameObject = childLocator.FindChild("Blaster").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterRifleObject,
+                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = superShotgunModelObject,
+                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterSuperObject,
+                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
                     shouldActivate = false
                 }
             };
@@ -526,7 +561,7 @@ namespace EnforcerPlugin
             {
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = engiShieldObject,
+                    gameObject = childLocator.FindChild("EngiShield").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
@@ -541,22 +576,32 @@ namespace EnforcerPlugin
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterObject,
+                    gameObject = childLocator.FindChild("Blaster").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterRifleObject,
+                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = superShotgunModelObject,
+                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterSuperObject,
+                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
                     shouldActivate = false
                 }
             };
@@ -618,7 +663,7 @@ namespace EnforcerPlugin
             {
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = engiShieldObject,
+                    gameObject = childLocator.FindChild("EngiShield").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
@@ -633,23 +678,33 @@ namespace EnforcerPlugin
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterObject,
+                    gameObject = childLocator.FindChild("Blaster").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterRifleObject,
+                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = superShotgunModelObject,
+                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterSuperObject,
+                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
                     shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
+                    shouldActivate = true
                 }
             };
 
@@ -679,22 +734,10 @@ namespace EnforcerPlugin
             {
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 1);
+                //material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 0);
 
                 array[0].defaultMaterial = material;
-            }
-
-            material = array[2].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldSex").GetTexture("_MainTex"));
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldSex").GetColor("_Color"));
-                material.SetFloat("_NormalStrength", 1);
-
-                array[2].defaultMaterial = material;
             }
 
             masterySkinDefInfo.RendererInfos = array;
@@ -710,7 +753,7 @@ namespace EnforcerPlugin
             {
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = engiShieldObject,
+                    gameObject = childLocator.FindChild("EngiShield").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
@@ -725,22 +768,32 @@ namespace EnforcerPlugin
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterObject,
+                    gameObject = childLocator.FindChild("Blaster").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterRifleObject,
+                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = superShotgunModelObject,
+                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterSuperObject,
+                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
                     shouldActivate = false
                 }
             };
@@ -772,7 +825,7 @@ namespace EnforcerPlugin
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_MainTex"));
                 material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 2.5f);
+                material.SetFloat("_EmPower", 5f);
 
                 array[0].defaultMaterial = material;
             }
@@ -802,7 +855,7 @@ namespace EnforcerPlugin
             {
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = engiShieldObject,
+                    gameObject = childLocator.FindChild("EngiShield").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
@@ -817,22 +870,32 @@ namespace EnforcerPlugin
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterObject,
+                    gameObject = childLocator.FindChild("Blaster").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterRifleObject,
+                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = superShotgunModelObject,
+                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterSuperObject,
+                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
                     shouldActivate = false
                 }
             };
@@ -882,7 +945,7 @@ namespace EnforcerPlugin
             {
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = engiShieldObject,
+                    gameObject = childLocator.FindChild("EngiShield").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
@@ -897,22 +960,32 @@ namespace EnforcerPlugin
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterObject,
+                    gameObject = childLocator.FindChild("Blaster").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterRifleObject,
+                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = superShotgunModelObject,
+                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = blasterSuperObject,
+                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
                     shouldActivate = false
                 }
             };
@@ -940,27 +1013,62 @@ namespace EnforcerPlugin
 
             SkinDef classicSkin = LoadoutAPI.CreateNewSkinDef(classicSkinDefInfo);
 
-            List<SkinDef> skinsList = new List<SkinDef>() {
-                defaultSkin,
-                masterySkin,
-                doomSkin
-            };
 
-            if (!EnforcerPlugin.antiFun.Value) {
-                skinsList.Add(doomSkin);
-                skinsList.Add(engiSkin);
-                skinsList.Add(spaceSkin);
-                skinsList.Add(desperadoSkin);
-                skinsList.Add(frogSkin);
+
+            bool flag = false;
+
+            if (EnforcerPlugin.antiFun.Value)
+            {
+                if (flag)
+                {
+                    skinController.skins = new SkinDef[]
+                    {
+                        defaultSkin,
+                        masterySkin,
+                        doomSkin,
+                        classicSkin
+                    };
+                }
+                else
+                {
+                    skinController.skins = new SkinDef[]
+                    {
+                        defaultSkin,
+                        masterySkin,
+                        doomSkin
+                    };
+                }
             }
-
-            bool hasClassicSkin = false;
-
-            if (hasClassicSkin) {
-                skinsList.Add(classicSkin);
+            else
+            {
+                if (flag)
+                {
+                    skinController.skins = new SkinDef[]
+                    {
+                        defaultSkin,
+                        masterySkin,
+                        doomSkin,
+                        engiSkin,
+                        spaceSkin,
+                        desperadoSkin,
+                        frogSkin,
+                        classicSkin
+                    };
+                }
+                else
+                {
+                    skinController.skins = new SkinDef[]
+                    {
+                        defaultSkin,
+                        masterySkin,
+                        doomSkin,
+                        engiSkin,
+                        spaceSkin,
+                        desperadoSkin,
+                        frogSkin
+                    };
+                }
             }
-
-            skinController.skins = skinsList.ToArray();
         }
     }
 }

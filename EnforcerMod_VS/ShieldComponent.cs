@@ -45,7 +45,7 @@ public class ShieldComponent : MonoBehaviour
         energyShield.SetActive(false);
     }
 
-    void Update() {
+    void FixedUpdate() {
 
         aimShield();
 

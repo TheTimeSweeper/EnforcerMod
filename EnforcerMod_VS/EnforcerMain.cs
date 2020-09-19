@@ -1,5 +1,4 @@
 ﻿using RoR2;
-using RoR2.Skills;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,12 +10,10 @@ namespace EntityStates.Enforcer
         public static event Action<bool> onDance = delegate { };
 
         private ShieldComponent shieldComponent;
-        private EnforcerLightController lightComponent;
         private bool wasShielding = false;
         private float initialTime;
 
         private float bungusStopwatch;
-
         public static bool shotgunToggle = false;
         private ChildLocator childLocator;
         private bool sprintCancelEnabled;
@@ -28,7 +25,6 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
-            this.lightComponent = base.characterBody.GetComponent<EnforcerLightController>();
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
 
             EntityStateMachine drOctagonapus = characterBody.gameObject.AddComponent<EntityStateMachine>();
@@ -38,7 +34,9 @@ namespace EntityStates.Enforcer
             drOctagonapus.initialStateType = idleState;
             drOctagonapus.mainStateType = idleState;
 
-            shieldComponent.drOctagonapus = drOctagonapus;
+            this.shieldComponent.drOctagonapus = drOctagonapus;
+            drOctagonapus.mainStateType = new SerializableEntityStateType(typeof(Idle));
+            this.shieldComponent.drOctagonapus = drOctagonapus;
 
             onDance(false);
 
@@ -58,8 +56,6 @@ namespace EntityStates.Enforcer
 
             this.sprintCancelEnabled = EnforcerPlugin.EnforcerPlugin.sprintShieldCancel.Value;
         }
-
-        
 
         public override void Update()
         {
@@ -141,10 +137,12 @@ namespace EntityStates.Enforcer
 
                 if (base.characterMotor.velocity == Vector3.zero && base.characterMotor.isGrounded)
                 {
-                    if (base.characterBody.master.inventory.GetItemCount(ItemIndex.Mushroom) > 0)
+                    int bungusCount = base.characterBody.master.inventory.GetItemCount(ItemIndex.Mushroom);
+                    if (bungusCount > 0)
                     {
                         flag = true;
-                        this.bungusStopwatch += Time.fixedDeltaTime;
+                        float bungusMult = bungusCount * 0.01f;
+                        this.bungusStopwatch += (1 + bungusMult) * Time.fixedDeltaTime;
 
                         Bungus(this.bungusStopwatch);
                     }
@@ -195,11 +193,6 @@ namespace EntityStates.Enforcer
             {
                 Chat.AddMessage("Using modern shotgun sounds");
             }
-        }
-
-        private void FlashLights()
-        {
-            if (this.lightComponent) this.lightComponent.FlashLights(1);
         }
     }
 }

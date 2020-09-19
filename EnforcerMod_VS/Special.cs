@@ -14,12 +14,16 @@ namespace EntityStates.Enforcer
         private float duration;
         private ShieldComponent shieldComponent;
         private Animator animator;
+        private ChildLocator childLocator;
 
         public override void OnEnter()
         {
             base.OnEnter();
             this.animator = GetModelAnimator();
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
+            this.childLocator = base.GetModelChildLocator();
+
+            bool isEngi = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex;
 
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
             {
@@ -31,7 +35,9 @@ namespace EntityStates.Enforcer
                 //base.PlayAnimation("LeftArm, Override", "ShieldDown", "ShieldUp.playbackRate", this.duration);
                 //base.GetModelAnimator().SetBool("shieldUp", false);
 
-                base.GetModelTransform().GetComponent<ChildLocator>().FindChild("ShieldHurtbox").gameObject.SetActive(false);
+                this.childLocator.FindChild("ShieldHurtbox").gameObject.SetActive(false);
+
+                if (isEngi) this.childLocator.FindChild("EngiShield").gameObject.SetActive(false);
 
                 if (base.skillLocator)
                 {
@@ -45,7 +51,10 @@ namespace EntityStates.Enforcer
                     base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
                 }
 
-                Util.PlaySound(EnforcerPlugin.Sounds.ShieldDown, base.gameObject);
+                string soundString = EnforcerPlugin.Sounds.ShieldDown;
+                if (isEngi) soundString = EnforcerPlugin.Sounds.EnergyShieldDown;
+
+                Util.PlaySound(soundString, base.gameObject);
             }
             else
             {
@@ -58,7 +67,9 @@ namespace EntityStates.Enforcer
                 //base.PlayAnimation("LeftArm, Override", "ShieldUp", "ShieldUp.playbackRate", this.duration);
                 //base.GetModelAnimator().SetBool("shieldUp", true);
 
-                base.GetModelTransform().GetComponent<ChildLocator>().FindChild("ShieldHurtbox").gameObject.SetActive(true);
+                this.childLocator.FindChild("ShieldHurtbox").gameObject.SetActive(true);
+
+                if (isEngi) this.childLocator.FindChild("EngiShield").gameObject.SetActive(true);
 
                 if (base.skillLocator)
                 {
@@ -72,7 +83,10 @@ namespace EntityStates.Enforcer
                     base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
                 }
 
-                Util.PlaySound(EnforcerPlugin.Sounds.ShieldUp, base.gameObject);
+                string soundString = EnforcerPlugin.Sounds.ShieldUp;
+                if (isEngi) soundString = EnforcerPlugin.Sounds.EnergyShieldUp;
+
+                Util.PlaySound(soundString, base.gameObject);
             }
         }
 

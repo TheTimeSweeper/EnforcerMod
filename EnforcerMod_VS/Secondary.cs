@@ -32,8 +32,7 @@ namespace EntityStates.Enforcer
         private bool hasFired;
         private bool usingBash;
         private bool hasDeflected;
-        private float parryDuration;
-        private ShieldComponent _shieldComponent;
+        private ShieldComponent shieldComponent;
 
         private Transform _origOrigin;
         private int _parries = 0;
@@ -52,7 +51,7 @@ namespace EntityStates.Enforcer
             this.hasDeflected = false;
             this.usingBash = false;
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
-            _shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
+            this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
 
             base.StartAimMode(aimRay, 2f, false);
 
@@ -69,7 +68,7 @@ namespace EntityStates.Enforcer
 
             _origOrigin = characterBody.aimOriginTransform;
 
-            _shieldComponent.onLaserHit += EnforcerMain_onLaserHit;
+            this.shieldComponent.onLaserHit += EnforcerMain_onLaserHit;
 
             bool grounded = base.characterMotor.isGrounded;
 
@@ -198,11 +197,11 @@ namespace EntityStates.Enforcer
             {
                 this.Deflect();
 
-                _shieldComponent.isDeflecting = true;
+                this.shieldComponent.isDeflecting = true;
             } 
             else 
             {
-                _shieldComponent.isDeflecting = false;
+                this.shieldComponent.isDeflecting = false;
 
                 ParryLasers();
             }
@@ -276,12 +275,12 @@ namespace EntityStates.Enforcer
 
             for (int i = 0; i < _parries; i++) {
 
-                _shieldComponent.drOctagonapus.StartCoroutine(ShootParriedLaser(i * parryInterval));
+                this.shieldComponent.drOctagonapus.StartCoroutine(ShootParriedLaser(i * parryInterval));
             }
 
             _parries = 0;
 
-            _shieldComponent.onLaserHit -= EnforcerMain_onLaserHit;
+            this.shieldComponent.onLaserHit -= EnforcerMain_onLaserHit;
         }
 
         private IEnumerator ShootParriedLaser(float delay) {
@@ -293,7 +292,7 @@ namespace EntityStates.Enforcer
 
             GolemMonster.FireLaser fireLaser = new GolemMonster.FireLaser();
             fireLaser.laserDirection = laserDirection;
-            _shieldComponent.drOctagonapus.SetInterruptState(fireLaser, InterruptPriority.Skill);
+            this.shieldComponent.drOctagonapus.SetInterruptState(fireLaser, InterruptPriority.Skill);
         }
 
         private void EnforcerMain_onLaserHit() {

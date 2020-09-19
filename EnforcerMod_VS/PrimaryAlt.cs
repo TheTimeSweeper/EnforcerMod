@@ -6,8 +6,9 @@ namespace EntityStates.Enforcer
 {
     public class FireAssaultRifle : AssaultRifleState
     {
-        public static float damageCoefficient = 0.6f;
-        public static float procCoefficient = 0.6f;
+        public static float damageCoefficient = EnforcerPlugin.EnforcerPlugin.rifleDamage.Value;
+        public static float procCoefficient = 0.5f;
+        public static float shieldProcCoefficient = 0.25f;
         public static float bulletForce = 5f;
         public static float recoilAmplitude = 1.25f;
         public static float shieldRecoilAmplitude = 0.2f;
@@ -15,10 +16,10 @@ namespace EntityStates.Enforcer
         public static float shieldSpreadBloom = 0.025f;
         public static float baseFireInterval = 0.18f;
         public static int baseBulletCount = 1;
-        public static float bulletRange = 128f;
+        public static float bulletRange = 256;
         public static float bulletRadius = 0.1f;
         public static float minSpread = 0;
-        public static float maxSpread = 8.5f;
+        public static float maxSpread = 6.5f;
 
         public static GameObject bulletTracer = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoDefault");
 
@@ -120,7 +121,13 @@ namespace EntityStates.Enforcer
             if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex) muzzleString = "BlasterRifleMuzzle";
 
             int bullets = FireAssaultRifle.baseBulletCount;
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots)) bullets++;
+            float procCoeff = FireAssaultRifle.procCoefficient;
+
+            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+            {
+                bullets++;
+                procCoeff = FireAssaultRifle.shieldProcCoefficient;
+            }
 
             new BulletAttack
             {
@@ -141,7 +148,7 @@ namespace EntityStates.Enforcer
                 muzzleName = muzzleString,
                 smartCollision = false,
                 procChainMask = default(ProcChainMask),
-                procCoefficient = FireAssaultRifle.procCoefficient,
+                procCoefficient = procCoeff,
                 radius = FireAssaultRifle.bulletRadius,
                 sniper = false,
                 stopperMask = LayerIndex.CommonMasks.bullet,

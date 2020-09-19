@@ -24,6 +24,8 @@ namespace EntityStates.Enforcer
             if (base.characterMotor) base.characterMotor.velocity = Vector3.zero;
             if (base.GetAimAnimator()) base.GetAimAnimator().enabled = false;
 
+            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) soundString = EnforcerPlugin.Sounds.DOOM;
+
             base.PlayAnimation("FullBody, Override", this.animString);
             this.activePlayID = Util.PlaySound(soundString, base.gameObject);
 
@@ -73,6 +75,23 @@ namespace EntityStates.Enforcer
                 if (base.inputBank.skill4.down) flag = true;
 
                 if (base.inputBank.moveVector != Vector3.zero) flag = true;
+            }
+
+            //dance cancels lol
+            if (base.isAuthority && base.characterMotor.isGrounded && !base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+            {
+                if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.dance1Key.Value))
+                {
+                    flag = false;
+                    this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(DefaultDance))), InterruptPriority.Any);
+                    return;
+                }
+                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.dance2Key.Value))
+                {
+                    flag = false;
+                    this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Floss))), InterruptPriority.Any);
+                    return;
+                }
             }
 
             CameraTargetParams ctp = base.cameraTargetParams;
