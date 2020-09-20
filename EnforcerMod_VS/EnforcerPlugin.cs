@@ -17,7 +17,7 @@ namespace EnforcerPlugin
 {
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "1.0.2")]
+    [BepInPlugin(MODUID, "Enforcer", "1.0.3")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -64,6 +64,7 @@ namespace EnforcerPlugin
 
         public static BuffIndex jackBoots;
         public static BuffIndex energyShieldBuff;
+        public static BuffIndex minigunBuff;
         public static BuffIndex tearGasDebuff;
 
         public static SkillDef shieldDownDef;//skilldef used while shield is down
@@ -143,6 +144,7 @@ namespace EnforcerPlugin
             RegisterProjectile();
             CreateDoppelganger();
 
+            //uncomment this to enable nemesis
             //var p = new NemforcerPlugin();
             //p.Init();
 
@@ -220,6 +222,7 @@ namespace EnforcerPlugin
             //On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnEnemyHit;
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
             On.RoR2.CharacterBody.Update += CharacterBody_Update;
+            On.RoR2.CharacterMaster.OnItemAddedClient += CharacterMaster_OnItemAddedClient;
             On.RoR2.BodyCatalog.SetBodyPrefabs += BodyCatalog_SetBodyPrefabs;
             On.RoR2.GlobalEventManager.OnCharacterDeath += GlobalEventManager_OnCharacterDeath;
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
@@ -263,12 +266,6 @@ namespace EnforcerPlugin
 
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
         {
-            // the energy shield thing was causing some wierd bugs. Need to find a better solution that just canceling this method lol
-
-            // it works for now
-
-            if (self.name == "EnergyShield") return;
-
             orig(self);
             if (self)
             {
@@ -276,6 +273,13 @@ namespace EnforcerPlugin
                 {
                     Reflection.SetPropertyValue<float>(self, "armor", self.armor + 10);
                     Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.5f);
+                    Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
+                }
+
+                if (self.HasBuff(minigunBuff))
+                {
+                    Reflection.SetPropertyValue<float>(self, "armor", self.armor + 50);
+                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.3f);
                     Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
                 }
 
@@ -292,6 +296,20 @@ namespace EnforcerPlugin
                     Reflection.SetPropertyValue<float>(self, "armor", self.armor - 20);
                     Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.25f);
                     Reflection.SetPropertyValue<float>(self, "attackSpeed", self.attackSpeed * 0.75f);
+                }
+            }
+        }
+
+        private void CharacterMaster_OnItemAddedClient(On.RoR2.CharacterMaster.orig_OnItemAddedClient orig, CharacterMaster self, ItemIndex item)
+        {
+            orig(self, item);
+
+            if (self.hasBody)
+            {
+                var weaponComponent = self.GetBody().GetComponent<EnforcerWeaponComponent>();
+                if (weaponComponent)
+                {
+                    weaponComponent.ResetWeapon();
                 }
             }
         }
@@ -895,6 +913,20 @@ namespace EnforcerPlugin
                     renderer = childLocator.FindChild("SexShieldGlass").GetComponent<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
                     ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("NeedlerModel").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("NeedlerModel").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("NeedlerAttachment").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("NeedlerAttachment").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                    ignoreOverlays = false
                 }
             };
 
@@ -1149,6 +1181,18 @@ namespace EnforcerPlugin
             };
             CustomBuff tearGas = new CustomBuff(tearGasDef);
             EnforcerPlugin.tearGasDebuff = BuffAPI.Add(tearGas);
+
+            BuffDef minigunBuffDef = new BuffDef
+            {
+                name = "HeavyweightV2",
+                iconPath = "@Enforcer:Assets/texBuffProtectAndServe.png",
+                buffColor = Color.yellow,
+                canStack = false,
+                isDebuff = false,
+                eliteIndex = EliteIndex.None
+            };
+            CustomBuff minigunBuff = new CustomBuff(minigunBuffDef);
+            EnforcerPlugin.minigunBuff = BuffAPI.Add(minigunBuff);
         }
 
         private void RegisterProjectile()
@@ -1361,6 +1405,7 @@ namespace EnforcerPlugin
             UtilitySetup();
             SpecialSetup();
         }
+
         #region skillSetups
         private void PrimarySetup()
         {
@@ -1411,7 +1456,7 @@ namespace EnforcerPlugin
 
             LoadoutAPI.AddSkill(typeof(SuperShotgun));
 
-            desc = "Fire a powerful short range <style=cIsUtility>blast</style> for <style=cIsDamage>" + 16 + "x" + 100f * 0.65f + "% damage</style>. <style=cIsHealth>Has harsh damage falloff</style>.";
+            desc = "Fire a powerful short range <style=cIsUtility>blast</style> for <style=cIsDamage>" + 16 + "x" + 100f * superDamage.Value + "% damage</style>. <style=cIsHealth>Has harsh damage falloff</style>.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_NAME", "Super Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION", desc);
@@ -1587,13 +1632,13 @@ namespace EnforcerPlugin
 
         private void UtilitySetup()
         {
-            LanguageAPI.Add("KEYWORD_BLINDED", "<style=cKeywordName>Blinded</style><style=cSub>Lowers <style=cIsDamage>movement speed</style> by <style=cIsDamage>75%</style>, <style=cIsDamage>attack speed</style> by <style=cIsDamage>25%</style> and <style=cIsHealth>armor</style> by <style=cIsDamage>20</style>.</style></style>");
+            LanguageAPI.Add("KEYWORD_BLINDED", "<style=cKeywordName>Impaired</style><style=cSub>Lowers <style=cIsDamage>movement speed</style> by <style=cIsDamage>75%</style>, <style=cIsDamage>attack speed</style> by <style=cIsDamage>25%</style> and <style=cIsHealth>armor</style> by <style=cIsDamage>20</style>.</style></style>");
 
             LoadoutAPI.AddSkill(typeof(AimTearGas));
             LoadoutAPI.AddSkill(typeof(TearGas));
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_NAME", "Tear Gas");
-            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Launch a grenade that explodes into a cloud of <style=cIsUtility>tear gas</style> that leaves enemies <style=cIsDamage>Blinded</style> and lasts for 16 seconds.");
+            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Launch a grenade that explodes into a cloud of <style=cIsUtility>tear gas</style> that leaves enemies <style=cIsDamage>Impaired</style> and lasts for <style=cIsDamage>16 seconds</style>.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(AimTearGas));
@@ -1682,7 +1727,7 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkill(typeof(ProtectAndServe));
 
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_NAME", "Protect and Serve");
-            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases your rate of fire</style>, but prevents sprinting and jumping.");
+            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsUtility>prevents sprinting and jumping</style>.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(ProtectAndServe));
@@ -1723,7 +1768,7 @@ namespace EnforcerPlugin
             };
 
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDDOWN_NAME", "Protect and Serve");
-            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDDOWN_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases your rate of fire</style>, but prevents sprinting and jumping.");
+            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDDOWN_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsUtility>prevents sprinting and jumping</style>.");
 
             SkillDef mySkillDef2 = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef2.activationState = new SerializableEntityStateType(typeof(ProtectAndServe));
@@ -1758,7 +1803,7 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkill(typeof(EnergyShield));
 
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDON_NAME", "Project and Swerve");
-            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDON_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>projecting an Energy Shield in front of you</style>. <style=cIsDamage>Increases your rate of fire</style>, but prevents sprinting and jumping.");
+            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDON_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>projecting an Energy Shield in front of you</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsUtility>prevents sprinting and jumping</style>.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(EnergyShield));
@@ -1796,7 +1841,7 @@ namespace EnforcerPlugin
             };
 
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDOFF_NAME", "Project and Swerve");
-            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDOFF_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>projecting an Energy Shield in front of you</style>. <style=cIsDamage>Increases your rate of fire</style>, but prevents sprinting and jumping.");
+            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDOFF_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>projecting an Energy Shield in front of you</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsUtility>prevents sprinting and jumping</style>.");
 
             SkillDef mySkillDef2 = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef2.activationState = new SerializableEntityStateType(typeof(EnergyShield));

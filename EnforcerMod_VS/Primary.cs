@@ -20,9 +20,9 @@ namespace EntityStates.Enforcer
         public static float beefDurationShield = 0.25f;
         public static float bulletRange = EnforcerPlugin.EnforcerPlugin.shotgunRange.Value;
 
-        private float attackStopDuration;   
+        public float attackStopDuration;   
         public float duration;
-        private float fireDuration;
+        public float fireDuration;
         public bool isStormtrooper;
         public bool hasFired;
         private Animator animator;
@@ -182,20 +182,37 @@ namespace EntityStates.Enforcer
         public new float bulletForce = 25f;
         public new float projectileCount = 16;
         public new float bulletSpread = 18f;
-        public new float baseDuration = 1.8f;
-        public new float baseShieldDuration = 1.5f;
+        public new static float baseDuration = 1.5f;
+        public new static float baseShieldDuration = 1.2f;
+        private bool droppedShell;
 
         public override void OnEnter()
         {
-            this.baseDuration = 1.55f;
-            this.baseShieldDuration = 1.3f;
             base.OnEnter();
+            this.droppedShell = false;
+
+            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
+            {
+                this.duration = SuperShotgun.baseShieldDuration / this.attackSpeedStat;
+                this.attackStopDuration = RiotShotgun.beefDurationShield / this.attackSpeedStat;
+            }
+            else
+            {
+                this.duration = SuperShotgun.baseDuration / this.attackSpeedStat;
+                this.attackStopDuration = RiotShotgun.beefDurationNoShield / this.attackSpeedStat;
+
+                base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
+            }
+
+            this.fireDuration = 0.1f * this.duration;
         }
 
         public override void FixedUpdate()
         {
-            if (base.fixedAge >= 0.75f * this.duration)
+            if (base.fixedAge >= 0.75f * this.duration && !this.droppedShell)
             {
+                this.droppedShell = true;
+
                 if (!this.isStormtrooper)
                 {
                     var poopy = base.GetComponent<EnforcerWeaponComponent>();

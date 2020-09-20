@@ -21,7 +21,9 @@ namespace EntityStates.Enforcer
 
             base.characterBody.hideCrosshair = true;
 
-            if (base.characterMotor) base.characterMotor.velocity = Vector3.zero;
+            var weaponComponent = base.GetComponent<EnforcerWeaponComponent>();
+            if (weaponComponent) weaponComponent.HideWeapon();
+
             if (base.GetAimAnimator()) base.GetAimAnimator().enabled = false;
 
             if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) soundString = EnforcerPlugin.Sounds.DOOM;
@@ -43,7 +45,9 @@ namespace EntityStates.Enforcer
             base.characterBody.hideCrosshair = false;
 
             if (base.GetAimAnimator()) base.GetAimAnimator().enabled = true;
-            if (base.GetComponent<EnforcerWeaponComponent>()) base.GetComponent<EnforcerWeaponComponent>().ResetWeapon();
+
+            var weaponComponent = base.GetComponent<EnforcerWeaponComponent>();
+            if (weaponComponent) weaponComponent.ResetWeapon();
 
             base.PlayAnimation("FullBody, Override", "BufferEmpty");
             if (this.activePlayID != 0) AkSoundEngine.StopPlayingID(this.activePlayID);
@@ -52,7 +56,13 @@ namespace EntityStates.Enforcer
 
         private void ToggleShield(bool sex)
         {
-            if (this.childLocator) this.childLocator.FindChild("Shield").gameObject.SetActive(sex);
+            if (this.childLocator)
+            {
+                if (this.childLocator.FindChild("Shield"))
+                {
+                    this.childLocator.FindChild("Shield").gameObject.SetActive(sex);
+                }
+            }
         }
 
         public override void FixedUpdate()

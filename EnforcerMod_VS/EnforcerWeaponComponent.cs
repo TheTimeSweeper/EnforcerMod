@@ -47,6 +47,10 @@ public class EnforcerWeaponComponent : MonoBehaviour
             {
                 return 3;
             }
+            else if (charBody.skillLocator.primary.skillDef.skillNameToken == "SKILL_LUNAR_PRIMARY_REPLACEMENT_NAME")
+            {
+                return 4;
+            }
         }
         return -1;
     }
@@ -67,6 +71,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
             childLocator.FindChild("Rifle").gameObject.SetActive(false);
             childLocator.FindChild("SuperShotgun").gameObject.SetActive(false);
             childLocator.FindChild("Hammer").gameObject.SetActive(false);
+            childLocator.FindChild("Needler").gameObject.SetActive(false);
         }
     }
 
@@ -83,6 +88,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
             childLocator.FindChild("Rifle").gameObject.SetActive(false);
             childLocator.FindChild("SuperShotgun").gameObject.SetActive(false);
             childLocator.FindChild("Hammer").gameObject.SetActive(false);
+            childLocator.FindChild("Needler").gameObject.SetActive(false);
 
             switch (weapon)
             {
@@ -97,6 +103,9 @@ public class EnforcerWeaponComponent : MonoBehaviour
                     break;
                 case 3:
                     childLocator.FindChild("Hammer").gameObject.SetActive(true);
+                    break;
+                case 4:
+                    childLocator.FindChild("Needler").gameObject.SetActive(true);
                     break;
             }
         }
@@ -151,7 +160,10 @@ public class EnforcerWeaponComponent : MonoBehaviour
     {
         if (childLocator is null) return;
 
-        GameObject shellObject = GameObject.Instantiate<GameObject>(EnforcerPlugin.Assets.shotgunShell, childLocator.FindChild("GrenadeMuzzle"));
+        GameObject desiredShell = EnforcerPlugin.Assets.shotgunShell;
+        if (GetWeapon() == 2) desiredShell = EnforcerPlugin.Assets.superShotgunShell;
+
+        GameObject shellObject = GameObject.Instantiate<GameObject>(desiredShell, childLocator.FindChild("GrenadeMuzzle"));
 
         shellObject.transform.localPosition = Vector3.zero;
         shellObject.transform.localRotation = Quaternion.identity;
