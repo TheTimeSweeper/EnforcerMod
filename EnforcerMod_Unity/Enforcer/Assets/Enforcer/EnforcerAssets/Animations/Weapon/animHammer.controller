@@ -9,13 +9,13 @@ AnimatorController:
   m_Name: animHammer
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: sped
+  - m_Name: HammerSwing.playbackRate
     m_Type: 1
     m_DefaultFloat: 1
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: swang
+  - m_Name: HammerSwing
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -65,7 +65,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: swang
+    m_ConditionEvent: HammerSwing
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102967561052113814}
@@ -88,7 +88,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: New State
+  m_Name: Idle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -115,7 +115,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: swing
+  m_Name: HammerSwing
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -131,7 +131,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400126, guid: 16b07c911f5065243bf9599a3f5a9716, type: 3}
   m_Tag: 
-  m_SpeedParameter: sped
+  m_SpeedParameter: HammerSwing.playbackRate
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 

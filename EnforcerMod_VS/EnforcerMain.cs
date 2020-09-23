@@ -16,8 +16,10 @@ namespace EntityStates.Enforcer
         private float bungusStopwatch;
         public static bool shotgunToggle = false;
         private ChildLocator childLocator;
+        private Animator animator;
         private bool sprintCancelEnabled;
         private bool hasSprintCancelled;
+        private bool isNemesis;
 
         public static event Action<float> Bungus = delegate { };
 
@@ -25,34 +27,39 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
-            this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
+            this.childLocator = base.GetModelChildLocator();
+            this.animator = base.GetModelAnimator();
 
-            EntityStateMachine drOctagonapus = characterBody.gameObject.AddComponent<EntityStateMachine>();
-            drOctagonapus.customName = "EnforcerParry";
+            if (base.characterBody.skillLocator.special.skillNameToken == "NEMFORCER_SPECIAL_MINIGUNUP_NAME") this.isNemesis = true;
+            else this.isNemesis = false;
 
-            SerializableEntityStateType idleState = new SerializableEntityStateType(typeof(Idle));
-            drOctagonapus.initialStateType = idleState;
-            drOctagonapus.mainStateType = idleState;
+            if (!this.isNemesis)
+            {
+                EntityStateMachine drOctagonapus = characterBody.gameObject.AddComponent<EntityStateMachine>();
+                drOctagonapus.customName = "EnforcerParry";
 
-            this.shieldComponent.drOctagonapus = drOctagonapus;
-            drOctagonapus.mainStateType = new SerializableEntityStateType(typeof(Idle));
-            this.shieldComponent.drOctagonapus = drOctagonapus;
+                SerializableEntityStateType idleState = new SerializableEntityStateType(typeof(Idle));
+                drOctagonapus.initialStateType = idleState;
+                drOctagonapus.mainStateType = idleState;
+
+                this.shieldComponent.drOctagonapus = drOctagonapus;
+                drOctagonapus.mainStateType = new SerializableEntityStateType(typeof(Idle));
+                this.shieldComponent.drOctagonapus = drOctagonapus;
+
+                if (!EnforcerPlugin.EnforcerPlugin.cum && base.characterBody.skinIndex == 2)
+                {
+                    EnforcerPlugin.EnforcerPlugin.cum = true;
+                    Util.PlaySound(EnforcerPlugin.Sounds.DOOM, base.gameObject);
+                }
+
+                //disable the shield when energy shield is selected
+                if (base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDON_NAME" || base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDOFF_NAME")
+                {
+                    if (this.childLocator.FindChild("Shield")) this.childLocator.FindChild("Shield").gameObject.SetActive(false);
+                }
+            }
 
             onDance(false);
-
-            this.childLocator.FindChild("ShieldHurtbox").gameObject.SetActive(false);
-
-            if (!EnforcerPlugin.EnforcerPlugin.cum && base.characterBody.skinIndex == 2)
-            {
-                EnforcerPlugin.EnforcerPlugin.cum = true;
-                Util.PlaySound(EnforcerPlugin.Sounds.DOOM, base.gameObject);
-            }
-
-            //disable the shield when energy shield is selected
-            if (base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDON_NAME" || base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDOFF_NAME")
-            {
-                if (this.childLocator) this.childLocator.FindChild("Shield").gameObject.SetActive(false);
-            }
 
             this.sprintCancelEnabled = EnforcerPlugin.EnforcerPlugin.sprintShieldCancel.Value;
         }
@@ -60,6 +67,8 @@ namespace EntityStates.Enforcer
         public override void Update()
         {
             base.Update();
+
+            bool shieldIsUp = (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff));
 
             /*if (Input.GetKeyDown(KeyCode.G)) {
                 RiotShotgun.spreadSpread = !RiotShotgun.spreadSpread;
@@ -73,7 +82,7 @@ namespace EntityStates.Enforcer
             }*/
 
             //default dance
-            if (base.isAuthority && base.characterMotor.isGrounded && !base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+            if (base.isAuthority && base.characterMotor.isGrounded && !shieldIsUp)
             {
                 if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.dance1Key.Value))
                 {
@@ -97,13 +106,13 @@ namespace EntityStates.Enforcer
             }
 
             //shield mode camera stuff
-            if (this.shieldComponent.isShielding != this.wasShielding)
+            if (shieldIsUp != this.wasShielding)
             {
-                this.wasShielding = this.shieldComponent.isShielding;
+                this.wasShielding = shieldIsUp;
                 this.initialTime = Time.fixedTime;
             }
 
-            if (this.shieldComponent.isShielding)
+            if (shieldIsUp)
             {
                 CameraTargetParams ctp = base.cameraTargetParams;
                 float denom = (1 + Time.fixedTime - this.initialTime);
@@ -116,9 +125,9 @@ namespace EntityStates.Enforcer
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-            this.shieldComponent.aimRay = base.GetAimRay();
+            if (this.shieldComponent) this.shieldComponent.aimRay = base.GetAimRay();
 
-            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
+            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff))
             {
                 base.characterBody.isSprinting = false;
                 base.characterBody.SetAimTimer(0.2f);
@@ -131,7 +140,7 @@ namespace EntityStates.Enforcer
             }
 
             //bungus achievement
-            if (base.isAuthority && base.hasCharacterMotor)
+            if (base.isAuthority && base.hasCharacterMotor && !this.isNemesis)
             {
                 bool flag = false;
 
@@ -164,6 +173,8 @@ namespace EntityStates.Enforcer
                     }
                 }
             }
+
+            if (this.animator) this.animator.SetBool("inCombat", !base.characterBody.outOfCombat);
 
             /*if (base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDOFF_NAME")
             {

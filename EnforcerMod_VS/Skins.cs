@@ -343,6 +343,33 @@ namespace EnforcerPlugin
                 array[18].defaultMaterial = material;
             }
 
+            material = array[20].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matNeedler").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matNeedler").GetTexture("_EmissionMap"));
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matNeedler").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 15);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[20].defaultMaterial = material;
+            }
+
+            material = array[21].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[21].defaultMaterial = material;
+            }
+
             skinDefInfo.RendererInfos = array;
 
             SkinDef defaultSkin = LoadoutAPI.CreateNewSkinDef(skinDefInfo);
@@ -736,6 +763,7 @@ namespace EnforcerPlugin
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_MainTex"));
                 //material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_EmissionMap"));
                 material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
 
                 array[0].defaultMaterial = material;
             }

@@ -41,14 +41,14 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 
 | Skill | | Description | Stats |
 |:-|-|------|---|
-| Super Shotgun | ![](https://i.imgur.com/fJk3Iwn.png) | Quickly fire two short range blasts for `8x65%` and `8x85%` damage. Has harsh damage falloff. | Proc: `0.75` |
+| Super Shotgun | ![](https://i.imgur.com/fJk3Iwn.png) | Fire a powerful short range blast for `16x75%` damage. Has harsh damage falloff. | Proc: `0.75` |
 | Assault Rifle | ![](https://i.imgur.com/VV3t6HU.png) | Rapidly fire bullets dealing `60%` damage. | Proc: `0.6` |
 | Stun Grenade | ![](https://i.imgur.com/yuL8mB2.png) | `Stunning`. Launch a stun grenade, dealing `400%` damage. Store up to 3 grenades. | Proc: `0.6`, CD: `8 sec` |
 
 [![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)]()
 
 ## Known Issues
-- Teleporter particles kinda big (We could probably fix this but I doubt it. He's just that beefy)
+- Teleporter particles kinda big (We could fix this but we won't)
 - Crowdfunder bullets hit the shield during Protect and Serve 
 - Cancelling shield with sprint does not work properly in multiplayer
 - Pending an R2API update , some achievements can't be unlocked in multiplayer. (they only work for host or single player).
@@ -58,6 +58,18 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - More polish and skills maybe (absolutely no promises)
 
 ## Changelog
+`1.0.3`
+- Nerfed Super Shotgun fire rate; it was actually bugged and was never supposed to have the same fire rate as Riot Shotgun
+- Fixed bug with Super Shotgun ejecting a stupid amount of shells, added unique shells
+- Added a Needler gun for Visions of Heresy
+- Calm idle stance now only triggers when out of combat
+- Fixed bug causing shield to stop blocking damage if sirens were toggled during Protect and Serve
+- Fixed the annoying (but harmless) warning messages on startup
+- Renamed 'Blinded' debuff to 'Impaired'
+- Added the host only warning to the Rules of Nature achievement since that one seems to be bugged too
+- Some minor texture tweaks
+- Fixed a rare bug involving a pink cube and Enforcer flying into space? Never actually found the cause but that cube is deleted so it should be gone
+
 `1.0.2`
 - Added keybinds to config
 - Added a custom Crowdfunder Drone display, to try and fix the Crowdfunder bug(it didn't)

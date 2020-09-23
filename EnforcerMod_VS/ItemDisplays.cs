@@ -175,6 +175,16 @@ namespace EnforcerPlugin
                             localAngles = new Vector3(0, 10, -100),
                             localScale = new Vector3(0.01f, 0.01f, 0.01f),
                             limbMask = LimbFlags.None
+                        },
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayBehemoth"),
+                            childName = "Needler",
+                            localPos = new Vector3(-0.03f, 0, 0.03f),
+                            localAngles = new Vector3(0, -15, 90),
+                            localScale = new Vector3(0.01f, 0.01f, 0.01f),
+                            limbMask = LimbFlags.None
                         }
                     }
                 }
@@ -1112,6 +1122,16 @@ namespace EnforcerPlugin
                             localAngles = new Vector3(0, -45, 90),
                             localScale = new Vector3(0.005f, 0.005f, 0.005f),
                             limbMask = LimbFlags.None
+                        },
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayDoubleMag"),
+                            childName = "Needler",
+                            localPos = new Vector3(0, 0, -0.03f),
+                            localAngles = new Vector3(0, 315, 90),
+                            localScale = new Vector3(0.075f, 0.075f, 0.075f),
+                            limbMask = LimbFlags.None
                         }
                     }
                 }
@@ -1453,30 +1473,10 @@ namespace EnforcerPlugin
                         {
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayBirdEye"),
-                            childName = "Shotgun",
-                            localPos = new Vector3(0.042f, 0, 0),
-                            localAngles = new Vector3(0, 0, 90),
-                            localScale = new Vector3(0.04f, 0.04f, 0.04f),
-                            limbMask = LimbFlags.None
-                        },
-                        new ItemDisplayRule
-                        {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            followerPrefab = ItemDisplays.LoadDisplay("DisplayBirdEye"),
-                            childName = "Rifle",
-                            localPos = new Vector3(0.042f, 0, 0),
-                            localAngles = new Vector3(0, 0, 90),
-                            localScale = new Vector3(0.04f, 0.04f, 0.04f),
-                            limbMask = LimbFlags.None
-                        },
-                        new ItemDisplayRule
-                        {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            followerPrefab = ItemDisplays.LoadDisplay("DisplayBirdEye"),
-                            childName = "SuperShotgun",
-                            localPos = new Vector3(0.042f, 0, 0),
-                            localAngles = new Vector3(0, 0, 90),
-                            localScale = new Vector3(0.04f, 0.04f, 0.04f),
+                            childName = "Head",
+                            localPos = new Vector3(0, 0.008f, 0.001f),
+                            localAngles = new Vector3(-90, 0, 0),
+                            localScale = new Vector3(0.025f, 0.025f, 0.025f),
                             limbMask = LimbFlags.None
                         }
                     }

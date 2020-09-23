@@ -23,6 +23,8 @@ namespace EnforcerPlugin {
         public static Sprite icon4;//protect and serve
         public static Sprite icon4B;//protect and serve cancel
 
+        public static Sprite testIcon;// for wip skills
+
         public static GameObject grenade;
 
         public static GameObject tearGasGrenadeModel;
@@ -31,6 +33,7 @@ namespace EnforcerPlugin {
         public static GameObject stunGrenadeModel;
 
         public static GameObject shotgunShell;
+        public static GameObject superShotgunShell;
 
         public static GameObject shieldBashFX;
         public static GameObject shoulderBashFX;
@@ -92,12 +95,15 @@ namespace EnforcerPlugin {
                 icon4B = MainAssetBundle.LoadAsset<Sprite>("ShieldDownIcon");
             }
 
+            testIcon = MainAssetBundle.LoadAsset<Sprite>("TestIcon");
+
             tearGasGrenadeModel = MainAssetBundle.LoadAsset<GameObject>("TearGasGrenade");
             tearGasEffectPrefab = MainAssetBundle.LoadAsset<GameObject>("TearGasEffect");
 
             stunGrenadeModel = MainAssetBundle.LoadAsset<GameObject>("StunGrenade");
 
             shotgunShell = MainAssetBundle.LoadAsset<GameObject>("ShellController");
+            superShotgunShell = MainAssetBundle.LoadAsset<GameObject>("SuperShellController");
 
             shieldBashFX = MainAssetBundle.LoadAsset<GameObject>("ShieldBashFX");
             shoulderBashFX = MainAssetBundle.LoadAsset<GameObject>("ShoulderBashFX");
