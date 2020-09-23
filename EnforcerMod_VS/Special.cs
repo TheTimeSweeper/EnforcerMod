@@ -55,6 +55,8 @@ namespace EntityStates.Enforcer
                 if (isEngi) soundString = EnforcerPlugin.Sounds.EnergyShieldDown;
 
                 Util.PlaySound(soundString, base.gameObject);
+
+                characterBody.aimOriginTransform = shieldComponent.origOrigin;
             }
             else
             {
@@ -87,6 +89,8 @@ namespace EntityStates.Enforcer
                 if (isEngi) soundString = EnforcerPlugin.Sounds.EnergyShieldUp;
 
                 Util.PlaySound(soundString, base.gameObject);
+
+                characterBody.aimOriginTransform = childLocator.FindChild("ShieldHitbox");
             }
         }
 

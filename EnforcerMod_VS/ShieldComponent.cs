@@ -14,6 +14,8 @@ public class ShieldComponent : MonoBehaviour
 
     public event Action onLaserHit = delegate { };
 
+    public Transform origOrigin { get; set; }
+
     public bool isShielding = false;
     public Ray aimRay;
     public Vector3 shieldDirection = new Vector3(1,0,0);

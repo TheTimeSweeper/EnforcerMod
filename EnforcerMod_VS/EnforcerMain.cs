@@ -9,12 +9,15 @@ namespace EntityStates.Enforcer
     {
         public static event Action<bool> onDance = delegate { };
 
+        public static bool shotgunToggle = false;
+
+        public Transform origOrigin;
+
         private ShieldComponent shieldComponent;
         private bool wasShielding = false;
         private float initialTime;
 
         private float bungusStopwatch;
-        public static bool shotgunToggle = false;
         private ChildLocator childLocator;
         private Animator animator;
         private bool sprintCancelEnabled;
@@ -29,6 +32,8 @@ namespace EntityStates.Enforcer
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
             this.childLocator = base.GetModelChildLocator();
             this.animator = base.GetModelAnimator();
+
+            shieldComponent.origOrigin = characterBody.aimOriginTransform;
 
             if (base.characterBody.skillLocator.special.skillNameToken == "NEMFORCER_SPECIAL_MINIGUNUP_NAME") this.isNemesis = true;
             else this.isNemesis = false;

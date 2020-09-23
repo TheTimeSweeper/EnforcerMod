@@ -171,8 +171,6 @@ namespace EntityStates.Enforcer
 
         public override void OnExit() {
 
-            characterBody.aimOriginTransform = _origOrigin;
-
             base.OnExit();
         }
 
@@ -271,8 +269,6 @@ namespace EntityStates.Enforcer
                 return;
 
             Util.PlayScaledSound(EnforcerPlugin.Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
-
-            characterBody.aimOriginTransform = childLocator.FindChild(hitboxString);
 
             for (int i = 0; i < _parries; i++) {
 
