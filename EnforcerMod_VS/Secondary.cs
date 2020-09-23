@@ -252,7 +252,8 @@ namespace EntityStates.Enforcer
                         {
                             this.hasDeflected = true;
 
-                            if (EnforcerPlugin.EnforcerPlugin.sirenOnDeflect.Value) Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
+                            if (EnforcerPlugin.EnforcerPlugin.sirenOnDeflect.Value) 
+                                Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
 
                             base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
                         }
@@ -279,6 +280,15 @@ namespace EntityStates.Enforcer
             }
 
             _parries = 0;
+
+            if (!this.hasDeflected) {
+                this.hasDeflected = true;
+
+                if (EnforcerPlugin.EnforcerPlugin.sirenOnDeflect.Value) 
+                    Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
+
+                base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
+            }
 
             this.shieldComponent.onLaserHit -= EnforcerMain_onLaserHit;
         }
