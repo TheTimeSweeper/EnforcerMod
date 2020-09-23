@@ -17,7 +17,7 @@ namespace EnforcerPlugin
 {
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "1.0.3")]
+    [BepInPlugin(MODUID, "Enforcer", "1.0.4")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -182,7 +182,7 @@ namespace EnforcerPlugin
             shotgunRange = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Range"), 64f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
             shotgunSpread = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Spread"), 12f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
 
-            rifleDamage = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Damage Coefficient"), 0.4f, new ConfigDescription("Damage of each bullet", null, Array.Empty<object>()));
+            rifleDamage = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Damage Coefficient"), 0.65f, new ConfigDescription("Damage of each bullet", null, Array.Empty<object>()));
 
             superDamage = base.Config.Bind<float>(new ConfigDefinition("06 - Super Shotgun", "Damage Coefficient"), 0.75f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
         }
@@ -222,7 +222,7 @@ namespace EnforcerPlugin
             //On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnEnemyHit;
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
             On.RoR2.CharacterBody.Update += CharacterBody_Update;
-            On.RoR2.CharacterMaster.OnItemAddedClient += CharacterMaster_OnItemAddedClient;
+            On.RoR2.CharacterMaster.OnInventoryChanged += CharacterMaster_OnInventoryChanged;
             On.RoR2.BodyCatalog.SetBodyPrefabs += BodyCatalog_SetBodyPrefabs;
             On.RoR2.GlobalEventManager.OnCharacterDeath += GlobalEventManager_OnCharacterDeath;
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
@@ -300,9 +300,9 @@ namespace EnforcerPlugin
             }
         }
 
-        private void CharacterMaster_OnItemAddedClient(On.RoR2.CharacterMaster.orig_OnItemAddedClient orig, CharacterMaster self, ItemIndex item)
+        private void CharacterMaster_OnInventoryChanged(On.RoR2.CharacterMaster.orig_OnInventoryChanged orig, CharacterMaster self)
         {
-            orig(self, item);
+            orig(self);
 
             if (self.hasBody)
             {
@@ -310,6 +310,7 @@ namespace EnforcerPlugin
                 if (weaponComponent)
                 {
                     weaponComponent.ResetWeapon();
+                    weaponComponent.ModelCheck();
                 }
             }
         }
@@ -769,6 +770,24 @@ namespace EnforcerPlugin
             modelLocator.modelBaseTransform = gameObject.transform;
 
             ChildLocator childLocator = model.GetComponent<ChildLocator>();
+
+            //bubble shield stuff, figure this out if you want but it's too much headache for me to bother with
+            /*
+            GameObject engiShieldObj = Resources.Load<GameObject>("Prefabs/Projectiles/EngiBubbleShield");
+
+            Material shieldMat = UnityEngine.Object.Instantiate<Material>(engiShieldObj.transform.Find("Collision").Find("ActiveVisual").GetComponent<MeshRenderer>().material);
+            childLocator.FindChild("EngiShield").GetComponentInChildren<MeshRenderer>().material = shieldMat;
+            var stuff1 = childLocator.FindChild("EngiShield").gameObject.AddComponent<AnimateShaderAlpha>();
+            var stuff2 = engiShieldObj.transform.Find("Collision").Find("ActiveVisual").GetComponent<AnimateShaderAlpha>();
+            stuff1.alphaCurve = stuff2.alphaCurve;
+            stuff1.decal = stuff2.decal;
+            stuff1.destroyOnEnd = false;
+            stuff1.disableOnEnd = false;
+            stuff1.time = 0;
+            stuff1.timeMax = 0.6f;
+
+            childLocator.FindChild("EngiShield").gameObject.AddComponent<ObjectScaleCurve>().timeMax = 0.3f;
+            */
 
             CharacterModel characterModel = model.AddComponent<CharacterModel>();
             characterModel.body = bodyComponent;

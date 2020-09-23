@@ -25,6 +25,24 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
         InitWeapon();
         InitShells();
+
+        Invoke("ModelCheck", 0.2f);
+    }
+
+    public void ModelCheck()
+    {
+        if (charBody && charBody.master)
+        {
+            if (charBody.master.inventory)
+            {
+                var characterModel = charBody.modelLocator.modelTransform.GetComponentInChildren<CharacterModel>();
+                if (characterModel)
+                {
+                    characterModel.baseRendererInfos[0].defaultMaterial = characterModel.gameObject.GetComponent<ModelSkinController>().skins[charBody.skinIndex].rendererInfos[0].defaultMaterial;
+                    if (charBody.master.inventory.GetItemCount(ItemIndex.ArmorReductionOnHit) > 0) characterModel.baseRendererInfos[0].defaultMaterial = null;
+                }
+            }
+        }
     }
 
     private int GetWeapon()
@@ -116,6 +134,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
         ItemDisplayRuleSet ruleset = GetComponentInChildren<CharacterModel>().itemDisplayRuleSet;
         //for use in the future with item displays attached to the gun
         // actually don't even need this rn. maybe for energy shield tho
+        // definitely for doom shield. coming soon:tm:
 
         if (newWeapon == 0)
         {

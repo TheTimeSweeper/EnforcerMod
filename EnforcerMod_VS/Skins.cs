@@ -853,7 +853,7 @@ namespace EnforcerPlugin
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_MainTex"));
                 material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 5f);
+                material.SetFloat("_EmPower", 8f);
 
                 array[0].defaultMaterial = material;
             }

@@ -620,7 +620,8 @@ namespace EnforcerPlugin
                 }
             });
 
-            list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            // i have severe brain damage
+            /*list.Add(new ItemDisplayRuleSet.NamedRuleGroup
             {
                 name = "ArmorReductionOnHit",
                 displayRuleGroup = new DisplayRuleGroup
@@ -639,12 +640,118 @@ namespace EnforcerPlugin
                         }
                     }
                 }
+            });*/
+
+            list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            {
+                name = "ArmorReductionOnHit",
+                displayRuleGroup = new DisplayRuleGroup
+                {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayWarhammer"),
+                            childName = "Spine1",
+                            localPos = new Vector3(0, 0.02f, 0),
+                            localAngles = new Vector3(70, 0, 0),
+                            localScale = new Vector3(0.02f, 0.02f, 0.02f),
+                            limbMask = LimbFlags.None
+                        },
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayWarhammer"),
+                            childName = "Spine3",
+                            localPos = new Vector3(0, 0.05f, 0),
+                            localAngles = new Vector3(270, 0, 0),
+                            localScale = new Vector3(0.025f, 0.025f, 0.025f),
+                            limbMask = LimbFlags.None
+                        },
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayWarhammer"),
+                            childName = "LegL",
+                            localPos = new Vector3(0, 0, 0),
+                            localAngles = new Vector3(90, 0, 0),
+                            localScale = new Vector3(0.02f, 0.02f, 0.02f),
+                            limbMask = LimbFlags.None
+                        },
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayWarhammer"),
+                            childName = "KneeL",
+                            localPos = new Vector3(0, 0.035f, -0.005f),
+                            localAngles = new Vector3(270, 0, 0),
+                            localScale = new Vector3(0.01f, 0.025f, 0.01f),
+                            limbMask = LimbFlags.None
+                        },
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayWarhammer"),
+                            childName = "LegR",
+                            localPos = new Vector3(0, 0, 0),
+                            localAngles = new Vector3(90, 0, 0),
+                            localScale = new Vector3(0.02f, 0.02f, 0.02f),
+                            limbMask = LimbFlags.None
+                        },
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayWarhammer"),
+                            childName = "KneeR",
+                            localPos = new Vector3(0, 0.035f, -0.005f),
+                            localAngles = new Vector3(270, 0, 0),
+                            localScale = new Vector3(0.01f, 0.025f, 0.01f),
+                            limbMask = LimbFlags.None
+                        },
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayWarhammer"),
+                            childName = "ShoulderL",
+                            localPos = new Vector3(0, 0, 0),
+                            localAngles = new Vector3(90, 0, 0),
+                            localScale = new Vector3(0.02f, 0.02f, 0.014f),
+                            limbMask = LimbFlags.None
+                        },
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayWarhammer"),
+                            childName = "ShoulderR",
+                            localPos = new Vector3(0, 0, 0),
+                            localAngles = new Vector3(90, 0, 0),
+                            localScale = new Vector3(0.02f, 0.02f, 0.014f),
+                            limbMask = LimbFlags.None
+                        },
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayWarhammer"),
+                            childName = "ElbowL",
+                            localPos = new Vector3(0, 0.06f, 0),
+                            localAngles = new Vector3(270, 0, 0),
+                            localScale = new Vector3(0.025f, 0.025f, 0.02f),
+                            limbMask = LimbFlags.None
+                        },
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            followerPrefab = ItemDisplays.LoadDisplay("DisplayWarhammer"),
+                            childName = "ElbowR",
+                            localPos = new Vector3(0, 0.06f, 0),
+                            localAngles = new Vector3(270, 0, 0),
+                            localScale = new Vector3(0.025f, 0.025f, 0.02f),
+                            limbMask = LimbFlags.None
+                        }
+                    }
+                }
             });
-            /*childName = "Shield",
-                            localPos = new Vector3(4, 0, 8),
-                            localAngles = new Vector3(0, -5, 0),
-                            localScale = new Vector3(3, 3, 3),
-                            limbMask = LimbFlags.None*/
 
             list.Add(new ItemDisplayRuleSet.NamedRuleGroup
             {
@@ -1130,7 +1237,7 @@ namespace EnforcerPlugin
                             childName = "Needler",
                             localPos = new Vector3(0, 0, -0.03f),
                             localAngles = new Vector3(0, 315, 90),
-                            localScale = new Vector3(0.075f, 0.075f, 0.075f),
+                            localScale = new Vector3(0.0075f, 0.0075f, 0.0075f),
                             limbMask = LimbFlags.None
                         }
                     }

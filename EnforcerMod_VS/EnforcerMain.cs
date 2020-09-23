@@ -33,7 +33,7 @@ namespace EntityStates.Enforcer
             this.childLocator = base.GetModelChildLocator();
             this.animator = base.GetModelAnimator();
 
-            shieldComponent.origOrigin = characterBody.aimOriginTransform;
+            this.shieldComponent.origOrigin = base.characterBody.aimOriginTransform;
 
             if (base.characterBody.skillLocator.special.skillNameToken == "NEMFORCER_SPECIAL_MINIGUNUP_NAME") this.isNemesis = true;
             else this.isNemesis = false;

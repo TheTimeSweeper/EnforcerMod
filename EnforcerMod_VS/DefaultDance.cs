@@ -17,12 +17,15 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
             this.animator = base.GetModelAnimator();
-            this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
+            this.childLocator = base.GetModelChildLocator();
 
             base.characterBody.hideCrosshair = true;
 
             var weaponComponent = base.GetComponent<EnforcerWeaponComponent>();
-            if (weaponComponent) weaponComponent.HideWeapon();
+            if (weaponComponent)
+            {
+                weaponComponent.HideWeapon();
+            }
 
             if (base.GetAimAnimator()) base.GetAimAnimator().enabled = false;
 
