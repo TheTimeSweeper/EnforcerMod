@@ -200,9 +200,6 @@ namespace EntityStates.Enforcer
                     {
                         Ray aimRay = base.GetAimRay();
                         Vector3 aimSpot = (aimRay.origin + 100 * aimRay.direction) - pc.gameObject.transform.position;
-
-                        pc.owner = base.gameObject;
-
                         FireProjectileInfo info = new FireProjectileInfo()
                         {
                             projectilePrefab = pc.gameObject,
