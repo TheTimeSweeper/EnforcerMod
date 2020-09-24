@@ -4,20 +4,23 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using UnityEngine.Networking;
+using System.Collections;
 
 namespace EntityStates.Enforcer
 {
     public class ShieldBash : BaseSkillState
     {
+        public static string hitboxString = "ShieldHitbox"; //transform where the hitbox is fired
         public static float baseDuration = 0.8f;
         public static float damageCoefficient = 2.5f;
         public static float procCoefficient = 1f;
-        public static float knockbackForce = 0.2f;
+        public static float knockbackForce = 0.14f;
         public static float blastRadius = 6f;
         public static float deflectRadius = 3f;
-        public static string hitboxString = "ShieldHitbox"; //transform where the hitbox is fired
         public static float beefDurationNoShield = 0.4f;
         public static float beefDurationShield = 0.8f;
+        public static float recoilAmplitude = 1f;
+        public static float parryInterval = 0.12f;
 
         private float attackStopDuration;
         private float duration;
@@ -29,6 +32,10 @@ namespace EntityStates.Enforcer
         private bool hasFired;
         private bool usingBash;
         private bool hasDeflected;
+        private ShieldComponent shieldComponent;
+
+        private Transform _origOrigin;
+        private int _parries = 0;
 
         private List<CharacterBody> victimList = new List<CharacterBody>();
 
@@ -36,7 +43,7 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
 
-            this.duration = ShieldBash.baseDuration / this.attackSpeedStat;
+            this.duration = baseDuration / this.attackSpeedStat;
             this.fireDuration = this.duration * 0.15f;
             this.deflectDuration = this.duration * 0.45f;
             this.aimRay = base.GetAimRay();
@@ -44,6 +51,8 @@ namespace EntityStates.Enforcer
             this.hasDeflected = false;
             this.usingBash = false;
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
+            this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
+
             base.StartAimMode(aimRay, 2f, false);
 
             //yep cock
@@ -57,14 +66,22 @@ namespace EntityStates.Enforcer
                 return;
             }
 
+            _origOrigin = characterBody.aimOriginTransform;
+
+            this.shieldComponent.onLaserHit += EnforcerMain_onLaserHit;
+
+            bool grounded = base.characterMotor.isGrounded;
+
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
             {
-                base.PlayAnimation("FullBody, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
+                if (grounded) base.PlayAnimation("FullBody, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
+                else base.PlayAnimation("Gesture, Override", "Bash", "ShieldBash.playbackRate", this.duration);
                 this.attackStopDuration = ShieldBash.beefDurationShield / this.attackSpeedStat;
             }
             else
             {
-                base.PlayAnimation("Gesture, Override", "Bash", "ShieldBash.playbackRate", this.duration);
+                if (grounded) base.PlayAnimation("FullBody, Override", "Bash", "ShieldBash.playbackRate", this.duration);
+                else base.PlayAnimation("Gesture, Override", "Bash", "ShieldBash.playbackRate", this.duration);
                 this.attackStopDuration = ShieldBash.beefDurationNoShield / this.attackSpeedStat;
             }
 
@@ -77,8 +94,12 @@ namespace EntityStates.Enforcer
             {
                 this.hasFired = true;
 
+                EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.shieldBashFX, base.gameObject, hitboxString, true);
+
                 if (base.isAuthority)
                 {
+                    base.AddRecoil(-0.5f * ShieldBash.recoilAmplitude * 3f, -0.5f * ShieldBash.recoilAmplitude * 3f, -0.5f * ShieldBash.recoilAmplitude * 8f, 0.5f * ShieldBash.recoilAmplitude * 3f);
+
                     Vector3 center = childLocator.FindChild(hitboxString).position;
 
                     blastAttack = new BlastAttack();
@@ -89,26 +110,72 @@ namespace EntityStates.Enforcer
                     blastAttack.crit = Util.CheckRoll(base.characterBody.crit, base.characterBody.master);
                     blastAttack.baseDamage = base.characterBody.damage * ShieldBash.damageCoefficient;
                     blastAttack.falloffModel = BlastAttack.FalloffModel.None;
-                    blastAttack.baseForce = 3f;
+                    blastAttack.baseForce = 0f;
                     blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
                     blastAttack.damageType = DamageType.Stun1s;
                     blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
-                    blastAttack.impactEffect = EntityStates.ImpBossMonster.GroundPound.hitEffectPrefab.GetComponent<EffectComponent>().effectIndex;
+                    blastAttack.impactEffect = BeetleGuardMonster.GroundSlam.hitEffectPrefab.GetComponent<EffectComponent>().effectIndex;
 
                     blastAttack.Fire();
+                }
 
-                    KnockBack();
+                if (NetworkServer.active)
+                {
+                    Vector3 pushForce = ((aimRay.origin + 200 * aimRay.direction) - childLocator.FindChild(hitboxString).position + (75 * Vector3.up)) * ShieldBash.knockbackForce;
+
+                    Collider[] array = Physics.OverlapSphere(childLocator.FindChild(hitboxString).position, ShieldBash.blastRadius, LayerIndex.defaultLayer.mask);
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        HealthComponent healthComponent = array[i].GetComponent<HealthComponent>();
+                        if (healthComponent)
+                        {
+                            TeamComponent component2 = healthComponent.GetComponent<TeamComponent>();
+                            if (component2.teamIndex != TeamIndex.Player)
+                            {
+                                Util.PlaySound(EnforcerPlugin.Sounds.BashHitEnemy, healthComponent.gameObject);
+
+                                var charb = healthComponent.body;
+                                if (charb)
+                                {
+                                    var motor = charb.GetComponent<CharacterMotor>();
+                                    var rb = charb.GetComponent<Rigidbody>();
+                                    Vector3 force = pushForce;
+
+                                    if (motor) force *= motor.mass;
+                                    else if (rb) force *= rb.mass;
+
+                                    DamageInfo info = new DamageInfo
+                                    {
+                                        attacker = base.gameObject,
+                                        inflictor = base.gameObject,
+                                        damage = 0,
+                                        damageColorIndex = DamageColorIndex.Default,
+                                        damageType = DamageType.Generic,
+                                        crit = false,
+                                        dotIndex = DotController.DotIndex.None,
+                                        force = force,
+                                        position = base.transform.position,
+                                        procChainMask = default(ProcChainMask),
+                                        procCoefficient = 0
+                                    };
+
+                                    charb.healthComponent.TakeDamageForce(info, true, true);
+                                }
+
+                            }
+                        }
+                    }
                 }
             }
         }
 
-        public override void OnExit()
-        {
+        public override void OnExit() {
+
             base.OnExit();
         }
 
         public override void FixedUpdate()
-        {
+        {   
             base.FixedUpdate();
 
             if (base.fixedAge < this.attackStopDuration)
@@ -127,61 +194,20 @@ namespace EntityStates.Enforcer
             if (base.fixedAge < this.deflectDuration)
             {
                 this.Deflect();
+
+                this.shieldComponent.isDeflecting = true;
+            } 
+            else 
+            {
+                this.shieldComponent.isDeflecting = false;
+
+                ParryLasers();
             }
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
                 this.outer.SetNextStateToMain();
                 return;
-            }
-        }
-
-        private void KnockBack()
-        {
-            Collider[] array = Physics.OverlapSphere(childLocator.FindChild(hitboxString).position, ShieldBash.blastRadius, LayerIndex.defaultLayer.mask);
-            for (int i = 0; i < array.Length; i++)
-            {
-                HealthComponent component = array[i].GetComponent<HealthComponent>();
-                if (component)
-                {
-                    TeamComponent component2 = component.GetComponent<TeamComponent>();
-                    if (component2.teamIndex != TeamIndex.Player)
-                    {
-                        AddToList(component.gameObject);
-
-                        Util.PlaySound(EnforcerPlugin.Sounds.BashHitEnemy, component.gameObject);
-                    }
-                }
-            }
-
-            victimList.ForEach(Push);
-        }
-
-        private void AddToList(GameObject affectedObject)
-        {
-            CharacterBody component = affectedObject.GetComponent<CharacterBody>();
-            if (!this.victimList.Contains(component))
-            {
-                this.victimList.Add(component);
-            }
-        }
-
-        void Push(CharacterBody charb)
-        {
-            Vector3 velocity = ((aimRay.origin + 200 * aimRay.direction) - childLocator.FindChild(hitboxString).position + (75 * Vector3.up)) * ShieldBash.knockbackForce;
-
-            
-            if (charb.characterMotor)
-            {
-                charb.characterMotor.velocity += velocity;
-            }
-            else
-            {
-                Rigidbody component2 = charb.GetComponent<Rigidbody>();
-                if (component2)
-                {
-                    component2.velocity += velocity;
-                }
             }
         }
 
@@ -196,7 +222,7 @@ namespace EntityStates.Enforcer
                 ProjectileController pc = array[i].GetComponentInParent<ProjectileController>();
                 if (pc)
                 {
-                    if (pc.teamFilter.teamIndex != TeamIndex.Player)
+                    if (pc.owner != gameObject)
                     {
                         Ray aimRay = base.GetAimRay();
                         Vector3 aimSpot = (aimRay.origin + 100 * aimRay.direction) - pc.gameObject.transform.position;
@@ -223,13 +249,60 @@ namespace EntityStates.Enforcer
                         if (!this.hasDeflected)
                         {
                             this.hasDeflected = true;
-                            Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
 
-                            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(4);
+                            if (EnforcerPlugin.EnforcerPlugin.sirenOnDeflect.Value) 
+                                Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
+
+                            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
                         }
                     }
                 }
             }
+        }        
+
+        private void ParryLasers() 
+        {
+            if (this.usingBash) 
+                return;
+
+            if (_parries <= 0)
+                return;
+
+            Util.PlayScaledSound(EnforcerPlugin.Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
+
+            for (int i = 0; i < _parries; i++) {
+
+                this.shieldComponent.drOctagonapus.StartCoroutine(ShootParriedLaser(i * parryInterval));
+            }
+
+            _parries = 0;
+
+            if (!this.hasDeflected) {
+                this.hasDeflected = true;
+
+                if (EnforcerPlugin.EnforcerPlugin.sirenOnDeflect.Value) 
+                    Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
+
+                base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
+            }
+
+            this.shieldComponent.onLaserHit -= EnforcerMain_onLaserHit;
+        }
+
+        private IEnumerator ShootParriedLaser(float delay) {
+
+            yield return new WaitForSeconds(delay);
+
+            Vector3 point = GetAimRay().GetPoint(1000);
+            Vector3 laserDirection = point - transform.position;
+
+            GolemMonster.FireLaser fireLaser = new GolemMonster.FireLaser();
+            fireLaser.laserDirection = laserDirection;
+            this.shieldComponent.drOctagonapus.SetInterruptState(fireLaser, InterruptPriority.Skill);
+        }
+
+        private void EnforcerMain_onLaserHit() {
+            _parries++;
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -244,8 +317,8 @@ namespace EntityStates.Enforcer
         public static float chargeDamageCoefficient = 4.5f;
         public static float knockbackDamageCoefficient = 7f;
         public static float massThresholdForKnockback = 150;
-        public static float knockbackForce = 3400;
-        public static float smallHopVelocity = 16f;
+        public static float knockbackForce = 24f;
+        public static float smallHopVelocity = 12f;
 
         public static float initialSpeedCoefficient = 6f;
         public static float finalSpeedCoefficient = 0.1f;
@@ -254,6 +327,7 @@ namespace EntityStates.Enforcer
         private Vector3 forwardDirection;
         private Vector3 previousPosition;
 
+        private bool shieldCancel;
         private float duration;
         private float hitPauseTimer;
         private OverlapAttack attack;
@@ -264,6 +338,7 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
             this.duration = ShoulderBash.baseDuration;
+            this.shieldCancel = false;
 
             base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
             base.characterBody.isSprinting = true;
@@ -305,6 +380,8 @@ namespace EntityStates.Enforcer
             this.attack.pushAwayForce = Toolbot.ToolbotDash.awayForceMagnitude;
             this.attack.hitBoxGroup = hitBoxGroup;
             this.attack.isCrit = base.RollCrit();
+
+            EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.shoulderBashFX, base.gameObject, "ShieldHitbox", true);
         }
 
         private void RecalculateSpeed()
@@ -316,10 +393,11 @@ namespace EntityStates.Enforcer
         {
             if (base.characterBody)
             {
-                //eat shit
-                //die
-                base.characterBody.isSprinting = true;
+                if (this.shieldCancel) base.characterBody.isSprinting = false;
+                else base.characterBody.isSprinting = true;
             }
+
+            if (base.characterMotor) base.characterMotor.disableAirControlUntilCollision = false;// this should be a thing on all movement skills tbh
 
             if (base.skillLocator) base.skillLocator.secondary.skillDef.activationStateMachineName = "Weapon";
 
@@ -339,7 +417,12 @@ namespace EntityStates.Enforcer
 
             if (base.fixedAge >= this.duration)
             {
-                this.outer.SetNextStateToMain();
+                if (this.shieldCancel)
+                {
+                    base.characterBody.isSprinting = false;
+                    this.outer.SetNextState(new ProtectAndServe());
+                }
+                else this.outer.SetNextStateToMain();
                 return;
             }
 
@@ -350,10 +433,16 @@ namespace EntityStates.Enforcer
                 base.cameraTargetParams.fovOverride = Mathf.Lerp(Commando.DodgeState.dodgeFOV, 60f, base.fixedAge / this.duration);
             }
 
-
-
             if (base.isAuthority)
             {
+                if (base.skillLocator && base.inputBank)
+                {
+                    if (base.inputBank.skill4.down && base.fixedAge >= 0.4f * this.duration)
+                    {
+                        this.shieldCancel = true;
+                    }
+                }
+
                 if (!this.inHitPause)
                 {
                     Vector3 normalized = (base.transform.position - this.previousPosition).normalized;
@@ -385,22 +474,22 @@ namespace EntityStates.Enforcer
 
                         for (int i = 0; i < this.victimsStruck.Count; i++)
                         {
-                            float num = 0f;
+                            float mass = 0f;
                             HealthComponent healthComponent = this.victimsStruck[i];
-                            CharacterMotor component = healthComponent.GetComponent<CharacterMotor>();
-                            if (component)
+                            CharacterMotor characterMotor = healthComponent.GetComponent<CharacterMotor>();
+                            if (characterMotor)
                             {
-                                num = component.mass;
+                                mass = characterMotor.mass;
                             }
                             else
                             {
-                                Rigidbody component2 = healthComponent.GetComponent<Rigidbody>();
-                                if (component2)
+                                Rigidbody rigidbody = healthComponent.GetComponent<Rigidbody>();
+                                if (rigidbody)
                                 {
-                                    num = component2.mass;
+                                    mass = rigidbody.mass;
                                 }
                             }
-                            if (num >= ShoulderBash.massThresholdForKnockback)
+                            if (mass >= ShoulderBash.massThresholdForKnockback)
                             {
                                 this.outer.SetNextState(new ShoulderBashImpact
                                 {
@@ -450,15 +539,19 @@ namespace EntityStates.Enforcer
         public Vector3 idealDirection;
         public bool isCrit;
 
-        public float duration = 0.25f;
+        public static float baseDuration = 0.35f;
+        public static float recoilAmplitude = 4.5f;
+
+        private float duration;
 
         public override void OnEnter()
         {
             base.OnEnter();
-
-            base.PlayAnimation("FullBody, Override", "BufferEmpty");
-
+            this.duration = ShoulderBashImpact.baseDuration / this.attackSpeedStat;
+            base.PlayAnimation("FullBody, Override", "BashRecoil");
             base.SmallHop(base.characterMotor, ShoulderBash.smallHopVelocity);
+
+            Util.PlayScaledSound(EnforcerPlugin.Sounds.ShoulderBashHit, base.gameObject, 0.5f);
 
             if (NetworkServer.active)
             {
@@ -479,15 +572,14 @@ namespace EntityStates.Enforcer
                     GlobalEventManager.instance.OnHitEnemy(damageInfo, this.victimHealthComponent.gameObject);
                     GlobalEventManager.instance.OnHitAll(damageInfo, this.victimHealthComponent.gameObject);
                 }
-
-                base.healthComponent.TakeDamageForce(this.idealDirection * -ShoulderBash.knockbackForce, true, false);
             }
+
+            if (base.characterMotor) base.characterMotor.velocity = this.idealDirection * -ShoulderBash.knockbackForce;
 
             if (base.isAuthority)
             {
-                base.AddRecoil(-0.5f * Toolbot.ToolbotDash.recoilAmplitude * 3f, -0.5f * Toolbot.ToolbotDash.recoilAmplitude * 3f, -0.5f * Toolbot.ToolbotDash.recoilAmplitude * 8f, 0.5f * Toolbot.ToolbotDash.recoilAmplitude * 3f);
-                EffectManager.SimpleImpactEffect(Loader.SwingZapFist.overchargeImpactEffectPrefab, base.characterBody.corePosition, base.characterDirection.forward, true);
-                this.outer.SetNextStateToMain();
+                base.AddRecoil(-0.5f * ShoulderBashImpact.recoilAmplitude * 3f, -0.5f * ShoulderBashImpact.recoilAmplitude * 3f, -0.5f * ShoulderBashImpact.recoilAmplitude * 8f, 0.5f * ShoulderBashImpact.recoilAmplitude * 3f);
+                EffectManager.SimpleImpactEffect(Loader.SwingZapFist.overchargeImpactEffectPrefab, this.victimHealthComponent.transform.position, base.characterDirection.forward, true);
             }
         }
 
@@ -495,10 +587,18 @@ namespace EntityStates.Enforcer
         {
             base.FixedUpdate();
 
+            if (base.inputBank && base.isAuthority)
+            {
+                if (base.inputBank.skill4.down)
+                {
+                    base.skillLocator.special.ExecuteIfReady();
+                    return;
+                }
+            }
+
             if (base.fixedAge >= this.duration)
             {
                 this.outer.SetNextStateToMain();
-                return;
             }
         }
 

@@ -8,6 +8,14 @@ public class ShieldComponent : MonoBehaviour
     static float maxSpeed = 0.1f;
     static float coef = 1; // affects how quickly it reaches max speed
 
+    public EntityStateMachine drOctagonapus { get; set; }
+
+    public bool isDeflecting { get; set; }
+
+    public event Action onLaserHit = delegate { };
+
+    public Transform origOrigin { get; set; }
+
     public bool isShielding = false;
     public Ray aimRay;
     public Vector3 shieldDirection = new Vector3(1,0,0);
@@ -31,13 +39,15 @@ public class ShieldComponent : MonoBehaviour
     void Start()
     {
         var childLocator = GetComponentInChildren<ChildLocator>();
-        childLocator.FindChild("EnergyShield").gameObject.SetActive(true);// i don't know if the object has to be active to get the component but i'm playing it safe
-        energyShieldControler = childLocator.FindChild("EnergyShield").GetComponentInChildren<EnergyShieldControler>();
         energyShield = childLocator.FindChild("EnergyShield").gameObject;
-        childLocator.FindChild("EnergyShield").gameObject.SetActive(false);
+
+        energyShield.SetActive(true);// i don't know if the object has to be active to get the component but i'm playing it safe
+        energyShieldControler = energyShield.GetComponentInChildren<EnergyShieldControler>();
+        energyShield = energyShieldControler?.gameObject;
+        energyShield.SetActive(false);
     }
 
-    void Update() {
+    void FixedUpdate() {
 
         aimShield();
 
@@ -68,5 +78,10 @@ public class ShieldComponent : MonoBehaviour
     public void ToggleEnergyShield(bool shieldToggle)
     {
         if (energyShield) energyShield.SetActive(shieldToggle);
+    }
+
+    public void invokeOnLaserHitEvent() {
+
+        onLaserHit?.Invoke();
     }
 }

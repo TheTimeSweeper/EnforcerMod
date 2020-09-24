@@ -1,0 +1,10 @@
+{
+    "name": "Enforcer",
+    "version_number": "1.0.3",
+    "website_url": "https://github.com/GnomeModder/EnforcerMod",
+    "description": "Adds the Enforcer from Risk of Rain 1 as a fully fleshed out playable survivor.",
+    "dependencies": [
+        "bbepis-BepInExPack-5.3.1",
+		"tristanmcpherson-R2API-2.5.14"
+    ]
+}

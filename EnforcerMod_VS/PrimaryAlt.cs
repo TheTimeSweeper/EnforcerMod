@@ -6,16 +6,22 @@ namespace EntityStates.Enforcer
 {
     public class FireAssaultRifle : AssaultRifleState
     {
-        public static float damageCoefficient = 0.5f;
-        public static float procCoefficient = 0.7f;
+        public static float damageCoefficient = EnforcerPlugin.EnforcerPlugin.rifleDamage.Value;
+        public static float procCoefficient = 0.5f;
+        public static float shieldProcCoefficient = 0.25f;
         public static float bulletForce = 5f;
-        public static float recoilAmplitude = 0.9f;
+        public static float recoilAmplitude = 1.25f;
+        public static float shieldRecoilAmplitude = 0.2f;
+        public static float spreadBloom = 0.075f;
+        public static float shieldSpreadBloom = 0.025f;
         public static float baseFireInterval = 0.18f;
-        public static int baseBulletCount = 2;
-        public static float bulletRange = 128f;
+        public static int baseBulletCount = 1;
+        public static float bulletRange = 256;
         public static float bulletRadius = 0.1f;
         public static float minSpread = 0;
-        public static float maxSpread = 10;
+        public static float maxSpread = 6.5f;
+
+        public static GameObject bulletTracer = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoDefault");
 
         private float fireTimer;
         private Transform muzzleVfxTransform;
@@ -30,7 +36,10 @@ namespace EntityStates.Enforcer
             if (this.muzzleTransform && MinigunFire.muzzleVfxPrefab)
             {
                 this.muzzleVfxTransform = Object.Instantiate<GameObject>(MinigunFire.muzzleVfxPrefab, this.muzzleTransform).transform;
+
                 if (this.muzzleVfxTransform.Find("Ring, Dark")) Destroy(this.muzzleVfxTransform.Find("Ring, Dark").gameObject);
+                if (this.muzzleVfxTransform.Find("Ray")) Destroy(this.muzzleVfxTransform.Find("Ray").gameObject);
+
                 this.muzzleTransform.transform.localScale *= 0.35f;
                 this.muzzleTransform.GetComponentInChildren<Light>().range *= 0.25f;
             }
@@ -84,15 +93,25 @@ namespace EntityStates.Enforcer
         {
             base.PlayAnimation("RightArm, Override", "FireShotgun");
 
+            this.critStat = base.characterBody.crit;
             this.isCrit = this.RollCrit();
 
+            float bloom = FireAssaultRifle.spreadBloom;
+            float recoil = FireAssaultRifle.recoilAmplitude;
+            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+            {
+                bloom = FireAssaultRifle.shieldSpreadBloom;
+                recoil = FireAssaultRifle.shieldRecoilAmplitude;
+            }
+
             base.AddRecoil(-0.5f * FireAssaultRifle.recoilAmplitude, -0.5f * FireAssaultRifle.recoilAmplitude, -0.5f * FireAssaultRifle.recoilAmplitude, 0.5f * FireAssaultRifle.recoilAmplitude);
+            base.characterBody.AddSpreadBloom(FireAssaultRifle.spreadBloom);
 
             float damage = FireAssaultRifle.damageCoefficient * this.damageStat;
             float force = FireAssaultRifle.bulletForce / this.baseBulletsPerSecond;
 
             //unique tracer for stormtrooper skin
-            GameObject tracerEffect = EnforcerPlugin.EnforcerPlugin.bulletTracer;
+            GameObject tracerEffect = FireAssaultRifle.bulletTracer;
 
             if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
 
@@ -102,7 +121,13 @@ namespace EntityStates.Enforcer
             if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex) muzzleString = "BlasterRifleMuzzle";
 
             int bullets = FireAssaultRifle.baseBulletCount;
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots)) bullets++;
+            float procCoeff = FireAssaultRifle.procCoefficient;
+
+            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+            {
+                bullets++;
+                procCoeff = FireAssaultRifle.shieldProcCoefficient;
+            }
 
             new BulletAttack
             {
@@ -123,7 +148,7 @@ namespace EntityStates.Enforcer
                 muzzleName = muzzleString,
                 smartCollision = false,
                 procChainMask = default(ProcChainMask),
-                procCoefficient = FireAssaultRifle.procCoefficient,
+                procCoefficient = procCoeff,
                 radius = FireAssaultRifle.bulletRadius,
                 sniper = false,
                 stopperMask = LayerIndex.CommonMasks.bullet,
@@ -157,38 +182,13 @@ namespace EntityStates.Enforcer
 
             if (base.isAuthority && !base.skillButtonState.down)
             {
-                this.outer.SetNextState(new AssaultRifleExit());
+                this.outer.SetNextStateToMain();
                 return;
             }
         }
-
-
     }
 
-    public class AssaultRifleExit : AssaultRifleState
-    {
-        public static float baseDuration = 0.1f;
-
-        private float duration;
-        public override void OnEnter()
-        {
-            base.OnEnter();
-
-            this.duration = AssaultRifleExit.baseDuration / this.attackSpeedStat;
-        }
-
-        public override void FixedUpdate()
-        {
-            base.FixedUpdate();
-
-            if (base.fixedAge >= this.duration && base.isAuthority)
-            {
-                this.outer.SetNextStateToMain();
-            }
-        }
-    }
-
-    public class AssaultRifleState : BaseState
+    public class AssaultRifleState : BaseSkillState
     {
         public static string muzzleName = "RifleMuzzle";
 
@@ -199,7 +199,7 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
             string muzzleString = FireAssaultRifle.muzzleName;
-            if (base.characterBody.skinIndex == 3) muzzleString = "BlasterRifleMuzzle";
+            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex) muzzleString = "BlasterRifleMuzzle";
             this.muzzleTransform = base.FindModelChild(muzzleString);
             this.animator = base.GetModelAnimator();
         }

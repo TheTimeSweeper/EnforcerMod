@@ -1,0 +1,1359 @@
+fileFormatVersion: 2
+guid: ea185cad6983d3f4d85f39a551c6b1d6
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Armature
+    100002: ClavicleL
+    100004: ClavicleR
+    100006: ElbowL
+    100008: ElbowR
+    100010: Empty
+    100012: //RootNode
+    100014: FingerIndex1L
+    100016: FingerIndex1R
+    100018: FingerIndex2L
+    100020: FingerIndex2L_end
+    100022: FingerIndex2R
+    100024: FingerIndex2R_end
+    100026: FingerMiddle1L
+    100028: FingerMiddle1R
+    100030: FingerMiddle2L
+    100032: FingerMiddle2L_end
+    100034: FingerMiddle2R
+    100036: FingerMiddle2R_end
+    100038: FingerPinky1L
+    100040: FingerPinky1R
+    100042: FingerPinky2L
+    100044: FingerPinky2L_end
+    100046: FingerPinky2R
+    100048: FingerPinky2R_end
+    100050: FingerRing1L
+    100052: FingerRing1R
+    100054: FingerRing2L
+    100056: FingerRing2L_end
+    100058: FingerRing2R
+    100060: FingerRing2R_end
+    100062: FootL
+    100064: FootR
+    100066: HandL
+    100068: HandR
+    100070: Head
+    100072: Head_end
+    100074: IKArmPoleL
+    100076: IKArmPoleL_end
+    100078: IKArmPoleR
+    100080: IKArmPoleR_end
+    100082: IKFootL
+    100084: IKFootR
+    100086: IKHandL
+    100088: IKHandL_end
+    100090: IKHandR
+    100092: IKHandR_end
+    100094: IKPoleL
+    100096: IKPoleL_end
+    100098: IKPoleR
+    100100: IKPoleR_end
+    100102: IKTargetL
+    100104: IKTargetL_end
+    100106: IKTargetR
+    100108: IKTargetR_end
+    100110: KneeL
+    100112: KneeR
+    100114: LegL
+    100116: LegR
+    100118: Model
+    100120: Neck
+    100122: Pelvis
+    100124: Pump
+    100126: RIotShield
+    100128: Root
+    100130: Shotgun
+    100132: ShoulderL
+    100134: ShoulderR
+    100136: Spine1
+    100138: Spine2
+    100140: Spine3
+    100142: Thumb1L
+    100144: Thumb1R
+    100146: Thumb2L
+    100148: Thumb2R
+    100150: Thumb3L
+    100152: Thumb3L_end
+    100154: Thumb3R
+    100156: Thumb3R_end
+    100158: ToeL
+    100160: ToeL_end
+    100162: ToeR
+    100164: ToeR_end
+    100166: IKElbowPoleL
+    100168: IKElbowPoleL_end
+    100170: IKElbowPoleR
+    100172: IKElbowPoleR_end
+    400000: Armature
+    400002: ClavicleL
+    400004: ClavicleR
+    400006: ElbowL
+    400008: ElbowR
+    400010: Empty
+    400012: //RootNode
+    400014: FingerIndex1L
+    400016: FingerIndex1R
+    400018: FingerIndex2L
+    400020: FingerIndex2L_end
+    400022: FingerIndex2R
+    400024: FingerIndex2R_end
+    400026: FingerMiddle1L
+    400028: FingerMiddle1R
+    400030: FingerMiddle2L
+    400032: FingerMiddle2L_end
+    400034: FingerMiddle2R
+    400036: FingerMiddle2R_end
+    400038: FingerPinky1L
+    400040: FingerPinky1R
+    400042: FingerPinky2L
+    400044: FingerPinky2L_end
+    400046: FingerPinky2R
+    400048: FingerPinky2R_end
+    400050: FingerRing1L
+    400052: FingerRing1R
+    400054: FingerRing2L
+    400056: FingerRing2L_end
+    400058: FingerRing2R
+    400060: FingerRing2R_end
+    400062: FootL
+    400064: FootR
+    400066: HandL
+    400068: HandR
+    400070: Head
+    400072: Head_end
+    400074: IKArmPoleL
+    400076: IKArmPoleL_end
+    400078: IKArmPoleR
+    400080: IKArmPoleR_end
+    400082: IKFootL
+    400084: IKFootR
+    400086: IKHandL
+    400088: IKHandL_end
+    400090: IKHandR
+    400092: IKHandR_end
+    400094: IKPoleL
+    400096: IKPoleL_end
+    400098: IKPoleR
+    400100: IKPoleR_end
+    400102: IKTargetL
+    400104: IKTargetL_end
+    400106: IKTargetR
+    400108: IKTargetR_end
+    400110: KneeL
+    400112: KneeR
+    400114: LegL
+    400116: LegR
+    400118: Model
+    400120: Neck
+    400122: Pelvis
+    400124: Pump
+    400126: RIotShield
+    400128: Root
+    400130: Shotgun
+    400132: ShoulderL
+    400134: ShoulderR
+    400136: Spine1
+    400138: Spine2
+    400140: Spine3
+    400142: Thumb1L
+    400144: Thumb1R
+    400146: Thumb2L
+    400148: Thumb2R
+    400150: Thumb3L
+    400152: Thumb3L_end
+    400154: Thumb3R
+    400156: Thumb3R_end
+    400158: ToeL
+    400160: ToeL_end
+    400162: ToeR
+    400164: ToeR_end
+    400166: IKElbowPoleL
+    400168: IKElbowPoleL_end
+    400170: IKElbowPoleR
+    400172: IKElbowPoleR_end
+    2100000: Body
+    2100002: Material.001
+    2100004: No Name
+    2300000: Pump
+    2300002: RIotShield
+    2300004: Shotgun
+    3300000: Pump
+    3300002: RIotShield
+    3300004: Shotgun
+    4300000: RIotShield
+    4300002: Model
+    4300004: Shotgun
+    4300006: Pump
+    7400000: ShieldBash.001
+    7400002: Armature|Action
+    7400004: Armature|Action.001
+    7400006: Armature|ArmatureAction
+    7400008: Armature|EmptyAction.001
+    7400010: Armature|Idlecombat
+    7400012: Armature|Idlecombat.001
+    7400014: Armature|IdleOutOfCombat
+    7400016: Armature|IdleOutOfCombat.001
+    7400018: Armature|IdleOutOfCombatIn
+    7400020: Armature|Jump
+    7400022: Armature|JumpAscend
+    7400024: Armature|JumpDescend
+    7400026: Armature|P&S 2
+    7400028: Armature|P&S Aiming
+    7400030: Armature|P&SBash
+    7400032: Armature|P&SHammer
+    7400034: Armature|P&SIdle
+    7400036: Armature|P&SIdle.001
+    7400038: Armature|P&SIdle_Hammer
+    7400040: Armature|P&SIn
+    7400042: Armature|P&SOut
+    7400044: Armature|P&SStrafeL
+    7400046: Armature|P&SStrafeR
+    7400048: Armature|P&SWalkBWD
+    7400050: Armature|P&SWalkFWD
+    7400052: Armature|PoseLib
+    7400054: Armature|RIotShieldAction
+    7400056: Armature|ShieldBash
+    7400058: Armature|ShieldDash
+    7400060: Armature|ShotgunAction
+    7400062: Armature|Sprint
+    7400064: Armature|WalkBalkward
+    7400066: Armature|WalkForward
+    7400068: Armature|WalkLeft
+    7400070: Armature|WalkRight
+    7400072: Shotgun|Action
+    7400074: Shotgun|ArmatureAction
+    7400076: Shotgun|EmptyAction.001
+    7400078: Shotgun|RIotShieldAction
+    7400080: Shotgun|ShotgunAction
+    7400082: RIotShield|Action
+    7400084: RIotShield|ArmatureAction
+    7400086: RIotShield|EmptyAction.001
+    7400088: RIotShield|RIotShieldAction
+    7400090: RIotShield|ShieldBash
+    7400092: RIotShield|ShotgunAction
+    7400094: Empty|Action
+    7400096: Empty|ArmatureAction
+    7400098: Empty|EmptyAction.001
+    7400100: Empty|RIotShieldAction
+    7400102: Empty|ShotgunAction
+    7400104: Armature|P&SIdle_Hammer_Swing
+    7400106: Armature|PoseLib.001
+    7400108: Shotgun|P&SIdle_Hammer
+    7400110: Shotgun|ShieldBash
+    7400112: Empty|ShieldBash
+    9500000: //RootNode
+    13700000: Model
+    2186277476908879412: ImportLogs
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: "\nClip 'Armature|Jump' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'FootL' has scale animation that will be
+      discarded.\n"
+    animationRetargetingWarnings: "\nRetargeting quality report for clip 'ShieldBash.001':\n\tLeftHand
+      average position error 2.0 mm and maximum position error 2.0 mm at time 0: 0
+      (0.0%) Frame 0\n\tRightLowerArm average position error 2.1 mm and maximum position
+      error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\tRightHand average position error
+      2.1 mm and maximum position error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting
+      quality report for clip 'Armature|Idlecombat':\n\tLeftHand average position
+      error 2.1 mm and maximum position error 2.1 mm at time 2: 3 (72.9%) Frame 51\n\tRightLowerArm
+      average position error 2.1 mm and maximum position error 2.1 mm at time 2: 0
+      (68.6%) Frame 48\n\tRightHand average position error 2.3 mm and maximum position
+      error 2.4 mm at time 2: 1 (70.0%) Frame 49\n\nRetargeting quality report for
+      clip 'Armature|IdleOutOfCombat':\n\tLeftHand average position error 2.3 mm and
+      maximum position error 2.3 mm at time 1: 4 (56.0%) Frame 28\n\tRightLowerArm
+      average position error 2.1 mm and maximum position error 2.1 mm at time 1:19
+      (86.0%) Frame 43\n\tRightHand average position error 2.1 mm and maximum position
+      error 2.1 mm at time 0:12 (24.0%) Frame 12\n\nRetargeting quality report for
+      clip 'Armature|IdleOutOfCombat.001':\n\tLeftHand average position error 2.4
+      mm and maximum position error 2.4 mm at time 1: 4 (56.0%) Frame 28\n\tRightLowerArm
+      average position error 2.1 mm and maximum position error 2.1 mm at time 0:10
+      (20.0%) Frame 10\n\tRightHand average position error 2.2 mm and maximum position
+      error 2.2 mm at time 0:11 (22.0%) Frame 11\n\nRetargeting quality report for
+      clip 'Armature|IdleOutOfCombatIn':\n\tLeftHand average position error 2.3 mm
+      and maximum position error 2.5 mm at time 0:17 (40.5%) Frame 17\n\tRightLowerArm
+      average position error 2.1 mm and maximum position error 2.1 mm at time 1: 5
+      (69.0%) Frame 29\n\tRightHand average position error 2.3 mm and maximum position
+      error 2.6 mm at time 1: 3 (64.3%) Frame 27\n\nRetargeting quality report for
+      clip 'Armature|Jump':\n\tLeftLowerArm average position error 4.1 mm and maximum
+      position error 36.5 mm at time 0: 2 (10.5%) Frame 2\n\tLeftHand average position
+      error 1.9 mm and maximum position error 2.3 mm at time 0: 1 (5.3%) Frame 1\n\tRightLowerArm
+      average position error 2.1 mm and maximum position error 2.1 mm at time 0: 4
+      (21.1%) Frame 4\n\tRightHand average position error 2.0 mm and maximum position
+      error 2.5 mm at time 0: 2 (10.5%) Frame 2\n\nRetargeting quality report for
+      clip 'Armature|JumpAscend':\n\tLeftHand average position error 2.2 mm and maximum
+      position error 2.2 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm average position
+      error 2.1 mm and maximum position error 2.1 mm at time 0:12 (48.0%) Frame 12\n\tRightHand
+      average position error 2.4 mm and maximum position error 2.5 mm at time 0: 0
+      (0.0%) Frame 0\n\nRetargeting quality report for clip 'Armature|P&S 2':\n\tLeftHand
+      average position error 2.4 mm and maximum position error 2.4 mm at time 0: 0
+      (0.0%) Frame 0\n\tRightLowerArm average position error 2.1 mm and maximum position
+      error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\tRightHand average position error
+      2.2 mm and maximum position error 2.2 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting
+      quality report for clip 'Armature|P&SHammer':\n\tLeftUpperArm average position
+      error 43.5 mm and maximum position error 43.5 mm at time 2: 9 (57.0%) Frame
+      57\n\tLeftLowerArm average position error 42.9 mm and maximum position error
+      42.9 mm at time 0:20 (20.0%) Frame 20\n\tLeftHand average position error 43.7
+      mm and maximum position error 43.7 mm at time 0:20 (20.0%) Frame 20\n\tRightUpperArm
+      average position error 52.4 mm and maximum position error 52.4 mm at time 4:
+      3 (99.0%) Frame 99\n\tRightLowerArm average position error 50.7 mm and maximum
+      position error 50.7 mm at time 0:15 (15.0%) Frame 15\n\tRightHand average position
+      error 51.5 mm and maximum position error 51.5 mm at time 3: 0 (72.0%) Frame
+      72\n\nRetargeting quality report for clip 'Armature|P&SIdle':\n\tLeftUpperArm
+      average position error 43.5 mm and maximum position error 43.5 mm at time 1:
+      1 (25.0%) Frame 25\n\tLeftLowerArm average position error 43.8 mm and maximum
+      position error 43.8 mm at time 3: 3 (75.0%) Frame 75\n\tLeftHand average position
+      error 42.0 mm and maximum position error 42.0 mm at time 0:23 (23.0%) Frame
+      23\n\tRightUpperArm average position error 52.4 mm and maximum position error
+      52.4 mm at time 4: 3 (99.0%) Frame 99\n\tRightLowerArm average position error
+      52.6 mm and maximum position error 52.7 mm at time 2: 7 (55.0%) Frame 55\n\tRightHand
+      average position error 52.7 mm and maximum position error 52.8 mm at time 3:
+      1 (73.0%) Frame 73\n\nRetargeting quality report for clip 'Armature|P&SIdle_Hammer':\n\tLeftUpperArm
+      average position error 43.5 mm and maximum position error 43.5 mm at time 3:
+      6 (78.0%) Frame 78\n\tLeftLowerArm average position error 43.7 mm and maximum
+      position error 43.8 mm at time 0: 0 (0.0%) Frame 0\n\tLeftHand average position
+      error 42.0 mm and maximum position error 42.1 mm at time 1: 0 (24.0%) Frame
+      24\n\tRightUpperArm average position error 52.4 mm and maximum position error
+      52.4 mm at time 3:21 (93.0%) Frame 93\n\tRightLowerArm average position error
+      50.5 mm and maximum position error 50.6 mm at time 2: 8 (56.0%) Frame 56\n\tRightHand
+      average position error 50.5 mm and maximum position error 50.5 mm at time 2:10
+      (58.0%) Frame 58\n\nRetargeting quality report for clip 'Armature|P&SIdle_Hammer_Swing':\n\tLeftUpperArm
+      average position error 43.5 mm and maximum position error 43.5 mm at time 0:
+      0 (0.0%) Frame 0\n\tLeftLowerArm average position error 43.8 mm and maximum
+      position error 43.8 mm at time 0: 0 (0.0%) Frame 0\n\tLeftHand average position
+      error 42.0 mm and maximum position error 42.0 mm at time 0: 0 (0.0%) Frame 0\n\tRightUpperArm
+      average position error 52.4 mm and maximum position error 52.4 mm at time 0:
+      0 (0.0%) Frame 0\n\tRightLowerArm average position error 50.6 mm and maximum
+      position error 50.6 mm at time 0: 0 (0.0%) Frame 0\n\tRightHand average position
+      error 50.5 mm and maximum position error 50.5 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting
+      quality report for clip 'Armature|P&SIn':\n\tLeftUpperArm average position error
+      43.5 mm and maximum position error 43.5 mm at time 0:16 (72.7%) Frame 16\n\tLeftLowerArm
+      average position error 42.9 mm and maximum position error 43.0 mm at time 0:
+      0 (0.0%) Frame 0\n\tLeftHand average position error 43.0 mm and maximum position
+      error 43.8 mm at time 0: 2 (9.1%) Frame 2\n\tRightUpperArm average position
+      error 52.4 mm and maximum position error 52.4 mm at time 0:17 (77.3%) Frame
+      17\n\tRightLowerArm average position error 50.5 mm and maximum position error
+      51.6 mm at time 0: 1 (4.5%) Frame 1\n\tRightHand average position error 51.7
+      mm and maximum position error 52.6 mm at time 0:11 (50.0%) Frame 11\n\nRetargeting
+      quality report for clip 'Armature|P&SStrafeL':\n\tLeftUpperArm average position
+      error 43.5 mm and maximum position error 43.5 mm at time 0: 9 (17.0%) Frame
+      9\n\tLeftLowerArm average position error 42.8 mm and maximum position error
+      42.9 mm at time 2: 0 (90.6%) Frame 48\n\tLeftHand average position error 43.5
+      mm and maximum position error 43.6 mm at time 2: 0 (90.6%) Frame 48\n\tRightUpperArm
+      average position error 52.4 mm and maximum position error 52.4 mm at time 0:15
+      (28.3%) Frame 15\n\tRightLowerArm average position error 50.6 mm and maximum
+      position error 50.8 mm at time 0:15 (28.3%) Frame 15\n\tRightHand average position
+      error 51.5 mm and maximum position error 51.7 mm at time 0:15 (28.3%) Frame
+      15\n\nRetargeting quality report for clip 'Armature|P&SStrafeR':\n\tLeftUpperArm
+      average position error 43.5 mm and maximum position error 43.5 mm at time 1:23
+      (94.0%) Frame 47\n\tLeftLowerArm average position error 42.9 mm and maximum
+      position error 42.9 mm at time 1:11 (70.0%) Frame 35\n\tLeftHand average position
+      error 43.9 mm and maximum position error 44.3 mm at time 1: 6 (60.0%) Frame
+      30\n\tRightUpperArm average position error 52.4 mm and maximum position error
+      52.4 mm at time 0:22 (44.0%) Frame 22\n\tRightLowerArm average position error
+      50.7 mm and maximum position error 50.8 mm at time 1: 8 (64.0%) Frame 32\n\tRightHand
+      average position error 51.7 mm and maximum position error 52.1 mm at time 1:16
+      (80.0%) Frame 40\n\nRetargeting quality report for clip 'Armature|P&SWalkFWD':\n\tLeftUpperArm
+      average position error 43.5 mm and maximum position error 43.5 mm at time 0:
+      3 (5.6%) Frame 3\n\tLeftLowerArm average position error 42.9 mm and maximum
+      position error 43.0 mm at time 1:19 (79.6%) Frame 43\n\tLeftHand average position
+      error 43.6 mm and maximum position error 44.3 mm at time 1:20 (81.5%) Frame
+      44\n\tRightUpperArm average position error 52.4 mm and maximum position error
+      52.4 mm at time 0: 6 (11.1%) Frame 6\n\tRightLowerArm average position error
+      49.7 mm and maximum position error 50.2 mm at time 1: 0 (44.4%) Frame 24\n\tRightHand
+      average position error 50.7 mm and maximum position error 50.9 mm at time 0:23
+      (42.6%) Frame 23\n\nRetargeting quality report for clip 'Armature|PoseLib.001':\n\tLeftHand
+      average position error 2.0 mm and maximum position error 2.0 mm at time 0: 0
+      (0.0%) Frame 0\n\tRightLowerArm average position error 2.1 mm and maximum position
+      error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\tRightHand average position error
+      2.3 mm and maximum position error 2.3 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting
+      quality report for clip 'Armature|RIotShieldAction':\n\tLeftHand average position
+      error 2.0 mm and maximum position error 2.0 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm
+      average position error 2.1 mm and maximum position error 2.1 mm at time 0: 0
+      (0.0%) Frame 0\n\tRightHand average position error 2.1 mm and maximum position
+      error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting quality report for clip
+      'Armature|ShieldBash':\n\tLeftHand average position error 2.0 mm and maximum
+      position error 2.0 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm average position
+      error 2.1 mm and maximum position error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\tRightHand
+      average position error 2.1 mm and maximum position error 2.1 mm at time 0: 0
+      (0.0%) Frame 0\n\nRetargeting quality report for clip 'Armature|ShotgunAction':\n\tLeftLowerLeg
+      average position error 121.9 mm and maximum position error 121.9 mm at time
+      0: 0 (0.0%) Frame 0\n\tLeftFoot average position error 121.6 mm and maximum
+      position error 121.6 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerLeg average
+      position error 149.1 mm and maximum position error 149.1 mm at time 0: 0 (0.0%)
+      Frame 0\n\tRightFoot average position error 225.9 mm and maximum position error
+      225.9 mm at time 0: 0 (0.0%) Frame 0\n\tLeftUpperArm average position error
+      117.9 mm and maximum position error 117.9 mm at time 0: 0 (0.0%) Frame 0\n\tLeftLowerArm
+      average position error 135.2 mm and maximum position error 135.2 mm at time
+      0: 0 (0.0%) Frame 0\n\tLeftHand average position error 110.5 mm and maximum
+      position error 110.5 mm at time 0: 0 (0.0%) Frame 0\n\tRightUpperArm average
+      position error 118.0 mm and maximum position error 118.0 mm at time 0: 0 (0.0%)
+      Frame 0\n\tRightLowerArm average position error 90.4 mm and maximum position
+      error 90.4 mm at time 0: 0 (0.0%) Frame 0\n\tRightHand average position error
+      86.7 mm and maximum position error 86.7 mm at time 0: 0 (0.0%) Frame 0\n\tHead
+      average position error 150.5 mm and maximum position error 150.5 mm at time
+      0: 0 (0.0%) Frame 0\n\nRetargeting quality report for clip 'Armature|Sprint':\n\tLeftLowerLeg
+      average position error 0.4 mm and maximum position error 2.4 mm at time 0:14
+      (58.3%) Frame 14\n\tLeftHand average position error 2.1 mm and maximum position
+      error 2.3 mm at time 0: 7 (29.2%) Frame 7\n\tRightLowerArm average position
+      error 2.1 mm and maximum position error 2.1 mm at time 0:13 (54.2%) Frame 13\n\tRightHand
+      average position error 2.0 mm and maximum position error 2.1 mm at time 0:21
+      (87.5%) Frame 21\n\tRightFoot average orientation error 0.1 deg and maximum
+      orientation error 0.8 deg at time 0: 4 (16.7%) Frame 4\n\nRetargeting quality
+      report for clip 'Armature|WalkBalkward':\n\tLeftLowerLeg average position error
+      4.2 mm and maximum position error 15.1 mm at time 1:15 (48.7%) Frame 39\n\tRightLowerLeg
+      average position error 2.0 mm and maximum position error 15.1 mm at time 2:15
+      (78.8%) Frame 63\n\tLeftLowerArm average position error 2.5 mm and maximum position
+      error 6.6 mm at time 3: 2 (92.5%) Frame 74\n\tLeftHand average position error
+      2.5 mm and maximum position error 2.7 mm at time 2:10 (72.5%) Frame 58\n\tRightLowerArm
+      average position error 7.9 mm and maximum position error 15.5 mm at time 2:14
+      (77.5%) Frame 62\n\tRightHand average position error 2.9 mm and maximum position
+      error 3.4 mm at time 1:23 (58.8%) Frame 47\n\nRetargeting quality report for
+      clip 'Armature|WalkForward':\n\tRightLowerLeg average position error 3.1 mm
+      and maximum position error 15.1 mm at time 0:10 (25.6%) Frame 10\n\tLeftHand
+      average position error 2.0 mm and maximum position error 2.2 mm at time 1:13
+      (94.9%) Frame 37\n\tRightLowerArm average position error 2.1 mm and maximum
+      position error 2.1 mm at time 0:15 (38.5%) Frame 15\n\tRightHand average position
+      error 2.2 mm and maximum position error 2.3 mm at time 0:20 (51.3%) Frame 20\n\nRetargeting
+      quality report for clip 'Armature|WalkLeft':\n\tLeftHand average position error
+      2.1 mm and maximum position error 2.2 mm at time 1: 1 (86.2%) Frame 25\n\tRightLowerArm
+      average position error 2.1 mm and maximum position error 2.1 mm at time 0:13
+      (44.8%) Frame 13\n\tRightHand average position error 2.2 mm and maximum position
+      error 2.4 mm at time 0:11 (37.9%) Frame 11\n\nRetargeting quality report for
+      clip 'Armature|WalkRight':\n\tLeftHand average position error 2.1 mm and maximum
+      position error 2.2 mm at time 1:14 (65.5%) Frame 38\n\tRightLowerArm average
+      position error 2.1 mm and maximum position error 2.1 mm at time 1:23 (81.0%)
+      Frame 47\n\tRightHand average position error 2.2 mm and maximum position error
+      2.4 mm at time 0:11 (19.0%) Frame 11\n\nRetargeting quality report for clip
+      'Shotgun|P&SIdle_Hammer':\n\tLeftHand average position error 2.0 mm and maximum
+      position error 2.0 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm average position
+      error 2.1 mm and maximum position error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\tRightHand
+      average position error 2.1 mm and maximum position error 2.1 mm at time 0: 0
+      (0.0%) Frame 0\n\nRetargeting quality report for clip 'Shotgun|RIotShieldAction':\n\tLeftHand
+      average position error 2.0 mm and maximum position error 2.0 mm at time 0: 0
+      (0.0%) Frame 0\n\tRightLowerArm average position error 2.1 mm and maximum position
+      error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\tRightHand average position error
+      2.1 mm and maximum position error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting
+      quality report for clip 'Shotgun|ShieldBash':\n\tLeftHand average position error
+      2.0 mm and maximum position error 2.0 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm
+      average position error 2.1 mm and maximum position error 2.1 mm at time 0: 0
+      (0.0%) Frame 0\n\tRightHand average position error 2.1 mm and maximum position
+      error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting quality report for clip
+      'Shotgun|ShotgunAction':\n\tLeftHand average position error 2.0 mm and maximum
+      position error 2.0 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm average position
+      error 2.1 mm and maximum position error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\tRightHand
+      average position error 2.1 mm and maximum position error 2.1 mm at time 0: 0
+      (0.0%) Frame 0\n\nRetargeting quality report for clip 'RIotShield|RIotShieldAction':\n\tLeftHand
+      average position error 2.0 mm and maximum position error 2.0 mm at time 0: 0
+      (0.0%) Frame 0\n\tRightLowerArm average position error 2.1 mm and maximum position
+      error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\tRightHand average position error
+      2.1 mm and maximum position error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting
+      quality report for clip 'RIotShield|ShieldBash':\n\tLeftHand average position
+      error 2.0 mm and maximum position error 2.0 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm
+      average position error 2.1 mm and maximum position error 2.1 mm at time 0: 0
+      (0.0%) Frame 0\n\tRightHand average position error 2.1 mm and maximum position
+      error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting quality report for clip
+      'RIotShield|ShotgunAction':\n\tLeftHand average position error 2.0 mm and maximum
+      position error 2.0 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm average position
+      error 2.1 mm and maximum position error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\tRightHand
+      average position error 2.1 mm and maximum position error 2.1 mm at time 0: 0
+      (0.0%) Frame 0\n\nRetargeting quality report for clip 'Empty|RIotShieldAction':\n\tLeftHand
+      average position error 2.0 mm and maximum position error 2.0 mm at time 0: 0
+      (0.0%) Frame 0\n\tRightLowerArm average position error 2.1 mm and maximum position
+      error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\tRightHand average position error
+      2.1 mm and maximum position error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting
+      quality report for clip 'Empty|ShieldBash':\n\tLeftHand average position error
+      2.0 mm and maximum position error 2.0 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm
+      average position error 2.1 mm and maximum position error 2.1 mm at time 0: 0
+      (0.0%) Frame 0\n\tRightHand average position error 2.1 mm and maximum position
+      error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting quality report for clip
+      'Empty|ShotgunAction':\n\tLeftHand average position error 2.0 mm and maximum
+      position error 2.0 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm average position
+      error 2.1 mm and maximum position error 2.1 mm at time 0: 0 (0.0%) Frame 0\n\tRightHand
+      average position error 2.1 mm and maximum position error 2.1 mm at time 0: 0
+      (0.0%) Frame 0\n"
+    animationDoRetargetingWarnings: 1
+    importAnimatedCustomProperties: 0
+    importConstraints: 1
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Armature|Sprint
+      takeName: Armature|Sprint
+      firstFrame: 0
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 1
+  humanDescription:
+    serializedVersion: 2
+    human:
+    - boneName: Pelvis
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: LegR
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: LegL
+      humanName: RightUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: KneeR
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: KneeL
+      humanName: RightLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FootR
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FootL
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Spine1
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Spine2
+      humanName: Chest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Neck
+      humanName: Neck
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Head
+      humanName: Head
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: ClavicleR
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: ClavicleL
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: ShoulderR
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: ShoulderL
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: ElbowR
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: ElbowL
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: HandR
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: HandL
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: ToeR
+      humanName: LeftToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: ToeL
+      humanName: RightToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thumb1R
+      humanName: Left Thumb Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thumb2R
+      humanName: Left Thumb Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thumb3R
+      humanName: Left Thumb Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FingerIndex1R
+      humanName: Left Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FingerIndex2R
+      humanName: Left Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FingerMiddle1R
+      humanName: Left Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FingerMiddle2R
+      humanName: Left Middle Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FingerRing1R
+      humanName: Left Ring Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FingerRing2R
+      humanName: Left Ring Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FingerPinky1R
+      humanName: Left Little Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FingerPinky2R
+      humanName: Left Little Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thumb1L
+      humanName: Right Thumb Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thumb2L
+      humanName: Right Thumb Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thumb3L
+      humanName: Right Thumb Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FingerIndex1L
+      humanName: Right Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FingerIndex2L
+      humanName: Right Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FingerMiddle1L
+      humanName: Right Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FingerMiddle2L
+      humanName: Right Middle Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FingerRing1L
+      humanName: Right Ring Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FingerRing2L
+      humanName: Right Ring Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FingerPinky1L
+      humanName: Right Little Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: FingerPinky2L
+      humanName: Right Little Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Spine3
+      humanName: UpperChest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: Enforcer2(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Armature
+      parentName: Enforcer2(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Root
+      parentName: Armature
+      position: {x: -0, y: 0.001758373, z: -0.0029518513}
+      rotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071067}
+      scale: {x: 1, y: 0.9999997, z: 0.9999997}
+    - name: Pelvis
+      parentName: Root
+      position: {x: -0, y: 0.0700035, z: -7.3610805e-11}
+      rotation: {x: 0.010693253, y: -0.00000011920263, z: -0.0000000012743478, w: 0.99994284}
+      scale: {x: 1, y: 0.99999976, z: 0.99999976}
+    - name: Spine1
+      parentName: Pelvis
+      position: {x: 9.0949465e-14, y: 0.012704182, z: -5.992691e-10}
+      rotation: {x: 0.024866302, y: 0.00000012527308, z: 0.0000000029441163, w: 0.99969083}
+      scale: {x: 1, y: 1, z: 0.9999997}
+    - name: Spine2
+      parentName: Spine1
+      position: {x: 7.0780515e-10, y: 0.02043196, z: 1.6763806e-10}
+      rotation: {x: -0.046387494, y: -0.00000013413346, z: -0.000000008692531, w: 0.99892354}
+      scale: {x: 0.9999999, y: 1.0000001, z: 1}
+    - name: Spine3
+      parentName: Spine2
+      position: {x: 0.0000000014528632, y: 0.022005782, z: 0.0000000023655593}
+      rotation: {x: 0.003224686, y: 0.00000012519905, z: -0.0000000016911039, w: 0.9999948}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+    - name: Neck
+      parentName: Spine3
+      position: {x: 0.000000001490116, y: 0.031320866, z: 0.0000000063516197}
+      rotation: {x: 0.02923838, y: -0.00000011331546, z: 0.000000014321595, w: 0.99957246}
+      scale: {x: 1, y: 0.9999999, z: 0.9999998}
+    - name: Head
+      parentName: Neck
+      position: {x: -0, y: 0.0053401804, z: 5.2154064e-10}
+      rotation: {x: -0.020306138, y: 1.6689226e-10, z: 0.000000007274041, w: 0.9997938}
+      scale: {x: 1, y: 1.0000002, z: 0.99999994}
+    - name: Head_end
+      parentName: Head
+      position: {x: -0, y: 0.027345257, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ClavicleR
+      parentName: Spine3
+      position: {x: -0.006020198, y: 0.026915759, z: -0.0016181511}
+      rotation: {x: 0.5568156, y: -0.42874542, z: -0.5589728, w: -0.44009462}
+      scale: {x: 1.0000006, y: 1.0000002, z: 0.9999998}
+    - name: ShoulderR
+      parentName: ClavicleR
+      position: {x: -0.00029501377, y: 0.012719121, z: -0.0010184716}
+      rotation: {x: -0.07332584, y: 0.7078675, z: 0.082085066, w: -0.6977171}
+      scale: {x: 1.000001, y: 1.0000013, z: 0.99999994}
+    - name: ElbowR
+      parentName: ShoulderR
+      position: {x: -0.000000010579824, y: 0.0349133, z: 0.000000005736947}
+      rotation: {x: 0.009001401, y: 0.012191172, z: -0.054109644, w: 0.99842}
+      scale: {x: 1.0000001, y: 1.0000011, z: 0.99999964}
+    - name: HandR
+      parentName: ElbowR
+      position: {x: -0.0000000032782554, y: 0.033994578, z: -0.0000000023841857}
+      rotation: {x: -0.022518175, y: -0.01480743, z: 0.050934173, w: 0.9983384}
+      scale: {x: 0.9999999, y: 0.9999992, z: 1.0000019}
+    - name: FingerIndex1R
+      parentName: HandR
+      position: {x: 0.0011845254, y: 0.012003448, z: 0.004431887}
+      rotation: {x: -0.0030569623, y: -0.75064844, z: -0.024074057, w: 0.6602561}
+      scale: {x: 1.0000001, y: 0.99999917, z: 1.0000018}
+    - name: FingerIndex2R
+      parentName: FingerIndex1R
+      position: {x: -0.0000000036507843, y: 0.007509517, z: 0.0000000019744038}
+      rotation: {x: 0.040846244, y: -0.006525304, z: -0.0042359787, w: 0.99913514}
+      scale: {x: 1.0000002, y: 1.0000013, z: 0.99999905}
+    - name: FingerIndex2R_end
+      parentName: FingerIndex2R
+      position: {x: -0, y: 0.0069104503, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Thumb1R
+      parentName: HandR
+      position: {x: -0.0006172299, y: 0.0013546558, z: 0.0020862168}
+      rotation: {x: 0.089933865, y: -0.8416467, z: -0.49632204, w: 0.19289158}
+      scale: {x: 1.0000004, y: 0.9999991, z: 1}
+    - name: Thumb2R
+      parentName: Thumb1R
+      position: {x: 0.0000000077486035, y: 0.0067460975, z: 0.0000000037252903}
+      rotation: {x: 0.025772467, y: -0.10617567, z: 0.030714892, w: 0.99353874}
+      scale: {x: 1.0000005, y: 1.0000004, z: 1}
+    - name: Thumb3R
+      parentName: Thumb2R
+      position: {x: 0.0000000062584875, y: 0.003096351, z: -0.0000000016391277}
+      rotation: {x: 0.031984095, y: 0.013795503, z: -0.0228349, w: 0.9991322}
+      scale: {x: 1.0000002, y: 1.0000006, z: 1.0000002}
+    - name: Thumb3R_end
+      parentName: Thumb3R
+      position: {x: -0, y: 0.0031425785, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: FingerMiddle1R
+      parentName: HandR
+      position: {x: 0.0012318253, y: 0.012363137, z: 0.0014451372}
+      rotation: {x: 0.033937618, y: -0.7263744, z: -0.00065194425, w: 0.68646055}
+      scale: {x: 1.0000001, y: 0.9999989, z: 1.0000008}
+    - name: FingerMiddle2R
+      parentName: FingerMiddle1R
+      position: {x: 0.0000000043958424, y: 0.007911433, z: 0.000000005061738}
+      rotation: {x: -0.021648427, y: 0.026069546, z: 0.0041938545, w: 0.99941695}
+      scale: {x: 1.0000011, y: 1.0000013, z: 0.99999994}
+    - name: FingerMiddle2R_end
+      parentName: FingerMiddle2R
+      position: {x: -0, y: 0.0082021775, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: FingerRing1R
+      parentName: HandR
+      position: {x: 0.0012165606, y: 0.012434264, z: -0.002064335}
+      rotation: {x: 0.04253583, y: -0.6917003, z: 0.002702772, w: 0.72092587}
+      scale: {x: 0.9999999, y: 0.99999887, z: 1.0000015}
+    - name: FingerRing2R
+      parentName: FingerRing1R
+      position: {x: -0.000000017508864, y: 0.007750192, z: 0.000000010523945}
+      rotation: {x: -0.041225273, y: 0.013749654, z: 0.0039520045, w: 0.9990475}
+      scale: {x: 1.0000008, y: 1.0000025, z: 0.99999946}
+    - name: FingerRing2R_end
+      parentName: FingerRing2R
+      position: {x: -0, y: 0.0068007535, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: FingerPinky1R
+      parentName: HandR
+      position: {x: 0.0010797716, y: 0.011885576, z: -0.0051740264}
+      rotation: {x: -0.00899025, y: -0.6410117, z: -0.055153113, w: 0.7654941}
+      scale: {x: 1.0000005, y: 0.9999996, z: 1.0000015}
+    - name: FingerPinky2R
+      parentName: FingerPinky1R
+      position: {x: 0.00000001385808, y: 0.0063064415, z: 4.842877e-10}
+      rotation: {x: 0.038209654, y: 0.011682684, z: 0.007799624, w: 0.999171}
+      scale: {x: 1.0000001, y: 1.000001, z: 0.9999995}
+    - name: FingerPinky2R_end
+      parentName: FingerPinky2R
+      position: {x: -0, y: 0.00674347, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ClavicleL
+      parentName: Spine3
+      position: {x: 0.0073133367, y: 0.025690036, z: -0.0016368278}
+      rotation: {x: 0.56821567, y: 0.41353065, z: 0.5707891, w: -0.42464486}
+      scale: {x: 1.0000004, y: 1.000001, z: 1.0000002}
+    - name: ShoulderL
+      parentName: ClavicleL
+      position: {x: 0.0003017625, y: 0.011084085, z: -0.00030714515}
+      rotation: {x: -0.07372787, y: -0.70793235, z: -0.08185647, w: -0.69763577}
+      scale: {x: 1.0000005, y: 0.99999976, z: 1.0000005}
+    - name: ElbowL
+      parentName: ShoulderL
+      position: {x: -0.000000017248095, y: 0.03491329, z: 0.000000004172325}
+      rotation: {x: 0.0090617705, y: -0.012380955, z: 0.07789698, w: 0.99684334}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000001}
+    - name: HandL
+      parentName: ElbowL
+      position: {x: -0.000000009834766, y: 0.032885063, z: 0.0000000011920929}
+      rotation: {x: -0.016514635, y: 0.015222087, z: -0.007221901, w: 0.9997217}
+      scale: {x: 1.0000007, y: 1.0000013, z: 1.0000015}
+    - name: FingerIndex1L
+      parentName: HandL
+      position: {x: -0.00017153025, y: 0.015238228, z: 0.0043866183}
+      rotation: {x: 0.031411037, y: 0.7502789, z: -0.015114664, w: 0.66020185}
+      scale: {x: 1.0000001, y: 1.000001, z: 1.0000001}
+    - name: FingerIndex2L
+      parentName: FingerIndex1L
+      position: {x: 0.000000018179417, y: 0.0054746927, z: 0}
+      rotation: {x: 0.016057258, y: 0.006614833, z: 0.0012264586, w: 0.9998485}
+      scale: {x: 1.0000007, y: 0.9999991, z: 1.0000006}
+    - name: FingerIndex2L_end
+      parentName: FingerIndex2L
+      position: {x: -0, y: 0.00686667, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Thumb1L
+      parentName: HandL
+      position: {x: 0.0007497966, y: 0.0024267489, z: 0.002102058}
+      rotation: {x: 0.11802541, y: 0.84595454, z: 0.4715576, w: 0.21923614}
+      scale: {x: 1.0000002, y: 1.0000004, z: 1.0000001}
+    - name: Thumb2L
+      parentName: Thumb1L
+      position: {x: -0.0000000032782554, y: 0.006878917, z: -0.0000000035762786}
+      rotation: {x: -0.00593691, y: 0.11333095, z: -0.011761081, w: 0.99346995}
+      scale: {x: 1.0000005, y: 0.99999964, z: 0.99999964}
+    - name: Thumb3L
+      parentName: Thumb2L
+      position: {x: -0.0000000011920929, y: 0.0029820364, z: -0.0000000010430813}
+      rotation: {x: 0.03234367, y: -0.0096499715, z: -0.025178112, w: 0.999113}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000008}
+    - name: Thumb3L_end
+      parentName: Thumb3L
+      position: {x: -0, y: 0.0029536935, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: FingerMiddle1L
+      parentName: HandL
+      position: {x: -0.00074527384, y: 0.016088549, z: 0.0012342995}
+      rotation: {x: 0.05924771, y: 0.7241454, z: -0.020978091, w: 0.68677735}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000004}
+    - name: FingerMiddle2L
+      parentName: FingerMiddle1L
+      position: {x: -0.0000000011920929, y: 0.0057976195, z: -0.0000000023841857}
+      rotation: {x: -0.039414465, y: -0.025949528, z: -0.004057052, w: 0.99887776}
+      scale: {x: 1.0000008, y: 0.99999934, z: 1.0000019}
+    - name: FingerMiddle2L_end
+      parentName: FingerMiddle2L
+      position: {x: -0, y: 0.008175374, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: FingerRing1L
+      parentName: HandL
+      position: {x: -0.00026955127, y: 0.015156492, z: -0.002152809}
+      rotation: {x: -0.06166566, y: -0.689247, z: 0.021141184, w: -0.7215877}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1.0000002}
+    - name: FingerRing2L
+      parentName: FingerRing1L
+      position: {x: -0.000000008940696, y: 0.0060979603, z: 0.0000000035762786}
+      rotation: {x: 0.03965239, y: 0.013648001, z: 0.002648513, w: -0.99911684}
+      scale: {x: 1.0000012, y: 0.9999998, z: 1.0000023}
+    - name: FingerRing2L_end
+      parentName: FingerRing2L
+      position: {x: -0, y: 0.0067933286, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: FingerPinky1L
+      parentName: HandL
+      position: {x: 0.0010751795, y: 0.014934642, z: -0.0050296574}
+      rotation: {x: 0.015558837, y: 0.6411705, z: 0.022996234, w: 0.766896}
+      scale: {x: 1.0000008, y: 1.0000004, z: 1.0000005}
+    - name: FingerPinky2L
+      parentName: FingerPinky1L
+      position: {x: -0.000000021457671, y: 0.004525904, z: 0.0000000077486035}
+      rotation: {x: 0.029980151, y: -0.011576173, z: -0.011975899, w: 0.99941176}
+      scale: {x: 1.0000004, y: 0.99999946, z: 1.0000011}
+    - name: FingerPinky2L_end
+      parentName: FingerPinky2L
+      position: {x: -0, y: 0.0066556185, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: LegR
+      parentName: Pelvis
+      position: {x: -0.012534905, y: 0.020244297, z: 0.0002497914}
+      rotation: {x: 0.99892586, y: -0.039089862, z: 0.0013283468, w: 0.02484797}
+      scale: {x: 0.99999964, y: 1.0000007, z: 1.0000004}
+    - name: KneeR
+      parentName: LegR
+      position: {x: 4.206413e-10, y: 0.04998667, z: 0.0000000012759119}
+      rotation: {x: 0.16008425, y: -0.00093953544, z: -0.050702147, w: 0.98579997}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.99999946}
+    - name: FootR
+      parentName: KneeR
+      position: {x: -9.313225e-11, y: 0.034244545, z: -8.9872626e-10}
+      rotation: {x: -0.7962729, y: -0.012492813, z: 0.0048988936, w: 0.60478884}
+      scale: {x: 0.9999998, y: 1.0000004, z: 1.0000005}
+    - name: ToeR
+      parentName: FootR
+      position: {x: -0.0000000011841785, y: 0.022991313, z: -7.7652655e-11}
+      rotation: {x: 0.000000044703473, y: 0.999943, z: -0.010679987, w: 0.000004375818}
+      scale: {x: 1.0000008, y: 0.99999976, z: 1.0000002}
+    - name: ToeR_end
+      parentName: ToeR
+      position: {x: -0, y: 0.014617713, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: LegL
+      parentName: Pelvis
+      position: {x: 0.012534908, y: 0.020244312, z: 0.0002497858}
+      rotation: {x: 0.99892586, y: 0.03908984, z: -0.0013281413, w: 0.024847958}
+      scale: {x: 0.9999981, y: 1.0000014, z: 1.0000006}
+    - name: KneeL
+      parentName: LegL
+      position: {x: -3.491732e-10, y: 0.049986653, z: -3.306195e-10}
+      rotation: {x: 0.16008428, y: 0.00093950797, z: 0.05070219, w: 0.98579997}
+      scale: {x: 0.99999875, y: 0.99999946, z: 1}
+    - name: FootL
+      parentName: KneeL
+      position: {x: -8.9872626e-10, y: 0.03424456, z: -4.5867635e-10}
+      rotation: {x: -0.7962729, y: 0.012492818, z: -0.0048988885, w: 0.6047888}
+      scale: {x: 0.99999934, y: 1.0000006, z: 0.9999997}
+    - name: ToeL
+      parentName: FootL
+      position: {x: 0.0000000011418271, y: 0.02299132, z: -1.3821591e-10}
+      rotation: {x: -0.000000044703473, y: 0.99994296, z: -0.010680047, w: -0.000004375818}
+      scale: {x: 1.0000004, y: 0.99999905, z: 0.99999976}
+    - name: ToeL_end
+      parentName: ToeL
+      position: {x: -0, y: 0.014617713, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IKPoleR
+      parentName: Armature
+      position: {x: -0.014303825, y: -0.024754433, z: 0.037472222}
+      rotation: {x: -6.123234e-17, y: -0.00000008940697, z: 1, w: -3.3087225e-24}
+      scale: {x: 1.0000007, y: 1, z: 1}
+    - name: IKPoleR_end
+      parentName: IKPoleR
+      position: {x: -0, y: 0.021285146, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IKPoleL
+      parentName: Armature
+      position: {x: 0.014303825, y: -0.024754433, z: 0.037472222}
+      rotation: {x: -6.123234e-17, y: -0.00000008940697, z: 1, w: -3.3087225e-24}
+      scale: {x: 1.0000007, y: 1, z: 1}
+    - name: IKPoleL_end
+      parentName: IKPoleL
+      position: {x: -0, y: 0.021285146, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IKFootR
+      parentName: Armature
+      position: {x: -0.01574568, y: 0.0179448, z: -0.0032832352}
+      rotation: {x: 0.99999326, y: -0.000000062429535, z: -0.000017030387, w: 0.0036726892}
+      scale: {x: 1, y: 1.0000001, z: 0.9990361}
+    - name: IKTargetR
+      parentName: IKFootR
+      position: {x: 0.0001879749, y: 0.008453878, z: -0.007926351}
+      rotation: {x: -0.99999326, y: 0.00000006273146, z: 0.000016929009, w: 0.0036819282}
+      scale: {x: 1, y: 1.0000002, z: 0.9984697}
+    - name: IKTargetR_end
+      parentName: IKTargetR
+      position: {x: -0, y: 0.016903963, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IKFootL
+      parentName: Armature
+      position: {x: 0.015319864, y: 0.0179448, z: -0.0032832352}
+      rotation: {x: 0.99999326, y: -0.00000006504979, z: -0.000017744944, w: 0.0036726892}
+      scale: {x: 1, y: 1.0000001, z: 0.9990361}
+    - name: IKTargetL
+      parentName: IKFootL
+      position: {x: 0.00023729095, y: 0.008453878, z: -0.007926353}
+      rotation: {x: -0.99999326, y: 0.000000065075135, z: 0.000017639508, w: 0.0036819282}
+      scale: {x: 1, y: 1.0000002, z: 0.9984697}
+    - name: IKTargetL_end
+      parentName: IKTargetL
+      position: {x: -0, y: 0.016903963, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IKHandR
+      parentName: Armature
+      position: {x: -0.08622287, y: 0.012540195, z: 0.14007686}
+      rotation: {x: 0.00000005960465, y: -0.00000005960465, z: 0.7071068, w: 0.7071068}
+      scale: {x: 0.9999995, y: 0.9999997, z: 0.9999995}
+    - name: IKHandR_end
+      parentName: IKHandR
+      position: {x: -0, y: 0.01665598, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IKArmPoleR
+      parentName: Armature
+      position: {x: -0.052239995, y: -0.017274695, z: 0.13920419}
+      rotation: {x: -6.123234e-17, y: -0.00000008940697, z: 1, w: -3.3087225e-24}
+      scale: {x: 1.0000007, y: 1, z: 1}
+    - name: IKArmPoleR_end
+      parentName: IKArmPoleR
+      position: {x: -0, y: 0.02, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IKArmPoleL
+      parentName: Armature
+      position: {x: 0.052239995, y: -0.017274695, z: 0.13920419}
+      rotation: {x: -6.123234e-17, y: -0.00000008940697, z: 1, w: -3.3087225e-24}
+      scale: {x: 1.0000007, y: 1, z: 1}
+    - name: IKArmPoleL_end
+      parentName: IKArmPoleL
+      position: {x: -0, y: 0.02, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IKHandL
+      parentName: Armature
+      position: {x: 0.08511296, y: 0.012540195, z: 0.14007686}
+      rotation: {x: 0.00000005960465, y: 0.00000005960465, z: -0.7071068, w: 0.7071068}
+      scale: {x: 0.9999995, y: 0.9999997, z: 0.9999995}
+    - name: IKHandL_end
+      parentName: IKHandL
+      position: {x: -0, y: 0.015555315, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Model
+      parentName: Enforcer2(Clone)
+      position: {x: -0, y: -0.00000047683716, z: 0}
+      rotation: {x: 0.7071069, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Shotgun
+      parentName: Enforcer2(Clone)
+      position: {x: 4.831592, y: 8.328261, z: 8.072266}
+      rotation: {x: -0.36680698, y: -0.2509556, z: -0.55167097, w: 0.7057855}
+      scale: {x: 100, y: 100.00005, z: 100.00003}
+    - name: Pump
+      parentName: Shotgun
+      position: {x: 0.028181752, y: -0.0000000023841857, z: -0.004895425}
+      rotation: {x: 0.0000000050139284, y: -9.666445e-26, z: -0.0000000010016348,
+        w: 1}
+      scale: {x: 1.0000001, y: 1.1821502, z: 1}
+    - name: RIotShield
+      parentName: Enforcer2(Clone)
+      position: {x: -6.122163, y: 10.115254, z: -0.7810463}
+      rotation: {x: 0.46274814, y: 0.5270542, z: 0.55981934, w: -0.44122598}
+      scale: {x: 100.000046, y: 100.00004, z: 100.00009}
+    - name: o
+      parentName: RIotShield
+      position: {x: 0.009841424, y: 0.005914688, z: 0.040939096}
+      rotation: {x: -0.0000000018626451, y: -4.656613e-10, z: -3.7107406e-10, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: d605af0ff8b19de4199e743a7766f715,
+    type: 3}
+  animationType: 3
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,15 +1,68 @@
 ﻿using RoR2;
 using RoR2.Projectile;
 using UnityEngine;
+using EntityStates.Toolbot;
 
 namespace EntityStates.Enforcer
 {
+    public class AimTearGas : AimThrowableBase
+    {
+        private AimStunDrone goodState;
+
+        public override void OnEnter()
+        {
+            if (goodState == null) goodState = Instantiate(typeof(AimStunDrone)) as AimStunDrone;
+
+            maxDistance = 48;
+            rayRadius = 2f;
+            arcVisualizerPrefab = goodState.arcVisualizerPrefab;
+            projectilePrefab = EnforcerPlugin.EnforcerPlugin.projectilePrefab;
+            endpointVisualizerPrefab = goodState.endpointVisualizerPrefab;
+            endpointVisualizerRadiusScale = 4f;
+            setFuse = false;
+            damageCoefficient = 0f;
+            baseMinimumDuration = 0.1f;
+            projectileBaseSpeed = 80;
+
+            base.OnEnter();
+        }
+
+        public override void FixedUpdate()
+        {
+            base.characterBody.SetAimTimer(0.25f);
+            this.fixedAge += Time.fixedDeltaTime;
+            base.PlayAnimation("RightArm, Override", "FireShotgun");
+
+            bool flag = false;
+
+            if (base.isAuthority && !this.KeyIsDown() && base.fixedAge >= this.minimumDuration) flag = true;
+            if (base.characterBody && base.characterBody.isSprinting) flag = true;
+
+            if (flag)
+            {
+                this.UpdateTrajectoryInfo(out this.currentTrajectoryInfo);
+
+                this.outer.SetNextStateToMain();
+                return;
+            }
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+
+            Util.PlaySound(EnforcerPlugin.Sounds.LaunchTearGas, base.gameObject);
+
+            base.AddRecoil(-2f * TearGas.bulletRecoil, -3f * TearGas.bulletRecoil, -1f * TearGas.bulletRecoil, 1f * TearGas.bulletRecoil);
+            base.characterBody.AddSpreadBloom(0.33f * TearGas.bulletRecoil);
+            EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol.effectPrefab, base.gameObject, TearGas.muzzleString, false);
+        }
+    }
+
     public class TearGas : BaseSkillState
     {
         public static float baseDuration = 0.5f;
-        public static float damageCoefficient = 1.5f;
-        public static float procCoefficient = 0.6f;
-        public static float blastRadius = 5f;
+        public static float blastRadius = 4f;
         public static float bulletRecoil = 1f;
 
         public static string muzzleString = "GrenadeMuzzle";

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6fe3e7c7e2d1bad49b72c64f52898101
+guid: 119ce144d9dc95e4384d56d18bb4f411
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -162,7 +162,6 @@ ModelImporter:
     400154: ToeR
     400156: ToeR_end
     2100000: Body
-    2100002: Body.001
     4300000: Model
     9500000: //RootNode
     13700000: Model
@@ -186,7 +185,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -243,10 +242,10 @@ ModelImporter:
     feetSpacing: 0
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 3
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
