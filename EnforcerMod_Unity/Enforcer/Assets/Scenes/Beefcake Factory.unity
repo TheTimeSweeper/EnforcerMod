@@ -7635,7 +7635,7 @@ GameObject:
   - component: {fileID: 1793692093}
   - component: {fileID: 1793692092}
   m_Layer: 0
-  m_Name: test
+  m_Name: animationPreview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10414,6 +10414,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1474286919976385026, guid: a1a3e7bc94954cb479276f390ba6940c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 74b2b7e1b78107040a2ad292954cd4e5, type: 2}
     - target: {fileID: 2892971244115237942, guid: a1a3e7bc94954cb479276f390ba6940c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10473,6 +10478,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: mdlNemforcer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3870401687942420050, guid: a1a3e7bc94954cb479276f390ba6940c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1a3e7bc94954cb479276f390ba6940c, type: 3}
