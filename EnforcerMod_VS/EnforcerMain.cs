@@ -89,13 +89,13 @@ namespace EntityStates.Enforcer
             //default dance
             if (base.isAuthority && base.characterMotor.isGrounded && !shieldIsUp)
             {
-                if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.dance1Key.Value))
+                if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.defaultDanceKey.Value))
                 {
                     onDance(true);
                     this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(DefaultDance))), InterruptPriority.Any);
                     return;
                 }
-                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.dance2Key.Value))
+                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.flossKey.Value))
                 {
                     onDance(true);
                     this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Floss))), InterruptPriority.Any);
@@ -155,7 +155,7 @@ namespace EntityStates.Enforcer
                     if (bungusCount > 0)
                     {
                         flag = true;
-                        float bungusMult = bungusCount * 0.01f;
+                        float bungusMult = bungusCount * 0.035f;
                         this.bungusStopwatch += (1 + bungusMult) * Time.fixedDeltaTime;
 
                         Bungus(this.bungusStopwatch);

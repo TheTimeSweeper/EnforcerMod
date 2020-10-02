@@ -456,7 +456,7 @@ namespace EnforcerPlugin
                             childName = "ElbowL",
                             localPos = new Vector3(-0.0068f, 0.0204f, 0),
                             localAngles = new Vector3(-101, -90, 0),
-                            localScale = new Vector3(0.025f, 0.025f, 0.025f),
+                            localScale = new Vector3(0.03f, 0.03f, 0.03f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -620,35 +620,15 @@ namespace EnforcerPlugin
                 }
             });
 
-            // i have severe brain damage
-            /*list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            if (EnforcerPlugin.sillyHammer.Value)
             {
-                name = "ArmorReductionOnHit",
-                displayRuleGroup = new DisplayRuleGroup
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
-                    rules = new ItemDisplayRule[]
+                    name = "ArmorReductionOnHit",
+                    displayRuleGroup = new DisplayRuleGroup
                     {
-                        new ItemDisplayRule
+                        rules = new ItemDisplayRule[]
                         {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            followerPrefab = ItemDisplays.LoadDisplay("DisplayWarhammer"),
-                            childName = "Head",
-                            localPos = new Vector3(0, 0.1f, 0),
-                            localAngles = new Vector3(-90, 0, 0),
-                            localScale = new Vector3(0.025f, 0.025f, 0.025f),
-                            limbMask = LimbFlags.None
-                        }
-                    }
-                }
-            });*/
-
-            list.Add(new ItemDisplayRuleSet.NamedRuleGroup
-            {
-                name = "ArmorReductionOnHit",
-                displayRuleGroup = new DisplayRuleGroup
-                {
-                    rules = new ItemDisplayRule[]
-                    {
                         new ItemDisplayRule
                         {
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
@@ -749,9 +729,34 @@ namespace EnforcerPlugin
                             localScale = new Vector3(0.025f, 0.025f, 0.02f),
                             limbMask = LimbFlags.None
                         }
+                        }
                     }
-                }
-            });
+                });
+
+            }
+            else
+            {
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "ArmorReductionOnHit",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadDisplay("DisplayWarhammer"),
+                                childName = "Spine3",
+                                localPos = new Vector3(0, 0.03f, -0.02f),
+                                localAngles = new Vector3(-90, 0, 0),
+                                localScale = new Vector3(0.025f, 0.025f, 0.025f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+            }
 
             list.Add(new ItemDisplayRuleSet.NamedRuleGroup
             {
@@ -1950,7 +1955,7 @@ namespace EnforcerPlugin
                             childName = "Shield",
                             localPos = new Vector3(2, 0, 7.8f),
                             localAngles = new Vector3(-25, 0, 180),
-                            localScale = new Vector3(2, 2, 2),
+                            localScale = new Vector3(5, 5, 5),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -2703,7 +2708,7 @@ namespace EnforcerPlugin
                         {
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplaySawmerang"),
-                            childName = "Spine3",
+                            childName = "ElbowL",
                             localPos = new Vector3(0, 0.05f, -0.15f),
                             localAngles = new Vector3(90, 0, 0),
                             localScale = new Vector3(0.25f, 0.25f, 0.25f),
@@ -2787,10 +2792,10 @@ namespace EnforcerPlugin
                         {
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayLifestealOnHit"),
-                            childName = "Shield",
-                            localPos = new Vector3(-5, -0.8f, 8),
-                            localAngles = new Vector3(0, 125, 0),
-                            localScale = new Vector3(1.25f, 1.25f, 1.25f),
+                            childName = "Head",
+                            localPos = new Vector3(0, 0.03f, 0.01f),
+                            localAngles = new Vector3(90, 0, 0),
+                            localScale = new Vector3(0.0275f, 0.0275f, 0.02f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -2971,6 +2976,8 @@ namespace EnforcerPlugin
         private static void PopulateDisplays()
         {
             ItemDisplayRuleSet itemDisplayRuleSet = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponent<ModelLocator>().modelTransform.GetComponent<CharacterModel>().itemDisplayRuleSet;
+
+            EnforcerPlugin.bungusMat = itemDisplayRuleSet.FindItemDisplayRuleGroup("Mushroom").rules[0].followerPrefab.GetComponentInChildren<SkinnedMeshRenderer>().material;
 
             capacitorPrefab = PrefabAPI.InstantiateClone(itemDisplayRuleSet.FindEquipmentDisplayRuleGroup("Lightning").rules[0].followerPrefab, "DisplayEnforcerLightning", true);
             capacitorPrefab.AddComponent<UnityEngine.Networking.NetworkIdentity>();

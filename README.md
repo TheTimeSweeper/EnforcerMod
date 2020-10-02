@@ -49,7 +49,6 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 
 ## Known Issues
 - Teleporter particles kinda big (We could fix this but we won't)
-- Crowdfunder bullets hit the shield during Protect and Serve 
 - Cancelling shield with sprint does not work properly in multiplayer
 - Pending an R2API update , some achievements can't be unlocked in multiplayer. (they only work for host or single player).
 
@@ -58,6 +57,24 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - More polish and skills maybe (absolutely no promises)
 
 ## Changelog
+`1.0.6`
+- Fixed a null projectile being registered to the catalog possibly causing bugs
+
+`1.0.5`
+- Updated Engineer skin's shield
+- Updated Engineer skin's shotgun- only Riot Shotgun for now, other weapons coming soon
+- Updated Doomguy skin's shield
+- Updated Needler texture
+- Lowered the amount of Bustling Fungus needed for Enforcer: Enforcing Perfection even more
+- Fixed Shattering Justice placement- left the old hammer placement as a config option
+- Fixed deflected projectiles sometimes not hitting the original owner of the projectile
+- Fixed Needler not dropping when ragdolling
+- Fixed Crowdfunder hitting the shield during Protect & Serve- the drone wasn't actually needed but it's staying
+- Updated Super Massive Leech item display
+- Added a config option to enable unfinished skills
+- Changed config to use proper keycodes- this will reset your keybinds back to default but makes changing them easier, resetting config is recommended
+- Fixed a typo in Shield Bash's description
+
 `1.0.4`
 - Increased Assault Rifle damage to 65%; 40% was a bug and unintended, sorry!
 - Added animation when using the Needler

@@ -36,7 +36,7 @@ namespace EntityStates.Nemforcer
             base.OnEnter();
 
             this.duration = baseDuration / this.attackSpeedStat;
-            this.fireDuration = this.duration * 0.15f;
+            this.fireDuration = this.duration * 0.35f;
             this.aimRay = base.GetAimRay();
             this.hasFired = false;
             this.childLocator = base.GetModelChildLocator();

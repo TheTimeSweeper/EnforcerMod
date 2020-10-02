@@ -93,13 +93,13 @@ namespace EntityStates.Enforcer
             //dance cancels lol
             if (base.isAuthority && base.characterMotor.isGrounded && !base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
             {
-                if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.dance1Key.Value))
+                if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.defaultDanceKey.Value))
                 {
                     flag = false;
                     this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(DefaultDance))), InterruptPriority.Any);
                     return;
                 }
-                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.dance2Key.Value))
+                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.flossKey.Value))
                 {
                     flag = false;
                     this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Floss))), InterruptPriority.Any);
