@@ -42,7 +42,7 @@ namespace EntityStates.Enforcer
                     damage = StunGrenade.damageCoefficient * this.damageStat,
                     damageColorIndex = DamageColorIndex.Default,
                     damageTypeOverride = DamageType.Stun1s,
-                    force = 0,
+                    force = 250,
                     owner = base.gameObject,
                     position = childLocator.FindChild(StunGrenade.muzzleString).position,
                     procChainMask = default(ProcChainMask),

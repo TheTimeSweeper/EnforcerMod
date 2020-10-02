@@ -179,7 +179,20 @@ namespace EntityStates.Enforcer
                 }
             }
 
+            //for idle anim
             if (this.animator) this.animator.SetBool("inCombat", !base.characterBody.outOfCombat);
+
+            //visions anim
+            if (base.hasSkillLocator)
+            {
+                if (base.skillLocator.primary.skillDef.skillNameToken == "SKILL_LUNAR_PRIMARY_REPLACEMENT_NAME")
+                {
+                    if (base.inputBank.skill1.down)
+                    {
+                        base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.attackSpeedStat);
+                    }
+                }
+            }
 
             /*if (base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDOFF_NAME")
             {

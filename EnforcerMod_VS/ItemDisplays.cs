@@ -1581,7 +1581,7 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayBirdEye"),
                             childName = "Head",
-                            localPos = new Vector3(0, 0.008f, 0.001f),
+                            localPos = new Vector3(0, 0.008f, 0.012f),
                             localAngles = new Vector3(-90, 0, 0),
                             localScale = new Vector3(0.025f, 0.025f, 0.025f),
                             limbMask = LimbFlags.None

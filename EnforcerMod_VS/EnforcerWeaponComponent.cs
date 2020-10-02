@@ -93,9 +93,16 @@ public class EnforcerWeaponComponent : MonoBehaviour
         }
     }
 
+    public void DelayedResetWeapon()
+    {
+        Invoke("ResetWeapon", 0.1f);
+    }
+
     public void ResetWeapon()
     {
-        EquipWeapon(GetWeapon());
+        int weapon = GetWeapon();
+        EquipWeapon(weapon);
+        SetCrosshair(weapon);
     }
 
     private void EquipWeapon(int weapon)
@@ -153,16 +160,19 @@ public class EnforcerWeaponComponent : MonoBehaviour
             switch (weapon)
             {
                 case 0:
-                    charBody.crosshairPrefab = Resources.Load<GameObject>("prefabs/crosshair/SMGCrosshair");
+                    charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
                     break;
                 case 1:
-                    charBody.crosshairPrefab = Resources.Load<GameObject>("prefabs/crosshair/StandardCrosshair");
+                    charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
                     break;
                 case 2:
-                    charBody.crosshairPrefab = Resources.Load<GameObject>("prefabs/crosshair/BanditCrosshair");
+                    charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
                     break;
                 case 3:
-                    charBody.crosshairPrefab = Resources.Load<GameObject>("prefabs/crosshair/SimpleDotCrosshair");
+                    charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
+                    break;
+                case 4:
+                    charBody.crosshairPrefab = EnforcerPlugin.EnforcerPlugin.needlerCrosshair;
                     break;
             }
         }

@@ -8,10 +8,12 @@ using RoR2;
 using RoR2.Skills;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 using KinematicCharacterController;
 using EntityStates.Enforcer;
 using RoR2.Projectile;
 using BepInEx.Configuration;
+using RoR2.UI;
 
 namespace EnforcerPlugin
 {
@@ -46,6 +48,8 @@ namespace EnforcerPlugin
         //i'm not dealing with that
         public static GameObject characterPrefab;
         public static GameObject characterDisplay;
+
+        public static GameObject needlerCrosshair;
 
         public static GameObject bulletTracer;
         public static GameObject laserTracer;
@@ -87,6 +91,7 @@ namespace EnforcerPlugin
         public static ConfigEntry<float> headSize;
         public static ConfigEntry<bool> sprintShieldCancel;
         public static ConfigEntry<bool> sirenOnDeflect;
+        public static ConfigEntry<bool> useNeedlerCrosshair;
 
         public static ConfigEntry<string> dance1Key;
         public static ConfigEntry<string> dance2Key;
@@ -143,6 +148,7 @@ namespace EnforcerPlugin
             RegisterBuffs();
             RegisterProjectile();
             CreateDoppelganger();
+            CreateCrosshair();
 
             //uncomment this to enable nemesis
             //var p = new NemforcerPlugin();
@@ -160,6 +166,8 @@ namespace EnforcerPlugin
             headSize = base.Config.Bind<float>(new ConfigDefinition("01 - General Settings", "Head Size"), 1f, new ConfigDescription("Changes the size of Enforcer's head", null, Array.Empty<object>()));
             sprintShieldCancel = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Sprint Cancels Shield"), true, new ConfigDescription("Allows Protect and Serve to be cancelled by pressing sprint rather than special again", null, Array.Empty<object>()));
             sirenOnDeflect = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Siren on Deflect"), true, new ConfigDescription("Play siren sound upon deflecting a projectile", null, Array.Empty<object>()));
+            useNeedlerCrosshair = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Visions Crosshair"), true, new ConfigDescription("Gives every survivor the custom crosshair for Visions of Heresy", null, Array.Empty<object>()));
+
             dance1Key = base.Config.Bind<string>(new ConfigDefinition("02 - Keys", "Default Dance keybind"), "1", new ConfigDescription("Example: 1, z, left shift, caps lock, up, down", null, Array.Empty<object>()));
             dance2Key = base.Config.Bind<string>(new ConfigDefinition("02 - Keys", "Floss keybind"), "2", new ConfigDescription("Example: 1, z, left shift, caps lock, up, down", null, Array.Empty<object>()));
             sirensKey = base.Config.Bind<string>(new ConfigDefinition("02 - Keys", "Keybind to play sirens sound"), "caps lock", new ConfigDescription("Example: 1, z, left shift, caps lock, up, down", null, Array.Empty<object>()));
@@ -227,6 +235,7 @@ namespace EnforcerPlugin
             On.RoR2.GlobalEventManager.OnCharacterDeath += GlobalEventManager_OnCharacterDeath;
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
             On.EntityStates.BaseState.OnEnter += ParryState_OnEnter;
+            //On.EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
         }
 
         #region Hooks
@@ -267,6 +276,7 @@ namespace EnforcerPlugin
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
         {
             orig(self);
+
             if (self)
             {
                 if (self.HasBuff(jackBoots))
@@ -309,8 +319,18 @@ namespace EnforcerPlugin
                 var weaponComponent = self.GetBody().GetComponent<EnforcerWeaponComponent>();
                 if (weaponComponent)
                 {
-                    weaponComponent.ResetWeapon();
+                    weaponComponent.DelayedResetWeapon();
                     weaponComponent.ModelCheck();
+                }
+                else
+                {
+                    if (self.inventory && useNeedlerCrosshair.Value)
+                    {
+                        if (self.inventory.GetItemCount(ItemIndex.LunarPrimaryReplacement) > 0)
+                        {
+                            self.GetBody().crosshairPrefab = needlerCrosshair;
+                        }
+                    }
                 }
             }
         }
@@ -372,12 +392,29 @@ namespace EnforcerPlugin
             orig(self, info);
         }
 
-        private void ParryState_OnEnter(On.EntityStates.BaseState.orig_OnEnter orig, BaseState self) {
-
+        private void ParryState_OnEnter(On.EntityStates.BaseState.orig_OnEnter orig, BaseState self)
+        {
             orig(self);
-            if (self.outer.customName == "EnforcerParry") {
+
+            if (self.outer.customName == "EnforcerParry")
+            {
                 Reflection.SetFieldValue(self, "damageStat", self.outer.commonComponents.characterBody.damage * 5);
             }
+        }
+
+        private void FireLunarNeedle_OnEnter(On.EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle.orig_OnEnter orig, EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle self)
+        {
+            // this actually didn't work, hopefully someone else can figure it out bc needler shotgun sounds badass
+            if (self.outer.commonComponents.characterBody)
+            {
+                if (self.outer.commonComponents.characterBody.baseNameToken == "ENFORCER_NAME")
+                {
+                    self.outer.SetNextState(new FireNeedler());
+                    return;
+                }
+            }
+
+            orig(self);
         }
 
         private void SceneDirector_Start(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
@@ -1165,8 +1202,10 @@ namespace EnforcerPlugin
             characterPrefab.tag = "Player";
         }
 
-        private void RegisterBuffs() {
-            BuffDef jackBootsDef = new BuffDef {
+        private void RegisterBuffs()
+        {
+            BuffDef jackBootsDef = new BuffDef
+            {
                 name = "Heavyweight",
                 iconPath = "@Enforcer:Assets/texBuffProtectAndServe.png",
                 buffColor = characterColor,
@@ -1390,6 +1429,38 @@ namespace EnforcerPlugin
             EffectAPI.AddEffect(blockEffectPrefab);
         }
 
+        private void CreateCrosshair()
+        {
+            needlerCrosshair = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/Crosshair/LoaderCrosshair"), "NeedlerCrosshair", true);
+            needlerCrosshair.AddComponent<NetworkIdentity>();
+            Destroy(needlerCrosshair.GetComponent<LoaderHookCrosshairController>());
+
+            needlerCrosshair.GetComponent<RawImage>().enabled = false;
+
+            var control = needlerCrosshair.GetComponent<CrosshairController>();
+
+            control.maxSpreadAlpha = 0;
+            control.maxSpreadAngle = 3;
+            control.minSpreadAlpha = 0;
+            control.spriteSpreadPositions = new CrosshairController.SpritePosition[]
+            {
+                new CrosshairController.SpritePosition
+                {
+                    target = needlerCrosshair.transform.GetChild(2).GetComponent<RectTransform>(),
+                    zeroPosition = new Vector3(-20f, 0, 0),
+                    onePosition = new Vector3(-48f, 0, 0)
+                },
+                new CrosshairController.SpritePosition
+                {
+                    target = needlerCrosshair.transform.GetChild(3).GetComponent<RectTransform>(),
+                    zeroPosition = new Vector3(20f, 0, 0),
+                    onePosition = new Vector3(48f, 0, 0)
+                }
+            };
+
+            Destroy(needlerCrosshair.transform.GetChild(0).gameObject);
+            Destroy(needlerCrosshair.transform.GetChild(1).gameObject);
+        }
 
         private void CreateDoppelganger()
         {

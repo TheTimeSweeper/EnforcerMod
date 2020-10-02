@@ -91,7 +91,8 @@ namespace EntityStates.Enforcer
 
                 if (!this.isStormtrooper) base.GetComponent<EnforcerWeaponComponent>().DropShell();
 
-                if (base.isAuthority) {
+                if (base.isAuthority)
+                {
                     float damage = RiotShotgun.damageCoefficient * this.damageStat;
 
                     //unique tracer for stormtrooper skin because this is oddly high effort
@@ -132,6 +133,13 @@ namespace EntityStates.Enforcer
                     bulletAttack.minSpread = 0;
                     bulletAttack.maxSpread = bulletSpread / RAD2;
                     bulletAttack.bulletCount = (uint)Mathf.FloorToInt((float)projectileCount / 2);
+
+                    if (projectileCount == 1)
+                    {
+                        bulletAttack.bulletCount = 1;
+                        bulletAttack.Fire();
+                        return;
+                    }
 
                     bulletAttack.Fire();
 

@@ -42,7 +42,7 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 | Skill | | Description | Stats |
 |:-|-|------|---|
 | Super Shotgun | ![](https://i.imgur.com/fJk3Iwn.png) | Fire a powerful short range blast for `16x75%` damage. Has harsh damage falloff. | Proc: `0.75` |
-| Assault Rifle | ![](https://i.imgur.com/VV3t6HU.png) | Rapidly fire bullets dealing `60%` damage. | Proc: `0.6` |
+| Assault Rifle | ![](https://i.imgur.com/VV3t6HU.png) | Rapidly fire bullets dealing `65%` damage. | Proc: `0.6` |
 | Stun Grenade | ![](https://i.imgur.com/yuL8mB2.png) | `Stunning`. Launch a stun grenade, dealing `400%` damage. Store up to 3 grenades. | Proc: `0.6`, CD: `8 sec` |
 
 [![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)]()
@@ -58,6 +58,18 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - More polish and skills maybe (absolutely no promises)
 
 ## Changelog
+`1.0.4`
+- Increased Assault Rifle damage to 65%; 40% was a bug and unintended, sorry!
+- Added animation when using the Needler
+- Added a custom crosshair for Visions of Heresy- it's applied to every survivor but this can be toggled off via config
+- Due to complaints, Shattering Justice has been placed somewhere more serious
+- Lowered amount of Bustling Fungus required for Enforcer: Enforcing Perfection from 250 to 200
+- Fixed Riot Shotgun firing no bullets when configured to fire only one
+- Fixed an issue with Needler model still being visible even after getting rid of the item
+- Fixed Backup Mags on the Needler being huge
+- Fixed Visions of Heresy being hidden inside the head
+- Fixed sirens not going off when deflecting golem lasers
+
 `1.0.3`
 - Nerfed Super Shotgun fire rate; it was actually bugged and was never supposed to have the same fire rate as Riot Shotgun
 - Fixed bug with Super Shotgun ejecting a stupid amount of shells, added unique shells
