@@ -46,6 +46,8 @@ namespace EntityStates.Enforcer
             {
                 this.duration = this.baseShieldDuration / this.attackSpeedStat;
                 this.attackStopDuration = RiotShotgun.beefDurationShield / this.attackSpeedStat;
+
+                base.PlayAnimation("RightArm, Override", "FireShotgunShielded", "FireShotgun.playbackRate", this.duration);
             }
             else
             {
@@ -191,7 +193,7 @@ namespace EntityStates.Enforcer
         public new float projectileCount = 16;
         public new float bulletSpread = 18f;
         public new static float baseDuration = 1.5f;
-        public new static float baseShieldDuration = 1.2f;
+        public new static float baseShieldDuration = 1.3f;
         private bool droppedShell;
 
         public override void OnEnter()
@@ -203,13 +205,15 @@ namespace EntityStates.Enforcer
             {
                 this.duration = SuperShotgun.baseShieldDuration / this.attackSpeedStat;
                 this.attackStopDuration = RiotShotgun.beefDurationShield / this.attackSpeedStat;
+
+                base.PlayAnimation("RightArm, Override", "FireSSGShielded", "FireShotgun.playbackRate", this.duration);
             }
             else
             {
                 this.duration = SuperShotgun.baseDuration / this.attackSpeedStat;
                 this.attackStopDuration = RiotShotgun.beefDurationNoShield / this.attackSpeedStat;
 
-                base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
+                base.PlayAnimation("RightArm, Override", "FireSSG", "FireShotgun.playbackRate", this.duration);
             }
 
             this.fireDuration = 0.1f * this.duration;
@@ -217,7 +221,7 @@ namespace EntityStates.Enforcer
 
         public override void FixedUpdate()
         {
-            if (base.fixedAge >= 0.75f * this.duration && !this.droppedShell)
+            if (base.fixedAge >= 0.55f * this.duration && !this.droppedShell)
             {
                 this.droppedShell = true;
 

@@ -1,6 +1,7 @@
 # Enforcer
 - Adds the Enforcer from Risk of Rain 1
 - Includes a bunch of unlockable alternate skills and skins
+- Now includes support for ClassicItems' Ancient Scepter
 
 [![](https://i.imgur.com/GPy5UfP.png)]()
 
@@ -42,7 +43,7 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 | Skill | | Description | Stats |
 |:-|-|------|---|
 | Super Shotgun | ![](https://i.imgur.com/fJk3Iwn.png) | Fire a powerful short range blast for `16x75%` damage. Has harsh damage falloff. | Proc: `0.75` |
-| Assault Rifle | ![](https://i.imgur.com/VV3t6HU.png) | Rapidly fire bullets dealing `65%` damage. | Proc: `0.6` |
+| Assault Rifle | ![](https://i.imgur.com/VV3t6HU.png) | Rapidly fire bullets dealing `65%` damage. | Proc: `0.5` |
 | Stun Grenade | ![](https://i.imgur.com/yuL8mB2.png) | `Stunning`. Launch a stun grenade, dealing `400%` damage. Store up to 3 grenades. | Proc: `0.6`, CD: `8 sec` |
 
 [![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)]()
@@ -53,10 +54,25 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - Pending an R2API update , some achievements can't be unlocked in multiplayer. (they only work for host or single player).
 
 ## Future Plans
-- Skills++ and Scepter support
-- More polish and skills maybe (absolutely no promises)
+- Skills++support
+- More polish and skills maybe
 
 ## Changelog
+`1.0.8`
+- Added gun shooting animations
+- Tweaked sprint animation
+- Tweaked aim animation
+- Added item displays for items from the Aetherium mod
+- Added support for Ancient Scepter!
+- Tear Gas > Mustard Gas: Gas now deals 100% damage per second
+- Stun Grenade > Shock Grenade: Grenade does more damage, has a larger radius and applies shock rather than stun
+- Half reverted Engi skin's shield
+- Fixed Sawmerang item display
+- Fixed weird shield overlay on certain skins
+
+`1.0.7`
+- Fixed another minor bug
+
 `1.0.6`
 - Fixed a null projectile being registered to the catalog possibly causing bugs
 

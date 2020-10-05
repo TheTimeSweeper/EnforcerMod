@@ -19,18 +19,23 @@ namespace EnforcerPlugin {
         public static Sprite icon1D;//hammer
         public static Sprite icon2;//shield bash
         public static Sprite icon3;//tear gas
+        public static Sprite icon3S;//tear gas(scepter)
         public static Sprite icon3B;//stun grenade
+        public static Sprite icon3BS;//stun grenade(scepter)
         public static Sprite icon4;//protect and serve
         public static Sprite icon4B;//protect and serve cancel
 
         public static Sprite testIcon;// for wip skills
 
-        public static GameObject grenade;
-
         public static GameObject tearGasGrenadeModel;
         public static GameObject tearGasEffectPrefab;
 
+        public static GameObject tearGasGrenadeModelAlt;
+        public static GameObject tearGasEffectPrefabAlt;
+
         public static GameObject stunGrenadeModel;
+
+        public static GameObject stunGrenadeModelAlt;
 
         public static GameObject shotgunShell;
         public static GameObject superShotgunShell;
@@ -78,7 +83,9 @@ namespace EnforcerPlugin {
                 icon1C = MainAssetBundle.LoadAsset<Sprite>("Skill1Icon");
                 icon2 = MainAssetBundle.LoadAsset<Sprite>("Skill2Icon");
                 icon3 = MainAssetBundle.LoadAsset<Sprite>("Skill3Icon");
+                icon3S = MainAssetBundle.LoadAsset<Sprite>("Skill3Icon");
                 icon3B = MainAssetBundle.LoadAsset<Sprite>("Skill3BIcon");
+                icon3BS = MainAssetBundle.LoadAsset<Sprite>("Skill3BIcon");
                 icon4 = MainAssetBundle.LoadAsset<Sprite>("Skill4Icon");
                 icon4B = MainAssetBundle.LoadAsset<Sprite>("Skill4BIcon");
             }
@@ -90,7 +97,9 @@ namespace EnforcerPlugin {
                 icon1C = MainAssetBundle.LoadAsset<Sprite>("AssaultRifleIcon");
                 icon2 = MainAssetBundle.LoadAsset<Sprite>("ShieldBashIcon");
                 icon3 = MainAssetBundle.LoadAsset<Sprite>("TearGasIcon");
+                icon3S = MainAssetBundle.LoadAsset<Sprite>("TearGasScepterIcon");
                 icon3B = MainAssetBundle.LoadAsset<Sprite>("StunGrenadeIcon");
+                icon3BS = MainAssetBundle.LoadAsset<Sprite>("StunGrenadeScepterIcon");
                 icon4 = MainAssetBundle.LoadAsset<Sprite>("ShieldUpIcon");
                 icon4B = MainAssetBundle.LoadAsset<Sprite>("ShieldDownIcon");
             }
@@ -100,7 +109,23 @@ namespace EnforcerPlugin {
             tearGasGrenadeModel = MainAssetBundle.LoadAsset<GameObject>("TearGasGrenade");
             tearGasEffectPrefab = MainAssetBundle.LoadAsset<GameObject>("TearGasEffect");
 
+            tearGasGrenadeModelAlt = MainAssetBundle.LoadAsset<GameObject>("TearGasGrenadeAlt");
+            tearGasEffectPrefabAlt = MainAssetBundle.LoadAsset<GameObject>("TearGasEffectAlt");
+
             stunGrenadeModel = MainAssetBundle.LoadAsset<GameObject>("StunGrenade");
+
+            stunGrenadeModelAlt = MainAssetBundle.LoadAsset<GameObject>("ShockGrenade");
+            //replace the texture here bc the emission is important
+            MeshRenderer shockGrenadeMesh = stunGrenadeModelAlt.GetComponentInChildren<MeshRenderer>();
+            Material shockGrenadeMaterial = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+            shockGrenadeMaterial.SetColor("_Color", Color.white);
+            shockGrenadeMaterial.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShockGrenade").GetTexture("_MainTex"));
+            shockGrenadeMaterial.SetColor("_EmColor", Color.white);
+            shockGrenadeMaterial.SetFloat("_EmPower", 30f);
+            shockGrenadeMaterial.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matShockGrenade").GetTexture("_EmissionMap"));
+            shockGrenadeMaterial.SetFloat("_NormalStrength", 0);
+
+            shockGrenadeMesh.material = shockGrenadeMaterial;
 
             shotgunShell = MainAssetBundle.LoadAsset<GameObject>("ShellController");
             superShotgunShell = MainAssetBundle.LoadAsset<GameObject>("SuperShellController");

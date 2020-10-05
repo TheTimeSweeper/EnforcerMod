@@ -189,7 +189,14 @@ namespace EntityStates.Enforcer
                 {
                     if (base.inputBank.skill1.down)
                     {
-                        base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.attackSpeedStat);
+                        if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
+                        {
+                            base.PlayAnimation("RightArm, Override", "FireSSGShielded", "FireShotgun.playbackRate", this.attackSpeedStat);
+                        }
+                        else
+                        {
+                            base.PlayAnimation("RightArm, Override", "FireSSG", "FireShotgun.playbackRate", this.attackSpeedStat);
+                        }
                     }
                 }
             }

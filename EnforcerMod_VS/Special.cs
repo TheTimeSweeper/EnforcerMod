@@ -40,7 +40,7 @@ namespace EntityStates.Enforcer
 
                 if (isEngi)
                 {
-                    this.childLocator.FindChild("BungusShield").gameObject.SetActive(false);
+                    this.childLocator.FindChild("EngiShield").gameObject.SetActive(false);
                 }
 
                 if (isDoom)
@@ -82,7 +82,7 @@ namespace EntityStates.Enforcer
 
                 if (isEngi)
                 {
-                    this.childLocator.FindChild("BungusShield").gameObject.SetActive(true);
+                    this.childLocator.FindChild("EngiShield").gameObject.SetActive(true);
                 }
 
                 if (isDoom)

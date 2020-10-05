@@ -91,7 +91,14 @@ namespace EntityStates.Enforcer
 
         private void OnFireAuthority()
         {
-            base.PlayAnimation("RightArm, Override", "FireShotgun");
+            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
+            {
+                base.PlayAnimation("RightArm, Override", "FireShotgunShielded", "FireShotgun.playbackRate", this.attackSpeedStat);
+            }
+            else
+            {
+                base.PlayAnimation("RightArm, Override", "FireRifle", "FireShotgun.playbackRate", this.attackSpeedStat);
+            }
 
             this.critStat = base.characterBody.crit;
             this.isCrit = this.RollCrit();

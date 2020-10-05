@@ -5,6 +5,7 @@ using RoR2;
 using R2API.Utils;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace EnforcerPlugin
 {
@@ -33,7 +34,7 @@ namespace EnforcerPlugin
             list2 = new List<ItemDisplayRuleSet.NamedRuleGroup>();
 
             //add item displays here
-
+            #region DisplayRules
             list2.Add(new ItemDisplayRuleSet.NamedRuleGroup
             {
                 name = "Jetpack",
@@ -2709,9 +2710,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplaySawmerang"),
                             childName = "ElbowL",
-                            localPos = new Vector3(0, 0.05f, -0.15f),
-                            localAngles = new Vector3(90, 0, 0),
-                            localScale = new Vector3(0.25f, 0.25f, 0.25f),
+                            localPos = new Vector3(-0.05f, 0.05f, 0),
+                            localAngles = new Vector3(0, 90, 0),
+                            localScale = new Vector3(0.2f, 0.2f, 0.2f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -2822,7 +2823,202 @@ namespace EnforcerPlugin
                     }
                 }
             });
+            #endregion
 
+            //aetherium displays
+            #region Aetherium
+            if (EnforcerPlugin.aetheriumInstalled)
+            {
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "ATHRMAlienMagnet",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadAetheriumDisplay("AlienMagnet"),
+                                childName = "Root",
+                                localPos = new Vector3(0.1f, 0.15f, -0.04f),
+                                localAngles = new Vector3(0, 0, 0),
+                                localScale = new Vector3(0.015f, 0.015f, 0.015f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "ATHRMVoidheart",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadAetheriumDisplay("VoidHeart"),
+                                childName = "Spine3",
+                                localPos = new Vector3(0, 0, 0),
+                                localAngles = new Vector3(0, 0, 0),
+                                localScale = new Vector3(0.0125f, 0.0125f, 0.0125f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "ATHRMSharkTeeth",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadAetheriumDisplay("SharkTeeth"),
+                                childName = "LegL",
+                                localPos = new Vector3(0, 0.06f, 0),
+                                localAngles = new Vector3(0, 0, 300),
+                                localScale = new Vector3(0.05f, 0.05f, 0.03f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "ATHRMBloodSoakedShield",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadAetheriumDisplay("BloodSoakedShield"),
+                                childName = "ElbowL",
+                                localPos = new Vector3(-0.01f, 0.01f, 0),
+                                localAngles = new Vector3(0, 270, 0),
+                                localScale = new Vector3(0.03f, 0.03f, 0.03f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "ATHRMInspiringDrone",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadAetheriumDisplay("InspiringDrone"),
+                                childName = "Root",
+                                localPos = new Vector3(-0.1f, 0.15f, -0.04f),
+                                localAngles = new Vector3(0, 0, 0),
+                                localScale = new Vector3(0.015f, 0.015f, 0.015f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "ATHRMFeatheredPlume",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadAetheriumDisplay("FeatheredPlume"),
+                                childName = "Head",
+                                localPos = new Vector3(0, 0.02f, -0.01f),
+                                localAngles = new Vector3(335, 0, 0),
+                                localScale = new Vector3(0.05f, 0.05f, 0.05f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "ATHRMShieldingCore",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadAetheriumDisplay("ShieldingCore"),
+                                childName = "Spine3",
+                                localPos = new Vector3(0, 0.02f, -0.02f),
+                                localAngles = new Vector3(0, 90, 0),
+                                localScale = new Vector3(0.01f, 0.01f, 0.01f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "ATHRMUnstableDesign",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadAetheriumDisplay("UnstableDesign"),
+                                childName = "Spine3",
+                                localPos = new Vector3(0, -0.01f, -0.02f),
+                                localAngles = new Vector3(0, 45, 0),
+                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "ATHRMWeightedAnklet",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadAetheriumDisplay("WeightedAnklet"),
+                                childName = "KneeL",
+                                localPos = new Vector3(-0.002f, 0.01f, -0.003f),
+                                localAngles = new Vector3(0, 0, 0),
+                                localScale = new Vector3(0.02f, 0.025f, 0.025f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+            }
+            #endregion
 
             //apply displays here
 
@@ -3062,6 +3258,36 @@ namespace EnforcerPlugin
                     }
                 }
             }
+        }
+
+
+
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private static GameObject LoadAetheriumDisplay(string name)
+        {
+            switch (name)
+            {
+                case "AlienMagnet":
+                    return Aetherium.Items.AlienMagnet.ItemBodyModelPrefab;
+                case "BloodSoakedShield":
+                    return Aetherium.Items.BloodSoakedShield.ItemBodyModelPrefab;
+                case "FeatheredPlume":
+                    return Aetherium.Items.FeatheredPlume.ItemBodyModelPrefab;
+                case "InspiringDrone":
+                    return Aetherium.Items.InspiringDrone.ItemFollowerPrefab;
+                case "SharkTeeth":
+                    return Aetherium.Items.SharkTeeth.ItemBodyModelPrefab;
+                case "ShieldingCore":
+                    return Aetherium.Items.ShieldingCore.ItemBodyModelPrefab;
+                case "UnstableDesign":
+                    return Aetherium.Items.UnstableDesign.ItemBodyModelPrefab;
+                case "VoidHeart":
+                    return Aetherium.Items.Voidheart.ItemBodyModelPrefab;
+                case "WeightedAnklet":
+                    return Aetherium.Items.WeightedAnklet.ItemBodyModelPrefab;
+            }
+            return null;
         }
     }
 }
