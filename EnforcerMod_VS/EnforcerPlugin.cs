@@ -15,6 +15,7 @@ using RoR2.Projectile;
 using BepInEx.Configuration;
 using RoR2.UI;
 using System.Runtime.CompilerServices;
+using System.Linq;
 
 namespace EnforcerPlugin
 {
@@ -112,6 +113,7 @@ namespace EnforcerPlugin
         public static ConfigEntry<bool> useNeedlerCrosshair;
         public static ConfigEntry<bool> sillyHammer;
         public static ConfigEntry<bool> cursed;
+        public static ConfigEntry<bool> femSkin;
 
         public static ConfigEntry<KeyCode> defaultDanceKey;
         public static ConfigEntry<KeyCode> flossKey;
@@ -186,8 +188,7 @@ namespace EnforcerPlugin
             CreateCrosshair();
 
             //uncomment this to enable nemesis
-            //var p = new NemforcerPlugin();
-            //p.Init();
+            new NemforcerPlugin().Init();
 
             Hook();
         }
@@ -204,6 +205,7 @@ namespace EnforcerPlugin
             useNeedlerCrosshair = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Visions Crosshair"), true, new ConfigDescription("Gives every survivor the custom crosshair for Visions of Heresy", null, Array.Empty<object>()));
             sillyHammer = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Silly Hammer"), false, new ConfigDescription("Replaces Enforcer with a skeleton made out of hammers when Shattering Justice is obtained", null, Array.Empty<object>()));
             cursed = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Cursed"), false, new ConfigDescription("Enables unfinished skills. They're almost certainly not going to work so enable at your own risk", null, Array.Empty<object>()));
+            femSkin = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "femSkin"), false, new ConfigDescription("Enables femforcer skin. Not for good boys and girls.", null, Array.Empty<object>()));
 
             defaultDanceKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Default Dance"), KeyCode.Alpha1, new ConfigDescription("Key used to Default Dance", null, Array.Empty<object>()));
             flossKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Floss"), KeyCode.Alpha2, new ConfigDescription("Key used to Floss", null, Array.Empty<object>()));
@@ -785,7 +787,21 @@ namespace EnforcerPlugin
                     renderer = childLocator.FindChild("BungusArmShield").GetComponent<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = true
-                }
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("FemShield").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("FemShield").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                    ignoreOverlays = true
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("FemShieldGlass").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("FemShieldGlass").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                    ignoreOverlays = true
+                },
             };
 
             characterModel.autoPopulateLightInfos = true;
@@ -799,7 +815,7 @@ namespace EnforcerPlugin
             characterDisplay = PrefabAPI.InstantiateClone(tempDisplay.GetComponent<ModelLocator>().modelBaseTransform.gameObject, "EnforcerDisplay", true);
 
             characterDisplay.AddComponent<MenuSound>();
-            characterDisplay.AddComponent<EnforcerLightController>();
+            characterDisplay.AddComponent<EnforcerLightController>();   
 
             //var ragdollShit = characterDisplay.GetComponentInChildren<RagdollController>();
             //if (ragdollShit) Destroy(ragdollShit);
@@ -1153,7 +1169,21 @@ namespace EnforcerPlugin
                     renderer = childLocator.FindChild("BungusArmShield").GetComponent<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = true
-                }
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("FemShield").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("FemShield").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                    ignoreOverlays = true
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("FemShieldGlass").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("FemShieldGlass").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                    ignoreOverlays = true
+                },
             };
 
             characterModel.autoPopulateLightInfos = true;

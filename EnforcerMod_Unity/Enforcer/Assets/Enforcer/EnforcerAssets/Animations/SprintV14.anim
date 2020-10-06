@@ -14628,7 +14628,7 @@ AnimationClip:
     m_StartTime: 0
     m_StopTime: 0.875
     m_OrientationOffsetY: 0
-    m_Level: 0
+    m_Level: 1.13
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
     m_LoopTime: 1
@@ -14637,9 +14637,9 @@ AnimationClip:
     m_LoopBlendPositionY: 1
     m_LoopBlendPositionXZ: 1
     m_KeepOriginalOrientation: 0
-    m_KeepOriginalPositionY: 0
+    m_KeepOriginalPositionY: 1
     m_KeepOriginalPositionXZ: 0
-    m_HeightFromFeet: 1
+    m_HeightFromFeet: 0
     m_Mirror: 0
   m_EditorCurves:
   - curve:

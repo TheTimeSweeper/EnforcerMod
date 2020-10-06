@@ -4,12 +4,21 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
+    100002: FemforcerShield
+    100004: FemforcerShieldGlass
     400000: //RootNode
+    400002: FemforcerShield
+    400004: FemforcerShieldGlass
     2100000: FemforcerShieldTransparentMaterial
     2100002: FemforcerShieldMaterial
     2300000: //RootNode
+    2300002: FemforcerShield
+    2300004: FemforcerShieldGlass
     3300000: //RootNode
+    3300002: FemforcerShield
+    3300004: FemforcerShieldGlass
     4300000: FemforcerShield
+    4300002: FemforcerShieldGlass
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -41,7 +50,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.01
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1

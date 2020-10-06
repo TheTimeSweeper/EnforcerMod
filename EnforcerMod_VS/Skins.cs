@@ -3,11 +3,30 @@ using UnityEngine;
 using R2API;
 using RoR2;
 using R2API.Utils;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EnforcerPlugin
 {
     public static class Skins
     {
+        private static SkinDef.GameObjectActivation[] getActivations(GameObject[] allObjects, params GameObject[] activatedObjects) {
+
+            List<SkinDef.GameObjectActivation> GameObjectActivations = new List<SkinDef.GameObjectActivation>();
+
+            for (int i = 0; i < allObjects.Length; i++) {
+
+                bool activate = activatedObjects.Contains(allObjects[i]);
+
+                GameObjectActivations.Add(new SkinDef.GameObjectActivation {
+                    gameObject = allObjects[i],
+                    shouldActivate = activate
+                });
+            }
+
+            return GameObjectActivations.ToArray();
+        }
+
         public static void RegisterSkins()
         {
             GameObject bodyPrefab = EnforcerPlugin.characterPrefab;
@@ -32,6 +51,23 @@ namespace EnforcerPlugin
             GameObject marauderShield = childLocator.FindChild("MarauderArmShield").gameObject;
             GameObject bungusShield = childLocator.FindChild("BungusArmShield").gameObject;
             GameObject bungusShotgun = childLocator.FindChild("BungusShotgun").gameObject;
+            GameObject femShield = childLocator.FindChild("FemShield").gameObject;
+
+            GameObject[] allObjects = new GameObject[] {
+                engiShield,
+                shotgunModel,
+                rifleModel,
+                blasterModel,
+                blasterRifle,
+                superShotgun,
+                superBlaster,
+                shieldModel,
+                sexShield,
+                marauderShield,
+                bungusShield,
+                bungusShotgun,
+                femShield,
+            };
 
             LanguageAPI.Add("ENFORCERBODY_DEFAULT_SKIN_NAME", "Default");
             LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Peacekeeper");
@@ -40,75 +76,14 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCERBODY_DOOM_SKIN_NAME", "Doom Slayer");
             LanguageAPI.Add("ENFORCERBODY_DESPERADO_SKIN_NAME", "Desperado");
             LanguageAPI.Add("ENFORCERBODY_FROG_SKIN_NAME", "Zero Suit");
+            LanguageAPI.Add("ENFORCERBODY_FEM_SKIN_NAME", "Femforcer");
 
             LoadoutAPI.SkinDefInfo skinDefInfo = default(LoadoutAPI.SkinDefInfo);
             skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             skinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             skinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            skinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
-            {
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = engiShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = shotgunModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = rifleModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = blasterModel,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = blasterRifle,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = superShotgun,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = superBlaster,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = shieldModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = sexShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = marauderShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = bungusShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = bungusShotgun,
-                    shouldActivate = false
-                }
-            };
+            skinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, shieldModel);
 
             skinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
             //skinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.31f, 0.49f, 0.69f), new Color(0.86f, 0.83f, 0.63f), new Color(0.1f, 0.07f, 0.06f), new Color(0.21f, 0.29f, 0.38f));
@@ -445,6 +420,19 @@ namespace EnforcerPlugin
                 array[28].defaultMaterial = material;
             }
 
+            material = array[29].defaultMaterial;
+
+            if (material) {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Color.white);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcer").GetTexture("_MainTex"));
+                material.SetColor("_EmColor", Color.white);
+                material.SetFloat("_EmPower", 0.3f);
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcer").GetTexture("_EmissionMap"));
+
+                array[29].defaultMaterial = material;
+            }
+
             skinDefInfo.RendererInfos = array;
 
             SkinDef defaultSkin = LoadoutAPI.CreateNewSkinDef(skinDefInfo);
@@ -456,69 +444,7 @@ namespace EnforcerPlugin
             spaceSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             spaceSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            spaceSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
-            {
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = engiShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = shotgunModel,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = rifleModel,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = blasterModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = blasterRifle,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = superShotgun,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = superBlaster,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = shieldModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = sexShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = marauderShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = bungusShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = bungusShotgun,
-                    shouldActivate = false
-                }
-            };
+            spaceSkinDefInfo.GameObjectActivations = getActivations(allObjects, blasterModel, blasterRifle, superBlaster, shieldModel);
 
             spaceSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texStormtrooperAchievement");
             //spaceSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.83f, 0.83f, 0.83f), new Color(0.64f, 0.64f, 0.64f), new Color(0.25f, 0.25f, 0.25f), new Color(0f, 0f, 0f));
@@ -575,69 +501,7 @@ namespace EnforcerPlugin
             engiSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             engiSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            engiSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
-            {
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = engiShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = shotgunModel,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = rifleModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = blasterModel,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = blasterRifle,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = superShotgun,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = superBlaster,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = shieldModel,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = sexShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = marauderShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = bungusShield,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = bungusShotgun,
-                    shouldActivate = true
-                }
-            };
+            engiSkinDefInfo.GameObjectActivations = getActivations(allObjects, bungusShotgun, rifleModel, superShotgun, bungusShield);
 
             engiSkinDefInfo.Icon = Resources.Load<GameObject>("Prefabs/CharacterBodies/EngiBody").GetComponentInChildren<ModelSkinController>().skins[0].icon;
             engiSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
@@ -691,69 +555,7 @@ namespace EnforcerPlugin
             doomSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             doomSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            doomSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
-            {
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = engiShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = shotgunModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = rifleModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = blasterModel,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = blasterRifle,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = superShotgun,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = superBlaster,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = shieldModel,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = sexShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = marauderShield,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = bungusShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = bungusShotgun,
-                    shouldActivate = false
-                }
-            };
+            doomSkinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, marauderShield);
 
             doomSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texDoomAchievement");
             //doomSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.41f, 0.49f, 0.4f), new Color(0.14f, 0.18f, 0.16f), new Color(0.46f, 0.46f, 0.46f), new Color(0.64f, 0.64f, 0.64f));
@@ -808,69 +610,7 @@ namespace EnforcerPlugin
             masterySkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             masterySkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            masterySkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
-            {
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = engiShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = shotgunModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = rifleModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = blasterModel,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = blasterRifle,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = superShotgun,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = superBlaster,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = shieldModel,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = sexShield,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = marauderShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = bungusShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = bungusShotgun,
-                    shouldActivate = false
-                }
-            };
+            masterySkinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, sexShield);
 
             masterySkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
             //masterySkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.31f, 0.49f, 0.69f), new Color(0.86f, 0.83f, 0.63f), new Color(0.1f, 0.07f, 0.06f), new Color(0.21f, 0.29f, 0.38f));
@@ -898,8 +638,8 @@ namespace EnforcerPlugin
             {
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_MainTex"));
-                //material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 0);
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 1);
                 material.SetFloat("_NormalStrength", 0);
 
                 array[0].defaultMaterial = material;
@@ -914,69 +654,7 @@ namespace EnforcerPlugin
             desperadoSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             desperadoSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            desperadoSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
-            {
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = engiShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = shotgunModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = rifleModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = blasterModel,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = blasterRifle,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = superShotgun,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = superBlaster,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = shieldModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = sexShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = marauderShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = bungusShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = bungusShotgun,
-                    shouldActivate = false
-                }
-            };
+            desperadoSkinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, shieldModel);
 
             desperadoSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texDesperadoAchievement");
             //desperadoSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.43f, 0.1f, 0.1f), Color.red, new Color(0.31f, 0.04f, 0.07f), Color.black);
@@ -1031,69 +709,7 @@ namespace EnforcerPlugin
             frogSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             frogSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            frogSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
-            {
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = engiShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = shotgunModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = rifleModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = blasterModel,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = blasterRifle,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = superShotgun,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = superBlaster,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = shieldModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = sexShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = marauderShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = bungusShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = bungusShotgun,
-                    shouldActivate = false
-                }
-            };
+            frogSkinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, shieldModel);
 
             frogSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texZeroSuitAchievement");
             //frogSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.13f, 0.10588f, 0.1137f), new Color(0.86f, 0.83f, 0.63f), new Color(0.13f, 0.07f, 0.04f), new Color(0.047f, 0.047f, 0.047f));
@@ -1136,69 +752,7 @@ namespace EnforcerPlugin
             classicSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             classicSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            classicSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[]
-            {
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = engiShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = shotgunModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = rifleModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = blasterModel,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = blasterRifle,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = superShotgun,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = superBlaster,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = shieldModel,
-                    shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = sexShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = marauderShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = bungusShield,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = bungusShotgun,
-                    shouldActivate = false
-                }
-            };
+            classicSkinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, shieldModel);
 
             classicSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.83f, 0.83f, 0.83f), new Color(0.64f, 0.64f, 0.64f), new Color(0.25f, 0.25f, 0.25f), new Color(0f, 0f, 0f));
             classicSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
@@ -1223,62 +777,75 @@ namespace EnforcerPlugin
 
             SkinDef classicSkin = LoadoutAPI.CreateNewSkinDef(classicSkinDefInfo);
 
+            LoadoutAPI.SkinDefInfo femSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            femSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            femSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            femSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
+            femSkinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, femShield);
 
-            bool flag = false;
-
-            if (EnforcerPlugin.antiFun.Value)
+            //femSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
+            masterySkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.31f, 0.49f, 0.69f), new Color(0.86f, 0.83f, 0.63f), new Color(0.1f, 0.07f, 0.06f), new Color(0.21f, 0.29f, 0.38f));
+            femSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
-                if (flag)
+                new SkinDef.MeshReplacement
                 {
-                    skinController.skins = new SkinDef[]
-                    {
-                        defaultSkin,
-                        masterySkin,
-                        doomSkin,
-                        classicSkin
-                    };
+                    renderer = mainRenderer,
+                    mesh = Assets.femMesh
                 }
-                else
-                {
-                    skinController.skins = new SkinDef[]
-                    {
-                        defaultSkin,
-                        masterySkin,
-                        doomSkin
-                    };
-                }
+            };
+            femSkinDefInfo.Name = "ENFORCERBODY_FEM_SKIN_NAME";
+            femSkinDefInfo.NameToken = "ENFORCERBODY_FEM_SKIN_NAME";
+            femSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            femSkinDefInfo.RootObject = model;
+            femSkinDefInfo.UnlockableName = "";
+
+            rendererInfos = skinDefInfo.RendererInfos;
+            array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos.CopyTo(array, 0);
+
+            material = array[0].defaultMaterial;
+
+            if (material) {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Color.white);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcer").GetTexture("_MainTex"));
+                material.SetColor("_EmColor", Color.white);
+                material.SetFloat("_EmPower", 0.3f);
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcer").GetTexture("_EmissionMap"));
+
+                array[0].defaultMaterial = material;
             }
-            else
-            {
-                if (flag)
-                {
-                    skinController.skins = new SkinDef[]
-                    {
-                        defaultSkin,
-                        masterySkin,
-                        doomSkin,
-                        engiSkin,
-                        spaceSkin,
-                        desperadoSkin,
-                        frogSkin,
-                        classicSkin
-                    };
-                }
-                else
-                {
-                    skinController.skins = new SkinDef[]
-                    {
-                        defaultSkin,
-                        masterySkin,
-                        doomSkin,
-                        engiSkin,
-                        spaceSkin,
-                        desperadoSkin,
-                        frogSkin
-                    };
-                }
+
+            femSkinDefInfo.RendererInfos = array;
+
+            SkinDef femSkin = LoadoutAPI.CreateNewSkinDef(femSkinDefInfo);
+
+            var skinDefs = new List<SkinDef>() {
+                defaultSkin,
+                masterySkin,
+                doomSkin, 
+            };
+
+            if (!EnforcerPlugin.antiFun.Value) {
+                skinDefs.Add(engiSkin);
+                skinDefs.Add(spaceSkin);
+                skinDefs.Add(desperadoSkin);
+                skinDefs.Add(frogSkin);
             }
+
+            if (EnforcerPlugin.femSkin.Value) {
+                skinDefs.Add(femSkin);
+            }
+
+            bool hasClassicSkin = false;
+
+            if (hasClassicSkin) {
+                skinDefs.Add(classicSkin);
+            }
+
+            skinController.skins = skinDefs.ToArray();
+            
         }
     }
 }
