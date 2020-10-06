@@ -6,7 +6,7 @@ namespace EntityStates.Enforcer
 {
     public class StunGrenade : BaseSkillState
     {
-        public static float baseDuration = 0.4f;
+        public static float baseDuration = 0.5f;
         public static float damageCoefficient = 4f;
         public static float procCoefficient = 0.6f;
         public static float bulletRecoil = 2.5f;
@@ -42,7 +42,7 @@ namespace EntityStates.Enforcer
                     damage = StunGrenade.damageCoefficient * this.damageStat,
                     damageColorIndex = DamageColorIndex.Default,
                     damageTypeOverride = DamageType.Stun1s,
-                    force = 0,
+                    force = 250,
                     owner = base.gameObject,
                     position = childLocator.FindChild(StunGrenade.muzzleString).position,
                     procChainMask = default(ProcChainMask),

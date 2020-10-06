@@ -20,6 +20,19 @@ namespace EnforcerPlugin
 
             SkinnedMeshRenderer mainRenderer = Reflection.GetFieldValue<SkinnedMeshRenderer>(characterModel, "mainSkinnedMeshRenderer");
 
+            GameObject engiShield = childLocator.FindChild("EngiShield").gameObject;
+            GameObject shotgunModel = childLocator.FindChild("ShotgunModel").gameObject;
+            GameObject rifleModel = childLocator.FindChild("RifleModel").gameObject;
+            GameObject blasterModel = childLocator.FindChild("Blaster").gameObject;
+            GameObject blasterRifle = childLocator.FindChild("BlasterRifle").gameObject;
+            GameObject superShotgun = childLocator.FindChild("SuperShotgunModel").gameObject;
+            GameObject superBlaster = childLocator.FindChild("BlasterSuper").gameObject;
+            GameObject shieldModel = childLocator.FindChild("ShieldModel").gameObject;
+            GameObject sexShield = childLocator.FindChild("SexShieldModel").gameObject;
+            GameObject marauderShield = childLocator.FindChild("MarauderArmShield").gameObject;
+            GameObject bungusShield = childLocator.FindChild("BungusArmShield").gameObject;
+            GameObject bungusShotgun = childLocator.FindChild("BungusShotgun").gameObject;
+
             LanguageAPI.Add("ENFORCERBODY_DEFAULT_SKIN_NAME", "Default");
             LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Peacekeeper");
             LanguageAPI.Add("ENFORCERBODY_SPACE_SKIN_NAME", "Rainstormtrooper");
@@ -37,47 +50,62 @@ namespace EnforcerPlugin
             {
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("EngiShield").gameObject,
+                    gameObject = engiShield,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("ShotgunModel").gameObject,
+                    gameObject = shotgunModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("RifleModel").gameObject,
+                    gameObject = rifleModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("Blaster").gameObject,
+                    gameObject = blasterModel,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
+                    gameObject = blasterRifle,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
+                    gameObject = superShotgun,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    gameObject = superBlaster,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    gameObject = shieldModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
+                    gameObject = sexShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = marauderShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = bungusShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = bungusShotgun,
                     shouldActivate = false
                 }
             };
@@ -143,7 +171,8 @@ namespace EnforcerPlugin
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
+                material.SetFloat("_NormalStrength", 0.5f);
+                material.SetTexture("_NormalTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_BumpMap"));
 
                 array[1].defaultMaterial = material;
             }
@@ -349,9 +378,10 @@ namespace EnforcerPlugin
             {
                 material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matNeedler").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matNeedler").GetTexture("_EmissionMap"));
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matNeedler").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 15);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matNeedler").GetTexture("_MainTex"));
+                material.SetColor("_EmColor", Color.white);
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matNeedler").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 5);
                 material.SetFloat("_NormalStrength", 0);
 
                 array[20].defaultMaterial = material;
@@ -370,9 +400,56 @@ namespace EnforcerPlugin
                 array[21].defaultMaterial = material;
             }
 
+            material = array[22].defaultMaterial;
+
+            if (material)
+            {
+                material = EnforcerPlugin.bungusMat;
+                array[22].defaultMaterial = material;
+            }
+
+            material = array[24].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Color.black);
+                material.SetTexture("_MainTex", null);
+                material.SetFloat("_EmPower", 20);
+                material.SetColor("_EmColor", Color.red);
+                material.SetTexture("_EmTex", null);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[24].defaultMaterial = material;
+            }
+
+            material = array[27].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matMarauderArmShield").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matMarauderArmShield").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 20);
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matMarauderArmShield").GetTexture("_EmissionMap"));
+                material.SetFloat("_NormalStrength", 0);
+
+                array[27].defaultMaterial = material;
+            }
+
+            material = array[28].defaultMaterial;
+
+            if (material)
+            {
+                material = EnforcerPlugin.bungusMat;
+                array[28].defaultMaterial = material;
+            }
+
             skinDefInfo.RendererInfos = array;
 
             SkinDef defaultSkin = LoadoutAPI.CreateNewSkinDef(skinDefInfo);
+
+
 
             LoadoutAPI.SkinDefInfo spaceSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             spaceSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
@@ -383,47 +460,62 @@ namespace EnforcerPlugin
             {
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("EngiShield").gameObject,
+                    gameObject = engiShield,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("ShotgunModel").gameObject,
+                    gameObject = shotgunModel,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("RifleModel").gameObject,
+                    gameObject = rifleModel,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("Blaster").gameObject,
+                    gameObject = blasterModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
+                    gameObject = blasterRifle,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
+                    gameObject = superShotgun,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    gameObject = superBlaster,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    gameObject = shieldModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
+                    gameObject = sexShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = marauderShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = bungusShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = bungusShotgun,
                     shouldActivate = false
                 }
             };
@@ -487,48 +579,63 @@ namespace EnforcerPlugin
             {
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("EngiShield").gameObject,
+                    gameObject = engiShield,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("ShotgunModel").gameObject,
+                    gameObject = shotgunModel,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = rifleModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("RifleModel").gameObject,
+                    gameObject = blasterModel,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = blasterRifle,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = superShotgun,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("Blaster").gameObject,
+                    gameObject = superBlaster,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
+                    gameObject = shieldModel,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
+                    gameObject = sexShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = marauderShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = bungusShield,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
-                    shouldActivate = false
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    gameObject = bungusShotgun,
                     shouldActivate = true
-                },
-                new SkinDef.GameObjectActivation
-                {
-                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
-                    shouldActivate = false
                 }
             };
 
@@ -588,47 +695,62 @@ namespace EnforcerPlugin
             {
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("EngiShield").gameObject,
+                    gameObject = engiShield,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("ShotgunModel").gameObject,
+                    gameObject = shotgunModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("RifleModel").gameObject,
+                    gameObject = rifleModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("Blaster").gameObject,
+                    gameObject = blasterModel,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
+                    gameObject = blasterRifle,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
+                    gameObject = superShotgun,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    gameObject = superBlaster,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    gameObject = shieldModel,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = sexShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = marauderShield,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
+                    gameObject = bungusShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = bungusShotgun,
                     shouldActivate = false
                 }
             };
@@ -690,48 +812,63 @@ namespace EnforcerPlugin
             {
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("EngiShield").gameObject,
+                    gameObject = engiShield,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("ShotgunModel").gameObject,
+                    gameObject = shotgunModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("RifleModel").gameObject,
+                    gameObject = rifleModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("Blaster").gameObject,
+                    gameObject = blasterModel,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
+                    gameObject = blasterRifle,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
+                    gameObject = superShotgun,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    gameObject = superBlaster,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    gameObject = shieldModel,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
+                    gameObject = sexShield,
                     shouldActivate = true
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = marauderShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = bungusShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = bungusShotgun,
+                    shouldActivate = false
                 }
             };
 
@@ -781,47 +918,62 @@ namespace EnforcerPlugin
             {
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("EngiShield").gameObject,
+                    gameObject = engiShield,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("ShotgunModel").gameObject,
+                    gameObject = shotgunModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("RifleModel").gameObject,
+                    gameObject = rifleModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("Blaster").gameObject,
+                    gameObject = blasterModel,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
+                    gameObject = blasterRifle,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
+                    gameObject = superShotgun,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    gameObject = superBlaster,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    gameObject = shieldModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
+                    gameObject = sexShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = marauderShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = bungusShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = bungusShotgun,
                     shouldActivate = false
                 }
             };
@@ -883,47 +1035,62 @@ namespace EnforcerPlugin
             {
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("EngiShield").gameObject,
+                    gameObject = engiShield,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("ShotgunModel").gameObject,
+                    gameObject = shotgunModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("RifleModel").gameObject,
+                    gameObject = rifleModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("Blaster").gameObject,
+                    gameObject = blasterModel,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
+                    gameObject = blasterRifle,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
+                    gameObject = superShotgun,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    gameObject = superBlaster,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    gameObject = shieldModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
+                    gameObject = sexShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = marauderShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = bungusShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = bungusShotgun,
                     shouldActivate = false
                 }
             };
@@ -973,47 +1140,62 @@ namespace EnforcerPlugin
             {
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("EngiShield").gameObject,
+                    gameObject = engiShield,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("ShotgunModel").gameObject,
+                    gameObject = shotgunModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("RifleModel").gameObject,
+                    gameObject = rifleModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("Blaster").gameObject,
+                    gameObject = blasterModel,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("BlasterRifle").gameObject,
+                    gameObject = blasterRifle,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("SuperShotgunModel").gameObject,
+                    gameObject = superShotgun,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("BlasterSuper").gameObject,
+                    gameObject = superBlaster,
                     shouldActivate = false
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("ShieldModel").gameObject,
+                    gameObject = shieldModel,
                     shouldActivate = true
                 },
                 new SkinDef.GameObjectActivation
                 {
-                    gameObject = childLocator.FindChild("SexShieldModel").gameObject,
+                    gameObject = sexShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = marauderShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = bungusShield,
+                    shouldActivate = false
+                },
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = bungusShotgun,
                     shouldActivate = false
                 }
             };

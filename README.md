@@ -1,6 +1,7 @@
 # Enforcer
 - Adds the Enforcer from Risk of Rain 1
 - Includes a bunch of unlockable alternate skills and skins
+- Now includes support for ClassicItems' Ancient Scepter
 
 [![](https://i.imgur.com/GPy5UfP.png)]()
 
@@ -49,15 +50,59 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 
 ## Known Issues
 - Teleporter particles kinda big (We could fix this but we won't)
-- Crowdfunder bullets hit the shield during Protect and Serve 
 - Cancelling shield with sprint does not work properly in multiplayer
 - Pending an R2API update , some achievements can't be unlocked in multiplayer. (they only work for host or single player).
 
 ## Future Plans
-- Skills++ and Scepter support
-- More polish and skills maybe (absolutely no promises)
+- Skills++support
+- More polish and skills maybe
 
 ## Changelog
+`1.0.8`
+- Added gun shooting animations
+- Tweaked sprint animation
+- Tweaked aim animation
+- Added item displays for items from the Aetherium mod
+- Added support for Ancient Scepter!
+- Tear Gas > Mustard Gas: Gas now deals 100% damage per second
+- Stun Grenade > Shock Grenade: Grenade does more damage, has a larger radius and applies shock rather than stun
+- Half reverted Engi skin's shield
+- Fixed Sawmerang item display
+- Fixed weird shield overlay on certain skins
+
+`1.0.7`
+- Fixed another minor bug
+
+`1.0.6`
+- Fixed a null projectile being registered to the catalog possibly causing bugs
+
+`1.0.5`
+- Updated Engineer skin's shield
+- Updated Engineer skin's shotgun- only Riot Shotgun for now, other weapons coming soon
+- Updated Doomguy skin's shield
+- Updated Needler texture
+- Lowered the amount of Bustling Fungus needed for Enforcer: Enforcing Perfection even more
+- Fixed Shattering Justice placement- left the old hammer placement as a config option
+- Fixed deflected projectiles sometimes not hitting the original owner of the projectile
+- Fixed Needler not dropping when ragdolling
+- Fixed Crowdfunder hitting the shield during Protect & Serve- the drone wasn't actually needed but it's staying
+- Updated Super Massive Leech item display
+- Added a config option to enable unfinished skills
+- Changed config to use proper keycodes- this will reset your keybinds back to default but makes changing them easier, resetting config is recommended
+- Fixed a typo in Shield Bash's description
+
+`1.0.4`
+- Increased Assault Rifle damage to 65%; 40% was a bug and unintended, sorry!
+- Added animation when using the Needler
+- Added a custom crosshair for Visions of Heresy- it's applied to every survivor but this can be toggled off via config
+- Due to complaints, Shattering Justice has been placed somewhere more serious
+- Lowered amount of Bustling Fungus required for Enforcer: Enforcing Perfection from 250 to 200
+- Fixed Riot Shotgun firing no bullets when configured to fire only one
+- Fixed an issue with Needler model still being visible even after getting rid of the item
+- Fixed Backup Mags on the Needler being huge
+- Fixed Visions of Heresy being hidden inside the head
+- Fixed sirens not going off when deflecting golem lasers
+
 `1.0.3`
 - Nerfed Super Shotgun fire rate; it was actually bugged and was never supposed to have the same fire rate as Riot Shotgun
 - Fixed bug with Super Shotgun ejecting a stupid amount of shells, added unique shells

@@ -35,11 +35,26 @@ public class EnforcerWeaponComponent : MonoBehaviour
         {
             if (charBody.master.inventory)
             {
-                var characterModel = charBody.modelLocator.modelTransform.GetComponentInChildren<CharacterModel>();
-                if (characterModel)
+                if (EnforcerPlugin.EnforcerPlugin.sillyHammer.Value)
                 {
-                    characterModel.baseRendererInfos[0].defaultMaterial = characterModel.gameObject.GetComponent<ModelSkinController>().skins[charBody.skinIndex].rendererInfos[0].defaultMaterial;
-                    if (charBody.master.inventory.GetItemCount(ItemIndex.ArmorReductionOnHit) > 0) characterModel.baseRendererInfos[0].defaultMaterial = null;
+                    var characterModel = charBody.modelLocator.modelTransform.GetComponentInChildren<CharacterModel>();
+                    if (characterModel)
+                    {
+                        characterModel.baseRendererInfos[0].defaultMaterial = characterModel.gameObject.GetComponent<ModelSkinController>().skins[charBody.skinIndex].rendererInfos[0].defaultMaterial;
+                        if (charBody.master.inventory.GetItemCount(ItemIndex.ArmorReductionOnHit) > 0) characterModel.baseRendererInfos[0].defaultMaterial = null;
+                    }
+                }
+                else
+                {
+                    var characterModel = charBody.modelLocator.modelTransform;
+                    if (characterModel)
+                    {
+                        float num = 0f;
+                        if (charBody.master.inventory.GetItemCount(ItemIndex.ArmorReductionOnHit) > 0) num = 1f;
+
+                        var animator = characterModel.GetComponent<Animator>();
+                        if (animator) animator.SetFloat("shitpost", num);
+                    }
                 }
             }
         }
@@ -47,30 +62,45 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
     private int GetWeapon()
     {
+        int weapon = -1;
+
         if (charBody && charBody.skillLocator)
         {
-            if (charBody.skillLocator.primary.skillDef.skillNameToken == "ENFORCER_PRIMARY_SHOTGUN_NAME")
+            string skillString = charBody.skillLocator.primary.skillDef.skillNameToken;
+            switch (skillString)
             {
-                return 0;
-            }
-            else if (charBody.skillLocator.primary.skillDef.skillNameToken == "ENFORCER_PRIMARY_RIFLE_NAME")
-            {
-                return 1;
-            }
-            else if (charBody.skillLocator.primary.skillDef.skillNameToken == "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME")
-            {
-                return 2;
-            }
-            else if (charBody.skillLocator.primary.skillDef.skillNameToken == "ENFORCER_PRIMARY_HAMMER_NAME")
-            {
-                return 3;
-            }
-            else if (charBody.skillLocator.primary.skillDef.skillNameToken == "SKILL_LUNAR_PRIMARY_REPLACEMENT_NAME")
-            {
-                return 4;
+                case "ENFORCER_PRIMARY_SHOTGUN_NAME":
+                    weapon = 0;
+                    break;
+                case "ENFORCER_PRIMARY_RIFLE_NAME":
+                    weapon = 1;
+                    break;
+                case "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME":
+                    weapon = 2;
+                    break;
+                case "ENFORCER_PRIMARY_HAMMER_NAME":
+                    weapon = 3;
+                    break;
+                case "SKILL_LUNAR_PRIMARY_REPLACEMENT_NAME":
+                    weapon = 4;
+                    break;
             }
         }
-        return -1;
+
+        return weapon;
+    }
+
+    private int GetShield()
+    {
+        int shield = 0;
+
+        if (charBody)
+        {
+            if (charBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) shield = 1;
+            if (charBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex) shield = 2;
+        }
+
+        return shield;
     }
 
     public void InitWeapon()
@@ -79,6 +109,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
         EquipWeapon(weapon);
         SetCrosshair(weapon);
         //SetWeaponDisplays(weapon);
+        SetShieldDisplayRules(GetShield());
     }
 
     public void HideWeapon()
@@ -93,20 +124,23 @@ public class EnforcerWeaponComponent : MonoBehaviour
         }
     }
 
+    public void DelayedResetWeapon()
+    {
+        Invoke("ResetWeapon", 0.1f);
+    }
+
     public void ResetWeapon()
     {
-        EquipWeapon(GetWeapon());
+        int weapon = GetWeapon();
+        EquipWeapon(weapon);
+        SetCrosshair(weapon);
     }
 
     private void EquipWeapon(int weapon)
     {
         if (childLocator)
         {
-            childLocator.FindChild("Shotgun").gameObject.SetActive(false);
-            childLocator.FindChild("Rifle").gameObject.SetActive(false);
-            childLocator.FindChild("SuperShotgun").gameObject.SetActive(false);
-            childLocator.FindChild("Hammer").gameObject.SetActive(false);
-            childLocator.FindChild("Needler").gameObject.SetActive(false);
+            HideWeapon();
 
             switch (weapon)
             {
@@ -129,12 +163,69 @@ public class EnforcerWeaponComponent : MonoBehaviour
         }
     }
 
+    private void SetShieldDisplayRules(int newShield)
+    {
+        ItemDisplayRuleSet ruleset = GetComponentInChildren<CharacterModel>().itemDisplayRuleSet;
+
+        if (newShield == 0)
+        {
+            ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].childName = "Shield";
+            ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localPos = new Vector3(2.5f, 0.5f, -2);
+            ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localAngles = new Vector3(0, 0, 180);
+            ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localScale = new Vector3(8, 4, 8);
+
+            ruleset.FindItemDisplayRuleGroup("Bear").rules[0].childName = "Shield";
+            ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localPos = new Vector3(0, 1.28f, 0.97f);
+            ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localAngles = new Vector3(-77, 180, 0);
+            ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localScale = new Vector3(5, 5, 5);
+
+            ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].childName = "Shield";
+            ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localPos = new Vector3(0, 1.15f, -3.65f);
+            ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localAngles = new Vector3(-80, 180, 0);
+            ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localScale = new Vector3(5, 5, 5);
+
+            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].childName = "Shield";
+            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localPos = new Vector3(2, 0, 7.8f);
+            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localAngles = new Vector3(-25, 0, 180);
+            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localScale = new Vector3(5, 5, 5);
+
+            ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].childName = "Shield";
+            ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localPos = new Vector3(0, 0, 7.5f);
+            ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localAngles = new Vector3(0, 0, 25);
+            ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localScale = new Vector3(1, 1, 1);
+        }
+        else if (newShield == 1 || newShield == 2)
+        {
+            ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].childName = "Shield";
+            ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localPos = new Vector3(1, 0, 0);
+            ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localAngles = new Vector3(0, 0, 180);
+            ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localScale = new Vector3(3, 3, 3);
+
+            ruleset.FindItemDisplayRuleGroup("Bear").rules[0].childName = "Shield";
+            ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localPos = new Vector3(0, -0.4f, 1);
+            ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localAngles = new Vector3(0, 0, 0);
+            ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localScale = new Vector3(3, 3, 3);
+
+            ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].childName = "Shield";
+            ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localPos = new Vector3(0, 0, 0);
+            ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localAngles = new Vector3(-90, 90, 0);
+            ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localScale = new Vector3(4, 4, 4);
+
+            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].childName = "Shield";
+            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localPos = new Vector3(1.4f, 0, 1.5f);
+            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localAngles = new Vector3(-40, 0, 180);
+            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localScale = new Vector3(1.5f, 1.5f, 1.5f);
+
+            ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].childName = "Shield";
+            ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localPos = new Vector3(0, 0, 0);
+            ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localAngles = new Vector3(0, 0, 0);
+            ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localScale = new Vector3(1, 1, 1);
+        }
+    }
+
     private void SetWeaponDisplays(int newWeapon)
     {
         ItemDisplayRuleSet ruleset = GetComponentInChildren<CharacterModel>().itemDisplayRuleSet;
-        //for use in the future with item displays attached to the gun
-        // actually don't even need this rn. maybe for energy shield tho
-        // definitely for doom shield. coming soon:tm:
 
         if (newWeapon == 0)
         {
@@ -153,16 +244,19 @@ public class EnforcerWeaponComponent : MonoBehaviour
             switch (weapon)
             {
                 case 0:
-                    charBody.crosshairPrefab = Resources.Load<GameObject>("prefabs/crosshair/SMGCrosshair");
+                    charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
                     break;
                 case 1:
-                    charBody.crosshairPrefab = Resources.Load<GameObject>("prefabs/crosshair/StandardCrosshair");
+                    charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
                     break;
                 case 2:
-                    charBody.crosshairPrefab = Resources.Load<GameObject>("prefabs/crosshair/BanditCrosshair");
+                    charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
                     break;
                 case 3:
-                    charBody.crosshairPrefab = Resources.Load<GameObject>("prefabs/crosshair/SimpleDotCrosshair");
+                    charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
+                    break;
+                case 4:
+                    charBody.crosshairPrefab = EnforcerPlugin.EnforcerPlugin.needlerCrosshair;
                     break;
             }
         }

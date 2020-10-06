@@ -24,6 +24,7 @@ namespace EntityStates.Enforcer
             this.childLocator = base.GetModelChildLocator();
 
             bool isEngi = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex;
+            bool isDoom = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex;
 
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
             {
@@ -37,7 +38,15 @@ namespace EntityStates.Enforcer
 
                 this.childLocator.FindChild("ShieldHurtbox").gameObject.SetActive(false);
 
-                if (isEngi) this.childLocator.FindChild("EngiShield").gameObject.SetActive(false);
+                if (isEngi)
+                {
+                    this.childLocator.FindChild("EngiShield").gameObject.SetActive(false);
+                }
+
+                if (isDoom)
+                {
+                    this.childLocator.FindChild("MarauderShield").gameObject.SetActive(false);
+                }
 
                 if (base.skillLocator)
                 {
@@ -52,7 +61,7 @@ namespace EntityStates.Enforcer
                 }
 
                 string soundString = EnforcerPlugin.Sounds.ShieldDown;
-                if (isEngi) soundString = EnforcerPlugin.Sounds.EnergyShieldDown;
+                if (isEngi || isDoom) soundString = EnforcerPlugin.Sounds.EnergyShieldDown;
 
                 Util.PlaySound(soundString, base.gameObject);
 
@@ -71,7 +80,15 @@ namespace EntityStates.Enforcer
 
                 this.childLocator.FindChild("ShieldHurtbox").gameObject.SetActive(true);
 
-                if (isEngi) this.childLocator.FindChild("EngiShield").gameObject.SetActive(true);
+                if (isEngi)
+                {
+                    this.childLocator.FindChild("EngiShield").gameObject.SetActive(true);
+                }
+
+                if (isDoom)
+                {
+                    this.childLocator.FindChild("MarauderShield").gameObject.SetActive(true);
+                }
 
                 if (base.skillLocator)
                 {
@@ -86,7 +103,7 @@ namespace EntityStates.Enforcer
                 }
 
                 string soundString = EnforcerPlugin.Sounds.ShieldUp;
-                if (isEngi) soundString = EnforcerPlugin.Sounds.EnergyShieldUp;
+                if (isEngi || isDoom) soundString = EnforcerPlugin.Sounds.EnergyShieldUp;
 
                 Util.PlaySound(soundString, base.gameObject);
 
