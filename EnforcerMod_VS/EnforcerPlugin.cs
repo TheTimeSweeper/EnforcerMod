@@ -361,7 +361,7 @@ namespace EnforcerPlugin
         {
             orig(self);
 
-            if (self.hasBody)
+            if (self.hasBody) 
             {
                 var weaponComponent = self.GetBody().GetComponent<EnforcerWeaponComponent>();
                 if (weaponComponent)
@@ -1299,9 +1299,10 @@ namespace EnforcerPlugin
 
             GameObject chargeHitbox = new GameObject("ChargeHitbox");
             chargeHitbox.transform.parent = characterPrefab.transform;
-            chargeHitbox.transform.localPosition = new Vector3(0f, 0f, 0f);
+            chargeHitbox.transform.localPosition = Vector3.zero;
+            chargeHitbox.transform.localScale = Vector3.one * 8f;
+            chargeHitbox.transform.parent = model.transform;
             chargeHitbox.transform.localRotation = Quaternion.identity;
-            chargeHitbox.transform.localScale = new Vector3(8f, 8f, 8f);
 
             HitBox hitBox = chargeHitbox.AddComponent<HitBox>();
             chargeHitbox.layer = LayerIndex.projectile.intVal;
