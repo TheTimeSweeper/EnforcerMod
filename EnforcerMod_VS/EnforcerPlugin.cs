@@ -117,6 +117,7 @@ namespace EnforcerPlugin
 
         public static ConfigEntry<KeyCode> defaultDanceKey;
         public static ConfigEntry<KeyCode> flossKey;
+        public static ConfigEntry<KeyCode> earlKey;
         public static ConfigEntry<KeyCode> sirensKey;
 
         //i don't wanna fucking buff him so i have no choice but to do this
@@ -209,6 +210,7 @@ namespace EnforcerPlugin
 
             defaultDanceKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Default Dance"), KeyCode.Alpha1, new ConfigDescription("Key used to Default Dance", null, Array.Empty<object>()));
             flossKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Floss"), KeyCode.Alpha2, new ConfigDescription("Key used to Floss", null, Array.Empty<object>()));
+            earlKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Earl Run"), KeyCode.Alpha3, new ConfigDescription("Key used to FLINT LOCKWOOD", null, Array.Empty<object>()));
             sirensKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Sirens"), KeyCode.CapsLock, new ConfigDescription("Key used to toggle sirens", null, Array.Empty<object>()));
             //classicSkin = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Old Helmet"), true, new ConfigDescription("Adds a skin with the old helmet for the weirdos who prefer that one", null, Array.Empty<object>()));
 
@@ -2340,7 +2342,7 @@ namespace EnforcerPlugin
             Type[] memes = new Type[] {
                 typeof(DefaultDance),
                 typeof(Floss),
-                typeof(InfiniteDab)
+                typeof(FLINTLOCKWOOD)
             };
               
             for (int i = 0; i < memes.Length; i++) {

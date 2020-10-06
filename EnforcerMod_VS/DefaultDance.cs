@@ -5,8 +5,8 @@ namespace EntityStates.Enforcer
 {
     public class BaseEmote : BaseState
     {
-        public string soundString;
-        public string animString;
+        protected string soundString;
+        protected string animString;
 
         private uint activePlayID;
         private float initialTime;
@@ -32,7 +32,9 @@ namespace EntityStates.Enforcer
             if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) soundString = EnforcerPlugin.Sounds.DOOM;
 
             base.PlayAnimation("FullBody, Override", this.animString);
-            this.activePlayID = Util.PlaySound(soundString, base.gameObject);
+            if (!string.IsNullOrEmpty(soundString)) {
+                this.activePlayID = Util.PlaySound(soundString, base.gameObject);
+            }
 
             this.initialTime = Time.fixedTime;
 
@@ -77,7 +79,7 @@ namespace EntityStates.Enforcer
             if (base.characterMotor)
             {
                 if (!base.characterMotor.isGrounded) flag = true;
-                if (base.characterMotor.velocity != Vector3.zero) flag = true;
+                //if (base.characterMotor.velocity != Vector3.zero) flag = true;
             }
 
             if (base.inputBank)
@@ -152,6 +154,21 @@ namespace EntityStates.Enforcer
             this.animString = "InfiniteDab";
             this.soundString = EnforcerPlugin.Sounds.InfiniteDab;
             base.OnEnter();
+        }
+    }
+
+    public class FLINTLOCKWOOD : BaseEmote {
+
+        public override void OnEnter() {
+            this.animString = "FLINT LOCK WOOD";
+            this.soundString = "";
+            base.OnEnter();
+        }
+
+        public override void FixedUpdate() {
+            base.FixedUpdate();
+            StartAimMode(1, true);
+            base.characterMotor.rootMotion = base.characterDirection.forward * this.moveSpeedStat * characterBody.sprintingSpeedMultiplier * Time.fixedDeltaTime;
         }
     }
 }
