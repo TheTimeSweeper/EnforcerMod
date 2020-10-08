@@ -1,24 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using BepInEx;
+﻿using BepInEx;
+using BepInEx.Configuration;
+using EntityStates;
+using EntityStates.Enforcer;
+using KinematicCharacterController;
 using R2API;
 using R2API.Utils;
-using EntityStates;
 using RoR2;
+using RoR2.Projectile;
 using RoR2.Skills;
+using RoR2.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-using KinematicCharacterController;
-using EntityStates.Enforcer;
-using RoR2.Projectile;
-using BepInEx.Configuration;
-using RoR2.UI;
-using System.Runtime.CompilerServices;
-using System.Linq;
 
-namespace EnforcerPlugin
-{
+namespace EnforcerPlugin {
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.ThinkInvisible.ClassicItems", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KomradeSpectre.Aetherium", BepInDependency.DependencyFlags.SoftDependency)]
@@ -148,6 +147,9 @@ namespace EnforcerPlugin
 
         public SkillLocator skillLocator;
 
+        private List<SkillDef> _primarySkillDefs = new List<SkillDef>();
+        //private List<SkillDef> secondarySkillDefs;
+
         public EnforcerPlugin() {
             //don't touch this
             // what does all this even do anyway?
@@ -163,8 +165,8 @@ namespace EnforcerPlugin
             ConfigShit();
             Assets.PopulateAssets();
             MemeSetup();
-            CreateDisplayPrefab();
             CreatePrefab();
+            CreateDisplayPrefab();
             RegisterCharacter();
 
             //aetherium item displays- dll won't compile without a reference to aetherium
@@ -285,7 +287,17 @@ namespace EnforcerPlugin
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
             On.EntityStates.BaseState.OnEnter += ParryState_OnEnter;
             //On.EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
+            On.RoR2.Skills.SkillCatalog.Init += SkillCatalog_Init;
+
+            //test
+            //On.RoR2.CharacterSelectSurvivorPreviewDisplayController.RunDefaultResponses += CharacterSelectSurvivorPreviewDisplayController_RunDefaultResponses;
         }
+
+        private void CharacterSelectSurvivorPreviewDisplayController_RunDefaultResponses(On.RoR2.CharacterSelectSurvivorPreviewDisplayController.orig_RunDefaultResponses orig, CharacterSelectSurvivorPreviewDisplayController self) {
+            orig(self);
+            //figure out why the fuck responses just aren't invoking;
+        }
+
 
         #region Hooks
         private void GlobalEventManager_OnCharacterDeath(On.RoR2.GlobalEventManager.orig_OnCharacterDeath orig, GlobalEventManager self, DamageReport report)
@@ -320,6 +332,49 @@ namespace EnforcerPlugin
                 }
             }
             orig(newBodyPrefabs);
+        }
+
+        private void SkillCatalog_Init(On.RoR2.Skills.SkillCatalog.orig_Init orig) {
+            orig();
+            setupCSSPreviewController();
+        }
+
+        private void setupCSSPreviewController() {
+
+            CharacterSelectSurvivorPreviewDisplayController previewController = characterDisplay.GetComponent<CharacterSelectSurvivorPreviewDisplayController>();
+
+
+            for (int i = 0; i < previewController.skillChangeResponses.Length; i++) {
+
+                if (i >= _primarySkillDefs.Count - 1) {
+                    var list = previewController.skillChangeResponses.ToList();
+                    list.RemoveRange(i, list.Count - i);
+                    previewController.skillChangeResponses = list.ToArray();
+                    return;
+                }
+                //normally fuck var but this fuckin class is long
+                var skillChangeResponse = previewController.skillChangeResponses[i];
+
+
+                skillChangeResponse.triggerSkillFamily = SkillCatalog.GetSkillFamily(skillLocator.primary.skillFamily.catalogIndex);
+                skillChangeResponse.triggerSkill = SkillCatalog.GetSkillDef(SkillCatalog.FindSkillIndexByName(_primarySkillDefs[i].skillName));
+
+                //switch (i) {
+                //    case 0:
+                //        skillChangeResponses.triggerSkill = SkillCatalog.GetSkillDef(SkillCatalog.FindSkillIndexByName(skillDefRiotShotgun.skillName));
+                //        break;
+                //    case 1:
+                //        skillChangeResponses.triggerSkill = SkillCatalog.GetSkillDef(SkillCatalog.FindSkillIndexByName(skillDefSuperShotgun.skillName));
+                //        break;
+                //    case 2:
+                //        skillChangeResponses.triggerSkill = SkillCatalog.GetSkillDef(SkillCatalog.FindSkillIndexByName(skillDefAssaultRifle.skillName));
+                //        break;
+                //    case 3:
+                //        skillChangeResponses.triggerSkill = SkillCatalog.GetSkillDef(SkillCatalog.FindSkillIndexByName(skillDefHammer.skillName));
+                //        break;
+                //}
+                previewController.skillChangeResponses[i] = skillChangeResponse;
+            }
         }
 
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
@@ -817,8 +872,18 @@ namespace EnforcerPlugin
             characterDisplay = PrefabAPI.InstantiateClone(tempDisplay.GetComponent<ModelLocator>().modelBaseTransform.gameObject, "EnforcerDisplay", true);
 
             characterDisplay.AddComponent<MenuSound>();
-            characterDisplay.AddComponent<EnforcerLightController>();   
+            characterDisplay.AddComponent<EnforcerLightController>();
 
+            CharacterSelectSurvivorPreviewDisplayController displayController = characterDisplay.AddComponent<CharacterSelectSurvivorPreviewDisplayController>();
+            CharacterSelectSurvivorPreviewDisplayController displayControllerPrefab = model.GetComponent<CharacterSelectSurvivorPreviewDisplayController>();
+            
+            displayController.skillChangeResponses = new CharacterSelectSurvivorPreviewDisplayController.SkillChangeResponse[displayControllerPrefab.skillChangeResponses.Length];
+
+            for (int i = 0; i < displayController.skillChangeResponses.Length; i++) {
+                displayController.skillChangeResponses[i] = displayControllerPrefab.skillChangeResponses[i];
+            }
+
+            displayController.bodyPrefab = characterPrefab;
             //var ragdollShit = characterDisplay.GetComponentInChildren<RagdollController>();
             //if (ragdollShit) Destroy(ragdollShit);
         }
@@ -1812,29 +1877,30 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_NAME", "Riot Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION", desc);
 
-            SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            mySkillDef.activationState = new SerializableEntityStateType(typeof(RiotShotgun));
-            mySkillDef.activationStateMachineName = "Weapon";
-            mySkillDef.baseMaxStock = 1;
-            mySkillDef.baseRechargeInterval = 0f;
-            mySkillDef.beginSkillCooldownOnSkillEnd = false;
-            mySkillDef.canceledFromSprinting = false;
-            mySkillDef.fullRestockOnAssign = true;
-            mySkillDef.interruptPriority = InterruptPriority.Any;
-            mySkillDef.isBullets = false;
-            mySkillDef.isCombatSkill = true;
-            mySkillDef.mustKeyPress = false;
-            mySkillDef.noSprint = true;
-            mySkillDef.rechargeStock = 1;
-            mySkillDef.requiredStock = 1;
-            mySkillDef.shootDelay = 0f;
-            mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.icon1;
-            mySkillDef.skillDescriptionToken = "ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION";
-            mySkillDef.skillName = "ENFORCER_PRIMARY_SHOTGUN_NAME";
-            mySkillDef.skillNameToken = "ENFORCER_PRIMARY_SHOTGUN_NAME";
+            SkillDef skillDefRiotShotgun = ScriptableObject.CreateInstance<SkillDef>();
+            skillDefRiotShotgun.activationState = new SerializableEntityStateType(typeof(RiotShotgun));
+            skillDefRiotShotgun.activationStateMachineName = "Weapon";
+            skillDefRiotShotgun.baseMaxStock = 1;
+            skillDefRiotShotgun.baseRechargeInterval = 0f;
+            skillDefRiotShotgun.beginSkillCooldownOnSkillEnd = false;
+            skillDefRiotShotgun.canceledFromSprinting = false;
+            skillDefRiotShotgun.fullRestockOnAssign = true;
+            skillDefRiotShotgun.interruptPriority = InterruptPriority.Any;
+            skillDefRiotShotgun.isBullets = false;
+            skillDefRiotShotgun.isCombatSkill = true;
+            skillDefRiotShotgun.mustKeyPress = false;
+            skillDefRiotShotgun.noSprint = true;
+            skillDefRiotShotgun.rechargeStock = 1;
+            skillDefRiotShotgun.requiredStock = 1;
+            skillDefRiotShotgun.shootDelay = 0f;
+            skillDefRiotShotgun.stockToConsume = 1;
+            skillDefRiotShotgun.icon = Assets.icon1;
+            skillDefRiotShotgun.skillDescriptionToken = "ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION";
+            skillDefRiotShotgun.skillName = "ENFORCER_PRIMARY_SHOTGUN_NAME";
+            skillDefRiotShotgun.skillNameToken = "ENFORCER_PRIMARY_SHOTGUN_NAME";
 
-            LoadoutAPI.AddSkillDef(mySkillDef);
+            LoadoutAPI.AddSkillDef(skillDefRiotShotgun);
+            _primarySkillDefs.Add(skillDefRiotShotgun);
 
             skillLocator.primary = characterPrefab.AddComponent<GenericSkill>();
             SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
@@ -1845,9 +1911,9 @@ namespace EnforcerPlugin
 
             skillFamily.variants[0] = new SkillFamily.Variant
             {
-                skillDef = mySkillDef,
+                skillDef = skillDefRiotShotgun,
                 unlockableName = "",
-                viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
+                viewableNode = new ViewablesCatalog.Node(skillDefRiotShotgun.skillNameToken, false, null)
             };
 
             LoadoutAPI.AddSkill(typeof(SuperShotgun));
@@ -1857,36 +1923,37 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_NAME", "Super Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION", desc);
 
-            mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            mySkillDef.activationState = new SerializableEntityStateType(typeof(SuperShotgun));
-            mySkillDef.activationStateMachineName = "Weapon";
-            mySkillDef.baseMaxStock = 1;
-            mySkillDef.baseRechargeInterval = 0f;
-            mySkillDef.beginSkillCooldownOnSkillEnd = false;
-            mySkillDef.canceledFromSprinting = false;
-            mySkillDef.fullRestockOnAssign = true;
-            mySkillDef.interruptPriority = InterruptPriority.Any;
-            mySkillDef.isBullets = false;
-            mySkillDef.isCombatSkill = true;
-            mySkillDef.mustKeyPress = false;
-            mySkillDef.noSprint = true;
-            mySkillDef.rechargeStock = 1;
-            mySkillDef.requiredStock = 1;
-            mySkillDef.shootDelay = 0f;
-            mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.icon1B;
-            mySkillDef.skillDescriptionToken = "ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION";
-            mySkillDef.skillName = "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME";
-            mySkillDef.skillNameToken = "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME";
+            SkillDef skillDefSuperShotgun = ScriptableObject.CreateInstance<SkillDef>();
+            skillDefSuperShotgun.activationState = new SerializableEntityStateType(typeof(SuperShotgun));
+            skillDefSuperShotgun.activationStateMachineName = "Weapon";
+            skillDefSuperShotgun.baseMaxStock = 1;
+            skillDefSuperShotgun.baseRechargeInterval = 0f;
+            skillDefSuperShotgun.beginSkillCooldownOnSkillEnd = false;
+            skillDefSuperShotgun.canceledFromSprinting = false;
+            skillDefSuperShotgun.fullRestockOnAssign = true;
+            skillDefSuperShotgun.interruptPriority = InterruptPriority.Any;
+            skillDefSuperShotgun.isBullets = false;
+            skillDefSuperShotgun.isCombatSkill = true;
+            skillDefSuperShotgun.mustKeyPress = false;
+            skillDefSuperShotgun.noSprint = true;
+            skillDefSuperShotgun.rechargeStock = 1;
+            skillDefSuperShotgun.requiredStock = 1;
+            skillDefSuperShotgun.shootDelay = 0f;
+            skillDefSuperShotgun.stockToConsume = 1;
+            skillDefSuperShotgun.icon = Assets.icon1B;
+            skillDefSuperShotgun.skillDescriptionToken = "ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION";
+            skillDefSuperShotgun.skillName = "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME";
+            skillDefSuperShotgun.skillNameToken = "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME";
 
-            LoadoutAPI.AddSkillDef(mySkillDef);
+            LoadoutAPI.AddSkillDef(skillDefSuperShotgun);
+            _primarySkillDefs.Add(skillDefSuperShotgun);
 
             Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
             skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
             {
-                skillDef = mySkillDef,
+                skillDef = skillDefSuperShotgun,
                 unlockableName = "ENFORCER_SHOTGUNUNLOCKABLE_REWARD_ID",
-                viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
+                viewableNode = new ViewablesCatalog.Node(skillDefSuperShotgun.skillNameToken, false, null)
             };
 
             LoadoutAPI.AddSkill(typeof(AssaultRifleState));
@@ -1897,78 +1964,82 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_NAME", "Assault Rifle");
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_DESCRIPTION", desc);
 
-            mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            mySkillDef.activationState = new SerializableEntityStateType(typeof(FireAssaultRifle));
-            mySkillDef.activationStateMachineName = "Weapon";
-            mySkillDef.baseMaxStock = 1;
-            mySkillDef.baseRechargeInterval = 0f;
-            mySkillDef.beginSkillCooldownOnSkillEnd = false;
-            mySkillDef.canceledFromSprinting = false;
-            mySkillDef.fullRestockOnAssign = true;
-            mySkillDef.interruptPriority = InterruptPriority.Any;
-            mySkillDef.isBullets = false;
-            mySkillDef.isCombatSkill = true;    
-            mySkillDef.mustKeyPress = false;
-            mySkillDef.noSprint = true;
-            mySkillDef.rechargeStock = 1;
-            mySkillDef.requiredStock = 1;
-            mySkillDef.shootDelay = 0f;
-            mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.icon1C;
-            mySkillDef.skillDescriptionToken = "ENFORCER_PRIMARY_RIFLE_DESCRIPTION";
-            mySkillDef.skillName = "ENFORCER_PRIMARY_RIFLE_NAME";
-            mySkillDef.skillNameToken = "ENFORCER_PRIMARY_RIFLE_NAME";
+            SkillDef skillDefAssaultRifle = ScriptableObject.CreateInstance<SkillDef>();
+            skillDefAssaultRifle.activationState = new SerializableEntityStateType(typeof(FireAssaultRifle));
+            skillDefAssaultRifle.activationStateMachineName = "Weapon";
+            skillDefAssaultRifle.baseMaxStock = 1;
+            skillDefAssaultRifle.baseRechargeInterval = 0f;
+            skillDefAssaultRifle.beginSkillCooldownOnSkillEnd = false;
+            skillDefAssaultRifle.canceledFromSprinting = false;
+            skillDefAssaultRifle.fullRestockOnAssign = true;
+            skillDefAssaultRifle.interruptPriority = InterruptPriority.Any;
+            skillDefAssaultRifle.isBullets = false;
+            skillDefAssaultRifle.isCombatSkill = true;    
+            skillDefAssaultRifle.mustKeyPress = false;
+            skillDefAssaultRifle.noSprint = true;
+            skillDefAssaultRifle.rechargeStock = 1;
+            skillDefAssaultRifle.requiredStock = 1;
+            skillDefAssaultRifle.shootDelay = 0f;
+            skillDefAssaultRifle.stockToConsume = 1;
+            skillDefAssaultRifle.icon = Assets.icon1C;
+            skillDefAssaultRifle.skillDescriptionToken = "ENFORCER_PRIMARY_RIFLE_DESCRIPTION";
+            skillDefAssaultRifle.skillName = "ENFORCER_PRIMARY_RIFLE_NAME";
+            skillDefAssaultRifle.skillNameToken = "ENFORCER_PRIMARY_RIFLE_NAME";
 
-            LoadoutAPI.AddSkillDef(mySkillDef);
+            LoadoutAPI.AddSkillDef(skillDefAssaultRifle);
+            _primarySkillDefs.Add(skillDefAssaultRifle);
 
             Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
             skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
             {
-                skillDef = mySkillDef,
+                skillDef = skillDefAssaultRifle,
                 unlockableName = "ENFORCER_RIFLEUNLOCKABLE_REWARD_ID",
-                viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
+                viewableNode = new ViewablesCatalog.Node(skillDefAssaultRifle.skillNameToken, false, null)
             };
+
 
             //LoadoutAPI.AddSkill(typeof(AssaultRifleExit));
 
-            if (cursed.Value)
-            {
+            SkillDef skillDefHammer = ScriptableObject.CreateInstance<SkillDef>();
+            skillDefHammer.activationState = new SerializableEntityStateType(typeof(RiotShotgun));
+            skillDefHammer.activationStateMachineName = "Weapon";
+            skillDefHammer.baseMaxStock = 1;
+            skillDefHammer.baseRechargeInterval = 0f;
+            skillDefHammer.beginSkillCooldownOnSkillEnd = false;
+            skillDefHammer.canceledFromSprinting = false;
+            skillDefHammer.fullRestockOnAssign = true;
+            skillDefHammer.interruptPriority = InterruptPriority.Any;
+            skillDefHammer.isBullets = false;
+            skillDefHammer.isCombatSkill = true;
+            skillDefHammer.mustKeyPress = false;
+            skillDefHammer.noSprint = true;
+            skillDefHammer.rechargeStock = 1;
+            skillDefHammer.requiredStock = 1;
+            skillDefHammer.shootDelay = 0f;
+            skillDefHammer.stockToConsume = 1;
+            skillDefHammer.icon = Assets.testIcon;
+            skillDefHammer.skillDescriptionToken = "ENFORCER_PRIMARY_HAMMER_DESCRIPTION";
+            skillDefHammer.skillName = "ENFORCER_PRIMARY_HAMMER_NAME";
+            skillDefHammer.skillNameToken = "ENFORCER_PRIMARY_HAMMER_NAME";
+
                 desc = "Fire a short range <style=cIsUtility>piercing blast</style> for <style=cIsDamage>" + RiotShotgun.projectileCount + "x" + 100f * RiotShotgun.damageCoefficient + "% damage.";
 
                 LanguageAPI.Add("ENFORCER_PRIMARY_HAMMER_NAME", "Fubar Hammer");
                 LanguageAPI.Add("ENFORCER_PRIMARY_HAMMER_DESCRIPTION", desc);
 
-                mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
-                mySkillDef.activationState = new SerializableEntityStateType(typeof(RiotShotgun));
-                mySkillDef.activationStateMachineName = "Weapon";
-                mySkillDef.baseMaxStock = 1;
-                mySkillDef.baseRechargeInterval = 0f;
-                mySkillDef.beginSkillCooldownOnSkillEnd = false;
-                mySkillDef.canceledFromSprinting = false;
-                mySkillDef.fullRestockOnAssign = true;
-                mySkillDef.interruptPriority = InterruptPriority.Any;
-                mySkillDef.isBullets = false;
-                mySkillDef.isCombatSkill = true;
-                mySkillDef.mustKeyPress = false;
-                mySkillDef.noSprint = true;
-                mySkillDef.rechargeStock = 1;
-                mySkillDef.requiredStock = 1;
-                mySkillDef.shootDelay = 0f;
-                mySkillDef.stockToConsume = 1;
-                mySkillDef.icon = Assets.testIcon;
-                mySkillDef.skillDescriptionToken = "ENFORCER_PRIMARY_HAMMER_DESCRIPTION";
-                mySkillDef.skillName = "ENFORCER_PRIMARY_HAMMER_NAME";
-                mySkillDef.skillNameToken = "ENFORCER_PRIMARY_HAMMER_NAME";
+                LoadoutAPI.AddSkillDef(skillDefHammer);
+                _primarySkillDefs.Add(skillDefHammer);
 
-                LoadoutAPI.AddSkillDef(mySkillDef);
-
+            if (cursed.Value)
+            {
                 Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
                 skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
                 {
-                    skillDef = mySkillDef,
+                    skillDef = skillDefHammer,
                     unlockableName = "",
-                    viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
+                    viewableNode = new ViewablesCatalog.Node(skillDefHammer.skillNameToken, false, null)
                 };
+
             }
         }
 

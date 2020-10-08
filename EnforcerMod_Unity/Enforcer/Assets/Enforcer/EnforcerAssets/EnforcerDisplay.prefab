@@ -854,7 +854,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.000000020489097, y: 0.033994615, z: -0.000000029802326}
+  m_ConnectedAnchor: {x: -0.000000024214387, y: 0.033994615, z: -0.000000033527616}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -972,7 +972,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.000000007916244, y: 0.03288511, z: -0.000000040978193}
+  m_ConnectedAnchor: {x: 0.000000010710212, y: 0.032885104, z: -0.000000037252903}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -1381,7 +1381,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0000000018626456, y: 0.049986716, z: -0.0000000037252899}
+  m_ConnectedAnchor: {x: 0.000000007450582, y: 0.049986713, z: 0.0000000018626449}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -1521,7 +1521,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.0003017641, y: 0.011084105, z: -0.00030717303}
+  m_ConnectedAnchor: {x: 0.0003017654, y: 0.011084101, z: -0.0003071742}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -2996,7 +2996,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0000000016589181, y: 0.034913328, z: 0.000000013038512}
+  m_ConnectedAnchor: {x: -0.000000012572853, y: 0.034913335, z: 0.000000009313222}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -4133,7 +4133,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.000000009313244, y: 0.049986713, z: 0.000000020489114}
+  m_ConnectedAnchor: {x: -0.000000007450596, y: 0.049986713, z: 0.000000020489114}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -7197,6 +7197,8 @@ GameObject:
   - component: {fileID: 7310035557473524138}
   - component: {fileID: 960295937136276182}
   - component: {fileID: 5976943472619454422}
+  - component: {fileID: 3399418906594880287}
+  - component: {fileID: 7781960230263664927}
   m_Layer: 0
   m_Name: EnforcerDisplay
   m_TagString: Untagged
@@ -7411,6 +7413,92 @@ MonoBehaviour:
     transform: {fileID: 3295920972226096945}
   - name: FemShieldGlass
     transform: {fileID: 7019176818478985189}
+--- !u!114 &3399418906594880287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8710521653406651342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5920f97f0a8ea4843b8dae72bbc7dec5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillChangeResponses:
+  - name: shotgun
+    response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7781960230263664927}
+          m_MethodName: DisableAllChildrenExcept
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 4318375985738154831}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - name: super
+    response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7781960230263664927}
+          m_MethodName: DisableAllChildrenExcept
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 6489763463379389179}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - name: ar
+    response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7781960230263664927}
+          m_MethodName: DisableAllChildrenExcept
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1909380657568480951}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - name: ham
+    response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7781960230263664927}
+          m_MethodName: DisableAllChildrenExcept
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 858426324223158410}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  skinChangeResponses: []
+--- !u!114 &7781960230263664927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8710521653406651342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29fc05f334b8d644961c5188217e62c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8733821329891301227
 GameObject:
   m_ObjectHideFlags: 0
