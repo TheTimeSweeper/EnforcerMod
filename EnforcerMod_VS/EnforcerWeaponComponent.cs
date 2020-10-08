@@ -187,7 +187,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
             ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].childName = "Shield";
             ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localPos = new Vector3(2, 0, 7.8f);
             ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localAngles = new Vector3(-25, 0, 180);
-            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localScale = new Vector3(5, 5, 5);
+            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localScale = new Vector3(1.5f, 1.5f, 1.5f);
 
             ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].childName = "Shield";
             ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localPos = new Vector3(0, 0, 7.5f);

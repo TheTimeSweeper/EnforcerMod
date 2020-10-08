@@ -1,6 +1,6 @@
 {
     "name": "Enforcer",
-    "version_number": "1.0.8",
+    "version_number": "1.0.9",
     "website_url": "https://github.com/GnomeModder/EnforcerMod",
     "description": "Adds the Enforcer from Risk of Rain 1 as a fully fleshed out playable survivor. Now with Ancient Scepter support",
     "dependencies": [

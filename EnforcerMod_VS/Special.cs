@@ -24,6 +24,7 @@ namespace EntityStates.Enforcer
             this.childLocator = base.GetModelChildLocator();
 
             bool isEngi = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex;
+            if (EnforcerPlugin.EnforcerPlugin.oldEngiShield.Value) isEngi = false;
             bool isDoom = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex;
 
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))

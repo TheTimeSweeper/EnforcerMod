@@ -24,6 +24,7 @@ namespace EntityStates.Enforcer
         public float duration;
         public float fireDuration;
         public bool isStormtrooper;
+        public bool isEngi;
         public bool hasFired;
         private Animator animator;
         public string muzzleString;
@@ -39,6 +40,11 @@ namespace EntityStates.Enforcer
             {
                 this.muzzleString = "BlasterMuzzle";
                 this.isStormtrooper = true;
+            }
+            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex)
+            {
+                this.muzzleString = "GrenadeMuzzle";
+                this.isEngi = true;
             }
             this.hasFired = false;
 
@@ -80,6 +86,7 @@ namespace EntityStates.Enforcer
                 if (EnforcerPlugin.EnforcerPlugin.classicShotgun.Value) soundString = EnforcerPlugin.Sounds.FireClassicShotgun;
 
                 if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
+                //if (this.isEngi) soundString = MiniMushroom.SporeGrenade.attackSoundString;
 
                 Util.PlayScaledSound(soundString, base.gameObject, this.attackSpeedStat);
 
@@ -91,7 +98,7 @@ namespace EntityStates.Enforcer
                 base.characterBody.AddSpreadBloom(0.33f * recoil);
                 EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, base.gameObject, this.muzzleString, false);
 
-                if (!this.isStormtrooper) base.GetComponent<EnforcerWeaponComponent>().DropShell();
+                if (!this.isStormtrooper && !this.isEngi) base.GetComponent<EnforcerWeaponComponent>().DropShell();
 
                 if (base.isAuthority)
                 {
@@ -101,6 +108,7 @@ namespace EntityStates.Enforcer
                     GameObject tracerEffect = EnforcerPlugin.EnforcerPlugin.bulletTracer;
 
                     if (this.isStormtrooper) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
+                    if (this.isEngi) tracerEffect = EnforcerPlugin.EnforcerPlugin.bungusTracer;
 
                     Ray aimRay = base.GetAimRay();
 
@@ -225,7 +233,7 @@ namespace EntityStates.Enforcer
             {
                 this.droppedShell = true;
 
-                if (!this.isStormtrooper)
+                if (!this.isStormtrooper && !this.isEngi)
                 {
                     var poopy = base.GetComponent<EnforcerWeaponComponent>();
                     poopy.DropShell();
@@ -243,7 +251,8 @@ namespace EntityStates.Enforcer
                 this.hasFired = true;
 
                 this.muzzleString = "SuperShotgunMuzzle";
-                if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex) this.muzzleString = "BlasterSuperMuzzle";
+                if (this.isStormtrooper) this.muzzleString = "BlasterSuperMuzzle";
+                if (this.isEngi) this.muzzleString = "GrenadeMuzzle";
 
                 string soundString = "";
 
@@ -255,6 +264,7 @@ namespace EntityStates.Enforcer
 
                 if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) soundString = EnforcerPlugin.Sounds.FireSuperShotgunDOOM;
                 if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
+                //if (this.isEngi) soundString = MiniMushroom.SporeGrenade.attackSoundString;
 
                 Util.PlayScaledSound(soundString, base.gameObject, this.attackSpeedStat);
 
@@ -273,6 +283,7 @@ namespace EntityStates.Enforcer
                     GameObject tracerEffect = EnforcerPlugin.EnforcerPlugin.bulletTracer;
 
                     if (this.isStormtrooper) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
+                    if (this.isEngi) tracerEffect = EnforcerPlugin.EnforcerPlugin.bungusTracer;
 
                     Ray aimRay = base.GetAimRay();
 

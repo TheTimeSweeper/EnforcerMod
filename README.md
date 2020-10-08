@@ -43,7 +43,7 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 | Skill | | Description | Stats |
 |:-|-|------|-|
 | Super Shotgun | ![](https://i.imgur.com/fJk3Iwn.png) | Fire a powerful short range blast for `16x75%` damage. Has harsh damage falloff. | Proc: `0.75` |
-| Assault Rifle | ![](https://i.imgur.com/VV3t6HU.png) | Rapidly fire bullets dealing `65%` damage. | Proc: `0.5`, Proc in shield: `0.25` |
+| Assault Rifle | ![](https://i.imgur.com/VV3t6HU.png) | Rapidly fire bullets dealing `65%` damage. | Proc: `0.5`, Proc in shield: `0.4` |
 | Stun Grenade | ![](https://i.imgur.com/yuL8mB2.png) | `Stunning`. Launch a stun grenade, dealing `400%` damage. Store up to 3 grenades. | Proc: `0.6`, CD: `8 sec` |
 
 [![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)]()
@@ -58,6 +58,19 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - More polish and skills maybe
 
 ## Changelog
+`1.0.9`
+- Added Femforcer- disabled by default, must be enabled via config (thanks modanon!)
+- Added more bungus weapons
+- Buffed Assault Rifle damage to 80%- config must be reset or edited manually to get the new value
+- Buffed Assault Rifle proc coefficient during P&S to 0.4
+- Buffed Assault Rifle fire rate
+- Lowered Assault Rifle spread
+- Added configuration for Assault Rifle
+- Added config option to revert the Engi shield
+- Added a new emote
+- Fixed some animation weirdness
+- Fixed Fresh Meat being huge
+
 `1.0.8`
 - Added gun shooting animations
 - Tweaked sprint animation

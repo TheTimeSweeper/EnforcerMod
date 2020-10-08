@@ -51,6 +51,8 @@ namespace EnforcerPlugin
             GameObject marauderShield = childLocator.FindChild("MarauderArmShield").gameObject;
             GameObject bungusShield = childLocator.FindChild("BungusArmShield").gameObject;
             GameObject bungusShotgun = childLocator.FindChild("BungusShotgun").gameObject;
+            GameObject bungusSSG = childLocator.FindChild("BungusSSG").gameObject;
+            GameObject bungusRifle = childLocator.FindChild("BungusRifle").gameObject;
             GameObject femShield = childLocator.FindChild("FemShield").gameObject;
 
             GameObject[] allObjects = new GameObject[] {
@@ -66,6 +68,8 @@ namespace EnforcerPlugin
                 marauderShield,
                 bungusShield,
                 bungusShotgun,
+                bungusSSG,
+                bungusRifle,
                 femShield,
             };
 
@@ -431,6 +435,21 @@ namespace EnforcerPlugin
 
                 array[29].defaultMaterial = material;
             }
+
+            material = array[31].defaultMaterial;
+            if (material)
+            {
+                material = EnforcerPlugin.bungusMat;
+                array[31].defaultMaterial = material;
+            }
+
+            material = array[32].defaultMaterial;
+            if (material)
+            {
+                material = EnforcerPlugin.bungusMat;
+                array[32].defaultMaterial = material;
+            }
+
             skinDefInfo.RendererInfos = array;
 
             SkinDef defaultSkin = LoadoutAPI.CreateNewSkinDef(skinDefInfo);
@@ -499,7 +518,14 @@ namespace EnforcerPlugin
             engiSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             engiSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            engiSkinDefInfo.GameObjectActivations = getActivations(allObjects, bungusShotgun, rifleModel, superShotgun, bungusShield);
+            if (EnforcerPlugin.oldEngiShield.Value)
+            {
+                engiSkinDefInfo.GameObjectActivations = getActivations(allObjects, bungusShotgun, bungusRifle, bungusSSG, shieldModel, engiShield);
+            }
+            else
+            {
+                engiSkinDefInfo.GameObjectActivations = getActivations(allObjects, bungusShotgun, bungusRifle, bungusSSG, bungusShield);
+            }
 
             engiSkinDefInfo.Icon = Resources.Load<GameObject>("Prefabs/CharacterBodies/EngiBody").GetComponentInChildren<ModelSkinController>().skins[0].icon;
             engiSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
@@ -845,7 +871,6 @@ namespace EnforcerPlugin
             }
 
             skinController.skins = skinDefs.ToArray();
-            
         }
     }
 }
