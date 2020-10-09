@@ -6,9 +6,15 @@ class EnforcerLightController : MonoBehaviour
     public uint playID;
     public bool sirenToggle;
     public float lightFlashInterval = 0.5f;
+    public float maxEmission = 15f;
+    public float minEmission = 1f;
+    public float emUp = 65f;
+    public float emDown = 25f;
+    public float flashDuration = 0.5f;
 
-    private float flashDuration;
-    private Light[] lights;
+    private float em;
+    private Material[] lights;
+    private bool lightsOn;
     private float lightStopwatch;
     private int lightFlashes;
     private CharacterBody characterBody;
@@ -23,19 +29,27 @@ class EnforcerLightController : MonoBehaviour
 
     private void InitLights()
     {
+        this.em = this.minEmission;
         this.sex = true;
         this.sirenToggle = false;
         this.characterBody = this.gameObject.GetComponent<CharacterBody>();
         this.childLocator = this.gameObject.GetComponentInChildren<ChildLocator>();
-        this.flashDuration = 0.5f;
 
-        this.lights = new Light[]
+        if (this.characterBody)
         {
-            this.childLocator.FindChild("LightL").GetComponentInChildren<Light>(),
-            this.childLocator.FindChild("LightR").GetComponentInChildren<Light>()
-        };
+            Transform modelTransform = this.characterBody.GetComponent<ModelLocator>().modelTransform;
+            if (modelTransform)
+            {
+                this.lights = new Material[]
+                {
+                    modelTransform.GetComponent<CharacterModel>().baseRendererInfos[33].defaultMaterial,
+                    modelTransform.GetComponent<CharacterModel>().baseRendererInfos[34].defaultMaterial
+                };
+            }
+        }
 
-        var charBody = this.GetComponent<CharacterBody>();
+        //no longer using shitty lights
+        /*var charBody = this.GetComponent<CharacterBody>();
 
         if (charBody)
         {
@@ -75,7 +89,7 @@ class EnforcerLightController : MonoBehaviour
                     i.range *= 1.25f;
                 }
             }
-        }
+        }*/
     }
 
     private void FixedUpdate()
@@ -98,21 +112,37 @@ class EnforcerLightController : MonoBehaviour
         this.lightStopwatch -= Time.fixedDeltaTime;
         if (this.lightStopwatch <= 0.5f * this.flashDuration)
         {
-            if (this.lights.Length > 0)
-            {
-                foreach (Light i in this.lights)
-                {
-                    if (i) i.enabled = false;
-                }
-            }
+            this.lightsOn = false;
 
             if (this.lightStopwatch <= 0)
             {
                 if (this.lightFlashes > 0)
                 {
                     this.lightFlashes--;
+                    //this.FlashLights(0);
+                }
+            }
+        }
 
-                    this.FlashLights(0);
+        if (this.lightsOn)
+        {
+            this.em += this.emUp * Time.fixedDeltaTime;
+        }
+        else
+        {
+            this.em -= this.emDown * Time.fixedDeltaTime;
+        }
+
+        this.em = Mathf.Clamp(this.em, this.minEmission, this.maxEmission);
+
+        if (this.lights != null)
+        {
+            if (this.lights.Length > 0)
+            {
+                if (Input.GetKey("g")) lights[0].SetFloat("_EmPower", 1000);
+                foreach (Material i in this.lights)
+                {
+                    i.SetFloat("_EmPower", this.em);
                 }
             }
         }
@@ -122,16 +152,8 @@ class EnforcerLightController : MonoBehaviour
     {
         if (!this.sex) this.InitLights();
 
-        if (this.lights != null)
-        {
-            if (this.lights.Length > 0)
-            {
-                foreach (Light i in this.lights)
-                {
-                    if (i) i.enabled = true;
-                }
-            }
-        }
+        this.lightsOn = true;
+        //this.em = this.maxEmission;
     }
 
     public void FlashLights(int flashCount)
@@ -148,10 +170,12 @@ class EnforcerLightController : MonoBehaviour
         if (this.sirenToggle)
         {
             string sound = EnforcerPlugin.Sounds.SirenButton;
+
             if (this.characterBody)
             {
                 if (this.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.frogIndex) sound = EnforcerPlugin.Sounds.Croak;
             }
+
             this.playID = Util.PlaySound(sound, base.gameObject);
             this.flashStopwatch = 0;
         }

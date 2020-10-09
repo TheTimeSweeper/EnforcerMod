@@ -17,8 +17,8 @@ namespace EntityStates.Enforcer
         private bool wasShielding = false;
         private float initialTime;
 
-        private float skateGravity = 40f;
-        private float skateSpeedMultiplier = 1.2f;
+        private float skateGravity = 80f;
+        private float skateSpeedMultiplier = 1.1f;
         private float bungusStopwatch;
         private ChildLocator childLocator;
         private Animator animator;

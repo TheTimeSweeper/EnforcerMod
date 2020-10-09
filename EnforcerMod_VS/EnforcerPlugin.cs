@@ -23,7 +23,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.ThinkInvisible.ClassicItems", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KomradeSpectre.Aetherium", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "1.0.9")]
+    [BepInPlugin(MODUID, "Enforcer", "1.1.0")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -223,7 +223,7 @@ namespace EnforcerPlugin
             sillyHammer = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Silly Hammer"), false, new ConfigDescription("Replaces Enforcer with a skeleton made out of hammers when Shattering Justice is obtained", null, Array.Empty<object>()));
             cursed = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Cursed"), false, new ConfigDescription("Enables unfinished skills. They're almost certainly not going to work so enable at your own risk", null, Array.Empty<object>()));
             femSkin = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Femforcer"), false, new ConfigDescription("Enables femforcer skin. Not for good boys and girls.", null, Array.Empty<object>()));
-            oldEngiShield = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Old Engi Shield"), true, new ConfigDescription("Reverts the look of the Engi shield.", null, Array.Empty<object>()));
+            oldEngiShield = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Old Engi Shield"), false, new ConfigDescription("Reverts the look of the Engi shield.", null, Array.Empty<object>()));
 
             defaultDanceKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Default Dance"), KeyCode.Alpha1, new ConfigDescription("Key used to Default Dance", null, Array.Empty<object>()));
             flossKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Floss"), KeyCode.Alpha2, new ConfigDescription("Key used to Floss", null, Array.Empty<object>()));
@@ -308,7 +308,7 @@ namespace EnforcerPlugin
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
             On.EntityStates.BaseState.OnEnter += ParryState_OnEnter;
             //On.EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
-            On.RoR2.Skills.SkillCatalog.Init += SkillCatalog_Init;
+            //On.RoR2.Skills.SkillCatalog.Init += SkillCatalog_Init;
 
             //test
             //On.RoR2.CharacterSelectSurvivorPreviewDisplayController.RunDefaultResponses += CharacterSelectSurvivorPreviewDisplayController_RunDefaultResponses;
@@ -798,7 +798,7 @@ namespace EnforcerPlugin
                     defaultMaterial = childLocator.FindChild("SexShieldModel").GetComponent<MeshRenderer>().material,
                     renderer = childLocator.FindChild("SexShieldModel").GetComponent<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
+                    ignoreOverlays = true
                 },
                 new CharacterModel.RendererInfo
                 {
@@ -874,7 +874,7 @@ namespace EnforcerPlugin
                 {
                     defaultMaterial = childLocator.FindChild("FemShield").GetComponent<MeshRenderer>().material,
                     renderer = childLocator.FindChild("FemShield").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = true
                 },
                 new CharacterModel.RendererInfo
@@ -888,14 +888,28 @@ namespace EnforcerPlugin
                 {
                     defaultMaterial = childLocator.FindChild("BungusSSG").GetComponent<MeshRenderer>().material,
                     renderer = childLocator.FindChild("BungusSSG").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = true
                 },
                 new CharacterModel.RendererInfo
                 {
                     defaultMaterial = childLocator.FindChild("BungusRifle").GetComponent<MeshRenderer>().material,
                     renderer = childLocator.FindChild("BungusRifle").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = true
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("LightL").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("LightL").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = true
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("LightR").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("LightR").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = true
                 }
             };
@@ -918,14 +932,17 @@ namespace EnforcerPlugin
             CharacterSelectSurvivorPreviewDisplayController displayController = characterDisplay.AddComponent<CharacterSelectSurvivorPreviewDisplayController>();
             CharacterSelectSurvivorPreviewDisplayController displayControllerPrefab = model.GetComponent<CharacterSelectSurvivorPreviewDisplayController>();
 
-            displayController.skillChangeResponses = new CharacterSelectSurvivorPreviewDisplayController.SkillChangeResponse[displayControllerPrefab.skillChangeResponses.Length];
-
-            for (int i = 0; i < displayController.skillChangeResponses.Length; i++)
+            if (displayControllerPrefab != null)
             {
-                displayController.skillChangeResponses[i] = displayControllerPrefab.skillChangeResponses[i];
-            }
+                displayController.skillChangeResponses = new CharacterSelectSurvivorPreviewDisplayController.SkillChangeResponse[displayControllerPrefab.skillChangeResponses.Length];
 
-            displayController.bodyPrefab = characterPrefab;
+                for (int i = 0; i < displayController.skillChangeResponses.Length; i++)
+                {
+                    displayController.skillChangeResponses[i] = displayControllerPrefab.skillChangeResponses[i];
+                }
+
+                displayController.bodyPrefab = characterPrefab;
+            }
         }
 
         private static void CreatePrefab()
@@ -1205,7 +1222,7 @@ namespace EnforcerPlugin
                     defaultMaterial = childLocator.FindChild("SexShieldModel").GetComponent<MeshRenderer>().material,
                     renderer = childLocator.FindChild("SexShieldModel").GetComponent<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
+                    ignoreOverlays = true
                 },
                 new CharacterModel.RendererInfo
                 {
@@ -1303,6 +1320,20 @@ namespace EnforcerPlugin
                     defaultMaterial = childLocator.FindChild("BungusRifle").GetComponent<MeshRenderer>().material,
                     renderer = childLocator.FindChild("BungusRifle").GetComponent<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                    ignoreOverlays = true
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("LightL").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("LightL").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = true
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("LightR").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("LightR").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = true
                 }
             };

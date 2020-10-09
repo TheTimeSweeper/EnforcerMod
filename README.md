@@ -3,7 +3,7 @@
 - Includes a bunch of unlockable alternate skills and skins
 - Now includes support for ClassicItems' Ancient Scepter
 
-[![](https://i.imgur.com/GPy5UfP.png)]()
+[![](https://cdn.discordapp.com/attachments/469291841859092488/764138105283411979/Screenshot_428.png)]()
 
 [![](https://i.imgur.com/lVOcJCY.png)]()
 [![](https://i.imgur.com/wVL1Ilk.png)]()
@@ -52,12 +52,17 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - Teleporter particles kinda big (We could fix this but we won't)
 - Cancelling shield with sprint does not work properly in multiplayer
 - Pending an R2API update , some achievements can't be unlocked in multiplayer. (they only work for host or single player).
+- Mastery skin holds the shield in the wrong position
+- Mustard Gas doesn't apply the debuff
 
 ## Future Plans
 - Skills++support
 - More polish and skills maybe
 
 ## Changelog
+`1.1.0`
+- Updated model
+
 `1.0.9`
 - Added Femforcer- disabled by default, must be enabled via config (thanks modanon!)
 - Added more bungus weapons
