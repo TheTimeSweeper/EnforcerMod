@@ -961,10 +961,11 @@ namespace EnforcerPlugin
                 material.SetColor("_Color", Color.white);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcer").GetTexture("_MainTex"));
                 material.SetColor("_EmColor", new Color(1, 0.5f, 0.5f));
-                material.SetFloat("_EmPower", 0.3f);
+                material.SetFloat("_EmPower", 0.39f);
                 material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_NormalStrength", -1f);
-                material.SetTexture("_NormalTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcer").GetTexture("_BumpMap"));
+                material.SetFloat("_NormalStrength", 0.13f);
+                material.SetTexture("_NormalTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcer").GetTexture("_BumpMap"));
+                material.SetFloat("_SpecularStrength", 0.5f);
 
                 array[0].defaultMaterial = material;
             }
