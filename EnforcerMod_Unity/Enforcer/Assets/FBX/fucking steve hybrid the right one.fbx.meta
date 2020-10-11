@@ -82,6 +82,90 @@ ModelImporter:
     100152: ToeR
     100154: ToeR_end
     100156: zbod
+    100158: Area
+    100160: Area.002
+    100162: Area.004
+    100164: Area.005
+    100166: Area.006
+    100168: Area.007
+    100170: Armature.001
+    100172: ClavicleL 1
+    100174: ClavicleR 1
+    100176: ElbowL 1
+    100178: ElbowR 1
+    100180: FingerIndex1L 1
+    100182: FingerIndex1R 1
+    100184: FingerIndex2L 1
+    100186: FingerIndex2L_end 1
+    100188: FingerIndex2R 1
+    100190: FingerIndex2R_end 1
+    100192: FingerMiddle1L 1
+    100194: FingerMiddle1R 1
+    100196: FingerMiddle2L 1
+    100198: FingerMiddle2L_end 1
+    100200: FingerMiddle2R 1
+    100202: FingerMiddle2R_end 1
+    100204: FingerPinky1L 1
+    100206: FingerPinky1R 1
+    100208: FingerPinky2L 1
+    100210: FingerPinky2L_end 1
+    100212: FingerPinky2R 1
+    100214: FingerPinky2R_end 1
+    100216: FingerRing1L 1
+    100218: FingerRing1R 1
+    100220: FingerRing2L 1
+    100222: FingerRing2L_end 1
+    100224: FingerRing2R 1
+    100226: FingerRing2R_end 1
+    100228: FootL 1
+    100230: FootR 1
+    100232: HandL 1
+    100234: HandR 1
+    100236: Head 1
+    100238: Head_end 1
+    100240: IKArmPoleL
+    100242: IKArmPoleL_end
+    100244: IKArmPoleR
+    100246: IKArmPoleR_end
+    100248: IKFootL 1
+    100250: IKFootR 1
+    100252: IKHandL 1
+    100254: IKHandL_end 1
+    100256: IKHandR 1
+    100258: IKHandR_end 1
+    100260: IKPoleL 1
+    100262: IKPoleL_end 1
+    100264: IKPoleR 1
+    100266: IKPoleR_end 1
+    100268: IKTargetL 1
+    100270: IKTargetL_end 1
+    100272: IKTargetR 1
+    100274: IKTargetR_end 1
+    100276: KneeL 1
+    100278: KneeR 1
+    100280: LegL 1
+    100282: LegR 1
+    100284: Neck 1
+    100286: Pelvis 1
+    100288: Root 1
+    100290: SexBody
+    100292: ShoulderL 1
+    100294: ShoulderR 1
+    100296: Spine1 1
+    100298: Spine2 1
+    100300: Spine3 1
+    100302: Thumb1L 1
+    100304: Thumb1R 1
+    100306: Thumb2L 1
+    100308: Thumb2R 1
+    100310: Thumb3L 1
+    100312: Thumb3L_end 1
+    100314: Thumb3R 1
+    100316: Thumb3R_end 1
+    100318: ToeL 1
+    100320: ToeL_end 1
+    100322: ToeR 1
+    100324: ToeR_end 1
     400000: Armature
     400002: ClavicleL
     400004: ClavicleR
@@ -161,8 +245,94 @@ ModelImporter:
     400152: ToeR
     400154: ToeR_end
     400156: zbod
+    400158: Area
+    400160: Area.002
+    400162: Area.004
+    400164: Area.005
+    400166: Area.006
+    400168: Area.007
+    400170: Armature.001
+    400172: ClavicleL 1
+    400174: ClavicleR 1
+    400176: ElbowL 1
+    400178: ElbowR 1
+    400180: FingerIndex1L 1
+    400182: FingerIndex1R 1
+    400184: FingerIndex2L 1
+    400186: FingerIndex2L_end 1
+    400188: FingerIndex2R 1
+    400190: FingerIndex2R_end 1
+    400192: FingerMiddle1L 1
+    400194: FingerMiddle1R 1
+    400196: FingerMiddle2L 1
+    400198: FingerMiddle2L_end 1
+    400200: FingerMiddle2R 1
+    400202: FingerMiddle2R_end 1
+    400204: FingerPinky1L 1
+    400206: FingerPinky1R 1
+    400208: FingerPinky2L 1
+    400210: FingerPinky2L_end 1
+    400212: FingerPinky2R 1
+    400214: FingerPinky2R_end 1
+    400216: FingerRing1L 1
+    400218: FingerRing1R 1
+    400220: FingerRing2L 1
+    400222: FingerRing2L_end 1
+    400224: FingerRing2R 1
+    400226: FingerRing2R_end 1
+    400228: FootL 1
+    400230: FootR 1
+    400232: HandL 1
+    400234: HandR 1
+    400236: Head 1
+    400238: Head_end 1
+    400240: IKArmPoleL
+    400242: IKArmPoleL_end
+    400244: IKArmPoleR
+    400246: IKArmPoleR_end
+    400248: IKFootL 1
+    400250: IKFootR 1
+    400252: IKHandL 1
+    400254: IKHandL_end 1
+    400256: IKHandR 1
+    400258: IKHandR_end 1
+    400260: IKPoleL 1
+    400262: IKPoleL_end 1
+    400264: IKPoleR 1
+    400266: IKPoleR_end 1
+    400268: IKTargetL 1
+    400270: IKTargetL_end 1
+    400272: IKTargetR 1
+    400274: IKTargetR_end 1
+    400276: KneeL 1
+    400278: KneeR 1
+    400280: LegL 1
+    400282: LegR 1
+    400284: Neck 1
+    400286: Pelvis 1
+    400288: Root 1
+    400290: SexBody
+    400292: ShoulderL 1
+    400294: ShoulderR 1
+    400296: Spine1 1
+    400298: Spine2 1
+    400300: Spine3 1
+    400302: Thumb1L 1
+    400304: Thumb1R 1
+    400306: Thumb2L 1
+    400308: Thumb2R 1
+    400310: Thumb3L 1
+    400312: Thumb3L_end 1
+    400314: Thumb3R 1
+    400316: Thumb3R_end 1
+    400318: ToeL 1
+    400320: ToeL_end 1
+    400322: ToeR 1
+    400324: ToeR_end 1
     2100000: 'Material #25.002'
+    2100002: TrueAtlas
     4300000: zbod
+    4300002: SexBody
     7400000: ShieldBash.001
     7400002: Armature|Action.001
     7400004: Armature|ArmatureAction.001
@@ -190,7 +360,15 @@ ModelImporter:
     7400048: Armature|WalkLeft.003
     7400050: Armature|WalkRight.002
     9500000: //RootNode
+    10800000: Area
+    10800002: Area.002
+    10800004: Area.004
+    10800006: Area.005
+    10800008: Area.006
+    10800010: Area.007
     13700000: zbod
+    13700002: SexBody
+    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -203,7 +381,8 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
-    rigImportErrors: 
+    rigImportErrors: "Copied Avatar Rig Configuration mis-match. Transform hierarchy
+      does not match:\n\tTransform 'Armature.001' not found in HumanDescription.\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
