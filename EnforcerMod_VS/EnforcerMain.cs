@@ -17,8 +17,8 @@ namespace EntityStates.Enforcer
         private bool wasShielding = false;
         private float initialTime;
 
-        private float skateGravity = 80f;
-        private float skateSpeedMultiplier = 1.1f;
+        private float skateGravity = 120f;
+        private float skateSpeedMultiplier = 0.5f;
         private float bungusStopwatch;
         private ChildLocator childLocator;
         private Animator animator;
@@ -65,6 +65,14 @@ namespace EntityStates.Enforcer
                 {
                     if (this.childLocator.FindChild("Shield")) this.childLocator.FindChild("Shield").gameObject.SetActive(false);
                 }
+
+                //skamtebord
+
+                if (base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_BOARDUP_NAME" || base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_BOARDDOWN_NAME")
+                {
+                    if (this.childLocator.FindChild("Shield")) this.childLocator.FindChild("Shield").gameObject.SetActive(false);
+                    if (this.childLocator.FindChild("Skateboard")) this.childLocator.FindChild("Skateboard").gameObject.SetActive(true);
+                }
             }
 
             onDance(false);
@@ -76,7 +84,7 @@ namespace EntityStates.Enforcer
         {
             base.Update();
 
-            bool shieldIsUp = (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff));
+            bool shieldIsUp = (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff));
 
             /*if (Input.GetKeyDown(KeyCode.G)) {
                 RiotShotgun.spreadSpread = !RiotShotgun.spreadSpread;

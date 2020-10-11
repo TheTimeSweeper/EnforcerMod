@@ -23,7 +23,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.ThinkInvisible.ClassicItems", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KomradeSpectre.Aetherium", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "1.1.0")]
+    [BepInPlugin(MODUID, "Enforcer", "1.1.2")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -911,6 +911,34 @@ namespace EnforcerPlugin
                     renderer = childLocator.FindChild("LightR").GetComponent<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = true
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("Skateboard").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("Skateboard").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = true
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("CubeShield").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("CubeShield").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("CubeShotgun").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("CubeShotgun").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("CubeRifle").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("CubeRifle").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
                 }
             };
 
@@ -1335,6 +1363,34 @@ namespace EnforcerPlugin
                     renderer = childLocator.FindChild("LightR").GetComponent<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = true
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("Skateboard").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("Skateboard").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = true
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("CubeShield").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("CubeShield").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("CubeShotgun").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("CubeShotgun").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("CubeRifle").GetComponent<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("CubeRifle").GetComponent<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
                 }
             };
 

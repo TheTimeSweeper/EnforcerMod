@@ -41,6 +41,11 @@ namespace EntityStates.Enforcer
             if (base.GetComponent<EnforcerWeaponComponent>()) base.GetComponent<EnforcerWeaponComponent>().HideWeapon();
 
             this.ToggleShield(false);
+            if (this.childLocator)
+            {
+                this.childLocator.FindChild("Skateboard").gameObject.SetActive(false);
+            }
+
         }
 
         public override void OnExit()

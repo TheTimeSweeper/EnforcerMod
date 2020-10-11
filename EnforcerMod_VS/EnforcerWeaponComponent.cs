@@ -6,6 +6,10 @@ public class EnforcerWeaponComponent : MonoBehaviour
 {
     public static event Action<int> Imp = delegate { };
 
+    private GameObject skateboard;
+    private Transform skateboardBase;
+    private Transform skateboardHandBase;
+
     private CharacterBody charBody;
     private CharacterMotor charMotor;
     private HealthComponent charHealth;
@@ -25,6 +29,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
         InitWeapon();
         InitShells();
+        InitSkateboard();
 
         Invoke("ModelCheck", 0.2f);
     }
@@ -294,5 +299,33 @@ public class EnforcerWeaponComponent : MonoBehaviour
         if (childLocator is null) return;
 
         if (shellController) shellController.Play();
+    }
+
+    private void InitSkateboard()
+    {
+        if (childLocator)
+        {
+            skateboard = childLocator.FindChild("Skateboard").gameObject;
+            skateboardBase = childLocator.FindChild("BoardBase");
+            skateboardHandBase = childLocator.FindChild("BoardHandBase");
+        }
+    }
+
+    public void ReparentSkateboard(string newParent)
+    {
+        if (!skateboard) return;
+
+        switch (newParent)
+        {
+            case "Base":
+                skateboard.transform.parent = skateboardBase;
+                break;
+            case "Hand":
+                skateboard.transform.parent = skateboardHandBase;
+                break;
+        }
+
+        skateboard.transform.localPosition = Vector3.zero;
+        skateboard.transform.localRotation = Quaternion.identity;
     }
 }
