@@ -45,6 +45,8 @@ namespace EnforcerPlugin {
 
         public static GameObject gatDrone;
 
+        public static Material mainMat;
+
         public static Mesh stormtrooperMesh;
         public static Mesh engiMesh;
         public static Mesh desperadoMesh;
@@ -52,6 +54,7 @@ namespace EnforcerPlugin {
         public static Mesh classicMesh;
         public static Mesh sexMesh;
         public static Mesh femMesh;
+        public static Mesh fuckingSteveMesh;
 
         public static void PopulateAssets()
         {
@@ -74,7 +77,7 @@ namespace EnforcerPlugin {
                 SoundAPI.SoundBanks.Add(array);
             }
 
-            charPortrait = MainAssetBundle.LoadAsset<Sprite>("texEnforcerIcon").texture;
+            charPortrait = MainAssetBundle.LoadAsset<Sprite>("texEnforcerIconOld").texture;
 
             if (EnforcerPlugin.classicIcons.Value)
             {
@@ -163,6 +166,8 @@ namespace EnforcerPlugin {
 
             gatDrone = MainAssetBundle.LoadAsset<GameObject>("GatDrone");
 
+            mainMat = MainAssetBundle.LoadAsset<Material>("matEnforcerAlt");
+
             stormtrooperMesh = MainAssetBundle.LoadAsset<Mesh>("StormtrooperMesh");
             engiMesh = MainAssetBundle.LoadAsset<Mesh>("EngiforcerMesh");
             desperadoMesh = MainAssetBundle.LoadAsset<Mesh>("EnforcerMesh");
@@ -170,6 +175,7 @@ namespace EnforcerPlugin {
             classicMesh = MainAssetBundle.LoadAsset<Mesh>("EnforcerMesh");
             sexMesh = MainAssetBundle.LoadAsset<Mesh>("SexforcerMesh");
             femMesh = MainAssetBundle.LoadAsset<Mesh>("FemforcerMesh");
+            fuckingSteveMesh = MainAssetBundle.LoadAsset<Mesh>("FuckingSteveMesh");
         }
     }
 }

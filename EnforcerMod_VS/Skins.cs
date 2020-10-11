@@ -53,6 +53,9 @@ namespace EnforcerPlugin
             GameObject bungusShotgun = childLocator.FindChild("BungusShotgun").gameObject;
             GameObject bungusSSG = childLocator.FindChild("BungusSSG").gameObject;
             GameObject bungusRifle = childLocator.FindChild("BungusRifle").gameObject;
+            GameObject cubeShield = childLocator.FindChild("CubeShield").gameObject;
+            GameObject cubeShotgun = childLocator.FindChild("CubeShotgun").gameObject;
+            GameObject cubeRifle = childLocator.FindChild("CubeRifle").gameObject;
             GameObject femShield = childLocator.FindChild("FemShield").gameObject;
             GameObject lightL = childLocator.FindChild("LightL").gameObject;
             GameObject lightR = childLocator.FindChild("LightR").gameObject;
@@ -72,6 +75,9 @@ namespace EnforcerPlugin
                 bungusShotgun,
                 bungusSSG,
                 bungusRifle,
+                cubeShield,
+                cubeShotgun,
+                cubeRifle,
                 femShield,
                 lightL,
                 lightR
@@ -85,6 +91,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCERBODY_DESPERADO_SKIN_NAME", "Desperado");
             LanguageAPI.Add("ENFORCERBODY_FROG_SKIN_NAME", "Zero Suit");
             LanguageAPI.Add("ENFORCERBODY_FEM_SKIN_NAME", "Femforcer");
+            LanguageAPI.Add("ENFORCERBODY_STEVE_SKIN_NAME", "Minecraft Sbeve");
 
             LoadoutAPI.SkinDefInfo skinDefInfo = default(LoadoutAPI.SkinDefInfo);
             skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
@@ -115,17 +122,18 @@ namespace EnforcerPlugin
 
             //clone commando material for that spicy hopoo shader
             Material material = array[0].defaultMaterial;
+            Material commandoMat = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial;
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Color.white);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcer").GetTexture("_MainTex"));
+                material.SetTexture("_MainTex", Assets.mainMat.GetTexture("_MainTex"));
                 material.SetColor("_EmColor", Color.white);
-                material.SetFloat("_EmPower", 1.5f);
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcer").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 2.5f);
+                material.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
                 material.SetFloat("_NormalStrength", 1);
-                material.SetTexture("_NormalTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcer").GetTexture("_BumpMap"));
+                material.SetTexture("_NormalTex", Assets.mainMat.GetTexture("_BumpMap"));
 
                 array[0].defaultMaterial = material;
             }
@@ -135,7 +143,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Color.white);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShield").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -150,7 +158,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -164,7 +172,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -177,7 +185,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -190,7 +198,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matRifle").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matRifle").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -203,7 +211,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -216,7 +224,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -229,7 +237,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -242,7 +250,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -255,7 +263,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -268,7 +276,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matSuperShotgun").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSuperShotgun").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -281,7 +289,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -294,7 +302,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -307,7 +315,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -320,7 +328,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -333,7 +341,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -346,7 +354,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matSexShield").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexShield").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -359,7 +367,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matNeedler").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matNeedler").GetTexture("_MainTex"));
                 material.SetColor("_EmColor", Color.white);
@@ -374,7 +382,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 0);
@@ -395,7 +403,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Color.black);
                 material.SetTexture("_MainTex", null);
                 material.SetFloat("_EmPower", 20);
@@ -410,7 +418,7 @@ namespace EnforcerPlugin
 
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matMarauderArmShield").GetColor("_Color"));
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matMarauderArmShield").GetTexture("_MainTex"));
                 material.SetFloat("_EmPower", 20);
@@ -430,7 +438,7 @@ namespace EnforcerPlugin
 
             material = array[29].defaultMaterial;
             if (material) {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Color.white);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcer").GetTexture("_MainTex"));
                 material.SetColor("_EmColor", Color.white);
@@ -457,12 +465,13 @@ namespace EnforcerPlugin
             material = array[33].defaultMaterial;
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Color.white);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcer").GetTexture("_MainTex"));
+                material.SetTexture("_MainTex", Assets.mainMat.GetTexture("_MainTex"));
                 material.SetColor("_EmColor", Color.white);
                 material.SetFloat("_EmPower", 1f);
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcer").GetTexture("_EmissionMap"));
+                material.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
+                material.SetFloat("_NormalStrength", 0f);
 
                 array[33].defaultMaterial = material;
             }
@@ -470,14 +479,67 @@ namespace EnforcerPlugin
             material = array[34].defaultMaterial;
             if (material)
             {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Color.white);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcer").GetTexture("_MainTex"));
+                material.SetTexture("_MainTex", Assets.mainMat.GetTexture("_MainTex"));
                 material.SetColor("_EmColor", Color.white);
                 material.SetFloat("_EmPower", 1f);
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcer").GetTexture("_EmissionMap"));
+                material.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
+                material.SetFloat("_NormalStrength", 0f);
 
                 array[34].defaultMaterial = material;
+            }
+
+            material = array[35].defaultMaterial;
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
+                material.SetColor("_Color", Color.white);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSkamtebord").GetTexture("_MainTex"));
+                material.SetColor("_EmColor", Color.black);
+                material.SetFloat("_EmPower", 0f);
+                material.SetTexture("_EmTex", null);
+                material.SetFloat("_NormalStrength", 0f);
+
+                array[35].defaultMaterial = material;
+            }
+
+            material = array[36].defaultMaterial;
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
+                material.SetColor("_Color", Color.white);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matCubeShield").GetTexture("_MainTex"));
+                material.SetColor("_EmColor", Color.black);
+                material.SetFloat("_EmPower", 0f);
+                material.SetTexture("_EmTex", null);
+                material.SetFloat("_NormalStrength", 0f);
+
+                array[36].defaultMaterial = material;
+            }
+
+            material = array[37].defaultMaterial;
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matCubeShotgun").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matCubeShotgun").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0f);
+
+                array[37].defaultMaterial = material;
+            }
+
+            material = array[38].defaultMaterial;
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matRifle").GetColor("_Color"));
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matRifle").GetTexture("_MainTex"));
+                material.SetFloat("_EmPower", 0);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[38].defaultMaterial = material;
             }
 
             skinDefInfo.RendererInfos = array;
@@ -491,7 +553,7 @@ namespace EnforcerPlugin
             spaceSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             spaceSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            spaceSkinDefInfo.GameObjectActivations = getActivations(allObjects, blasterModel, blasterRifle, superBlaster, shieldModel);
+            spaceSkinDefInfo.GameObjectActivations = getActivations(allObjects, blasterModel, blasterRifle, superBlaster, shieldModel, lightL, lightR);
 
             spaceSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texStormtrooperAchievement");
             //spaceSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.83f, 0.83f, 0.83f), new Color(0.64f, 0.64f, 0.64f), new Color(0.25f, 0.25f, 0.25f), new Color(0f, 0f, 0f));
@@ -887,7 +949,7 @@ namespace EnforcerPlugin
             {
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matZeroSuit").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcer").GetTexture("_EmissionMap"));
+                material.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
                 material.SetFloat("_EmPower", 1);
 
                 array[0].defaultMaterial = material;
@@ -956,16 +1018,16 @@ namespace EnforcerPlugin
 
             material = array[0].defaultMaterial;
 
-            if (material) {
-                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Color.white);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcer").GetTexture("_MainTex"));
                 material.SetColor("_EmColor", new Color(1, 0.5f, 0.5f));
-                material.SetFloat("_EmPower", 0.39f);
+                material.SetFloat("_EmPower", 0.3f);
                 material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_NormalStrength", 0.13f);
+                material.SetFloat("_NormalStrength", -1f);
                 material.SetTexture("_NormalTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcer").GetTexture("_BumpMap"));
-                material.SetFloat("_SpecularStrength", 0.5f);
 
                 array[0].defaultMaterial = material;
             }
@@ -974,28 +1036,80 @@ namespace EnforcerPlugin
 
             SkinDef femSkin = LoadoutAPI.CreateNewSkinDef(femSkinDefInfo);
 
-            var skinDefs = new List<SkinDef>() {
+            LoadoutAPI.SkinDefInfo fuckingSteveSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            fuckingSteveSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            fuckingSteveSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            fuckingSteveSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+
+            fuckingSteveSkinDefInfo.GameObjectActivations = getActivations(allObjects, cubeShotgun, cubeRifle, superShotgun, cubeShield);
+
+            //fuckingSteveSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
+            fuckingSteveSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.31f, 0.49f, 0.69f), new Color(0.86f, 0.83f, 0.63f), new Color(0.1f, 0.07f, 0.06f), new Color(0.21f, 0.29f, 0.38f));
+            fuckingSteveSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                new SkinDef.MeshReplacement
+                {
+                    renderer = mainRenderer,
+                    mesh = Assets.fuckingSteveMesh
+                }
+            };
+            fuckingSteveSkinDefInfo.Name = "ENFORCERBODY_STEVE_SKIN_NAME";
+            fuckingSteveSkinDefInfo.NameToken = "ENFORCERBODY_STEVE_SKIN_NAME";
+            fuckingSteveSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            fuckingSteveSkinDefInfo.RootObject = model;
+            fuckingSteveSkinDefInfo.UnlockableName = "";
+
+            rendererInfos = skinDefInfo.RendererInfos;
+            array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos.CopyTo(array, 0);
+
+            material = array[0].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
+                material.SetColor("_Color", Color.white);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matFuckingSteve").GetTexture("_MainTex"));
+                material.SetColor("_EmColor", Color.white);
+                material.SetFloat("_EmPower", 0.5f);
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matFuckingSteve").GetTexture("_EmissionMap"));
+                material.SetFloat("_NormalStrength", 0f);
+
+                array[0].defaultMaterial = material;
+            }
+
+            fuckingSteveSkinDefInfo.RendererInfos = array;
+
+            SkinDef fuckingSteveSkin = LoadoutAPI.CreateNewSkinDef(fuckingSteveSkinDefInfo);
+
+
+            var skinDefs = new List<SkinDef>()
+            {
                 defaultSkin,
                 masterySkin,
                 doomSkin, 
             };
 
-            if (!EnforcerPlugin.antiFun.Value) {
+            if (!EnforcerPlugin.antiFun.Value)
+            {
                 skinDefs.Add(engiSkin);
                 skinDefs.Add(spaceSkin);
                 skinDefs.Add(desperadoSkin);
                 skinDefs.Add(frogSkin);
+                skinDefs.Add(fuckingSteveSkin);
             }
 
-            if (EnforcerPlugin.femSkin.Value) {
+            if (EnforcerPlugin.femSkin.Value)
+            {
                 skinDefs.Add(femSkin);
             }
 
-            bool hasClassicSkin = false;
+            /*bool hasClassicSkin = false;
 
-            if (hasClassicSkin) {
+            if (hasClassicSkin)
+            {
                 skinDefs.Add(classicSkin);
-            }
+            }*/
 
             skinController.skins = skinDefs.ToArray();
         }

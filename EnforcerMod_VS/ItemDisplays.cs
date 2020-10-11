@@ -162,9 +162,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayBehemoth"),
                             childName = "Rifle",
-                            localPos = new Vector3(0.025f, 0, 0.025f),
-                            localAngles = new Vector3(0, 0, -90),
-                            localScale = new Vector3(0.01f, 0.01f, 0.01f),
+                            localPos = new Vector3(3, 0, 2),
+                            localAngles = new Vector3(0, 8, 270),
+                            localScale = new Vector3(1, 1, 1),
                             limbMask = LimbFlags.None
                         },
                         new ItemDisplayRule
@@ -1221,9 +1221,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayDoubleMag"),
                             childName = "Rifle",
-                            localPos = new Vector3(-0.0244f, 0, -0.01927f),
-                            localAngles = new Vector3(0, 2, 90),
-                            localScale = new Vector3(0.065f, 0.065f, 0.065f),
+                            localPos = new Vector3(1, 0, -2),
+                            localAngles = new Vector3(0, 90, 90),
+                            localScale = new Vector3(1, 1, 1),
                             limbMask = LimbFlags.None
                         },
                         new ItemDisplayRule

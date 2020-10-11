@@ -420,12 +420,7 @@ namespace EntityStates.Enforcer
 
             if (base.fixedAge >= this.duration)
             {
-                if (this.shieldCancel)
-                {
-                    base.characterBody.isSprinting = false;
-                    this.outer.SetNextState(new ProtectAndServe());
-                }
-                else this.outer.SetNextStateToMain();
+                this.outer.SetNextStateToMain();
                 return;
             }
 
@@ -443,6 +438,8 @@ namespace EntityStates.Enforcer
                     if (base.inputBank.skill4.down && base.fixedAge >= 0.4f * this.duration)
                     {
                         this.shieldCancel = true;
+                        base.characterBody.isSprinting = false;
+                        base.skillLocator.special.ExecuteIfReady();
                     }
                 }
 
@@ -520,7 +517,8 @@ namespace EntityStates.Enforcer
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            return InterruptPriority.Frozen;
+            if (this.shieldCancel) return InterruptPriority.Any;
+            else return InterruptPriority.Frozen;
         }
 
         public override void OnSerialize(NetworkWriter writer)
