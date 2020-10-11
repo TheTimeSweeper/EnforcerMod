@@ -31,7 +31,9 @@ namespace EntityStates.Enforcer
         {
             base.characterBody.SetAimTimer(0.25f);
             this.fixedAge += Time.fixedDeltaTime;
-            base.PlayAnimation("RightArm, Override", "FireShotgun");
+
+            bool isShielded = base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff);
+            if (!isShielded) base.PlayAnimation("RightArm, Override", "FireRifle");
 
             bool flag = false;
 
@@ -50,6 +52,15 @@ namespace EntityStates.Enforcer
         public override void OnExit()
         {
             base.OnExit();
+
+            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
+            {
+                base.PlayAnimation("RightArm, Override", "FireShotgunShielded");
+            }
+            else
+            {
+                base.PlayAnimation("RightArm, Override", "FireShotgun");
+            }
 
             Util.PlaySound(EnforcerPlugin.Sounds.LaunchTearGas, base.gameObject);
 

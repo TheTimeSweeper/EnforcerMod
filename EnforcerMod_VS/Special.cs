@@ -24,6 +24,7 @@ namespace EntityStates.Enforcer
             this.childLocator = base.GetModelChildLocator();
 
             bool isEngi = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex;
+            if (EnforcerPlugin.EnforcerPlugin.oldEngiShield.Value) isEngi = false;
             bool isDoom = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex;
 
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
@@ -40,7 +41,7 @@ namespace EntityStates.Enforcer
 
                 if (isEngi)
                 {
-                    this.childLocator.FindChild("EngiShield").gameObject.SetActive(false);
+                    this.childLocator.FindChild("BungusShield").gameObject.SetActive(false);
                 }
 
                 if (isDoom)
@@ -82,7 +83,7 @@ namespace EntityStates.Enforcer
 
                 if (isEngi)
                 {
-                    this.childLocator.FindChild("EngiShield").gameObject.SetActive(true);
+                    this.childLocator.FindChild("BungusShield").gameObject.SetActive(true);
                 }
 
                 if (isDoom)

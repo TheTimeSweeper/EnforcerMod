@@ -225,19 +225,12 @@ namespace EntityStates.Nemforcer
 
     public class NemMinigunState : BaseState
     {
-        private bool standStill;
         protected Transform muzzleTransform;
-        private float oldMass;
 
         public override void OnEnter()
         {
             base.OnEnter();
             this.muzzleTransform = base.FindModelChild("HandR");
-
-            /*if (NetworkServer.active)
-            {
-                base.characterBody.AddBuff(BuffIndex.Slow80);
-            }*/
         }
 
         public override void FixedUpdate()
@@ -247,11 +240,6 @@ namespace EntityStates.Nemforcer
 
         public override void OnExit()
         {
-            /*if (NetworkServer.active)
-            {
-                base.characterBody.RemoveBuff(BuffIndex.Slow80);
-            }*/
-
             base.OnExit();
         }
 

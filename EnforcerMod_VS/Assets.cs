@@ -165,7 +165,7 @@ namespace EnforcerPlugin {
 
             stormtrooperMesh = MainAssetBundle.LoadAsset<Mesh>("StormtrooperMesh");
             engiMesh = MainAssetBundle.LoadAsset<Mesh>("EngiforcerMesh");
-            desperadoMesh = MainAssetBundle.LoadAsset<Mesh>("DesperadoMesh");
+            desperadoMesh = MainAssetBundle.LoadAsset<Mesh>("EnforcerMesh");
             zeroSuitMesh = MainAssetBundle.LoadAsset<Mesh>("ZeroSuitMesh");
             classicMesh = MainAssetBundle.LoadAsset<Mesh>("EnforcerMesh");
             sexMesh = MainAssetBundle.LoadAsset<Mesh>("SexforcerMesh");

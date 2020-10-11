@@ -51,7 +51,11 @@ namespace EnforcerPlugin
             GameObject marauderShield = childLocator.FindChild("MarauderArmShield").gameObject;
             GameObject bungusShield = childLocator.FindChild("BungusArmShield").gameObject;
             GameObject bungusShotgun = childLocator.FindChild("BungusShotgun").gameObject;
+            GameObject bungusSSG = childLocator.FindChild("BungusSSG").gameObject;
+            GameObject bungusRifle = childLocator.FindChild("BungusRifle").gameObject;
             GameObject femShield = childLocator.FindChild("FemShield").gameObject;
+            GameObject lightL = childLocator.FindChild("LightL").gameObject;
+            GameObject lightR = childLocator.FindChild("LightR").gameObject;
 
             GameObject[] allObjects = new GameObject[] {
                 engiShield,
@@ -66,7 +70,11 @@ namespace EnforcerPlugin
                 marauderShield,
                 bungusShield,
                 bungusShotgun,
+                bungusSSG,
+                bungusRifle,
                 femShield,
+                lightL,
+                lightR
             };
 
             LanguageAPI.Add("ENFORCERBODY_DEFAULT_SKIN_NAME", "Default");
@@ -83,7 +91,7 @@ namespace EnforcerPlugin
             skinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             skinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            skinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, shieldModel);
+            skinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, shieldModel, lightL, lightR);
 
             skinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
             //skinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.31f, 0.49f, 0.69f), new Color(0.86f, 0.83f, 0.63f), new Color(0.1f, 0.07f, 0.06f), new Color(0.21f, 0.29f, 0.38f));
@@ -431,6 +439,47 @@ namespace EnforcerPlugin
 
                 array[29].defaultMaterial = material;
             }
+
+            material = array[31].defaultMaterial;
+            if (material)
+            {
+                material = EnforcerPlugin.bungusMat;
+                array[31].defaultMaterial = material;
+            }
+
+            material = array[32].defaultMaterial;
+            if (material)
+            {
+                material = EnforcerPlugin.bungusMat;
+                array[32].defaultMaterial = material;
+            }
+
+            material = array[33].defaultMaterial;
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Color.white);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcer").GetTexture("_MainTex"));
+                material.SetColor("_EmColor", Color.white);
+                material.SetFloat("_EmPower", 1f);
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcer").GetTexture("_EmissionMap"));
+
+                array[33].defaultMaterial = material;
+            }
+
+            material = array[34].defaultMaterial;
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+                material.SetColor("_Color", Color.white);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcer").GetTexture("_MainTex"));
+                material.SetColor("_EmColor", Color.white);
+                material.SetFloat("_EmPower", 1f);
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcer").GetTexture("_EmissionMap"));
+
+                array[34].defaultMaterial = material;
+            }
+
             skinDefInfo.RendererInfos = array;
 
             SkinDef defaultSkin = LoadoutAPI.CreateNewSkinDef(skinDefInfo);
@@ -490,6 +539,30 @@ namespace EnforcerPlugin
                 array[2].defaultMaterial = material;
             }
 
+            material = array[33].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSpaceEnforcer").GetTexture("_MainTex"));
+                material.SetColor("_EmColor", Color.black);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[33].defaultMaterial = material;
+            }
+
+            material = array[34].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSpaceEnforcer").GetTexture("_MainTex"));
+                material.SetColor("_EmColor", Color.black);
+                material.SetFloat("_NormalStrength", 0);
+
+                array[34].defaultMaterial = material;
+            }
+
             spaceSkinDefInfo.RendererInfos = array;
 
             SkinDef spaceSkin = LoadoutAPI.CreateNewSkinDef(spaceSkinDefInfo);
@@ -499,7 +572,14 @@ namespace EnforcerPlugin
             engiSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             engiSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            engiSkinDefInfo.GameObjectActivations = getActivations(allObjects, bungusShotgun, rifleModel, superShotgun, bungusShield);
+            if (EnforcerPlugin.oldEngiShield.Value)
+            {
+                engiSkinDefInfo.GameObjectActivations = getActivations(allObjects, bungusShotgun, bungusRifle, bungusSSG, shieldModel, engiShield, lightL, lightR);
+            }
+            else
+            {
+                engiSkinDefInfo.GameObjectActivations = getActivations(allObjects, bungusShotgun, bungusRifle, bungusSSG, bungusShield, lightL, lightR);
+            }
 
             engiSkinDefInfo.Icon = Resources.Load<GameObject>("Prefabs/CharacterBodies/EngiBody").GetComponentInChildren<ModelSkinController>().skins[0].icon;
             engiSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
@@ -544,6 +624,30 @@ namespace EnforcerPlugin
                 array[2].defaultMaterial = material;
             }
 
+            material = array[33].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEngiforcer").GetTexture("_MainTex"));
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEngiforcer").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 1);
+
+                array[33].defaultMaterial = material;
+            }
+
+            material = array[34].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEngiforcer").GetTexture("_MainTex"));
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEngiforcer").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 1);
+
+                array[34].defaultMaterial = material;
+            }
+
             engiSkinDefInfo.RendererInfos = array;
 
             SkinDef engiSkin = LoadoutAPI.CreateNewSkinDef(engiSkinDefInfo);
@@ -553,7 +657,7 @@ namespace EnforcerPlugin
             doomSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             doomSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            doomSkinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, marauderShield);
+            doomSkinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, marauderShield, lightL, lightR);
 
             doomSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texDoomAchievement");
             //doomSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.41f, 0.49f, 0.4f), new Color(0.14f, 0.18f, 0.16f), new Color(0.46f, 0.46f, 0.46f), new Color(0.64f, 0.64f, 0.64f));
@@ -597,6 +701,30 @@ namespace EnforcerPlugin
                 material.SetFloat("_NormalStrength", 0);
 
                 array[2].defaultMaterial = material;
+            }
+
+            material = array[33].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matDoomEnforcer").GetTexture("_MainTex"));
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matDoomEnforcer").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 1);
+
+                array[33].defaultMaterial = material;
+            }
+
+            material = array[34].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matDoomEnforcer").GetTexture("_MainTex"));
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matDoomEnforcer").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 1);
+
+                array[34].defaultMaterial = material;
             }
 
             doomSkinDefInfo.RendererInfos = array;
@@ -652,7 +780,7 @@ namespace EnforcerPlugin
             desperadoSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             desperadoSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            desperadoSkinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, shieldModel);
+            desperadoSkinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, shieldModel, lightL, lightR);
 
             desperadoSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texDesperadoAchievement");
             //desperadoSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.43f, 0.1f, 0.1f), Color.red, new Color(0.31f, 0.04f, 0.07f), Color.black);
@@ -696,6 +824,30 @@ namespace EnforcerPlugin
                 material.SetFloat("_NormalStrength", 0);
 
                 array[2].defaultMaterial = material;
+            }
+
+            material = array[33].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_MainTex"));
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 1f);
+
+                array[33].defaultMaterial = material;
+            }
+
+            material = array[34].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_MainTex"));
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 1f);
+
+                array[34].defaultMaterial = material;
             }
 
             desperadoSkinDefInfo.RendererInfos = array;
@@ -750,7 +902,7 @@ namespace EnforcerPlugin
             classicSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             classicSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            classicSkinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, shieldModel);
+            classicSkinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, shieldModel, lightL, lightR);
 
             classicSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.83f, 0.83f, 0.83f), new Color(0.64f, 0.64f, 0.64f), new Color(0.25f, 0.25f, 0.25f), new Color(0f, 0f, 0f));
             classicSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
@@ -845,7 +997,6 @@ namespace EnforcerPlugin
             }
 
             skinController.skins = skinDefs.ToArray();
-            
         }
     }
 }

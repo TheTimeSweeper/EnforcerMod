@@ -3,7 +3,7 @@
 - Includes a bunch of unlockable alternate skills and skins
 - Now includes support for ClassicItems' Ancient Scepter
 
-[![](https://i.imgur.com/GPy5UfP.png)]()
+[![](https://cdn.discordapp.com/attachments/469291841859092488/764138105283411979/Screenshot_428.png)]()
 
 [![](https://i.imgur.com/lVOcJCY.png)]()
 [![](https://i.imgur.com/wVL1Ilk.png)]()
@@ -43,7 +43,7 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 | Skill | | Description | Stats |
 |:-|-|------|-|
 | Super Shotgun | ![](https://i.imgur.com/fJk3Iwn.png) | Fire a powerful short range blast for `16x75%` damage. Has harsh damage falloff. | Proc: `0.75` |
-| Assault Rifle | ![](https://i.imgur.com/VV3t6HU.png) | Rapidly fire bullets dealing `65%` damage. | Proc: `0.5`, Proc in shield: `0.25` |
+| Assault Rifle | ![](https://i.imgur.com/VV3t6HU.png) | Rapidly fire bullets dealing `65%` damage. | Proc: `0.5`, Proc in shield: `0.4` |
 | Stun Grenade | ![](https://i.imgur.com/yuL8mB2.png) | `Stunning`. Launch a stun grenade, dealing `400%` damage. Store up to 3 grenades. | Proc: `0.6`, CD: `8 sec` |
 
 [![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)]()
@@ -52,12 +52,30 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - Teleporter particles kinda big (We could fix this but we won't)
 - Cancelling shield with sprint does not work properly in multiplayer
 - Pending an R2API update , some achievements can't be unlocked in multiplayer. (they only work for host or single player).
+- Mastery skin holds the shield in the wrong position
+- Mustard Gas doesn't apply the debuff
 
 ## Future Plans
 - Skills++support
 - More polish and skills maybe
 
 ## Changelog
+`1.1.0`
+- Updated model
+
+`1.0.9`
+- Added Femforcer- disabled by default, must be enabled via config (thanks modanon!)
+- Added more bungus weapons
+- Buffed Assault Rifle damage to 80%- config must be reset or edited manually to get the new value
+- Buffed Assault Rifle proc coefficient during P&S to 0.4
+- Buffed Assault Rifle fire rate
+- Lowered Assault Rifle spread
+- Added configuration for Assault Rifle
+- Added config option to revert the Engi shield
+- Added a new emote
+- Fixed some animation weirdness
+- Fixed Fresh Meat being huge
+
 `1.0.8`
 - Added gun shooting animations
 - Tweaked sprint animation

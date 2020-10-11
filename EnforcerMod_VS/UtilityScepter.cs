@@ -31,7 +31,9 @@ namespace EntityStates.Enforcer
         {
             base.characterBody.SetAimTimer(0.25f);
             this.fixedAge += Time.fixedDeltaTime;
-            base.PlayAnimation("RightArm, Override", "FireShotgun");
+
+            bool isShielded = base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff);
+            if (!isShielded) base.PlayAnimation("RightArm, Override", "FireRifle");
 
             bool flag = false;
 
@@ -52,6 +54,15 @@ namespace EntityStates.Enforcer
             base.OnExit();
 
             Util.PlayScaledSound(EnforcerPlugin.Sounds.LaunchTearGas, base.gameObject, 0.7f);
+
+            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
+            {
+                base.PlayAnimation("RightArm, Override", "FireShotgunShielded");
+            }
+            else
+            {
+                base.PlayAnimation("RightArm, Override", "FireShotgun");
+            }
 
             base.AddRecoil(-2f * TearGas.bulletRecoil, -3f * TearGas.bulletRecoil, -1f * TearGas.bulletRecoil, 1f * TearGas.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * TearGas.bulletRecoil);
@@ -82,7 +93,14 @@ namespace EntityStates.Enforcer
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
             this.animator = base.GetModelAnimator();
 
-            base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
+            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
+            {
+                base.PlayAnimation("RightArm, Override", "FireShotgunShielded", "FireShotgun.playbackRate", this.duration);
+            }
+            else
+            {
+                base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
+            }
 
             Util.PlayScaledSound(EnforcerPlugin.Sounds.LaunchStunGrenade, base.gameObject, 2.5f);
 

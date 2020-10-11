@@ -110,7 +110,7 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayGlasses"),
                             childName = "Head",
-                            localPos = new Vector3(0, 0.02f, 0.0125f),
+                            localPos = new Vector3(0, 0.017f, 0.01f),
                             localAngles = new Vector3(-25, 0, 0),
                             localScale = new Vector3(0.027f, 0.028f, 0.02f),
                             limbMask = LimbFlags.None
@@ -308,9 +308,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayMushroom"),
                             childName = "ClavicleR",
-                            localPos = new Vector3(0, 0.0144f, 0.0179f),
+                            localPos = new Vector3(0, 0.01f, 0),
                             localAngles = new Vector3(64, 0, 0),
-                            localScale = new Vector3(0.005f, 0.005f, 0.005f),
+                            localScale = new Vector3(0.0075f, 0.0075f, 0.0075f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -329,9 +329,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayWolfPelt"),
                             childName = "Head",
-                            localPos = new Vector3(0, 0.024f, -0.005f),
+                            localPos = new Vector3(0, 0.016f, -0.005f),
                             localAngles = new Vector3(-25, 0, 0),
-                            localScale = new Vector3(0.05f, 0.05f, 0.05f),
+                            localScale = new Vector3(0.035f, 0.035f, 0.035f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -413,9 +413,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplaySnail"),
                             childName = "ClavicleL",
-                            localPos = new Vector3(-0.00579f, 0.01168f, 0.0164f),
-                            localAngles = new Vector3(0, 0, 90),
-                            localScale = new Vector3(0.0064f, 0.0064f, 0.0064f),
+                            localPos = new Vector3(0, 0.01f, 0),
+                            localAngles = new Vector3(0, 45, 90),
+                            localScale = new Vector3(0.008f, 0.008f, 0.008f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -434,9 +434,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayClover"),
                             childName = "ClavicleL",
-                            localPos = new Vector3(0.00386f, 0.01324f, 0.01974f),
-                            localAngles = new Vector3(90, 0, 0),
-                            localScale = new Vector3(0.044f, 0.044f, 0.044f),
+                            localPos = new Vector3(0, 0.01f, 0.01f),
+                            localAngles = new Vector3(45, 0, 0),
+                            localScale = new Vector3(0.06f, 0.06f, 0.06f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -476,7 +476,7 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayBoneCrown"),
                             childName = "Head",
-                            localPos = new Vector3(0, 0.0123f, 0),
+                            localPos = new Vector3(0, 0.01f, 0),
                             localAngles = new Vector3(0, 0, 0),
                             localScale = new Vector3(0.1f, 0.1f, 0.1f),
                             limbMask = LimbFlags.None
@@ -497,8 +497,8 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayPauldron"),
                             childName = "ShoulderL",
-                            localPos = new Vector3(-0.0038f, 0.0165f, 0),
-                            localAngles = new Vector3(90, -90, 0),
+                            localPos = new Vector3(-0.015f, 0.01f, 0),
+                            localAngles = new Vector3(60, 270, 0),
                             localScale = new Vector3(0.075f, 0.075f, 0.075f),
                             limbMask = LimbFlags.None
                         }
@@ -518,7 +518,7 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayBuckler"),
                             childName = "ShoulderR",
-                            localPos = new Vector3(0, 0.0241f, -0.008f),
+                            localPos = new Vector3(0, 0.028f, -0.008f),
                             localAngles = new Vector3(0, 180, 90),
                             localScale = new Vector3(0.015f, 0.015f, 0.015f),
                             limbMask = LimbFlags.None
@@ -612,7 +612,7 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayWaxBird"),
                             childName = "Head",
-                            localPos = new Vector3(0, -0.024f, -0.0037f),
+                            localPos = new Vector3(0, -0.028f, -0.0037f),
                             localAngles = new Vector3(0, 0, 0),
                             localScale = new Vector3(0.08f, 0.08f, 0.08f),
                             limbMask = LimbFlags.None
@@ -1169,9 +1169,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayBeetleGland"),
                             childName = "ClavicleL",
-                            localPos = new Vector3(-0.02f, 0.0218f, 0.0094f),
-                            localAngles = new Vector3(0, -154, 64),
-                            localScale = new Vector3(0.00704892f, 0.00704892f, 0.00704892f),
+                            localPos = new Vector3(-0.02f, 0.02f, 0),
+                            localAngles = new Vector3(0, 206, 64),
+                            localScale = new Vector3(0.01f, 0.01f, 0.01f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -1388,7 +1388,7 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayCorpseFlower"),
                             childName = "ClavicleR",
-                            localPos = new Vector3(0.00647f, 0.01332f, 0.01672f),
+                            localPos = new Vector3(0.00647f, 0.01332f, 0),
                             localAngles = new Vector3(0, -38, -90),
                             localScale = new Vector3(0.02119026f, 0.02119026f, 0.02119026f),
                             limbMask = LimbFlags.None
@@ -1430,7 +1430,7 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayAntler"),
                             childName = "Head",
-                            localPos = new Vector3(0.0083f, 0.0207f, -0.0054f),
+                            localPos = new Vector3(0.0083f, 0.015f, -0.0054f),
                             localAngles = new Vector3(0, 90, 0),
                             localScale = new Vector3(0.035f, 0.035f, 0.035f),
                             limbMask = LimbFlags.None
@@ -1440,7 +1440,7 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayAntler"),
                             childName = "Head",
-                            localPos = new Vector3(-0.0083f, 0.0207f, -0.0054f),
+                            localPos = new Vector3(-0.0083f, 0.015f, -0.0054f),
                             localAngles = new Vector3(0, -90, 0),
                             localScale = new Vector3(0.035f, 0.035f, 0.035f),
                             limbMask = LimbFlags.None
@@ -1482,9 +1482,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayBrokenMask"),
                             childName = "ClavicleL",
-                            localPos = new Vector3(0, 0.0257f, 0.0152f),
-                            localAngles = new Vector3(-32, 0, 0),
-                            localScale = new Vector3(0.024f, 0.024f, 0.024f),
+                            localPos = new Vector3(0, 0.02f, 0.01f),
+                            localAngles = new Vector3(328, 0, 0),
+                            localScale = new Vector3(0.02f, 0.02f, 0.02f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -1503,7 +1503,7 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayBrooch"),
                             childName = "Spine3",
-                            localPos = new Vector3(-0.01043f, 0.01134f, 0.02091f),
+                            localPos = new Vector3(-0.01043f, 0.01134f, 0.025f),
                             localAngles = new Vector3(45, 90, 90),
                             localScale = new Vector3(0.04f, 0.04f, 0.04f),
                             limbMask = LimbFlags.None
@@ -1587,7 +1587,7 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayBirdEye"),
                             childName = "Head",
-                            localPos = new Vector3(0, 0.008f, 0.012f),
+                            localPos = new Vector3(0, 0.005f, 0.01f),
                             localAngles = new Vector3(-90, 0, 0),
                             localScale = new Vector3(0.025f, 0.025f, 0.025f),
                             limbMask = LimbFlags.None
@@ -1650,9 +1650,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayInterstellarDeskPlant"),
                             childName = "ClavicleR",
-                            localPos = new Vector3(0, 0.0227f, 0.0158f),
-                            localAngles = new Vector3(-18, 0, 0),
-                            localScale = new Vector3(0.005f, 0.005f, 0.005f),
+                            localPos = new Vector3(0, 0.01f, 0),
+                            localAngles = new Vector3(342, 0, 0),
+                            localScale = new Vector3(0.01f, 0.01f, 0.01f),
                             limbMask = LimbFlags.None
                         }
                     }
@@ -2312,7 +2312,7 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayEliteHorn"),
                             childName = "Head",
-                            localPos = new Vector3(0.0072f, 0.0227f, 0),
+                            localPos = new Vector3(0.0072f, 0.015f, 0),
                             localAngles = new Vector3(0, 0, 0),
                             localScale = new Vector3(0.009661668f, 0.009661668f, 0.009661668f),
                             limbMask = LimbFlags.None
@@ -2322,7 +2322,7 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayEliteHorn"),
                             childName = "Head",
-                            localPos = new Vector3(-0.0072f, 0.0227f, 0),
+                            localPos = new Vector3(-0.0072f, 0.015f, 0),
                             localAngles = new Vector3(0, 0, 0),
                             localScale = new Vector3(-0.009661668f, 0.009661668f, 0.009661668f),
                             limbMask = LimbFlags.None
@@ -2343,7 +2343,7 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayEliteRhinoHorn"),
                             childName = "Head",
-                            localPos = new Vector3(0, 0.0215f, 0.0168f),
+                            localPos = new Vector3(0, 0.015f, 0.0168f),
                             localAngles = new Vector3(-45, 0, 0),
                             localScale = new Vector3(0.032f, 0.032f, 0.032f),
                             limbMask = LimbFlags.None
@@ -2353,7 +2353,7 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayEliteRhinoHorn"),
                             childName = "Head",
-                            localPos = new Vector3(0, 0.02658f, 0.01012f),
+                            localPos = new Vector3(0, 0.02f, 0.01012f),
                             localAngles = new Vector3(-69, 0, 0),
                             localScale = new Vector3(0.016f, 0.016f, 0.016f),
                             limbMask = LimbFlags.None
@@ -2395,7 +2395,7 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayEliteUrchinCrown"),
                             childName = "Head",
-                            localPos = new Vector3(0, 0.025f, 0),
+                            localPos = new Vector3(0, 0.015f, 0),
                             localAngles = new Vector3(-90, 0, 0),
                             localScale = new Vector3(0.005f, 0.005f, 0.005f),
                             limbMask = LimbFlags.None

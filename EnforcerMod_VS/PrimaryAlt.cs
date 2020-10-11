@@ -7,19 +7,19 @@ namespace EntityStates.Enforcer
     public class FireAssaultRifle : AssaultRifleState
     {
         public static float damageCoefficient = EnforcerPlugin.EnforcerPlugin.rifleDamage.Value;
-        public static float procCoefficient = 0.5f;
-        public static float shieldProcCoefficient = 0.25f;
+        public static float procCoefficient = EnforcerPlugin.EnforcerPlugin.rifleProcCoefficient.Value;
+        public static float shieldProcCoefficient = EnforcerPlugin.EnforcerPlugin.rifleProcCoefficientAlt.Value;
         public static float bulletForce = 5f;
         public static float recoilAmplitude = 1.25f;
         public static float shieldRecoilAmplitude = 0.2f;
-        public static float spreadBloom = 0.075f;
+        public static float spreadBloom = 0.085f;
         public static float shieldSpreadBloom = 0.025f;
-        public static float baseFireInterval = 0.18f;
-        public static int baseBulletCount = 1;
-        public static float bulletRange = 256;
+        public static float baseFireInterval = EnforcerPlugin.EnforcerPlugin.rifleFireInterval.Value;
+        public static int baseBulletCount = EnforcerPlugin.EnforcerPlugin.rifleBaseBulletCount.Value;
+        public static float bulletRange = EnforcerPlugin.EnforcerPlugin.rifleRange.Value;
         public static float bulletRadius = 0.1f;
         public static float minSpread = 0;
-        public static float maxSpread = 6.5f;
+        public static float maxSpread = EnforcerPlugin.EnforcerPlugin.rifleSpread.Value;
 
         public static GameObject bulletTracer = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoDefault");
 
@@ -80,6 +80,7 @@ namespace EntityStates.Enforcer
             }
 
             if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex) soundString = EnforcerPlugin.Sounds.FireBlasterRifle;
+            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex) soundString = MiniMushroom.SporeGrenade.attackSoundString;
 
             Util.PlayScaledSound(soundString, base.gameObject, this.attackSpeedStat);
 
@@ -121,6 +122,7 @@ namespace EntityStates.Enforcer
             GameObject tracerEffect = FireAssaultRifle.bulletTracer;
 
             if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
+            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex) tracerEffect = EnforcerPlugin.EnforcerPlugin.bungusTracer;
 
             Ray aimRay = base.GetAimRay();
 

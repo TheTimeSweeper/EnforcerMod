@@ -17,12 +17,15 @@ namespace EntityStates.Enforcer
         private bool wasShielding = false;
         private float initialTime;
 
+        private float skateGravity = 80f;
+        private float skateSpeedMultiplier = 1.1f;
         private float bungusStopwatch;
         private ChildLocator childLocator;
         private Animator animator;
         private bool sprintCancelEnabled;
         private bool hasSprintCancelled;
         private bool isNemesis;
+        private Vector3 idealDirection;
 
         public static event Action<float> Bungus = delegate { };
 
@@ -205,6 +208,34 @@ namespace EntityStates.Enforcer
                 }
             }
 
+            //skateboard
+            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff))
+            {
+                if (base.isAuthority)
+                {
+                    base.characterBody.isSprinting = true;
+
+                    this.UpdateSkateDirection();
+
+                    if (base.characterDirection)
+                    {
+                        base.characterDirection.moveVector = this.idealDirection;
+                        if (base.characterMotor && !base.characterMotor.disableAirControlUntilCollision)
+                        {
+                            base.characterMotor.rootMotion += this.GetIdealVelocity() * Time.fixedDeltaTime;
+                        }
+                    }
+
+                    if (base.isGrounded)
+                    {
+                        //slope shit
+                        Vector3 dir = modelLocator.modelTransform.up;
+                        dir.y = 0;
+                        base.characterMotor.ApplyForce(dir * skateGravity);
+                    }
+                }
+            }
+
             /*if (base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDOFF_NAME")
             {
                 if (this.shieldComponent.shieldHealth <= 0 && this.shieldComponent.isShielding)
@@ -214,6 +245,24 @@ namespace EntityStates.Enforcer
                     //return;
                 }
             }*/
+        }
+
+        private void UpdateSkateDirection()
+        {
+            if (base.inputBank)
+            {
+                Vector2 vector = Util.Vector3XZToVector2XY(base.inputBank.moveVector);
+                if (vector != Vector2.zero)
+                {
+                    vector.Normalize();
+                    this.idealDirection = new Vector3(vector.x, 0f, vector.y).normalized;
+                }
+            }
+        }
+
+        private Vector3 GetIdealVelocity()
+        {
+            return base.characterDirection.forward * base.characterBody.moveSpeed * this.skateSpeedMultiplier;
         }
 
         public override void OnExit()
