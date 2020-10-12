@@ -828,7 +828,7 @@ namespace EnforcerPlugin
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_MainTex"));
                 material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_EmissionMap"));
                 material.SetFloat("_EmPower", 1);
-                material.SetFloat("_NormalStrength", 0);
+                //material.SetFloat("_NormalStrength", 0);
 
                 array[0].defaultMaterial = material;
             }
@@ -1023,11 +1023,12 @@ namespace EnforcerPlugin
                 material = UnityEngine.Object.Instantiate<Material>(commandoMat);
                 material.SetColor("_Color", Color.white);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcer").GetTexture("_MainTex"));
-                material.SetColor("_EmColor", new Color(1, 0.5f, 0.5f));
-                material.SetFloat("_EmPower", 0.3f);
+                material.SetColor("_EmColor", Color.white);
+                material.SetFloat("_EmPower", 2.5f);
                 material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_NormalStrength", -1f);
+                material.SetFloat("_NormalStrength", 0.14f);
                 material.SetTexture("_NormalTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcer").GetTexture("_BumpMap"));
+                material.SetFloat("_SpecularStrength", 0.5f);
 
                 array[0].defaultMaterial = material;
             }

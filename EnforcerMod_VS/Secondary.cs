@@ -35,6 +35,7 @@ namespace EntityStates.Enforcer
         private ShieldComponent shieldComponent;
 
         private Transform _origOrigin;
+        private bool _isParrying;
         private int _parries = 0;
 
         private List<CharacterBody> victimList = new List<CharacterBody>();
@@ -69,6 +70,7 @@ namespace EntityStates.Enforcer
             _origOrigin = characterBody.aimOriginTransform;
 
             this.shieldComponent.onLaserHit += EnforcerMain_onLaserHit;
+            _isParrying = true;
 
             bool grounded = base.characterMotor.isGrounded;
 
@@ -172,6 +174,8 @@ namespace EntityStates.Enforcer
         public override void OnExit() {
 
             base.OnExit();
+
+            this.shieldComponent.onLaserHit -= EnforcerMain_onLaserHit;
         }
 
         public override void FixedUpdate()
@@ -289,7 +293,7 @@ namespace EntityStates.Enforcer
                 base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
             }
 
-            this.shieldComponent.onLaserHit -= EnforcerMain_onLaserHit;
+            _isParrying = false;
         }
 
         private IEnumerator ShootParriedLaser(float delay) {
