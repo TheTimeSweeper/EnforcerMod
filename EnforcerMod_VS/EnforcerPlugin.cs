@@ -528,7 +528,6 @@ namespace EnforcerPlugin
             CharacterModel characterModel = model.AddComponent<CharacterModel>();
             characterModel.body = null;
 
-            Debug.Log(childLocator.FindChild("RifleModel").GetComponentInChildren<MeshRenderer>() != null);
             characterModel.baseRendererInfos = new CharacterModel.RendererInfo[]
             {
                 new CharacterModel.RendererInfo
