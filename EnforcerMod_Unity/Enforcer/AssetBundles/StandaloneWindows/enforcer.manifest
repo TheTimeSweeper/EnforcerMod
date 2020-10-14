@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 639435205
+CRC: 243613170
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: fc7a021df360961b97ea95df50d62ef7
+    Hash: fcabc1a70caab8a0003d424b8ccf84e3
   TypeTreeHash:
     serializedVersion: 2
     Hash: 9983584716aad6a28ba143d9a1ab747e
@@ -218,6 +218,7 @@ Assets:
 - Assets/texSuperShotgunAchievement.png
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerWalkR.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matSuperShotgun.mat
+- Assets/texSbeveAchievement.png
 - Assets/texAssaultRifleAchievement.png
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texSexShield.png
 - Assets/Enforcer/EnforcerAssets/Materials/matTearGasGrenadeAlt.mat
