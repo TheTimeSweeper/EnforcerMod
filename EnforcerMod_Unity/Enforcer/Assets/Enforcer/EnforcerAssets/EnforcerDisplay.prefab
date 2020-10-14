@@ -1309,7 +1309,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1519390247576197665
 Transform:
   m_ObjectHideFlags: 0
@@ -1959,7 +1959,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6444991880374419773
 Transform:
   m_ObjectHideFlags: 0
@@ -3909,7 +3909,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - name: not skamte (energy)
+        - m_Target: {fileID: 9138141039566929355}
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - name: not skamte (energ)
     response:
       m_PersistentCalls:
         m_Calls:
@@ -3922,7 +3933,7 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
-            m_BoolArgument: 1
+            m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 7651294306562684456}
           m_MethodName: SetActive
@@ -3934,6 +3945,17 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 9138141039566929355}
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
           m_CallState: 2
   - name: skamte
     response:
@@ -3960,6 +3982,17 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 9138141039566929355}
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
           m_CallState: 2
   skinChangeResponses: []
 --- !u!1 &4005878783224612189
@@ -4858,6 +4891,7 @@ Transform:
   m_Children:
   - {fileID: 1838169263195132265}
   - {fileID: 5999721620204750522}
+  - {fileID: 4829078395566053403}
   m_Father: {fileID: 8010167250409411593}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5683,8 +5717,6 @@ Transform:
   - {fileID: 2280152991929264071}
   - {fileID: 1698602125269905725}
   - {fileID: 1749171805887833455}
-  - {fileID: 5568167105559001929}
-  - {fileID: 2963002513234209066}
   - {fileID: 5552465292941949283}
   m_Father: {fileID: 7062552127925119972}
   m_RootOrder: 1
@@ -6435,7 +6467,7 @@ Transform:
   m_Children:
   - {fileID: 8459145701878018061}
   m_Father: {fileID: 5999721620204750522}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 12.819}
 --- !u!65 &5333614671442487477
 BoxCollider:
@@ -8448,12 +8480,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7924499147701575036}
-  m_LocalRotation: {x: -0.29466844, y: 0.7483766, z: 0.5928914, w: 0.03978463}
-  m_LocalPosition: {x: 0.18671513, y: -0.681366, z: 0.42378432}
-  m_LocalScale: {x: 102.68241, y: 108.844925, z: 110.624954}
+  m_LocalRotation: {x: 0.28098267, y: 0.7395953, z: 0.41191772, w: 0.45207453}
+  m_LocalPosition: {x: 0.001399823, y: 0.024400162, z: -0.0020001123}
+  m_LocalScale: {x: 1.1225741, y: 1.1202565, z: 1.1137052}
   m_Children: []
-  m_Father: {fileID: 5999721620204750522}
-  m_RootOrder: 7
+  m_Father: {fileID: 4829078395566053403}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -20.809002, y: 105.634, z: 57.464005}
 --- !u!33 &798841557060633501
 MeshFilter:
@@ -8587,12 +8619,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7988344915187723030}
-  m_LocalRotation: {x: -0.29466847, y: 0.74837655, z: 0.59289145, w: 0.039784495}
-  m_LocalPosition: {x: 0.18671513, y: -0.681366, z: 0.42378432}
-  m_LocalScale: {x: 102.68236, y: 108.84485, z: 110.62478}
+  m_LocalRotation: {x: 0.2809825, y: 0.73959506, z: 0.41191813, w: 0.45207453}
+  m_LocalPosition: {x: 0.001399823, y: 0.024400162, z: -0.0020001123}
+  m_LocalScale: {x: 1.1225741, y: 1.1202565, z: 1.1137037}
   m_Children: []
-  m_Father: {fileID: 5999721620204750522}
-  m_RootOrder: 8
+  m_Father: {fileID: 4829078395566053403}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -20.809002, y: 105.634, z: 57.464005}
 --- !u!33 &6253479009326400370
 MeshFilter:
@@ -9525,6 +9557,38 @@ CharacterJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!1 &9138141039566929355
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4829078395566053403}
+  m_Layer: 0
+  m_Name: ArmShields
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4829078395566053403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9138141039566929355}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5568167105559001929}
+  - {fileID: 2963002513234209066}
+  m_Father: {fileID: 7062552127925119972}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9199959289764209559
 GameObject:
   m_ObjectHideFlags: 0
