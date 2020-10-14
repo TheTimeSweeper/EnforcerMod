@@ -334,4 +334,7 @@ namespace EntityStates.Enforcer
             }
         }
     }
+
+    //nother shield bash for now
+    public class HammerBase : RiotShotgun { }
 }

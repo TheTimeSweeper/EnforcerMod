@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2028686549
+CRC: 3319129000
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 9fad30121589a9f600b99ee163864ed2
+    Hash: 852d2635c26d7e05e34c219bd728c6b8
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 8b8e200069819a1ac886e3604c216062
+    Hash: 9983584716aad6a28ba143d9a1ab747e
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -53,6 +53,10 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 1c9e3f38b99fa2a4780b2c214a42270e, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 7ade51fc5319ad3459ce2de62570bf78, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c29fc05f334b8d644961c5188217e62c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5920f97f0a8ea4843b8dae72bbc7dec5, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 135
@@ -89,7 +93,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/SkateboardIdle.anim
 - Assets/Enforcer/EnforcerAssets/Animations/FlinchAlt.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Sprint1_stiff.anim
-- Assets/Enforcer/EnforcerAssets/Textures/Body/texFemforcerNormal3.png
+- Assets/Enforcer/EnforcerAssets/Textures/Body/texFemforcerNormal.png
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texShotgun.png
 - Assets/texDesperadoAchievement.png
 - Assets/Enforcer/EnforcerAssets/Animations/ShieldIdle.anim
@@ -173,6 +177,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerOfficerEarlRun.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Masks/EnforcerGestureMask.mask
 - Assets/Enforcer/EnforcerAssets/Materials/matSpaceEnforcer.mat
+- Assets/Enforcer/EnforcerAssets/Textures/Weapon/texFemforcerShieldEmission.png
 - Assets/Enforcer/EnforcerAssets/Materials/matEngiforcer.mat
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texAssaultRifle.png
 - Assets/Enforcer/EnforcerAssets/ShockGrenade.prefab
@@ -187,6 +192,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/Emote/DanceMoves.anim
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texIronManforcer.png
 - Assets/Enforcer/EnforcerAssets/Materials/matNeedler.mat
+- Assets/Enforcer/EnforcerAssets/fuckingSteveMesh.mesh
 - Assets/Enforcer/EnforcerAssets/Animations/Masks/ShieldPitchMask.mask
 - Assets/Enforcer/EnforcerAssets/Materials/matRifle.mat
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texSexforcerEmission.png
@@ -257,7 +263,6 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerShieldWalkF.anim
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texEnforcerAlt.png
 - Assets/Enforcer/EnforcerAssets/Materials/matFuckingSteve.mat
-- Assets/Enforcer/EnforcerAssets/FuckingSteveMesh.mesh
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texShotgunEmissive.png
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texEngiforcerEmissive.png
 - Assets/Enforcer/EnforcerAssets/TearGasIcon.png
@@ -266,6 +271,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/Weapon/SuperShottyFire.anim
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerCombatIdle.anim
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texNeedlerEmission.png
+- Assets/Enforcer/EnforcerAssets/Materials/matFemforcerShield.mat
 - Assets/Enforcer/EnforcerAssets/Animations/animEnforcerMenu.controller
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texShell.png
 - Assets/Enforcer/EnforcerAssets/GatDrone.prefab
@@ -324,6 +330,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texFuckingSteve.png
 - Assets/Enforcer/EnforcerAssets/Animations/Weapon/SuperShotgun.controller
 - Assets/Enforcer/EnforcerAssets/SuperShotgunShell.prefab
+- Assets/Enforcer/EnforcerAssets/Textures/Weapon/texFemforcerShield.png
 - Assets/Enforcer/EnforcerAssets/Materials/matEngiShield soft.mat
 - Assets/Enforcer/EnforcerAssets/Animations/Masks/PitchMask.mask
 - Assets/Enforcer/EnforcerAssets/Animations/ShieldWalkF_old.anim

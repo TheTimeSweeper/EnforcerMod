@@ -68,7 +68,6 @@ namespace EnforcerPlugin
         public GameObject damageGasEffect;
 
         public static GameObject stunGrenade;
-
         public static GameObject shockGrenade;
 
         public static GameObject blockEffectPrefab;
@@ -160,9 +159,7 @@ namespace EnforcerPlugin
 
         public SkillLocator skillLocator;
 
-        private SkillFamily primarySkillFamily;
         private List<SkillDef> primarySkillDefs = new List<SkillDef>();
-        private SkillFamily specialSkillFamily;
         private List<SkillDef> specialSkillDefs = new List<SkillDef>();
 
         public EnforcerPlugin() {
@@ -523,8 +520,6 @@ namespace EnforcerPlugin
         }
 
         private static void CreateDisplayPrefab() {
-            //i know this is jank but it WORKS leave me the fuck alone :(
-            //GameObject tempDisplay = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), "EnforcerTempDisplay");
 
             GameObject model = CreateDisplayModel();
 
@@ -532,6 +527,8 @@ namespace EnforcerPlugin
 
             CharacterModel characterModel = model.AddComponent<CharacterModel>();
             characterModel.body = null;
+
+            Debug.Log(childLocator.FindChild("RifleModel").GetComponentInChildren<MeshRenderer>() != null);
             characterModel.baseRendererInfos = new CharacterModel.RendererInfo[]
             {
                 new CharacterModel.RendererInfo
@@ -729,7 +726,7 @@ namespace EnforcerPlugin
                     renderer = childLocator.FindChild("MarauderArmShield").GetComponent<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = true
-                },
+                }, 
                 new CharacterModel.RendererInfo
                 {
                     defaultMaterial = childLocator.FindChild("BungusArmShield").GetComponent<MeshRenderer>().material,
@@ -837,7 +834,6 @@ namespace EnforcerPlugin
                 Debug.LogWarning("UNITYEVENT");
                 //eventFunctions.DisableAllChildrenExcept(childLocator.FindChild("SuperShotgun").gameObject); 
             });
-
         }
 
         private static void CreatePrefab() {
@@ -1881,13 +1877,14 @@ namespace EnforcerPlugin
                                                                     typeof(FireAssaultRifle));
 
             skillLocator.primary = registerSkillsToFamily(primaryVariant1, primaryVariant2, primaryVariant3);
+            primarySkillDefs = new List<SkillDef> { primaryDef1, primaryDef2, primaryDef3 };
 
             SkillDef primaryDef4 = PrimaryHammerSkillDef();
             SkillFamily.Variant primaryVariant4 = setupSkillVariant(primaryDef4,
-                                                                    typeof(HammerSwing));
-
+                                                                    typeof(HammerBase));
             if (cursed.Value) {
                 registerAdditionalSkills(skillLocator.primary, primaryVariant4);
+                primarySkillDefs.Add(primaryDef4);
             }
         }
 
@@ -1924,6 +1921,7 @@ namespace EnforcerPlugin
             shieldUpDef = specialDef1Down;
 
             skillLocator.special = registerSkillsToFamily(specialVariant1);
+            specialSkillDefs = new List<SkillDef> { specialDef1 };
 
             SkillDef specialDef2 = SpecialEnergyShieldSkillDef();
             SkillFamily.Variant specialVariant2 = setupSkillVariant(specialDef2, typeof(EnergyShield));
@@ -1943,6 +1941,8 @@ namespace EnforcerPlugin
 
             if (cursed.Value) {
                 registerAdditionalSkills(skillLocator.special, specialVariant2, specialVariant3);
+                specialSkillDefs.Add(specialDef2);
+                specialSkillDefs.Add(specialDef3);
             }
         }
 
@@ -2051,7 +2051,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_PRIMARY_HAMMER_DESCRIPTION", desc);
 
             SkillDef skillDefHammer = ScriptableObject.CreateInstance<SkillDef>();
-            skillDefHammer.activationState = new SerializableEntityStateType(typeof(RiotShotgun));
+            skillDefHammer.activationState = new SerializableEntityStateType(typeof(HammerBase));
             skillDefHammer.activationStateMachineName = "Weapon";
             skillDefHammer.baseMaxStock = 1;
             skillDefHammer.baseRechargeInterval = 0f;
@@ -2398,50 +2398,7 @@ namespace EnforcerPlugin
             skillfamily.variants = skillfamily.variants.Concat(skillVariants).ToArray();
         }
 
-        private void CSSPreviewSetup() {
-
-            CharacterSelectSurvivorPreviewDisplayController previewController = characterDisplay.GetComponent<CharacterSelectSurvivorPreviewDisplayController>();
-
-            previewController.skillChangeResponses = new CharacterSelectSurvivorPreviewDisplayController.SkillChangeResponse[0];
-            return;
-
-            for (int i = 0; i < previewController.skillChangeResponses.Length; i++) {
-
-                if (i >= primarySkillDefs.Count) {
-                    return;
-                }
-                //normally fuck var but this fuckin class is long
-                var skillChangeResponse = previewController.skillChangeResponses[i];
-
-                skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
-                skillChangeResponse.triggerSkill = primarySkillDefs[i];
-
-                previewController.skillChangeResponses[i] = skillChangeResponse;
-            }
-
-            List<int> emptyIndices = new List<int>();
-
-            for (int i = 0; i < previewController.skillChangeResponses.Length; i++) {
-                if (previewController.skillChangeResponses[i].triggerSkillFamily == null) {
-                    emptyIndices.Add(i);
-                }
-            }
-
-            if (emptyIndices.Count == 0)
-                return;
-
-            var responsesList = previewController.skillChangeResponses.ToList();
-            for (int i = responsesList.Count - 1; i >= 0; i--) {
-                if (emptyIndices.Contains(i)) {
-                    responsesList.RemoveAt(i);
-                }
-            }
-
-            previewController.skillChangeResponses = responsesList.ToArray();
-        }
-
-        private void ScepterSkillSetup()
-        {
+        private void ScepterSkillSetup() {
             LoadoutAPI.AddSkill(typeof(AimDamageGas));
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_NAME", "Mustard Gas");
@@ -2505,6 +2462,76 @@ namespace EnforcerPlugin
             };
 
             LoadoutAPI.AddSkillDef(shockGrenadeDef);
+        }
+
+        private void CSSPreviewSetup() {
+
+            CharacterSelectSurvivorPreviewDisplayController previewController = characterDisplay.GetComponent<CharacterSelectSurvivorPreviewDisplayController>();
+
+            for (int i = 0; i < previewController.skillChangeResponses.Length; i++) {
+
+                var skillChangeResponse = previewController.skillChangeResponses[i];
+
+                switch (i) {
+                    case 0:
+                        skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
+                        skillChangeResponse.triggerSkill = primarySkillDefs[0];
+                        break;
+                    case 1:
+                        skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
+                        skillChangeResponse.triggerSkill = primarySkillDefs[1];
+                        break;
+                    case 2:
+                        skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
+                        skillChangeResponse.triggerSkill = primarySkillDefs[2];
+                        break;
+                    case 3:
+                        if (cursed.Value) {
+                            skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
+                            skillChangeResponse.triggerSkill = primarySkillDefs[3];
+                        }
+                        break;
+                    case 4:
+                        skillChangeResponse.triggerSkillFamily = skillLocator.special.skillFamily;
+                        skillChangeResponse.triggerSkill = specialSkillDefs[0];
+                        break;
+                    case 5:
+                        if (cursed.Value) {
+                            skillChangeResponse.triggerSkillFamily = skillLocator.special.skillFamily;
+                            skillChangeResponse.triggerSkill = specialSkillDefs[1];
+                        }
+                        break;
+                    case 6:
+                        if (cursed.Value) {
+                            skillChangeResponse.triggerSkillFamily = skillLocator.special.skillFamily;
+                            skillChangeResponse.triggerSkill = specialSkillDefs[2];
+                        }
+                        break;
+                }
+
+                previewController.skillChangeResponses[i] = skillChangeResponse;
+
+            }
+
+            List<int> emptyIndices = new List<int>();
+            for (int i = 0; i < previewController.skillChangeResponses.Length; i++) {
+                if (previewController.skillChangeResponses[i].triggerSkillFamily == null ||
+                    previewController.skillChangeResponses[i].triggerSkillFamily == null) {
+                    emptyIndices.Add(i);
+                }
+            }
+
+            if (emptyIndices.Count == 0)
+                return;
+
+            var responsesList = previewController.skillChangeResponses.ToList();
+            for (int i = responsesList.Count - 1; i >= 0; i--) {
+                if (emptyIndices.Contains(i)) {
+                    responsesList.RemoveAt(i);
+                }
+            }
+
+            previewController.skillChangeResponses = responsesList.ToArray();
         }
 
         private void MemeSetup()
