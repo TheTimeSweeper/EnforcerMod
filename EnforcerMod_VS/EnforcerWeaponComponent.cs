@@ -10,6 +10,12 @@ public class EnforcerWeaponComponent : MonoBehaviour
     private Transform skateboardBase;
     private Transform skateboardHandBase;
 
+    private FootstepHandler footStep;
+    private SfxLocator sfx;
+
+    private string stepSoundString;
+    private string landSoundString;
+
     private CharacterBody charBody;
     private CharacterMotor charMotor;
     private HealthComponent charHealth;
@@ -25,6 +31,12 @@ public class EnforcerWeaponComponent : MonoBehaviour
         charHealth = GetComponentInChildren<HealthComponent>();
         childLocator = GetComponentInChildren<ChildLocator>();
         inputBank = GetComponentInChildren<InputBankTest>();
+        footStep = GetComponentInChildren<FootstepHandler>();
+        sfx = GetComponentInChildren<SfxLocator>();
+
+        if (footStep) stepSoundString = footStep.baseFootstepString;
+        if (sfx) landSoundString = sfx.landingSound;
+
         impCount = 0;
 
         InitWeapon();
@@ -192,7 +204,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
             ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].childName = "Shield";
             ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localPos = new Vector3(2, 0, 7.8f);
             ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localAngles = new Vector3(-25, 0, 180);
-            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localScale = new Vector3(2f, 2f, 2f);
 
             ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].childName = "Shield";
             ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localPos = new Vector3(0, 0, 7.5f);
@@ -319,9 +331,13 @@ public class EnforcerWeaponComponent : MonoBehaviour
         {
             case "Base":
                 skateboard.transform.parent = skateboardBase;
+                if (footStep) footStep.baseFootstepString = "";
+                if (sfx) sfx.landingSound = EnforcerPlugin.Sounds.SkateLand;
                 break;
             case "Hand":
                 skateboard.transform.parent = skateboardHandBase;
+                if (footStep) footStep.baseFootstepString = stepSoundString;
+                if (sfx) sfx.landingSound = landSoundString;
                 break;
         }
 

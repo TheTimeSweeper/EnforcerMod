@@ -112,6 +112,12 @@ namespace EntityStates.Enforcer
                     this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Floss))), InterruptPriority.Any);
                     return;
                 }
+                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.earlKey.Value))
+                {
+                    flag = false;
+                    this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(FLINTLOCKWOOD))), InterruptPriority.Any);
+                    return;
+                }
             }
 
             CameraTargetParams ctp = base.cameraTargetParams;

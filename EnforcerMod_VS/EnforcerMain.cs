@@ -17,7 +17,7 @@ namespace EntityStates.Enforcer
         private bool wasShielding = false;
         private float initialTime;
 
-        private float skateGravity = 120f;
+        private float skateGravity = 240f;
         private float skateSpeedMultiplier = 0.5f;
         private float bungusStopwatch;
         private ChildLocator childLocator;
@@ -26,6 +26,7 @@ namespace EntityStates.Enforcer
         private bool hasSprintCancelled;
         private bool isNemesis;
         private Vector3 idealDirection;
+        private uint skatePlayID;
 
         public static event Action<float> Bungus = delegate { };
 
@@ -111,7 +112,9 @@ namespace EntityStates.Enforcer
                     onDance(true);
                     this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Floss))), InterruptPriority.Any);
                     return;
-                } else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.earlKey.Value)) {
+                }
+                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.earlKey.Value))
+                {
                     onDance(true);
                     this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(FLINTLOCKWOOD))), InterruptPriority.Any);
                     return;
@@ -234,13 +237,40 @@ namespace EntityStates.Enforcer
                         }
                     }
 
-                    if (base.isGrounded)
+                    /*if (base.isGrounded)
                     {
                         //slope shit
                         Vector3 dir = modelLocator.modelTransform.up;
-                        dir.y = 0;
                         base.characterMotor.ApplyForce(dir * skateGravity);
+                    }*/
+                }
+
+                //sound
+                if (base.isGrounded)
+                {
+                    if (this.skatePlayID == 0)
+                    {
+                        this.skatePlayID = Util.PlaySound(EnforcerPlugin.Sounds.SkateRoll, base.gameObject);
                     }
+
+                    AkSoundEngine.SetRTPCValue("Skateboard_Speed", Util.Remap(base.moveSpeedStat, 7f, 100f, 1f, 4f));
+                }
+                else
+                {
+                    if (this.skatePlayID != 0)
+                    {
+                        if (base.characterMotor.velocity.y >= 0.1f) Util.PlaySound(EnforcerPlugin.Sounds.SkateOllie, base.gameObject);
+                        AkSoundEngine.StopPlayingID(this.skatePlayID);
+                        this.skatePlayID = 0;
+                    }
+                }
+            }
+            else
+            {
+                if (this.skatePlayID != 0)
+                {
+                    AkSoundEngine.StopPlayingID(this.skatePlayID);
+                    this.skatePlayID = 0;
                 }
             }
 

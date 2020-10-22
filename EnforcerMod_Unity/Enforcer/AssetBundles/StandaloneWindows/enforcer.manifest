@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 243613170
+CRC: 1412563829
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: fcabc1a70caab8a0003d424b8ccf84e3
+    Hash: 87d84e56e2052200bea1c4793569cf31
   TypeTreeHash:
     serializedVersion: 2
     Hash: 9983584716aad6a28ba143d9a1ab747e
@@ -192,11 +192,12 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/Emote/DanceMoves.anim
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texIronManforcer.png
 - Assets/Enforcer/EnforcerAssets/Materials/matNeedler.mat
-- Assets/Enforcer/EnforcerAssets/fuckingSteveMesh.mesh
+- Assets/Enforcer/EnforcerAssets/FuckingSteveMesh.mesh
 - Assets/Enforcer/EnforcerAssets/Animations/Masks/ShieldPitchMask.mask
 - Assets/Enforcer/EnforcerAssets/Materials/matRifle.mat
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texSexforcerEmission.png
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerShoulderBash.anim
+- Assets/Enforcer/EnforcerAssets/EngiforcerMesh.mesh
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerArmRightTemp.anim
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texSexforcer.png
 - Assets/Enforcer/EnforcerAssets/Animations/Emote/InfiniteDab.anim
@@ -204,7 +205,6 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerShieldIdle.anim
 - Assets/Enforcer/EnforcerAssets/Animations/AimPitch.anim
 - Assets/Enforcer/EnforcerAssets/mdlEnforcer.prefab
-- Assets/Enforcer/EnforcerAssets/EnforcerMesh.mesh
 - Assets/Enforcer/EnforcerAssets/Animations/Weapon/SuperShottyRest.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Weapon/TearGasGrenade 1.controller
 - Assets/texStormtrooperAchievement.png
@@ -274,11 +274,11 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texNeedlerEmission.png
 - Assets/Enforcer/EnforcerAssets/Materials/matFemforcerShield.mat
 - Assets/Enforcer/EnforcerAssets/Animations/animEnforcerMenu.controller
+- Assets/Enforcer/EnforcerAssets/EnforcerMesh.mesh
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texShell.png
 - Assets/Enforcer/EnforcerAssets/GatDrone.prefab
 - Assets/Enforcer/EnforcerAssets/Animations/ShieldWalkF.anim
 - Assets/Enforcer/EnforcerAssets/texEnforcerBuffIcon.png
-- Assets/Enforcer/EnforcerAssets/EngiforcerMesh.mesh
 - Assets/Enforcer/EnforcerAssets/Animations/HammerSwing.anim
 - Assets/Enforcer/EnforcerAssets/Animations/AimYaw.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matTearGasGrenade.mat

@@ -50,6 +50,10 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, make a friend on the moon.");
             LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Through Thick and Thin");
 
+            LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Blocked");
+            LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, block an attack with your shield.");
+            LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Blocked");
+
             ///this is the version that works with the altered AddUnlockable I changed in R2API.
             ///look at #r2api in the discord to see what I mean. I went into more detail in #development as well
             ///if the pull requests gets accepted I'll add the other needed ones to this
@@ -65,6 +69,7 @@ namespace EnforcerPlugin
             UnlockablesAPI.AddUnlockable<Achievements.StormtrooperAchievement>(true);
             UnlockablesAPI.AddUnlockable<Achievements.DesperadoAchievement>(true);
             UnlockablesAPI.AddUnlockable<Achievements.FrogAchievement>(true);
+            UnlockablesAPI.AddUnlockable<Achievements.SteveAchievement>(true);
         }
     }
 }
@@ -488,6 +493,41 @@ namespace EnforcerPlugin.Achievements
             base.OnUninstall();
 
             EnforcerFrogComponent.FrogGet -= Froge;
+        }
+    }
+
+    public class SteveAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
+    {
+        public override String AchievementIdentifier { get; } = "ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_ID";
+        public override String UnlockableIdentifier { get; } = "ENFORCER_STEVEUNLOCKABLE_REWARD_ID";
+        public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_STEVEUNLOCKABLE_PREREQ_ID";
+        public override String AchievementNameToken { get; } = "ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_NAME";
+        public override String AchievementDescToken { get; } = "ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_DESC";
+        public override String UnlockableNameToken { get; } = "ENFORCER_STEVEUNLOCKABLE_UNLOCKABLE_NAME";
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texSbeveAchievement.png");
+
+        public override int LookUpRequiredBodyIndex()
+        {
+            return BodyCatalog.FindBodyIndex("EnforcerBody");
+        }
+
+        private void Blocked(bool cum)
+        {
+            if (cum && base.meetsBodyRequirement) base.Grant();
+        }
+
+        public override void OnInstall()
+        {
+            base.OnInstall();
+
+            ShieldComponent.BlockedGet += Blocked;
+        }
+
+        public override void OnUninstall()
+        {
+            base.OnUninstall();
+
+            ShieldComponent.BlockedGet -= Blocked;
         }
     }
 

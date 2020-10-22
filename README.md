@@ -43,7 +43,7 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 | Skill | | Description | Stats |
 |:-|-|------|-|
 | Super Shotgun | ![](https://i.imgur.com/fJk3Iwn.png) | Fire a powerful short range blast for `16x75%` damage. Has harsh damage falloff. | Proc: `0.75` |
-| Assault Rifle | ![](https://i.imgur.com/VV3t6HU.png) | Rapidly fire bullets dealing `65%` damage. | Proc: `0.5`, Proc in shield: `0.4` |
+| Assault Rifle | ![](https://i.imgur.com/VV3t6HU.png) | Fire a burst of bullets bullets dealing `3x75%` damage. Fires 6 bullets instead during Protect and Serve. | Proc: `0.75` |
 | Stun Grenade | ![](https://i.imgur.com/yuL8mB2.png) | `Stunning`. Launch a stun grenade, dealing `400%` damage. Store up to 3 grenades. | Proc: `0.6`, CD: `8 sec` |
 
 [![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)]()
@@ -52,14 +52,26 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - Teleporter particles kinda big (We could fix this but we won't)
 - Cancelling shield with sprint does not work properly in multiplayer
 - Pending an R2API update , some achievements can't be unlocked in multiplayer. (they only work for host or single player).
-- Bungus skin has some weird head clipping
-- Mustard Gas doesn't apply the debuff
 
 ## Future Plans
-- Skills++support
-- More polish and skills maybe
+- Skills++ support
 
 ## Changelog
+`1.1.2`
+- Reworked Assault Rifle- resetting config is recommended
+- Even more model tweaks, fixed Bungus head clipping
+- Added back missing shoulder lights
+- Added new skin
+- Loadout choices are now visible in character select
+- Added SSG bullet tracer
+- Added sounds for the Bungus guns
+- Fixed Mustard Gas not applying debuff
+- Fixed Fresh Meat being unreasonably huge
+- Shield Bash into P&S transition made smoother
+- Tweaked Femforcer skin
+- Added skateboard sounds and fixed some bugs
+- Unfinished Breaching Hammer is now an actual melee attack
+
 `1.1.1`
 - Tweaked model some more
 - Fixed item displays not showing up on the Assault Rifle

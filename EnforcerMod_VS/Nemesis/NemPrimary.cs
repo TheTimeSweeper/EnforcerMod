@@ -1,10 +1,5 @@
 ﻿using RoR2;
-using RoR2.Projectile;
 using UnityEngine;
-using System.Collections.Generic;
-using System;
-using UnityEngine.Networking;
-using System.Collections;
 
 namespace EntityStates.Nemforcer
 {
@@ -12,18 +7,15 @@ namespace EntityStates.Nemforcer
     {
         //this is just shield bash code for now, change it to an overlap attack eventually
         // the hitbox for it is already set up im just lazy rn
-        public static string hitboxString = "HammerHead";
+        public static string hitboxString = "HammerModel2";
         public static float baseDuration = 0.8f;
         public static float damageCoefficient = 3.5f;
         public static float procCoefficient = 1f;
         public static float blastRadius = 6f;
         public static float deflectRadius = 3f;
-        public static float beefDurationNoShield = 0f;
-        public static float beefDurationShield = 0f;
         public static float recoilAmplitude = 1f;
         public static float parryInterval = 0.12f;
 
-        private float attackStopDuration;
         private float duration;
         private float fireDuration;
         private Ray aimRay;
@@ -46,15 +38,6 @@ namespace EntityStates.Nemforcer
             bool grounded = base.characterMotor.isGrounded;
 
             base.PlayAnimation("Gesture, Override", "HammerSwing", "HammerSwing.playbackRate", this.duration);
-
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff))
-            {
-                this.attackStopDuration = HammerSwing.beefDurationShield / this.attackSpeedStat;
-            }
-            else
-            {
-                this.attackStopDuration = HammerSwing.beefDurationNoShield / this.attackSpeedStat;
-            }
 
             if (this.childLocator.FindChild("Hammer"))
             {
@@ -93,7 +76,7 @@ namespace EntityStates.Nemforcer
                     blastAttack.falloffModel = BlastAttack.FalloffModel.None;
                     blastAttack.baseForce = 0f;
                     blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
-                    blastAttack.damageType = DamageType.Stun1s;
+                    blastAttack.damageType = DamageType.Generic;
                     blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
                     blastAttack.impactEffect = BeetleGuardMonster.GroundSlam.hitEffectPrefab.GetComponent<EffectComponent>().effectIndex;
 
@@ -110,14 +93,6 @@ namespace EntityStates.Nemforcer
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-
-            if (base.fixedAge < this.attackStopDuration)
-            {
-                if (base.characterMotor)
-                {
-                    base.characterMotor.moveDirection = Vector3.zero;
-                }
-            }
 
             if (base.fixedAge >= this.fireDuration)
             {

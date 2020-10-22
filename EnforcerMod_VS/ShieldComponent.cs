@@ -84,4 +84,11 @@ public class ShieldComponent : MonoBehaviour
 
         onLaserHit?.Invoke();
     }
+
+    public static event Action<bool> BlockedGet = delegate { };
+
+    public void AttackBlocked(bool flag)
+    {
+        BlockedGet(flag);
+    }
 }

@@ -40,7 +40,8 @@ namespace EnforcerPlugin
         "ResourcesAPI"
     })]
 
-    public class EnforcerPlugin : BaseUnityPlugin {
+    public class EnforcerPlugin : BaseUnityPlugin
+    {
         public const string MODUID = "com.EnforcerGang.Enforcer";
 
         public const string characterName = "Enforcer";
@@ -58,6 +59,7 @@ namespace EnforcerPlugin
         public static GameObject needlerCrosshair;
 
         public static GameObject bulletTracer;
+        public static GameObject bulletTracerSSG;
         public static GameObject laserTracer;
         public static GameObject bungusTracer = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerEngiTurret");
 
@@ -146,10 +148,8 @@ namespace EnforcerPlugin
         public static ConfigEntry<float> rifleDamage;
         public static ConfigEntry<int> rifleBaseBulletCount;
         public static ConfigEntry<float> rifleProcCoefficient;
-        public static ConfigEntry<float> rifleProcCoefficientAlt;
         public static ConfigEntry<float> rifleRange;
         public static ConfigEntry<float> rifleSpread;
-        public static ConfigEntry<float> rifleFireInterval;
 
         public static ConfigEntry<float> superDamage;
 
@@ -162,7 +162,8 @@ namespace EnforcerPlugin
         private List<SkillDef> primarySkillDefs = new List<SkillDef>();
         private List<SkillDef> specialSkillDefs = new List<SkillDef>();
 
-        public EnforcerPlugin() {
+        public EnforcerPlugin()
+        {
             //don't touch this
             // what does all this even do anyway?
             //its our plugin constructor
@@ -171,7 +172,8 @@ namespace EnforcerPlugin
             start += EnforcerPlugin_LoadStart;
         }
 
-        private void EnforcerPlugin_Load() {
+        private void EnforcerPlugin_Load()
+        {
             //touch this all you want tho
             ConfigShit();
             Assets.PopulateAssets();
@@ -181,11 +183,13 @@ namespace EnforcerPlugin
             RegisterCharacter();
 
             //aetherium item displays- dll won't compile without a reference to aetherium
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KomradeSpectre.Aetherium")) {
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KomradeSpectre.Aetherium"))
+            {
                 aetheriumInstalled = true;
             }
             //scepter stuff- dll won't compile without a reference to TILER2 and ClassicItems
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.ThinkInvisible.ClassicItems")) {
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.ThinkInvisible.ClassicItems"))
+            {
                 ScepterSkillSetup();
                 ScepterSetup();
             }
@@ -205,7 +209,8 @@ namespace EnforcerPlugin
             Hook();
         }
 
-        private void ConfigShit() {
+        private void ConfigShit()
+        {
             forceUnlock = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Force Unlock"), false, new ConfigDescription("Makes Enforcer unlocked by default", null, Array.Empty<object>()));
             antiFun = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "I Hate Fun"), false, new ConfigDescription("Disables some skins. Enable if you hate fun.", null, Array.Empty<object>()));
             classicShotgun = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Classic Shotgun"), false, new ConfigDescription("Use RoR1 shotgun sound", null, Array.Empty<object>()));
@@ -242,47 +247,53 @@ namespace EnforcerPlugin
             shotgunRange = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Range"), 64f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
             shotgunSpread = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Spread"), 12f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
 
-            rifleDamage = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Damage Coefficient"), 0.8f, new ConfigDescription("Damage of each bullet", null, Array.Empty<object>()));
-            rifleProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Proc Coefficient"), 0.5f, new ConfigDescription("Proc Coefficient of each bullet", null, Array.Empty<object>()));
-            rifleProcCoefficientAlt = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Proc Coefficient (Shield)"), 0.4f, new ConfigDescription("Proc Coefficient of each bullet during Protect & Serve", null, Array.Empty<object>()));
-            rifleBaseBulletCount = base.Config.Bind<int>(new ConfigDefinition("05 - Assault Rifle", "Base Bullet Count"), 1, new ConfigDescription("Bullets fired with each shot", null, Array.Empty<object>()));
+            rifleDamage = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Damage Coefficient"), 0.85f, new ConfigDescription("Damage of each bullet", null, Array.Empty<object>()));
+            rifleProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Proc Coefficient"), 0.75f, new ConfigDescription("Proc Coefficient of each bullet", null, Array.Empty<object>()));
+            rifleBaseBulletCount = base.Config.Bind<int>(new ConfigDefinition("05 - Assault Rifle", "Base Bullet Count"), 3, new ConfigDescription("Bullets fired with each shot", null, Array.Empty<object>()));
             rifleRange = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Range"), 256f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
             rifleSpread = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Spread"), 5f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
-            rifleFireInterval = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Fire Interval"), 0.16f, new ConfigDescription("Base time between each shot", null, Array.Empty<object>()));
 
             superDamage = base.Config.Bind<float>(new ConfigDefinition("06 - Super Shotgun", "Damage Coefficient"), 0.75f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
         }
 
-        private void EnforcerPlugin_LoadStart() {
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.harbingerofme.HarbCrate")) {
+        private void EnforcerPlugin_LoadStart()
+        {
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.harbingerofme.HarbCrate"))
+            {
                 harbCrateInstalled = true;
                 //ItemDisplays.RegisterHarbCrateDisplays();
                 //i'll get back to this later, shit's not working
             }
         }
 
-        public void Awake() {
+        public void Awake()
+        {
             Action awake = EnforcerPlugin.awake;
-            if (awake == null) {
+            if (awake == null)
+            {
                 return;
             }
             awake();
         }
-        public void Start() {
+        public void Start()
+        {
             Action start = EnforcerPlugin.start;
-            if (start == null) {
+            if (start == null)
+            {
                 return;
             }
             start();
         }
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        private void ScepterSetup() {
+        private void ScepterSetup()
+        {
             ThinkInvisible.ClassicItems.Scepter.instance.RegisterScepterSkill(tearGasScepterDef, "EnforcerBody", SkillSlot.Utility, 0);
             ThinkInvisible.ClassicItems.Scepter.instance.RegisterScepterSkill(shockGrenadeDef, "EnforcerBody", SkillSlot.Utility, 1);
         }
 
-        private void Hook() {
+        private void Hook()
+        {
             //add hooks here
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             //On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnEnemyHit;
@@ -298,7 +309,8 @@ namespace EnforcerPlugin
         }
 
         #region Hooks
-        private void GlobalEventManager_OnCharacterDeath(On.RoR2.GlobalEventManager.orig_OnCharacterDeath orig, GlobalEventManager self, DamageReport report) {
+        private void GlobalEventManager_OnCharacterDeath(On.RoR2.GlobalEventManager.orig_OnCharacterDeath orig, GlobalEventManager self, DamageReport report)
+        {
             if (self is null) return;
             if (report is null) return;
 
@@ -315,39 +327,48 @@ namespace EnforcerPlugin
             orig(self, report);
         }
 
-        private void BodyCatalog_SetBodyPrefabs(On.RoR2.BodyCatalog.orig_SetBodyPrefabs orig, GameObject[] newBodyPrefabs) {
+        private void BodyCatalog_SetBodyPrefabs(On.RoR2.BodyCatalog.orig_SetBodyPrefabs orig, GameObject[] newBodyPrefabs)
+        {
             //nicely done brother
-            for (int i = 0; i < newBodyPrefabs.Length; i++) {
-                if (newBodyPrefabs[i].name == "EnforcerBody" && newBodyPrefabs[i] != characterPrefab) {
+            for (int i = 0; i < newBodyPrefabs.Length; i++)
+            {
+                if (newBodyPrefabs[i].name == "EnforcerBody" && newBodyPrefabs[i] != characterPrefab)
+                {
                     newBodyPrefabs[i].name = "OldEnforcerBody";
                 }
             }
             orig(newBodyPrefabs);
         }
 
-        private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self) {
+        private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
+        {
             orig(self);
 
-            if (self) {
-                if (self.HasBuff(jackBoots)) {
+            if (self)
+            {
+                if (self.HasBuff(jackBoots))
+                {
                     Reflection.SetPropertyValue<float>(self, "armor", self.armor + 10);
                     Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.5f);
                     Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
                 }
 
-                if (self.HasBuff(minigunBuff)) {
+                if (self.HasBuff(minigunBuff))
+                {
                     Reflection.SetPropertyValue<float>(self, "armor", self.armor + 50);
                     Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.3f);
                     Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
                 }
 
-                if (self.HasBuff(energyShieldBuff)) {
+                if (self.HasBuff(energyShieldBuff))
+                {
                     Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
                     Reflection.SetPropertyValue<float>(self, "armor", self.armor + 40);
                     Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.65f);
                 }
 
-                if (self.HasBuff(tearGasDebuff)) {
+                if (self.HasBuff(tearGasDebuff))
+                {
                     Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
                     Reflection.SetPropertyValue<float>(self, "armor", self.armor - 20);
                     Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.25f);
@@ -356,17 +377,24 @@ namespace EnforcerPlugin
             }
         }
 
-        private void CharacterMaster_OnInventoryChanged(On.RoR2.CharacterMaster.orig_OnInventoryChanged orig, CharacterMaster self) {
+        private void CharacterMaster_OnInventoryChanged(On.RoR2.CharacterMaster.orig_OnInventoryChanged orig, CharacterMaster self)
+        {
             orig(self);
 
-            if (self.hasBody) {
+            if (self.hasBody)
+            {
                 var weaponComponent = self.GetBody().GetComponent<EnforcerWeaponComponent>();
-                if (weaponComponent) {
+                if (weaponComponent)
+                {
                     weaponComponent.DelayedResetWeapon();
                     weaponComponent.ModelCheck();
-                } else {
-                    if (self.inventory && useNeedlerCrosshair.Value) {
-                        if (self.inventory.GetItemCount(ItemIndex.LunarPrimaryReplacement) > 0) {
+                }
+                else
+                {
+                    if (self.inventory && useNeedlerCrosshair.Value)
+                    {
+                        if (self.inventory.GetItemCount(ItemIndex.LunarPrimaryReplacement) > 0)
+                        {
                             self.GetBody().crosshairPrefab = needlerCrosshair;
                         }
                     }
@@ -374,68 +402,99 @@ namespace EnforcerPlugin
             }
         }
 
-        private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info) {
+        private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
+        {
             bool blocked = false;
 
-            if ((info.damageType & DamageType.BarrierBlocked) != DamageType.Generic && self.body.baseNameToken == "ENFORCER_NAME") {
+            if ((info.damageType & DamageType.BarrierBlocked) != DamageType.Generic && self.body.baseNameToken == "ENFORCER_NAME")
+            {
                 blocked = true;
             }
 
-            if (self.body.baseNameToken == "ENFORCER_NAME" && info.attacker) {
+            if (self.body.baseNameToken == "ENFORCER_NAME" && info.attacker)
+            {
                 CharacterBody cb = info.attacker.GetComponent<CharacterBody>();
-                if (cb) {
-
+                if (cb)
+                {
                     ShieldComponent enforcerShield = self.body.GetComponent<ShieldComponent>();
 
-                    if (cb.baseNameToken == "GOLEM_BODY_NAME" && GetShieldBlock(self, info, enforcerShield)) {
+                    if (cb.baseNameToken == "GOLEM_BODY_NAME" && GetShieldBlock(self, info, enforcerShield))
+                    {
                         blocked = self.body.HasBuff(jackBoots);
 
-                        if (enforcerShield != null) {
-
-                            if (enforcerShield.isDeflecting) {
+                        if (enforcerShield != null)
+                        {
+                            if (enforcerShield.isDeflecting)
+                            {
                                 blocked = true;
                             }
                             enforcerShield.invokeOnLaserHitEvent();
                         }
                     }
+
+                    if (enforcerShield)
+                    {
+                        enforcerShield.AttackBlocked(blocked);
+                    }
                 }
             }
 
-            if (blocked) {
+            if (blocked)
+            {
                 string soundString = Sounds.ShieldBlockLight;
                 if (info.procCoefficient >= 1) soundString = Sounds.ShieldBlockHeavy;
 
                 Util.PlaySound(soundString, self.gameObject);
 
-                EffectData effectData = new EffectData {
+                EffectData effectData = new EffectData
+                {
                     origin = info.position,
                     rotation = Util.QuaternionSafeLookRotation((info.force != Vector3.zero) ? info.force : UnityEngine.Random.onUnitSphere)
                 };
 
-                EffectManager.SpawnEffect(EnforcerPlugin.blockEffectPrefab, effectData, true);
+                EffectManager.SpawnEffect(EnforcerPlugin.blockEffectPrefab, effectData, false);
 
                 info.rejected = true;
             }
 
-            if (self.body.name == "EnergyShield") {
+            if (self.body.name == "EnergyShield")
+            {
                 info.damage = info.procCoefficient;
+            }
+
+            if (info.attacker)
+            {
+                CharacterBody cb = info.attacker.GetComponent<CharacterBody>();
+                if (cb)
+                {
+                    if (cb.baseNameToken == "ENFORCER_NAME" && info.damageType.HasFlag(DamageType.BlightOnHit))
+                    {
+                        info.damageType = DamageType.Generic;
+                        if (self.body) self.body.AddTimedBuff(tearGasDebuff, 0.5f);
+                    }
+                }
             }
 
             orig(self, info);
         }
 
-        private void ParryState_OnEnter(On.EntityStates.BaseState.orig_OnEnter orig, BaseState self) {
+        private void ParryState_OnEnter(On.EntityStates.BaseState.orig_OnEnter orig, BaseState self)
+        {
             orig(self);
 
-            if (self.outer.customName == "EnforcerParry") {
+            if (self.outer.customName == "EnforcerParry")
+            {
                 Reflection.SetFieldValue(self, "damageStat", self.outer.commonComponents.characterBody.damage * 5);
             }
         }
 
-        private void FireLunarNeedle_OnEnter(On.EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle.orig_OnEnter orig, EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle self) {
+        private void FireLunarNeedle_OnEnter(On.EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle.orig_OnEnter orig, EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle self)
+        {
             // this actually didn't work, hopefully someone else can figure it out bc needler shotgun sounds badass
-            if (self.outer.commonComponents.characterBody) {
-                if (self.outer.commonComponents.characterBody.baseNameToken == "ENFORCER_NAME") {
+            if (self.outer.commonComponents.characterBody)
+            {
+                if (self.outer.commonComponents.characterBody.baseNameToken == "ENFORCER_NAME")
+                {
                     self.outer.SetNextState(new FireNeedler());
                     return;
                 }
@@ -444,8 +503,10 @@ namespace EnforcerPlugin
             orig(self);
         }
 
-        private void SceneDirector_Start(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self) {
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "moon") {
+        private void SceneDirector_Start(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
+        {
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "moon")
+            {
                 //null checks to hell and back
                 if (GameObject.Find("EscapeSequenceController")) {
                     if (GameObject.Find("EscapeSequenceController").transform.Find("EscapeSequenceObjects")) {
@@ -459,7 +520,8 @@ namespace EnforcerPlugin
             orig(self);
         }
 
-        private bool GetShieldBlock(HealthComponent self, DamageInfo info, ShieldComponent shieldComponent) {
+        private bool GetShieldBlock(HealthComponent self, DamageInfo info, ShieldComponent shieldComponent)
+        {
             CharacterBody charB = self.GetComponent<CharacterBody>();
             Ray aimRay = shieldComponent.aimRay;
             Vector3 relativePosition = info.attacker.transform.position - aimRay.origin;
@@ -498,15 +560,18 @@ namespace EnforcerPlugin
             return angle < ShieldBlockAngle;
         }*/
 
-        private void CharacterBody_Update(On.RoR2.CharacterBody.orig_Update orig, CharacterBody self) {
-            if (self.name == "EnergyShield") {
+        private void CharacterBody_Update(On.RoR2.CharacterBody.orig_Update orig, CharacterBody self)
+        {
+            if (self.name == "EnergyShield")
+            {
                 return;
             }
             orig(self);
         }
         #endregion
 
-        private static GameObject CreateBodyModel(GameObject main) {
+        private static GameObject CreateBodyModel(GameObject main)
+        {
             Destroy(main.transform.Find("ModelBase").gameObject);
             Destroy(main.transform.Find("CameraPivot").gameObject);
             Destroy(main.transform.Find("AimOrigin").gameObject);
@@ -514,13 +579,13 @@ namespace EnforcerPlugin
             return Assets.MainAssetBundle.LoadAsset<GameObject>("mdlEnforcer");
         }
 
-        private static GameObject CreateDisplayModel() {
-
+        private static GameObject CreateDisplayModel()
+        {
             return Assets.MainAssetBundle.LoadAsset<GameObject>("EnforcerDisplay");
         }
 
-        private static void CreateDisplayPrefab() {
-
+        private static void CreateDisplayPrefab()
+        {
             GameObject model = CreateDisplayModel();
 
             ChildLocator childLocator = model.GetComponent<ChildLocator>();
@@ -822,6 +887,8 @@ namespace EnforcerPlugin
             //it's seriously tedious as fuck.
             // just make it not tedious 4head
             //   turns out addlistener doesn't even fuckin work so I actually can't set it up in code even if i wanted to try the inferior way
+            //pain.
+            //but yea i tried it too and gave up so understandable
 
             CharacterSelectSurvivorPreviewDisplayController displayController = characterDisplay.GetComponent<CharacterSelectSurvivorPreviewDisplayController>();
 
@@ -829,13 +896,15 @@ namespace EnforcerPlugin
 
             //EventFunctions eventFunctions = characterDisplay.AddComponent<EventFunctions>();
 
-            displayController.skillChangeResponses[1].response.AddListener(() => {
+            displayController.skillChangeResponses[1].response.AddListener(() => 
+            {
                 Debug.LogWarning("UNITYEVENT");
                 //eventFunctions.DisableAllChildrenExcept(childLocator.FindChild("SuperShotgun").gameObject); 
             });
         }
 
-        private static void CreatePrefab() {
+        private static void CreatePrefab()
+        {
             //...what?
             // https://youtu.be/zRXl8Ow2bUs
 
@@ -1381,6 +1450,25 @@ namespace EnforcerPlugin
 
             hitBoxGroup.groupName = "Charge";
 
+            //hammer hitbox
+            HitBoxGroup hammerHitBoxGroup = model.AddComponent<HitBoxGroup>();
+
+            GameObject hammerHitbox = new GameObject("HammerHitbox");
+            hammerHitbox.transform.parent = childLocator.FindChild("HammerModel2");
+            hammerHitbox.transform.localPosition = new Vector3(0f, 0f, 0f);
+            hammerHitbox.transform.localRotation = Quaternion.identity;
+            hammerHitbox.transform.localScale = Vector3.one * 7f;
+
+            HitBox hammerHitBox = hammerHitbox.AddComponent<HitBox>();
+            hammerHitbox.layer = LayerIndex.projectile.intVal;
+
+            hammerHitBoxGroup.hitBoxes = new HitBox[]
+            {
+                hammerHitBox
+            };
+
+            hammerHitBoxGroup.groupName = "Hammer";
+
             FootstepHandler footstepHandler = model.AddComponent<FootstepHandler>();
             footstepHandler.baseFootstepString = "Play_player_footstep";
             footstepHandler.sprintFootstepOverrideString = "";
@@ -1420,7 +1508,8 @@ namespace EnforcerPlugin
             #endregion
         }
 
-        private void RegisterCharacter() {
+        private void RegisterCharacter()
+        {
             string desc = "The Enforcer is a defensive juggernaut who can give and take a beating.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine;
             desc = desc + "< ! > Riot Shotgun can pierce through many enemies at once." + Environment.NewLine + Environment.NewLine;
             desc = desc + "< ! > Batting away enemies with Shield Bash guarantees you will keep enemies at a safe range." + Environment.NewLine + Environment.NewLine;
@@ -1442,7 +1531,8 @@ namespace EnforcerPlugin
             string unlockString = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
             if (forceUnlock.Value) unlockString = "";
 
-            SurvivorDef survivorDef = new SurvivorDef {
+            SurvivorDef survivorDef = new SurvivorDef
+            {
                 name = "ENFORCER_NAME",
                 unlockableName = unlockString,
                 descriptionToken = "ENFORCER_DESCRIPTION",
@@ -1457,15 +1547,18 @@ namespace EnforcerPlugin
 
             SkillSetup();
 
-            BodyCatalog.getAdditionalEntries += delegate (List<GameObject> list) {
+            BodyCatalog.getAdditionalEntries += delegate (List<GameObject> list) 
+            {
                 list.Add(characterPrefab);
             };
 
             characterPrefab.tag = "Player";
         }
 
-        private void RegisterBuffs() {
-            BuffDef jackBootsDef = new BuffDef {
+        private void RegisterBuffs()
+        {
+            BuffDef jackBootsDef = new BuffDef
+            {
                 name = "Heavyweight",
                 iconPath = "@Enforcer:Assets/texBuffProtectAndServe.png",
                 buffColor = characterColor,
@@ -1476,7 +1569,8 @@ namespace EnforcerPlugin
             CustomBuff jackBoots = new CustomBuff(jackBootsDef);
             EnforcerPlugin.jackBoots = BuffAPI.Add(jackBoots);
 
-            BuffDef energyShieldBuffDef = new BuffDef {
+            BuffDef energyShieldBuffDef = new BuffDef
+            {
                 name = "Heavyweight",
                 iconPath = "@Enforcer:Assets/texBuffProtectAndServe.png",
                 buffColor = characterColor,
@@ -1487,7 +1581,8 @@ namespace EnforcerPlugin
             CustomBuff energyShieldBuff = new CustomBuff(energyShieldBuffDef);
             EnforcerPlugin.energyShieldBuff = BuffAPI.Add(energyShieldBuff);
 
-            BuffDef tearGasDef = new BuffDef {
+            BuffDef tearGasDef = new BuffDef
+            {
                 name = "TearGasDebuff",
                 iconPath = "Textures/BuffIcons/texBuffCloakIcon",
                 buffColor = Color.grey,
@@ -1498,7 +1593,8 @@ namespace EnforcerPlugin
             CustomBuff tearGas = new CustomBuff(tearGasDef);
             EnforcerPlugin.tearGasDebuff = BuffAPI.Add(tearGas);
 
-            BuffDef minigunBuffDef = new BuffDef {
+            BuffDef minigunBuffDef = new BuffDef
+            {
                 name = "HeavyweightV2",
                 iconPath = "@Enforcer:Assets/texBuffProtectAndServe.png",
                 buffColor = Color.yellow,
@@ -1509,7 +1605,8 @@ namespace EnforcerPlugin
             CustomBuff minigunBuff = new CustomBuff(minigunBuffDef);
             EnforcerPlugin.minigunBuff = BuffAPI.Add(minigunBuff);
 
-            BuffDef skateBuffDef = new BuffDef {
+            BuffDef skateBuffDef = new BuffDef
+            {
                 name = "Skateboard",
                 iconPath = "Textures/BuffIcons/texMovespeedBuffIcon",
                 buffColor = characterColor,
@@ -1521,7 +1618,8 @@ namespace EnforcerPlugin
             EnforcerPlugin.skateboardBuff = BuffAPI.Add(skateBuff);
         }
 
-        private void RegisterProjectile() {
+        private void RegisterProjectile()
+        {
             //i'm the treasure, baby, i'm the prize
 
             stunGrenade = Resources.Load<GameObject>("Prefabs/Projectiles/CommandoGrenadeProjectile").InstantiateClone("EnforcerStunGrenade", true);
@@ -1686,6 +1784,8 @@ namespace EnforcerPlugin
             dotZone.lifetime = 18f;
             dotZone.overlapProcCoefficient = 0;
 
+            scepterTearGasDamage.damageType = DamageType.BlightOnHit;
+
             GameObject scepterGrenadeModel = Assets.tearGasGrenadeModelAlt.InstantiateClone("TearGasScepterGhost", true);
             scepterGrenadeModel.AddComponent<NetworkIdentity>();
             scepterGrenadeModel.AddComponent<ProjectileGhostController>();
@@ -1737,7 +1837,7 @@ namespace EnforcerPlugin
 
             damageGasEffect.AddComponent<DestroyOnTimer>().duration = 18;
 
-
+            
             //bullet tracers
             bulletTracer = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun").InstantiateClone("EnforcerBulletTracer", true);
 
@@ -1745,13 +1845,33 @@ namespace EnforcerPlugin
             if (!bulletTracer.GetComponent<VFXAttributes>()) bulletTracer.AddComponent<VFXAttributes>();
             if (!bulletTracer.GetComponent<NetworkIdentity>()) bulletTracer.AddComponent<NetworkIdentity>();
 
-            foreach (LineRenderer i in bulletTracer.GetComponentsInChildren<LineRenderer>()) {
-                if (i) {
+            foreach (LineRenderer i in bulletTracer.GetComponentsInChildren<LineRenderer>())
+            {
+                if (i)
+                {
                     Material material = UnityEngine.Object.Instantiate<Material>(i.material);
                     material.SetColor("_TintColor", Color.yellow);
                     i.material = material;
                     i.startColor = new Color(0.88f, 0.78f, 0.25f);
                     i.endColor = new Color(0.88f, 0.78f, 0.25f);
+                }
+            }
+
+            bulletTracerSSG = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun").InstantiateClone("EnforcerBulletTracer", true);
+
+            if (!bulletTracerSSG.GetComponent<EffectComponent>()) bulletTracerSSG.AddComponent<EffectComponent>();
+            if (!bulletTracerSSG.GetComponent<VFXAttributes>()) bulletTracerSSG.AddComponent<VFXAttributes>();
+            if (!bulletTracerSSG.GetComponent<NetworkIdentity>()) bulletTracerSSG.AddComponent<NetworkIdentity>();
+
+            foreach (LineRenderer i in bulletTracerSSG.GetComponentsInChildren<LineRenderer>())
+            {
+                if (i)
+                {
+                    Material material = UnityEngine.Object.Instantiate<Material>(i.material);
+                    material.SetColor("_TintColor", Color.yellow);
+                    i.material = material;
+                    i.startColor = new Color(0.8f, 0.24f, 0f);
+                    i.endColor = new Color(0.8f, 0.24f, 0f);
                 }
             }
 
@@ -1761,8 +1881,10 @@ namespace EnforcerPlugin
             if (!laserTracer.GetComponent<VFXAttributes>()) laserTracer.AddComponent<VFXAttributes>();
             if (!laserTracer.GetComponent<NetworkIdentity>()) laserTracer.AddComponent<NetworkIdentity>();
 
-            foreach (LineRenderer i in laserTracer.GetComponentsInChildren<LineRenderer>()) {
-                if (i) {
+            foreach (LineRenderer i in laserTracer.GetComponentsInChildren<LineRenderer>())
+            {
+                if (i)
+                {
                     Material material = UnityEngine.Object.Instantiate<Material>(i.material);
                     material.SetColor("_TintColor", Color.red);
                     i.material = material;
@@ -1779,7 +1901,8 @@ namespace EnforcerPlugin
             blockEffectPrefab.GetComponent<EffectComponent>().soundName = "";
             if (!blockEffectPrefab.GetComponent<NetworkIdentity>()) blockEffectPrefab.AddComponent<NetworkIdentity>();
 
-            ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list) {
+            ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list) 
+            {
                 list.Add(projectilePrefab);
                 list.Add(damageGasProjectile);
                 list.Add(tearGasPrefab);
@@ -1789,11 +1912,13 @@ namespace EnforcerPlugin
             };
 
             EffectAPI.AddEffect(bulletTracer);
+            EffectAPI.AddEffect(bulletTracerSSG);
             EffectAPI.AddEffect(laserTracer);
             EffectAPI.AddEffect(blockEffectPrefab);
         }
 
-        private void CreateCrosshair() {
+        private void CreateCrosshair()
+        {
             needlerCrosshair = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/Crosshair/LoaderCrosshair"), "NeedlerCrosshair", true);
             needlerCrosshair.AddComponent<NetworkIdentity>();
             Destroy(needlerCrosshair.GetComponent<LoaderHookCrosshairController>());
@@ -1825,12 +1950,14 @@ namespace EnforcerPlugin
             Destroy(needlerCrosshair.transform.GetChild(1).gameObject);
         }
 
-        private void CreateDoppelganger() {
+        private void CreateDoppelganger()
+        {
             // mul-t ai?
             // who wants to write ai for our boy, please someone
             doppelganger = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/MercMonsterMaster"), "EnforcerMonsterMaster");
 
-            MasterCatalog.getAdditionalEntries += delegate (List<GameObject> list) {
+            MasterCatalog.getAdditionalEntries += delegate (List<GameObject> list) 
+            {
                 list.Add(doppelganger);
             };
 
@@ -1842,9 +1969,10 @@ namespace EnforcerPlugin
         // no go fuck yourself :^)
         // suck my dick 
 
-        private void SkillSetup() {
-
-            foreach (GenericSkill obj in characterPrefab.GetComponentsInChildren<GenericSkill>()) {
+        private void SkillSetup()
+        {
+            foreach (GenericSkill obj in characterPrefab.GetComponentsInChildren<GenericSkill>())
+            {
                 BaseUnityPlugin.DestroyImmediate(obj);
             }
 
@@ -1856,98 +1984,99 @@ namespace EnforcerPlugin
             SpecialSetup();
 
             CSSPreviewSetup();
-
         }
 
         #region skillSetups
 
-        private void PrimarySetup() {
+        private void PrimarySetup()
+        {
             SkillDef primaryDef1 = PrimaryRiotShotgunSkillDef();
-            SkillFamily.Variant primaryVariant1 = setupSkillVariant(primaryDef1,
+            SkillFamily.Variant primaryVariant1 = SetupSkillVariant(primaryDef1,
                                                                     typeof(RiotShotgun));
 
             SkillDef primaryDef2 = PrimarySuperShotgunSkillDef();
-            SkillFamily.Variant primaryVariant2 = setupSkillVariant(primaryDef2, "ENFORCER_SHOTGUNUNLOCKABLE_REWARD_ID",
+            SkillFamily.Variant primaryVariant2 = SetupSkillVariant(primaryDef2, "ENFORCER_SHOTGUNUNLOCKABLE_REWARD_ID",
                                                                     typeof(SuperShotgun));
 
             SkillDef primaryDef3 = PrimaryAssaultRifleSkillDef();
-            SkillFamily.Variant primaryVariant3 = setupSkillVariant(primaryDef3, "ENFORCER_RIFLEUNLOCKABLE_REWARD_ID",
-                                                                    typeof(AssaultRifleState),
-                                                                    typeof(FireAssaultRifle));
+            SkillFamily.Variant primaryVariant3 = SetupSkillVariant(primaryDef3, "ENFORCER_RIFLEUNLOCKABLE_REWARD_ID",
+                                                                    typeof(FireBurstRifle));
 
-            skillLocator.primary = registerSkillsToFamily(primaryVariant1, primaryVariant2, primaryVariant3);
+            skillLocator.primary = RegisterSkillsToFamily(primaryVariant1, primaryVariant2, primaryVariant3);
             primarySkillDefs = new List<SkillDef> { primaryDef1, primaryDef2, primaryDef3 };
 
             SkillDef primaryDef4 = PrimaryHammerSkillDef();
-            SkillFamily.Variant primaryVariant4 = setupSkillVariant(primaryDef4,
-                                                                    typeof(HammerBase));
-            if (cursed.Value) {
-                registerAdditionalSkills(skillLocator.primary, primaryVariant4);
+            SkillFamily.Variant primaryVariant4 = SetupSkillVariant(primaryDef4,
+                                                                    typeof(HammerSwing));
+            if (cursed.Value)
+            {
+                RegisterAdditionalSkills(skillLocator.primary, primaryVariant4);
                 primarySkillDefs.Add(primaryDef4);
             }
         }
 
         private void SecondarySetup() {
             SkillDef secondaryDef1 = SecondaryBashSkillDef();
-            SkillFamily.Variant secondaryVariant1 = setupSkillVariant(secondaryDef1,
+            SkillFamily.Variant secondaryVariant1 = SetupSkillVariant(secondaryDef1,
                                                                       typeof(ShieldBash),
                                                                       typeof(ShoulderBash),
                                                                       typeof(ShoulderBashImpact));
 
-            skillLocator.secondary = registerSkillsToFamily(secondaryVariant1);
+            skillLocator.secondary = RegisterSkillsToFamily(secondaryVariant1);
         }
 
         private void UtilitySetup() {
             SkillDef utilityDef1 = UtilityTearGasSkillDef();
-            SkillFamily.Variant utilityVariant1 = setupSkillVariant(utilityDef1,
+            SkillFamily.Variant utilityVariant1 = SetupSkillVariant(utilityDef1,
                                                                     typeof(AimTearGas),
                                                                     typeof(TearGas));
 
             SkillDef utilityDef2 = UtilityStunGrenadeSkillDef();
-            SkillFamily.Variant utilityVariant2 = setupSkillVariant(utilityDef2, "ENFORCER_STUNGRENADEUNLOCKABLE_REWARD_ID",
+            SkillFamily.Variant utilityVariant2 = SetupSkillVariant(utilityDef2, "ENFORCER_STUNGRENADEUNLOCKABLE_REWARD_ID",
                                                                     typeof(StunGrenade));
 
-            skillLocator.utility = registerSkillsToFamily(utilityVariant1, utilityVariant2);
+            skillLocator.utility = RegisterSkillsToFamily(utilityVariant1, utilityVariant2);
         }
 
         private void SpecialSetup() {
             SkillDef specialDef1 = SpecialProtectAndServeSkillDef();
-            SkillFamily.Variant specialVariant1 = setupSkillVariant(specialDef1, typeof(ProtectAndServe));
+            SkillFamily.Variant specialVariant1 = SetupSkillVariant(specialDef1, typeof(ProtectAndServe));
 
             SkillDef specialDef1Down = SpecialShieldDownSkillDef();
-            registerSkillDef(specialDef1Down);
+            RegisterSkillDef(specialDef1Down);
             shieldDownDef = specialDef1;
             shieldUpDef = specialDef1Down;
 
-            skillLocator.special = registerSkillsToFamily(specialVariant1);
+            skillLocator.special = RegisterSkillsToFamily(specialVariant1);
             specialSkillDefs = new List<SkillDef> { specialDef1 };
 
             SkillDef specialDef2 = SpecialEnergyShieldSkillDef();
-            SkillFamily.Variant specialVariant2 = setupSkillVariant(specialDef2, typeof(EnergyShield));
+            SkillFamily.Variant specialVariant2 = SetupSkillVariant(specialDef2, typeof(EnergyShield));
 
             SkillDef specialDef2Down = SpecialEnergyShieldDownSkillDef();
-            registerSkillDef(specialDef2Down);
+            RegisterSkillDef(specialDef2Down);
             shieldOffDef = specialDef2;
             shieldOnDef = specialDef2Down;
 
             SkillDef specialDef3 = SpecialSkamteBordSkillDef();
-            SkillFamily.Variant specialVariant3 = setupSkillVariant(specialDef3, typeof(EnergyShield));
+            SkillFamily.Variant specialVariant3 = SetupSkillVariant(specialDef3, typeof(EnergyShield));
 
             SkillDef specialDef3Down = SpecialSkamteBordDownSkillDef();
-            registerSkillDef(specialDef3Down);
+            RegisterSkillDef(specialDef3Down);
             boardDownDef = specialDef3;
             boardUpDef = specialDef3Down;
 
-            if (cursed.Value) {
-                registerAdditionalSkills(skillLocator.special, specialVariant2, specialVariant3);
+            if (cursed.Value)
+            {
+                RegisterAdditionalSkills(skillLocator.special, specialVariant2, specialVariant3);
                 specialSkillDefs.Add(specialDef2);
                 specialSkillDefs.Add(specialDef3);
             }
         }
 
         #region skilldefs
-        private SkillDef PrimaryRiotShotgunSkillDef() {
-
+        private SkillDef PrimaryRiotShotgunSkillDef()
+        {
             string desc = "Fire a short range <style=cIsUtility>piercing blast</style> for <style=cIsDamage>" + shotgunBulletCount.Value + "x" + 100f * shotgunDamage.Value + "% damage.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_NAME", "Riot Shotgun");
@@ -1978,8 +2107,8 @@ namespace EnforcerPlugin
             return skillDefRiotShotgun;
         }
 
-        private SkillDef PrimarySuperShotgunSkillDef() {
-
+        private SkillDef PrimarySuperShotgunSkillDef()
+        {
             string desc = "Fire a powerful short range <style=cIsUtility>blast</style> for <style=cIsDamage>" + 16 + "x" + 100f * superDamage.Value + "% damage</style>. <style=cIsHealth>Has harsh damage falloff</style>.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_NAME", "Super Shotgun");
@@ -2010,15 +2139,15 @@ namespace EnforcerPlugin
             return skillDefSuperShotgun;
         }
 
-        private SkillDef PrimaryAssaultRifleSkillDef() {
-
-            string desc = "Rapidly fire bullets dealing <style=cIsDamage>" + 100f * FireAssaultRifle.damageCoefficient + "% damage.";
+        private SkillDef PrimaryAssaultRifleSkillDef()
+        {
+            string desc = "Fire a burst of bullets dealing <style=cIsDamage>" + FireBurstRifle.projectileCount + "x" +  100f * FireBurstRifle.damageCoefficient + "% damage</style>. <style=cIsUtility>Fires " + 2 * FireBurstRifle.projectileCount + " bullets instead during Protect and Serve</style>.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_NAME", "Assault Rifle");
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_DESCRIPTION", desc);
 
             SkillDef skillDefAssaultRifle = ScriptableObject.CreateInstance<SkillDef>();
-            skillDefAssaultRifle.activationState = new SerializableEntityStateType(typeof(FireAssaultRifle));
+            skillDefAssaultRifle.activationState = new SerializableEntityStateType(typeof(FireBurstRifle));
             skillDefAssaultRifle.activationStateMachineName = "Weapon";
             skillDefAssaultRifle.baseMaxStock = 1;
             skillDefAssaultRifle.baseRechargeInterval = 0f;
@@ -2042,15 +2171,15 @@ namespace EnforcerPlugin
             return skillDefAssaultRifle;
         }
 
-        private SkillDef PrimaryHammerSkillDef() {
-
-            string desc = "Fire a short range <style=cIsUtility>piercing blast</style> for <style=cIsDamage>" + RiotShotgun.projectileCount + "x" + 100f * RiotShotgun.damageCoefficient + "% damage.";
+        private SkillDef PrimaryHammerSkillDef()
+        {
+            string desc = "Swing your hammer for <style=cIsDamage>" + 100f * HammerSwing.damageCoefficient + "%</style> damage.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_HAMMER_NAME", "Breaching Hammer");
             LanguageAPI.Add("ENFORCER_PRIMARY_HAMMER_DESCRIPTION", desc);
 
             SkillDef skillDefHammer = ScriptableObject.CreateInstance<SkillDef>();
-            skillDefHammer.activationState = new SerializableEntityStateType(typeof(HammerBase));
+            skillDefHammer.activationState = new SerializableEntityStateType(typeof(HammerSwing));
             skillDefHammer.activationStateMachineName = "Weapon";
             skillDefHammer.baseMaxStock = 1;
             skillDefHammer.baseRechargeInterval = 0f;
@@ -2074,8 +2203,8 @@ namespace EnforcerPlugin
             return skillDefHammer;
         }
 
-        private SkillDef SecondaryBashSkillDef() {
-
+        private SkillDef SecondaryBashSkillDef()
+        {
             string desc = $"<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style>. <style=cIsUtility>Deflects projectiles</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> for <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage</style> instead.";
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
@@ -2110,8 +2239,8 @@ namespace EnforcerPlugin
             return mySkillDef;
         }
 
-        private SkillDef UtilityTearGasSkillDef() {
-
+        private SkillDef UtilityTearGasSkillDef()
+        {
             LanguageAPI.Add("KEYWORD_BLINDED", "<style=cKeywordName>Impaired</style><style=cSub>Lowers <style=cIsDamage>movement speed</style> by <style=cIsDamage>75%</style>, <style=cIsDamage>attack speed</style> by <style=cIsDamage>25%</style> and <style=cIsHealth>armor</style> by <style=cIsDamage>20</style>.</style></style>");
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_NAME", "Tear Gas");
@@ -2145,7 +2274,10 @@ namespace EnforcerPlugin
             return tearGasDef;
         }
 
-        private SkillDef UtilityStunGrenadeSkillDef() {
+        private SkillDef UtilityStunGrenadeSkillDef()
+        {
+            LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_NAME", "Stun Grenade");
+            LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION", "<style=cIsDamage>Stunning</style>. Launch a stun grenade that explodes on impact, dealing <style=cIsDamage>" + 100f * StunGrenade.damageCoefficient + "% damage</style>. <style=cIsUtility>Store up to 3 grenades</style>.");
 
             SkillDef stunGrenadeDef = ScriptableObject.CreateInstance<SkillDef>();
             stunGrenadeDef.activationState = new SerializableEntityStateType(typeof(StunGrenade));
@@ -2175,8 +2307,8 @@ namespace EnforcerPlugin
             return stunGrenadeDef;
         }
 
-        private SkillDef SpecialProtectAndServeSkillDef() {
-
+        private SkillDef SpecialProtectAndServeSkillDef()
+        {
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_NAME", "Protect and Serve");
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsUtility>prevents sprinting and jumping</style>.");
 
@@ -2204,8 +2336,9 @@ namespace EnforcerPlugin
 
             return mySkillDef;
         }
-        private SkillDef SpecialShieldDownSkillDef() {
 
+        private SkillDef SpecialShieldDownSkillDef()
+        {
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDDOWN_NAME", "Protect and Serve");
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDDOWN_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsUtility>prevents sprinting and jumping</style>.");
 
@@ -2234,8 +2367,8 @@ namespace EnforcerPlugin
             return mySkillDef2;
         }
 
-        private SkillDef SpecialEnergyShieldSkillDef() {
-
+        private SkillDef SpecialEnergyShieldSkillDef()
+        {
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDON_NAME", "Project and Swerve");
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDON_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>projecting an Energy Shield in front of you</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsUtility>prevents sprinting and jumping</style>.");
 
@@ -2263,8 +2396,9 @@ namespace EnforcerPlugin
 
             return mySkillDef;
         }
-        private SkillDef SpecialEnergyShieldDownSkillDef() {
 
+        private SkillDef SpecialEnergyShieldDownSkillDef()
+        {
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDOFF_NAME", "Project and Swerve");
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDOFF_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>projecting an Energy Shield in front of you</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsUtility>prevents sprinting and jumping</style>.");
 
@@ -2293,8 +2427,8 @@ namespace EnforcerPlugin
             return mySkillDef2;
         }
 
-        private SkillDef SpecialSkamteBordSkillDef() {
-
+        private SkillDef SpecialSkamteBordSkillDef()
+        {
             LanguageAPI.Add("ENFORCER_SPECIAL_BOARDUP_NAME", "Skateboard");
             LanguageAPI.Add("ENFORCER_SPECIAL_BOARDUP_DESCRIPTION", "Swag.");
 
@@ -2322,8 +2456,9 @@ namespace EnforcerPlugin
 
             return mySkillDef;
         }
-        private SkillDef SpecialSkamteBordDownSkillDef() {
 
+        private SkillDef SpecialSkamteBordDownSkillDef()
+        {
             LanguageAPI.Add("ENFORCER_SPECIAL_BOARDDOWN_NAME", "Skateboard");
             LanguageAPI.Add("ENFORCER_SPECIAL_BOARDDOWN_DESCRIPTION", "Unswag.");
 
@@ -2353,13 +2488,14 @@ namespace EnforcerPlugin
         }
         #endregion
 
-        private SkillFamily.Variant setupSkillVariant(SkillDef skillDef, params Type[] skillTypes) {
-            return setupSkillVariant(skillDef, "", skillTypes);
+        private SkillFamily.Variant SetupSkillVariant(SkillDef skillDef, params Type[] skillTypes)
+        {
+            return SetupSkillVariant(skillDef, "", skillTypes);
         }
 
-        private SkillFamily.Variant setupSkillVariant(SkillDef skillDef, string unlockableType, params Type[] skillTypes) {
-            
-            registerSkillDef(skillDef, skillTypes);
+        private SkillFamily.Variant SetupSkillVariant(SkillDef skillDef, string unlockableType, params Type[] skillTypes)
+        {
+            RegisterSkillDef(skillDef, skillTypes);
 
             return new SkillFamily.Variant {
                 skillDef = skillDef,
@@ -2368,7 +2504,8 @@ namespace EnforcerPlugin
             };
         }
 
-        private static void registerSkillDef(SkillDef skillDef, params Type[] skillTypes) {
+        private static void RegisterSkillDef(SkillDef skillDef, params Type[] skillTypes)
+        {
             for (int i = 0; i < skillTypes.Length; i++) {
                 LoadoutAPI.AddSkill(skillTypes[i]);
             }
@@ -2376,8 +2513,8 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkillDef(skillDef);
         }
 
-        private GenericSkill registerSkillsToFamily(params SkillFamily.Variant[] skillVariants) {
-
+        private GenericSkill RegisterSkillsToFamily(params SkillFamily.Variant[] skillVariants)
+        {
             GenericSkill genericSkill = characterPrefab.AddComponent<GenericSkill>();
 
             SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
@@ -2390,14 +2527,16 @@ namespace EnforcerPlugin
             return genericSkill;
         }
 
-        private void registerAdditionalSkills(GenericSkill genericSkill, params SkillFamily.Variant[] skillVariants) {
+        private void RegisterAdditionalSkills(GenericSkill genericSkill, params SkillFamily.Variant[] skillVariants)
+        {
 
             SkillFamily skillfamily = genericSkill.skillFamily;
 
             skillfamily.variants = skillfamily.variants.Concat(skillVariants).ToArray();
         }
 
-        private void ScepterSkillSetup() {
+        private void ScepterSkillSetup()
+        {
             LoadoutAPI.AddSkill(typeof(AimDamageGas));
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_NAME", "Mustard Gas");
@@ -2463,7 +2602,8 @@ namespace EnforcerPlugin
             LoadoutAPI.AddSkillDef(shockGrenadeDef);
         }
 
-        private void CSSPreviewSetup() {
+        private void CSSPreviewSetup()
+        {
 
             CharacterSelectSurvivorPreviewDisplayController previewController = characterDisplay.GetComponent<CharacterSelectSurvivorPreviewDisplayController>();
 
@@ -2657,6 +2797,10 @@ namespace EnforcerPlugin
         public static readonly string FireBlasterShotgun = "Blaster_Shotgun";
         public static readonly string FireBlasterRifle = "Blaster_Rifle";
 
+        public static readonly string FireBungusShotgun = "Bungus_Riot";
+        public static readonly string FireBungusSSG = "Bungus_SSg";
+        public static readonly string FireBungusRifle = "Bungus_AR";
+
         public static readonly string ShieldBash = "Bash";
         public static readonly string BashHitEnemy = "Bash_Hit_Enemy";
         public static readonly string BashDeflect = "Bash_Deflect";
@@ -2690,5 +2834,17 @@ namespace EnforcerPlugin
         public static readonly string Floss = "Flossforcer";
         public static readonly string InfiniteDab = "Infiniforcer";
         public static readonly string DOOM = "DOOM";
+
+        public static readonly string SkateGrind = "grindmetal03";
+        public static readonly string SkateLand = "Landing";
+        public static readonly string SkateOllie = "Ollie";
+        public static readonly string Skate180 = "Play_180";
+        public static readonly string SkateRoll = "rollconcrete02";
+        //rtcp - Skateboard_Speed
+
+        public static readonly string SkamteJumpGap = "HUD_jumpgap";
+        public static readonly string SkamteScore = "HUD_score";
+        public static readonly string SkamtePerfectTrick = "HUD_perfecttrick";
+        public static readonly string SkamteSpecialTrick = "HUD_specialtrick";
     }
 }

@@ -92,7 +92,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCERBODY_DESPERADO_SKIN_NAME", "Desperado");
             LanguageAPI.Add("ENFORCERBODY_FROG_SKIN_NAME", "Zero Suit");
             LanguageAPI.Add("ENFORCERBODY_FEM_SKIN_NAME", "Femforcer");
-            LanguageAPI.Add("ENFORCERBODY_STEVE_SKIN_NAME", "Minecraft Sbeve");
+            LanguageAPI.Add("ENFORCERBODY_STEVE_SKIN_NAME", "Minecraft");
 
             LoadoutAPI.SkinDefInfo skinDefInfo = default(LoadoutAPI.SkinDefInfo);
             skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
@@ -1059,7 +1059,7 @@ namespace EnforcerPlugin
             fuckingSteveSkinDefInfo.NameToken = "ENFORCERBODY_STEVE_SKIN_NAME";
             fuckingSteveSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             fuckingSteveSkinDefInfo.RootObject = model;
-            fuckingSteveSkinDefInfo.UnlockableName = "";
+            fuckingSteveSkinDefInfo.UnlockableName = "ENFORCER_STEVEUNLOCKABLE_REWARD_ID";
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -1073,7 +1073,7 @@ namespace EnforcerPlugin
                 material.SetColor("_Color", Color.white);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matFuckingSteve").GetTexture("_MainTex"));
                 material.SetColor("_EmColor", Color.white);
-                material.SetFloat("_EmPower", 0.5f);
+                material.SetFloat("_EmPower", 0.3f);
                 material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matFuckingSteve").GetTexture("_EmissionMap"));
                 material.SetFloat("_NormalStrength", 0f);
 

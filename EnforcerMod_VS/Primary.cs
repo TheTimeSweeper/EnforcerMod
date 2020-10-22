@@ -36,6 +36,7 @@ namespace EntityStates.Enforcer
             this.animator = base.GetModelAnimator();
             this.muzzleString = "Muzzle";
             this.isStormtrooper = false;
+            this.isEngi = false;
             if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex)
             {
                 this.muzzleString = "BlasterMuzzle";
@@ -86,7 +87,7 @@ namespace EntityStates.Enforcer
                 if (EnforcerPlugin.EnforcerPlugin.classicShotgun.Value) soundString = EnforcerPlugin.Sounds.FireClassicShotgun;
 
                 if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
-                //if (this.isEngi) soundString = MiniMushroom.SporeGrenade.attackSoundString;
+                if (this.isEngi) soundString = EnforcerPlugin.Sounds.FireBungusShotgun;
 
                 Util.PlayScaledSound(soundString, base.gameObject, this.attackSpeedStat);
 
@@ -264,7 +265,7 @@ namespace EntityStates.Enforcer
 
                 if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) soundString = EnforcerPlugin.Sounds.FireSuperShotgunDOOM;
                 if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
-                //if (this.isEngi) soundString = MiniMushroom.SporeGrenade.attackSoundString;
+                if (this.isEngi) soundString = EnforcerPlugin.Sounds.FireBungusSSG;
 
                 Util.PlayScaledSound(soundString, base.gameObject, this.attackSpeedStat);
 
@@ -280,7 +281,7 @@ namespace EntityStates.Enforcer
                 {
                     float damage = this.damageCoefficient * this.damageStat;
 
-                    GameObject tracerEffect = EnforcerPlugin.EnforcerPlugin.bulletTracer;
+                    GameObject tracerEffect = EnforcerPlugin.EnforcerPlugin.bulletTracerSSG;
 
                     if (this.isStormtrooper) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
                     if (this.isEngi) tracerEffect = EnforcerPlugin.EnforcerPlugin.bungusTracer;
@@ -334,7 +335,4 @@ namespace EntityStates.Enforcer
             }
         }
     }
-
-    //nother shield bash for now
-    public class HammerBase : RiotShotgun { }
 }

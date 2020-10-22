@@ -257,8 +257,7 @@ namespace EntityStates.Enforcer
                         {
                             this.hasDeflected = true;
 
-                            if (EnforcerPlugin.EnforcerPlugin.sirenOnDeflect.Value) 
-                                Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
+                            if (EnforcerPlugin.EnforcerPlugin.sirenOnDeflect.Value) Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
 
                             base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
                         }
@@ -351,7 +350,8 @@ namespace EntityStates.Enforcer
             base.characterBody.isSprinting = true;
 
             Util.PlayScaledSound(Croco.Leap.leapSoundString, base.gameObject, 1.75f);
-            base.PlayAnimation("FullBody, Override", "ShoulderBash");//, "ShoulderBash.playbackRate", this.duration
+
+            if (!base.HasBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff)) base.PlayAnimation("FullBody, Override", "ShoulderBash");//, "ShoulderBash.playbackRate", this.duration
 
             if (base.isAuthority && base.inputBank && base.characterDirection)
             {
@@ -548,12 +548,13 @@ namespace EntityStates.Enforcer
         public static float recoilAmplitude = 4.5f;
 
         private float duration;
+        private bool shieldCancel;
 
         public override void OnEnter()
         {
             base.OnEnter();
             this.duration = ShoulderBashImpact.baseDuration / this.attackSpeedStat;
-            base.PlayAnimation("FullBody, Override", "BashRecoil");
+            if (!base.HasBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff)) base.PlayAnimation("FullBody, Override", "BashRecoil");
             base.SmallHop(base.characterMotor, ShoulderBash.smallHopVelocity);
 
             Util.PlayScaledSound(EnforcerPlugin.Sounds.ShoulderBashHit, base.gameObject, 0.5f);
@@ -594,10 +595,14 @@ namespace EntityStates.Enforcer
 
             if (base.inputBank && base.isAuthority)
             {
-                if (base.inputBank.skill4.down)
+                if (base.skillLocator && base.inputBank)
                 {
-                    base.skillLocator.special.ExecuteIfReady();
-                    return;
+                    if (base.inputBank.skill4.down && base.fixedAge >= 0.4f * this.duration)
+                    {
+                        this.shieldCancel = true;
+                        base.characterBody.isSprinting = false;
+                        base.skillLocator.special.ExecuteIfReady();
+                    }
                 }
             }
 
@@ -626,7 +631,8 @@ namespace EntityStates.Enforcer
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            return InterruptPriority.Frozen;
+            if (this.shieldCancel) return InterruptPriority.Any;
+            else return InterruptPriority.Frozen;
         }
     }
 }
