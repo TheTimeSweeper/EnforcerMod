@@ -3,7 +3,6 @@ using BepInEx.Configuration;
 using EnforcerPlugin.Achievements;
 using EntityStates;
 using EntityStates.Enforcer;
-using EntityStates.Nemforcer;
 using KinematicCharacterController;
 using R2API;
 using R2API.Utils;
@@ -20,8 +19,7 @@ using UnityEngine.Events;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-namespace EnforcerPlugin
-{
+namespace EnforcerPlugin {
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.ThinkInvisible.ClassicItems", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KomradeSpectre.Aetherium", BepInDependency.DependencyFlags.SoftDependency)]
@@ -159,8 +157,8 @@ namespace EnforcerPlugin
 
         public SkillLocator skillLocator;
 
-        private List<SkillDef> primarySkillDefs = new List<SkillDef>();
-        private List<SkillDef> specialSkillDefs = new List<SkillDef>();
+        private List<SkillDef> primarySkillChangeDefs = new List<SkillDef>();
+        private List<SkillDef> specialSkillChangeDefs = new List<SkillDef>();
 
         public EnforcerPlugin()
         {
@@ -204,7 +202,7 @@ namespace EnforcerPlugin
             CreateCrosshair();
 
             //uncomment this to enable nemesis
-            //new NemforcerPlugin().Init();
+            new NemforcerPlugin().Init();
 
             Hook();
         }
@@ -241,7 +239,7 @@ namespace EnforcerPlugin
             baseMovementSpeed = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Movement Speed"), 7f, new ConfigDescription("", null, Array.Empty<object>()));
             baseCrit = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Crit"), 1f, new ConfigDescription("", null, Array.Empty<object>()));
 
-            shotgunDamage = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Damage Coefficient"), 0.4f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
+            shotgunDamage = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Damage Coefficient"), 0.4f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>())); 
             shotgunProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Proc Coefficient"), 0.5f, new ConfigDescription("Proc Coefficient of each pellet", null, Array.Empty<object>()));
             shotgunBulletCount = base.Config.Bind<int>(new ConfigDefinition("04 - Riot Shotgun", "Bullet Count"), 8, new ConfigDescription("Amount of pellets fired", null, Array.Empty<object>()));
             shotgunRange = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Range"), 64f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
@@ -356,7 +354,7 @@ namespace EnforcerPlugin
                 if (self.HasBuff(minigunBuff))
                 {
                     Reflection.SetPropertyValue<float>(self, "armor", self.armor + 50);
-                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.3f);
+                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.7f);
                     Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
                 }
 
@@ -1514,7 +1512,7 @@ namespace EnforcerPlugin
             desc = desc + "< ! > Riot Shotgun can pierce through many enemies at once." + Environment.NewLine + Environment.NewLine;
             desc = desc + "< ! > Batting away enemies with Shield Bash guarantees you will keep enemies at a safe range." + Environment.NewLine + Environment.NewLine;
             desc = desc + "< ! > Use Tear Gas to weaken large crowds of enemies, then get in close and crush them." + Environment.NewLine + Environment.NewLine;
-            desc = desc + "< ! > Make sure to use Protect and Serve against walls to prevent enemies from flanking you." + Environment.NewLine + Environment.NewLine;
+            desc = desc + "< ! > When you can, use Protect and Serve against walls to prevent enemies from flanking you." + Environment.NewLine + Environment.NewLine;
 
             string outro = characterOutro;
             if (forceUnlock.Value) outro = "..and so he left, having cheated not only the game, but himself. He didn't grow. He didn't improve. He took a shortcut and gained nothing. He experienced a hollow victory. Nothing was risked and nothing was rained.";
@@ -1990,92 +1988,95 @@ namespace EnforcerPlugin
 
         private void PrimarySetup()
         {
-            SkillDef primaryDef1 = PrimaryRiotShotgunSkillDef();
-            SkillFamily.Variant primaryVariant1 = SetupSkillVariant(primaryDef1,
-                                                                    typeof(RiotShotgun));
+            SkillDef primaryDef1 = PrimarySkillDef_RiotShotgun();
+            SkillFamily.Variant primaryVariant1 = PluginUtils.SetupSkillVariant(primaryDef1, typeof(RiotShotgun));
 
-            SkillDef primaryDef2 = PrimarySuperShotgunSkillDef();
-            SkillFamily.Variant primaryVariant2 = SetupSkillVariant(primaryDef2, "ENFORCER_SHOTGUNUNLOCKABLE_REWARD_ID",
-                                                                    typeof(SuperShotgun));
+            SkillDef primaryDef2 = PrimarySkillDef_SuperShotgun();
+            SkillFamily.Variant primaryVariant2 = PluginUtils.SetupSkillVariant(primaryDef2, "ENFORCER_SHOTGUNUNLOCKABLE_REWARD_ID",
+                                                                                typeof(SuperShotgun));
 
-            SkillDef primaryDef3 = PrimaryAssaultRifleSkillDef();
-            SkillFamily.Variant primaryVariant3 = SetupSkillVariant(primaryDef3, "ENFORCER_RIFLEUNLOCKABLE_REWARD_ID",
-                                                                    typeof(FireBurstRifle));
+            SkillDef primaryDef3 = PrimarySkillDef_AssaultRifle();
+            SkillFamily.Variant primaryVariant3 = PluginUtils.SetupSkillVariant(primaryDef3, "ENFORCER_RIFLEUNLOCKABLE_REWARD_ID",
+                                                                                typeof(FireBurstRifle));
 
-            skillLocator.primary = RegisterSkillsToFamily(primaryVariant1, primaryVariant2, primaryVariant3);
-            primarySkillDefs = new List<SkillDef> { primaryDef1, primaryDef2, primaryDef3 };
+            skillLocator.primary = PluginUtils.RegisterSkillsToFamily(characterPrefab, primaryVariant1, primaryVariant2, primaryVariant3);
+            primarySkillChangeDefs = new List<SkillDef> { primaryDef1, primaryDef2, primaryDef3 };
 
-            SkillDef primaryDef4 = PrimaryHammerSkillDef();
-            SkillFamily.Variant primaryVariant4 = SetupSkillVariant(primaryDef4,
-                                                                    typeof(HammerSwing));
+            //cursed
+            SkillDef primaryDef4 = PrimarySkillDef_Hammer();
+            SkillFamily.Variant primaryVariant4 = PluginUtils.SetupSkillVariant(primaryDef4, typeof(HammerSwing));
             if (cursed.Value)
             {
-                RegisterAdditionalSkills(skillLocator.primary, primaryVariant4);
-                primarySkillDefs.Add(primaryDef4);
+                PluginUtils.RegisterAdditionalSkills(skillLocator.primary, primaryVariant4);
+                primarySkillChangeDefs.Add(primaryDef4);
             }
         }
 
         private void SecondarySetup() {
-            SkillDef secondaryDef1 = SecondaryBashSkillDef();
-            SkillFamily.Variant secondaryVariant1 = SetupSkillVariant(secondaryDef1,
-                                                                      typeof(ShieldBash),
-                                                                      typeof(ShoulderBash),
-                                                                      typeof(ShoulderBashImpact));
+            SkillDef secondaryDef1 = SecondarySkillDef_Bash();
+            SkillFamily.Variant secondaryVariant1 = PluginUtils.SetupSkillVariant(secondaryDef1,
+                                                                                  typeof(ShieldBash),
+                                                                                  typeof(ShoulderBash),
+                                                                                  typeof(ShoulderBashImpact));
 
-            skillLocator.secondary = RegisterSkillsToFamily(secondaryVariant1);
+            skillLocator.secondary = PluginUtils.RegisterSkillsToFamily(characterPrefab, secondaryVariant1);
         }
 
         private void UtilitySetup() {
-            SkillDef utilityDef1 = UtilityTearGasSkillDef();
-            SkillFamily.Variant utilityVariant1 = SetupSkillVariant(utilityDef1,
-                                                                    typeof(AimTearGas),
-                                                                    typeof(TearGas));
+            SkillDef utilityDef1 = UtilitySkillDef_TearGas();
+            SkillFamily.Variant utilityVariant1 = PluginUtils.SetupSkillVariant(utilityDef1,
+                                                                                typeof(AimTearGas),
+                                                                                typeof(TearGas));
 
-            SkillDef utilityDef2 = UtilityStunGrenadeSkillDef();
-            SkillFamily.Variant utilityVariant2 = SetupSkillVariant(utilityDef2, "ENFORCER_STUNGRENADEUNLOCKABLE_REWARD_ID",
-                                                                    typeof(StunGrenade));
+            SkillDef utilityDef2 = UtilitySkillDef_StunGrenade();
+            SkillFamily.Variant utilityVariant2 = PluginUtils.SetupSkillVariant(utilityDef2, "ENFORCER_STUNGRENADEUNLOCKABLE_REWARD_ID",
+                                                                                typeof(StunGrenade));
 
-            skillLocator.utility = RegisterSkillsToFamily(utilityVariant1, utilityVariant2);
+            skillLocator.utility = PluginUtils.RegisterSkillsToFamily(characterPrefab, utilityVariant1, utilityVariant2);
         }
 
         private void SpecialSetup() {
-            SkillDef specialDef1 = SpecialProtectAndServeSkillDef();
-            SkillFamily.Variant specialVariant1 = SetupSkillVariant(specialDef1, typeof(ProtectAndServe));
+            SkillDef specialDef1 = SpecialSkillDef_ProtectAndServe();
+            SkillFamily.Variant specialVariant1 = PluginUtils.SetupSkillVariant(specialDef1, typeof(ProtectAndServe));
 
-            SkillDef specialDef1Down = SpecialShieldDownSkillDef();
-            RegisterSkillDef(specialDef1Down);
+            SkillDef specialDef1Down = SpecialSkillDef_ShieldDown();
+            PluginUtils.RegisterSkillDef(specialDef1Down);
+
             shieldDownDef = specialDef1;
             shieldUpDef = specialDef1Down;
 
-            skillLocator.special = RegisterSkillsToFamily(specialVariant1);
-            specialSkillDefs = new List<SkillDef> { specialDef1 };
+            skillLocator.special = PluginUtils.RegisterSkillsToFamily(characterPrefab, specialVariant1);
+            specialSkillChangeDefs = new List<SkillDef> { specialDef1 };
 
-            SkillDef specialDef2 = SpecialEnergyShieldSkillDef();
-            SkillFamily.Variant specialVariant2 = SetupSkillVariant(specialDef2, typeof(EnergyShield));
+            //cursed
+            SkillDef specialDef2 = SpecialSkillDef_EnergyShield();
+            SkillFamily.Variant specialVariant2 = PluginUtils.SetupSkillVariant(specialDef2, typeof(EnergyShield));
 
-            SkillDef specialDef2Down = SpecialEnergyShieldDownSkillDef();
-            RegisterSkillDef(specialDef2Down);
+            SkillDef specialDef2Down = SpecialSkillDef_EnergyShieldDown();
+            PluginUtils.RegisterSkillDef(specialDef2Down);
+
             shieldOffDef = specialDef2;
             shieldOnDef = specialDef2Down;
 
-            SkillDef specialDef3 = SpecialSkamteBordSkillDef();
-            SkillFamily.Variant specialVariant3 = SetupSkillVariant(specialDef3, typeof(EnergyShield));
+            SkillDef specialDef3 = SpecialSkillDef_SkamteBord();
+            SkillFamily.Variant specialVariant3 = PluginUtils.SetupSkillVariant(specialDef3, typeof(Skateboard));
 
-            SkillDef specialDef3Down = SpecialSkamteBordDownSkillDef();
-            RegisterSkillDef(specialDef3Down);
+            SkillDef specialDef3Down = SpecialSkillDef_SkamteBordDown();
+            PluginUtils.RegisterSkillDef(specialDef3Down);
+
             boardDownDef = specialDef3;
             boardUpDef = specialDef3Down;
 
             if (cursed.Value)
             {
-                RegisterAdditionalSkills(skillLocator.special, specialVariant2, specialVariant3);
-                specialSkillDefs.Add(specialDef2);
-                specialSkillDefs.Add(specialDef3);
+                PluginUtils.RegisterAdditionalSkills(skillLocator.special, specialVariant2, specialVariant3);
+                specialSkillChangeDefs.Add(specialDef2);
+                specialSkillChangeDefs.Add(specialDef3);
             }
         }
 
         #region skilldefs
-        private SkillDef PrimaryRiotShotgunSkillDef()
+        private SkillDef PrimarySkillDef_RiotShotgun()
         {
             string desc = "Fire a short range <style=cIsUtility>piercing blast</style> for <style=cIsDamage>" + shotgunBulletCount.Value + "x" + 100f * shotgunDamage.Value + "% damage.";
 
@@ -2107,7 +2108,7 @@ namespace EnforcerPlugin
             return skillDefRiotShotgun;
         }
 
-        private SkillDef PrimarySuperShotgunSkillDef()
+        private SkillDef PrimarySkillDef_SuperShotgun()
         {
             string desc = "Fire a powerful short range <style=cIsUtility>blast</style> for <style=cIsDamage>" + 16 + "x" + 100f * superDamage.Value + "% damage</style>. <style=cIsHealth>Has harsh damage falloff</style>.";
 
@@ -2139,7 +2140,7 @@ namespace EnforcerPlugin
             return skillDefSuperShotgun;
         }
 
-        private SkillDef PrimaryAssaultRifleSkillDef()
+        private SkillDef PrimarySkillDef_AssaultRifle()
         {
             string desc = "Fire a burst of bullets dealing <style=cIsDamage>" + FireBurstRifle.projectileCount + "x" +  100f * FireBurstRifle.damageCoefficient + "% damage</style>. <style=cIsUtility>Fires " + 2 * FireBurstRifle.projectileCount + " bullets instead during Protect and Serve</style>.";
 
@@ -2171,7 +2172,7 @@ namespace EnforcerPlugin
             return skillDefAssaultRifle;
         }
 
-        private SkillDef PrimaryHammerSkillDef()
+        private SkillDef PrimarySkillDef_Hammer()
         {
             string desc = "Swing your hammer for <style=cIsDamage>" + 100f * HammerSwing.damageCoefficient + "%</style> damage.";
 
@@ -2203,7 +2204,7 @@ namespace EnforcerPlugin
             return skillDefHammer;
         }
 
-        private SkillDef SecondaryBashSkillDef()
+        private SkillDef SecondarySkillDef_Bash()
         {
             string desc = $"<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style>. <style=cIsUtility>Deflects projectiles</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> for <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage</style> instead.";
 
@@ -2239,7 +2240,7 @@ namespace EnforcerPlugin
             return mySkillDef;
         }
 
-        private SkillDef UtilityTearGasSkillDef()
+        private SkillDef UtilitySkillDef_TearGas()
         {
             LanguageAPI.Add("KEYWORD_BLINDED", "<style=cKeywordName>Impaired</style><style=cSub>Lowers <style=cIsDamage>movement speed</style> by <style=cIsDamage>75%</style>, <style=cIsDamage>attack speed</style> by <style=cIsDamage>25%</style> and <style=cIsHealth>armor</style> by <style=cIsDamage>20</style>.</style></style>");
 
@@ -2274,7 +2275,7 @@ namespace EnforcerPlugin
             return tearGasDef;
         }
 
-        private SkillDef UtilityStunGrenadeSkillDef()
+        private SkillDef UtilitySkillDef_StunGrenade()
         {
             LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_NAME", "Stun Grenade");
             LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION", "<style=cIsDamage>Stunning</style>. Launch a stun grenade that explodes on impact, dealing <style=cIsDamage>" + 100f * StunGrenade.damageCoefficient + "% damage</style>. <style=cIsUtility>Store up to 3 grenades</style>.");
@@ -2307,7 +2308,7 @@ namespace EnforcerPlugin
             return stunGrenadeDef;
         }
 
-        private SkillDef SpecialProtectAndServeSkillDef()
+        private SkillDef SpecialSkillDef_ProtectAndServe()
         {
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_NAME", "Protect and Serve");
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsUtility>prevents sprinting and jumping</style>.");
@@ -2336,8 +2337,7 @@ namespace EnforcerPlugin
 
             return mySkillDef;
         }
-
-        private SkillDef SpecialShieldDownSkillDef()
+        private SkillDef SpecialSkillDef_ShieldDown()
         {
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDDOWN_NAME", "Protect and Serve");
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDDOWN_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsUtility>prevents sprinting and jumping</style>.");
@@ -2367,7 +2367,7 @@ namespace EnforcerPlugin
             return mySkillDef2;
         }
 
-        private SkillDef SpecialEnergyShieldSkillDef()
+        private SkillDef SpecialSkillDef_EnergyShield()
         {
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDON_NAME", "Project and Swerve");
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDON_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>projecting an Energy Shield in front of you</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsUtility>prevents sprinting and jumping</style>.");
@@ -2396,8 +2396,7 @@ namespace EnforcerPlugin
 
             return mySkillDef;
         }
-
-        private SkillDef SpecialEnergyShieldDownSkillDef()
+        private SkillDef SpecialSkillDef_EnergyShieldDown()
         {
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDOFF_NAME", "Project and Swerve");
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDOFF_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>projecting an Energy Shield in front of you</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsUtility>prevents sprinting and jumping</style>.");
@@ -2427,7 +2426,7 @@ namespace EnforcerPlugin
             return mySkillDef2;
         }
 
-        private SkillDef SpecialSkamteBordSkillDef()
+        private SkillDef SpecialSkillDef_SkamteBord()
         {
             LanguageAPI.Add("ENFORCER_SPECIAL_BOARDUP_NAME", "Skateboard");
             LanguageAPI.Add("ENFORCER_SPECIAL_BOARDUP_DESCRIPTION", "Swag.");
@@ -2456,8 +2455,7 @@ namespace EnforcerPlugin
 
             return mySkillDef;
         }
-
-        private SkillDef SpecialSkamteBordDownSkillDef()
+        private SkillDef SpecialSkillDef_SkamteBordDown()
         {
             LanguageAPI.Add("ENFORCER_SPECIAL_BOARDDOWN_NAME", "Skateboard");
             LanguageAPI.Add("ENFORCER_SPECIAL_BOARDDOWN_DESCRIPTION", "Unswag.");
@@ -2487,53 +2485,6 @@ namespace EnforcerPlugin
             return mySkillDef2;
         }
         #endregion
-
-        private SkillFamily.Variant SetupSkillVariant(SkillDef skillDef, params Type[] skillTypes)
-        {
-            return SetupSkillVariant(skillDef, "", skillTypes);
-        }
-
-        private SkillFamily.Variant SetupSkillVariant(SkillDef skillDef, string unlockableType, params Type[] skillTypes)
-        {
-            RegisterSkillDef(skillDef, skillTypes);
-
-            return new SkillFamily.Variant {
-                skillDef = skillDef,
-                unlockableName = unlockableType,
-                viewableNode = new ViewablesCatalog.Node(skillDef.skillNameToken, false, null)
-            };
-        }
-
-        private static void RegisterSkillDef(SkillDef skillDef, params Type[] skillTypes)
-        {
-            for (int i = 0; i < skillTypes.Length; i++) {
-                LoadoutAPI.AddSkill(skillTypes[i]);
-            }
-
-            LoadoutAPI.AddSkillDef(skillDef);
-        }
-
-        private GenericSkill RegisterSkillsToFamily(params SkillFamily.Variant[] skillVariants)
-        {
-            GenericSkill genericSkill = characterPrefab.AddComponent<GenericSkill>();
-
-            SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
-            LoadoutAPI.AddSkillFamily(newFamily);
-
-            genericSkill.SetFieldValue("_skillFamily", newFamily);
-
-            newFamily.variants = skillVariants;
-
-            return genericSkill;
-        }
-
-        private void RegisterAdditionalSkills(GenericSkill genericSkill, params SkillFamily.Variant[] skillVariants)
-        {
-
-            SkillFamily skillfamily = genericSkill.skillFamily;
-
-            skillfamily.variants = skillfamily.variants.Concat(skillVariants).ToArray();
-        }
 
         private void ScepterSkillSetup()
         {
@@ -2614,36 +2565,36 @@ namespace EnforcerPlugin
                 switch (i) {
                     case 0:
                         skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
-                        skillChangeResponse.triggerSkill = primarySkillDefs[0];
+                        skillChangeResponse.triggerSkill = primarySkillChangeDefs[0];
                         break;
                     case 1:
                         skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
-                        skillChangeResponse.triggerSkill = primarySkillDefs[1];
+                        skillChangeResponse.triggerSkill = primarySkillChangeDefs[1];
                         break;
                     case 2:
                         skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
-                        skillChangeResponse.triggerSkill = primarySkillDefs[2];
+                        skillChangeResponse.triggerSkill = primarySkillChangeDefs[2];
                         break;
                     case 3:
                         if (cursed.Value) {
                             skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
-                            skillChangeResponse.triggerSkill = primarySkillDefs[3];
+                            skillChangeResponse.triggerSkill = primarySkillChangeDefs[3];
                         }
                         break;
                     case 4:
                         skillChangeResponse.triggerSkillFamily = skillLocator.special.skillFamily;
-                        skillChangeResponse.triggerSkill = specialSkillDefs[0];
+                        skillChangeResponse.triggerSkill = specialSkillChangeDefs[0];
                         break;
                     case 5:
                         if (cursed.Value) {
                             skillChangeResponse.triggerSkillFamily = skillLocator.special.skillFamily;
-                            skillChangeResponse.triggerSkill = specialSkillDefs[1];
+                            skillChangeResponse.triggerSkill = specialSkillChangeDefs[1];
                         }
                         break;
                     case 6:
                         if (cursed.Value) {
                             skillChangeResponse.triggerSkillFamily = skillLocator.special.skillFamily;
-                            skillChangeResponse.triggerSkill = specialSkillDefs[2];
+                            skillChangeResponse.triggerSkill = specialSkillChangeDefs[2];
                         }
                         break;
                 }

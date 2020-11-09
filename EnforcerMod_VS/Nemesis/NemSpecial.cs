@@ -26,7 +26,7 @@ namespace EntityStates.Nemforcer
             {
                 this.duration = MinigunToggle.exitDuration / this.attackSpeedStat;
 
-                base.PlayAnimation("FullBody, Override", "ShieldDown", "ShieldUp.playbackRate", this.duration);
+                base.PlayAnimation("FullBody, Override", "MinigunDown", "ShieldUp.playbackRate", this.duration);
 
                 if (base.skillLocator)
                 {
@@ -53,7 +53,7 @@ namespace EntityStates.Nemforcer
                 this.duration = MinigunToggle.enterDuration / this.attackSpeedStat;
 
                 base.PlayAnimation("RightArm, Override", "BufferEmpty");
-                base.PlayAnimation("FullBody, Override", "ShieldUp", "ShieldUp.playbackRate", this.duration);
+                base.PlayAnimation("FullBody, Override", "MinigunUp", "ShieldUp.playbackRate", this.duration);
 
                 if (base.skillLocator)
                 {

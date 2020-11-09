@@ -33,17 +33,17 @@ namespace EntityStates.Enforcer
         public override void OnEnter()
         {
             base.OnEnter();
-            this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
             this.childLocator = base.GetModelChildLocator();
             this.animator = base.GetModelAnimator();
-
-            this.shieldComponent.origOrigin = base.characterBody.aimOriginTransform;
 
             if (base.characterBody.skillLocator.special.skillNameToken == "NEMFORCER_SPECIAL_MINIGUNUP_NAME") this.isNemesis = true;
             else this.isNemesis = false;
 
-            if (!this.isNemesis)
-            {
+            if (!this.isNemesis) {
+
+                this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
+                this.shieldComponent.origOrigin = base.characterBody.aimOriginTransform;
+
                 EntityStateMachine drOctagonapus = characterBody.gameObject.AddComponent<EntityStateMachine>();
                 drOctagonapus.customName = "EnforcerParry";
 
@@ -68,7 +68,6 @@ namespace EntityStates.Enforcer
                 }
 
                 //skamtebord
-
                 if (base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_BOARDUP_NAME" || base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_BOARDDOWN_NAME")
                 {
                     if (this.childLocator.FindChild("Shield")) this.childLocator.FindChild("Shield").gameObject.SetActive(false);
@@ -86,17 +85,6 @@ namespace EntityStates.Enforcer
             base.Update();
 
             bool shieldIsUp = (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff));
-
-            /*if (Input.GetKeyDown(KeyCode.G)) {
-                RiotShotgun.spreadSpread = !RiotShotgun.spreadSpread;
-                Chat.AddMessage($"Spreading: {RiotShotgun.spreadSpread}");
-            }*/
-
-            //for ror1 shotgun sounds
-            /*if (Input.GetKeyDown(KeyCode.X))
-            {
-                this.ToggleShotgun();
-            }*/
 
             //default dance
             if (base.isAuthority && base.characterMotor.isGrounded && !shieldIsUp)
@@ -137,11 +125,12 @@ namespace EntityStates.Enforcer
 
             if (shieldIsUp)
             {
+                float nem = isNemesis ? -1 : -1;
                 CameraTargetParams ctp = base.cameraTargetParams;
                 float denom = (1 + Time.fixedTime - this.initialTime);
                 float smoothFactor = 8 / Mathf.Pow(denom, 2);
                 Vector3 smoothVector = new Vector3(-3 /20, 1 / 16, -1);
-                ctp.idealLocalCameraPos = new Vector3(1.8f, -0.5f, -6f) + smoothFactor * smoothVector;
+                ctp.idealLocalCameraPos = new Vector3(1.8f * nem, -0.5f, -6f) + smoothFactor * smoothVector;
             }
         }
 

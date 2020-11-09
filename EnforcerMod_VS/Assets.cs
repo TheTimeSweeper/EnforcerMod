@@ -9,8 +9,11 @@ namespace EnforcerPlugin {
     public static class Assets
     {
         public static AssetBundle MainAssetBundle = null;
+        public static AssetBundle NemAssetBundle = null;
 
         public static Texture charPortrait;
+
+        public static Texture nemCharPortrait;
 
         public static Sprite iconP;
         public static Sprite icon1;//shotgun
@@ -68,6 +71,14 @@ namespace EnforcerPlugin {
                 }
             }
 
+            if (NemAssetBundle == null) {
+                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.nemforcer")) {
+                    NemAssetBundle = AssetBundle.LoadFromStream(assetStream);
+                    var provider = new AssetBundleResourcesProvider("@Nemforcer", NemAssetBundle);
+                    ResourcesAPI.AddProvider(provider);
+                }
+            }
+
             //fuck whoever wrote this code and fuck you
             // comment out the soundbank shit and then wonder why sounds aren't working you're literally fucking retarded holy hell
             using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.EnforcerBank.bnk"))
@@ -78,6 +89,7 @@ namespace EnforcerPlugin {
             }
 
             charPortrait = MainAssetBundle.LoadAsset<Sprite>("texEnforcerIconOld").texture;
+            nemCharPortrait = NemAssetBundle.LoadAsset<Sprite>("nemIconBlu").texture;
 
             if (EnforcerPlugin.classicIcons.Value)
             {

@@ -7,7 +7,7 @@ namespace EntityStates.Nemforcer
 {
     public class NemMinigunFire : NemMinigunState
     {
-        public static float baseDamageCoefficient = 0.3f;
+        public static float baseDamageCoefficient = 0.69f;
         public static float baseForce = 0.5f;
         public static float baseProcCoefficient = 0.5f;
         public static float recoilAmplitude = 2f;
@@ -109,7 +109,7 @@ namespace EntityStates.Nemforcer
                 maxSpread = MinigunFire.bulletMaxSpread * 1.5f,
                 isCrit = isCrit,
                 owner = base.gameObject,
-                muzzleName = MinigunState.muzzleName,
+                muzzleName = NemMinigunState.muzzleName,
                 smartCollision = false,
                 procChainMask = default(ProcChainMask),
                 procCoefficient = procCoefficient,
@@ -135,6 +135,15 @@ namespace EntityStates.Nemforcer
 
             this.fireTimer -= Time.fixedDeltaTime;
 
+            float rateLerp = Mathf.InverseLerp(minFireRate, maxFireRate, currentFireRate);
+            float rate = Mathf.Lerp(0.5f, 2, rateLerp);
+            animator.SetFloat("Minigun.spinSpeed", rate);
+
+            if (base.characterMotor) {
+                //animator.speed = 0;
+                base.characterMotor.moveDirection /= 2;
+            }
+
             if (this.fireTimer <= 0f)
             {
                 this.attackSpeedStat = this.characterBody.attackSpeed;
@@ -158,17 +167,23 @@ namespace EntityStates.Nemforcer
     public class NemMinigunSpinDown : NemMinigunState
     {
         private float duration;
+        private float spin;
         public override void OnEnter()
         {
             base.OnEnter();
 
             this.duration = (MinigunSpinDown.baseDuration * 0.25f) / this.attackSpeedStat;
             Util.PlayScaledSound(MinigunSpinDown.sound, base.gameObject, this.attackSpeedStat);
+
+            spin = animator.GetFloat("Minigun.spinSpeed");
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+
+            float spinlerp = Mathf.Lerp(spin, 0, fixedAge / duration);
+            animator.SetFloat("Minigun.spinSpeed", spinlerp);
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
@@ -191,6 +206,9 @@ namespace EntityStates.Nemforcer
             this.duration = MinigunSpinUp.baseDuration / this.attackSpeedStat;
             Util.PlaySound(MinigunSpinUp.sound, base.gameObject);
 
+
+            base.PlayAnimation("FullBody, Override", "MinigunUp", "ShieldUp.playbackRate", this.duration);
+
             if (this.muzzleTransform && MinigunSpinUp.chargeEffectPrefab)
             {
                 this.chargeInstance = UnityEngine.Object.Instantiate<GameObject>(MinigunSpinUp.chargeEffectPrefab, this.muzzleTransform.position, this.muzzleTransform.rotation);
@@ -206,6 +224,10 @@ namespace EntityStates.Nemforcer
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+
+            float spinlerp = Mathf.Lerp(0, 0.5f, fixedAge / duration);
+            animator.SetFloat("Minigun.spinSpeed", spinlerp);
+
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
                 this.outer.SetNextState(new NemMinigunFire());
@@ -226,11 +248,14 @@ namespace EntityStates.Nemforcer
     public class NemMinigunState : BaseState
     {
         protected Transform muzzleTransform;
+        protected static string muzzleName = "MinigunMuzzle";
+        protected Animator animator;
 
         public override void OnEnter()
         {
             base.OnEnter();
-            this.muzzleTransform = base.FindModelChild("HandR");
+            this.muzzleTransform = base.FindModelChild("MinigunMuzzle");
+            animator = base.GetModelAnimator();
         }
 
         public override void FixedUpdate()
