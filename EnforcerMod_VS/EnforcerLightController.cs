@@ -41,32 +41,32 @@ class EnforcerLightController : MonoBehaviour
         {
             Color lightColor = Color.red;
 
-            switch (charBody.skinIndex)
+            if (EnforcerPlugin.EnforcerPlugin.cursed.Value)
             {
-                case 0:
-                    lightColor = Color.red;
-                    break;
-                case 1:
-                    lightColor = Color.red;
-                    break;
-                case 2:
-                    lightColor = Color.red;
-                    break;
-                case 3:
-                    lightColor = Color.green;
-                    break;
-                case 4:
-                    lightColor = Color.white;
-                    break;
-                case 5:
-                    lightColor = Color.red;
-                    break;
-                case 6:
-                    lightColor = Color.black;
-                    break;
-                case 7:
-                    lightColor = Color.red;
-                    break;
+                switch (charBody.skinIndex)
+                {
+                    case 3:
+                        lightColor = Color.green;
+                        break;
+                    case 4:
+                        lightColor = Color.white;
+                        break;
+                    case 6:
+                        lightColor = Color.yellow;
+                        break;
+                    case 7:
+                        lightColor = Color.black;
+                        break;
+                }
+            }
+            else
+            {
+                switch (charBody.skinIndex)
+                {
+                    case 4:
+                        lightColor = Color.yellow;
+                        break;
+                }
             }
 
             foreach (Light i in this.lights)
@@ -151,9 +151,9 @@ class EnforcerLightController : MonoBehaviour
         if (this.sirenToggle)
         {
             string sound = EnforcerPlugin.Sounds.SirenButton;
-            if (this.characterBody)
+            if (this.characterBody && EnforcerPlugin.EnforcerPlugin.cursed.Value)
             {
-                if (this.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.frogIndex) sound = EnforcerPlugin.Sounds.Croak;
+                if (this.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.frogIndex ) sound = EnforcerPlugin.Sounds.Croak;
             }
             this.playID = Util.PlaySound(sound, base.gameObject);
             this.flashStopwatch = 0;

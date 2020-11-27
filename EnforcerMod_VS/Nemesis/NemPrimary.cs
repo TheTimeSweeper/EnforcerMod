@@ -1,68 +1,103 @@
 ﻿using EntityStates.Enforcer;
 using RoR2;
 using RoR2.Skills;
+using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace EntityStates.Nemforcer {
-
-    public class HammerSwing : BaseSkillState {
-        //this is just shield bash code for now, change it to an overlap attack eventually
-        // the hitbox for it is already set up im just lazy rn
+namespace EntityStates.Nemforcer
+{
+    public class HammerSwing : BaseSkillState
+    {
         public static string hitboxString = "HammerHitbox";
         public static float baseDuration = 1.2f;
-        public static float damageCoefficient = 3.5f;
+        public static float damageCoefficient = 4f;
         public static float procCoefficient = 1f;
-        public static float blastRadius = 6f;
-        public static float deflectRadius = 3f;
-        public static float recoilAmplitude = 1f;
-        public static float parryInterval = 0.12f;
+        public static float attackRecoil = 1.5f;
+        public static float hitHopVelocity = 5.5f;
         public static string mecanimRotateParameter = "baseRotate";
-
         public int currentSwing;
-
-        private float fireBlastTime = 0.45f;
         private float earlyExitTime = 0.95f;
 
         private float duration;
-        private float fireDuration;
         private float earlyExitDuration;
         private Ray aimRay;
-        private BlastAttack blastAttack;
         private ChildLocator childLocator;
         private bool hasFired;
+        private float hitPauseTimer;
+        private OverlapAttack attack;
+        private bool inHitPause;
+        private bool hasHopped;
+        private float stopwatch;
         private Animator animator;
-        private Transform hitboxPivot;
+        private BaseState.HitStopCachedState hitStopCachedState;
         private Transform modelBaseTransform;
 
-        public override void OnEnter() {
+        public override void OnEnter()
+        {
             base.OnEnter();
-
             this.duration = baseDuration / this.attackSpeedStat;
-            this.fireDuration = this.duration * fireBlastTime;
             this.earlyExitDuration = this.duration * earlyExitTime;
             this.hasFired = false;
+            base.characterBody.isSprinting = false;
 
             this.childLocator = base.GetModelChildLocator();
             this.modelBaseTransform = base.GetModelBaseTransform();
             this.animator = base.GetModelAnimator();
-
-            this.hitboxPivot = childLocator.FindChild("HammerHitboxPivot");
-
             bool grounded = base.characterMotor.isGrounded;
 
             aimRay = base.GetAimRay();
 
             string swingAnimState = currentSwing % 2 == 0 ? "HammerSwing" : "HammerSwing2";
 
+            HitBoxGroup hitBoxGroup = Array.Find<HitBoxGroup>(base.GetModelTransform().GetComponents<HitBoxGroup>(), (HitBoxGroup element) => element.groupName == "Hammer");
+
             base.PlayAnimation("Gesture, Override", swingAnimState, "HammerSwing.playbackRate", this.duration);
             //base.PlayAnimation("Legs, Override", "SwingLegs", "HammerSwing.playbackRate", this.duration);
 
-            Util.PlayScaledSound(EnforcerPlugin.Sounds.ShieldBash, base.gameObject, 0.5f + this.attackSpeedStat);
+            float dmg = HammerSwing.damageCoefficient;
+
+            this.attack = new OverlapAttack();
+            this.attack.damageType = DamageType.Generic;
+            this.attack.attacker = base.gameObject;
+            this.attack.inflictor = base.gameObject;
+            this.attack.teamIndex = base.GetTeam();
+            this.attack.damage = dmg * this.damageStat;
+            this.attack.procCoefficient = 1;
+            this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemImpactFX;
+            this.attack.forceVector = Vector3.zero;
+            this.attack.pushAwayForce = 800f;
+            this.attack.hitBoxGroup = hitBoxGroup;
+            this.attack.isCrit = base.RollCrit();
         }
 
-        public override void FixedUpdate() {
+        public override void FixedUpdate()
+        {
             base.FixedUpdate();
+
+            this.hitPauseTimer -= Time.fixedDeltaTime;
+
+            if (this.hitPauseTimer <= 0f && this.inHitPause)
+            {
+                base.ConsumeHitStopCachedState(this.hitStopCachedState, base.characterMotor, this.animator);
+                this.inHitPause = false;
+            }
+
+            if (!this.inHitPause)
+            {
+                this.stopwatch += Time.fixedDeltaTime;
+            }
+            else
+            {
+                if (base.characterMotor) base.characterMotor.velocity = Vector3.zero;
+                if (this.animator) this.animator.SetFloat("HammerSwing.playbackRate", 0f);
+            }
+
+            if (this.stopwatch >= this.duration * 0.45f && this.stopwatch <= this.duration * 0.75f)
+            {
+                this.FireAttack();
+            }
+
 
             Vector3 aimDirection = base.GetAimRay().direction;
             aimDirection.y = 0;
@@ -77,78 +112,91 @@ namespace EntityStates.Nemforcer {
 
             pseudoAimMode(aimRayTurned);
 
-            if (base.fixedAge >= this.fireDuration) {
-                this.FireBlast();
-            }
-
-            if (base.fixedAge >= this.earlyExitDuration && base.inputBank.skill1.down) {
+            if (base.fixedAge >= this.earlyExitDuration && base.inputBank.skill1.down && currentSwing != 1)
+            {
                 var nextSwing = new HammerSwing();
                 nextSwing.currentSwing = currentSwing + 1;
                 this.outer.SetNextState(nextSwing);
                 return;
             }
 
-            if (base.fixedAge >= this.duration && base.isAuthority) {
-
-
+            if (base.fixedAge >= this.duration && base.isAuthority)
+            {
                 base.StartAimMode(2f, false);
                 this.outer.SetNextStateToMain();
                 return;
             }
         }
 
-        public override void OnExit() {
-            base.OnExit();
-        }
-
-        private void FireBlast() {
-            if (!this.hasFired) {
+        public void FireAttack()
+        {
+            if (!this.hasFired)
+            {
                 this.hasFired = true;
 
-                //EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.shieldBashFX, base.gameObject, hitboxString, true);
+                Util.PlayScaledSound(Merc.GroundLight.comboAttackSoundString, base.gameObject, 0.5f + (this.attackSpeedStat - 1));
 
-                if (base.isAuthority) {
-                    base.AddRecoil(-0.5f * recoilAmplitude * 3f, -0.5f * recoilAmplitude * 3f, -0.5f * recoilAmplitude * 8f, 0.5f * recoilAmplitude * 3f);
+                base.AddRecoil(-1f * HammerSwing.attackRecoil, -2f * HammerSwing.attackRecoil, -0.5f * HammerSwing.attackRecoil, 0.5f * HammerSwing.attackRecoil);
 
-                    Vector3 center = childLocator.FindChild(hitboxString).position;
+                string muzzleString = "SwingCenter";
+                EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemSwingFX, base.gameObject, muzzleString, true);
+            }
 
-                    blastAttack = new BlastAttack();
-                    blastAttack.radius = blastRadius;
-                    blastAttack.procCoefficient = procCoefficient;
-                    blastAttack.position = center;
-                    blastAttack.attacker = base.gameObject;
-                    blastAttack.crit = Util.CheckRoll(base.characterBody.crit, base.characterBody.master);
-                    blastAttack.baseDamage = base.characterBody.damage * damageCoefficient;
-                    blastAttack.falloffModel = BlastAttack.FalloffModel.None;
-                    blastAttack.baseForce = 0f;
-                    blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
-                    blastAttack.damageType = DamageType.Generic;
-                    blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
-                    blastAttack.impactEffect = BeetleGuardMonster.GroundSlam.hitEffectPrefab.GetComponent<EffectComponent>().effectIndex;
+            if (base.isAuthority)
+            {
+                Ray aimRay = base.GetAimRay();
 
-                    blastAttack.Fire();
+                if (this.attack.Fire())
+                {
+                    Util.PlayScaledSound(Toolbot.ToolbotDash.impactSoundString, base.gameObject, 0.85f);
+
+                    if (!this.hasHopped)
+                    {
+                        if (base.characterMotor && !base.characterMotor.isGrounded)
+                        {
+                            base.SmallHop(base.characterMotor, HammerSwing.hitHopVelocity);
+                        }
+
+                        this.hasHopped = true;
+                    }
+
+                    if (!this.inHitPause)
+                    {
+                        this.hitStopCachedState = base.CreateHitStopCachedState(base.characterMotor, this.animator, "HammerSwing.playbackRate");
+                        this.hitPauseTimer = (2f * EntityStates.Merc.GroundLight.hitPauseDuration) / this.attackSpeedStat;
+                        this.inHitPause = true;
+                    }
                 }
             }
         }
 
-        //copied and pasted only what we need from SetAimMode cause using the whole thing is a little fucky
-        private void pseudoAimMode(Ray ray) {
+        public override void OnExit()
+        {
+            if (!this.hasFired) this.FireAttack();
 
+            base.OnExit();
+        }
+
+        //copied and pasted only what we need from SetAimMode cause using the whole thing is a little fucky
+        private void pseudoAimMode(Ray ray)
+        {
             base.characterDirection.forward = ray.direction;
             base.characterDirection.moveVector = ray.direction;
 
-            if (base.modelLocator) {
-
+            if (base.modelLocator)
+            {
                 Transform modelTransform = base.modelLocator.modelTransform;
-                if (modelTransform) {
+                if (modelTransform)
+                {
                     AimAnimator component = modelTransform.GetComponent<AimAnimator>();
                     component.AimImmediate();
                 }
             }
         }
 
-        public override InterruptPriority GetMinimumInterruptPriority() {
-            return InterruptPriority.PrioritySkill;
+        public override InterruptPriority GetMinimumInterruptPriority()
+        {
+            return InterruptPriority.Skill;
         }
 
         //steppedskill didn't work so I'm just doing it the old way that merc's combo did it.

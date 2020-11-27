@@ -35,7 +35,6 @@ namespace EntityStates.Enforcer
         private ShieldComponent shieldComponent;
 
         private Transform _origOrigin;
-        private bool _isParrying;
         private int _parries = 0;
 
         private List<CharacterBody> victimList = new List<CharacterBody>();
@@ -70,7 +69,6 @@ namespace EntityStates.Enforcer
             _origOrigin = characterBody.aimOriginTransform;
 
             this.shieldComponent.onLaserHit += EnforcerMain_onLaserHit;
-            _isParrying = true;
 
             bool grounded = base.characterMotor.isGrounded;
 
@@ -143,8 +141,15 @@ namespace EntityStates.Enforcer
                                     var rb = charb.GetComponent<Rigidbody>();
                                     Vector3 force = pushForce;
 
-                                    if (motor) force *= motor.mass;
-                                    else if (rb) force *= rb.mass;
+                                    float mass = 0f;
+
+                                    if (motor) mass = motor.mass;
+                                    else if (rb) mass = rb.mass;
+
+                                    if (mass <= 100f) mass = 100f;
+                                    if (EnforcerPlugin.EnforcerPlugin.balancedShieldBash.Value && mass > 500f) mass = 500f; 
+
+                                    force *= mass;
 
                                     DamageInfo info = new DamageInfo
                                     {
@@ -260,6 +265,7 @@ namespace EntityStates.Enforcer
                             if (EnforcerPlugin.EnforcerPlugin.sirenOnDeflect.Value) Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
 
                             base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
+                            base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(4);
                         }
                     }
                 }
@@ -276,26 +282,28 @@ namespace EntityStates.Enforcer
 
             Util.PlayScaledSound(EnforcerPlugin.Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
 
-            for (int i = 0; i < _parries; i++) {
+            for (int i = 0; i < _parries; i++)
+            {
 
                 this.shieldComponent.drOctagonapus.StartCoroutine(ShootParriedLaser(i * parryInterval));
             }
 
             _parries = 0;
 
-            if (!this.hasDeflected) {
+            if (!this.hasDeflected)
+            {
                 this.hasDeflected = true;
 
                 if (EnforcerPlugin.EnforcerPlugin.sirenOnDeflect.Value) 
                     Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
 
                 base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
+                base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(4);
             }
-
-            _isParrying = false;
         }
 
-        private IEnumerator ShootParriedLaser(float delay) {
+        private IEnumerator ShootParriedLaser(float delay)
+        {
 
             yield return new WaitForSeconds(delay);
 
@@ -307,7 +315,8 @@ namespace EntityStates.Enforcer
             this.shieldComponent.drOctagonapus.SetInterruptState(fireLaser, InterruptPriority.Skill);
         }
 
-        private void EnforcerMain_onLaserHit() {
+        private void EnforcerMain_onLaserHit()
+        {
             _parries++;
         }
 
@@ -347,6 +356,7 @@ namespace EntityStates.Enforcer
             this.shieldCancel = false;
 
             base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
+            base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(3);
             base.characterBody.isSprinting = true;
 
             Util.PlayScaledSound(Croco.Leap.leapSoundString, base.gameObject, 1.75f);

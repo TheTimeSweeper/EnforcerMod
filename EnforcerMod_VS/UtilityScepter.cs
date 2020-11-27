@@ -20,7 +20,7 @@ namespace EntityStates.Enforcer
             endpointVisualizerPrefab = goodState.endpointVisualizerPrefab;
             endpointVisualizerRadiusScale = 4f;
             setFuse = false;
-            damageCoefficient = 0.25f;
+            damageCoefficient = 0.5f;
             baseMinimumDuration = 0.1f;
             projectileBaseSpeed = 80;
 

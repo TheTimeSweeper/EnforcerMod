@@ -34,25 +34,50 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, kill 50 imps in a single stage. <color=#c11>Host only</color>");
             LanguageAPI.Add("ENFORCER_DOOMUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Rip and Tear");
 
-            LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Enforcing Perfection");
-            LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, become one with the Bungus.");
-            LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Enforcing Perfection");
-
-            LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Long Live the Empire");
-            LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, defeat an elite Solus Control Unit. <color=#c11>Host only</color>");
-            LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Long Live the Empire");
-
             LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Rules of Nature");
             LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, Defeat the unique guardian of Gilded Coast by pushing it off the edge of the map. <color=#c11>Host only</color>");
             LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Rules of Nature");
 
-            LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Through Thick and Thin");
-            LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, make a friend on the moon.");
-            LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Through Thick and Thin");
+            if (EnforcerPlugin.cursed.Value)
+            {
+                LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Enforcing Perfection");
+                LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, become one with the Bungus.");
+                LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Enforcing Perfection");
 
-            LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Blocked");
-            LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, block an attack with your shield.");
-            LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Blocked");
+                LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Long Live the Empire");
+                LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, defeat an elite Solus Control Unit. <color=#c11>Host only</color>");
+                LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Long Live the Empire");
+
+                LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Through Thick and Thin");
+                LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, make a friend on the moon.");
+                LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Through Thick and Thin");
+
+                LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Blocked");
+                LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, block an attack with your shield.");
+                LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Blocked");
+
+                UnlockablesAPI.AddUnlockable<Achievements.BungusAchievement>(true);
+                UnlockablesAPI.AddUnlockable<Achievements.StormtrooperAchievement>(true);
+                UnlockablesAPI.AddUnlockable<Achievements.FrogAchievement>(true);
+                UnlockablesAPI.AddUnlockable<Achievements.SteveAchievement>(true);
+            }
+
+            if (EnforcerPlugin.pig.Value)
+            {
+                LanguageAPI.Add("ENFORCER_PIGUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Achievement Name");
+                LanguageAPI.Add("ENFORCER_PIGUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, kill an enemy Enforcer. <color=#c11>Host only</color>");
+                LanguageAPI.Add("ENFORCER_PIGUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Achievement Name");
+
+                UnlockablesAPI.AddUnlockable<Achievements.PigAchievement>(true);
+            }
+
+            LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Clearance");
+            LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, stabilize the Cell in the Void Fields.");
+            LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Clearance");
+
+            LanguageAPI.Add("ENFORCER_NEMESISUNLOCKABLE_ACHIEVEMENT_NAME", "???");
+            LanguageAPI.Add("ENFORCER_NEMESISUNLOCKABLE_ACHIEVEMENT_DESC", "Defeat Enforcer's Vestige.");
+            LanguageAPI.Add("ENFORCER_NEMESISUNLOCKABLE_UNLOCKABLE_NAME", "???");
 
             ///this is the version that works with the altered AddUnlockable I changed in R2API.
             ///look at #r2api in the discord to see what I mean. I went into more detail in #development as well
@@ -65,11 +90,9 @@ namespace EnforcerPlugin
             UnlockablesAPI.AddUnlockable<Achievements.StunGrenadeAchievement>(true);
             UnlockablesAPI.AddUnlockable<Achievements.MasteryAchievement>(true);
             UnlockablesAPI.AddUnlockable<Achievements.DoomAchievement>(true);
-            UnlockablesAPI.AddUnlockable<Achievements.BungusAchievement>(true);
-            UnlockablesAPI.AddUnlockable<Achievements.StormtrooperAchievement>(true);
             UnlockablesAPI.AddUnlockable<Achievements.DesperadoAchievement>(true);
-            UnlockablesAPI.AddUnlockable<Achievements.FrogAchievement>(true);
-            UnlockablesAPI.AddUnlockable<Achievements.SteveAchievement>(true);
+            UnlockablesAPI.AddUnlockable<Achievements.NemesisSkinAchievement>(true);
+            UnlockablesAPI.AddUnlockable<Achievements.NemesisAchievement>(true);
         }
     }
 }
@@ -86,7 +109,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texEnforcerUnlockAchievement.png");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texEnforcerUnlockAchievement.png");
 
         public bool magmaWormKilled;
         public bool wanderingVagrantKilled;
@@ -249,7 +272,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_MONSOONUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_MONSOONUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_MONSOONUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texEnforcerAchievement.png");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texEnforcerAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
         {
@@ -300,7 +323,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_BUNGUSUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texBungusAchievement.png");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texBungusAchievement.png");
 
         public static float bungusTime = 240f;
 
@@ -337,7 +360,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_DESPERADOUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texDesperadoAchievement.png");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texDesperadoAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
         {
@@ -385,7 +408,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_STORMTROOPERUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texStormtrooperAchievement.png");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texStormtrooperAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
         {
@@ -432,7 +455,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_DOOMUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texDoomAchievement.png");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texDoomAchievement.png");
 
         public static int impCount = 50;
 
@@ -469,7 +492,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_FROGUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texZeroSuitAchievement.png");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texZeroSuitAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
         {
@@ -504,7 +527,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_STEVEUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texSbeveAchievement.png");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texSbeveAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
         {
@@ -531,6 +554,53 @@ namespace EnforcerPlugin.Achievements
         }
     }
 
+    public class PigAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
+    {
+        public override String AchievementIdentifier { get; } = "ENFORCER_PIGUNLOCKABLE_ACHIEVEMENT_ID";
+        public override String UnlockableIdentifier { get; } = "ENFORCER_PIGUNLOCKABLE_REWARD_ID";
+        public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_PIGUNLOCKABLE_PREREQ_ID";
+        public override String AchievementNameToken { get; } = "ENFORCER_PIGUNLOCKABLE_ACHIEVEMENT_NAME";
+        public override String AchievementDescToken { get; } = "ENFORCER_PIGUNLOCKABLE_ACHIEVEMENT_DESC";
+        public override String UnlockableNameToken { get; } = "ENFORCER_PIGUNLOCKABLE_UNLOCKABLE_NAME";
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texPigAchievement.png");
+
+        public override int LookUpRequiredBodyIndex()
+        {
+            return BodyCatalog.FindBodyIndex("EnforcerBody");
+        }
+
+        private void CheckDeath(DamageReport report)
+        {
+            if (report is null) return;
+            if (report.victimBody is null) return;
+            if (report.attackerBody is null) return;
+
+            if (report.victimTeamIndex != TeamIndex.Player)
+            {
+                if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("EnforcerBody")) base.Grant();
+            }
+        }
+
+        private void Check(bool cum)
+        {
+            if (cum && base.meetsBodyRequirement) base.Grant();
+        }
+
+        public override void OnInstall()
+        {
+            base.OnInstall();
+
+            GlobalEventManager.onCharacterDeathGlobal += CheckDeath;
+        }
+
+        public override void OnUninstall()
+        {
+            base.OnUninstall();
+
+            GlobalEventManager.onCharacterDeathGlobal -= CheckDeath;
+        }
+    }
+
     public class SuperShotgunAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
     {
         public override String AchievementIdentifier { get; } = "ENFORCER_SHOTGUNUNLOCKABLE_ACHIEVEMENT_ID";
@@ -539,7 +609,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_SHOTGUNUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_SHOTGUNUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_SHOTGUNUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texSuperShotgunAchievement.png");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texSuperShotgunAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
         {
@@ -574,7 +644,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_RIFLEUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texAssaultRifleAchievement.png");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texAssaultRifleAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
         {
@@ -612,7 +682,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_STUNGRENADEUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/texStunGrenadeAchievement.png");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texStunGrenadeAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
         {
@@ -636,6 +706,82 @@ namespace EnforcerPlugin.Achievements
             base.OnUninstall();
 
             TearGasComponent.GasCheck -= Check;
+        }
+    }
+
+    public class NemesisSkinAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
+    {
+        public override String AchievementIdentifier { get; } = "ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_ID";
+        public override String UnlockableIdentifier { get; } = "ENFORCER_NEMESISSKINUNLOCKABLE_REWARD_ID";
+        public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_NEMESISSKINUNLOCKABLE_PREREQ_ID";
+        public override String AchievementNameToken { get; } = "ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_NAME";
+        public override String AchievementDescToken { get; } = "ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_DESC";
+        public override String UnlockableNameToken { get; } = "ENFORCER_NEMESISSKINUNLOCKABLE_UNLOCKABLE_NAME";
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texNemforcerAchievement.png");
+
+        public override int LookUpRequiredBodyIndex()
+        {
+            return BodyCatalog.FindBodyIndex("EnforcerBody");
+        }
+
+        private void Check()
+        {
+            if (base.meetsBodyRequirement) base.Grant();
+        }
+
+        public override void OnInstall()
+        {
+            base.OnInstall();
+
+            ArenaMissionController.onBeatArena += Check;
+        }
+
+        public override void OnUninstall()
+        {
+            base.OnUninstall();
+
+            ArenaMissionController.onBeatArena -= Check;
+        }
+    }
+
+    public class NemesisAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
+    {
+        public override String AchievementIdentifier { get; } = "ENFORCER_NEMESISUNLOCKABLE_ACHIEVEMENT_ID";
+        public override String UnlockableIdentifier { get; } = "ENFORCER_NEMESISUNLOCKABLE_REWARD_ID";
+        public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_NEMESISUNLOCKABLE_PREREQ_ID";
+        public override String AchievementNameToken { get; } = "ENFORCER_NEMESISUNLOCKABLE_ACHIEVEMENT_NAME";
+        public override String AchievementDescToken { get; } = "ENFORCER_NEMESISUNLOCKABLE_ACHIEVEMENT_DESC";
+        public override String UnlockableNameToken { get; } = "ENFORCER_NEMESISUNLOCKABLE_UNLOCKABLE_NAME";
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/Nemesis/nemIconBlu.png");
+
+        public override int LookUpRequiredBodyIndex()
+        {
+            return BodyCatalog.FindBodyIndex("EnforcerBody");
+        }
+
+        private void CheckDeath(DamageReport report)
+        {
+            if (!report.victimBody) return;
+            if (report.damageInfo is null) return;
+
+            if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody") && !(report.victimTeamIndex == TeamIndex.Player))
+            {
+                if (base.meetsBodyRequirement) base.Grant();
+            }
+        }
+
+        public override void OnInstall()
+        {
+            base.OnInstall();
+
+            GlobalEventManager.onCharacterDeathGlobal += CheckDeath;
+        }
+
+        public override void OnUninstall()
+        {
+            base.OnUninstall();
+
+            GlobalEventManager.onCharacterDeathGlobal -= CheckDeath;
         }
     }
 }

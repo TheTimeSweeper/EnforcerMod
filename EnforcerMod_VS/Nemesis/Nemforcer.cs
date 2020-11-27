@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using BepInEx;
 using EntityStates;
@@ -12,8 +11,10 @@ using UnityEngine.Networking;
 using KinematicCharacterController;
 using EntityStates.Nemforcer;
 using EntityStates.Enforcer;
+using RoR2.Projectile;
 
-namespace EnforcerPlugin {
+namespace EnforcerPlugin
+{
     public class NemforcerPlugin
     {
         public const string characterName = "Nemesis Enforcer";
@@ -24,12 +25,19 @@ namespace EnforcerPlugin {
         public static GameObject characterPrefab;
         public static GameObject characterDisplay;
         public static GameObject doppelganger;
+        public static GameObject bossPrefab;
+        public static GameObject bossMaster;
+
+        public static GameObject nemGasGrenade;
+        public static GameObject nemGas;
 
         public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
         public static SkillDef minigunFireDef;//skilldef for actually firing the minigun
         public static SkillDef minigunDownDef;//skilldef used while gun is down
         public static SkillDef minigunUpDef;//skilldef used while gun is up
+
+        public const float passiveRegenBonus = 5f;
 
         public SkillLocator skillLocator;
 
@@ -40,7 +48,9 @@ namespace EnforcerPlugin {
             RegisterCharacter();
             //ItemDisplays.RegisterDisplays();
             NemforcerSkins.RegisterSkins();
-            CreateMaster();
+            RegisterProjectiles();
+            CreateDoppelganger();
+            CreateBossPrefab();
         }
 
         private static GameObject CreateModel(GameObject main, int index)
@@ -92,21 +102,14 @@ namespace EnforcerPlugin {
 
             ChildLocator childLocator = model.GetComponent<ChildLocator>();
 
-            SkinnedMeshRenderer charModel = null;
-
-            foreach(SkinnedMeshRenderer i in model.GetComponentsInChildren<SkinnedMeshRenderer>())
-            {
-                if (i.gameObject.name == "Nemforcer") charModel = i;
-            }
-
             CharacterModel characterModel = model.AddComponent<CharacterModel>();
             characterModel.body = null;
             characterModel.baseRendererInfos = new CharacterModel.RendererInfo[]
             {
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = charModel.material,
-                    renderer = charModel,
+                    defaultMaterial = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>().material,
+                    renderer = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
@@ -208,7 +211,7 @@ namespace EnforcerPlugin {
             bodyComponent.skinIndex = 0U;
 
             var stateMachine = bodyComponent.GetComponent<EntityStateMachine>();
-            stateMachine.mainStateType = new SerializableEntityStateType(typeof(EntityStates.Enforcer.EnforcerMain));
+            stateMachine.mainStateType = new SerializableEntityStateType(typeof(EntityStates.Nemforcer.NemforcerMain));
 
             CharacterMotor characterMotor = characterPrefab.GetComponent<CharacterMotor>();
             characterMotor.walkSpeedPenaltyCoefficient = 1f;
@@ -233,23 +236,21 @@ namespace EnforcerPlugin {
 
             ChildLocator childLocator = model.GetComponent<ChildLocator>();
 
-            SkinnedMeshRenderer charModel = childLocator.FindChild("NemforcerModel").GetComponent<SkinnedMeshRenderer>();
-
             CharacterModel characterModel = model.AddComponent<CharacterModel>();
             characterModel.body = bodyComponent;
             characterModel.baseRendererInfos = new CharacterModel.RendererInfo[]
             {
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = charModel.material,
-                    renderer = charModel,
+                    defaultMaterial = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>().material,
+                    renderer = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("HammerModel").GetComponent<SkinnedMeshRenderer>().material,
-                    renderer = childLocator.FindChild("HammerModel").GetComponent<SkinnedMeshRenderer>(),
+                    defaultMaterial = childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>().material,
+                    renderer = childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
@@ -284,7 +285,7 @@ namespace EnforcerPlugin {
             //characterDeathBehavior.deathState = new SerializableEntityStateType(typeof(GenericCharacterDeath));
 
             SfxLocator sfxLocator = characterPrefab.GetComponent<SfxLocator>();
-            sfxLocator.deathSound = Sounds.DeathSound;
+            //sfxLocator.deathSound = Sounds.DeathSound;
             sfxLocator.barkSound = "";
             sfxLocator.openSound = "";
             sfxLocator.landingSound = "Play_char_land";
@@ -353,14 +354,11 @@ namespace EnforcerPlugin {
             //make a hitbox for hammer
             HitBoxGroup hitBoxGroup = model.AddComponent<HitBoxGroup>();
 
-            GameObject chargeHitbox = new GameObject("HammerHitboxHitbox");
-            chargeHitbox.transform.parent = childLocator.FindChild("HammerHitbox");
-            chargeHitbox.transform.localPosition = new Vector3(0f, 0f, 0f);
-            chargeHitbox.transform.localRotation = Quaternion.identity;
-            chargeHitbox.transform.localScale = new Vector3(1f, 1f, 1f);
+            GameObject hammerHitbox = childLocator.FindChild("HammerHitbox").gameObject;
+            hammerHitbox.transform.localScale = Vector3.one * 0.175f;
 
-            HitBox hitBox = chargeHitbox.AddComponent<HitBox>();
-            chargeHitbox.layer = LayerIndex.projectile.intVal;
+            HitBox hitBox = hammerHitbox.AddComponent<HitBox>();
+            hammerHitbox.layer = LayerIndex.projectile.intVal;
 
             hitBoxGroup.hitBoxes = new HitBox[]
             {
@@ -368,6 +366,23 @@ namespace EnforcerPlugin {
             };
 
             hitBoxGroup.groupName = "Hammer";
+
+            //uppercut hitbox
+
+            HitBoxGroup hitBoxGroup2 = model.AddComponent<HitBoxGroup>();
+
+            GameObject uppercutHitbox = childLocator.FindChild("UppercutHitbox").gameObject;
+            uppercutHitbox.transform.localScale = Vector3.one * 10f;
+
+            HitBox hitBox2 = uppercutHitbox.AddComponent<HitBox>();
+            uppercutHitbox.layer = LayerIndex.projectile.intVal;
+
+            hitBoxGroup2.hitBoxes = new HitBox[]
+            {
+                hitBox2
+            };
+
+            hitBoxGroup2.groupName = "Uppercut";
 
             FootstepHandler footstepHandler = model.AddComponent<FootstepHandler>();
             footstepHandler.baseFootstepString = "Play_player_footstep";
@@ -424,7 +439,7 @@ namespace EnforcerPlugin {
 
             characterDisplay.AddComponent<NetworkIdentity>();
 
-            string unlockString = "";
+            string unlockString = "ENFORCER_NEMESISUNLOCKABLE_REWARD_ID";
 
             SurvivorDef survivorDef = new SurvivorDef
             {
@@ -449,6 +464,86 @@ namespace EnforcerPlugin {
             characterPrefab.tag = "Player";
         }
 
+        private void RegisterProjectiles()
+        {
+            nemGasGrenade = Resources.Load<GameObject>("Prefabs/Projectiles/CommandoGrenadeProjectile").InstantiateClone("NemGasGrenade", true);
+            nemGas = Resources.Load<GameObject>("Prefabs/Projectiles/SporeGrenadeProjectileDotZone").InstantiateClone("NemGasDotZone", true);
+
+            ProjectileController grenadeController = nemGasGrenade.GetComponent<ProjectileController>();
+            ProjectileController nemGasController = nemGas.GetComponent<ProjectileController>();
+            ProjectileDamage nemGrenadeDamage = nemGasGrenade.GetComponent<ProjectileDamage>();
+            ProjectileDamage nemGasDamage = nemGas.GetComponent<ProjectileDamage>();
+            ProjectileImpactExplosion grenadeImpact = nemGasGrenade.GetComponent<ProjectileImpactExplosion>();
+            ProjectileDotZone dotZone = nemGas.GetComponent<ProjectileDotZone>();
+
+            dotZone.damageCoefficient = 2f;
+            dotZone.fireFrequency = 4f;
+            dotZone.forceVector = Vector3.zero;
+            dotZone.impactEffect = null;
+            dotZone.lifetime = 18f;
+            dotZone.overlapProcCoefficient = 0.05f;
+            dotZone.transform.localScale *= 2.5f;
+
+            nemGasDamage.damageType = DamageType.BlightOnHit;
+
+            GameObject nemGrenadeModel = Assets.nemGasGrenadeModel.InstantiateClone("NemGasGrenadeGhost", true);
+            nemGrenadeModel.AddComponent<NetworkIdentity>();
+            nemGrenadeModel.AddComponent<ProjectileGhostController>();
+
+            grenadeController.ghostPrefab = nemGrenadeModel;
+            //tearGasController.ghostPrefab = Assets.tearGasEffectPrefab;
+
+            grenadeImpact.lifetimeExpiredSoundString = "";
+            grenadeImpact.explosionSoundString = Sounds.GasExplosion;
+            grenadeImpact.offsetForLifetimeExpiredSound = 1;
+            grenadeImpact.destroyOnEnemy = false;
+            grenadeImpact.destroyOnWorld = false;
+            grenadeImpact.timerAfterImpact = true;
+            grenadeImpact.falloffModel = BlastAttack.FalloffModel.SweetSpot;
+            grenadeImpact.lifetime = 18;
+            grenadeImpact.lifetimeAfterImpact = 0.5f;
+            grenadeImpact.lifetimeRandomOffset = 0;
+            grenadeImpact.blastRadius = 6;
+            grenadeImpact.blastDamageCoefficient = 1;
+            grenadeImpact.blastProcCoefficient = 1;
+            grenadeImpact.fireChildren = true;
+            grenadeImpact.childrenCount = 1;
+            grenadeImpact.childrenProjectilePrefab = nemGas;
+            grenadeImpact.childrenDamageCoefficient = 0.25f;
+            grenadeImpact.impactEffect = null;
+
+            grenadeController.startSound = "";
+            grenadeController.procCoefficient = 1;
+            nemGasController.procCoefficient = 0;
+
+            nemGrenadeDamage.crit = false;
+            nemGrenadeDamage.damage = 0f;
+            nemGrenadeDamage.damageColorIndex = DamageColorIndex.Default;
+            nemGrenadeDamage.damageType = DamageType.Stun1s;
+            nemGrenadeDamage.force = 0;
+
+            nemGasDamage.crit = false;
+            nemGasDamage.damage = 1f;
+            nemGasDamage.damageColorIndex = DamageColorIndex.WeakPoint;
+            nemGasDamage.damageType = DamageType.Generic;
+            nemGasDamage.force = -10;
+
+            EnforcerPlugin.Destroy(nemGas.transform.GetChild(0).gameObject);
+            GameObject gasFX = Assets.nemGasEffectPrefab.InstantiateClone("FX", true);
+            gasFX.AddComponent<NetworkIdentity>();
+            gasFX.AddComponent<TearGasComponent>();
+            gasFX.transform.parent = nemGas.transform;
+            gasFX.transform.localPosition = Vector3.zero;
+
+            nemGas.AddComponent<DestroyOnTimer>().duration = 18;
+
+            ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list)
+            {
+                list.Add(nemGasGrenade);
+                list.Add(nemGas);
+            };
+        }
+
         private void SkillSetup()
         {
             foreach (GenericSkill obj in characterPrefab.GetComponentsInChildren<GenericSkill>())
@@ -458,14 +553,26 @@ namespace EnforcerPlugin {
 
             skillLocator = characterPrefab.GetComponent<SkillLocator>();
 
-            //PassiveSetup();
+            PassiveSetup();
             PrimarySetup();
-            //SecondarySetup();
+            SecondarySetup();
             UtilitySetup();
             SpecialSetup();
         }
 
-        private void PrimarySetup() {
+        private void PassiveSetup()
+        {
+            LanguageAPI.Add("NEMFORCER_PASSIVE_NAME", "Colossus");
+            LanguageAPI.Add("NEMFORCER_PASSIVE_DESCRIPTION", $"Nemesis Enforcer gains up to <style=cIsHealing>{100 * NemforcerPlugin.passiveRegenBonus}% health regen</style>, based on <style=cIsHealth>missing health</style>.");
+
+            skillLocator.passiveSkill.enabled = true;
+            skillLocator.passiveSkill.skillNameToken = "NEMFORCER_PASSIVE_NAME";
+            skillLocator.passiveSkill.skillDescriptionToken = "NEMFORCER_PASSIVE_DESCRIPTION";
+            skillLocator.passiveSkill.icon = Assets.nIconP;
+        }
+
+        private void PrimarySetup()
+        {
 
             SkillDef primaryDef1 = PrimarySkillDef_Hammer();
             SkillFamily.Variant primaryVariant1 = PluginUtils.SetupSkillVariant(primaryDef1, typeof(EntityStates.Nemforcer.HammerSwing));
@@ -482,28 +589,32 @@ namespace EnforcerPlugin {
             minigunFireDef = primaryDefMinigun;
         }
 
-        private void SecondarySetup() {
-
+        private void SecondarySetup()
+        {
             SkillDef secondaryDef1 = SecondarySkillDef_HammerBash();
-            SkillFamily.Variant secondaryVariant1 = PluginUtils.SetupSkillVariant(secondaryDef1/*, typeof(ShieldBash)*/);
+            SkillFamily.Variant secondaryVariant1 = PluginUtils.SetupSkillVariant(secondaryDef1, typeof(HammerCharge));
 
             skillLocator.secondary = PluginUtils.RegisterSkillsToFamily(characterPrefab, secondaryVariant1);
+
+            PluginUtils.RegisterSkillDef(secondaryVariant1.skillDef,
+                             typeof(HammerCharge),
+                             typeof(HammerUppercut));
         }
 
-        private void UtilitySetup() {
-
+        private void UtilitySetup()
+        {
             SkillDef utilityDef1 = UtilitySkillDef_Gas();
-            SkillFamily.Variant utilityVariant1 = PluginUtils.SetupSkillVariant(utilityDef1/*,
-                                                                                typeof(AimTearGas),
-                                                                                typeof(TearGas)*/);
+            SkillFamily.Variant utilityVariant1 = PluginUtils.SetupSkillVariant(utilityDef1,
+                                                                                typeof(AimNemGas));
 
             SkillDef utilityDef2 = UtilitySkillDef_Grenade();
-            SkillFamily.Variant secondaryVariant1 = PluginUtils.SetupSkillVariant(utilityDef2/*, typeof(StunGrenade)*/);
+            SkillFamily.Variant utilityVariant2 = PluginUtils.SetupSkillVariant(utilityDef2/*, typeof(StunGrenade)*/);
 
-            skillLocator.utility = PluginUtils.RegisterSkillsToFamily(characterPrefab, utilityVariant1, secondaryVariant1);
+            skillLocator.utility = PluginUtils.RegisterSkillsToFamily(characterPrefab, utilityVariant1, utilityVariant2);
         }
-        private void SpecialSetup() {
 
+        private void SpecialSetup()
+        {
             SkillDef specialDef1 = SpecialSkillDef_MinigunUp();
             SkillFamily.Variant specialVariant1 = PluginUtils.SetupSkillVariant(specialDef1, typeof(MinigunToggle));
 
@@ -517,8 +628,8 @@ namespace EnforcerPlugin {
         }
 
         #region skilldefs
-        private static SkillDef PrimarySkillDef_Hammer() {
-
+        private static SkillDef PrimarySkillDef_Hammer()
+        {
             string desc = "Swing your hammer for <style=cIsDamage>" + 100f * EntityStates.Nemforcer.HammerSwing.damageCoefficient + "%</style> damage.";
 
             LanguageAPI.Add("NEMFORCER_PRIMARY_HAMMER_NAME", "Golden Hammer");
@@ -541,14 +652,16 @@ namespace EnforcerPlugin {
             mySkillDef.requiredStock = 1;
             mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.testIcon;
+            mySkillDef.icon = Assets.nIcon1;
             mySkillDef.skillDescriptionToken = "NEMFORCER_PRIMARY_HAMMER_DESCRIPTION";
             mySkillDef.skillName = "NEMFORCER_PRIMARY_HAMMER_NAME";
             mySkillDef.skillNameToken = "NEMFORCER_PRIMARY_HAMMER_NAME";
 
             return mySkillDef;
         }
-        private static SkillDef PrimarySkillDef_FireMinigun() {
+
+        private static SkillDef PrimarySkillDef_FireMinigun()
+        {
             string desc = "Rev up and fire a hail of bullets dealing <style=cIsDamage>" + NemMinigunFire.baseDamageCoefficient * 100f + "% damage</style> per bullet. <style=cIsUtility>Slow</style> your movement while shooting.";
 
             LanguageAPI.Add("NEMFORCER_PRIMARY_MINIGUN_NAME", "Fire Minigun");
@@ -571,29 +684,26 @@ namespace EnforcerPlugin {
             mySkillDef2.requiredStock = 1;
             mySkillDef2.shootDelay = 0f;
             mySkillDef2.stockToConsume = 1;
-            mySkillDef2.icon = Assets.testIcon;
+            mySkillDef2.icon = Assets.nIcon1B;
             mySkillDef2.skillDescriptionToken = "NEMFORCER_PRIMARY_MINIGUN_DESCRIPTION";
             mySkillDef2.skillName = "NEMFORCER_PRIMARY_MINIGUN_NAME";
             mySkillDef2.skillNameToken = "NEMFORCER_PRIMARY_MINIGUN_NAME";
             return mySkillDef2;
         }
 
-        private static SkillDef SecondarySkillDef_HammerBash() {
-
-            //LanguageAPI.Add("KEYWORD_BASH", "<style=cKeywordName>Bash</style><style=cSub>Applies <style=cIsDamage>stun</style> and <style=cIsUtility>heavy knockback</style>.");
-            //LanguageAPI.Add("KEYWORD_SPRINTBASH", $"<style=cKeywordName>Shoulder Bash</style><style=cSub>A short charge that <style=cIsDamage>stuns</style>.\nHitting heavier enemies deals up to <style=cIsDamage>{ShoulderBash.knockbackDamageCoefficient * 100f}% damage</style>.</style>");
-
-            //string desc = $"<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style>. <style=cIsUtility>Deflects projectiles.</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> for <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage</style> instead.";
+        private static SkillDef SecondarySkillDef_HammerBash()
+        {
+            string desc = $"<style=cIsUtility>Charge up</style>, then lunge forward and unleash a <style=cIsDamage>mighty uppercut</style> for <style=cIsDamage>{100f * HammerUppercut.minDamageCoefficient}-{100f * HammerUppercut.maxDamageCoefficient}% damage</style>.";
 
             LanguageAPI.Add("NEMFORCER_SECONDARY_BASH_NAME", "Dominance");
-            //LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", desc);
+            LanguageAPI.Add("NEMFORCER_SECONDARY_BASH_DESCRIPTION", desc);
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            mySkillDef.activationState = new SerializableEntityStateType(typeof(ShieldBash));
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(HammerCharge));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 1;
             mySkillDef.baseRechargeInterval = 6f;
-            mySkillDef.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef.beginSkillCooldownOnSkillEnd = true;
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Skill;
@@ -605,18 +715,16 @@ namespace EnforcerPlugin {
             mySkillDef.requiredStock = 1;
             mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.icon2;
-            mySkillDef.skillDescriptionToken = "ENFORCER_SECONDARY_BASH_DESCRIPTION";
+            mySkillDef.icon = Assets.nIcon2;
+            mySkillDef.skillDescriptionToken = "NEMFORCER_SECONDARY_BASH_DESCRIPTION";
             mySkillDef.skillName = "NEMFORCER_SECONDARY_BASH_NAME";
-            mySkillDef.skillNameToken = "ENFORCER_SECONDARY_BASH_NAME";
-            mySkillDef.keywordTokens = new string[] {
-                "KEYWORD_BASH",
-                "KEYWORD_SPRINTBASH"
-            };
+            mySkillDef.skillNameToken = "NEMFORCER_SECONDARY_BASH_NAME";
+
             return mySkillDef;
         }
 
-        private static SkillDef UtilitySkillDef_Grenade() {
+        private static SkillDef UtilitySkillDef_Grenade()
+        {
             SkillDef utilityDef1;
             LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_NAME", "Stun Grenade");
             LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION", "<style=cIsDamage>Stunning</style>. Launch a stun grenade, dealing <style=cIsDamage>" + 100f * StunGrenade.damageCoefficient + "% damage</style>. <style=cIsUtility>Store up to 3 grenades</style>.");
@@ -645,16 +753,17 @@ namespace EnforcerPlugin {
             utilityDef1.keywordTokens = new string[] {
                 "KEYWORD_STUNNING"
             };
+
             return utilityDef1;
         }
-        private static SkillDef UtilitySkillDef_Gas() {
-            LanguageAPI.Add("KEYWORD_BLINDED", "<style=cKeywordName>Impaired</style><style=cSub>Lowers <style=cIsDamage>movement speed</style> by <style=cIsDamage>75%</style>, <style=cIsDamage>attack speed</style> by <style=cIsDamage>25%</style> and <style=cIsHealth>armor</style> by <style=cIsDamage>20</style>.</style></style>");
 
-            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_NAME", "Tear Gas");
-            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Launch a grenade that explodes into a cloud of <style=cIsUtility>tear gas</style> that leaves enemies <style=cIsDamage>Impaired</style> and lasts for <style=cIsDamage>16 seconds</style>.");
+        private static SkillDef UtilitySkillDef_Gas()
+        {
+            LanguageAPI.Add("NEMFORCER_UTILITY_GAS_NAME", "XM47 Grenade");
+            LanguageAPI.Add("NEMFORCER_UTILITY_GAS_DESCRIPTION", "Launch a grenade that explodes into a cloud of <style=cIsUtility>burning gas</style> that deals <style=cIsDamage>200% damage per second</style> and lasts for <style=cIsDamage>16 seconds</style>.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            mySkillDef.activationState = new SerializableEntityStateType(typeof(AimTearGas));
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(AimNemGas));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 1;
             mySkillDef.baseRechargeInterval = 24;
@@ -670,19 +779,18 @@ namespace EnforcerPlugin {
             mySkillDef.requiredStock = 1;
             mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.icon3;
-            mySkillDef.skillDescriptionToken = "ENFORCER_UTILITY_TEARGAS_DESCRIPTION";
-            mySkillDef.skillName = "ENFORCER_UTILITY_TEARGAS_NAME";
-            mySkillDef.skillNameToken = "ENFORCER_UTILITY_TEARGAS_NAME";
-            mySkillDef.keywordTokens = new string[] {
-                "KEYWORD_BLINDED"
-            };
+            mySkillDef.icon = Assets.nIcon3;
+            mySkillDef.skillDescriptionToken = "NEMFORCER_UTILITY_GAS_DESCRIPTION";
+            mySkillDef.skillName = "NEMFORCER_UTILITY_GAS_NAME";
+            mySkillDef.skillNameToken = "NEMFORCER_UTILITY_GAS_NAME";
+
             return mySkillDef;
         }
 
-        private static SkillDef SpecialSkillDef_MinigunUp() {
+        private static SkillDef SpecialSkillDef_MinigunUp()
+        {
             LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNUP_NAME", "Golden Minigun");
-            LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNUP_DESCRIPTION", "Take an offensive stance, <style=cIsDamage>readying your minigun</style>. <style=cIsHealth>Prevents sprinting and jumping</style>.");
+            LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNUP_DESCRIPTION", "Take an offensive stance, <style=cIsDamage>readying your minigun</style>. <style=cIsHealth>Prevents sprinting</style>.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(MinigunToggle));
@@ -701,13 +809,15 @@ namespace EnforcerPlugin {
             mySkillDef.requiredStock = 1;
             mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.testIcon;
+            mySkillDef.icon = Assets.nIcon4;
             mySkillDef.skillDescriptionToken = "NEMFORCER_SPECIAL_MINIGUNUP_DESCRIPTION";
             mySkillDef.skillName = "NEMFORCER_SPECIAL_MINIGUNUP_NAME";
             mySkillDef.skillNameToken = "NEMFORCER_SPECIAL_MINIGUNUP_NAME";
+
             return mySkillDef;
         }
-        private static SkillDef SpecialSkillDef_MinigunDown() {
+        private static SkillDef SpecialSkillDef_MinigunDown()
+        {
             LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNDOWN_NAME", "Golden Minigun");
             LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNDOWN_DESCRIPTION", "<style=cIsUtility>Lower your minigun</style>.");
 
@@ -728,22 +838,78 @@ namespace EnforcerPlugin {
             mySkillDef2.requiredStock = 1;
             mySkillDef2.shootDelay = 0f;
             mySkillDef2.stockToConsume = 1;
-            mySkillDef2.icon = Assets.icon4B;
+            mySkillDef2.icon = Assets.nIcon4B;
             mySkillDef2.skillDescriptionToken = "NEMFORCER_SPECIAL_MINIGUNDOWN_DESCRIPTION";
             mySkillDef2.skillName = "NEMFORCER_SPECIAL_MINIGUNDOWN_NAME";
             mySkillDef2.skillNameToken = "NEMFORCER_SPECIAL_MINIGUNDOWN_NAME";
+
             return mySkillDef2;
         }
         #endregion
 
-        private void CreateMaster()
+        private void CreateDoppelganger()
         {
-            doppelganger = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/TreebotMonsterMaster"), "NemforcerMonsterMaster", true);
+            doppelganger = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/TreebotMonsterMaster"), "NemesisEnforcerMonsterMaster", true);
             doppelganger.GetComponent<CharacterMaster>().bodyPrefab = characterPrefab;
 
             MasterCatalog.getAdditionalEntries += delegate (List<GameObject> list)
             {
                 list.Add(doppelganger);
+            };
+        }
+
+        private void CreateBossPrefab()
+        {
+            bossPrefab = PrefabAPI.InstantiateClone(characterPrefab, "NemesisEnforcerBossBody");
+
+            EnforcerPlugin.Destroy(bossPrefab.transform.Find("ModelBase").gameObject);
+            EnforcerPlugin.Destroy(bossPrefab.transform.Find("CameraPivot").gameObject);
+            EnforcerPlugin.Destroy(bossPrefab.transform.Find("AimOrigin").gameObject);
+
+            CharacterBody charBody = bossPrefab.GetComponent<CharacterBody>();
+
+            charBody.bodyIndex = -1;
+            charBody.name = "NemesisEnforcerBossBody";
+            charBody.baseNameToken = "NEMFORCER_NAME";
+            charBody.subtitleNameToken = "NEMFORCER_SUBTITLE";
+            charBody.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
+            charBody.rootMotionInMainState = false;
+            charBody.mainRootSpeed = 0;
+            charBody.baseMaxHealth = 1000;
+            charBody.levelMaxHealth = 300;
+            charBody.baseRegen = 0f;
+            charBody.levelRegen = 0f;
+            charBody.baseMaxShield = 0;
+            charBody.levelMaxShield = 0;
+            charBody.baseMoveSpeed = 7;
+            charBody.levelMoveSpeed = 0;
+            charBody.baseAcceleration = 80;
+            charBody.baseJumpPower = 15;
+            charBody.levelJumpPower = 0;
+            charBody.baseDamage = 16;
+            charBody.levelDamage = 3.2f;
+            charBody.baseAttackSpeed = 1;
+            charBody.levelAttackSpeed = 0;
+            charBody.baseCrit = 0;
+            charBody.levelCrit = 0;
+            charBody.baseArmor = 20;
+            charBody.levelArmor = 0;
+            charBody.baseJumpCount = 1;
+            charBody.portraitIcon = Assets.nemBossPortrait;
+            charBody.isChampion = true;
+            charBody.skinIndex = 0U;
+
+            BodyCatalog.getAdditionalEntries += delegate (List<GameObject> list)
+            {
+                list.Add(bossPrefab);
+            };
+
+            bossMaster = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/TreebotMonsterMaster"), "NemesisEnforcerBossMaster", true);
+            bossMaster.GetComponent<CharacterMaster>().bodyPrefab = bossPrefab;
+
+            MasterCatalog.getAdditionalEntries += delegate (List<GameObject> list)
+            {
+                list.Add(bossMaster);
             };
         }
     }

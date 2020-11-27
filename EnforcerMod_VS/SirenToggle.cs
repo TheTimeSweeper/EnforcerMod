@@ -15,6 +15,8 @@ namespace EntityStates.Enforcer
 
             if (this.sirenComponent) this.sirenComponent.ToggleSiren();
 
+            base.GetComponent<EnforcerLightControllerAlt>().ToggleSiren();
+
             base.outer.SetNextStateToMain();
         }
 

@@ -7,14 +7,15 @@ namespace EntityStates.Nemforcer
 {
     public class NemMinigunFire : NemMinigunState
     {
-        public static float baseDamageCoefficient = 0.69f;
-        public static float baseForce = 0.5f;
-        public static float baseProcCoefficient = 0.5f;
+        public static float baseDamageCoefficient = 0.65f;
+        public static float baseForce = 5f;
+        public static float baseProcCoefficient = 0.3f;
         public static float recoilAmplitude = 2f;
         public static float minFireRate = 0.75f;
         public static float maxFireRate = 1.35f;
         public static float fireRateGrowth = 0.01f;
 
+        private float spreadMod;
         private float fireTimer;
         private Transform muzzleVfxTransform;
         private float baseFireRate;
@@ -26,6 +27,7 @@ namespace EntityStates.Nemforcer
         public override void OnEnter()
         {
             base.OnEnter();
+            this.spreadMod = 0f;
             if (this.muzzleTransform && MinigunFire.muzzleVfxPrefab)
             {
                 this.muzzleVfxTransform = UnityEngine.Object.Instantiate<GameObject>(MinigunFire.muzzleVfxPrefab, this.muzzleTransform).transform;
@@ -85,7 +87,10 @@ namespace EntityStates.Nemforcer
             base.characterBody.AddSpreadBloom(0.25f);
             base.AddRecoil(-0.6f * NemMinigunFire.recoilAmplitude, -0.8f * NemMinigunFire.recoilAmplitude, -0.3f * NemMinigunFire.recoilAmplitude, 0.3f * NemMinigunFire.recoilAmplitude);
 
-            currentFireRate = Mathf.Clamp(currentFireRate + fireRateGrowth, minFireRate, maxFireRate);
+            this.currentFireRate = Mathf.Clamp(currentFireRate + fireRateGrowth, minFireRate, maxFireRate);
+
+            this.spreadMod += 0.15f;
+            if (this.spreadMod >= 1f) this.spreadMod = 1f;
 
             float damage = NemMinigunFire.baseDamageCoefficient * this.damageStat;
             float force = NemMinigunFire.baseForce;
@@ -105,8 +110,8 @@ namespace EntityStates.Nemforcer
                 maxDistance = MinigunFire.bulletMaxDistance,
                 force = force,
                 hitMask = LayerIndex.CommonMasks.bullet,
-                minSpread = MinigunFire.bulletMinSpread,
-                maxSpread = MinigunFire.bulletMaxSpread * 1.5f,
+                minSpread = this.spreadMod * MinigunFire.bulletMinSpread,
+                maxSpread = this.spreadMod * MinigunFire.bulletMaxSpread * 1.5f,
                 isCrit = isCrit,
                 owner = base.gameObject,
                 muzzleName = NemMinigunState.muzzleName,
@@ -137,9 +142,10 @@ namespace EntityStates.Nemforcer
 
             float rateLerp = Mathf.InverseLerp(minFireRate, maxFireRate, currentFireRate);
             float rate = Mathf.Lerp(0.5f, 2, rateLerp);
-            animator.SetFloat("Minigun.spinSpeed", rate);
+            this.animator.SetFloat("Minigun.spinSpeed", rate);
 
-            if (base.characterMotor) {
+            if (base.characterMotor)
+            {
                 //animator.speed = 0;
                 base.characterMotor.moveDirection /= 2;
             }
@@ -166,13 +172,15 @@ namespace EntityStates.Nemforcer
 
     public class NemMinigunSpinDown : NemMinigunState
     {
+        public static float baseDuration = 0.2f;
+
         private float duration;
         private float spin;
         public override void OnEnter()
         {
             base.OnEnter();
 
-            this.duration = (MinigunSpinDown.baseDuration * 0.25f) / this.attackSpeedStat;
+            this.duration = NemMinigunSpinDown.baseDuration / this.attackSpeedStat;
             Util.PlayScaledSound(MinigunSpinDown.sound, base.gameObject, this.attackSpeedStat);
 
             spin = animator.GetFloat("Minigun.spinSpeed");
@@ -194,16 +202,18 @@ namespace EntityStates.Nemforcer
 
     public class NemMinigunSpinUp : NemMinigunState
     {
+        public static float baseDuration = 0.6f;
+
         private GameObject chargeInstance;
         private float duration;
 
         public override void OnEnter()
         {
             base.OnEnter();
-            base.characterBody.SetSpreadBloom(2f, false);
-            base.characterBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
+            //base.characterBody.SetSpreadBloom(2f, false);
+            //base.characterBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
 
-            this.duration = MinigunSpinUp.baseDuration / this.attackSpeedStat;
+            this.duration = NemMinigunSpinUp.baseDuration / this.attackSpeedStat;
             Util.PlaySound(MinigunSpinUp.sound, base.gameObject);
 
 

@@ -40,6 +40,7 @@ namespace EnforcerPlugin
 
             SkinnedMeshRenderer mainRenderer = Reflection.GetFieldValue<SkinnedMeshRenderer>(characterModel, "mainSkinnedMeshRenderer");
 
+            #region GameObjects
             GameObject engiShield = childLocator.FindChild("EngiShield").gameObject;
             GameObject shotgunModel = childLocator.FindChild("ShotgunModel").gameObject;
             GameObject rifleModel = childLocator.FindChild("RifleModel").gameObject;
@@ -83,7 +84,9 @@ namespace EnforcerPlugin
                 lightL,
                 lightR
             };
+            #endregion
 
+            #region LanguageTokens
             LanguageAPI.Add("ENFORCERBODY_DEFAULT_SKIN_NAME", "Default");
             LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Peacekeeper");
             LanguageAPI.Add("ENFORCERBODY_SPACE_SKIN_NAME", "Rainstormtrooper");
@@ -93,7 +96,11 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCERBODY_FROG_SKIN_NAME", "Zero Suit");
             LanguageAPI.Add("ENFORCERBODY_FEM_SKIN_NAME", "Femforcer");
             LanguageAPI.Add("ENFORCERBODY_STEVE_SKIN_NAME", "Minecraft");
+            LanguageAPI.Add("ENFORCERBODY_PIG_SKIN_NAME", "Pig");
+            LanguageAPI.Add("ENFORCERBODY_NEMESIS_SKIN_NAME", "Nemesis");
+            #endregion
 
+            #region DefaultSkin
             LoadoutAPI.SkinDefInfo skinDefInfo = default(LoadoutAPI.SkinDefInfo);
             skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             skinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
@@ -546,9 +553,9 @@ namespace EnforcerPlugin
             skinDefInfo.RendererInfos = array;
 
             SkinDef defaultSkin = LoadoutAPI.CreateNewSkinDef(skinDefInfo);
+            #endregion
 
-
-
+            #region Stormtrooper
             LoadoutAPI.SkinDefInfo spaceSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             spaceSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             spaceSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
@@ -608,7 +615,9 @@ namespace EnforcerPlugin
             {
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSpaceEnforcer").GetTexture("_MainTex"));
-                material.SetColor("_EmColor", Color.black);
+                material.SetTexture("_EmTex", null);
+                material.SetColor("_EmColor", Color.white);
+                material.SetFloat("_EmPower", 0);
                 material.SetFloat("_NormalStrength", 0);
 
                 array[33].defaultMaterial = material;
@@ -620,7 +629,9 @@ namespace EnforcerPlugin
             {
                 material = UnityEngine.Object.Instantiate<Material>(material);
                 material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSpaceEnforcer").GetTexture("_MainTex"));
-                material.SetColor("_EmColor", Color.black);
+                material.SetTexture("_EmTex", null);
+                material.SetColor("_EmColor", Color.white);
+                material.SetFloat("_EmPower", 0);
                 material.SetFloat("_NormalStrength", 0);
 
                 array[34].defaultMaterial = material;
@@ -629,7 +640,9 @@ namespace EnforcerPlugin
             spaceSkinDefInfo.RendererInfos = array;
 
             SkinDef spaceSkin = LoadoutAPI.CreateNewSkinDef(spaceSkinDefInfo);
+            #endregion
 
+            #region Engi
             LoadoutAPI.SkinDefInfo engiSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             engiSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             engiSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
@@ -714,7 +727,9 @@ namespace EnforcerPlugin
             engiSkinDefInfo.RendererInfos = array;
 
             SkinDef engiSkin = LoadoutAPI.CreateNewSkinDef(engiSkinDefInfo);
+            #endregion
 
+            #region DoomGuy
             LoadoutAPI.SkinDefInfo doomSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             doomSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             doomSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
@@ -793,7 +808,9 @@ namespace EnforcerPlugin
             doomSkinDefInfo.RendererInfos = array;
 
             SkinDef doomSkin = LoadoutAPI.CreateNewSkinDef(doomSkinDefInfo);
+            #endregion
 
+            #region Sexforcer
             LoadoutAPI.SkinDefInfo masterySkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             masterySkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             masterySkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
@@ -837,7 +854,9 @@ namespace EnforcerPlugin
             masterySkinDefInfo.RendererInfos = array;
 
             SkinDef masterySkin = LoadoutAPI.CreateNewSkinDef(masterySkinDefInfo);
+            #endregion
 
+            #region Desperado
             LoadoutAPI.SkinDefInfo desperadoSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             desperadoSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             desperadoSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
@@ -916,7 +935,9 @@ namespace EnforcerPlugin
             desperadoSkinDefInfo.RendererInfos = array;
 
             SkinDef desperadoSkin = LoadoutAPI.CreateNewSkinDef(desperadoSkinDefInfo);
+            #endregion
 
+            #region Froge
             LoadoutAPI.SkinDefInfo frogSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             frogSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             frogSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
@@ -959,37 +980,9 @@ namespace EnforcerPlugin
             frogSkinDefInfo.RendererInfos = array;
 
             SkinDef frogSkin = LoadoutAPI.CreateNewSkinDef(frogSkinDefInfo);
+            #endregion
 
-            LoadoutAPI.SkinDefInfo classicSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
-            classicSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
-            classicSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
-            classicSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
-
-            classicSkinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, shieldModel, lightL, lightR);
-
-            classicSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.83f, 0.83f, 0.83f), new Color(0.64f, 0.64f, 0.64f), new Color(0.25f, 0.25f, 0.25f), new Color(0f, 0f, 0f));
-            classicSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
-            {
-                new SkinDef.MeshReplacement
-                {
-                    renderer = mainRenderer,
-                    mesh = Assets.classicMesh
-                }
-            };
-            classicSkinDefInfo.Name = "ENFORCERBODY_CLASSIC_SKIN_NAME";
-            classicSkinDefInfo.NameToken = "ENFORCERBODY_CLASSIC_SKIN_NAME";
-            classicSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
-            classicSkinDefInfo.RootObject = model;
-            classicSkinDefInfo.UnlockableName = "";
-
-            rendererInfos = skinDefInfo.RendererInfos;
-            array = new CharacterModel.RendererInfo[rendererInfos.Length];
-            rendererInfos.CopyTo(array, 0);
-
-            classicSkinDefInfo.RendererInfos = array;
-
-            SkinDef classicSkin = LoadoutAPI.CreateNewSkinDef(classicSkinDefInfo);
-
+            #region Femforcer
             LoadoutAPI.SkinDefInfo femSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             femSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             femSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
@@ -1037,7 +1030,9 @@ namespace EnforcerPlugin
             femSkinDefInfo.RendererInfos = array;
 
             SkinDef femSkin = LoadoutAPI.CreateNewSkinDef(femSkinDefInfo);
+            #endregion
 
+            #region Steve
             LoadoutAPI.SkinDefInfo fuckingSteveSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             fuckingSteveSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             fuckingSteveSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
@@ -1083,35 +1078,164 @@ namespace EnforcerPlugin
             fuckingSteveSkinDefInfo.RendererInfos = array;
 
             SkinDef fuckingSteveSkin = LoadoutAPI.CreateNewSkinDef(fuckingSteveSkinDefInfo);
+            #endregion
 
+            #region Nemesis
+            LoadoutAPI.SkinDefInfo nemesisSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            nemesisSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            nemesisSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            nemesisSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            var skinDefs = new List<SkinDef>()
+            nemesisSkinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, shieldModel, lightL, lightR);
+
+            nemesisSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerAchievement");
+            //nemesisSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.43f, 0.1f, 0.1f), Color.red, new Color(0.31f, 0.04f, 0.07f), Color.black);
+            nemesisSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
-                defaultSkin,
-                masterySkin,
-                doomSkin, 
+                new SkinDef.MeshReplacement
+                {
+                    renderer = mainRenderer,
+                    mesh = mainRenderer.sharedMesh
+                }
             };
+            nemesisSkinDefInfo.Name = "ENFORCERBODY_NEMESIS_SKIN_NAME";
+            nemesisSkinDefInfo.NameToken = "ENFORCERBODY_NEMESIS_SKIN_NAME";
+            nemesisSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            nemesisSkinDefInfo.RootObject = model;
+            nemesisSkinDefInfo.UnlockableName = "ENFORCER_NEMESISSKINUNLOCKABLE_REWARD_ID";
 
-            if (!EnforcerPlugin.antiFun.Value)
+            rendererInfos = skinDefInfo.RendererInfos;
+            array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos.CopyTo(array, 0);
+
+            material = array[0].defaultMaterial;
+
+            if (material)
             {
-                skinDefs.Add(engiSkin);
-                skinDefs.Add(spaceSkin);
-                skinDefs.Add(desperadoSkin);
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_MainTex"));
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 3f);
+
+                array[0].defaultMaterial = material;
+            }
+
+            material = array[2].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldBlack").GetTexture("_MainTex"));
+                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldBlack").GetColor("_Color"));
+                material.SetFloat("_NormalStrength", 0);
+
+                array[2].defaultMaterial = material;
+            }
+
+            material = array[33].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_MainTex"));
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 3f);
+
+                array[33].defaultMaterial = material;
+            }
+
+            material = array[34].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_MainTex"));
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_EmissionMap"));
+                material.SetFloat("_EmPower", 3f);
+
+                array[34].defaultMaterial = material;
+            }
+
+            nemesisSkinDefInfo.RendererInfos = array;
+
+            SkinDef nemesisSkin = LoadoutAPI.CreateNewSkinDef(nemesisSkinDefInfo);
+            #endregion
+
+            #region Pig
+            LoadoutAPI.SkinDefInfo pigSkinDefInfo = fuckingSteveSkinDefInfo;
+
+            pigSkinDefInfo.Name = "ENFORCERBODY_PIG_SKIN_NAME";
+            pigSkinDefInfo.NameToken = "ENFORCERBODY_PIG_SKIN_NAME";
+            pigSkinDefInfo.UnlockableName = "ENFORCER_PIGUNLOCKABLE_REWARD_ID";
+            pigSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texPigAchievement");
+
+            rendererInfos = skinDefInfo.RendererInfos;
+            array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos.CopyTo(array, 0);
+
+            material = array[0].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
+                material.SetColor("_Color", Color.white);
+                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matPig").GetTexture("_MainTex"));
+                material.SetColor("_EmColor", Color.white);
+                material.SetFloat("_EmPower", 0f);
+                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matPig").GetTexture("_EmissionMap"));
+                material.SetFloat("_NormalStrength", 0f);
+
+                array[0].defaultMaterial = material;
+            }
+
+            pigSkinDefInfo.RendererInfos = array;
+
+            SkinDef pigSkin = LoadoutAPI.CreateNewSkinDef(pigSkinDefInfo);
+            #endregion
+
+
+            var skinDefs = new List<SkinDef>();
+
+            if (EnforcerPlugin.cursed.Value)
+            {
+                skinDefs = new List<SkinDef>()
+                {
+                    defaultSkin,
+                    masterySkin,
+                    doomSkin,
+                    engiSkin,
+                    spaceSkin,
+                    desperadoSkin,
+                    nemesisSkin
+                };
+            }
+            else
+            {
+                skinDefs = new List<SkinDef>()
+                {
+                    defaultSkin,
+                    masterySkin,
+                    doomSkin,
+                    desperadoSkin,
+                    nemesisSkin
+                };
+            }
+
+            if (EnforcerPlugin.cursed.Value)
+            {
                 skinDefs.Add(frogSkin);
                 skinDefs.Add(fuckingSteveSkin);
+            }
+
+            if (EnforcerPlugin.pig.Value)
+            {
+                skinDefs.Add(pigSkin);
             }
 
             if (EnforcerPlugin.femSkin.Value)
             {
                 skinDefs.Add(femSkin);
             }
-
-            /*bool hasClassicSkin = false;
-
-            if (hasClassicSkin)
-            {
-                skinDefs.Add(classicSkin);
-            }*/
 
             skinController.skins = skinDefs.ToArray();
         }

@@ -5,7 +5,8 @@ using System.IO;
 using UnityEngine.Networking;
 using RoR2;
 
-namespace EnforcerPlugin {
+namespace EnforcerPlugin
+{
     public static class Assets
     {
         public static AssetBundle MainAssetBundle = null;
@@ -14,6 +15,7 @@ namespace EnforcerPlugin {
         public static Texture charPortrait;
 
         public static Texture nemCharPortrait;
+        public static Texture nemBossPortrait;
 
         public static Sprite iconP;
         public static Sprite icon1;//shotgun
@@ -28,13 +30,26 @@ namespace EnforcerPlugin {
         public static Sprite icon4;//protect and serve
         public static Sprite icon4B;//protect and serve cancel
 
+        public static Sprite nIconP;
+        public static Sprite nIcon1;
+        public static Sprite nIcon1B;
+        public static Sprite nIcon2;
+        public static Sprite nIcon3;
+        public static Sprite nIcon4;
+        public static Sprite nIcon4B;
+
         public static Sprite testIcon;// for wip skills
+
+        public static GameObject nemesisHammer;
 
         public static GameObject tearGasGrenadeModel;
         public static GameObject tearGasEffectPrefab;
 
         public static GameObject tearGasGrenadeModelAlt;
         public static GameObject tearGasEffectPrefabAlt;
+
+        public static GameObject nemGasGrenadeModel;
+        public static GameObject nemGasEffectPrefab;
 
         public static GameObject stunGrenadeModel;
 
@@ -45,6 +60,9 @@ namespace EnforcerPlugin {
 
         public static GameObject shieldBashFX;
         public static GameObject shoulderBashFX;
+
+        public static GameObject nemSwingFX;
+        public static GameObject nemImpactFX;
 
         public static GameObject gatDrone;
 
@@ -71,8 +89,10 @@ namespace EnforcerPlugin {
                 }
             }
 
-            if (NemAssetBundle == null) {
-                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.nemforcer")) {
+            if (NemAssetBundle == null)
+            {
+                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.nemforcer"))
+                {
                     NemAssetBundle = AssetBundle.LoadFromStream(assetStream);
                     var provider = new AssetBundleResourcesProvider("@Nemforcer", NemAssetBundle);
                     ResourcesAPI.AddProvider(provider);
@@ -88,8 +108,11 @@ namespace EnforcerPlugin {
                 SoundAPI.SoundBanks.Add(array);
             }
 
+            Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/hgstandard");
+
             charPortrait = MainAssetBundle.LoadAsset<Sprite>("texEnforcerIconOld").texture;
             nemCharPortrait = NemAssetBundle.LoadAsset<Sprite>("nemIconBlu").texture;
+            nemBossPortrait = NemAssetBundle.LoadAsset<Sprite>("nemIconRed").texture;
 
             if (EnforcerPlugin.classicIcons.Value)
             {
@@ -122,11 +145,43 @@ namespace EnforcerPlugin {
 
             testIcon = MainAssetBundle.LoadAsset<Sprite>("TestIcon");
 
+            nIconP = NemAssetBundle.LoadAsset<Sprite>("PassiveIcon");
+            nIcon1 = NemAssetBundle.LoadAsset<Sprite>("HammerSwingIcon");
+            nIcon1B = NemAssetBundle.LoadAsset<Sprite>("MinigunFireIcon");
+            nIcon2 = NemAssetBundle.LoadAsset<Sprite>("HammerChargeIcon");
+            nIcon3 = NemAssetBundle.LoadAsset<Sprite>("GasGrenadeIcon");
+            nIcon4 = NemAssetBundle.LoadAsset<Sprite>("MinigunStanceIcon");
+            nIcon4B = NemAssetBundle.LoadAsset<Sprite>("HammerStanceIcon");
+
+            nemesisHammer = NemAssetBundle.LoadAsset<GameObject>("NemesisHammer");
+            nemesisHammer.GetComponentInChildren<MeshRenderer>().material.shader = hotpoo;
+
             tearGasGrenadeModel = MainAssetBundle.LoadAsset<GameObject>("TearGasGrenade");
             tearGasEffectPrefab = MainAssetBundle.LoadAsset<GameObject>("TearGasEffect");
 
+            tearGasGrenadeModel.GetComponentInChildren<MeshRenderer>().material.shader = hotpoo;
+            tearGasEffectPrefab.GetComponentInChildren<MeshRenderer>().material.shader = hotpoo;
+
+            tearGasEffectPrefab.GetComponentInChildren<Rigidbody>().gameObject.layer = LayerIndex.debris.intVal;
+
             tearGasGrenadeModelAlt = MainAssetBundle.LoadAsset<GameObject>("TearGasGrenadeAlt");
             tearGasEffectPrefabAlt = MainAssetBundle.LoadAsset<GameObject>("TearGasEffectAlt");
+
+            tearGasGrenadeModelAlt.GetComponentInChildren<MeshRenderer>().material.shader = hotpoo;
+            tearGasEffectPrefabAlt.GetComponentInChildren<MeshRenderer>().material.shader = hotpoo;
+
+            tearGasEffectPrefabAlt.GetComponentInChildren<Rigidbody>().gameObject.layer = LayerIndex.debris.intVal;
+
+            nemGasGrenadeModel = NemAssetBundle.LoadAsset<GameObject>("NemGasGrenade");
+            nemGasEffectPrefab = NemAssetBundle.LoadAsset<GameObject>("NemGasEffect");
+
+            Material tempMat = nemGasGrenadeModel.GetComponentInChildren<MeshRenderer>().material;
+            tempMat.shader = hotpoo;
+            tempMat.SetFloat("_EmPower", 50f);
+            tempMat.SetTexture("_EmTex", NemAssetBundle.LoadAsset<Material>("matNemGrenade").GetTexture("_EmissionMap"));
+            nemGasEffectPrefab.GetComponentInChildren<MeshRenderer>().material.shader = hotpoo;
+
+            nemGasEffectPrefab.GetComponentInChildren<Rigidbody>().gameObject.layer = LayerIndex.debris.intVal;
 
             stunGrenadeModel = MainAssetBundle.LoadAsset<GameObject>("StunGrenade");
 
@@ -143,38 +198,21 @@ namespace EnforcerPlugin {
 
             shockGrenadeMesh.material = shockGrenadeMaterial;
 
-            shotgunShell = MainAssetBundle.LoadAsset<GameObject>("ShellController");
-            superShotgunShell = MainAssetBundle.LoadAsset<GameObject>("SuperShellController");
+            shotgunShell = MainAssetBundle.LoadAsset<GameObject>("ShotgunShell");
+            superShotgunShell = MainAssetBundle.LoadAsset<GameObject>("SuperShotgunShell");
 
-            shieldBashFX = MainAssetBundle.LoadAsset<GameObject>("ShieldBashFX");
-            shoulderBashFX = MainAssetBundle.LoadAsset<GameObject>("ShoulderBashFX");
+            shotgunShell.AddComponent<Enforcer.EnforcerShellController>();
+            superShotgunShell.AddComponent<Enforcer.EnforcerShellController>();
 
-            shieldBashFX.AddComponent<DestroyOnTimer>().duration = 5;
-            shieldBashFX.AddComponent<NetworkIdentity>();
-            shieldBashFX.AddComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Always;
-            var effect = shieldBashFX.AddComponent<EffectComponent>();
-            effect.applyScale = false;
-            effect.effectIndex = EffectIndex.Invalid;
-            effect.parentToReferencedTransform = true;
-            effect.positionAtReferencedTransform = true;
-            effect.soundName = "";
+            shieldBashFX = Assets.LoadEffect("ShieldBashFX", "", MainAssetBundle);
+            shoulderBashFX = Assets.LoadEffect("ShoulderBashFX", "", MainAssetBundle);
 
             shieldBashFX.transform.Find("cum").Find("piss").gameObject.AddComponent<ParticleFuckingShitComponent>();
 
-            shoulderBashFX.AddComponent<DestroyOnTimer>().duration = 5;
-            shoulderBashFX.AddComponent<NetworkIdentity>();
-            shoulderBashFX.AddComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Always;
-            effect = shoulderBashFX.AddComponent<EffectComponent>();
-            effect.applyScale = false;
-            effect.effectIndex = EffectIndex.Invalid;
-            effect.parentToReferencedTransform = true;
-            effect.positionAtReferencedTransform = true;
-            effect.soundName = "";
-
             shoulderBashFX.transform.Find("cum").Find("poop").gameObject.AddComponent<ParticleFuckingShitComponent>();
 
-            EffectAPI.AddEffect(shieldBashFX);
-            EffectAPI.AddEffect(shoulderBashFX);
+            nemSwingFX = Assets.LoadEffect("NemforcerSwing", "", NemAssetBundle);
+            nemImpactFX = Assets.LoadEffect("ImpactNemforcer", "", NemAssetBundle);
 
             gatDrone = MainAssetBundle.LoadAsset<GameObject>("GatDrone");
 
@@ -188,6 +226,25 @@ namespace EnforcerPlugin {
             sexMesh = MainAssetBundle.LoadAsset<Mesh>("SexforcerMesh");
             femMesh = MainAssetBundle.LoadAsset<Mesh>("FemforcerMesh");
             fuckingSteveMesh = MainAssetBundle.LoadAsset<Mesh>("FuckingSteveMesh");
+        }
+
+        private static GameObject LoadEffect(string resourceName, string soundName, AssetBundle bundle)
+        {
+            GameObject newEffect = bundle.LoadAsset<GameObject>(resourceName);
+
+            newEffect.AddComponent<DestroyOnTimer>().duration = 12;
+            newEffect.AddComponent<NetworkIdentity>();
+            newEffect.AddComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Always;
+            var effect = newEffect.AddComponent<EffectComponent>();
+            effect.applyScale = false;
+            effect.effectIndex = EffectIndex.Invalid;
+            effect.parentToReferencedTransform = true;
+            effect.positionAtReferencedTransform = true;
+            effect.soundName = soundName;
+
+            EffectAPI.AddEffect(newEffect);
+
+            return newEffect;
         }
     }
 }

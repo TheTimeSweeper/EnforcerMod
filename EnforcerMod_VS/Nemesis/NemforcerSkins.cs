@@ -21,14 +21,14 @@ namespace EnforcerPlugin
             SkinnedMeshRenderer mainRenderer = Reflection.GetFieldValue<SkinnedMeshRenderer>(characterModel, "mainSkinnedMeshRenderer");
 
             LanguageAPI.Add("NEMFORCERBODY_DEFAULT_SKIN_NAME", "Nemesis");
-            LanguageAPI.Add("NEMFORCERBODY_MASTERY_SKIN_NAME", "Something");
+            LanguageAPI.Add("NEMFORCERBODY_MASTERY_SKIN_NAME", "Enforcer");
 
             LoadoutAPI.SkinDefInfo skinDefInfo = default(LoadoutAPI.SkinDefInfo);
             skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             skinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             skinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
             skinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
-            skinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
+            skinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerAchievement");
             skinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
                 new SkinDef.MeshReplacement
@@ -47,57 +47,18 @@ namespace EnforcerPlugin
             CharacterModel.RendererInfo[] array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
-            Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/hgstandard");
+            Material material = array[0].defaultMaterial;
+            Material commandoMat = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial;
 
-            for (int i = 0; i < array.Length; i++) {
-                CharacterModel.RendererInfo rend = rendererInfos[i];
-                if (rend.defaultMaterial) {
-                    rend.defaultMaterial.shader = hotpoo;
-                }
-            }
+            material = UnityEngine.Object.Instantiate<Material>(commandoMat);
+            material.SetColor("_Color", Color.white);
+            material.SetTexture("_MainTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_MainTex"));
+            material.SetColor("_EmColor", Color.white);
+            material.SetFloat("_EmPower", 1f);
+            material.SetTexture("_EmTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_EmissionMap"));
+            material.SetFloat("_NormalStrength", 0);
 
-            //clone commando material for that spicy hopoo shader
-            //Material material = array[0].defaultMaterial;
-
-            //if (material)
-            //{
-            //    material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
-            //    material.SetColor("_Color", Color.white);
-            //    material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_MainTex"));
-            //    material.SetColor("_EmColor", Color.white);
-            //    material.SetFloat("_EmPower", 1.5f);
-            //    material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_EmissionMap"));
-            //    material.SetFloat("_NormalStrength", 1);
-            //    material.SetTexture("_NormalTex", Assets.MainAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_BumpMap"));
-
-            //    array[0].defaultMaterial = material;
-            //}
-
-            //material = array[1].defaultMaterial;
-
-            //if (material)
-            //{
-            //    material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
-            //    material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matMinigun").GetColor("_Color"));
-            //    material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matMinigun").GetTexture("_MainTex"));
-            //    material.SetFloat("_EmPower", 0);
-            //    material.SetFloat("_NormalStrength", 0);
-
-            //    array[1].defaultMaterial = material;
-            //}
-
-            //material = array[2].defaultMaterial;
-
-            //if (material)
-            //{
-            //    material = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
-            //    material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetColor("_Color"));
-            //    material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetTexture("_MainTex"));
-            //    material.SetFloat("_EmPower", 0);
-            //    material.SetFloat("_NormalStrength", 0);
-
-            //    array[2].defaultMaterial = material;
-            //}
+            array[0].defaultMaterial = material;
 
             skinDefInfo.RendererInfos = array;
 
@@ -108,14 +69,14 @@ namespace EnforcerPlugin
             masterySkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             masterySkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
             masterySkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
-            masterySkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texStormtrooperAchievement");
+            masterySkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
 
             masterySkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
                 new SkinDef.MeshReplacement
                 {
                     renderer = mainRenderer,
-                    mesh = Assets.stormtrooperMesh
+                    mesh = mainRenderer.sharedMesh
                 }
             };
             masterySkinDefInfo.Name = "NEMFORCERBODY_MASTERY_SKIN_NAME";
@@ -128,18 +89,27 @@ namespace EnforcerPlugin
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
-            //change the body texture
-            //material = array[0].defaultMaterial;
+            material = array[0].defaultMaterial;
 
-            //if (material)
-            //{
-            //    material = UnityEngine.Object.Instantiate<Material>(material);
-            //    material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSpaceEnforcer").GetTexture("_MainTex"));
-            //    material.SetColor("_EmColor", Color.black);
-            //    material.SetFloat("_NormalStrength", 0);
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcerAlt").GetTexture("_MainTex"));
+                material.SetTexture("_EmTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcerAlt").GetTexture("_EmissionMap"));
 
-            //    array[0].defaultMaterial = material;
-            //}
+                array[0].defaultMaterial = material;
+            }
+
+            material = array[1].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcerAlt").GetTexture("_MainTex"));
+                material.SetTexture("_EmTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcerAlt").GetTexture("_EmissionMap"));
+
+                array[1].defaultMaterial = material;
+            }
 
             masterySkinDefInfo.RendererInfos = array;
 
@@ -147,7 +117,8 @@ namespace EnforcerPlugin
 
             skinController.skins = new SkinDef[]
             {
-                defaultSkin
+                defaultSkin,
+                masterySkin
             };
         }
     }

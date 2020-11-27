@@ -17,16 +17,16 @@ namespace EntityStates.Enforcer
         private bool wasShielding = false;
         private float initialTime;
 
-        private float skateGravity = 240f;
         private float skateSpeedMultiplier = 0.5f;
         private float bungusStopwatch;
-        private ChildLocator childLocator;
+        private ChildLocator childLocator;        
         private Animator animator;
         private bool sprintCancelEnabled;
         private bool hasSprintCancelled;
-        private bool isNemesis;
         private Vector3 idealDirection;
         private uint skatePlayID;
+        private EnforcerLightController lightController;
+        private EnforcerLightControllerAlt lightControllerAlt;
 
         public static event Action<float> Bungus = delegate { };
 
@@ -36,45 +36,46 @@ namespace EntityStates.Enforcer
             this.childLocator = base.GetModelChildLocator();
             this.animator = base.GetModelAnimator();
 
-            if (base.characterBody.skillLocator.special.skillNameToken == "NEMFORCER_SPECIAL_MINIGUNUP_NAME") this.isNemesis = true;
-            else this.isNemesis = false;
+            this.lightController = base.characterBody.GetComponent<EnforcerLightController>();
+            this.lightControllerAlt = base.characterBody.GetComponent<EnforcerLightControllerAlt>();
+            this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
+            this.shieldComponent.origOrigin = base.characterBody.aimOriginTransform;
 
-            if (!this.isNemesis) {
+            EntityStateMachine drOctagonapus = characterBody.gameObject.AddComponent<EntityStateMachine>();
+            drOctagonapus.customName = "EnforcerParry";
 
-                this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
-                this.shieldComponent.origOrigin = base.characterBody.aimOriginTransform;
+            SerializableEntityStateType idleState = new SerializableEntityStateType(typeof(Idle));
+            drOctagonapus.initialStateType = idleState;
+            drOctagonapus.mainStateType = idleState;
 
-                EntityStateMachine drOctagonapus = characterBody.gameObject.AddComponent<EntityStateMachine>();
-                drOctagonapus.customName = "EnforcerParry";
+            this.shieldComponent.drOctagonapus = drOctagonapus;
+            drOctagonapus.mainStateType = new SerializableEntityStateType(typeof(Idle));
+            this.shieldComponent.drOctagonapus = drOctagonapus;
 
-                SerializableEntityStateType idleState = new SerializableEntityStateType(typeof(Idle));
-                drOctagonapus.initialStateType = idleState;
-                drOctagonapus.mainStateType = idleState;
-
-                this.shieldComponent.drOctagonapus = drOctagonapus;
-                drOctagonapus.mainStateType = new SerializableEntityStateType(typeof(Idle));
-                this.shieldComponent.drOctagonapus = drOctagonapus;
-
-                if (!EnforcerPlugin.EnforcerPlugin.cum && base.characterBody.skinIndex == 2)
-                {
-                    EnforcerPlugin.EnforcerPlugin.cum = true;
-                    Util.PlaySound(EnforcerPlugin.Sounds.DOOM, base.gameObject);
-                }
-
-                //disable the shield when energy shield is selected
-                if (base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDON_NAME" || base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDOFF_NAME")
-                {
-                    if (this.childLocator.FindChild("Shield")) this.childLocator.FindChild("Shield").gameObject.SetActive(false);
-                }
-
-                //skamtebord
-                if (base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_BOARDUP_NAME" || base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_BOARDDOWN_NAME")
-                {
-                    if (this.childLocator.FindChild("Shield")) this.childLocator.FindChild("Shield").gameObject.SetActive(false);
-                    if (this.childLocator.FindChild("Skateboard")) this.childLocator.FindChild("Skateboard").gameObject.SetActive(true);
-                }
+            if (!EnforcerPlugin.EnforcerPlugin.cum && base.characterBody.skinIndex == 2)
+            {
+                EnforcerPlugin.EnforcerPlugin.cum = true;
+                Util.PlaySound(EnforcerPlugin.Sounds.DOOM, base.gameObject);
             }
 
+            //disable the shield when energy shield is selected
+            if (base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDON_NAME" || base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDOFF_NAME")
+            {
+                if (this.childLocator.FindChild("Shield")) this.childLocator.FindChild("Shield").gameObject.SetActive(false);
+            }
+
+            //skamtebord
+            if (base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_BOARDUP_NAME" || base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_BOARDDOWN_NAME")
+            {
+                if (this.childLocator.FindChild("Shield")) this.childLocator.FindChild("Shield").gameObject.SetActive(false);
+                if (this.childLocator.FindChild("Skateboard")) this.childLocator.FindChild("Skateboard").gameObject.SetActive(true);
+            }
+
+            if (base.isGrounded && base.HasBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff))
+            {
+                this.skatePlayID = Util.PlaySound(EnforcerPlugin.Sounds.SkateRoll, base.gameObject);
+            }
+                
             onDance(false);
 
             this.sprintCancelEnabled = EnforcerPlugin.EnforcerPlugin.sprintShieldCancel.Value;
@@ -86,7 +87,7 @@ namespace EntityStates.Enforcer
 
             bool shieldIsUp = (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff));
 
-            //default dance
+            //emotes
             if (base.isAuthority && base.characterMotor.isGrounded && !shieldIsUp)
             {
                 if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.defaultDanceKey.Value))
@@ -116,6 +117,11 @@ namespace EntityStates.Enforcer
                 return;
             }
 
+            if (base.isAuthority && Input.GetKeyDown("z"))
+            {
+                EnforcerPlugin.NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+            }
+
             //shield mode camera stuff
             if (shieldIsUp != this.wasShielding)
             {
@@ -125,12 +131,11 @@ namespace EntityStates.Enforcer
 
             if (shieldIsUp)
             {
-                float nem = isNemesis ? -1 : -1;
                 CameraTargetParams ctp = base.cameraTargetParams;
                 float denom = (1 + Time.fixedTime - this.initialTime);
                 float smoothFactor = 8 / Mathf.Pow(denom, 2);
                 Vector3 smoothVector = new Vector3(-3 /20, 1 / 16, -1);
-                ctp.idealLocalCameraPos = new Vector3(1.8f * nem, -0.5f, -6f) + smoothFactor * smoothVector;
+                ctp.idealLocalCameraPos = new Vector3(1.8f, -0.5f, -6f) + smoothFactor * smoothVector;
             }
         }
 
@@ -152,7 +157,7 @@ namespace EntityStates.Enforcer
             }
 
             //bungus achievement
-            if (base.isAuthority && base.hasCharacterMotor && !this.isNemesis)
+            if (base.isAuthority && base.hasCharacterMotor)
             {
                 bool flag = false;
 
@@ -242,7 +247,7 @@ namespace EntityStates.Enforcer
                         this.skatePlayID = Util.PlaySound(EnforcerPlugin.Sounds.SkateRoll, base.gameObject);
                     }
 
-                    AkSoundEngine.SetRTPCValue("Skateboard_Speed", Util.Remap(base.moveSpeedStat, 7f, 100f, 1f, 4f));
+                    AkSoundEngine.SetRTPCValue("Skateboard_Speed", Util.Remap(base.characterMotor.velocity.magnitude, 7f, 60f, 1f, 4f));
                 }
                 else
                 {
@@ -295,6 +300,9 @@ namespace EntityStates.Enforcer
         public override void OnExit()
         {
             base.OnExit();
+
+            AkSoundEngine.StopPlayingID(this.skatePlayID);
+            this.skatePlayID = 0;
         }
 
         private void ToggleShotgun()

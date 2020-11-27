@@ -15,16 +15,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-namespace EnforcerPlugin {
+namespace EnforcerPlugin
+{
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.ThinkInvisible.ClassicItems", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KomradeSpectre.Aetherium", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.Sivelos.SivsItems", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.DestroyedClone.RiskOfBulletstorm", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "1.1.2")]
+    [BepInPlugin(MODUID, "Enforcer", "1.1.3")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -99,16 +101,15 @@ namespace EnforcerPlugin {
         public static Material bungusMat;
 
         public static bool cum; //don't ask
-        public static bool harbCrateInstalled = false;
         public static bool aetheriumInstalled = false;
+        public static bool sivsItemsInstalled = false;
 
-        public static uint doomGuyIndex = 2;
-        public static uint engiIndex = 3;
-        public static uint stormtrooperIndex = 4;
-        public static uint frogIndex = 6;
+        public const uint doomGuyIndex = 2;
+        public const uint engiIndex = 3;
+        public const uint stormtrooperIndex = 4;
+        public const uint frogIndex = 7;
 
         public static ConfigEntry<bool> forceUnlock;
-        public static ConfigEntry<bool> antiFun;
         public static ConfigEntry<bool> classicShotgun;
         public static ConfigEntry<bool> classicIcons;
         public static ConfigEntry<float> headSize;
@@ -119,6 +120,7 @@ namespace EnforcerPlugin {
         public static ConfigEntry<bool> cursed;
         public static ConfigEntry<bool> femSkin;
         public static ConfigEntry<bool> oldEngiShield;
+        public static ConfigEntry<bool> pig;
 
         public static ConfigEntry<KeyCode> defaultDanceKey;
         public static ConfigEntry<KeyCode> flossKey;
@@ -151,6 +153,8 @@ namespace EnforcerPlugin {
 
         public static ConfigEntry<float> superDamage;
 
+        public static ConfigEntry<bool> balancedShieldBash;
+
         //public static ConfigEntry<bool> classicSkin;
 
         //更新许可证 DO WHAT THE FUCK YOU WANT TO
@@ -167,7 +171,7 @@ namespace EnforcerPlugin {
             //its our plugin constructor
 
             awake += EnforcerPlugin_Load;
-            start += EnforcerPlugin_LoadStart;
+            //start += EnforcerPlugin_LoadStart;
         }
 
         private void EnforcerPlugin_Load()
@@ -184,6 +188,11 @@ namespace EnforcerPlugin {
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KomradeSpectre.Aetherium"))
             {
                 aetheriumInstalled = true;
+            }
+            //sivs item displays- dll won't compile without a reference
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Sivelos.SivsItems"))
+            {
+                sivsItemsInstalled = true;
             }
             //scepter stuff- dll won't compile without a reference to TILER2 and ClassicItems
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.ThinkInvisible.ClassicItems"))
@@ -210,7 +219,6 @@ namespace EnforcerPlugin {
         private void ConfigShit()
         {
             forceUnlock = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Force Unlock"), false, new ConfigDescription("Makes Enforcer unlocked by default", null, Array.Empty<object>()));
-            antiFun = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "I Hate Fun"), false, new ConfigDescription("Disables some skins. Enable if you hate fun.", null, Array.Empty<object>()));
             classicShotgun = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Classic Shotgun"), false, new ConfigDescription("Use RoR1 shotgun sound", null, Array.Empty<object>()));
             classicIcons = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Classic Icons"), false, new ConfigDescription("Use RoR1 skill icons", null, Array.Empty<object>()));
             headSize = base.Config.Bind<float>(new ConfigDefinition("01 - General Settings", "Head Size"), 1f, new ConfigDescription("Changes the size of Enforcer's head", null, Array.Empty<object>()));
@@ -218,9 +226,10 @@ namespace EnforcerPlugin {
             sirenOnDeflect = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Siren on Deflect"), true, new ConfigDescription("Play siren sound upon deflecting a projectile", null, Array.Empty<object>()));
             useNeedlerCrosshair = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Visions Crosshair"), true, new ConfigDescription("Gives every survivor the custom crosshair for Visions of Heresy", null, Array.Empty<object>()));
             sillyHammer = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Silly Hammer"), false, new ConfigDescription("Replaces Enforcer with a skeleton made out of hammers when Shattering Justice is obtained", null, Array.Empty<object>()));
-            cursed = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Cursed"), false, new ConfigDescription("Enables unfinished skills. They're almost certainly not going to work so enable at your own risk", null, Array.Empty<object>()));
+            cursed = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Cursed"), false, new ConfigDescription("Enables extra/unfinished content. Enable at own risk.", null, Array.Empty<object>()));
             femSkin = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Femforcer"), false, new ConfigDescription("Enables femforcer skin. Not for good boys and girls.", null, Array.Empty<object>()));
             oldEngiShield = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Old Engi Shield"), false, new ConfigDescription("Reverts the look of the Engi shield.", null, Array.Empty<object>()));
+            pig = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Pig"), false, new ConfigDescription("Pig", null, Array.Empty<object>()));
 
             defaultDanceKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Default Dance"), KeyCode.Alpha1, new ConfigDescription("Key used to Default Dance", null, Array.Empty<object>()));
             flossKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Floss"), KeyCode.Alpha2, new ConfigDescription("Key used to Floss", null, Array.Empty<object>()));
@@ -239,7 +248,7 @@ namespace EnforcerPlugin {
             baseMovementSpeed = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Movement Speed"), 7f, new ConfigDescription("", null, Array.Empty<object>()));
             baseCrit = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Crit"), 1f, new ConfigDescription("", null, Array.Empty<object>()));
 
-            shotgunDamage = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Damage Coefficient"), 0.4f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>())); 
+            shotgunDamage = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Damage Coefficient"), 0.45f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>())); 
             shotgunProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Proc Coefficient"), 0.5f, new ConfigDescription("Proc Coefficient of each pellet", null, Array.Empty<object>()));
             shotgunBulletCount = base.Config.Bind<int>(new ConfigDefinition("04 - Riot Shotgun", "Bullet Count"), 8, new ConfigDescription("Amount of pellets fired", null, Array.Empty<object>()));
             shotgunRange = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Range"), 64f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
@@ -251,17 +260,9 @@ namespace EnforcerPlugin {
             rifleRange = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Range"), 256f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
             rifleSpread = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Spread"), 5f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
 
-            superDamage = base.Config.Bind<float>(new ConfigDefinition("06 - Super Shotgun", "Damage Coefficient"), 0.75f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
-        }
+            superDamage = base.Config.Bind<float>(new ConfigDefinition("06 - Super Shotgun", "Damage Coefficient"), 0.8f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
 
-        private void EnforcerPlugin_LoadStart()
-        {
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.harbingerofme.HarbCrate"))
-            {
-                harbCrateInstalled = true;
-                //ItemDisplays.RegisterHarbCrateDisplays();
-                //i'll get back to this later, shit's not working
-            }
+            balancedShieldBash = base.Config.Bind<bool>(new ConfigDefinition("07 - Shield Bash", "Balanced Knockback"), false, new ConfigDescription("Applies a cap to knockback so bosses can no longer be thrown around.", null, Array.Empty<object>()));
         }
 
         public void Awake()
@@ -286,8 +287,8 @@ namespace EnforcerPlugin {
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         private void ScepterSetup()
         {
-            ThinkInvisible.ClassicItems.Scepter.instance.RegisterScepterSkill(tearGasScepterDef, "EnforcerBody", SkillSlot.Utility, 0);
-            ThinkInvisible.ClassicItems.Scepter.instance.RegisterScepterSkill(shockGrenadeDef, "EnforcerBody", SkillSlot.Utility, 1);
+            ThinkInvisible.ClassicItems.Scepter_V2.instance.RegisterScepterSkill(tearGasScepterDef, "EnforcerBody", SkillSlot.Utility, 0);
+            ThinkInvisible.ClassicItems.Scepter_V2.instance.RegisterScepterSkill(shockGrenadeDef, "EnforcerBody", SkillSlot.Utility, 1);
         }
 
         private void Hook()
@@ -297,16 +298,40 @@ namespace EnforcerPlugin {
             //On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnEnemyHit;
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
             On.RoR2.CharacterBody.Update += CharacterBody_Update;
+            On.RoR2.CharacterBody.OnLevelChanged += CharacterBody_OnLevelChanged;
             On.RoR2.CharacterMaster.OnInventoryChanged += CharacterMaster_OnInventoryChanged;
             On.RoR2.BodyCatalog.SetBodyPrefabs += BodyCatalog_SetBodyPrefabs;
             On.RoR2.GlobalEventManager.OnCharacterDeath += GlobalEventManager_OnCharacterDeath;
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
             On.EntityStates.BaseState.OnEnter += ParryState_OnEnter;
+            On.RoR2.ArenaMissionController.BeginRound += ArenaMissionController_BeginRound;
+            On.RoR2.UI.MainMenu.BaseMainMenuScreen.OnEnter += BaseMainMenuScreen_OnEnter;
+            On.RoR2.CharacterSelectBarController.ShouldDisplaySurvivor += CharacterSelectBarController_ShouldDisplaySurvivor;
+            On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
 
             //On.EntityStates.Global1s.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
         }
 
         #region Hooks
+        private void ArenaMissionController_BeginRound(On.RoR2.ArenaMissionController.orig_BeginRound orig, ArenaMissionController self)
+        {
+            if (self.currentRound == 8)
+            {
+                if (DifficultyIndex.Hard <= Run.instance.selectedDifficulty && Run.instance.stageClearCount >= 5)
+                {
+                    for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
+                    {
+                        CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
+                        if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
+                        {
+                            NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+                        }
+                    }
+                }
+            }
+            orig(self);
+        }
+
         private void GlobalEventManager_OnCharacterDeath(On.RoR2.GlobalEventManager.orig_OnCharacterDeath orig, GlobalEventManager self, DamageReport report)
         {
             if (self is null) return;
@@ -347,15 +372,14 @@ namespace EnforcerPlugin {
                 if (self.HasBuff(jackBoots))
                 {
                     Reflection.SetPropertyValue<float>(self, "armor", self.armor + 10);
-                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.5f);
+                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.35f);
                     Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
                 }
 
                 if (self.HasBuff(minigunBuff))
                 {
                     Reflection.SetPropertyValue<float>(self, "armor", self.armor + 50);
-                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.7f);
-                    Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
+                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.8f);
                 }
 
                 if (self.HasBuff(energyShieldBuff))
@@ -371,6 +395,14 @@ namespace EnforcerPlugin {
                     Reflection.SetPropertyValue<float>(self, "armor", self.armor - 20);
                     Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.25f);
                     Reflection.SetPropertyValue<float>(self, "attackSpeed", self.attackSpeed * 0.75f);
+                }
+
+                //armor passive
+                if (self.baseNameToken == "NEMFORCER_NAME")
+                {
+                    HealthComponent hp = self.healthComponent;
+                    float regenValue = Mathf.SmoothStep(NemforcerPlugin.passiveRegenBonus, 0, hp.combinedHealth / hp.fullCombinedHealth);
+                    Reflection.SetPropertyValue<float>(self, "regen", self.regen * regenValue);
                 }
             }
         }
@@ -396,6 +428,20 @@ namespace EnforcerPlugin {
                             self.GetBody().crosshairPrefab = needlerCrosshair;
                         }
                     }
+                }
+            }
+        }
+
+        private void CharacterBody_OnLevelChanged(On.RoR2.CharacterBody.orig_OnLevelChanged orig, CharacterBody self)
+        {
+            orig(self);
+
+            if (self.baseNameToken == "ENFORCER_NAME")
+            {
+                var lightController = self.GetComponent<EnforcerLightControllerAlt>();
+                if (lightController)
+                {
+                    lightController.FlashLights(4);
                 }
             }
         }
@@ -460,19 +506,6 @@ namespace EnforcerPlugin {
                 info.damage = info.procCoefficient;
             }
 
-            if (info.attacker)
-            {
-                CharacterBody cb = info.attacker.GetComponent<CharacterBody>();
-                if (cb)
-                {
-                    if (cb.baseNameToken == "ENFORCER_NAME" && info.damageType.HasFlag(DamageType.BlightOnHit))
-                    {
-                        info.damageType = DamageType.Generic;
-                        if (self.body) self.body.AddTimedBuff(tearGasDebuff, 0.5f);
-                    }
-                }
-            }
-
             orig(self, info);
         }
 
@@ -515,6 +548,44 @@ namespace EnforcerPlugin {
                 }
             }
 
+            orig(self);
+        }
+
+        private void BaseMainMenuScreen_OnEnter(On.RoR2.UI.MainMenu.BaseMainMenuScreen.orig_OnEnter orig, RoR2.UI.MainMenu.BaseMainMenuScreen self, RoR2.UI.MainMenu.MainMenuController menuController)
+        {
+            orig(self, menuController);
+
+            if (UnityEngine.Random.value <= 0.1f)
+            {
+                GameObject hammer = Instantiate(Assets.nemesisHammer);
+                hammer.transform.position = new Vector3(35, 4.5f, 21);
+                hammer.transform.rotation = Quaternion.Euler(new Vector3(45, 270, 0));
+                hammer.transform.localScale = new Vector3(12, 12, 340);
+            }
+        }
+
+        private bool CharacterSelectBarController_ShouldDisplaySurvivor(On.RoR2.CharacterSelectBarController.orig_ShouldDisplaySurvivor orig, CharacterSelectBarController self, SurvivorDef survivorDef)
+        {
+            Debug.Log("this doesn't fucking work lmao");
+            if (survivorDef.bodyPrefab.name == "NemforcerBody")
+            {
+                if (!SurvivorCatalog.SurvivorIsUnlockedOnThisClient(survivorDef.survivorIndex))
+                {
+                    return false;
+                }
+            }
+            return orig(self, survivorDef);
+        }
+
+        private void SurvivorIconController_Rebuild(On.RoR2.UI.SurvivorIconController.orig_Rebuild orig, SurvivorIconController self)
+        {
+            if (SurvivorCatalog.GetSurvivorDef(self.survivorIndex).bodyPrefab == NemforcerPlugin.characterPrefab)
+            {
+                if (!SurvivorCatalog.SurvivorIsUnlockedOnThisClient(self.survivorIndex))
+                {
+                    Destroy(self.gameObject);
+                }
+            }
             orig(self);
         }
 
@@ -878,6 +949,7 @@ namespace EnforcerPlugin {
 
             characterDisplay.AddComponent<MenuSound>();
             characterDisplay.AddComponent<EnforcerLightController>();
+            characterDisplay.AddComponent<EnforcerLightControllerAlt>();
 
             childLocator.FindChild("Head").transform.localScale = Vector3.one * headSize.Value;
 
@@ -1502,6 +1574,7 @@ namespace EnforcerPlugin {
             characterPrefab.AddComponent<ShieldComponent>();
             characterPrefab.AddComponent<EnforcerWeaponComponent>();
             characterPrefab.AddComponent<EnforcerLightController>();
+            characterPrefab.AddComponent<EnforcerLightControllerAlt>();
 
             #endregion
         }
@@ -1558,7 +1631,7 @@ namespace EnforcerPlugin {
             BuffDef jackBootsDef = new BuffDef
             {
                 name = "Heavyweight",
-                iconPath = "@Enforcer:Assets/texBuffProtectAndServe.png",
+                iconPath = "@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texBuffProtectAndServe.png",
                 buffColor = characterColor,
                 canStack = false,
                 isDebuff = false,
@@ -1570,7 +1643,7 @@ namespace EnforcerPlugin {
             BuffDef energyShieldBuffDef = new BuffDef
             {
                 name = "Heavyweight",
-                iconPath = "@Enforcer:Assets/texBuffProtectAndServe.png",
+                iconPath = "@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texBuffProtectAndServe.png",
                 buffColor = characterColor,
                 canStack = false,
                 isDebuff = false,
@@ -1594,7 +1667,7 @@ namespace EnforcerPlugin {
             BuffDef minigunBuffDef = new BuffDef
             {
                 name = "HeavyweightV2",
-                iconPath = "@Enforcer:Assets/texBuffProtectAndServe.png",
+                iconPath = "@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texBuffProtectAndServe.png",
                 buffColor = Color.yellow,
                 canStack = false,
                 isDebuff = false,
@@ -1743,7 +1816,7 @@ namespace EnforcerPlugin {
             buffWard.rangeIndicator = null;
             buffWard.buffType = tearGasDebuff;
             buffWard.buffDuration = 1.5f;
-            buffWard.floorWard = true;
+            buffWard.floorWard = false;
             buffWard.expires = false;
             buffWard.invertTeamFilter = true;
             buffWard.expireDuration = 0;
@@ -1775,14 +1848,13 @@ namespace EnforcerPlugin {
             ProjectileImpactExplosion scepterGrenadeImpact = damageGasProjectile.GetComponent<ProjectileImpactExplosion>();
             ProjectileDotZone dotZone = damageGasEffect.GetComponent<ProjectileDotZone>();
 
-            dotZone.damageCoefficient = 1f;
+            dotZone.damageCoefficient = 2f;
             dotZone.fireFrequency = 4f;
             dotZone.forceVector = Vector3.zero;
             dotZone.impactEffect = null;
             dotZone.lifetime = 18f;
-            dotZone.overlapProcCoefficient = 0;
-
-            scepterTearGasDamage.damageType = DamageType.BlightOnHit;
+            dotZone.overlapProcCoefficient = 0.05f;
+            dotZone.transform.localScale *= 2.5f;
 
             GameObject scepterGrenadeModel = Assets.tearGasGrenadeModelAlt.InstantiateClone("TearGasScepterGhost", true);
             scepterGrenadeModel.AddComponent<NetworkIdentity>();
@@ -1807,7 +1879,7 @@ namespace EnforcerPlugin {
             scepterGrenadeImpact.fireChildren = true;
             scepterGrenadeImpact.childrenCount = 1;
             scepterGrenadeImpact.childrenProjectilePrefab = damageGasEffect;
-            scepterGrenadeImpact.childrenDamageCoefficient = 0.25f;
+            scepterGrenadeImpact.childrenDamageCoefficient = 0.5f;
             scepterGrenadeImpact.impactEffect = null;
 
             scepterGrenadeController.startSound = "";
@@ -1835,7 +1907,19 @@ namespace EnforcerPlugin {
 
             damageGasEffect.AddComponent<DestroyOnTimer>().duration = 18;
 
-            
+            BuffWard buffWard2 = damageGasEffect.AddComponent<BuffWard>();
+
+            buffWard2.radius = 18;
+            buffWard2.interval = 1;
+            buffWard2.rangeIndicator = null;
+            buffWard2.buffType = tearGasDebuff;
+            buffWard2.buffDuration = 1.5f;
+            buffWard2.floorWard = false;
+            buffWard2.expires = false;
+            buffWard2.invertTeamFilter = true;
+            buffWard2.expireDuration = 0;
+            buffWard2.animateRadius = false;
+
             //bullet tracers
             bulletTracer = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoShotgun").InstantiateClone("EnforcerBulletTracer", true);
 
@@ -2022,7 +2106,8 @@ namespace EnforcerPlugin {
             skillLocator.secondary = PluginUtils.RegisterSkillsToFamily(characterPrefab, secondaryVariant1);
         }
 
-        private void UtilitySetup() {
+        private void UtilitySetup()
+        {
             SkillDef utilityDef1 = UtilitySkillDef_TearGas();
             SkillFamily.Variant utilityVariant1 = PluginUtils.SetupSkillVariant(utilityDef1,
                                                                                 typeof(AimTearGas),
@@ -2035,7 +2120,8 @@ namespace EnforcerPlugin {
             skillLocator.utility = PluginUtils.RegisterSkillsToFamily(characterPrefab, utilityVariant1, utilityVariant2);
         }
 
-        private void SpecialSetup() {
+        private void SpecialSetup()
+        {
             SkillDef specialDef1 = SpecialSkillDef_ProtectAndServe();
             SkillFamily.Variant specialVariant1 = PluginUtils.SetupSkillVariant(specialDef1, typeof(ProtectAndServe));
 
@@ -2069,7 +2155,7 @@ namespace EnforcerPlugin {
 
             if (cursed.Value)
             {
-                PluginUtils.RegisterAdditionalSkills(skillLocator.special, specialVariant2, specialVariant3);
+                PluginUtils.RegisterAdditionalSkills(skillLocator.special, specialVariant3);
                 specialSkillChangeDefs.Add(specialDef2);
                 specialSkillChangeDefs.Add(specialDef3);
             }
@@ -2206,7 +2292,10 @@ namespace EnforcerPlugin {
 
         private SkillDef SecondarySkillDef_Bash()
         {
-            string desc = $"<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style>. <style=cIsUtility>Deflects projectiles</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> for <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage</style> instead.";
+            LanguageAPI.Add("KEYWORD_BASH", "<style=cKeywordName>Bash</style><style=cSub>Applies <style=cIsDamage>stun</style> and <style=cIsUtility>heavy knockback</style>.");
+            LanguageAPI.Add("KEYWORD_SPRINTBASH", $"<style=cKeywordName>Shoulder Bash</style><style=cSub>A short charge that <style=cIsDamage>stuns</style>.\nHitting heavier enemies deals <style=cIsDamage>{ShoulderBash.knockbackDamageCoefficient * 100f}% damage</style>.</style>");
+
+            string desc = $"<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style>. <style=cIsUtility>Deflects projectiles</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> for <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}-{100f * ShoulderBash.knockbackDamageCoefficient}% damage</style> instead.";
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", desc);
@@ -2491,7 +2580,7 @@ namespace EnforcerPlugin {
             LoadoutAPI.AddSkill(typeof(AimDamageGas));
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_NAME", "Mustard Gas");
-            LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_DESCRIPTION", "Launch a grenade that explodes into a cloud of <style=cIsDamage>mustard gas</style> that leaves enemies <style=cIsDamage>Impaired</style>, deals <style=cIsDamage>100% damage per second</style> and lasts for <style=cIsDamage>16 seconds</style>.");
+            LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_DESCRIPTION", "Launch a grenade that explodes into a cloud of <style=cIsDamage>mustard gas</style> that leaves enemies <style=cIsDamage>Impaired</style>, deals <style=cIsDamage>200% damage per second</style> and lasts for <style=cIsDamage>16 seconds</style>.");
 
             tearGasScepterDef = ScriptableObject.CreateInstance<SkillDef>();
             tearGasScepterDef.activationState = new SerializableEntityStateType(typeof(AimDamageGas));
@@ -2555,14 +2644,15 @@ namespace EnforcerPlugin {
 
         private void CSSPreviewSetup()
         {
-
+            //something broke here i don't really understand it
             CharacterSelectSurvivorPreviewDisplayController previewController = characterDisplay.GetComponent<CharacterSelectSurvivorPreviewDisplayController>();
 
-            for (int i = 0; i < previewController.skillChangeResponses.Length; i++) {
-
+            for (int i = 0; i < previewController.skillChangeResponses.Length; i++)
+            {
                 var skillChangeResponse = previewController.skillChangeResponses[i];
 
-                switch (i) {
+                switch (i)
+                {
                     case 0:
                         skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
                         skillChangeResponse.triggerSkill = primarySkillChangeDefs[0];
@@ -2576,7 +2666,8 @@ namespace EnforcerPlugin {
                         skillChangeResponse.triggerSkill = primarySkillChangeDefs[2];
                         break;
                     case 3:
-                        if (cursed.Value) {
+                        if (cursed.Value)
+                        {
                             skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
                             skillChangeResponse.triggerSkill = primarySkillChangeDefs[3];
                         }
@@ -2586,13 +2677,15 @@ namespace EnforcerPlugin {
                         skillChangeResponse.triggerSkill = specialSkillChangeDefs[0];
                         break;
                     case 5:
-                        if (cursed.Value) {
+                        if (cursed.Value)
+                        {
                             skillChangeResponse.triggerSkillFamily = skillLocator.special.skillFamily;
                             skillChangeResponse.triggerSkill = specialSkillChangeDefs[1];
                         }
                         break;
                     case 6:
-                        if (cursed.Value) {
+                        if (cursed.Value)
+                        {
                             skillChangeResponse.triggerSkillFamily = skillLocator.special.skillFamily;
                             skillChangeResponse.triggerSkill = specialSkillChangeDefs[2];
                         }
@@ -2653,7 +2746,13 @@ namespace EnforcerPlugin {
             var i = GetComponentInChildren<EnforcerLightController>();
             if (i)
             {
-                i.FlashLights(4);
+                i.FlashLights(3);
+            }
+
+            var j = GetComponentInChildren<EnforcerLightControllerAlt>();
+            if (j)
+            {
+                j.FlashLights(4);
             }
         }
 

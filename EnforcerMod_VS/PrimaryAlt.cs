@@ -39,12 +39,12 @@ namespace EntityStates.Enforcer
             this.muzzleString = "RifleMuzzle";
             this.isStormtrooper = false;
             this.isEngi = false;
-            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex)
+            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value)
             {
                 this.muzzleString = "BlasterRifleMuzzle";
                 this.isStormtrooper = true;
             }
-            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex)
+            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value)
             {
                 this.muzzleString = "GrenadeMuzzle";
                 this.isEngi = true;

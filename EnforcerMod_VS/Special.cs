@@ -23,7 +23,7 @@ namespace EntityStates.Enforcer
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
             this.childLocator = base.GetModelChildLocator();
 
-            bool isEngi = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex;
+            bool isEngi = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value;
             if (EnforcerPlugin.EnforcerPlugin.oldEngiShield.Value) isEngi = false;
             bool isDoom = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex;
 

@@ -8,11 +8,10 @@ namespace EntityStates.Nemforcer
     public class MinigunToggle : BaseSkillState
     {
         public static float enterDuration = 0.5f;
-        public static float exitDuration = 0.6f;
+        public static float exitDuration = 0.8f;
         public static float bonusMass = 15000;
 
         private float duration;
-        private ShieldComponent shieldComponent;
         private Animator animator;
         private ChildLocator childLocator;
 
@@ -26,7 +25,7 @@ namespace EntityStates.Nemforcer
             {
                 this.duration = MinigunToggle.exitDuration / this.attackSpeedStat;
 
-                base.PlayAnimation("FullBody, Override", "MinigunDown", "ShieldUp.playbackRate", this.duration);
+                base.PlayAnimation("FullBody, Override", "MinigunDown", "MinigunUp.playbackRate", this.duration);
 
                 if (base.skillLocator)
                 {
@@ -44,6 +43,9 @@ namespace EntityStates.Nemforcer
                     base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff);
                 }
 
+                this.animator.SetFloat("Minigun.spinSpeed", 0);
+                this.animator.SetBool("minigunActive", false);
+
                 string soundString = EnforcerPlugin.Sounds.ShieldDown;
 
                 Util.PlaySound(soundString, base.gameObject);
@@ -53,7 +55,7 @@ namespace EntityStates.Nemforcer
                 this.duration = MinigunToggle.enterDuration / this.attackSpeedStat;
 
                 base.PlayAnimation("RightArm, Override", "BufferEmpty");
-                base.PlayAnimation("FullBody, Override", "MinigunUp", "ShieldUp.playbackRate", this.duration);
+                base.PlayAnimation("FullBody, Override", "MinigunUp", "MinigunUp.playbackRate", this.duration);
 
                 if (base.skillLocator)
                 {
@@ -71,10 +73,14 @@ namespace EntityStates.Nemforcer
                     base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff);
                 }
 
+                this.animator.SetBool("minigunActive", true);
+
                 string soundString = EnforcerPlugin.Sounds.ShieldUp;
 
                 Util.PlaySound(soundString, base.gameObject);
             }
+
+            base.characterBody.SetAimTimer(this.duration + 0.2f);
         }
 
         public override void OnExit()
@@ -85,6 +91,11 @@ namespace EntityStates.Nemforcer
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+
+            if (base.characterMotor.isGrounded)
+            {
+                base.characterMotor.velocity = Vector3.zero;
+            }
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {

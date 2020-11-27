@@ -51,7 +51,7 @@ namespace EntityStates.Enforcer
                     damageTypeOverride = DamageType.Stun1s,
                     force = 250,
                     owner = base.gameObject,
-                    position = childLocator.FindChild(StunGrenade.muzzleString).position,
+                    position = base.characterBody.corePosition,
                     procChainMask = default(ProcChainMask),
                     projectilePrefab = EnforcerPlugin.EnforcerPlugin.stunGrenade,
                     rotation = Quaternion.LookRotation(base.GetAimRay().direction),

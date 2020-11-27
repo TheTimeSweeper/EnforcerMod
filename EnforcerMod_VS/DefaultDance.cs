@@ -28,6 +28,8 @@ namespace EntityStates.Enforcer
             }
 
             if (base.GetAimAnimator()) base.GetAimAnimator().enabled = false;
+            this.animator.SetLayerWeight(animator.GetLayerIndex("AimPitch"), 0);
+            this.animator.SetLayerWeight(animator.GetLayerIndex("AimYaw"), 0);
 
             if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) soundString = EnforcerPlugin.Sounds.DOOM;
 
@@ -55,6 +57,8 @@ namespace EntityStates.Enforcer
             base.characterBody.hideCrosshair = false;
 
             if (base.GetAimAnimator()) base.GetAimAnimator().enabled = true;
+            this.animator.SetLayerWeight(animator.GetLayerIndex("AimPitch"), 1);
+            this.animator.SetLayerWeight(animator.GetLayerIndex("AimYaw"), 1);
 
             var weaponComponent = base.GetComponent<EnforcerWeaponComponent>();
             if (weaponComponent) weaponComponent.ResetWeapon();

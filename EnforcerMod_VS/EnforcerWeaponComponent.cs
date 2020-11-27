@@ -6,6 +6,8 @@ public class EnforcerWeaponComponent : MonoBehaviour
 {
     public static event Action<int> Imp = delegate { };
 
+    public static int maxShellCount = 12;
+
     private GameObject skateboard;
     private Transform skateboardBase;
     private Transform skateboardHandBase;
@@ -23,6 +25,8 @@ public class EnforcerWeaponComponent : MonoBehaviour
     private InputBankTest inputBank;
     private ParticleSystem shellController;
     private int impCount;
+    private int currentShell;
+    private GameObject[] shellObjects;
 
     private void Start()
     {
@@ -61,7 +65,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
                         if (charBody.master.inventory.GetItemCount(ItemIndex.ArmorReductionOnHit) > 0) characterModel.baseRendererInfos[0].defaultMaterial = null;
                     }
                 }
-                else
+                /*else
                 {
                     var characterModel = charBody.modelLocator.modelTransform;
                     if (characterModel)
@@ -72,7 +76,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
                         var animator = characterModel.GetComponent<Animator>();
                         if (animator) animator.SetFloat("shitpost", num);
                     }
-                }
+                }*/
             }
         }
     }
@@ -290,7 +294,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
     {
         if (childLocator is null) return;
 
-        GameObject desiredShell = EnforcerPlugin.Assets.shotgunShell;
+        /*GameObject desiredShell = EnforcerPlugin.Assets.shotgunShell;
         if (GetWeapon() == 2) desiredShell = EnforcerPlugin.Assets.superShotgunShell;
 
         GameObject shellObject = GameObject.Instantiate<GameObject>(desiredShell, childLocator.FindChild("GrenadeMuzzle"));
@@ -303,14 +307,45 @@ public class EnforcerWeaponComponent : MonoBehaviour
         shellController.transform.localPosition = new Vector3(0, -0.1f, 0);
 
         var x = shellController.main;
-        x.simulationSpace = ParticleSystemSimulationSpace.World;
+        x.simulationSpace = ParticleSystemSimulationSpace.World;*/
+
+        currentShell = 0;
+
+        shellObjects = new GameObject[EnforcerWeaponComponent.maxShellCount + 1];
+
+        GameObject desiredShell = EnforcerPlugin.Assets.shotgunShell;
+        if (GetWeapon() == 2) desiredShell = EnforcerPlugin.Assets.superShotgunShell;
+
+        for (int i = 0; i < EnforcerWeaponComponent.maxShellCount; i++)
+        {
+            shellObjects[i] = GameObject.Instantiate(desiredShell, childLocator.FindChild("Shotgun"), false);
+            shellObjects[i].transform.localScale *= 0.075f;
+            shellObjects[i].SetActive(false);
+            shellObjects[i].GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.Continuous;
+        }
     }
 
-    public void DropShell()
+    public void DropShell(Vector3 force)
     {
-        if (childLocator is null) return;
+        //if (shellController) shellController.Play();
+        if (shellObjects == null) return;
 
-        if (shellController) shellController.Play();
+        if (shellObjects[currentShell] == null) return;
+
+        Transform origin = childLocator.FindChild("GrenadeMuzzle");
+
+        shellObjects[currentShell].SetActive(false);
+
+        shellObjects[currentShell].transform.position = origin.position;
+        shellObjects[currentShell].transform.parent = null;
+
+        shellObjects[currentShell].SetActive(true);
+
+        Rigidbody rb = shellObjects[currentShell].gameObject.GetComponent<Rigidbody>();
+        if (rb) rb.velocity = force;
+
+        currentShell++;
+        if (currentShell >= EnforcerWeaponComponent.maxShellCount) currentShell = 0;
     }
 
     private void InitSkateboard()

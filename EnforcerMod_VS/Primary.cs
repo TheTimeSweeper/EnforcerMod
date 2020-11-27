@@ -37,12 +37,12 @@ namespace EntityStates.Enforcer
             this.muzzleString = "Muzzle";
             this.isStormtrooper = false;
             this.isEngi = false;
-            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex)
+            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value)
             {
                 this.muzzleString = "BlasterMuzzle";
                 this.isStormtrooper = true;
             }
-            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex)
+            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value)
             {
                 this.muzzleString = "GrenadeMuzzle";
                 this.isEngi = true;
@@ -99,7 +99,7 @@ namespace EntityStates.Enforcer
                 base.characterBody.AddSpreadBloom(0.33f * recoil);
                 EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, base.gameObject, this.muzzleString, false);
 
-                if (!this.isStormtrooper && !this.isEngi) base.GetComponent<EnforcerWeaponComponent>().DropShell();
+                if (!this.isStormtrooper && !this.isEngi) base.GetComponent<EnforcerWeaponComponent>().DropShell(-base.GetModelBaseTransform().transform.right * -Random.Range(4, 12));
 
                 if (base.isAuthority)
                 {
@@ -237,8 +237,8 @@ namespace EntityStates.Enforcer
                 if (!this.isStormtrooper && !this.isEngi)
                 {
                     var poopy = base.GetComponent<EnforcerWeaponComponent>();
-                    poopy.DropShell();
-                    poopy.DropShell();
+                    poopy.DropShell(-base.GetModelBaseTransform().transform.right * -Random.Range(6, 16));
+                    poopy.DropShell(-base.GetModelBaseTransform().transform.right * -Random.Range(6, 16));
                 }
             }
 
