@@ -22,7 +22,6 @@ public class EnforcerWeaponComponent : MonoBehaviour
     private CharacterMotor charMotor;
     private HealthComponent charHealth;
     private ChildLocator childLocator;
-    private InputBankTest inputBank;
     private ParticleSystem shellController;
     private int impCount;
     private int currentShell;
@@ -34,7 +33,6 @@ public class EnforcerWeaponComponent : MonoBehaviour
         charMotor = GetComponentInChildren<CharacterMotor>();
         charHealth = GetComponentInChildren<HealthComponent>();
         childLocator = GetComponentInChildren<ChildLocator>();
-        inputBank = GetComponentInChildren<InputBankTest>();
         footStep = GetComponentInChildren<FootstepHandler>();
         sfx = GetComponentInChildren<SfxLocator>();
 

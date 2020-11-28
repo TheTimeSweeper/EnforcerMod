@@ -14,6 +14,7 @@ namespace EntityStates.Nemforcer
         private ChildLocator childLocator;
         private Animator animator;
         private Transform modelBaseTransform;
+        private uint chargePlayID;
 
         public override void OnEnter()
         {
@@ -23,6 +24,8 @@ namespace EntityStates.Nemforcer
             this.modelBaseTransform = base.GetModelBaseTransform();
             this.animator = base.GetModelAnimator();
             base.PlayAnimation("Gesture, Override", "HammerCharge", "HammerCharge.playbackRate", this.chargeDuration);
+
+            this.chargePlayID = Util.PlaySound(EnforcerPlugin.Sounds.NemesisStartCharge, healthComponent.gameObject);
 
             if (base.cameraTargetParams)
             {
@@ -39,7 +42,7 @@ namespace EntityStates.Nemforcer
             if (charge >= 1f && !this.finishedCharge)
             {
                 this.finishedCharge = true;
-                Util.PlaySound(EntityStates.Captain.Weapon.FireCaptainShotgun.tightSoundString, base.gameObject);
+                Util.PlaySound(EnforcerPlugin.Sounds.NemesisMaxCharge, healthComponent.gameObject);
 
                 if (base.cameraTargetParams)
                 {
@@ -65,6 +68,8 @@ namespace EntityStates.Nemforcer
             base.OnExit();
 
             base.PlayAnimation("Gesture, Override", "BufferEmpty");
+
+            AkSoundEngine.StopPlayingID(this.chargePlayID);
 
             if (base.cameraTargetParams)
             {
@@ -128,8 +133,6 @@ namespace EntityStates.Nemforcer
             this.modelBaseTransform = base.GetModelBaseTransform();
             this.animator = base.GetModelAnimator();
 
-            Util.PlayScaledSound(Croco.Leap.leapSoundString, base.gameObject, 1.95f);
-
             if (base.isAuthority && base.inputBank && base.characterDirection)
             {
                 this.forwardDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.characterDirection.forward : base.inputBank.moveVector).normalized;
@@ -149,7 +152,6 @@ namespace EntityStates.Nemforcer
             HitBoxGroup hitBoxGroup = Array.Find<HitBoxGroup>(base.GetModelTransform().GetComponents<HitBoxGroup>(), (HitBoxGroup element) => element.groupName == "Uppercut");
 
             base.PlayAnimation("FullBody, Override", "Uppercut", "Uppercut.playbackRate", this.duration);
-            //base.PlayAnimation("Legs, Override", "SwingLegs", "HammerSwing.playbackRate", this.duration);
 
             this.attack = new OverlapAttack();
             this.attack.damageType = DamageType.Stun1s;
@@ -163,8 +165,6 @@ namespace EntityStates.Nemforcer
             this.attack.pushAwayForce = 50f;
             this.attack.hitBoxGroup = hitBoxGroup;
             this.attack.isCrit = base.RollCrit();
-
-            EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.shoulderBashFX, base.gameObject, "SwingCenter", true);
         }
 
         private void RecalculateSpeed()
@@ -190,7 +190,7 @@ namespace EntityStates.Nemforcer
             base.FixedUpdate();
             base.characterBody.isSprinting = true;
 
-            if (base.fixedAge >= this.duration)
+            if (this.stopwatch >= this.duration)
             {
                 this.outer.SetNextStateToMain();
                 return;
@@ -234,16 +234,22 @@ namespace EntityStates.Nemforcer
 
                             base.SmallHop(base.characterMotor, HammerUppercut.hopVelocity);
                             base.AddRecoil(-1f * this.recoil, -2f * this.recoil, -0.5f * this.recoil, 0.5f * this.recoil);
+                            Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwing, healthComponent.gameObject);
                         }
                     }
                     else
                     {
                         if (this.attack.Fire())
                         {
-                            Util.PlaySound(EnforcerPlugin.Sounds.ShoulderBashHit, base.gameObject);
-                            this.hitStopCachedState = base.CreateHitStopCachedState(base.characterMotor, this.animator, "HammerSwing.playbackRate");
+                            if (charge >= 1 && UnityEngine.Random.value <= 0.05f)
+                            {
+                                Util.PlaySound(EnforcerPlugin.Sounds.HomeRun, healthComponent.gameObject);
+                            }
+                            else Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact, healthComponent.gameObject);
+
+                            this.hitStopCachedState = base.CreateHitStopCachedState(base.characterMotor, this.animator, "Uppercut.playbackRate");
                             this.inHitPause = true;
-                            this.hitPauseTimer = (3f * EntityStates.Merc.GroundLight.hitPauseDuration) / this.attackSpeedStat;
+                            this.hitPauseTimer = (3.5f * EntityStates.Merc.GroundLight.hitPauseDuration) / this.attackSpeedStat;
                         }
 
                         base.characterMotor.velocity.y *= 0.1f;

@@ -113,6 +113,9 @@ namespace EntityStates.Enforcer
 
                     Ray aimRay = base.GetAimRay();
 
+                    float spread = RiotShotgun.bulletSpread;
+                    if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots)) spread *= 0.5f;
+
                     BulletAttack bulletAttack = new BulletAttack {
                         aimVector = aimRay.direction,
                         origin = aimRay.origin,
@@ -142,7 +145,7 @@ namespace EntityStates.Enforcer
                     };
 
                     bulletAttack.minSpread = 0;
-                    bulletAttack.maxSpread = bulletSpread / RAD2;
+                    bulletAttack.maxSpread = spread / RAD2;
                     bulletAttack.bulletCount = (uint)Mathf.FloorToInt((float)projectileCount / 2);
 
                     if (projectileCount == 1)
@@ -154,8 +157,8 @@ namespace EntityStates.Enforcer
 
                     bulletAttack.Fire();
 
-                    bulletAttack.minSpread = bulletSpread / RAD2;
-                    bulletAttack.maxSpread = bulletSpread;
+                    bulletAttack.minSpread = spread / RAD2;
+                    bulletAttack.maxSpread = spread;
                     bulletAttack.bulletCount = (uint)Mathf.FloorToInt((float)projectileCount / 2);
 
                     bulletAttack.Fire();

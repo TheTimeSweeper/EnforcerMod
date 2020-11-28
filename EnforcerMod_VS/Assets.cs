@@ -29,11 +29,15 @@ namespace EnforcerPlugin
         public static Sprite icon3BS;//stun grenade(scepter)
         public static Sprite icon4;//protect and serve
         public static Sprite icon4B;//protect and serve cancel
+        public static Sprite icon4C;//skateboard
+        public static Sprite icon4D;//skateboard cancel
 
         public static Sprite nIconP;
         public static Sprite nIcon1;
         public static Sprite nIcon1B;
+        public static Sprite nIcon1C;
         public static Sprite nIcon2;
+        public static Sprite nIcon2B;
         public static Sprite nIcon3;
         public static Sprite nIcon4;
         public static Sprite nIcon4B;
@@ -54,6 +58,8 @@ namespace EnforcerPlugin
         public static GameObject stunGrenadeModel;
 
         public static GameObject stunGrenadeModelAlt;
+
+        public static GameObject hammerProjectileModel;
 
         public static GameObject shotgunShell;
         public static GameObject superShotgunShell;
@@ -143,12 +149,17 @@ namespace EnforcerPlugin
                 icon4B = MainAssetBundle.LoadAsset<Sprite>("ShieldDownIcon");
             }
 
+            icon4C = MainAssetBundle.LoadAsset<Sprite>("SkamteOffIcon");
+            icon4D = MainAssetBundle.LoadAsset<Sprite>("SkamteOnIcon");
+
             testIcon = MainAssetBundle.LoadAsset<Sprite>("TestIcon");
 
             nIconP = NemAssetBundle.LoadAsset<Sprite>("PassiveIcon");
             nIcon1 = NemAssetBundle.LoadAsset<Sprite>("HammerSwingIcon");
             nIcon1B = NemAssetBundle.LoadAsset<Sprite>("MinigunFireIcon");
+            nIcon1C = NemAssetBundle.LoadAsset<Sprite>("HammerThrowIcon");
             nIcon2 = NemAssetBundle.LoadAsset<Sprite>("HammerChargeIcon");
+            nIcon2B = NemAssetBundle.LoadAsset<Sprite>("HammerSlamIcon");
             nIcon3 = NemAssetBundle.LoadAsset<Sprite>("GasGrenadeIcon");
             nIcon4 = NemAssetBundle.LoadAsset<Sprite>("MinigunStanceIcon");
             nIcon4B = NemAssetBundle.LoadAsset<Sprite>("HammerStanceIcon");
@@ -184,6 +195,8 @@ namespace EnforcerPlugin
             nemGasEffectPrefab.GetComponentInChildren<Rigidbody>().gameObject.layer = LayerIndex.debris.intVal;
 
             stunGrenadeModel = MainAssetBundle.LoadAsset<GameObject>("StunGrenade");
+            stunGrenadeModel.GetComponentInChildren<MeshRenderer>().material.shader = hotpoo;
+            stunGrenadeModel.transform.GetChild(0).GetChild(0).Find("Smoke").gameObject.AddComponent<ParticleFollowerController>();
 
             stunGrenadeModelAlt = MainAssetBundle.LoadAsset<GameObject>("ShockGrenade");
             //replace the texture here bc the emission is important
@@ -197,6 +210,10 @@ namespace EnforcerPlugin
             shockGrenadeMaterial.SetFloat("_NormalStrength", 0);
 
             shockGrenadeMesh.material = shockGrenadeMaterial;
+
+            hammerProjectileModel = NemAssetBundle.LoadAsset<GameObject>("HammerProjectile");
+
+            hammerProjectileModel.GetComponentInChildren<MeshRenderer>().material.shader = hotpoo;
 
             shotgunShell = MainAssetBundle.LoadAsset<GameObject>("ShotgunShell");
             superShotgunShell = MainAssetBundle.LoadAsset<GameObject>("SuperShotgunShell");

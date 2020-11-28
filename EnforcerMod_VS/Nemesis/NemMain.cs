@@ -33,7 +33,7 @@ namespace EntityStates.Nemforcer
                 float denom = (1 + Time.fixedTime - this.initialTime);
                 float smoothFactor = 8 / Mathf.Pow(denom, 2);
                 Vector3 smoothVector = new Vector3(-3 / 20, 1 / 16, -1);
-                ctp.idealLocalCameraPos = new Vector3(-1.8f, -0.5f, -8f) + smoothFactor * smoothVector;
+                ctp.idealLocalCameraPos = new Vector3(-1.2f, -0.5f, -9f) + smoothFactor * smoothVector;
             }
         }
 

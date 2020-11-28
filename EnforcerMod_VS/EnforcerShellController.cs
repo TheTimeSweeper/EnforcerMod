@@ -26,8 +26,10 @@ namespace Enforcer
             if (!this.triggered)
             {
                 this.triggered = true;
-                //if (Random.value > 0.5f) Util.PlaySound(EnforcerPlugin.Sounds.ShellSlow, this.gameObject);
-                //else Util.PlaySound(EnforcerPlugin.Sounds.ShellFast, this.gameObject);
+                AkSoundEngine.SetRTPCValue("Shell_Velocity", rb.velocity.magnitude);
+
+                if (Random.value > 0.5f) Util.PlaySound(EnforcerPlugin.Sounds.ShellHittingFloorSlow, this.gameObject);
+                else Util.PlaySound(EnforcerPlugin.Sounds.ShellHittingFloorFast, this.gameObject);
             }
         }
     }

@@ -134,7 +134,7 @@ namespace EntityStates.Nemforcer
             {
                 this.hasFired = true;
 
-                Util.PlayScaledSound(Merc.GroundLight.comboAttackSoundString, base.gameObject, 0.5f + (this.attackSpeedStat - 1));
+                Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisSwing, base.gameObject, this.attackSpeedStat);
 
                 base.AddRecoil(-1f * HammerSwing.attackRecoil, -2f * HammerSwing.attackRecoil, -0.5f * HammerSwing.attackRecoil, 0.5f * HammerSwing.attackRecoil);
 
@@ -148,7 +148,7 @@ namespace EntityStates.Nemforcer
 
                 if (this.attack.Fire())
                 {
-                    Util.PlayScaledSound(Toolbot.ToolbotDash.impactSoundString, base.gameObject, 0.85f);
+                    Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact, base.gameObject);
 
                     if (!this.hasHopped)
                     {
@@ -163,7 +163,7 @@ namespace EntityStates.Nemforcer
                     if (!this.inHitPause)
                     {
                         this.hitStopCachedState = base.CreateHitStopCachedState(base.characterMotor, this.animator, "HammerSwing.playbackRate");
-                        this.hitPauseTimer = (2f * EntityStates.Merc.GroundLight.hitPauseDuration) / this.attackSpeedStat;
+                        this.hitPauseTimer = (3f * EntityStates.Merc.GroundLight.hitPauseDuration) / this.attackSpeedStat;
                         this.inHitPause = true;
                     }
                 }

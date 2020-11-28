@@ -26,6 +26,15 @@ namespace EntityStates.Nemforcer
             damageCoefficient = 0.5f;
             baseMinimumDuration = 0.1f;
             projectileBaseSpeed = 150;
+            
+            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff))
+            {
+                base.PlayAnimation("Gesture, Override", "HoldGrenadeMinigun", "ThrowGrenade.playbackRate", 0.5f);
+            }
+            else
+            {
+                base.PlayAnimation("Gesture, Override", "HoldGrenadeHammer", "ThrowGrenade.playbackRate", 0.5f);
+            }
 
             base.OnEnter();
         }
@@ -53,11 +62,20 @@ namespace EntityStates.Nemforcer
         {
             base.OnExit();
 
-            Util.PlaySound(EnforcerPlugin.Sounds.LaunchTearGas, base.gameObject);
+            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff))
+            {
+                base.PlayAnimation("Gesture, Override", "ThrowGrenadeMinigun", "ThrowGrenade.playbackRate", 0.5f);
+            }
+            else
+            {
+                base.PlayAnimation("Gesture, Override", "ThrowGrenadeHammer", "ThrowGrenade.playbackRate", 0.5f);
+            }
+
+            Util.PlaySound(EnforcerPlugin.Sounds.NemesisGrenadeThrow, base.gameObject);
 
             base.AddRecoil(-2f * TearGas.bulletRecoil, -3f * TearGas.bulletRecoil, -1f * TearGas.bulletRecoil, 1f * TearGas.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * TearGas.bulletRecoil);
-            EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol.effectPrefab, base.gameObject, "MinigunMuzzle", false);
+            EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol.effectPrefab, base.gameObject, "HandR", false);
         }
     }
 

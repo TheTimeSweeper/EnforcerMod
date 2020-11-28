@@ -939,6 +939,21 @@ namespace EnforcerPlugin
                 }
             };
 
+            Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/hgstandard");
+
+            characterModel.baseRendererInfos[0].defaultMaterial.shader = hotpoo;
+            characterModel.baseRendererInfos[1].defaultMaterial.shader = hotpoo;
+            characterModel.baseRendererInfos[2].defaultMaterial.shader = hotpoo;
+            characterModel.baseRendererInfos[33].defaultMaterial.shader = hotpoo;
+            characterModel.baseRendererInfos[34].defaultMaterial.shader = hotpoo;
+
+            characterModel.baseRendererInfos[0].defaultMaterial.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
+            characterModel.baseRendererInfos[0].defaultMaterial.SetFloat("_EmPower", 1f);
+            characterModel.baseRendererInfos[33].defaultMaterial.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
+            characterModel.baseRendererInfos[33].defaultMaterial.SetFloat("_EmPower", 1f);
+            characterModel.baseRendererInfos[34].defaultMaterial.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
+            characterModel.baseRendererInfos[34].defaultMaterial.SetFloat("_EmPower", 1f);
+
             characterModel.autoPopulateLightInfos = true;
             characterModel.invisibilityCount = 0;
             characterModel.temporaryOverlays = new List<TemporaryOverlay>();
@@ -1395,6 +1410,27 @@ namespace EnforcerPlugin
             characterModel.autoPopulateLightInfos = true;
             characterModel.invisibilityCount = 0;
             characterModel.temporaryOverlays = new List<TemporaryOverlay>();
+
+            Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/hgstandard");
+
+            characterModel.baseRendererInfos[0].defaultMaterial.shader = hotpoo;
+            characterModel.baseRendererInfos[1].defaultMaterial.shader = hotpoo;
+            characterModel.baseRendererInfos[2].defaultMaterial.shader = hotpoo;
+            characterModel.baseRendererInfos[3].defaultMaterial.shader = hotpoo;
+            characterModel.baseRendererInfos[4].defaultMaterial.shader = hotpoo;
+            characterModel.baseRendererInfos[5].defaultMaterial.shader = hotpoo;
+            characterModel.baseRendererInfos[33].defaultMaterial.shader = hotpoo;
+            characterModel.baseRendererInfos[34].defaultMaterial.shader = hotpoo;
+
+            characterModel.baseRendererInfos[0].defaultMaterial.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
+            characterModel.baseRendererInfos[0].defaultMaterial.SetFloat("_EmPower", 1f);
+            characterModel.baseRendererInfos[0].defaultMaterial.SetColor("_EmColor", Color.white);
+            characterModel.baseRendererInfos[33].defaultMaterial.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
+            characterModel.baseRendererInfos[33].defaultMaterial.SetFloat("_EmPower", 1f);
+            characterModel.baseRendererInfos[33].defaultMaterial.SetColor("_EmColor", Color.white);
+            characterModel.baseRendererInfos[34].defaultMaterial.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
+            characterModel.baseRendererInfos[34].defaultMaterial.SetFloat("_EmPower", 1f);
+            characterModel.baseRendererInfos[34].defaultMaterial.SetColor("_EmColor", Color.white);
 
             characterModel.SetFieldValue("mainSkinnedMeshRenderer", characterModel.baseRendererInfos[0].renderer.gameObject.GetComponent<SkinnedMeshRenderer>());
 
@@ -2537,7 +2573,7 @@ namespace EnforcerPlugin
             mySkillDef.requiredStock = 1;
             mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.testIcon;
+            mySkillDef.icon = Assets.icon4C;
             mySkillDef.skillDescriptionToken = "ENFORCER_SPECIAL_BOARDUP_DESCRIPTION";
             mySkillDef.skillName = "ENFORCER_SPECIAL_BOARDUP_NAME";
             mySkillDef.skillNameToken = "ENFORCER_SPECIAL_BOARDUP_NAME";
@@ -2566,7 +2602,7 @@ namespace EnforcerPlugin
             mySkillDef2.requiredStock = 1;
             mySkillDef2.shootDelay = 0f;
             mySkillDef2.stockToConsume = 1;
-            mySkillDef2.icon = Assets.testIcon;
+            mySkillDef2.icon = Assets.icon4D;
             mySkillDef2.skillDescriptionToken = "ENFORCER_SPECIAL_BOARDDOWN_DESCRIPTION";
             mySkillDef2.skillName = "ENFORCER_SPECIAL_BOARDDOWN_NAME";
             mySkillDef2.skillNameToken = "ENFORCER_SPECIAL_BOARDDOWN_NAME";
@@ -2874,16 +2910,32 @@ namespace EnforcerPlugin
         public static readonly string EnergyShieldDown = "Energy_R_down";
 
         public static readonly string ShellHittingFloor = "Shell_Hitting_floor";
+        public static readonly string ShellHittingFloorFast = "Shell_Hitting_Floor_Fast";
+        public static readonly string ShellHittingFloorSlow = "Shell_Hitting_Floor_Slow";
+
+        public static readonly string NemesisSwing = "Play_Heavy_Swing";
+        public static readonly string NemesisImpact = "Play_Heavy_Swing_Hit";
+
+        public static readonly string NemesisStartCharge = "Play_chargeStart";
+        public static readonly string NemesisMaxCharge = "Play_chargeMax";
+
+        public static readonly string NemesisGrenadeThrow = "Play_GrenadeThrow";
+
+        public static readonly string NemesisMinigunWindDown = "Play_minigun_wind_down";
+        public static readonly string NemesisMinigunWindUp = "Play_minigun_wind_up";
+        public static readonly string NemesisMinigunShooting = "Play_Minigun_Shoot";
 
         public static readonly string DeathSound = "Death_Siren";
         public static readonly string SirenButton = "Siren_Button";
         public static readonly string SirenSpawn = "Siren_Spawn";
         public static readonly string Croak = "Croak_siren";
+        public static readonly string HomeRun = "Play_Home_Run_Bat_Hit";
 
         public static readonly string DefaultDance = "Default_forcer";
         public static readonly string Floss = "Flossforcer";
         public static readonly string InfiniteDab = "Infiniforcer";
         public static readonly string DOOM = "DOOM";
+        public static readonly string MioHonda = "Mio_Honda";
 
         public static readonly string SkateGrind = "grindmetal03";
         public static readonly string SkateLand = "Landing";

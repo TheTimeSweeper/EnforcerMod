@@ -49,7 +49,7 @@ namespace EntityStates.Enforcer
                     damage = StunGrenade.damageCoefficient * this.damageStat,
                     damageColorIndex = DamageColorIndex.Default,
                     damageTypeOverride = DamageType.Stun1s,
-                    force = 250,
+                    force = 1000,
                     owner = base.gameObject,
                     position = base.characterBody.corePosition,
                     procChainMask = default(ProcChainMask),

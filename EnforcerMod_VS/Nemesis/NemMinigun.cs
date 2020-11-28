@@ -24,6 +24,8 @@ namespace EntityStates.Nemforcer
         private Run.FixedTimeStamp lastCritCheck;
         private float currentFireRate;
 
+        private uint playID;
+
         public override void OnEnter()
         {
             base.OnEnter();
@@ -40,7 +42,8 @@ namespace EntityStates.Nemforcer
 
             this.critEndTime = Run.FixedTimeStamp.negativeInfinity;
             this.lastCritCheck = Run.FixedTimeStamp.negativeInfinity;
-            Util.PlaySound(MinigunFire.startSound, base.gameObject);
+
+            this.playID = Util.PlaySound(EnforcerPlugin.Sounds.NemesisMinigunShooting, base.gameObject);
         }
 
         private void UpdateCrits()
@@ -55,24 +58,34 @@ namespace EntityStates.Nemforcer
                     this.critEndTime = Run.FixedTimeStamp.now + 0.4f;
                 }
             }
+
+            if (!this.critEndTime.hasPassed)
+            {
+                AkSoundEngine.SetRTPCValue("Minigun_Shooting", 0);
+                AkSoundEngine.SetRTPCValue("Minigun_Crit", 1);
+            }
+            else
+            {
+                AkSoundEngine.SetRTPCValue("Minigun_Shooting", 1);
+                AkSoundEngine.SetRTPCValue("Minigun_Crit", 0);
+            }
         }
 
         public override void OnExit()
         {
-            Util.PlaySound(MinigunFire.endSound, base.gameObject);
             if (this.muzzleVfxTransform)
             {
                 EntityState.Destroy(this.muzzleVfxTransform.gameObject);
                 this.muzzleVfxTransform = null;
             }
 
+            AkSoundEngine.StopPlayingID(this.playID);
+
             base.OnExit();
         }
 
         private void OnFireShared()
         {
-            Util.PlaySound(MinigunFire.fireSound, base.gameObject);
-
             if (base.isAuthority)
             {
                 this.OnFireAuthority();
@@ -179,9 +192,8 @@ namespace EntityStates.Nemforcer
         public override void OnEnter()
         {
             base.OnEnter();
-
             this.duration = NemMinigunSpinDown.baseDuration / this.attackSpeedStat;
-            Util.PlayScaledSound(MinigunSpinDown.sound, base.gameObject, this.attackSpeedStat);
+            Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisMinigunWindDown, base.gameObject, this.attackSpeedStat);
 
             spin = animator.GetFloat("Minigun.spinSpeed");
         }
@@ -210,14 +222,8 @@ namespace EntityStates.Nemforcer
         public override void OnEnter()
         {
             base.OnEnter();
-            //base.characterBody.SetSpreadBloom(2f, false);
-            //base.characterBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
-
             this.duration = NemMinigunSpinUp.baseDuration / this.attackSpeedStat;
-            Util.PlaySound(MinigunSpinUp.sound, base.gameObject);
-
-
-            base.PlayAnimation("FullBody, Override", "MinigunUp", "ShieldUp.playbackRate", this.duration);
+            Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisMinigunWindUp, base.gameObject, this.attackSpeedStat);
 
             if (this.muzzleTransform && MinigunSpinUp.chargeEffectPrefab)
             {
@@ -271,6 +277,8 @@ namespace EntityStates.Nemforcer
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+
+            AkSoundEngine.SetRTPCValue("Minigun_Speed", this.attackSpeedStat);
         }
 
         public override void OnExit()

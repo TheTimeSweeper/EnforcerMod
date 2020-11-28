@@ -31,9 +31,12 @@ namespace EnforcerPlugin
         public static GameObject nemGasGrenade;
         public static GameObject nemGas;
 
+        public static GameObject hammerProjectile;
+
         public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
         public static SkillDef minigunFireDef;//skilldef for actually firing the minigun
+        public static SkillDef hammerSlamDef;//skilldef for m2 during minigun
         public static SkillDef minigunDownDef;//skilldef used while gun is down
         public static SkillDef minigunUpDef;//skilldef used while gun is up
 
@@ -120,6 +123,27 @@ namespace EnforcerPlugin
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("AltHammer").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("AltHammer").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("GrenadeL").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("GrenadeL").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("GrenadeR").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("GrenadeR").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                }
             };
 
             characterModel.autoPopulateLightInfos = true;
@@ -254,7 +278,35 @@ namespace EnforcerPlugin
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("AltHammer").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("AltHammer").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("GrenadeL").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("GrenadeL").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("GrenadeR").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("GrenadeR").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                }
             };
+
+            Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/hgstandard");
+
+            foreach (CharacterModel.RendererInfo i in characterModel.baseRendererInfos)
+            {
+                if (i.defaultMaterial) i.defaultMaterial.shader = hotpoo;
+            }
 
             characterModel.autoPopulateLightInfos = true;
             characterModel.invisibilityCount = 0;
@@ -418,6 +470,8 @@ namespace EnforcerPlugin
             aimAnimator.yawGiveupRange = 10f;
             aimAnimator.giveupDuration = 3f;
             aimAnimator.inputBank = characterPrefab.GetComponent<InputBankTest>();
+
+            characterPrefab.AddComponent<NemforcerController>();
         }
 
         private void RegisterCharacter()
@@ -466,6 +520,39 @@ namespace EnforcerPlugin
 
         private void RegisterProjectiles()
         {
+            hammerProjectile = Resources.Load<GameObject>("Prefabs/Projectiles/CommandoGrenadeProjectile").InstantiateClone("NemHammerProjectile", true);
+
+            ProjectileController hammerController = hammerProjectile.GetComponent<ProjectileController>();
+            ProjectileImpactExplosion hammerImpact = hammerProjectile.GetComponent<ProjectileImpactExplosion>();
+
+            GameObject hammerModel = Assets.hammerProjectileModel.InstantiateClone("HammerProjectileGhost", true);
+            hammerModel.AddComponent<NetworkIdentity>();
+            hammerModel.AddComponent<ProjectileGhostController>();
+
+            hammerController.ghostPrefab = hammerModel;
+
+            hammerImpact.lifetimeExpiredSoundString = "";
+            hammerImpact.explosionSoundString = "";
+            hammerImpact.offsetForLifetimeExpiredSound = 1;
+            hammerImpact.destroyOnEnemy = true;
+            hammerImpact.destroyOnWorld = true;
+            hammerImpact.timerAfterImpact = false;
+            hammerImpact.falloffModel = BlastAttack.FalloffModel.SweetSpot;
+            hammerImpact.lifetime = 18;
+            hammerImpact.lifetimeAfterImpact = 0f;
+            hammerImpact.lifetimeRandomOffset = 0f;
+            hammerImpact.blastRadius = 0.75f;
+            hammerImpact.blastDamageCoefficient = 1;
+            hammerImpact.blastProcCoefficient = 1;
+            hammerImpact.fireChildren = false;
+            hammerImpact.childrenCount = 0;
+            hammerImpact.childrenProjectilePrefab = null;
+            hammerImpact.childrenDamageCoefficient = 0f;
+            hammerImpact.impactEffect = null;
+
+            hammerController.startSound = "";
+            hammerController.procCoefficient = 1;
+
             nemGasGrenade = Resources.Load<GameObject>("Prefabs/Projectiles/CommandoGrenadeProjectile").InstantiateClone("NemGasGrenade", true);
             nemGas = Resources.Load<GameObject>("Prefabs/Projectiles/SporeGrenadeProjectileDotZone").InstantiateClone("NemGasDotZone", true);
 
@@ -539,6 +626,7 @@ namespace EnforcerPlugin
 
             ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list)
             {
+                list.Add(hammerProjectile);
                 list.Add(nemGasGrenade);
                 list.Add(nemGas);
             };
@@ -577,7 +665,10 @@ namespace EnforcerPlugin
             SkillDef primaryDef1 = PrimarySkillDef_Hammer();
             SkillFamily.Variant primaryVariant1 = PluginUtils.SetupSkillVariant(primaryDef1, typeof(EntityStates.Nemforcer.HammerSwing));
 
-            skillLocator.primary = PluginUtils.RegisterSkillsToFamily(characterPrefab, primaryVariant1);
+            SkillDef primaryDef2 = PrimarySkillDef_Throw();
+            SkillFamily.Variant primaryVariant2 = PluginUtils.SetupSkillVariant(primaryDef2, typeof(EntityStates.Nemforcer.ThrowHammer));
+
+            skillLocator.primary = PluginUtils.RegisterSkillsToFamily(characterPrefab, primaryVariant1, primaryVariant2);
 
             SkillDef primaryDefMinigun = PrimarySkillDef_FireMinigun();
             PluginUtils.RegisterSkillDef(primaryDefMinigun,
@@ -599,6 +690,12 @@ namespace EnforcerPlugin
             PluginUtils.RegisterSkillDef(secondaryVariant1.skillDef,
                              typeof(HammerCharge),
                              typeof(HammerUppercut));
+
+            SkillDef secondaryDefSlam = SecondarySkillDef_HammerSlam();
+            PluginUtils.RegisterSkillDef(secondaryDefSlam,
+                                         typeof(HammerSlam));
+
+            hammerSlamDef = secondaryDefSlam;
         }
 
         private void UtilitySetup()
@@ -656,6 +753,38 @@ namespace EnforcerPlugin
             mySkillDef.skillDescriptionToken = "NEMFORCER_PRIMARY_HAMMER_DESCRIPTION";
             mySkillDef.skillName = "NEMFORCER_PRIMARY_HAMMER_NAME";
             mySkillDef.skillNameToken = "NEMFORCER_PRIMARY_HAMMER_NAME";
+
+            return mySkillDef;
+        }
+
+        private static SkillDef PrimarySkillDef_Throw()
+        {
+            string desc = "Throw a hammer for <style=cIsDamage>" + 100f * EntityStates.Nemforcer.ThrowHammer.damageCoefficient + "%</style> damage.";
+
+            LanguageAPI.Add("NEMFORCER_PRIMARY_THROWHAMMER_NAME", "Throwing Hammer");
+            LanguageAPI.Add("NEMFORCER_PRIMARY_THROWHAMMER_DESCRIPTION", desc);
+
+            SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(EntityStates.Nemforcer.ThrowHammer));
+            mySkillDef.activationStateMachineName = "Weapon";
+            mySkillDef.baseMaxStock = 1;
+            mySkillDef.baseRechargeInterval = 0f;
+            mySkillDef.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef.canceledFromSprinting = false;
+            mySkillDef.fullRestockOnAssign = true;
+            mySkillDef.interruptPriority = InterruptPriority.Any;
+            mySkillDef.isBullets = false;
+            mySkillDef.isCombatSkill = true;
+            mySkillDef.mustKeyPress = false;
+            mySkillDef.noSprint = true;
+            mySkillDef.rechargeStock = 1;
+            mySkillDef.requiredStock = 1;
+            mySkillDef.shootDelay = 0f;
+            mySkillDef.stockToConsume = 1;
+            mySkillDef.icon = Assets.nIcon1C;
+            mySkillDef.skillDescriptionToken = "NEMFORCER_PRIMARY_THROWHAMMER_DESCRIPTION";
+            mySkillDef.skillName = "NEMFORCER_PRIMARY_THROWHAMMER_NAME";
+            mySkillDef.skillNameToken = "NEMFORCER_PRIMARY_THROWHAMMER_NAME";
 
             return mySkillDef;
         }
@@ -723,11 +852,46 @@ namespace EnforcerPlugin
             return mySkillDef;
         }
 
+        private static SkillDef SecondarySkillDef_HammerSlam()
+        {
+            string desc = $"<style=cIsDamage>Stunning.</style> <style=cIsDamage>Violently slam</style> down your hammer, dealing <style=cIsDamage>{100f * HammerSlam.damageCoefficient}% damage</style> and <style=cIsDamage>knocking back</style> enemies hit.";
+
+            LanguageAPI.Add("NEMFORCER_SECONDARY_SLAM_NAME", "Dominance");
+            LanguageAPI.Add("NEMFORCER_SECONDARY_SLAM_DESCRIPTION", desc);
+
+            SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(HammerSlam));
+            mySkillDef.activationStateMachineName = "Weapon";
+            mySkillDef.baseMaxStock = 1;
+            mySkillDef.baseRechargeInterval = 6f;
+            mySkillDef.beginSkillCooldownOnSkillEnd = true;
+            mySkillDef.canceledFromSprinting = false;
+            mySkillDef.fullRestockOnAssign = true;
+            mySkillDef.interruptPriority = InterruptPriority.Skill;
+            mySkillDef.isBullets = false;
+            mySkillDef.isCombatSkill = true;
+            mySkillDef.mustKeyPress = false;
+            mySkillDef.noSprint = false;
+            mySkillDef.rechargeStock = 1;
+            mySkillDef.requiredStock = 1;
+            mySkillDef.shootDelay = 0f;
+            mySkillDef.stockToConsume = 1;
+            mySkillDef.icon = Assets.nIcon2B;
+            mySkillDef.skillDescriptionToken = "NEMFORCER_SECONDARY_SLAM_DESCRIPTION";
+            mySkillDef.skillName = "NEMFORCER_SECONDARY_SLAM_NAME";
+            mySkillDef.skillNameToken = "NEMFORCER_SECONDARY_SLAM_NAME";
+            mySkillDef.keywordTokens = new string[] {
+                "KEYWORD_STUNNING"
+            };
+
+            return mySkillDef;
+        }
+
         private static SkillDef UtilitySkillDef_Grenade()
         {
             SkillDef utilityDef1;
-            LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_NAME", "Stun Grenade");
-            LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION", "<style=cIsDamage>Stunning</style>. Launch a stun grenade, dealing <style=cIsDamage>" + 100f * StunGrenade.damageCoefficient + "% damage</style>. <style=cIsUtility>Store up to 3 grenades</style>.");
+            //LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_NAME", "Stun Grenade");
+            //LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION", "<style=cIsDamage>Stunning</style>. Launch a stun grenade, dealing <style=cIsDamage>" + 100f * StunGrenade.damageCoefficient + "% damage</style>. <style=cIsUtility>Store up to 3 grenades</style>.");
 
             utilityDef1 = ScriptableObject.CreateInstance<SkillDef>();
             utilityDef1.activationState = new SerializableEntityStateType(typeof(StunGrenade));
