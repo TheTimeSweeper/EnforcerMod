@@ -3,13 +3,14 @@
 - Includes a bunch of unlockable alternate skills and skins
 - Now includes support for ClassicItems' Ancient Scepter
 
-[![](https://cdn.discordapp.com/attachments/739704939671978024/764506299857502278/Screenshot_429.png)]()
+[![](https://cdn.discordapp.com/attachments/469291841859092488/782484337379246110/unknown.png)]()
 
 [![](https://i.imgur.com/lVOcJCY.png)]()
 [![](https://i.imgur.com/wVL1Ilk.png)]()
 
+[![](https://cdn.discordapp.com/attachments/469291841859092488/782568907009425418/texEnforcerIcon.png)]()
+
 Join the discord server to share any feedback/bugs/suggestions- https://discord.gg/HpQB9fC
-Also consider getting the ScrollableLobbyUI mod, this guy has a lot of unlockable skins
 
 ## Credits
 Gnome - Coding
@@ -21,6 +22,7 @@ Jot - Animations
 DarkLordLui - Animations
 Violet Chaolan - Sounds
 LucidInceptor - Modeling
+bruh - Modeling
 Destructor - Mod icon
 Moffein - Idea Guy™
 Ruxbieno - Idea Guy™
@@ -31,32 +33,62 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 
 | Skill | | Description | Stats |
 |:-|-|------|-|
-| Riot Shotgun | ![](https://i.imgur.com/QgTZQqj.png) | Fire a short range `piercing` blast for `8x45%` damage. | Proc: `0.5` |
-| Shield Bash | ![](https://i.imgur.com/6iWFhOv.png) | `Bash` nearby enemies away for `250%` damage. Use while sprinting to perform a `Shoulder Bash` for `450%` damage instead. `Deflects Projectiles`. | Proc: `1.0`, CD: `6 sec` |
+| Riot Shotgun | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468730759675934/enforcer_primaryV2.png) | Fire a short range `piercing` blast for `8x45%` damage. | Proc: `0.5` |
+| Shield Bash | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468850683871232/enforcer_secondaryV2.png) | `Bash` nearby enemies away for `250%` damage. Use while sprinting to perform a `Shoulder Bash` for `450%` damage instead. `Deflects Projectiles`. | Proc: `1.0`, CD: `6 sec` |
 | Shoulder Bash |  | Short charge that stuns. Hitting heavier enemies deals up to `700%` damage. | Proc: `1.0` |
-| Tear Gas | ![](https://i.imgur.com/sb1CzFt.png) | Throw a grenade that explodes into tear gas that leaves enemies `Blinded`. Lasts for 16 seconds. | CD: `24 sec` |
+| Tear Gas | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468892445376530/enforcer_utilityV2.png) | Throw a grenade that explodes into tear gas that leaves enemies `Impaired`. Lasts for 16 seconds. | CD: `24 sec` |
 | Blind |  | Reduces `movement speed` by `75%`, `attack speed` by `25`, and `armor` by `20`|
-| Protect and Serve | ![](https://i.imgur.com/y7JWEzx.png) | Take a defensive stance `blocking` all damage from the front. `Increases your rate of fire` but prevents sprinting and jumping. | CD: `0 sec` |
+| Protect and Serve | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468993033306122/enforcer_shieldupV2.png) | Take a defensive stance `blocking` all damage from the front. `Increases your rate of fire` but prevents sprinting and jumping. | CD: `0 sec` |
 
 ### Unlockable Alts (spoiler alert)
 
 | Skill | | Description | Stats |
 |:-|-|------|-|
-| Super Shotgun | ![](https://i.imgur.com/fJk3Iwn.png) | Fire a powerful short range blast for `16x80%` damage. Has harsh damage falloff. | Proc: `0.75` |
-| Assault Rifle | ![](https://i.imgur.com/VV3t6HU.png) | Fire a burst of bullets bullets dealing `3x75%` damage. Fires 6 bullets instead during Protect and Serve. | Proc: `0.75` |
-| Stun Grenade | ![](https://i.imgur.com/yuL8mB2.png) | `Stunning`. Launch a stun grenade, dealing `400%` damage. Store up to 3 grenades. | Proc: `0.6`, CD: `8 sec` |
+| Super Shotgun | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468767124815902/enforcer_primary2V2.png) | Fire a powerful short range blast for `16x80%` damage. Has harsh damage falloff. | Proc: `0.75` |
+| Assault Rifle | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468797017227304/enforcer_primary3V2.png) | Fire a burst of bullets bullets dealing `3x75%` damage. Fires 6 bullets instead during Protect and Serve. | Proc: `0.75` |
+| Stun Grenade | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468931159457832/enforcer_utility2V2.png) | `Stunning`. Launch a stun grenade, dealing `400%` damage. Store up to 3 grenades. | Proc: `0.6`, CD: `8 sec` |
 
 [![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)]()
 
 ## Known Issues
 - Teleporter particles kinda big (We could fix this but we won't)
 - Cancelling shield with sprint does not work properly in multiplayer
-- Pending an R2API update , some achievements can't be unlocked in multiplayer. (they only work for host or single player).
+- Pending an R2API update, some achievements can't be unlocked in multiplayer. (they only work for host or single player).
+- RyanSkinAPI causes the model to be invisible sometimes
 
 ## Future Plans
 - Skills++ support
 
 ## Changelog
+`1.1.5`
+- Updated character portrait
+- Updated Shield Bash Icon
+- Shield Bash now pushes allies(toggleable via config)
+- Fixed a minor bug
+
+`1.1.4`
+- Fixed absurd Stun Grenade knockback
+
+`1.1.3`
+- Updated skill icons
+- Added a new skin, moved some old skins to a config option to prevent bloat
+- Updated shotgun shells, added sounds
+- Added fancy shoulder light effect- made it flash on level up too because I'm a shameless showoff
+- Buff Riot Shotgun damage to 8x45% and SSG to 16x80%- resetting config recommended
+- Riot Shotgun's spread is now tightened during Protect and Serve
+- Increased Protect and Serve self slow from 50% to 65%
+- Shield Bash now has minimum knockback, so light monsters like wisps and jellyfish can now get launched
+- Added a config option to add a cap to the knockback to prevent bosses from being thrown around
+- Tear Gas no longer snaps to the ground, meaning it's effective on flying monsters
+- Actually fixed Mustard Gas not applying debuff for real this time
+- Mustard Gas damage doubled, proc coefficient raised from 0 to 0.05
+- Stun Grenade visuals updated to better match his RoR1 grenade
+- Added knockback to Stun Grenade
+- Added item displays for the new Aetherium items and SivsItems
+- Added pig
+- Fixed Enforcer's logbook display using the wrong shader
+- Tweaked shotgun volume
+
 `1.1.2`
 - Reworked Assault Rifle- resetting config is recommended
 - Even more model tweaks, fixed Bungus head clipping

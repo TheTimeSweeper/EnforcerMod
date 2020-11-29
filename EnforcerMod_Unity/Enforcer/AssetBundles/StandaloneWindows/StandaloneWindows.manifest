@@ -1,10 +1,11 @@
 ManifestFileVersion: 0
-CRC: 901598334
+CRC: 56371404
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: enforcer
-      Dependencies: {}
+      Dependencies:
+        Dependency_0: nemforcer
     Info_1:
       Name: nemforcer
       Dependencies:

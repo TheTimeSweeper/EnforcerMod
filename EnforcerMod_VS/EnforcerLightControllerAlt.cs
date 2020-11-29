@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using RoR2;
+using System.Collections.Generic;
 
 class EnforcerLightControllerAlt : MonoBehaviour
 {
@@ -52,6 +53,16 @@ class EnforcerLightControllerAlt : MonoBehaviour
             {
                 this.minEmission = 0f;
             }
+        }
+        else
+        {
+            var mats = new List<Material>();
+            var model = base.GetComponent<CharacterModel>();
+
+            mats.Add(model.baseRendererInfos[33].defaultMaterial);
+            mats.Add(model.baseRendererInfos[34].defaultMaterial);
+
+            this.lights = mats.ToArray();
         }
     }
 

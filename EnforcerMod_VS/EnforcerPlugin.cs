@@ -1,6 +1,5 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
-using EnforcerPlugin.Achievements;
 using EntityStates;
 using EntityStates.Enforcer;
 using KinematicCharacterController;
@@ -26,7 +25,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.Sivelos.SivsItems", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.DestroyedClone.RiskOfBulletstorm", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "1.1.3")]
+    [BepInPlugin(MODUID, "Enforcer", "1.1.5")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -50,6 +49,8 @@ namespace EnforcerPlugin
         public const string characterLore = "\n<style=cMono>\"You don't have to do this.\"</style>\r\n\r\nThe words echoed in his head, yet he pushed forward. The pod was only a few steps away — he had a chance to leave — but something in his core kept him moving. He didn't know what it was, but he didn't question it. It was a natural force: the same force that always drove him to follow orders.\n\nThis time, however, it didn't seem so natural. There were no orders. The heavy trigger and its rhythmic thunder were his — and his alone.";
 
         public static EnforcerPlugin instance;
+
+        public static bool nemesisEnabled = true;
 
         //i didn't want this to be static considering we're using an instance now but it throws 23 errors if i remove the static modifier 
         //i'm not dealing with that
@@ -154,6 +155,7 @@ namespace EnforcerPlugin
         public static ConfigEntry<float> superDamage;
 
         public static ConfigEntry<bool> balancedShieldBash;
+        public static ConfigEntry<bool> stupidShieldBash;
 
         //public static ConfigEntry<bool> classicSkin;
 
@@ -210,8 +212,7 @@ namespace EnforcerPlugin
             CreateDoppelganger();
             CreateCrosshair();
 
-            //uncomment this to enable nemesis
-            new NemforcerPlugin().Init();
+            if (nemesisEnabled) new NemforcerPlugin().Init();
 
             Hook();
         }
@@ -263,6 +264,7 @@ namespace EnforcerPlugin
             superDamage = base.Config.Bind<float>(new ConfigDefinition("06 - Super Shotgun", "Damage Coefficient"), 0.8f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
 
             balancedShieldBash = base.Config.Bind<bool>(new ConfigDefinition("07 - Shield Bash", "Balanced Knockback"), false, new ConfigDescription("Applies a cap to knockback so bosses can no longer be thrown around.", null, Array.Empty<object>()));
+            stupidShieldBash = base.Config.Bind<bool>(new ConfigDefinition("07 - Shield Bash", "Ally Knockback"), true, new ConfigDescription("Applies knockback to allies.", null, Array.Empty<object>()));
         }
 
         public void Awake()
@@ -304,7 +306,7 @@ namespace EnforcerPlugin
             On.RoR2.GlobalEventManager.OnCharacterDeath += GlobalEventManager_OnCharacterDeath;
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
             On.EntityStates.BaseState.OnEnter += ParryState_OnEnter;
-            On.RoR2.ArenaMissionController.BeginRound += ArenaMissionController_BeginRound;
+            if (nemesisEnabled) On.RoR2.ArenaMissionController.BeginRound += ArenaMissionController_BeginRound;
             On.RoR2.UI.MainMenu.BaseMainMenuScreen.OnEnter += BaseMainMenuScreen_OnEnter;
             On.RoR2.CharacterSelectBarController.ShouldDisplaySurvivor += CharacterSelectBarController_ShouldDisplaySurvivor;
             On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
@@ -2788,7 +2790,7 @@ namespace EnforcerPlugin
             var j = GetComponentInChildren<EnforcerLightControllerAlt>();
             if (j)
             {
-                j.FlashLights(4);
+                j.ToggleSiren();
             }
         }
 

@@ -67,6 +67,9 @@ namespace EnforcerPlugin
         public static GameObject shieldBashFX;
         public static GameObject shoulderBashFX;
 
+        public static GameObject hammerSwingFX;
+        public static GameObject hammerImpactFX;
+
         public static GameObject nemSwingFX;
         public static GameObject nemImpactFX;
 
@@ -116,7 +119,7 @@ namespace EnforcerPlugin
 
             Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/hgstandard");
 
-            charPortrait = MainAssetBundle.LoadAsset<Sprite>("texEnforcerIconOld").texture;
+            charPortrait = MainAssetBundle.LoadAsset<Sprite>("texEnforcerIcon").texture;
             nemCharPortrait = NemAssetBundle.LoadAsset<Sprite>("nemIconBlu").texture;
             nemBossPortrait = NemAssetBundle.LoadAsset<Sprite>("nemIconRed").texture;
 
@@ -227,6 +230,9 @@ namespace EnforcerPlugin
             shieldBashFX.transform.Find("cum").Find("piss").gameObject.AddComponent<ParticleFuckingShitComponent>();
 
             shoulderBashFX.transform.Find("cum").Find("poop").gameObject.AddComponent<ParticleFuckingShitComponent>();
+
+            hammerSwingFX = Assets.LoadEffect("EnforcerSwing", "", MainAssetBundle);
+            hammerImpactFX = Assets.LoadEffect("ImpactEnforcer", "", MainAssetBundle);
 
             nemSwingFX = Assets.LoadEffect("NemforcerSwing", "", NemAssetBundle);
             nemImpactFX = Assets.LoadEffect("ImpactNemforcer", "", NemAssetBundle);

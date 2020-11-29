@@ -75,10 +75,6 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, stabilize the Cell in the Void Fields.");
             LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Clearance");
 
-            LanguageAPI.Add("ENFORCER_NEMESISUNLOCKABLE_ACHIEVEMENT_NAME", "???");
-            LanguageAPI.Add("ENFORCER_NEMESISUNLOCKABLE_ACHIEVEMENT_DESC", "Defeat Enforcer's Vestige.");
-            LanguageAPI.Add("ENFORCER_NEMESISUNLOCKABLE_UNLOCKABLE_NAME", "???");
-
             ///this is the version that works with the altered AddUnlockable I changed in R2API.
             ///look at #r2api in the discord to see what I mean. I went into more detail in #development as well
             ///if the pull requests gets accepted I'll add the other needed ones to this
@@ -92,7 +88,15 @@ namespace EnforcerPlugin
             UnlockablesAPI.AddUnlockable<Achievements.DoomAchievement>(true);
             UnlockablesAPI.AddUnlockable<Achievements.DesperadoAchievement>(true);
             UnlockablesAPI.AddUnlockable<Achievements.NemesisSkinAchievement>(true);
-            UnlockablesAPI.AddUnlockable<Achievements.NemesisAchievement>(true);
+
+            if (EnforcerPlugin.nemesisEnabled)
+            {
+                LanguageAPI.Add("ENFORCER_NEMESISUNLOCKABLE_ACHIEVEMENT_NAME", "???");
+                LanguageAPI.Add("ENFORCER_NEMESISUNLOCKABLE_ACHIEVEMENT_DESC", "Defeat Enforcer's Vestige.");
+                LanguageAPI.Add("ENFORCER_NEMESISUNLOCKABLE_UNLOCKABLE_NAME", "???");
+
+                UnlockablesAPI.AddUnlockable<Achievements.NemesisAchievement>(true);
+            }
         }
     }
 }
@@ -752,7 +756,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "ENFORCER_NEMESISUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_NEMESISUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "ENFORCER_NEMESISUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/Nemesis/nemIconBlu.png");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texNemesisUnlockAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
         {

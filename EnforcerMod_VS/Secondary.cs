@@ -130,7 +130,12 @@ namespace EntityStates.Enforcer
                         if (healthComponent)
                         {
                             TeamComponent component2 = healthComponent.GetComponent<TeamComponent>();
-                            if (component2.teamIndex != TeamIndex.Player)
+
+                            bool flag = false;
+
+                            if (component2.teamIndex != TeamIndex.Player || (EnforcerPlugin.EnforcerPlugin.stupidShieldBash.Value && healthComponent != base.healthComponent)) flag = true;
+
+                            if (flag)
                             {
                                 Util.PlaySound(EnforcerPlugin.Sounds.BashHitEnemy, healthComponent.gameObject);
 
@@ -265,7 +270,7 @@ namespace EntityStates.Enforcer
                             if (EnforcerPlugin.EnforcerPlugin.sirenOnDeflect.Value) Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
 
                             base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
-                            base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(4);
+                            base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(8);
                         }
                     }
                 }
@@ -298,7 +303,7 @@ namespace EntityStates.Enforcer
                     Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
 
                 base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
-                base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(4);
+                base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(8);
             }
         }
 
@@ -356,7 +361,7 @@ namespace EntityStates.Enforcer
             this.shieldCancel = false;
 
             base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
-            base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(3);
+            base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(6);
             base.characterBody.isSprinting = true;
 
             Util.PlayScaledSound(Croco.Leap.leapSoundString, base.gameObject, 1.75f);
