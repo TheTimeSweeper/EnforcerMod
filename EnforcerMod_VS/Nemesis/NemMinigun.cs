@@ -14,6 +14,7 @@ namespace EntityStates.Nemforcer
         public static float minFireRate = 0.75f;
         public static float maxFireRate = 1.35f;
         public static float fireRateGrowth = 0.01f;
+        public static float selfPushForce = 0.8f;
 
         private float spreadMod;
         private float fireTimer;
@@ -59,14 +60,15 @@ namespace EntityStates.Nemforcer
                 }
             }
 
+
+            AkSoundEngine.SetRTPCValue("Minigun_Shooting", 1);
             if (!this.critEndTime.hasPassed)
             {
-                AkSoundEngine.SetRTPCValue("Minigun_Shooting", 0);
                 AkSoundEngine.SetRTPCValue("Minigun_Crit", 1);
             }
             else
             {
-                AkSoundEngine.SetRTPCValue("Minigun_Shooting", 1);
+                
                 AkSoundEngine.SetRTPCValue("Minigun_Crit", 0);
             }
         }
@@ -110,6 +112,11 @@ namespace EntityStates.Nemforcer
             float procCoefficient = NemMinigunFire.baseProcCoefficient;
 
             Ray aimRay = base.GetAimRay();
+
+            if (!base.characterMotor.isGrounded)
+            {
+                base.characterMotor.velocity += (NemMinigunFire.selfPushForce * -aimRay.direction);
+            }
 
             new BulletAttack
             {

@@ -7,7 +7,7 @@ namespace EntityStates.Nemforcer
 {
     public class HammerCharge : BaseSkillState
     {
-        public static float baseChargeDuration = 2.75f;
+        public static float baseChargeDuration = 2.25f;
 
         private float chargeDuration;
         private bool finishedCharge;
@@ -15,6 +15,7 @@ namespace EntityStates.Nemforcer
         private Animator animator;
         private Transform modelBaseTransform;
         private uint chargePlayID;
+        private NemforcerController nemController;
 
         public override void OnEnter()
         {
@@ -23,6 +24,8 @@ namespace EntityStates.Nemforcer
             this.childLocator = base.GetModelChildLocator();
             this.modelBaseTransform = base.GetModelBaseTransform();
             this.animator = base.GetModelAnimator();
+            this.nemController = base.GetComponent<NemforcerController>();
+
             base.PlayAnimation("Gesture, Override", "HammerCharge", "HammerCharge.playbackRate", this.chargeDuration);
 
             this.chargePlayID = Util.PlaySound(EnforcerPlugin.Sounds.NemesisStartCharge, healthComponent.gameObject);
@@ -31,6 +34,10 @@ namespace EntityStates.Nemforcer
             {
                 base.cameraTargetParams.aimMode = CameraTargetParams.AimType.AimThrow;
             }
+
+            if (this.nemController) this.nemController.hammerChargeSmall.Play();
+
+            if (NetworkServer.active) base.characterBody.AddBuff(BuffIndex.Slow50);
         }
 
         public override void FixedUpdate()
@@ -44,17 +51,30 @@ namespace EntityStates.Nemforcer
                 this.finishedCharge = true;
                 Util.PlaySound(EnforcerPlugin.Sounds.NemesisMaxCharge, healthComponent.gameObject);
 
+                if (this.nemController) this.nemController.hammerChargeLarge.Play();
+
                 if (base.cameraTargetParams)
                 {
                     base.cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
                 }
+
+                if (NetworkServer.active) base.characterBody.RemoveBuff(BuffIndex.Slow50);
             }
 
             if (base.isAuthority && ((!base.IsKeyDownAuthority() && base.fixedAge >= 0.1f)) && !base.IsKeyDownAuthority())
             {
-                HammerUppercut nextState = new HammerUppercut();
-                nextState.charge = charge;
-                this.outer.SetNextState(nextState);
+                if (base.characterMotor.velocity.y <= -20f)
+                {
+                    HammerAirSlam nextState = new HammerAirSlam();
+                    nextState.charge = charge;
+                    this.outer.SetNextState(nextState);
+                }
+                else
+                {
+                    HammerUppercut nextState = new HammerUppercut();
+                    nextState.charge = charge;
+                    this.outer.SetNextState(nextState);
+                }
             }
         }
 
@@ -75,6 +95,15 @@ namespace EntityStates.Nemforcer
             {
                 base.cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
             }
+
+            if (this.nemController)
+            {
+                this.nemController.hammerChargeSmall.Stop();
+                this.nemController.hammerChargeLarge.Stop();
+                this.nemController.hammerBurst.Play();
+            }
+
+            if (NetworkServer.active && base.characterBody.HasBuff(BuffIndex.Slow50)) base.characterBody.RemoveBuff(BuffIndex.Slow50);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -94,15 +123,17 @@ namespace EntityStates.Nemforcer
         public static float minRecoil = 0.4f;
         public static float initialMaxSpeedCoefficient = 12f;
         public static float initialMinSpeedCoefficient = 4f;
-        public static float finalSpeedCoefficient = 0.1f;
+        public static float finalSpeedCoefficient = 0.01f;
         public static float baseDuration = 0.6f;
         public static float knockupForce = 5000f;
-        public static float hopVelocity = 15f;
+        public static float maxHopVelocity = 25f;
+        public static float minHopVelocity = 0f;
 
         private float speedCoefficient;
         private float damageCoefficient;
         private float recoil;
         private float duration;
+        private float hopVelocity;
 
         private float dashSpeed;
         private Vector3 forwardDirection;
@@ -128,6 +159,7 @@ namespace EntityStates.Nemforcer
             this.speedCoefficient = Util.Remap(this.charge, 0f, 1f, HammerUppercut.initialMinSpeedCoefficient, HammerUppercut.initialMaxSpeedCoefficient);
             this.damageCoefficient = Util.Remap(this.charge, 0f, 1f, HammerUppercut.minDamageCoefficient, HammerUppercut.maxDamageCoefficient);
             this.recoil = Util.Remap(this.charge, 0f, 1f, HammerUppercut.minRecoil, HammerUppercut.maxRecoil);
+            this.hopVelocity = Util.Remap(this.charge, 0f, 1f, HammerUppercut.minHopVelocity, HammerUppercut.maxHopVelocity);
 
             this.childLocator = base.GetModelChildLocator();
             this.modelBaseTransform = base.GetModelBaseTransform();
@@ -160,7 +192,7 @@ namespace EntityStates.Nemforcer
             this.attack.teamIndex = base.GetTeam();
             this.attack.damage = this.damageCoefficient * this.damageStat;
             this.attack.procCoefficient = 1;
-            this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemImpactFX;
+            this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemHeavyImpactFX;
             this.attack.forceVector = Vector3.up * HammerUppercut.knockupForce;
             this.attack.pushAwayForce = 50f;
             this.attack.hitBoxGroup = hitBoxGroup;
@@ -169,7 +201,7 @@ namespace EntityStates.Nemforcer
 
         private void RecalculateSpeed()
         {
-            if (this.hasFired) this.dashSpeed = 0.1f;
+            if (this.hasFired && this.hopVelocity >= 5f) this.dashSpeed = 0.8f;
             else this.dashSpeed = (4 + (0.25f * this.moveSpeedStat)) * Mathf.Lerp(this.speedCoefficient, HammerUppercut.finalSpeedCoefficient, this.stopwatch / this.duration);
         }
 
@@ -232,7 +264,7 @@ namespace EntityStates.Nemforcer
                         {
                             this.hasFired = true;
 
-                            base.SmallHop(base.characterMotor, HammerUppercut.hopVelocity);
+                            if (this.hopVelocity >= 5f) base.SmallHop(base.characterMotor, this.hopVelocity);
                             base.AddRecoil(-1f * this.recoil, -2f * this.recoil, -0.5f * this.recoil, 0.5f * this.recoil);
                             Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwing, healthComponent.gameObject);
                         }
@@ -258,6 +290,7 @@ namespace EntityStates.Nemforcer
                 else
                 {
                     base.characterMotor.velocity = Vector3.zero;
+                    if (this.animator) this.animator.SetFloat("Uppercut.playbackRate", 0f);
                     this.hitPauseTimer -= Time.fixedDeltaTime;
                     if (this.hitPauseTimer < 0f)
                     {
@@ -278,6 +311,175 @@ namespace EntityStates.Nemforcer
         {
             base.OnDeserialize(reader);
             this.forwardDirection = reader.ReadVector3();
+        }
+    }
+
+    public class HammerAirSlam : BaseSkillState
+    {
+        public float charge;
+        public static string hitboxString = "UppercutHitbox";
+        public static float maxDamageCoefficient = 25f;
+        public static float minDamageCoefficient = 3f;
+        public static float procCoefficient = 1f;
+        public static float maxRecoil = 5f;
+        public static float minRecoil = 0.4f;
+        public static float baseDuration = 0.3f;
+        public static float knockupForce = -8000f;
+        public static float minFallVelocity = 0f;
+        public static float maxFallVelocity = 50f;
+
+        private float damageCoefficient;
+        private float recoil;
+        private float duration;
+        private float fallVelocity;
+
+        private float stopwatch;
+        private ChildLocator childLocator;
+        private bool hasFired;
+        private float hitPauseTimer;
+        private OverlapAttack attack;
+        private bool inHitPause;
+        private Animator animator;
+        private BaseState.HitStopCachedState hitStopCachedState;
+        private Transform modelBaseTransform;
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            this.duration = HammerAirSlam.baseDuration / this.attackSpeedStat;
+            this.stopwatch = 0f;
+            this.hasFired = false;
+            base.characterBody.isSprinting = true;
+            this.damageCoefficient = Util.Remap(this.charge, 0f, 1f, HammerAirSlam.minDamageCoefficient, HammerAirSlam.maxDamageCoefficient);
+            this.recoil = Util.Remap(this.charge, 0f, 1f, HammerAirSlam.minRecoil, HammerAirSlam.maxRecoil);
+            this.fallVelocity = Util.Remap(this.charge, 0f, 1f, HammerAirSlam.minFallVelocity, HammerAirSlam.maxFallVelocity);
+
+            this.childLocator = base.GetModelChildLocator();
+            this.modelBaseTransform = base.GetModelBaseTransform();
+            this.animator = base.GetModelAnimator();
+
+            if (base.characterMotor)
+            {
+                base.characterMotor.velocity.y -= this.fallVelocity;
+            }
+
+            if (NetworkServer.active) base.characterBody.AddBuff(BuffIndex.HiddenInvincibility);
+
+            HitBoxGroup hitBoxGroup = Array.Find<HitBoxGroup>(base.GetModelTransform().GetComponents<HitBoxGroup>(), (HitBoxGroup element) => element.groupName == "Uppercut");
+
+            base.PlayAnimation("FullBody, Override", "HammerAirSlam", "HammerCharge.playbackRate", this.duration);
+
+            this.attack = new OverlapAttack();
+            this.attack.damageType = DamageType.Stun1s;
+            this.attack.attacker = base.gameObject;
+            this.attack.inflictor = base.gameObject;
+            this.attack.teamIndex = base.GetTeam();
+            this.attack.damage = (0.5f * this.damageCoefficient) * this.damageStat;
+            this.attack.procCoefficient = 1;
+            this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemHeavyImpactFX;
+            this.attack.forceVector = Vector3.up * HammerAirSlam.knockupForce;
+            this.attack.pushAwayForce = 50f;
+            this.attack.hitBoxGroup = hitBoxGroup;
+            this.attack.isCrit = base.RollCrit();
+
+            base.characterMotor.disableAirControlUntilCollision = true;
+        }
+
+        public override void OnExit()
+        {
+            if (base.cameraTargetParams)
+            {
+                base.cameraTargetParams.fovOverride = -1f;
+            }
+
+            base.PlayAnimation("FullBody, Override", "BufferEmpty");
+
+            if (NetworkServer.active) base.characterBody.RemoveBuff(BuffIndex.HiddenInvincibility);
+
+            this.FireBlast();
+
+            base.OnExit();
+        }
+
+        private void FireBlast()
+        {
+            if (base.isAuthority)
+            {
+                Vector3 sex = this.childLocator.FindChild("HammerHitbox").transform.position;
+
+                BlastAttack blastAttack = new BlastAttack();
+                blastAttack.radius = 18f;
+                blastAttack.procCoefficient = 1f;
+                blastAttack.position = sex;
+                blastAttack.attacker = base.gameObject;
+                blastAttack.crit = this.attack.isCrit;
+                blastAttack.baseDamage = base.characterBody.damage * (0.5f * this.damageCoefficient);
+                blastAttack.falloffModel = BlastAttack.FalloffModel.None;
+                blastAttack.baseForce = 2500f;
+                blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
+                blastAttack.damageType = DamageType.Stun1s;
+                blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
+                BlastAttack.Result result = blastAttack.Fire();
+
+                EffectData effectData = new EffectData();
+                effectData.origin = sex;
+                effectData.scale = 15;
+
+                EffectManager.SpawnEffect(Resources.Load<GameObject>("Prefabs/Effects/OmniEffect/OmniExplosionVFX"), effectData, true);
+            }
+        }
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+            base.characterBody.isSprinting = true;
+
+            if (!base.characterMotor.disableAirControlUntilCollision)
+            {
+                this.outer.SetNextStateToMain();
+                return;
+            }
+
+            if (base.cameraTargetParams)
+            {
+                base.cameraTargetParams.fovOverride = Mathf.Lerp(Commando.DodgeState.dodgeFOV, 60f, this.stopwatch / this.duration);
+            }
+
+            if (base.isAuthority)
+            {
+                if (!this.inHitPause)
+                {
+                    this.stopwatch += Time.fixedDeltaTime;
+
+                    if (!this.hasFired)
+                    {
+                        this.hasFired = true;
+
+                        base.AddRecoil(-1f * this.recoil, -2f * this.recoil, -0.5f * this.recoil, 0.5f * this.recoil);
+                        Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwing, healthComponent.gameObject);
+                    }
+
+                    if (this.attack.Fire())
+                    {
+                        Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact, healthComponent.gameObject);
+
+                        this.hitStopCachedState = base.CreateHitStopCachedState(base.characterMotor, this.animator, "HammerCharge.playbackRate");
+                        this.inHitPause = true;
+                        this.hitPauseTimer = (3.5f * EntityStates.Merc.GroundLight.hitPauseDuration) / this.attackSpeedStat;
+                    }
+                }
+                else
+                {
+                    base.characterMotor.velocity = Vector3.zero;
+                    if (this.animator) this.animator.SetFloat("HammerCharge.playbackRate", 0f);
+                    this.hitPauseTimer -= Time.fixedDeltaTime;
+                    if (this.hitPauseTimer < 0f)
+                    {
+                        base.ConsumeHitStopCachedState(this.hitStopCachedState, base.characterMotor, this.animator);
+                        this.inHitPause = false;
+                    }
+                }
+            }
         }
     }
 }

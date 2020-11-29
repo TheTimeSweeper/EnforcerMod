@@ -120,7 +120,7 @@ namespace EntityStates.Enforcer
             {
                 if (this.attack.Fire())
                 {
-                    Util.PlaySound(0.25f + EnforcerPlugin.Sounds.NemesisImpact, base.gameObject);
+                    Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact, base.gameObject);
 
                     if (!this.hasHopped)
                     {

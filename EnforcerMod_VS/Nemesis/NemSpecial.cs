@@ -32,7 +32,7 @@ namespace EntityStates.Nemforcer
                     base.skillLocator.special.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.minigunDownDef);
 
                     base.skillLocator.primary.UnsetSkillOverride(base.skillLocator.primary, EnforcerPlugin.NemforcerPlugin.minigunFireDef, GenericSkill.SkillOverridePriority.Replacement);
-                    base.skillLocator.secondary.UnsetSkillOverride(base.skillLocator.secondary, EnforcerPlugin.NemforcerPlugin.hammerSlamDef, GenericSkill.SkillOverridePriority.Replacement);
+                    base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerSlamDef);
                 }
 
                 base.characterBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
@@ -63,7 +63,7 @@ namespace EntityStates.Nemforcer
                     base.skillLocator.special.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.minigunUpDef);
 
                     base.skillLocator.primary.SetSkillOverride(base.skillLocator.primary, EnforcerPlugin.NemforcerPlugin.minigunFireDef, GenericSkill.SkillOverridePriority.Replacement);
-                    base.skillLocator.secondary.SetSkillOverride(base.skillLocator.secondary, EnforcerPlugin.NemforcerPlugin.hammerSlamDef, GenericSkill.SkillOverridePriority.Replacement);
+                    base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerChargeDef);
                 }
 
                 base.characterBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");

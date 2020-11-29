@@ -32,6 +32,7 @@ namespace EntityStates.Nemforcer
         private Animator animator;
         private BaseState.HitStopCachedState hitStopCachedState;
         private Transform modelBaseTransform;
+        private NemforcerController nemController;
 
         public override void OnEnter()
         {
@@ -40,6 +41,7 @@ namespace EntityStates.Nemforcer
             this.earlyExitDuration = this.duration * earlyExitTime;
             this.hasFired = false;
             base.characterBody.isSprinting = false;
+            this.nemController = base.GetComponent<NemforcerController>();
 
             this.childLocator = base.GetModelChildLocator();
             this.modelBaseTransform = base.GetModelBaseTransform();
@@ -66,7 +68,7 @@ namespace EntityStates.Nemforcer
             this.attack.procCoefficient = 1;
             this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemImpactFX;
             this.attack.forceVector = Vector3.zero;
-            this.attack.pushAwayForce = 800f;
+            this.attack.pushAwayForce = 1400f;
             this.attack.hitBoxGroup = hitBoxGroup;
             this.attack.isCrit = base.RollCrit();
         }
@@ -133,6 +135,8 @@ namespace EntityStates.Nemforcer
             if (!this.hasFired)
             {
                 this.hasFired = true;
+
+                if (this.nemController && this.attack.isCrit) this.nemController.hammerBurst.Play();
 
                 Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisSwing, base.gameObject, this.attackSpeedStat);
 

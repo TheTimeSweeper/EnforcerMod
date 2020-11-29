@@ -29,11 +29,11 @@ namespace EntityStates.Nemforcer
             
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff))
             {
-                base.PlayAnimation("Gesture, Override", "HoldGrenadeMinigun", "ThrowGrenade.playbackRate", 0.5f);
+                base.PlayAnimation("Grenade, Override", "HoldGrenadeMinigun", "ThrowGrenade.playbackRate", 0.5f);
             }
             else
             {
-                base.PlayAnimation("Gesture, Override", "HoldGrenadeHammer", "ThrowGrenade.playbackRate", 0.5f);
+                base.PlayAnimation("Grenade, Override", "HoldGrenadeHammer", "ThrowGrenade.playbackRate", 0.5f);
             }
 
             base.OnEnter();
@@ -64,11 +64,11 @@ namespace EntityStates.Nemforcer
 
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff))
             {
-                base.PlayAnimation("Gesture, Override", "ThrowGrenadeMinigun", "ThrowGrenade.playbackRate", 0.5f);
+                base.PlayAnimation("Grenade, Override", "ThrowGrenadeMinigun", "ThrowGrenade.playbackRate", 0.5f);
             }
             else
             {
-                base.PlayAnimation("Gesture, Override", "ThrowGrenadeHammer", "ThrowGrenade.playbackRate", 0.5f);
+                base.PlayAnimation("Grenade, Override", "ThrowGrenadeHammer", "ThrowGrenade.playbackRate", 0.5f);
             }
 
             Util.PlaySound(EnforcerPlugin.Sounds.NemesisGrenadeThrow, base.gameObject);

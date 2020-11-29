@@ -25,7 +25,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.Sivelos.SivsItems", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.DestroyedClone.RiskOfBulletstorm", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "1.1.5")]
+    [BepInPlugin(MODUID, "Enforcer", "1.1.6")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -403,8 +403,9 @@ namespace EnforcerPlugin
                 if (self.baseNameToken == "NEMFORCER_NAME")
                 {
                     HealthComponent hp = self.healthComponent;
-                    float regenValue = Mathf.SmoothStep(NemforcerPlugin.passiveRegenBonus, 0, hp.combinedHealth / hp.fullCombinedHealth);
-                    Reflection.SetPropertyValue<float>(self, "regen", self.regen * regenValue);
+                    float regenValue = hp.fullCombinedHealth * NemforcerPlugin.passiveRegenBonus;
+                    float regen = Util.Remap(hp.combinedHealth, hp.fullCombinedHealth, 0, 0, regenValue);
+                    Reflection.SetPropertyValue<float>(self, "regen", self.regen + regen);
                 }
             }
         }

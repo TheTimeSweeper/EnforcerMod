@@ -35,12 +35,13 @@ namespace EnforcerPlugin
 
         public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
+        public static SkillDef hammerChargeDef;//m2
         public static SkillDef minigunFireDef;//skilldef for actually firing the minigun
         public static SkillDef hammerSlamDef;//skilldef for m2 during minigun
         public static SkillDef minigunDownDef;//skilldef used while gun is down
         public static SkillDef minigunUpDef;//skilldef used while gun is up
 
-        public const float passiveRegenBonus = 5f;
+        public const float passiveRegenBonus = 0.1f;
 
         public SkillLocator skillLocator;
 
@@ -520,7 +521,7 @@ namespace EnforcerPlugin
 
         private void RegisterProjectiles()
         {
-            hammerProjectile = Resources.Load<GameObject>("Prefabs/Projectiles/CommandoGrenadeProjectile").InstantiateClone("NemHammerProjectile", true);
+            hammerProjectile = Resources.Load<GameObject>("Prefabs/Projectiles/EngiGrenadeProjectile").InstantiateClone("NemHammerProjectile", true);
 
             ProjectileController hammerController = hammerProjectile.GetComponent<ProjectileController>();
             ProjectileImpactExplosion hammerImpact = hammerProjectile.GetComponent<ProjectileImpactExplosion>();
@@ -528,6 +529,7 @@ namespace EnforcerPlugin
             GameObject hammerModel = Assets.hammerProjectileModel.InstantiateClone("HammerProjectileGhost", true);
             hammerModel.AddComponent<NetworkIdentity>();
             hammerModel.AddComponent<ProjectileGhostController>();
+            hammerController.transform.localScale *= 1.5f;
 
             hammerController.ghostPrefab = hammerModel;
 
@@ -537,7 +539,7 @@ namespace EnforcerPlugin
             hammerImpact.destroyOnEnemy = true;
             hammerImpact.destroyOnWorld = true;
             hammerImpact.timerAfterImpact = false;
-            hammerImpact.falloffModel = BlastAttack.FalloffModel.SweetSpot;
+            hammerImpact.falloffModel = BlastAttack.FalloffModel.None;
             hammerImpact.lifetime = 18;
             hammerImpact.lifetimeAfterImpact = 0f;
             hammerImpact.lifetimeRandomOffset = 0f;
@@ -651,7 +653,7 @@ namespace EnforcerPlugin
         private void PassiveSetup()
         {
             LanguageAPI.Add("NEMFORCER_PASSIVE_NAME", "Colossus");
-            LanguageAPI.Add("NEMFORCER_PASSIVE_DESCRIPTION", $"Nemesis Enforcer gains up to <style=cIsHealing>{100 * NemforcerPlugin.passiveRegenBonus}% health regen</style>, based on <style=cIsHealth>missing health</style>.");
+            LanguageAPI.Add("NEMFORCER_PASSIVE_DESCRIPTION", $"Nemesis Enforcer gains <style=cIsHealing>{100 * NemforcerPlugin.passiveRegenBonus}bonus health regen</style>, based on his current <style=cIsHealth>missing health</style>.");
 
             skillLocator.passiveSkill.enabled = true;
             skillLocator.passiveSkill.skillNameToken = "NEMFORCER_PASSIVE_NAME";
@@ -695,6 +697,7 @@ namespace EnforcerPlugin
             PluginUtils.RegisterSkillDef(secondaryDefSlam,
                                          typeof(HammerSlam));
 
+            hammerChargeDef = secondaryDef1;
             hammerSlamDef = secondaryDefSlam;
         }
 

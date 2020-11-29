@@ -48,7 +48,7 @@ namespace EntityStates.Nemforcer
 
                 if (base.isAuthority)
                 {
-                    ProjectileManager.instance.FireProjectile(EnforcerPlugin.NemforcerPlugin.hammerProjectile, base.GetModelChildLocator().FindChild("HandR").position, Util.QuaternionSafeLookRotation(aimRay.direction), base.gameObject, ThrowHammer.damageCoefficient * this.damageStat, 0f, base.RollCrit(), DamageColorIndex.Default, null, 120f);
+                    ProjectileManager.instance.FireProjectile(EnforcerPlugin.NemforcerPlugin.hammerProjectile, aimRay.origin, Util.QuaternionSafeLookRotation(aimRay.direction), base.gameObject, ThrowHammer.damageCoefficient * this.damageStat, 0f, base.RollCrit(), DamageColorIndex.Default, null, 120f);
                 }
             }
         }

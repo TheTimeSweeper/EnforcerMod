@@ -7,6 +7,10 @@ public class NemforcerController : MonoBehaviour
 {
     public SkillDef primarySkillDef;
 
+    public ParticleSystem hammerChargeSmall;
+    public ParticleSystem hammerChargeLarge;
+    public ParticleSystem hammerBurst;
+
     private CharacterBody charBody;
     private CharacterMotor charMotor;
     private HealthComponent charHealth;
@@ -20,6 +24,13 @@ public class NemforcerController : MonoBehaviour
         childLocator = GetComponentInChildren<ChildLocator>();
 
         primarySkillDef = charBody.skillLocator.primary.skillDef;
+
+        if (childLocator)
+        {
+            hammerChargeSmall = childLocator.FindChild("HammerChargeSmall").gameObject.GetComponentInChildren<ParticleSystem>();
+            hammerChargeLarge = childLocator.FindChild("HammerChargeLarge").gameObject.GetComponentInChildren<ParticleSystem>();
+            hammerBurst = childLocator.FindChild("HammerBurst").gameObject.GetComponentInChildren<ParticleSystem>();
+        }
 
         InitWeapon();
 

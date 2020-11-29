@@ -72,6 +72,7 @@ namespace EnforcerPlugin
 
         public static GameObject nemSwingFX;
         public static GameObject nemImpactFX;
+        public static GameObject nemHeavyImpactFX;
 
         public static GameObject gatDrone;
 
@@ -236,6 +237,7 @@ namespace EnforcerPlugin
 
             nemSwingFX = Assets.LoadEffect("NemforcerSwing", "", NemAssetBundle);
             nemImpactFX = Assets.LoadEffect("ImpactNemforcer", "", NemAssetBundle);
+            nemHeavyImpactFX = Assets.LoadEffect("HeavyImpactNemforcer", "", NemAssetBundle);
 
             gatDrone = MainAssetBundle.LoadAsset<GameObject>("GatDrone");
 

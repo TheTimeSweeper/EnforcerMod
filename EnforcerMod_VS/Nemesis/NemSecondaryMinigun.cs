@@ -9,12 +9,12 @@ namespace EntityStates.Nemforcer
     {
         public static string hitboxString = "SwingCenter"; //transform where the hitbox is fired
         public static float baseDuration = 0.8f;
-        public static float damageCoefficient = 5f;
+        public static float damageCoefficient = 8f;
         public static float procCoefficient = 1f;
         public static float knockbackForce = 0.14f;
-        public static float blastRadius = 6f;
+        public static float blastRadius = 12f;
         public static float beefDuration = 0.8f;
-        public static float recoilAmplitude = 2f;
+        public static float recoilAmplitude = 3f;
 
         private float attackStopDuration;
         private float duration;
@@ -53,7 +53,7 @@ namespace EntityStates.Nemforcer
             {
                 this.hasFired = true;
 
-                EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.shieldBashFX, base.gameObject, hitboxString, true);
+                EffectManager.SimpleMuzzleFlash(Resources.Load<GameObject>("Prefabs/Effects/OmniEffect/OmniExplosionVFX"), base.gameObject, hitboxString, true);
 
                 if (base.isAuthority)
                 {
