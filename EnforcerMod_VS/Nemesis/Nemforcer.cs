@@ -18,7 +18,7 @@ namespace EnforcerPlugin
     public class NemforcerPlugin
     {
         public const string characterName = "Nemesis Enforcer";
-        public const string characterSubtitle = "End of the Line";
+        public const string characterSubtitle = "Uncorruptible Shadow";
         public const string characterOutro = "..and so he left, something something.";
         public const string characterLore = "\nhi\n\n";
 
@@ -41,7 +41,7 @@ namespace EnforcerPlugin
         public static SkillDef minigunDownDef;//skilldef used while gun is down
         public static SkillDef minigunUpDef;//skilldef used while gun is up
 
-        public const float passiveRegenBonus = 0.1f;
+        public const float passiveRegenBonus = 0.02f;
 
         public SkillLocator skillLocator;
 
@@ -495,6 +495,7 @@ namespace EnforcerPlugin
             characterDisplay.AddComponent<NetworkIdentity>();
 
             string unlockString = "ENFORCER_NEMESISUNLOCKABLE_REWARD_ID";
+            unlockString = "";
 
             SurvivorDef survivorDef = new SurvivorDef
             {
@@ -653,7 +654,7 @@ namespace EnforcerPlugin
         private void PassiveSetup()
         {
             LanguageAPI.Add("NEMFORCER_PASSIVE_NAME", "Colossus");
-            LanguageAPI.Add("NEMFORCER_PASSIVE_DESCRIPTION", $"Nemesis Enforcer gains <style=cIsHealing>{100 * NemforcerPlugin.passiveRegenBonus}bonus health regen</style>, based on his current <style=cIsHealth>missing health</style>.");
+            LanguageAPI.Add("NEMFORCER_PASSIVE_DESCRIPTION", $"Nemesis Enforcer gains <style=cIsHealing>bonus health regen</style>, based on his current <style=cIsHealth>missing health</style>, up to <style=cIsHealth>{100 * NemforcerPlugin.passiveRegenBonus}% max health/s</style>.");
 
             skillLocator.passiveSkill.enabled = true;
             skillLocator.passiveSkill.skillNameToken = "NEMFORCER_PASSIVE_NAME";

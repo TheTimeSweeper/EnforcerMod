@@ -68,7 +68,7 @@ namespace EntityStates.Nemforcer
             this.attack.procCoefficient = 1;
             this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemImpactFX;
             this.attack.forceVector = Vector3.zero;
-            this.attack.pushAwayForce = 1400f;
+            this.attack.pushAwayForce = 1800f;
             this.attack.hitBoxGroup = hitBoxGroup;
             this.attack.isCrit = base.RollCrit();
         }

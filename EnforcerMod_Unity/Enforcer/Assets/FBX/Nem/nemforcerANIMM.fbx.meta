@@ -237,6 +237,17 @@ ModelImporter:
     7400014: Armature|HammerJump
     7400016: Armature|HammerWalkF
     7400018: Armature|Sprint
+    7400020: Armature|HammerWalkB
+    7400022: Armature|HammerWalkL
+    7400024: Armature|HammerWalkR
+    7400026: Armature|MinigunAscend
+    7400028: Armature|MinigunDescend
+    7400030: Armature|MinigunIdle
+    7400032: Armature|MinigunWalkB
+    7400034: Armature|MinigunWalkF
+    7400036: Armature|MinigunWalkL
+    7400038: Armature|MinigunWalkR
+    7400040: Armature|MinigunIdleIn
     9500000: //RootNode
     13700000: Hammer
     13700002: Nemforcer

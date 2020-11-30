@@ -404,7 +404,7 @@ namespace EnforcerPlugin
                 {
                     HealthComponent hp = self.healthComponent;
                     float regenValue = hp.fullCombinedHealth * NemforcerPlugin.passiveRegenBonus;
-                    float regen = Util.Remap(hp.combinedHealth, hp.fullCombinedHealth, 0, 0, regenValue);
+                    float regen = Mathf.SmoothStep(regenValue, 0, hp.combinedHealth / hp.fullCombinedHealth);
                     Reflection.SetPropertyValue<float>(self, "regen", self.regen + regen);
                 }
             }
@@ -416,11 +416,14 @@ namespace EnforcerPlugin
 
             if (self.hasBody)
             {
-                var weaponComponent = self.GetBody().GetComponent<EnforcerWeaponComponent>();
-                if (weaponComponent)
+                if (self.GetBody().baseNameToken == "ENFORCER_NAME")
                 {
-                    weaponComponent.DelayedResetWeapon();
-                    weaponComponent.ModelCheck();
+                    var weaponComponent = self.GetBody().GetComponent<EnforcerWeaponComponent>();
+                    if (weaponComponent)
+                    {
+                        weaponComponent.DelayedResetWeapon();
+                        weaponComponent.ModelCheck();
+                    }
                 }
                 else
                 {

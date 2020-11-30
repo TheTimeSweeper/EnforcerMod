@@ -40,9 +40,9 @@ AvatarMask:
   - m_Path: Armature/Root/Base/Pelvis/UpperLeg.R/LowerLeg.R.003/Foot.R/Toe.R/Toe.R_end
     m_Weight: 0
   - m_Path: Armature/Root/Base/Stomach
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Armature/Root/Base/Stomach/Chest
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Armature/Root/Base/Stomach/Chest/BackArm1
     m_Weight: 0
   - m_Path: Armature/Root/Base/Stomach/Chest/BackArm1/BackArm2
@@ -184,13 +184,13 @@ AvatarMask:
   - m_Path: Armature/Root/Base/Stomach/Chest/Collar.R.001/Upper Arm.R.001/LowerArm.R.001/Hand.R.001/Thumb1.R.001/Thumb2.R.001/Thumb3.R.001/Thumb3.R.001_end
     m_Weight: 0
   - m_Path: Armature/Root/Base/Stomach/Chest/Neck
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Armature/Root/Base/Stomach/Chest/Neck/BackArmElbow
     m_Weight: 0
   - m_Path: Armature/Root/Base/Stomach/Chest/Neck/BackArmElbow/BackArmElbow_end
     m_Weight: 0
   - m_Path: Armature/Root/Base/Stomach/Chest/Neck/Head
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Armature/Root/Base/Stomach/Chest/Neck/Head/Head_end
     m_Weight: 0
   - m_Path: Armature/Root/Base/Stomach/Chest/Neck/IK.BackArm

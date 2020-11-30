@@ -26,13 +26,14 @@ namespace EntityStates.Nemforcer
                 this.duration = MinigunToggle.exitDuration / this.attackSpeedStat;
 
                 base.PlayAnimation("FullBody, Override", "MinigunDown", "MinigunUp.playbackRate", this.duration);
+                base.PlayAnimation("Minigun", "Empty");
 
                 if (base.skillLocator)
                 {
                     base.skillLocator.special.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.minigunDownDef);
 
                     base.skillLocator.primary.UnsetSkillOverride(base.skillLocator.primary, EnforcerPlugin.NemforcerPlugin.minigunFireDef, GenericSkill.SkillOverridePriority.Replacement);
-                    base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerSlamDef);
+                    base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerChargeDef);
                 }
 
                 base.characterBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
@@ -55,15 +56,16 @@ namespace EntityStates.Nemforcer
             {
                 this.duration = MinigunToggle.enterDuration / this.attackSpeedStat;
 
-                base.PlayAnimation("RightArm, Override", "BufferEmpty");
-                base.PlayAnimation("FullBody, Override", "MinigunUp", "MinigunUp.playbackRate", this.duration);
+                base.PlayAnimation("Gesture, Override", "BufferEmpty");
+                base.PlayAnimation("FullBody, Override", "BufferEmpty");
+                base.PlayAnimation("Minigun", "MinigunUp", "MinigunUp.playbackRate", this.duration);
 
                 if (base.skillLocator)
                 {
                     base.skillLocator.special.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.minigunUpDef);
 
                     base.skillLocator.primary.SetSkillOverride(base.skillLocator.primary, EnforcerPlugin.NemforcerPlugin.minigunFireDef, GenericSkill.SkillOverridePriority.Replacement);
-                    base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerChargeDef);
+                    base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerSlamDef);
                 }
 
                 base.characterBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");

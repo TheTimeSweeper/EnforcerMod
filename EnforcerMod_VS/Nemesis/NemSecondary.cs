@@ -108,7 +108,7 @@ namespace EntityStates.Nemforcer
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            return InterruptPriority.PrioritySkill;
+            return InterruptPriority.Frozen;
         }
     }
 
@@ -312,6 +312,11 @@ namespace EntityStates.Nemforcer
             base.OnDeserialize(reader);
             this.forwardDirection = reader.ReadVector3();
         }
+
+        public override InterruptPriority GetMinimumInterruptPriority()
+        {
+            return InterruptPriority.Frozen;
+        }
     }
 
     public class HammerAirSlam : BaseSkillState
@@ -324,7 +329,7 @@ namespace EntityStates.Nemforcer
         public static float maxRecoil = 5f;
         public static float minRecoil = 0.4f;
         public static float baseDuration = 0.3f;
-        public static float knockupForce = -8000f;
+        public static float knockupForce = -12000f;
         public static float minFallVelocity = 0f;
         public static float maxFallVelocity = 50f;
 
@@ -333,7 +338,7 @@ namespace EntityStates.Nemforcer
         private float duration;
         private float fallVelocity;
 
-        private float stopwatch;
+        private float storedY;
         private ChildLocator childLocator;
         private bool hasFired;
         private float hitPauseTimer;
@@ -347,7 +352,6 @@ namespace EntityStates.Nemforcer
         {
             base.OnEnter();
             this.duration = HammerAirSlam.baseDuration / this.attackSpeedStat;
-            this.stopwatch = 0f;
             this.hasFired = false;
             base.characterBody.isSprinting = true;
             this.damageCoefficient = Util.Remap(this.charge, 0f, 1f, HammerAirSlam.minDamageCoefficient, HammerAirSlam.maxDamageCoefficient);
@@ -442,15 +446,13 @@ namespace EntityStates.Nemforcer
 
             if (base.cameraTargetParams)
             {
-                base.cameraTargetParams.fovOverride = Mathf.Lerp(Commando.DodgeState.dodgeFOV, 60f, this.stopwatch / this.duration);
+                base.cameraTargetParams.fovOverride = Mathf.Lerp(Commando.DodgeState.dodgeFOV, 60f, base.fixedAge / this.duration);
             }
 
             if (base.isAuthority)
             {
                 if (!this.inHitPause)
                 {
-                    this.stopwatch += Time.fixedDeltaTime;
-
                     if (!this.hasFired)
                     {
                         this.hasFired = true;
@@ -463,9 +465,10 @@ namespace EntityStates.Nemforcer
                     {
                         Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact, healthComponent.gameObject);
 
+                        if (base.characterMotor.velocity.y != 0) this.storedY = base.characterMotor.velocity.y;
                         this.hitStopCachedState = base.CreateHitStopCachedState(base.characterMotor, this.animator, "HammerCharge.playbackRate");
                         this.inHitPause = true;
-                        this.hitPauseTimer = (3.5f * EntityStates.Merc.GroundLight.hitPauseDuration) / this.attackSpeedStat;
+                        this.hitPauseTimer = (2.5f * EntityStates.Merc.GroundLight.hitPauseDuration) / this.attackSpeedStat;
                     }
                 }
                 else
@@ -477,9 +480,16 @@ namespace EntityStates.Nemforcer
                     {
                         base.ConsumeHitStopCachedState(this.hitStopCachedState, base.characterMotor, this.animator);
                         this.inHitPause = false;
+                        base.characterMotor.velocity.y = this.storedY;
+                        this.storedY = 0;
                     }
                 }
             }
+        }
+
+        public override InterruptPriority GetMinimumInterruptPriority()
+        {
+            return InterruptPriority.Frozen;
         }
     }
 }
