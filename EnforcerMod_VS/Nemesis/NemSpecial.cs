@@ -7,10 +7,10 @@ namespace EntityStates.Nemforcer
 {
     public class MinigunToggle : BaseSkillState
     {
-        public static float enterDuration = 0.5f;
-        public static float exitDuration = 0.8f;
-        public static float bonusMass = 15000;
+        public static float enterDuration = 0.9f;
+        public static float exitDuration = 0.75f;
 
+        private bool ye;
         private float duration;
         private Animator animator;
         private ChildLocator childLocator;
@@ -25,8 +25,11 @@ namespace EntityStates.Nemforcer
             {
                 this.duration = MinigunToggle.exitDuration / this.attackSpeedStat;
 
-                base.PlayAnimation("FullBody, Override", "MinigunDown", "MinigunUp.playbackRate", this.duration);
-                base.PlayAnimation("Minigun", "Empty");
+                base.PlayAnimation("Gesture, Override", "MinigunDown", "MinigunUp.playbackRate", this.duration);
+                base.PlayAnimation("FullBody, Override", "BufferEmpty");
+                this.ye = false;
+                //base.PlayAnimation("FullBody, Override", "MinigunDown", "MinigunUp.playbackRate", this.duration);
+                //base.PlayAnimation("Minigun", "Empty");
 
                 if (base.skillLocator)
                 {
@@ -37,8 +40,6 @@ namespace EntityStates.Nemforcer
                 }
 
                 base.characterBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
-
-                if (base.characterMotor) base.characterMotor.mass = 200f;
 
                 if (NetworkServer.active)
                 {
@@ -56,9 +57,10 @@ namespace EntityStates.Nemforcer
             {
                 this.duration = MinigunToggle.enterDuration / this.attackSpeedStat;
 
-                base.PlayAnimation("Gesture, Override", "BufferEmpty");
+                base.PlayAnimation("Gesture, Override", "MinigunUp", "MinigunUp.playbackRate", this.duration);
                 base.PlayAnimation("FullBody, Override", "BufferEmpty");
-                base.PlayAnimation("Minigun", "MinigunUp", "MinigunUp.playbackRate", this.duration);
+                this.ye = true;
+                //base.PlayAnimation("Minigun", "MinigunUp", "MinigunUp.playbackRate", this.duration);
 
                 if (base.skillLocator)
                 {
@@ -69,8 +71,6 @@ namespace EntityStates.Nemforcer
                 }
 
                 base.characterBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
-
-                if (base.characterMotor) base.characterMotor.mass = MinigunToggle.bonusMass;
 
                 if (NetworkServer.active)
                 {
@@ -90,6 +90,9 @@ namespace EntityStates.Nemforcer
         public override void OnExit()
         {
             base.OnExit();
+
+            if (this.ye) this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), 1);
+            else this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), 0);
         }
 
         public override void FixedUpdate()
@@ -100,6 +103,11 @@ namespace EntityStates.Nemforcer
             {
                 base.characterMotor.velocity = Vector3.zero;
             }
+
+            float progress = Mathf.Clamp01(base.fixedAge / this.duration);
+
+            if (this.ye) this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), progress);
+            else this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), 1 - progress);
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {

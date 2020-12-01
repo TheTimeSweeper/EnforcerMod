@@ -3448,7 +3448,7 @@ namespace EnforcerPlugin
             characterModel.itemDisplayRuleSet = itemDisplayRuleSet;
         }*/
 
-        private static GameObject LoadDisplay(string name)
+        public static GameObject LoadDisplay(string name)
         {
             if (itemDisplayPrefabs.ContainsKey(name.ToLower()))
             {
@@ -3552,7 +3552,7 @@ namespace EnforcerPlugin
 
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        private static GameObject LoadAetheriumDisplay(string name)
+        public static GameObject LoadAetheriumDisplay(string name)
         {
             switch (name)
             {
@@ -3585,7 +3585,7 @@ namespace EnforcerPlugin
         }
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        private static GameObject LoadSivDisplay(string name)
+        public static GameObject LoadSivDisplay(string name)
         {
             switch (name)
             {

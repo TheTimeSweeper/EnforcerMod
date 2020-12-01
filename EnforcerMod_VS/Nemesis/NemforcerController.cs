@@ -7,6 +7,8 @@ public class NemforcerController : MonoBehaviour
 {
     public SkillDef primarySkillDef;
 
+    public float slamRecastTimer;
+
     public ParticleSystem hammerChargeSmall;
     public ParticleSystem hammerChargeLarge;
     public ParticleSystem hammerBurst;
@@ -37,6 +39,11 @@ public class NemforcerController : MonoBehaviour
         Invoke("ModelCheck", 0.2f);
     }
 
+    private void FixedUpdate()
+    {
+        slamRecastTimer -= Time.fixedDeltaTime;
+    }
+
     public void ModelCheck()
     {
         if (charBody && charBody.master)
@@ -48,7 +55,7 @@ public class NemforcerController : MonoBehaviour
                 if (characterModel)
                 {
                     characterModel.baseRendererInfos[1].defaultMaterial = characterModel.gameObject.GetComponent<ModelSkinController>().skins[charBody.skinIndex].rendererInfos[1].defaultMaterial;
-                    if (charBody.master.inventory.GetItemCount(ItemIndex.ArmorReductionOnHit) > 0) characterModel.baseRendererInfos[0].defaultMaterial = null;
+                    if (charBody.master.inventory.GetItemCount(ItemIndex.ArmorReductionOnHit) > 0) characterModel.baseRendererInfos[1].defaultMaterial = null;
                 }
             }
         }

@@ -63,7 +63,8 @@ namespace EntityStates.Nemforcer
 
             if (base.isAuthority && ((!base.IsKeyDownAuthority() && base.fixedAge >= 0.1f)) && !base.IsKeyDownAuthority())
             {
-                if (base.characterMotor.velocity.y <= -20f)
+                bool slamming = (base.characterMotor.velocity.y <= -20f) || (this.nemController && this.nemController.slamRecastTimer > 0 && !base.characterMotor.isGrounded);
+                if (slamming)
                 {
                     HammerAirSlam nextState = new HammerAirSlam();
                     nextState.charge = charge;
@@ -101,6 +102,8 @@ namespace EntityStates.Nemforcer
                 this.nemController.hammerChargeSmall.Stop();
                 this.nemController.hammerChargeLarge.Stop();
                 this.nemController.hammerBurst.Play();
+
+                this.nemController.slamRecastTimer = 1.5f * this.attackSpeedStat;
             }
 
             if (NetworkServer.active && base.characterBody.HasBuff(BuffIndex.Slow50)) base.characterBody.RemoveBuff(BuffIndex.Slow50);
@@ -125,7 +128,8 @@ namespace EntityStates.Nemforcer
         public static float initialMinSpeedCoefficient = 4f;
         public static float finalSpeedCoefficient = 0.01f;
         public static float baseDuration = 0.6f;
-        public static float knockupForce = 5000f;
+        public static float minknockupForce = 500f;
+        public static float maxknockupForce = 5000f;
         public static float maxHopVelocity = 25f;
         public static float minHopVelocity = 0f;
 
@@ -133,6 +137,7 @@ namespace EntityStates.Nemforcer
         private float damageCoefficient;
         private float recoil;
         private float duration;
+        private float knockupForce;
         private float hopVelocity;
 
         private float dashSpeed;
@@ -159,6 +164,7 @@ namespace EntityStates.Nemforcer
             this.speedCoefficient = Util.Remap(this.charge, 0f, 1f, HammerUppercut.initialMinSpeedCoefficient, HammerUppercut.initialMaxSpeedCoefficient);
             this.damageCoefficient = Util.Remap(this.charge, 0f, 1f, HammerUppercut.minDamageCoefficient, HammerUppercut.maxDamageCoefficient);
             this.recoil = Util.Remap(this.charge, 0f, 1f, HammerUppercut.minRecoil, HammerUppercut.maxRecoil);
+            this.knockupForce = Util.Remap(this.charge, 0f, 1f, HammerUppercut.minknockupForce, HammerUppercut.maxknockupForce);
             this.hopVelocity = Util.Remap(this.charge, 0f, 1f, HammerUppercut.minHopVelocity, HammerUppercut.maxHopVelocity);
 
             this.childLocator = base.GetModelChildLocator();
@@ -193,7 +199,7 @@ namespace EntityStates.Nemforcer
             this.attack.damage = this.damageCoefficient * this.damageStat;
             this.attack.procCoefficient = 1;
             this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemHeavyImpactFX;
-            this.attack.forceVector = Vector3.up * HammerUppercut.knockupForce;
+            this.attack.forceVector = Vector3.up * this.knockupForce;
             this.attack.pushAwayForce = 50f;
             this.attack.hitBoxGroup = hitBoxGroup;
             this.attack.isCrit = base.RollCrit();
@@ -330,8 +336,8 @@ namespace EntityStates.Nemforcer
         public static float minRecoil = 0.4f;
         public static float baseDuration = 0.3f;
         public static float knockupForce = -12000f;
-        public static float minFallVelocity = 0f;
-        public static float maxFallVelocity = 50f;
+        public static float minFallVelocity = 40f;
+        public static float maxFallVelocity = 80f;
 
         private float damageCoefficient;
         private float recoil;
@@ -407,10 +413,18 @@ namespace EntityStates.Nemforcer
 
         private void FireBlast()
         {
+            Vector3 sex = this.childLocator.FindChild("HammerHitbox").transform.position;
+
+            EffectData effectData = new EffectData();
+            effectData.origin = sex;
+            effectData.scale = 15;
+
+            EffectManager.SpawnEffect(Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/PodGroundImpact"), effectData, true);
+
+            Util.PlaySound("Play_parent_attack1_slam", base.gameObject);
+
             if (base.isAuthority)
             {
-                Vector3 sex = this.childLocator.FindChild("HammerHitbox").transform.position;
-
                 BlastAttack blastAttack = new BlastAttack();
                 blastAttack.radius = 18f;
                 blastAttack.procCoefficient = 1f;
@@ -424,12 +438,6 @@ namespace EntityStates.Nemforcer
                 blastAttack.damageType = DamageType.Stun1s;
                 blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
                 BlastAttack.Result result = blastAttack.Fire();
-
-                EffectData effectData = new EffectData();
-                effectData.origin = sex;
-                effectData.scale = 15;
-
-                EffectManager.SpawnEffect(Resources.Load<GameObject>("Prefabs/Effects/OmniEffect/OmniExplosionVFX"), effectData, true);
             }
         }
 

@@ -50,7 +50,7 @@ namespace EnforcerPlugin
             CreatePrefab();
             CreateDisplayPrefab();
             RegisterCharacter();
-            //ItemDisplays.RegisterDisplays();
+            NemItemDisplays.RegisterDisplays();
             NemforcerSkins.RegisterSkins();
             RegisterProjectiles();
             CreateDoppelganger();
@@ -73,40 +73,11 @@ namespace EnforcerPlugin
 
         private static void CreateDisplayPrefab()
         {
-            GameObject tempDisplay = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), "NemforcerDisplay");
+            GameObject tempDisplay = Assets.NemAssetBundle.LoadAsset<GameObject>("NemforcerDisplay");
 
-            GameObject model = CreateModel(tempDisplay, 1);
+            ChildLocator childLocator = tempDisplay.GetComponent<ChildLocator>();
 
-            GameObject gameObject = new GameObject("ModelBase");
-            gameObject.transform.parent = tempDisplay.transform;
-            gameObject.transform.localPosition = new Vector3(0f, -0.81f, 0f);
-            gameObject.transform.localRotation = Quaternion.identity;
-            gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
-
-            GameObject gameObject2 = new GameObject("CameraPivot");
-            gameObject2.transform.parent = gameObject.transform;
-            gameObject2.transform.localPosition = new Vector3(0f, 1.6f, 0f);
-            gameObject2.transform.localRotation = Quaternion.identity;
-            gameObject2.transform.localScale = Vector3.one;
-
-            GameObject gameObject3 = new GameObject("AimOrigin");
-            gameObject3.transform.parent = gameObject.transform;
-            gameObject3.transform.localPosition = new Vector3(0f, 1.8f, 0f);
-            gameObject3.transform.localRotation = Quaternion.identity;
-            gameObject3.transform.localScale = Vector3.one;
-
-            Transform transform = model.transform;
-            transform.parent = gameObject.transform;
-            transform.localPosition = Vector3.zero;
-            transform.localRotation = Quaternion.identity;
-
-            ModelLocator modelLocator = tempDisplay.GetComponent<ModelLocator>();
-            modelLocator.modelTransform = transform;
-            modelLocator.modelBaseTransform = gameObject.transform;
-
-            ChildLocator childLocator = model.GetComponent<ChildLocator>();
-
-            CharacterModel characterModel = model.AddComponent<CharacterModel>();
+            CharacterModel characterModel = tempDisplay.AddComponent<CharacterModel>();
             characterModel.body = null;
             characterModel.baseRendererInfos = new CharacterModel.RendererInfo[]
             {
@@ -129,21 +100,21 @@ namespace EnforcerPlugin
                     defaultMaterial = childLocator.FindChild("AltHammer").GetComponentInChildren<MeshRenderer>().material,
                     renderer = childLocator.FindChild("AltHammer").GetComponentInChildren<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
+                    ignoreOverlays = true
                 },
                 new CharacterModel.RendererInfo
                 {
                     defaultMaterial = childLocator.FindChild("GrenadeL").GetComponentInChildren<MeshRenderer>().material,
                     renderer = childLocator.FindChild("GrenadeL").GetComponentInChildren<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
+                    ignoreOverlays = true
                 },
                 new CharacterModel.RendererInfo
                 {
                     defaultMaterial = childLocator.FindChild("GrenadeR").GetComponentInChildren<MeshRenderer>().material,
                     renderer = childLocator.FindChild("GrenadeR").GetComponentInChildren<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
+                    ignoreOverlays = true
                 }
             };
 
@@ -153,7 +124,7 @@ namespace EnforcerPlugin
 
             characterModel.SetFieldValue("mainSkinnedMeshRenderer", characterModel.baseRendererInfos[0].renderer.gameObject.GetComponent<SkinnedMeshRenderer>());
 
-            characterDisplay = PrefabAPI.InstantiateClone(tempDisplay.GetComponent<ModelLocator>().modelBaseTransform.gameObject, "NemforcerDisplay", true);
+            characterDisplay = tempDisplay;
         }
 
         private static void CreatePrefab()
@@ -234,9 +205,11 @@ namespace EnforcerPlugin
             bodyComponent.isChampion = false;
             bodyComponent.currentVehicle = null;
             bodyComponent.skinIndex = 0U;
+            bodyComponent.preferredPodPrefab = null;
 
             var stateMachine = bodyComponent.GetComponent<EntityStateMachine>();
             stateMachine.mainStateType = new SerializableEntityStateType(typeof(EntityStates.Nemforcer.NemforcerMain));
+            stateMachine.initialStateType = new SerializableEntityStateType(typeof(EntityStates.Nemforcer.SpawnState));
 
             CharacterMotor characterMotor = characterPrefab.GetComponent<CharacterMotor>();
             characterMotor.walkSpeedPenaltyCoefficient = 1f;
@@ -284,21 +257,21 @@ namespace EnforcerPlugin
                     defaultMaterial = childLocator.FindChild("AltHammer").GetComponentInChildren<MeshRenderer>().material,
                     renderer = childLocator.FindChild("AltHammer").GetComponentInChildren<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
+                    ignoreOverlays = true
                 },
                 new CharacterModel.RendererInfo
                 {
                     defaultMaterial = childLocator.FindChild("GrenadeL").GetComponentInChildren<MeshRenderer>().material,
                     renderer = childLocator.FindChild("GrenadeL").GetComponentInChildren<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
+                    ignoreOverlays = true
                 },
                 new CharacterModel.RendererInfo
                 {
                     defaultMaterial = childLocator.FindChild("GrenadeR").GetComponentInChildren<MeshRenderer>().material,
                     renderer = childLocator.FindChild("GrenadeR").GetComponentInChildren<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
+                    ignoreOverlays = true
                 }
             };
 
@@ -576,6 +549,19 @@ namespace EnforcerPlugin
 
             nemGasDamage.damageType = DamageType.BlightOnHit;
 
+            BuffWard buffWard2 = nemGas.AddComponent<BuffWard>();
+
+            buffWard2.radius = 18;
+            buffWard2.interval = 1;
+            buffWard2.rangeIndicator = null;
+            buffWard2.buffType = EnforcerPlugin.nemGasDebuff;
+            buffWard2.buffDuration = 1.5f;
+            buffWard2.floorWard = false;
+            buffWard2.expires = false;
+            buffWard2.invertTeamFilter = true;
+            buffWard2.expireDuration = 0;
+            buffWard2.animateRadius = false;
+
             GameObject nemGrenadeModel = Assets.nemGasGrenadeModel.InstantiateClone("NemGasGrenadeGhost", true);
             nemGrenadeModel.AddComponent<NetworkIdentity>();
             nemGrenadeModel.AddComponent<ProjectileGhostController>();
@@ -654,7 +640,7 @@ namespace EnforcerPlugin
         private void PassiveSetup()
         {
             LanguageAPI.Add("NEMFORCER_PASSIVE_NAME", "Colossus");
-            LanguageAPI.Add("NEMFORCER_PASSIVE_DESCRIPTION", $"Nemesis Enforcer gains <style=cIsHealing>bonus health regen</style>, based on his current <style=cIsHealth>missing health</style>, up to <style=cIsHealth>{100 * NemforcerPlugin.passiveRegenBonus}% max health/s</style>.");
+            LanguageAPI.Add("NEMFORCER_PASSIVE_DESCRIPTION", $"Nemesis Enforcer gains <style=cIsHealing>bonus health regen</style>, based on his current <style=cIsHealth>missing health</style>, up to <style=cIsHealth>{100 * NemforcerPlugin.passiveRegenBonus}% max health</style>.");
 
             skillLocator.passiveSkill.enabled = true;
             skillLocator.passiveSkill.skillNameToken = "NEMFORCER_PASSIVE_NAME";
@@ -795,7 +781,7 @@ namespace EnforcerPlugin
 
         private static SkillDef PrimarySkillDef_FireMinigun()
         {
-            string desc = "Rev up and fire a hail of bullets dealing <style=cIsDamage>" + NemMinigunFire.baseDamageCoefficient * 100f + "% damage</style> per bullet. <style=cIsUtility>Slow</style> your movement while shooting.";
+            string desc = "Rev up and fire a hail of bullets dealing <style=cIsDamage>" + NemMinigunFire.baseDamageCoefficient * 100f + "% damage</style> per bullet. <style=cIsUtility>Slows your movement while shooting.</style>";
 
             LanguageAPI.Add("NEMFORCER_PRIMARY_MINIGUN_NAME", "Fire Minigun");
             LanguageAPI.Add("NEMFORCER_PRIMARY_MINIGUN_DESCRIPTION", desc);
@@ -826,7 +812,7 @@ namespace EnforcerPlugin
 
         private static SkillDef SecondarySkillDef_HammerBash()
         {
-            string desc = $"<style=cIsUtility>Charge up</style>, then lunge forward and unleash a <style=cIsDamage>mighty uppercut</style> for <style=cIsDamage>{100f * HammerUppercut.minDamageCoefficient}-{100f * HammerUppercut.maxDamageCoefficient}% damage</style>.";
+            string desc = $"<style=cIsUtility>Charge up</style>, then lunge forward and unleash a <style=cIsDamage>mighty uppercut</style> for <style=cIsDamage>{100f * HammerUppercut.minDamageCoefficient}-{100f * HammerUppercut.maxDamageCoefficient}% damage</style>. <style=cIsUtility>Use while falling to perform a downward slam instead.</style>";
 
             LanguageAPI.Add("NEMFORCER_SECONDARY_BASH_NAME", "Dominance");
             LanguageAPI.Add("NEMFORCER_SECONDARY_BASH_DESCRIPTION", desc);
@@ -858,7 +844,7 @@ namespace EnforcerPlugin
 
         private static SkillDef SecondarySkillDef_HammerSlam()
         {
-            string desc = $"<style=cIsDamage>Stunning.</style> <style=cIsDamage>Violently slam</style> down your hammer, dealing <style=cIsDamage>{100f * HammerSlam.damageCoefficient}% damage</style> and <style=cIsDamage>knocking back</style> enemies hit.";
+            string desc = $"<style=cIsDamage>Stunning.</style> Violently <style=cIsHealth>slam</style> down your hammer, dealing <style=cIsDamage>{100f * HammerSlam.damageCoefficient}% damage</style> and <style=cIsDamage>knocking back</style> enemies hit. <style=cIsUtility>Destroys projectiles.</style>";
 
             LanguageAPI.Add("NEMFORCER_SECONDARY_SLAM_NAME", "Dominance");
             LanguageAPI.Add("NEMFORCER_SECONDARY_SLAM_DESCRIPTION", desc);
@@ -928,7 +914,7 @@ namespace EnforcerPlugin
         private static SkillDef UtilitySkillDef_Gas()
         {
             LanguageAPI.Add("NEMFORCER_UTILITY_GAS_NAME", "XM47 Grenade");
-            LanguageAPI.Add("NEMFORCER_UTILITY_GAS_DESCRIPTION", "Launch a grenade that explodes into a cloud of <style=cIsUtility>burning gas</style> that deals <style=cIsDamage>200% damage per second</style> and lasts for <style=cIsDamage>16 seconds</style>.");
+            LanguageAPI.Add("NEMFORCER_UTILITY_GAS_DESCRIPTION", "Throw a grenade that explodes into a cloud of <style=cIsUtility>corrosive gas</style> that <style=cIsUtility>slows</style> and deals <style=cIsDamage>200% damage per second</style> and lasts for <style=cIsDamage>16 seconds</style>.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(AimNemGas));

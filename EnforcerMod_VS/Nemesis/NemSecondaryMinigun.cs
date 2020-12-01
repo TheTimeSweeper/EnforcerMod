@@ -53,7 +53,15 @@ namespace EntityStates.Nemforcer
             {
                 this.hasFired = true;
 
-                EffectManager.SimpleMuzzleFlash(Resources.Load<GameObject>("Prefabs/Effects/OmniEffect/OmniExplosionVFX"), base.gameObject, hitboxString, true);
+                Vector3 sex = this.childLocator.FindChild("SwingCenter").transform.position;
+
+                EffectData effectData = new EffectData();
+                effectData.origin = sex;
+                effectData.scale = 15;
+
+                EffectManager.SpawnEffect(Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/PodGroundImpact"), effectData, true);
+
+                Util.PlaySound("Play_parent_attack1_slam", base.gameObject);
 
                 if (base.isAuthority)
                 {

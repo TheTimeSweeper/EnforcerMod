@@ -87,6 +87,8 @@ namespace EnforcerPlugin
         public static BuffIndex minigunBuff;
         public static BuffIndex skateboardBuff;
         public static BuffIndex tearGasDebuff;
+        public static BuffIndex nemGasDebuff;
+        public static BuffIndex unusedDebuff;//accursed potion users be damned
 
         public static SkillDef shieldDownDef;//skilldef used while shield is down
         public static SkillDef shieldUpDef;//skilldef used while shield is up
@@ -399,6 +401,20 @@ namespace EnforcerPlugin
                     Reflection.SetPropertyValue<float>(self, "attackSpeed", self.attackSpeed * 0.75f);
                 }
 
+                if (self.HasBuff(nemGasDebuff))
+                {
+                    Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
+                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.25f);
+                }
+
+                if (self.HasBuff(unusedDebuff))
+                {
+                    Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
+                    Reflection.SetPropertyValue<float>(self, "armor", self.armor - 200);
+                    Reflection.SetPropertyValue<float>(self, "moveSpeed", 0);
+                    Reflection.SetPropertyValue<float>(self, "attackSpeed", 0.01f);
+                }
+
                 //armor passive
                 if (self.baseNameToken == "NEMFORCER_NAME")
                 {
@@ -427,7 +443,16 @@ namespace EnforcerPlugin
                 }
                 else
                 {
-                    if (self.inventory && useNeedlerCrosshair.Value)
+                    if (self.GetBody().baseNameToken == "NEMFORCER_NAME")
+                    {
+                        var nemComponent = self.GetBody().GetComponent<NemforcerController>();
+                        if (nemComponent)
+                        {
+                            nemComponent.DelayedResetWeapon();
+                            nemComponent.ModelCheck();
+                        }
+                    }
+                    else if (self.inventory && useNeedlerCrosshair.Value)
                     {
                         if (self.inventory.GetItemCount(ItemIndex.LunarPrimaryReplacement) > 0)
                         {
@@ -1706,6 +1731,18 @@ namespace EnforcerPlugin
             CustomBuff tearGas = new CustomBuff(tearGasDef);
             EnforcerPlugin.tearGasDebuff = BuffAPI.Add(tearGas);
 
+            BuffDef nemGasDef = new BuffDef
+            {
+                name = "CorrosiveGasDebuff",
+                iconPath = "Textures/BuffIcons/texBuffCloakIcon",
+                buffColor = Color.red,
+                canStack = false,
+                isDebuff = true,
+                eliteIndex = EliteIndex.None
+            };
+            CustomBuff nemGas = new CustomBuff(nemGasDef);
+            EnforcerPlugin.nemGasDebuff = BuffAPI.Add(nemGas);
+
             BuffDef minigunBuffDef = new BuffDef
             {
                 name = "HeavyweightV2",
@@ -1729,6 +1766,18 @@ namespace EnforcerPlugin
             };
             CustomBuff skateBuff = new CustomBuff(skateBuffDef);
             EnforcerPlugin.skateboardBuff = BuffAPI.Add(skateBuff);
+
+            BuffDef unusedDebuffDef = new BuffDef
+            {
+                name = "Fuck you",
+                iconPath = "Textures/BuffIcons/texBuffCloakIcon",
+                buffColor = Color.black,
+                canStack = false,
+                isDebuff = false,
+                eliteIndex = EliteIndex.None
+            };
+            CustomBuff unusedDebuff = new CustomBuff(unusedDebuffDef);
+            EnforcerPlugin.unusedDebuff = BuffAPI.Add(unusedDebuff);
         }
 
         private void RegisterProjectile()
