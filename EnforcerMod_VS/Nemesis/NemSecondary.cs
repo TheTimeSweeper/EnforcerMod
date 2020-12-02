@@ -103,9 +103,9 @@ namespace EntityStates.Nemforcer
             {
                 this.nemController.hammerChargeSmall.Stop();
                 this.nemController.hammerChargeLarge.Stop();
-                this.nemController.hammerBurst.Play();
+                if (this.CalcCharge() >= 0.2f) this.nemController.hammerBurst.Play();
 
-                this.nemController.slamRecastTimer = 1.5f * this.attackSpeedStat;
+                this.nemController.slamRecastTimer = 1.25f * this.attackSpeedStat;
             }
 
             if (NetworkServer.active && base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff)) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff);
@@ -128,12 +128,14 @@ namespace EntityStates.Nemforcer
         public static float minRecoil = 0.4f;
         public static float initialMaxSpeedCoefficient = 12f;
         public static float initialMinSpeedCoefficient = 4f;
-        public static float finalSpeedCoefficient = 0.01f;
-        public static float baseDuration = 0.6f;
+        public static float finalSpeedCoefficient = 0f;
+        public static float minDuration = 0.65f;
+        public static float maxDuration = 0.9f;
         public static float minknockupForce = 500f;
         public static float maxknockupForce = 5000f;
         public static float maxHopVelocity = 25f;
         public static float minHopVelocity = 0f;
+        public static float dashDuration = 0.15f;
 
         private float speedCoefficient;
         private float damageCoefficient;
@@ -159,10 +161,10 @@ namespace EntityStates.Nemforcer
         public override void OnEnter()
         {
             base.OnEnter();
-            this.duration = HammerUppercut.baseDuration / this.attackSpeedStat;
             this.stopwatch = 0f;
             this.hasFired = false;
             base.characterBody.isSprinting = true;
+            this.duration = Util.Remap(this.charge, 0f, 1f, HammerUppercut.minDuration, HammerUppercut.maxDuration) / this.attackSpeedStat;
             this.speedCoefficient = Util.Remap(this.charge, 0f, 1f, HammerUppercut.initialMinSpeedCoefficient, HammerUppercut.initialMaxSpeedCoefficient);
             this.damageCoefficient = Util.Remap(this.charge, 0f, 1f, HammerUppercut.minDamageCoefficient, HammerUppercut.maxDamageCoefficient);
             this.recoil = Util.Remap(this.charge, 0f, 1f, HammerUppercut.minRecoil, HammerUppercut.maxRecoil);
@@ -191,7 +193,8 @@ namespace EntityStates.Nemforcer
 
             HitBoxGroup hitBoxGroup = Array.Find<HitBoxGroup>(base.GetModelTransform().GetComponents<HitBoxGroup>(), (HitBoxGroup element) => element.groupName == "Uppercut");
 
-            base.PlayAnimation("FullBody, Override", "Uppercut", "Uppercut.playbackRate", this.duration);
+            base.PlayAnimation("FullBody, Override", "DashForward", "DashForward.playbackRate", HammerUppercut.dashDuration * this.duration);
+            this.animator.SetFloat("charge", this.charge);
 
             this.attack = new OverlapAttack();
             this.attack.damageType = DamageType.Stun1s;
@@ -209,7 +212,7 @@ namespace EntityStates.Nemforcer
 
         private void RecalculateSpeed()
         {
-            if (this.hasFired && this.hopVelocity >= 5f) this.dashSpeed = 0.8f;
+            if (this.hasFired && this.charge > 0.21f) this.dashSpeed = 2f;
             else this.dashSpeed = (4 + (0.25f * this.moveSpeedStat)) * Mathf.Lerp(this.speedCoefficient, HammerUppercut.finalSpeedCoefficient, this.stopwatch / this.duration);
         }
 
@@ -266,13 +269,15 @@ namespace EntityStates.Nemforcer
 
                     this.previousPosition = base.transform.position;
 
-                    if (this.stopwatch >= (0.35f * this.duration))
+                    if (this.stopwatch >= (HammerUppercut.dashDuration * this.duration))
                     {
                         if (!this.hasFired)
                         {
                             this.hasFired = true;
 
-                            if (this.hopVelocity >= 5f) base.SmallHop(base.characterMotor, this.hopVelocity);
+                            base.PlayAnimation("FullBody, Override", "Uppercut", "Uppercut.playbackRate", (1 - HammerUppercut.dashDuration) * this.duration);
+
+                            if (this.charge > 0.21f) base.SmallHop(base.characterMotor, this.hopVelocity);
                             base.AddRecoil(-1f * this.recoil, -2f * this.recoil, -0.5f * this.recoil, 0.5f * this.recoil);
                             Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwing, healthComponent.gameObject);
                         }
@@ -281,7 +286,7 @@ namespace EntityStates.Nemforcer
                     {
                         if (this.attack.Fire())
                         {
-                            if (charge >= 1 && UnityEngine.Random.value <= 0.05f)
+                            if (charge >= 1 && UnityEngine.Random.value <= 0.01f)
                             {
                                 Util.PlaySound(EnforcerPlugin.Sounds.HomeRun, healthComponent.gameObject);
                             }
@@ -340,7 +345,7 @@ namespace EntityStates.Nemforcer
         public static float knockupForce = -12000f;
         public static float minFallVelocity = 40f;
         public static float maxFallVelocity = 80f;
-        public static float maxRadius = 64f;
+        public static float maxRadius = 180f;
         public static float minRadius = 6f;
 
         private float damageCoefficient;
@@ -413,13 +418,15 @@ namespace EntityStates.Nemforcer
 
             this.FireBlast();
 
+            base.characterMotor.velocity *= 0.1f;
+
             base.OnExit();
         }
 
         private void FireBlast()
         {
             Vector3 sex = this.childLocator.FindChild("HammerHitbox").transform.position;
-            this.radius = Util.Remap(-base.characterMotor.velocity.y, 0f, 800f, HammerAirSlam.minRadius, HammerAirSlam.maxRadius);
+            this.radius = Util.Remap(base.characterMotor.velocity.y, 0f, -800f, HammerAirSlam.minRadius, HammerAirSlam.maxRadius);
             this.recoil += 0.5f * this.radius;
 
             Vector3 directionFlat = base.GetAimRay().direction;

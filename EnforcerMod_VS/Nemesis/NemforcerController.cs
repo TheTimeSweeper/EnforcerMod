@@ -73,11 +73,8 @@ public class NemforcerController : MonoBehaviour
                 case "NEMFORCER_PRIMARY_HAMMER_NAME":
                     weapon = 0;
                     break;
-                case "NEMFORCER_PRIMARY_MINIGUN_NAME":
-                    weapon = 1;
-                    break;
                 case "NEMFORCER_PRIMARY_THROWHAMMER_NAME":
-                    weapon = 2;
+                    weapon = 1;
                     break;
             }
         }
@@ -124,9 +121,6 @@ public class NemforcerController : MonoBehaviour
                     childLocator.FindChild("HammerModel").gameObject.SetActive(true);
                     break;
                 case 1:
-                    childLocator.FindChild("HammerModel").gameObject.SetActive(true);
-                    break;
-                case 2:
                     childLocator.FindChild("AltHammer").gameObject.SetActive(true);
                     break;
             }
@@ -137,17 +131,21 @@ public class NemforcerController : MonoBehaviour
     {
         if (charBody)
         {
-            switch (weapon)
+            if (charBody.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff))
             {
-                case 0:
-                    charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
-                    break;
-                case 1:
-                    charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
-                    break;
-                case 2:
-                    charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
-                    break;
+                charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
+            }
+            else
+            {
+                switch (weapon)
+                {
+                    case 0:
+                        charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
+                        break;
+                    case 1:
+                        charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
+                        break;
+                }
             }
         }
     }

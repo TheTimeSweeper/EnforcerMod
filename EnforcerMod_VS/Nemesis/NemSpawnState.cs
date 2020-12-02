@@ -5,13 +5,13 @@ namespace EntityStates.Nemforcer
 {
     public class SpawnState : BaseState
     {
-        public static float duration = 2f;
+        public static float duration = 2.05f;
 
         public override void OnEnter()
         {
             base.OnEnter();
             //need a spawn anim
-            //base.PlayAnimation("Body", "Spawn", "Spawn.playbackRate", SpawnState.duration);
+            base.PlayAnimation("Body", "Spawn");
             Util.PlaySound(NullifierMonster.SpawnState.spawnSoundString, base.gameObject);
 
             base.GetModelAnimator().SetLayerWeight(base.GetModelAnimator().GetLayerIndex("Minigun"), 0);
@@ -20,7 +20,7 @@ namespace EntityStates.Nemforcer
 
             if (NullifierMonster.SpawnState.spawnEffectPrefab)
             {
-                EffectManager.SimpleMuzzleFlash(NullifierMonster.SpawnState.spawnEffectPrefab, base.gameObject, "Chest", false);
+                EffectManager.SimpleMuzzleFlash(NullifierMonster.SpawnState.spawnEffectPrefab, base.gameObject, "SpawnOrigin", false);
             }
         }
 

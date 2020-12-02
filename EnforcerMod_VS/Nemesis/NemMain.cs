@@ -8,10 +8,12 @@ namespace EntityStates.Nemforcer
         private bool wasShielding = false;
         private float initialTime;
         private float currentHealth;
+        private Animator animator;
 
         public override void OnEnter()
         {
             base.OnEnter();
+            this.animator = base.GetModelAnimator();
         }
 
         public override void Update()
@@ -52,6 +54,8 @@ namespace EntityStates.Nemforcer
                 this.currentHealth = base.healthComponent.combinedHealth;
                 base.characterBody.RecalculateStats();
             }
+
+            if (this.animator) this.animator.SetBool("inCombat", !base.characterBody.outOfCombat);
         }
     }
 }
