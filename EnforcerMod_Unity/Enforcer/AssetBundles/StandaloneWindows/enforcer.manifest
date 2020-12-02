@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2476135981
+CRC: 2314108093
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 97b8b99d368839c915df65f5082979d2
+    Hash: e2cebb4895d0c5206c5ecbc9e752ac58
   TypeTreeHash:
     serializedVersion: 2
     Hash: e465eabb9707126898175137816bb4a8
@@ -364,4 +364,4 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/Masks/PitchMask.mask
 - Assets/Enforcer/EnforcerAssets/Animations/ShieldWalkF_old.anim
 Dependencies:
-- C:/Users/rseid/Documents/GitHub/EnforcerMod/EnforcerMod_Unity/Enforcer/AssetBundles/StandaloneWindows/nemforcer
+- E:/Abbas's stuff VII I think/1337 haxx/ror2lol/Chikara ga minegitte kuru/EnforcerMod/EnforcerMod_Unity/Enforcer/AssetBundles/StandaloneWindows/nemforcer

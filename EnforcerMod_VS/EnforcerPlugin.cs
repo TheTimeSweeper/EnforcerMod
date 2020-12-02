@@ -35,7 +35,7 @@ namespace EnforcerPlugin
         "LanguageAPI",
         "SoundAPI",
         "EffectAPI",
-        "UnlockablesAPI",
+        "UnlockablesAPI", 
         "ResourcesAPI"
     })]
 
