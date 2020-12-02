@@ -279,6 +279,8 @@ namespace EntityStates.Nemforcer
             base.OnEnter();
             this.muzzleTransform = base.FindModelChild("MinigunMuzzle");
             animator = base.GetModelAnimator();
+
+            if (NetworkServer.active) base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff);
         }
 
         public override void FixedUpdate()
@@ -291,6 +293,8 @@ namespace EntityStates.Nemforcer
         public override void OnExit()
         {
             base.OnExit();
+
+            if (NetworkServer.active && base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.tempLargeSlowDebuff)) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempLargeSlowDebuff);
         }
 
         protected ref InputBankTest.ButtonState skillButtonState

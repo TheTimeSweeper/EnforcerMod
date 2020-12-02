@@ -7,19 +7,21 @@ namespace EntityStates.Nemforcer
 {
     public class MinigunToggle : BaseSkillState
     {
-        public static float enterDuration = 0.9f;
-        public static float exitDuration = 0.75f;
+        public static float enterDuration = 0.6f;
+        public static float exitDuration = 0.9f;
 
         private bool ye;
         private float duration;
         private Animator animator;
         private ChildLocator childLocator;
+        private NemforcerController nemController;
 
         public override void OnEnter()
         {
             base.OnEnter();
             this.animator = GetModelAnimator();
             this.childLocator = base.GetModelChildLocator();
+            this.nemController = base.GetComponent<NemforcerController>();
 
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff))
             {
@@ -36,14 +38,20 @@ namespace EntityStates.Nemforcer
                     base.skillLocator.special.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.minigunDownDef);
 
                     base.skillLocator.primary.UnsetSkillOverride(base.skillLocator.primary, EnforcerPlugin.NemforcerPlugin.minigunFireDef, GenericSkill.SkillOverridePriority.Replacement);
-                    base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerChargeDef);
-                }
 
-                base.characterBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
+                    float cooldown = base.skillLocator.secondary.rechargeStopwatch;
+                    int stock = base.skillLocator.secondary.stock;
+
+                    base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerChargeDef);
+
+                    base.skillLocator.secondary.stock = stock;
+                    base.skillLocator.secondary.rechargeStopwatch = cooldown;
+                }
 
                 if (NetworkServer.active)
                 {
                     base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff);
+                    base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.tempLargeSlowDebuff);
                 }
 
                 this.animator.SetFloat("Minigun.spinSpeed", 0);
@@ -67,14 +75,20 @@ namespace EntityStates.Nemforcer
                     base.skillLocator.special.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.minigunUpDef);
 
                     base.skillLocator.primary.SetSkillOverride(base.skillLocator.primary, EnforcerPlugin.NemforcerPlugin.minigunFireDef, GenericSkill.SkillOverridePriority.Replacement);
-                    base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerSlamDef);
-                }
 
-                base.characterBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
+                    float cooldown = base.skillLocator.secondary.rechargeStopwatch;
+                    int stock = base.skillLocator.secondary.stock;
+
+                    base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerSlamDef);
+
+                    base.skillLocator.secondary.stock = stock;
+                    base.skillLocator.secondary.rechargeStopwatch = cooldown;
+                }
 
                 if (NetworkServer.active)
                 {
                     base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff);
+                    base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.tempLargeSlowDebuff);
                 }
 
                 this.animator.SetBool("minigunActive", true);
@@ -85,11 +99,15 @@ namespace EntityStates.Nemforcer
             }
 
             base.characterBody.SetAimTimer(this.duration + 0.2f);
+
+            if (this.nemController) this.nemController.ResetCrosshair();
         }
 
         public override void OnExit()
         {
             base.OnExit();
+
+            if (NetworkServer.active) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempLargeSlowDebuff);
 
             if (this.ye) this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), 1);
             else this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), 0);

@@ -89,6 +89,8 @@ namespace EnforcerPlugin
         public static BuffIndex tearGasDebuff;
         public static BuffIndex nemGasDebuff;
         public static BuffIndex unusedDebuff;//accursed potion users be damned
+        public static BuffIndex tempSlowDebuff;
+        public static BuffIndex tempLargeSlowDebuff;
 
         public static SkillDef shieldDownDef;//skilldef used while shield is down
         public static SkillDef shieldUpDef;//skilldef used while shield is up
@@ -413,6 +415,18 @@ namespace EnforcerPlugin
                     Reflection.SetPropertyValue<float>(self, "armor", self.armor - 200);
                     Reflection.SetPropertyValue<float>(self, "moveSpeed", 0);
                     Reflection.SetPropertyValue<float>(self, "attackSpeed", 0.01f);
+                }
+
+                if (self.HasBuff(tempSlowDebuff))
+                {
+                    Reflection.SetPropertyValue<float>(self, "armor", self.armor + 10);
+                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.7f);
+                }
+
+                if (self.HasBuff(tempLargeSlowDebuff))
+                {
+                    Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
+                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.3f);
                 }
 
                 //armor passive
@@ -1778,6 +1792,30 @@ namespace EnforcerPlugin
             };
             CustomBuff unusedDebuff = new CustomBuff(unusedDebuffDef);
             EnforcerPlugin.unusedDebuff = BuffAPI.Add(unusedDebuff);
+
+            BuffDef tempSlowDebuffDef = new BuffDef
+            {
+                name = "Fuck you too",
+                iconPath = "Textures/BuffIcons/texBuffCloakIcon",
+                buffColor = Color.red,
+                canStack = false,
+                isDebuff = false,
+                eliteIndex = EliteIndex.None
+            };
+            CustomBuff tempSlowDebuff = new CustomBuff(tempSlowDebuffDef);
+            EnforcerPlugin.tempSlowDebuff = BuffAPI.Add(tempSlowDebuff);
+
+            BuffDef tempLargeSlowDebuffDef = new BuffDef
+            {
+                name = "Fuck you x3",
+                iconPath = "Textures/BuffIcons/texBuffCloakIcon",
+                buffColor = Color.red,
+                canStack = false,
+                isDebuff = false,
+                eliteIndex = EliteIndex.None
+            };
+            CustomBuff tempLargeSlowDebuff = new CustomBuff(tempLargeSlowDebuffDef);
+            EnforcerPlugin.tempLargeSlowDebuff = BuffAPI.Add(tempLargeSlowDebuff);
         }
 
         private void RegisterProjectile()

@@ -73,8 +73,11 @@ public class NemforcerController : MonoBehaviour
                 case "NEMFORCER_PRIMARY_HAMMER_NAME":
                     weapon = 0;
                     break;
-                case "NEMFORCER_PRIMARY_THROWHAMMER_NAME":
+                case "NEMFORCER_PRIMARY_MINIGUN_NAME":
                     weapon = 1;
+                    break;
+                case "NEMFORCER_PRIMARY_THROWHAMMER_NAME":
+                    weapon = 2;
                     break;
             }
         }
@@ -103,10 +106,9 @@ public class NemforcerController : MonoBehaviour
         Invoke("ResetWeapon", 0.1f);
     }
 
-    public void ResetWeapon()
+    public void ResetCrosshair()
     {
         int weapon = GetWeapon();
-        EquipWeapon(weapon);
         SetCrosshair(weapon);
     }
 
@@ -122,6 +124,9 @@ public class NemforcerController : MonoBehaviour
                     childLocator.FindChild("HammerModel").gameObject.SetActive(true);
                     break;
                 case 1:
+                    childLocator.FindChild("HammerModel").gameObject.SetActive(true);
+                    break;
+                case 2:
                     childLocator.FindChild("AltHammer").gameObject.SetActive(true);
                     break;
             }
@@ -138,6 +143,9 @@ public class NemforcerController : MonoBehaviour
                     charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
                     break;
                 case 1:
+                    charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
+                    break;
+                case 2:
                     charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
                     break;
             }

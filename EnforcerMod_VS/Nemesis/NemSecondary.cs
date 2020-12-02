@@ -26,9 +26,11 @@ namespace EntityStates.Nemforcer
             this.animator = base.GetModelAnimator();
             this.nemController = base.GetComponent<NemforcerController>();
 
+            if (this.nemController && this.nemController.slamRecastTimer > 0) this.nemController.slamRecastTimer += this.chargeDuration;
+
             base.PlayAnimation("Gesture, Override", "HammerCharge", "HammerCharge.playbackRate", this.chargeDuration);
 
-            this.chargePlayID = Util.PlaySound(EnforcerPlugin.Sounds.NemesisStartCharge, healthComponent.gameObject);
+            this.chargePlayID = Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisStartCharge, base.gameObject, this.attackSpeedStat);
 
             if (base.cameraTargetParams)
             {
@@ -37,7 +39,7 @@ namespace EntityStates.Nemforcer
 
             if (this.nemController) this.nemController.hammerChargeSmall.Play();
 
-            if (NetworkServer.active) base.characterBody.AddBuff(BuffIndex.Slow50);
+            if (NetworkServer.active) base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff);
         }
 
         public override void FixedUpdate()
@@ -58,7 +60,7 @@ namespace EntityStates.Nemforcer
                     base.cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
                 }
 
-                if (NetworkServer.active) base.characterBody.RemoveBuff(BuffIndex.Slow50);
+                if (NetworkServer.active) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff);
             }
 
             if (base.isAuthority && ((!base.IsKeyDownAuthority() && base.fixedAge >= 0.1f)) && !base.IsKeyDownAuthority())
@@ -106,7 +108,7 @@ namespace EntityStates.Nemforcer
                 this.nemController.slamRecastTimer = 1.5f * this.attackSpeedStat;
             }
 
-            if (NetworkServer.active && base.characterBody.HasBuff(BuffIndex.Slow50)) base.characterBody.RemoveBuff(BuffIndex.Slow50);
+            if (NetworkServer.active && base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff)) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -332,12 +334,14 @@ namespace EntityStates.Nemforcer
         public static float maxDamageCoefficient = 25f;
         public static float minDamageCoefficient = 3f;
         public static float procCoefficient = 1f;
-        public static float maxRecoil = 5f;
+        public static float maxRecoil = 15f;
         public static float minRecoil = 0.4f;
         public static float baseDuration = 0.3f;
         public static float knockupForce = -12000f;
         public static float minFallVelocity = 40f;
         public static float maxFallVelocity = 80f;
+        public static float maxRadius = 64f;
+        public static float minRadius = 6f;
 
         private float damageCoefficient;
         private float recoil;
@@ -345,6 +349,7 @@ namespace EntityStates.Nemforcer
         private float fallVelocity;
 
         private float storedY;
+        private float radius;
         private ChildLocator childLocator;
         private bool hasFired;
         private float hitPauseTimer;
@@ -384,7 +389,7 @@ namespace EntityStates.Nemforcer
             this.attack.attacker = base.gameObject;
             this.attack.inflictor = base.gameObject;
             this.attack.teamIndex = base.GetTeam();
-            this.attack.damage = (0.5f * this.damageCoefficient) * this.damageStat;
+            this.attack.damage = this.damageCoefficient * this.damageStat;
             this.attack.procCoefficient = 1;
             this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemHeavyImpactFX;
             this.attack.forceVector = Vector3.up * HammerAirSlam.knockupForce;
@@ -414,26 +419,39 @@ namespace EntityStates.Nemforcer
         private void FireBlast()
         {
             Vector3 sex = this.childLocator.FindChild("HammerHitbox").transform.position;
+            this.radius = Util.Remap(-base.characterMotor.velocity.y, 0f, 800f, HammerAirSlam.minRadius, HammerAirSlam.maxRadius);
+            this.recoil += 0.5f * this.radius;
 
-            EffectData effectData = new EffectData();
-            effectData.origin = sex;
-            effectData.scale = 15;
+            Vector3 directionFlat = base.GetAimRay().direction;
+            directionFlat.y = 0;
+            directionFlat.Normalize();
 
-            EffectManager.SpawnEffect(Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/PodGroundImpact"), effectData, true);
+            GameObject impactEffect = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/PodGroundImpact");
+
+            for (int i = 5; i <= Mathf.RoundToInt(this.radius) + 1; i += 2)
+            {
+                EffectManager.SpawnEffect(impactEffect, new EffectData
+                {
+                    origin = base.transform.position + i * directionFlat.normalized - 1.8f * Vector3.up,
+                    scale = 0.5f
+                }, true);
+            }
 
             Util.PlaySound("Play_parent_attack1_slam", base.gameObject);
 
             if (base.isAuthority)
             {
+                base.AddRecoil(-1f * this.recoil, -2f * this.recoil, -0.5f * this.recoil, 0.5f * this.recoil);
+
                 BlastAttack blastAttack = new BlastAttack();
-                blastAttack.radius = 18f;
+                blastAttack.radius = this.radius;
                 blastAttack.procCoefficient = 1f;
                 blastAttack.position = sex;
                 blastAttack.attacker = base.gameObject;
                 blastAttack.crit = this.attack.isCrit;
-                blastAttack.baseDamage = base.characterBody.damage * (0.5f * this.damageCoefficient);
+                blastAttack.baseDamage = base.characterBody.damage * (0.2f * this.damageCoefficient);
                 blastAttack.falloffModel = BlastAttack.FalloffModel.None;
-                blastAttack.baseForce = 2500f;
+                blastAttack.baseForce = 5000;
                 blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
                 blastAttack.damageType = DamageType.Stun1s;
                 blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
@@ -464,8 +482,6 @@ namespace EntityStates.Nemforcer
                     if (!this.hasFired)
                     {
                         this.hasFired = true;
-
-                        base.AddRecoil(-1f * this.recoil, -2f * this.recoil, -0.5f * this.recoil, 0.5f * this.recoil);
                         Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwing, healthComponent.gameObject);
                     }
 
