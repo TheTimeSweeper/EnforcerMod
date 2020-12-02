@@ -118,6 +118,7 @@ namespace EntityStates.Nemforcer
             {
                 var nextSwing = new HammerSwing();
                 nextSwing.currentSwing = currentSwing + 1;
+                Debug.LogWarning(nextSwing.currentSwing);
                 this.outer.SetNextState(nextSwing);
                 return;
             }
