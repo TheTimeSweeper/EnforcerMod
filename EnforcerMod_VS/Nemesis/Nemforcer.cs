@@ -813,7 +813,7 @@ namespace EnforcerPlugin
 
         private static SkillDef SecondarySkillDef_HammerBash()
         {
-            string desc = $"<style=cIsUtility>Charge up</style>, then lunge forward and unleash a <style=cIsDamage>mighty uppercut</style> for <style=cIsDamage>{100f * HammerUppercut.minDamageCoefficient}-{100f * HammerUppercut.maxDamageCoefficient}% damage</style>. <style=cIsUtility>Use while falling to perform a downward slam instead.</style>";
+            string desc = $"<style=cIsUtility>Charge up</style>, then lunge forward and unleash a <style=cIsDamage>rising uppercut</style> for <style=cIsDamage>{100f * HammerUppercut.minDamageCoefficient}-{100f * HammerUppercut.maxDamageCoefficient}% damage</style>. <style=cIsUtility>Use while falling to perform a downward slam instead.</style>";
 
             LanguageAPI.Add("NEMFORCER_SECONDARY_BASH_NAME", "Dominance");
             LanguageAPI.Add("NEMFORCER_SECONDARY_BASH_DESCRIPTION", desc);

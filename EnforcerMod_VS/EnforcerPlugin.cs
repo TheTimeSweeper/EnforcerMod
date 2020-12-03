@@ -59,6 +59,8 @@ namespace EnforcerPlugin
 
         public static GameObject needlerCrosshair;
 
+        public static GameObject nemesisSpawnEffect;
+
         public static GameObject bulletTracer;
         public static GameObject bulletTracerSSG;
         public static GameObject laserTracer;
@@ -177,7 +179,7 @@ namespace EnforcerPlugin
             //its our plugin constructor
 
             awake += EnforcerPlugin_Load;
-            //start += EnforcerPlugin_LoadStart;
+            start += EnforcerPlugin_LoadStart;
         }
 
         private void EnforcerPlugin_Load()
@@ -219,6 +221,18 @@ namespace EnforcerPlugin
             if (nemesisEnabled) new NemforcerPlugin().Init();
 
             Hook();
+        }
+
+        private void EnforcerPlugin_LoadStart()
+        {
+            nemesisSpawnEffect = EntityStates.NullifierMonster.SpawnState.spawnEffectPrefab.InstantiateClone("NemesisSpawnEffect", false);
+            nemesisSpawnEffect.transform.localScale *= 0.5f;
+
+            if (!nemesisSpawnEffect.GetComponent<VFXAttributes>()) nemesisSpawnEffect.AddComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Always;
+            if (!nemesisSpawnEffect.GetComponent<EffectComponent>()) nemesisSpawnEffect.AddComponent<EffectComponent>();
+            if (!nemesisSpawnEffect.GetComponent<NetworkIdentity>()) nemesisSpawnEffect.AddComponent<NetworkIdentity>();
+
+            EffectAPI.AddEffect(nemesisSpawnEffect);
         }
 
         private void ConfigShit()
@@ -1748,7 +1762,7 @@ namespace EnforcerPlugin
             BuffDef nemGasDef = new BuffDef
             {
                 name = "CorrosiveGasDebuff",
-                iconPath = "Textures/BuffIcons/texBuffCloakIcon",
+                iconPath = "Textures/BuffIcons/texBuffSlow50Icon",
                 buffColor = Color.red,
                 canStack = false,
                 isDebuff = true,
@@ -1787,7 +1801,7 @@ namespace EnforcerPlugin
                 iconPath = "Textures/BuffIcons/texBuffCloakIcon",
                 buffColor = Color.black,
                 canStack = false,
-                isDebuff = false,
+                isDebuff = true,
                 eliteIndex = EliteIndex.None
             };
             CustomBuff unusedDebuff = new CustomBuff(unusedDebuffDef);
@@ -1796,10 +1810,10 @@ namespace EnforcerPlugin
             BuffDef tempSlowDebuffDef = new BuffDef
             {
                 name = "Fuck you too",
-                iconPath = "Textures/BuffIcons/texBuffCloakIcon",
-                buffColor = Color.red,
+                iconPath = "Textures/BuffIcons/texBuffSlow50Icon",
+                buffColor = new Color(0.647f, 0.168f, 0.184f),
                 canStack = false,
-                isDebuff = false,
+                isDebuff = true,
                 eliteIndex = EliteIndex.None
             };
             CustomBuff tempSlowDebuff = new CustomBuff(tempSlowDebuffDef);
@@ -1808,10 +1822,10 @@ namespace EnforcerPlugin
             BuffDef tempLargeSlowDebuffDef = new BuffDef
             {
                 name = "Fuck you x3",
-                iconPath = "Textures/BuffIcons/texBuffCloakIcon",
-                buffColor = Color.red,
+                iconPath = "Textures/BuffIcons/texBuffSlow50Icon",
+                buffColor = new Color(0.65f, 0.078f, 0.078f),
                 canStack = false,
-                isDebuff = false,
+                isDebuff = true,
                 eliteIndex = EliteIndex.None
             };
             CustomBuff tempLargeSlowDebuff = new CustomBuff(tempLargeSlowDebuffDef);

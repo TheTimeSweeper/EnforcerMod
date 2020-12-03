@@ -79,6 +79,8 @@ namespace EntityStates.Nemforcer
                     this.outer.SetNextState(nextState);
                 }
             }
+
+            if (this.animator) this.animator.SetBool("inCombat", !base.characterBody.outOfCombat);
         }
 
         protected float CalcCharge()
@@ -126,8 +128,8 @@ namespace EntityStates.Nemforcer
         public static float procCoefficient = 1f;
         public static float maxRecoil = 5f;
         public static float minRecoil = 0.4f;
-        public static float initialMaxSpeedCoefficient = 12f;
-        public static float initialMinSpeedCoefficient = 4f;
+        public static float initialMaxSpeedCoefficient = 16f;
+        public static float initialMinSpeedCoefficient = 2f;
         public static float finalSpeedCoefficient = 0f;
         public static float minDuration = 0.65f;
         public static float maxDuration = 0.9f;
@@ -378,12 +380,12 @@ namespace EntityStates.Nemforcer
             this.modelBaseTransform = base.GetModelBaseTransform();
             this.animator = base.GetModelAnimator();
 
+            if (NetworkServer.active) base.characterBody.AddBuff(BuffIndex.HiddenInvincibility);
+
             if (base.characterMotor)
             {
                 base.characterMotor.velocity.y -= this.fallVelocity;
             }
-
-            if (NetworkServer.active) base.characterBody.AddBuff(BuffIndex.HiddenInvincibility);
 
             HitBoxGroup hitBoxGroup = Array.Find<HitBoxGroup>(base.GetModelTransform().GetComponents<HitBoxGroup>(), (HitBoxGroup element) => element.groupName == "Uppercut");
 
