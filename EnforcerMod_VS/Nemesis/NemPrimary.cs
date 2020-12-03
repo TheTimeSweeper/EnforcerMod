@@ -107,26 +107,24 @@ namespace EntityStates.Nemforcer
             Vector3 turnDirection = Vector3.Cross(aimDirection, Vector3.up);
 
             float rot = animator.GetFloat(mecanimRotateParameter);
-            float fuckingMath = Mathf.Sin(Mathf.Deg2Rad * rot * 2);
 
             Ray aimRayTurned = aimRay;
-            aimRayTurned.direction = aimDirection + turnDirection * -fuckingMath;
-
+            aimRayTurned.direction = Vector3.RotateTowards(aimDirection, turnDirection, -rot * Mathf.Deg2Rad, 0.0f);
+            
             pseudoAimMode(aimRayTurned);
 
             if (base.fixedAge >= this.earlyExitDuration && base.inputBank.skill1.down && currentSwing != 1)
             {
                 var nextSwing = new HammerSwing();
                 nextSwing.currentSwing = currentSwing + 1;
-                Debug.LogWarning(nextSwing.currentSwing);
                 this.outer.SetNextState(nextSwing);
                 return;
             }
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
-                base.StartAimMode(2f, false);
                 this.outer.SetNextStateToMain();
+                base.StartAimMode(2f, false);
                 return;
             }
         }
@@ -183,6 +181,7 @@ namespace EntityStates.Nemforcer
         }
 
         //copied and pasted only what we need from SetAimMode cause using the whole thing is a little fucky
+        //todo: move this to charactermain so we can use it for other moves/manage it better
         private void pseudoAimMode(Ray ray)
         {
             base.characterDirection.forward = ray.direction;

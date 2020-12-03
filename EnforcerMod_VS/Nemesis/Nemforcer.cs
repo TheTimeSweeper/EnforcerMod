@@ -381,7 +381,7 @@ namespace EnforcerPlugin
             HitBoxGroup hitBoxGroup = model.AddComponent<HitBoxGroup>();
 
             GameObject hammerHitbox = childLocator.FindChild("HammerHitbox").gameObject;
-            hammerHitbox.transform.localScale = new Vector3(0.155f, 0.175f, 0.1f);
+            hammerHitbox.transform.localScale = new Vector3(0.155f, 0.18f, 0.12f);
             hammerHitbox.transform.localPosition = Vector3.up * 0.012f;
 
             HitBox hitBox = hammerHitbox.AddComponent<HitBox>();
