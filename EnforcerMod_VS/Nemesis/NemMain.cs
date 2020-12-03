@@ -9,11 +9,17 @@ namespace EntityStates.Nemforcer
         private float initialTime;
         private float currentHealth;
         private Animator animator;
+        private NemforcerController nemComponent;
+
 
         public override void OnEnter()
         {
             base.OnEnter();
+            base.characterBody.GetComponent<NemforcerController>().mainStateMachine = outer;
+
             this.animator = base.GetModelAnimator();
+            smoothingParameters.forwardSpeedSmoothDamp = 0.02f;
+            smoothingParameters.rightSpeedSmoothDamp = 0.02f;
         }
 
         public override void Update()
