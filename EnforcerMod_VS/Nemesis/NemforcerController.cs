@@ -7,7 +7,7 @@ public class NemforcerController : MonoBehaviour
 {
     public SkillDef primarySkillDef;
 
-    public float slamRecastTimer;
+    public EntityStateMachine mainStateMachine;
 
     public ParticleSystem hammerChargeSmall;
     public ParticleSystem hammerChargeLarge;
@@ -17,6 +17,11 @@ public class NemforcerController : MonoBehaviour
     private CharacterMotor charMotor;
     private HealthComponent charHealth;
     private ChildLocator childLocator;
+
+    public float slamRecastTimer;
+    private float rotationResetTimer;
+    private float previousAngle;
+    private Vector3 previousDirection;
 
     private void Start()
     {
@@ -42,6 +47,9 @@ public class NemforcerController : MonoBehaviour
     private void FixedUpdate()
     {
         slamRecastTimer -= Time.fixedDeltaTime;
+        if (mainStateMachine) {
+            previousDirection = mainStateMachine.commonComponents.characterDirection.forward;
+        }
     }
 
     public void ModelCheck()
@@ -146,6 +154,47 @@ public class NemforcerController : MonoBehaviour
                         charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
                         break;
                 }
+            }
+        }
+    }
+
+    public void resetAimAngle() {
+        previousAngle = 0;
+    }
+
+    public void pseudoAimMode(float angle) {
+        //rotationResetTimer = 1;
+
+        if (!mainStateMachine)
+            return;
+
+        //angle = Mathf.Lerp(previousAngle, angle, 0.1f);
+
+        Vector3 aimDirection = mainStateMachine.commonComponents.inputBank.aimDirection;
+        aimDirection.y = 0;
+
+        Vector3 turningDirection = Vector3.Cross(aimDirection, Vector3.up);
+
+        float rot = angle;
+
+        Vector3 turnedDirection = Vector3.RotateTowards(aimDirection, turningDirection, -rot * Mathf.Deg2Rad, 1);
+
+        turnedDirection = Vector3.Lerp(previousDirection, turnedDirection, 0.2f);
+
+        pseudoAimMode(turnedDirection);
+        previousAngle = angle;
+    }
+
+    //copied and pasted only what we need from SetAimMode cause using the whole thing is a little fucky
+    public void pseudoAimMode(Vector3 direction) {
+        mainStateMachine.commonComponents.characterDirection.forward = direction;
+        mainStateMachine.commonComponents.characterDirection.moveVector = direction;
+
+        if (mainStateMachine.commonComponents.modelLocator) {
+            Transform modelTransform = mainStateMachine.commonComponents.modelLocator.modelTransform;
+            if (modelTransform) {
+                AimAnimator component = modelTransform.GetComponent<AimAnimator>();
+                component.AimImmediate();
             }
         }
     }
