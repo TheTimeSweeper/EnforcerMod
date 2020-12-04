@@ -45,6 +45,8 @@ namespace EntityStates.Nemforcer
             this.attackStopDuration = HammerSlam.beefDuration / this.attackSpeedStat;
 
             Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisSwing, base.gameObject, this.attackSpeedStat);
+
+            if (grounded) base.PlayAnimation("FullBody, Override", "Bash", "ShieldBash.playbackRate", this.duration);
         }
 
         private void FireBlast()
