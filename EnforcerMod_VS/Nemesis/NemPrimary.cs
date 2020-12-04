@@ -11,7 +11,7 @@ namespace EntityStates.Nemforcer
     {
         public static string hitboxString = "HammerHitbox";
         public static float baseDuration = 1.2f;
-        public static float damageCoefficient = 4f;
+        public static float damageCoefficient = 5f;
         public static float procCoefficient = 1f;
         public static float attackRecoil = 1.5f;
         public static float hitHopVelocity = 5.5f;

@@ -65,6 +65,7 @@ namespace EnforcerPlugin
         public static GameObject bulletTracerSSG;
         public static GameObject laserTracer;
         public static GameObject bungusTracer = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerEngiTurret");
+        public static GameObject minigunTracer;
 
         public static GameObject projectilePrefab;
         public GameObject tearGasPrefab;
@@ -2070,15 +2071,17 @@ namespace EnforcerPlugin
             if (!bulletTracer.GetComponent<VFXAttributes>()) bulletTracer.AddComponent<VFXAttributes>();
             if (!bulletTracer.GetComponent<NetworkIdentity>()) bulletTracer.AddComponent<NetworkIdentity>();
 
+            Material bulletMat = null;
+
             foreach (LineRenderer i in bulletTracer.GetComponentsInChildren<LineRenderer>())
             {
                 if (i)
                 {
-                    Material material = UnityEngine.Object.Instantiate<Material>(i.material);
-                    material.SetColor("_TintColor", Color.yellow);
-                    i.material = material;
-                    i.startColor = new Color(0.88f, 0.78f, 0.25f);
-                    i.endColor = new Color(0.88f, 0.78f, 0.25f);
+                    bulletMat = UnityEngine.Object.Instantiate<Material>(i.material);
+                    bulletMat.SetColor("_TintColor", new Color(0.68f, 0.58f, 0.05f));
+                    i.material = bulletMat;
+                    i.startColor = new Color(0.68f, 0.58f, 0.05f);
+                    i.endColor = new Color(0.68f, 0.58f, 0.05f);
                 }
             }
 
@@ -2118,6 +2121,19 @@ namespace EnforcerPlugin
                 }
             }
 
+            minigunTracer = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerClayBruiserMinigun").InstantiateClone("NemforcerMinigunTracer", true);
+
+            var line = minigunTracer.GetComponent<LineRenderer>();
+            line.material = bulletMat;
+            line.startColor = new Color(0.68f, 0.58f, 0.05f);
+            line.endColor = new Color(0.68f, 0.58f, 0.05f);
+            line.startWidth = 0.2f;
+            line.endWidth = 0.2f;
+
+            if (!minigunTracer.GetComponent<EffectComponent>()) minigunTracer.AddComponent<EffectComponent>();
+            if (!minigunTracer.GetComponent<VFXAttributes>()) minigunTracer.AddComponent<VFXAttributes>();
+            if (!minigunTracer.GetComponent<NetworkIdentity>()) minigunTracer.AddComponent<NetworkIdentity>();
+
             //block effect
             blockEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/BearProc").InstantiateClone("EnforcerBlockEffect", true);
 
@@ -2139,6 +2155,7 @@ namespace EnforcerPlugin
             EffectAPI.AddEffect(bulletTracer);
             EffectAPI.AddEffect(bulletTracerSSG);
             EffectAPI.AddEffect(laserTracer);
+            EffectAPI.AddEffect(minigunTracer);
             EffectAPI.AddEffect(blockEffectPrefab);
         }
 

@@ -65,7 +65,7 @@ namespace EntityStates.Nemforcer
 
             if (base.isAuthority && ((!base.IsKeyDownAuthority() && base.fixedAge >= 0.1f)) && !base.IsKeyDownAuthority())
             {
-                bool slamming = (base.characterMotor.velocity.y <= -20f) || (this.nemController && this.nemController.slamRecastTimer > 0 && !base.characterMotor.isGrounded);
+                bool slamming = (base.characterMotor.velocity.y <= -20f);
                 if (slamming)
                 {
                     HammerAirSlam nextState = new HammerAirSlam();
@@ -106,8 +106,6 @@ namespace EntityStates.Nemforcer
                 this.nemController.hammerChargeSmall.Stop();
                 this.nemController.hammerChargeLarge.Stop();
                 if (this.CalcCharge() >= 0.2f) this.nemController.hammerBurst.Play();
-
-                this.nemController.slamRecastTimer = 1.25f * this.attackSpeedStat;
             }
 
             if (NetworkServer.active && base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff)) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff);
@@ -283,12 +281,10 @@ namespace EntityStates.Nemforcer
                             base.AddRecoil(-1f * this.recoil, -2f * this.recoil, -0.5f * this.recoil, 0.5f * this.recoil);
                             Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwing, healthComponent.gameObject);
                         }
-                    }
-                    else
-                    {
-                        if (this.attack.Fire())
+
+                        if (this.stopwatch <= 0.75f * this.duration && this.attack.Fire())//lazily hardcoding dont mind me
                         {
-                            if (charge >= 1 && UnityEngine.Random.value <= 0.01f)
+                            if (this.charge >= 1 && UnityEngine.Random.value <= 0.01f)
                             {
                                 Util.PlaySound(EnforcerPlugin.Sounds.HomeRun, healthComponent.gameObject);
                             }
@@ -296,7 +292,22 @@ namespace EntityStates.Nemforcer
 
                             this.hitStopCachedState = base.CreateHitStopCachedState(base.characterMotor, this.animator, "Uppercut.playbackRate");
                             this.inHitPause = true;
-                            this.hitPauseTimer = (3.5f * EntityStates.Merc.GroundLight.hitPauseDuration) / this.attackSpeedStat;
+                            this.hitPauseTimer = (4f * EntityStates.Merc.GroundLight.hitPauseDuration) / this.attackSpeedStat;
+                        }
+                    }
+                    else
+                    {
+                        if (this.attack.Fire())
+                        {
+                            if (this.charge >= 1 && UnityEngine.Random.value <= 0.01f)
+                            {
+                                Util.PlaySound(EnforcerPlugin.Sounds.HomeRun, healthComponent.gameObject);
+                            }
+                            else Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact, healthComponent.gameObject);
+
+                            this.hitStopCachedState = base.CreateHitStopCachedState(base.characterMotor, this.animator, "Uppercut.playbackRate");
+                            this.inHitPause = true;
+                            this.hitPauseTimer = (1.5f * EntityStates.Merc.GroundLight.hitPauseDuration) / this.attackSpeedStat;
                         }
 
                         base.characterMotor.velocity.y *= 0.1f;
@@ -428,7 +439,7 @@ namespace EntityStates.Nemforcer
         private void FireBlast()
         {
             Vector3 sex = this.childLocator.FindChild("HammerHitbox").transform.position;
-            this.radius = Util.Remap(base.characterMotor.velocity.y, 0f, -800f, HammerAirSlam.minRadius, HammerAirSlam.maxRadius);
+            this.radius = Util.Remap(base.characterMotor.velocity.y, 0f, -200f, HammerAirSlam.minRadius, HammerAirSlam.maxRadius);
             this.recoil += 0.5f * this.radius;
 
             Vector3 directionFlat = base.GetAimRay().direction;

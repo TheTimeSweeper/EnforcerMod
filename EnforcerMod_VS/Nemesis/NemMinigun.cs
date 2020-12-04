@@ -31,9 +31,11 @@ namespace EntityStates.Nemforcer
         {
             base.OnEnter();
             this.spreadMod = 0f;
+
             if (this.muzzleTransform && MinigunFire.muzzleVfxPrefab)
             {
                 this.muzzleVfxTransform = UnityEngine.Object.Instantiate<GameObject>(MinigunFire.muzzleVfxPrefab, this.muzzleTransform).transform;
+                if (this.muzzleVfxTransform.Find("Ring, Dark")) Destroy(this.muzzleVfxTransform.Find("Ring, Dark").gameObject);
             }
 
             this.baseFireRate = 1f / MinigunFire.baseFireInterval;
@@ -60,7 +62,6 @@ namespace EntityStates.Nemforcer
                 }
             }
 
-
             AkSoundEngine.SetRTPCValue("Minigun_Shooting", 1);
             if (!this.critEndTime.hasPassed)
             {
@@ -68,7 +69,6 @@ namespace EntityStates.Nemforcer
             }
             else
             {
-                
                 AkSoundEngine.SetRTPCValue("Minigun_Crit", 0);
             }
         }
@@ -142,7 +142,7 @@ namespace EntityStates.Nemforcer
                 sniper = false,
                 stopperMask = LayerIndex.CommonMasks.bullet,
                 weapon = null,
-                tracerEffectPrefab = MinigunFire.bulletTracerEffectPrefab,
+                tracerEffectPrefab = EnforcerPlugin.EnforcerPlugin.minigunTracer,
                 spreadPitchScale = 1f,
                 spreadYawScale = 1f,
                 queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
@@ -241,6 +241,9 @@ namespace EntityStates.Nemforcer
                 {
                     component.newDuration = this.duration;
                 }
+
+                if (this.chargeInstance.transform.Find("Ring, Dark")) Destroy(this.chargeInstance.transform.Find("Ring, Dark").gameObject);
+                if (this.chargeInstance.transform.Find("SmokeBillboard")) Destroy(this.chargeInstance.transform.Find("SmokeBillboard").gameObject);
             }
         }
 
@@ -248,8 +251,8 @@ namespace EntityStates.Nemforcer
         {
             base.FixedUpdate();
 
-            float spinlerp = Mathf.Lerp(0, 0.5f, fixedAge / duration);
-            animator.SetFloat("Minigun.spinSpeed", spinlerp);
+            float spinlerp = Mathf.Lerp(0, 0.5f, base.fixedAge / this.duration);
+            this.animator.SetFloat("Minigun.spinSpeed", spinlerp);
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
@@ -260,6 +263,7 @@ namespace EntityStates.Nemforcer
         public override void OnExit()
         {
             base.OnExit();
+
             if (this.chargeInstance)
             {
                 EntityState.Destroy(this.chargeInstance);
