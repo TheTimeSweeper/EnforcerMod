@@ -117,6 +117,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: HammerSlam.playbackRate
+    m_Type: 1
+    m_DefaultFloat: 1
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   - m_Name: flinchIndex
     m_Type: 3
     m_DefaultFloat: 0
@@ -156,7 +162,7 @@ AnimatorController:
     m_Behaviours: []
     m_BlendingMode: 0
     m_SyncedLayerIndex: -1
-    m_DefaultWeight: 1
+    m_DefaultWeight: 0
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
@@ -653,13 +659,8 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-<<<<<<< Updated upstream
     m_Motion: {fileID: 7400000, guid: 50b881441ff3f414d93d80bfafcb6dd1, type: 2}
     m_Threshold: -0.5
-=======
-    m_Motion: {fileID: 7400000, guid: aec97cf6ffe692345b9e7ccfe7bb62bd, type: 2}
-    m_Threshold: -1
->>>>>>> Stashed changes
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -674,13 +675,8 @@ BlendTree:
     m_DirectBlendParameter: forwardSpeed
     m_Mirror: 0
   - serializedVersion: 2
-<<<<<<< Updated upstream
     m_Motion: {fileID: 7400000, guid: 51d4ff57a07831a4c8966a236855352b, type: 2}
     m_Threshold: 0.5
-=======
-    m_Motion: {fileID: 7400000, guid: 87bfa0b035c56b643a7ec2a4dee8ccd8, type: 2}
-    m_Threshold: 1
->>>>>>> Stashed changes
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -688,8 +684,8 @@ BlendTree:
     m_Mirror: 0
   m_BlendParameter: rightSpeed
   m_BlendParameterY: forwardSpeed
-  m_MinThreshold: -1
-  m_MaxThreshold: 1
+  m_MinThreshold: -0.5
+  m_MaxThreshold: 0.5
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
@@ -2478,9 +2474,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.120437086
+  m_TransitionDuration: 0.03406179
   m_TransitionOffset: 0
-  m_ExitTime: 0.8820712
+  m_ExitTime: 0.9857217
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -3059,7 +3055,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -3244,13 +3240,13 @@ AnimatorState:
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400020, guid: 3edf56abd3b17074f95c1cb3299dab9c, type: 3}
+  m_Motion: {fileID: 7400000, guid: 3dcabda7ad1ec5b4ab7d96b23170b8bb, type: 2}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: HammerSlam.playbackRate
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 

@@ -486,6 +486,7 @@ namespace EntityStates.Nemforcer
         {
             base.FixedUpdate();
             base.characterBody.isSprinting = true;
+            this.fallStopwatch += Time.fixedDeltaTime;
 
             if (!base.characterMotor.disableAirControlUntilCollision)
             {

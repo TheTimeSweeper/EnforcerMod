@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Networking;
+using RoR2.Projectile;
 
 namespace EntityStates.Nemforcer
 {
@@ -40,13 +41,11 @@ namespace EntityStates.Nemforcer
 
             base.StartAimMode(aimRay, 2f, false);
 
-
-            bool grounded = base.characterMotor.isGrounded;
             this.attackStopDuration = HammerSlam.beefDuration / this.attackSpeedStat;
 
             Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisSwing, base.gameObject, this.attackSpeedStat);
 
-            if (grounded) base.PlayAnimation("FullBody, Override", "Bash", "ShieldBash.playbackRate", this.duration);
+            base.PlayAnimation("FullBody, Override", "HammerSlam", "HammerSlam.playbackRate", this.duration);
         }
 
         private void FireBlast()
@@ -144,6 +143,24 @@ namespace EntityStates.Nemforcer
                 }
             }
         }
+
+        private void DestroyProjectiles()
+        {
+            Collider[] array = Physics.OverlapSphere(childLocator.FindChild(hitboxString).position, HammerSlam.blastRadius, LayerIndex.projectile.mask);
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                ProjectileController pc = array[i].GetComponentInParent<ProjectileController>();
+                if (pc)
+                {
+                    if (pc.owner != gameObject)
+                    {
+                        Destroy(pc.gameObject);
+                    }
+                }
+            }
+        }
+
 
         public override void OnExit()
         {

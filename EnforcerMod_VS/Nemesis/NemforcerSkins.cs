@@ -22,6 +22,7 @@ namespace EnforcerPlugin
 
             LanguageAPI.Add("NEMFORCERBODY_DEFAULT_SKIN_NAME", "Nemesis");
             LanguageAPI.Add("NEMFORCERBODY_MASTERY_SKIN_NAME", "Enforcer");
+            LanguageAPI.Add("NEMFORCERBODY_CLASSIC_SKIN_NAME", "Classic");
 
             LoadoutAPI.SkinDefInfo skinDefInfo = default(LoadoutAPI.SkinDefInfo);
             skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
@@ -54,7 +55,7 @@ namespace EnforcerPlugin
             material.SetColor("_Color", Color.white);
             material.SetTexture("_MainTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_MainTex"));
             material.SetColor("_EmColor", Color.white);
-            material.SetFloat("_EmPower", 1f);
+            material.SetFloat("_EmPower", 5f);
             material.SetTexture("_EmTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_EmissionMap"));
             material.SetFloat("_NormalStrength", 0);
 
@@ -115,10 +116,62 @@ namespace EnforcerPlugin
 
             SkinDef masterySkin = LoadoutAPI.CreateNewSkinDef(masterySkinDefInfo);
 
+            LoadoutAPI.SkinDefInfo classicSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            classicSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            classicSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            classicSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+            classicSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+            classicSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerAchievement");
+
+            classicSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                new SkinDef.MeshReplacement
+                {
+                    renderer = mainRenderer,
+                    mesh = Assets.nemClassicMesh
+                }
+            };
+            classicSkinDefInfo.Name = "NEMFORCERBODY_CLASSIC_SKIN_NAME";
+            classicSkinDefInfo.NameToken = "NEMFORCERBODY_CLASSIC_SKIN_NAME";
+            classicSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            classicSkinDefInfo.RootObject = model;
+            classicSkinDefInfo.UnlockableName = "";
+
+            rendererInfos = skinDefInfo.RendererInfos;
+            array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos.CopyTo(array, 0);
+
+            material = array[0].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcerClassic").GetTexture("_MainTex"));
+                material.SetTexture("_EmTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcerClassic").GetTexture("_EmissionMap"));
+
+                array[0].defaultMaterial = material;
+            }
+
+            material = array[1].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcerClassic").GetTexture("_MainTex"));
+                material.SetTexture("_EmTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcerClassic").GetTexture("_EmissionMap"));
+
+                array[1].defaultMaterial = material;
+            }
+
+            classicSkinDefInfo.RendererInfos = array;
+
+            SkinDef classicSkin = LoadoutAPI.CreateNewSkinDef(classicSkinDefInfo);
+
             skinController.skins = new SkinDef[]
             {
                 defaultSkin,
-                masterySkin
+                masterySkin,
+                classicSkin
             };
         }
     }

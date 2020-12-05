@@ -181,7 +181,8 @@ namespace EntityStates.Enforcer
             }
         }
 
-        public override void OnExit() {
+        public override void OnExit()
+        {
 
             base.OnExit();
 
@@ -215,7 +216,7 @@ namespace EntityStates.Enforcer
             {
                 this.shieldComponent.isDeflecting = false;
 
-                ParryLasers();
+                this.ParryLasers();
             }
 
             if (base.fixedAge >= this.duration && base.isAuthority)

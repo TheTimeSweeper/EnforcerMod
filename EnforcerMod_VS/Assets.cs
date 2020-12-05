@@ -88,6 +88,9 @@ namespace EnforcerPlugin
         public static Mesh femMesh;
         public static Mesh fuckingSteveMesh;
 
+        public static Mesh nemClassicMesh;
+        public static Mesh nemClassicHammerMesh;
+
         public static void PopulateAssets()
         {
             if (MainAssetBundle == null)
@@ -253,6 +256,9 @@ namespace EnforcerPlugin
             sexMesh = MainAssetBundle.LoadAsset<Mesh>("SexforcerMesh");
             femMesh = MainAssetBundle.LoadAsset<Mesh>("FemforcerMesh");
             fuckingSteveMesh = MainAssetBundle.LoadAsset<Mesh>("FuckingSteveMesh");
+
+            nemClassicMesh = NemAssetBundle.LoadAsset<Mesh>("ClassicMesh");
+            nemClassicHammerMesh = NemAssetBundle.LoadAsset<Mesh>("ClassicHammerMesh");
         }
 
         private static GameObject LoadEffect(string resourceName, string soundName, AssetBundle bundle)
