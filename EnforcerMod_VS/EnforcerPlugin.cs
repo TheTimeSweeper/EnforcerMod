@@ -336,6 +336,27 @@ namespace EnforcerPlugin
         #region Hooks
         private void ArenaMissionController_BeginRound(On.RoR2.ArenaMissionController.orig_BeginRound orig, ArenaMissionController self)
         {
+            if (self.currentRound == 1)
+            {
+                if (DifficultyIndex.Hard <= Run.instance.selectedDifficulty && Run.instance.stageClearCount >= 5)
+                {
+                    for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
+                    {
+                        bool invasion = false;
+                        CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
+                        if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
+                        {
+                            invasion = true;
+                        }
+
+                        if (invasion && NetworkServer.active)
+                        {
+                            ChatMessage.SendColored("You feel an overwhelming pressure..", new Color(0.149f, 0.0039f, 0.2117f));
+                        }
+                    }
+                }
+            }
+
             if (self.currentRound == 8)
             {
                 if (DifficultyIndex.Hard <= Run.instance.selectedDifficulty && Run.instance.stageClearCount >= 5)
@@ -1764,7 +1785,7 @@ namespace EnforcerPlugin
             {
                 name = "CorrosiveGasDebuff",
                 iconPath = "Textures/BuffIcons/texBuffSlow50Icon",
-                buffColor = Color.red,
+                buffColor = new Color(1, 0.7176f, 0.1725f),
                 canStack = false,
                 isDebuff = true,
                 eliteIndex = EliteIndex.None
@@ -1776,7 +1797,7 @@ namespace EnforcerPlugin
             {
                 name = "HeavyweightV2",
                 iconPath = "@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texBuffProtectAndServe.png",
-                buffColor = Color.yellow,
+                buffColor = new Color(1, 0.7176f, 0.1725f),
                 canStack = false,
                 isDebuff = false,
                 eliteIndex = EliteIndex.None

@@ -15,6 +15,7 @@ namespace EntityStates.Nemforcer
         private Animator animator;
         private ChildLocator childLocator;
         private NemforcerController nemController;
+        private NemforcerAIController nemAIController;
 
         public override void OnEnter()
         {
@@ -22,6 +23,7 @@ namespace EntityStates.Nemforcer
             this.animator = GetModelAnimator();
             this.childLocator = base.GetModelChildLocator();
             this.nemController = base.GetComponent<NemforcerController>();
+            this.nemAIController = base.characterBody.master.GetComponent<NemforcerAIController>();
 
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff))
             {
@@ -57,8 +59,9 @@ namespace EntityStates.Nemforcer
                 this.animator.SetFloat("Minigun.spinSpeed", 0);
                 this.animator.SetBool("minigunActive", false);
 
-                string soundString = EnforcerPlugin.Sounds.ShieldDown;
+                if (this.nemAIController) this.nemAIController.SwapToHammer();
 
+                string soundString = EnforcerPlugin.Sounds.ShieldDown;
                 Util.PlaySound(soundString, base.gameObject);
             }
             else
@@ -93,8 +96,9 @@ namespace EntityStates.Nemforcer
 
                 this.animator.SetBool("minigunActive", true);
 
-                string soundString = EnforcerPlugin.Sounds.ShieldUp;
+                if (this.nemAIController) this.nemAIController.SwapToMinigun();
 
+                string soundString = EnforcerPlugin.Sounds.ShieldUp;
                 Util.PlaySound(soundString, base.gameObject);
             }
 

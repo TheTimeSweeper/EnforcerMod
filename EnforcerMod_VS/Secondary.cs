@@ -133,7 +133,7 @@ namespace EntityStates.Enforcer
 
                             bool flag = false;
 
-                            if (component2.teamIndex != TeamIndex.Player || (EnforcerPlugin.EnforcerPlugin.stupidShieldBash.Value && healthComponent != base.healthComponent)) flag = true;
+                            if (component2.teamIndex != base.teamComponent.teamIndex || (EnforcerPlugin.EnforcerPlugin.stupidShieldBash.Value && healthComponent != base.healthComponent)) flag = true;
 
                             if (flag)
                             {

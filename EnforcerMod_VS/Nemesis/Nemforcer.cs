@@ -12,6 +12,7 @@ using KinematicCharacterController;
 using EntityStates.Nemforcer;
 using EntityStates.Enforcer;
 using RoR2.Projectile;
+using RoR2.CharacterAI;
 
 namespace EnforcerPlugin
 {
@@ -33,7 +34,7 @@ namespace EnforcerPlugin
 
         public static GameObject hammerProjectile;
 
-        public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
+        public static readonly Color characterColor = new Color(1, 0.7176f, 0.1725f);
 
         public static SkillDef hammerChargeDef;//m2
         public static SkillDef minigunFireDef;//skilldef for actually firing the minigun
@@ -955,7 +956,7 @@ namespace EnforcerPlugin
             mySkillDef.beginSkillCooldownOnSkillEnd = false;
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
-            mySkillDef.interruptPriority = InterruptPriority.PrioritySkill;
+            mySkillDef.interruptPriority = InterruptPriority.Skill;
             mySkillDef.isBullets = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = true;
@@ -984,7 +985,7 @@ namespace EnforcerPlugin
             mySkillDef2.beginSkillCooldownOnSkillEnd = false;
             mySkillDef2.canceledFromSprinting = false;
             mySkillDef2.fullRestockOnAssign = true;
-            mySkillDef2.interruptPriority = InterruptPriority.PrioritySkill;
+            mySkillDef2.interruptPriority = InterruptPriority.Skill;
             mySkillDef2.isBullets = false;
             mySkillDef2.isCombatSkill = true;
             mySkillDef2.mustKeyPress = true;
@@ -1059,13 +1060,273 @@ namespace EnforcerPlugin
                 list.Add(bossPrefab);
             };
 
-            bossMaster = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/TreebotMonsterMaster"), "NemesisEnforcerBossMaster", true);
+            bossMaster = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/LemurianMaster"), "NemesisEnforcerBossMaster", true);
             bossMaster.GetComponent<CharacterMaster>().bodyPrefab = bossPrefab;
+
+            CreateNemesisAI();
 
             MasterCatalog.getAdditionalEntries += delegate (List<GameObject> list)
             {
                 list.Add(bossMaster);
             };
+        }
+
+        private void CreateNemesisAI()
+        {
+            foreach (AISkillDriver ai in bossMaster.GetComponentsInChildren<AISkillDriver>())
+            {
+                BaseUnityPlugin.DestroyImmediate(ai);
+            }
+
+            NemforcerAIController customAIComponent = bossMaster.AddComponent<NemforcerAIController>();
+
+            /*AISkillDriver grenadeDriver = bossMaster.AddComponent<AISkillDriver>();
+            grenadeDriver.customName = "ThrowGrenade";
+            grenadeDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            grenadeDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            grenadeDriver.activationRequiresAimConfirmation = true;
+            grenadeDriver.activationRequiresTargetLoS = false;
+            grenadeDriver.selectionRequiresTargetLoS = true;
+            grenadeDriver.requireSkillReady = true;
+            grenadeDriver.maxDistance = 64f;
+            grenadeDriver.minDistance = 0f;
+            grenadeDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            grenadeDriver.ignoreNodeGraph = false;
+            grenadeDriver.moveInputScale = 1f;
+            grenadeDriver.driverUpdateTimerOverride = 0.5f;
+            grenadeDriver.buttonPressType = AISkillDriver.ButtonPressType.TapContinuous;
+            grenadeDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            grenadeDriver.maxTargetHealthFraction = Mathf.Infinity;
+            grenadeDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            grenadeDriver.maxUserHealthFraction = Mathf.Infinity;
+            grenadeDriver.skillSlot = SkillSlot.Utility;*/
+
+            AISkillDriver hammerTapDriver = bossMaster.AddComponent<AISkillDriver>();
+            hammerTapDriver.customName = "HammerTap";
+            hammerTapDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            hammerTapDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            hammerTapDriver.activationRequiresAimConfirmation = true;
+            hammerTapDriver.activationRequiresTargetLoS = false;
+            hammerTapDriver.selectionRequiresTargetLoS = true;
+            hammerTapDriver.maxDistance = 6f;
+            hammerTapDriver.minDistance = 0f;
+            hammerTapDriver.requireSkillReady = true;
+            hammerTapDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            hammerTapDriver.ignoreNodeGraph = true;
+            hammerTapDriver.moveInputScale = 1f;
+            hammerTapDriver.driverUpdateTimerOverride = 0.5f;
+            hammerTapDriver.buttonPressType = AISkillDriver.ButtonPressType.TapContinuous;
+            hammerTapDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            hammerTapDriver.maxTargetHealthFraction = Mathf.Infinity;
+            hammerTapDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            hammerTapDriver.maxUserHealthFraction = Mathf.Infinity;
+            hammerTapDriver.skillSlot = SkillSlot.Secondary;
+
+            AISkillDriver hammerChargeDriver = bossMaster.AddComponent<AISkillDriver>();
+            hammerChargeDriver.customName = "HammerCharge";
+            hammerChargeDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            hammerChargeDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            hammerChargeDriver.activationRequiresAimConfirmation = true;
+            hammerChargeDriver.activationRequiresTargetLoS = false;
+            hammerChargeDriver.selectionRequiresTargetLoS = true;
+            hammerChargeDriver.maxDistance = 24f;
+            hammerChargeDriver.minDistance = 6f;
+            hammerChargeDriver.requireSkillReady = true;
+            hammerChargeDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            hammerChargeDriver.ignoreNodeGraph = true;
+            hammerChargeDriver.moveInputScale = 1f;
+            hammerChargeDriver.driverUpdateTimerOverride = -1f;
+            hammerChargeDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            hammerChargeDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            hammerChargeDriver.maxTargetHealthFraction = Mathf.Infinity;
+            hammerChargeDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            hammerChargeDriver.maxUserHealthFraction = Mathf.Infinity;
+            hammerChargeDriver.skillSlot = SkillSlot.Secondary;
+
+            AISkillDriver hammerSwingCloseDriver = bossMaster.AddComponent<AISkillDriver>();
+            hammerSwingCloseDriver.customName = "HammerCloseRange";
+            hammerSwingCloseDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            hammerSwingCloseDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            hammerSwingCloseDriver.activationRequiresAimConfirmation = true;
+            hammerSwingCloseDriver.activationRequiresTargetLoS = false;
+            hammerSwingCloseDriver.selectionRequiresTargetLoS = true;
+            hammerSwingCloseDriver.maxDistance = 4f;
+            hammerSwingCloseDriver.minDistance = 0f;
+            hammerSwingCloseDriver.requireSkillReady = true;
+            hammerSwingCloseDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            hammerSwingCloseDriver.ignoreNodeGraph = true;
+            hammerSwingCloseDriver.moveInputScale = 0.4f;
+            hammerSwingCloseDriver.driverUpdateTimerOverride = 0.5f;
+            hammerSwingCloseDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            hammerSwingCloseDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            hammerSwingCloseDriver.maxTargetHealthFraction = Mathf.Infinity;
+            hammerSwingCloseDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            hammerSwingCloseDriver.maxUserHealthFraction = Mathf.Infinity;
+            hammerSwingCloseDriver.skillSlot = SkillSlot.Primary;
+
+            AISkillDriver hammerSwingDriver = bossMaster.AddComponent<AISkillDriver>();
+            hammerSwingDriver.customName = "WalkAndHammer";
+            hammerSwingDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            hammerSwingDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            hammerSwingDriver.activationRequiresAimConfirmation = true;
+            hammerSwingDriver.activationRequiresTargetLoS = false;
+            hammerSwingDriver.selectionRequiresTargetLoS = true;
+            hammerSwingDriver.maxDistance = 6f;
+            hammerSwingDriver.minDistance = 0f;
+            hammerSwingDriver.requireSkillReady = true;
+            hammerSwingDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            hammerSwingDriver.ignoreNodeGraph = true;
+            hammerSwingDriver.moveInputScale = 1f;
+            hammerSwingDriver.driverUpdateTimerOverride = 0.5f;
+            hammerSwingDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            hammerSwingDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            hammerSwingDriver.maxTargetHealthFraction = Mathf.Infinity;
+            hammerSwingDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            hammerSwingDriver.maxUserHealthFraction = Mathf.Infinity;
+            hammerSwingDriver.skillSlot = SkillSlot.Primary;
+
+            AISkillDriver minigunSlamDriver = bossMaster.AddComponent<AISkillDriver>();
+            minigunSlamDriver.customName = "MinigunSecondary";
+            minigunSlamDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            minigunSlamDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            minigunSlamDriver.activationRequiresAimConfirmation = true;
+            minigunSlamDriver.activationRequiresTargetLoS = false;
+            minigunSlamDriver.selectionRequiresTargetLoS = true;
+            minigunSlamDriver.maxDistance = 8f;
+            minigunSlamDriver.minDistance = 0f;
+            minigunSlamDriver.requireSkillReady = true;
+            minigunSlamDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            minigunSlamDriver.ignoreNodeGraph = false;
+            minigunSlamDriver.moveInputScale = 1f;
+            minigunSlamDriver.driverUpdateTimerOverride = -1f;
+            minigunSlamDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            minigunSlamDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            minigunSlamDriver.maxTargetHealthFraction = Mathf.Infinity;
+            minigunSlamDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            minigunSlamDriver.maxUserHealthFraction = Mathf.Infinity;
+            minigunSlamDriver.skillSlot = SkillSlot.Secondary;
+
+            AISkillDriver swapToHammerDriver = bossMaster.AddComponent<AISkillDriver>();
+            swapToHammerDriver.customName = "SwapToHammer";
+            swapToHammerDriver.movementType = AISkillDriver.MovementType.Stop;
+            swapToHammerDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            swapToHammerDriver.activationRequiresAimConfirmation = false;
+            swapToHammerDriver.activationRequiresTargetLoS = false;
+            swapToHammerDriver.selectionRequiresTargetLoS = false;
+            swapToHammerDriver.maxDistance = 8f;
+            swapToHammerDriver.minDistance = 0f;
+            swapToHammerDriver.requireSkillReady = true;
+            swapToHammerDriver.aimType = AISkillDriver.AimType.MoveDirection;
+            swapToHammerDriver.ignoreNodeGraph = false;
+            swapToHammerDriver.moveInputScale = 1f;
+            swapToHammerDriver.driverUpdateTimerOverride = 0.5f;
+            swapToHammerDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            swapToHammerDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            swapToHammerDriver.maxTargetHealthFraction = Mathf.Infinity;
+            swapToHammerDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            swapToHammerDriver.maxUserHealthFraction = Mathf.Infinity;
+            swapToHammerDriver.skillSlot = SkillSlot.Special;
+
+            AISkillDriver minigunFireDriver = bossMaster.AddComponent<AISkillDriver>();
+            minigunFireDriver.customName = "StrafeAndShoot";
+            minigunFireDriver.movementType = AISkillDriver.MovementType.StrafeMovetarget;
+            minigunFireDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            minigunFireDriver.activationRequiresAimConfirmation = true;
+            minigunFireDriver.activationRequiresTargetLoS = false;
+            minigunFireDriver.selectionRequiresTargetLoS = true;
+            minigunFireDriver.maxDistance = 80f;
+            minigunFireDriver.minDistance = 8f;
+            minigunFireDriver.requireSkillReady = true;
+            minigunFireDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            minigunFireDriver.ignoreNodeGraph = false;
+            minigunFireDriver.moveInputScale = 1f;
+            minigunFireDriver.driverUpdateTimerOverride = -1f;
+            minigunFireDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            minigunFireDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            minigunFireDriver.maxTargetHealthFraction = Mathf.Infinity;
+            minigunFireDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            minigunFireDriver.maxUserHealthFraction = Mathf.Infinity;
+            minigunFireDriver.skillSlot = SkillSlot.Primary;
+
+            AISkillDriver swapToMinigunDriver = bossMaster.AddComponent<AISkillDriver>();
+            swapToMinigunDriver.customName = "SwapToMinigun";
+            swapToMinigunDriver.movementType = AISkillDriver.MovementType.Stop;
+            swapToMinigunDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            swapToMinigunDriver.activationRequiresAimConfirmation = false;
+            swapToMinigunDriver.activationRequiresTargetLoS = false;
+            swapToMinigunDriver.selectionRequiresTargetLoS = false;
+            swapToMinigunDriver.maxDistance = 90f;
+            swapToMinigunDriver.minDistance = 15f;
+            swapToMinigunDriver.requireSkillReady = true;
+            swapToMinigunDriver.aimType = AISkillDriver.AimType.MoveDirection;
+            swapToMinigunDriver.ignoreNodeGraph = false;
+            swapToMinigunDriver.moveInputScale = 1f;
+            swapToMinigunDriver.driverUpdateTimerOverride = -1f;
+            swapToMinigunDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            swapToMinigunDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            swapToMinigunDriver.maxTargetHealthFraction = Mathf.Infinity;
+            swapToMinigunDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            swapToMinigunDriver.maxUserHealthFraction = Mathf.Infinity;
+            swapToMinigunDriver.skillSlot = SkillSlot.Special;
+
+            AISkillDriver strafeIdleDriver = bossMaster.AddComponent<AISkillDriver>();
+            strafeIdleDriver.customName = "StrafeIdle";
+            strafeIdleDriver.movementType = AISkillDriver.MovementType.StrafeMovetarget;
+            strafeIdleDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            strafeIdleDriver.activationRequiresAimConfirmation = false;
+            strafeIdleDriver.activationRequiresTargetLoS = false;
+            strafeIdleDriver.selectionRequiresTargetLoS = true;
+            strafeIdleDriver.maxDistance = 80f;
+            strafeIdleDriver.minDistance = 8f;
+            strafeIdleDriver.requireSkillReady = true;
+            strafeIdleDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
+            strafeIdleDriver.ignoreNodeGraph = false;
+            strafeIdleDriver.moveInputScale = 1f;
+            strafeIdleDriver.driverUpdateTimerOverride = -1f;
+            strafeIdleDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            strafeIdleDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            strafeIdleDriver.maxTargetHealthFraction = Mathf.Infinity;
+            strafeIdleDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            strafeIdleDriver.maxUserHealthFraction = Mathf.Infinity;
+            strafeIdleDriver.skillSlot = SkillSlot.None;
+
+            AISkillDriver followDriver = bossMaster.AddComponent<AISkillDriver>();
+            followDriver.customName = "FollowEnemy";
+            followDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            followDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            followDriver.activationRequiresAimConfirmation = false;
+            followDriver.activationRequiresTargetLoS = false;
+            followDriver.maxDistance = Mathf.Infinity;
+            followDriver.minDistance = 0f;
+            followDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
+            followDriver.ignoreNodeGraph = false;
+            followDriver.moveInputScale = 1f;
+            followDriver.driverUpdateTimerOverride = -1f;
+            followDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            followDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            followDriver.maxTargetHealthFraction = Mathf.Infinity;
+            followDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            followDriver.maxUserHealthFraction = Mathf.Infinity;
+            followDriver.skillSlot = SkillSlot.None;
+
+            List<AISkillDriver> hammerDrivers = new List<AISkillDriver>();
+            List<AISkillDriver> minigunDrivers = new List<AISkillDriver>();
+
+            hammerDrivers.Add(hammerSwingDriver);
+            hammerDrivers.Add(hammerSwingCloseDriver);
+            hammerDrivers.Add(hammerTapDriver);
+            hammerDrivers.Add(hammerChargeDriver);
+            hammerDrivers.Add(swapToMinigunDriver);
+
+            minigunDrivers.Add(minigunFireDriver);
+            minigunDrivers.Add(minigunSlamDriver);
+            minigunDrivers.Add(swapToHammerDriver);
+            minigunDrivers.Add(strafeIdleDriver);
+
+            customAIComponent.hammerDrivers = hammerDrivers.ToArray();
+            customAIComponent.minigunDrivers = minigunDrivers.ToArray();
+
+            customAIComponent.SwapToHammer();
         }
     }
 }

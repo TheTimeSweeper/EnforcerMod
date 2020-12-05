@@ -98,7 +98,7 @@ namespace EntityStates.Nemforcer
                         if (healthComponent)
                         {
                             TeamComponent component2 = healthComponent.GetComponent<TeamComponent>();
-                            if (component2.teamIndex != TeamIndex.Player)
+                            if (component2.teamIndex != base.teamComponent.teamIndex)
                             {
                                 Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact, healthComponent.gameObject);
 
