@@ -175,8 +175,8 @@ namespace EnforcerPlugin
             skinController.skins = new SkinDef[]
             {
                 defaultSkin,
-                masterySkin,
-                classicSkin
+                classicSkin,
+                masterySkin
             };
         }
     }
