@@ -129,6 +129,11 @@ namespace EnforcerPlugin
                 {
                     renderer = mainRenderer,
                     mesh = Assets.nemClassicMesh
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[1].renderer,
+                    mesh = Assets.nemClassicHammerMesh
                 }
             };
             classicSkinDefInfo.Name = "NEMFORCERBODY_CLASSIC_SKIN_NAME";

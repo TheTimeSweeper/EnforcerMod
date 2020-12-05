@@ -131,7 +131,7 @@ namespace EntityStates.Nemforcer
                 EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemSwingFX, base.gameObject, "SwingCenter", true);
             }
 
-            if (base.isAuthority)
+            if (base.isAuthority) 
             {
                 Ray aimRay = base.GetAimRay();
 

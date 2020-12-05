@@ -5,6 +5,7 @@ using RoR2;
 using RoR2.Skills;
 using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace EnforcerPlugin {
     public class PluginUtils {
@@ -49,6 +50,38 @@ namespace EnforcerPlugin {
             SkillFamily skillfamily = genericSkill.skillFamily;
 
             skillfamily.variants = skillfamily.variants.Concat(skillVariants).ToArray();
+        }
+
+        public static void createHitbox(HitBoxGroup hitboxGroup,
+                                        ChildLocator childLocator,
+                                        string childName) {
+
+            createHitbox(hitboxGroup, childLocator, childName, Vector3.one, Vector3.one);
+        }
+
+        public static void createHitbox(HitBoxGroup hitboxGroup,
+                                        ChildLocator childLocator,
+                                        string childName,
+                                        Vector3 scaleMultiplier,
+                                        Vector3 position) {
+
+            GameObject hitboxObject = childLocator.FindChild(childName).gameObject;
+            hitboxObject.transform.localScale = Vector3.Scale(hitboxObject.transform.localScale, scaleMultiplier);
+            hitboxObject.transform.localPosition = Vector3.one;
+            hitboxObject.layer = LayerIndex.projectile.intVal;
+
+            HitBox hitBox = hitboxObject.AddComponent<HitBox>();
+
+            int hitboxes = hitboxGroup.hitBoxes.Length;
+
+            if (hitboxGroup.hitBoxes == null) {
+                hitboxGroup.hitBoxes = new HitBox[0];
+            } else {
+                hitboxGroup.hitBoxes = new HitBox[hitboxes + 1];
+            }
+
+            hitboxGroup.hitBoxes[hitboxes] = hitBox;
+
         }
     }
 }
