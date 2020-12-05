@@ -257,8 +257,8 @@ namespace EnforcerPlugin
             femMesh = MainAssetBundle.LoadAsset<Mesh>("FemforcerMesh");
             fuckingSteveMesh = MainAssetBundle.LoadAsset<Mesh>("FuckingSteveMesh");
 
-            nemClassicMesh = NemAssetBundle.LoadAsset<Mesh>("ClassicMesh");
-            nemClassicHammerMesh = NemAssetBundle.LoadAsset<Mesh>("ClassicHammerMesh");
+            nemClassicMesh = NemAssetBundle.LoadAsset<Mesh>("MeshClassic");
+            nemClassicHammerMesh = NemAssetBundle.LoadAsset<Mesh>("MeshClassicHammer");
         }
 
         private static GameObject LoadEffect(string resourceName, string soundName, AssetBundle bundle)

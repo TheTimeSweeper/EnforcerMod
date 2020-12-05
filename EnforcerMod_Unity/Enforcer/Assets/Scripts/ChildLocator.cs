@@ -4,7 +4,7 @@ using System;
 public class ChildLocator : MonoBehaviour
 {
 	[Serializable]
-	private struct NameTransformPair
+	public struct NameTransformPair
 	{
 		public string name;
 		public Transform transform;
@@ -12,4 +12,9 @@ public class ChildLocator : MonoBehaviour
 
 	[SerializeField]
 	private NameTransformPair[] transformPairs;
+
+	public NameTransformPair[] TransformPairs { 
+		get => transformPairs;
+		set => transformPairs = value;
+	}
 }
