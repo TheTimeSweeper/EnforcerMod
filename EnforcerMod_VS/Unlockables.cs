@@ -91,11 +91,16 @@ namespace EnforcerPlugin
 
             if (EnforcerPlugin.nemesisEnabled)
             {
-                LanguageAPI.Add("ENFORCER_NEMESISUNLOCKABLE_ACHIEVEMENT_NAME", "???");
-                LanguageAPI.Add("ENFORCER_NEMESISUNLOCKABLE_ACHIEVEMENT_DESC", "Defeat Enforcer's Vestige.");
-                LanguageAPI.Add("ENFORCER_NEMESISUNLOCKABLE_UNLOCKABLE_NAME", "???");
+                LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_NAME", "???");
+                LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC", "Defeat Enforcer's Vestige.");
+                LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_UNLOCKABLE_NAME", "???");
+
+                LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "N.Enforcer: Mastery");
+                LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Monsoon.");
+                LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "N.Enforcer: Mastery");
 
                 UnlockablesAPI.AddUnlockable<Achievements.NemesisAchievement>(true);
+                UnlockablesAPI.AddUnlockable<Achievements.NemMasteryAchievement>(true);
             }
         }
     }
@@ -750,12 +755,12 @@ namespace EnforcerPlugin.Achievements
 
     public class NemesisAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
     {
-        public override String AchievementIdentifier { get; } = "ENFORCER_NEMESISUNLOCKABLE_ACHIEVEMENT_ID";
-        public override String UnlockableIdentifier { get; } = "ENFORCER_NEMESISUNLOCKABLE_REWARD_ID";
-        public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_NEMESISUNLOCKABLE_PREREQ_ID";
-        public override String AchievementNameToken { get; } = "ENFORCER_NEMESISUNLOCKABLE_ACHIEVEMENT_NAME";
-        public override String AchievementDescToken { get; } = "ENFORCER_NEMESISUNLOCKABLE_ACHIEVEMENT_DESC";
-        public override String UnlockableNameToken { get; } = "ENFORCER_NEMESISUNLOCKABLE_UNLOCKABLE_NAME";
+        public override String AchievementIdentifier { get; } = "ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_ID";
+        public override String UnlockableIdentifier { get; } = "ENFORCER_NEMESIS2UNLOCKABLE_REWARD_ID";
+        public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_NEMESIS2UNLOCKABLE_PREREQ_ID";
+        public override String AchievementNameToken { get; } = "ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_NAME";
+        public override String AchievementDescToken { get; } = "ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC";
+        public override String UnlockableNameToken { get; } = "ENFORCER_NEMESIS2UNLOCKABLE_UNLOCKABLE_NAME";
         protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texNemesisUnlockAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
@@ -763,14 +768,59 @@ namespace EnforcerPlugin.Achievements
             return BodyCatalog.FindBodyIndex("EnforcerBody");
         }
 
-        private void CheckDeath(DamageReport report)
+        private void CheckDeath(Run run)
         {
-            if (!report.victimBody) return;
-            if (report.damageInfo is null) return;
+            if (base.meetsBodyRequirement) base.Grant();
+        }
 
-            if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody") && !(report.victimTeamIndex == TeamIndex.Player))
+        public override void OnInstall()
+        {
+            base.OnInstall();
+
+            NemesisUnlockComponent.OnDeath += CheckDeath;
+        }
+
+        public override void OnUninstall()
+        {
+            base.OnUninstall();
+
+            NemesisUnlockComponent.OnDeath -= CheckDeath;
+        }
+    }
+
+    public class NemMasteryAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
+    {
+        public override String AchievementIdentifier { get; } = "NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_ID";
+        public override String UnlockableIdentifier { get; } = "NEMFORCER_MASTERYUNLOCKABLE_REWARD_ID";
+        public override String PrerequisiteUnlockableIdentifier { get; } = "NEMFORCER_MASTERYUNLOCKABLE_PREREQ_ID";
+        public override String AchievementNameToken { get; } = "NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME";
+        public override String AchievementDescToken { get; } = "NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC";
+        public override String UnlockableNameToken { get; } = "NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME";
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texEnforcerAchievement.png");
+
+        public override int LookUpRequiredBodyIndex()
+        {
+            return BodyCatalog.FindBodyIndex("NemforcerBody");
+        }
+
+        public void ClearCheck(Run run, RunReport runReport)
+        {
+            if (run is null) return;
+            if (runReport is null) return;
+
+            if (!runReport.gameEnding) return;
+
+            if (runReport.gameEnding.isWin)
             {
-                if (base.meetsBodyRequirement) base.Grant();
+                DifficultyDef difficultyDef = DifficultyCatalog.GetDifficultyDef(runReport.ruleBook.FindDifficulty());
+
+                if (difficultyDef != null && difficultyDef.countsAsHardMode)
+                {
+                    if (base.meetsBodyRequirement)
+                    {
+                        base.Grant();
+                    }
+                }
             }
         }
 
@@ -778,14 +828,14 @@ namespace EnforcerPlugin.Achievements
         {
             base.OnInstall();
 
-            GlobalEventManager.onCharacterDeathGlobal += CheckDeath;
+            Run.onClientGameOverGlobal += this.ClearCheck;
         }
 
         public override void OnUninstall()
         {
             base.OnUninstall();
 
-            GlobalEventManager.onCharacterDeathGlobal -= CheckDeath;
+            Run.onClientGameOverGlobal -= this.ClearCheck;
         }
     }
 }

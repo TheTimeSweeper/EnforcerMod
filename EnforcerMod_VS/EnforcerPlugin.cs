@@ -111,6 +111,8 @@ namespace EnforcerPlugin
         public static bool cum; //don't ask
         public static bool aetheriumInstalled = false;
         public static bool sivsItemsInstalled = false;
+        public static bool supplyDropInstalled = false;
+        public static bool scrollableLobbyInstalled = false;
 
         public const uint doomGuyIndex = 2;
         public const uint engiIndex = 3;
@@ -203,11 +205,21 @@ namespace EnforcerPlugin
             {
                 sivsItemsInstalled = true;
             }
+            //supply drop item displays- dll won't compile without a reference
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.K1454.SupplyDrop"))
+            {
+                supplyDropInstalled = true;
+            }
             //scepter stuff- dll won't compile without a reference to TILER2 and ClassicItems
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.ThinkInvisible.ClassicItems"))
             {
                 ScepterSkillSetup();
                 ScepterSetup();
+            }
+            //pog
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ScrollableLobbyUI"))
+            {
+                scrollableLobbyInstalled = true;
             }
 
             ItemDisplays.RegisterDisplays();
@@ -325,18 +337,36 @@ namespace EnforcerPlugin
             On.RoR2.GlobalEventManager.OnCharacterDeath += GlobalEventManager_OnCharacterDeath;
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
             On.EntityStates.BaseState.OnEnter += ParryState_OnEnter;
-            if (nemesisEnabled) On.RoR2.ArenaMissionController.BeginRound += ArenaMissionController_BeginRound;
+            On.RoR2.ArenaMissionController.BeginRound += ArenaMissionController_BeginRound;
             On.RoR2.UI.MainMenu.BaseMainMenuScreen.OnEnter += BaseMainMenuScreen_OnEnter;
             //On.RoR2.CharacterSelectBarController.ShouldDisplaySurvivor += CharacterSelectBarController_ShouldDisplaySurvivor;
             On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
+            On.RoR2.MapZone.TryZoneStart += MapZone_TryZoneStart;
 
             //On.EntityStates.Global1s.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
         }
 
         #region Hooks
+        private void MapZone_TryZoneStart(On.RoR2.MapZone.orig_TryZoneStart orig, MapZone self, Collider other)
+        {
+            if (other.transform.root.gameObject == NemforcerPlugin.bossPrefab)
+            {
+                CharacterBody body = other.GetComponent<CharacterBody>();
+                if (body)
+                {
+                    var teamComponent = body.teamComponent;
+                    teamComponent.teamIndex = TeamIndex.Player;
+                    orig(self, other);
+                    teamComponent.teamIndex = TeamIndex.Neutral;
+                    return;
+                }
+            }
+            orig(self, other);
+        }
+
         private void ArenaMissionController_BeginRound(On.RoR2.ArenaMissionController.orig_BeginRound orig, ArenaMissionController self)
         {
-            if (self.currentRound == 1)
+            if (self.currentRound == 0)
             {
                 if (DifficultyIndex.Hard <= Run.instance.selectedDifficulty && Run.instance.stageClearCount >= 5)
                 {
@@ -351,7 +381,7 @@ namespace EnforcerPlugin
 
                         if (invasion && NetworkServer.active)
                         {
-                            ChatMessage.SendColored("You feel an overwhelming pressure..", new Color(0.149f, 0.0039f, 0.2117f));
+                            ChatMessage.SendColored("You feel an overwhelming presence..", new Color(0.149f, 0.0039f, 0.2117f));
                         }
                     }
                 }
@@ -647,7 +677,6 @@ namespace EnforcerPlugin
 
         private bool CharacterSelectBarController_ShouldDisplaySurvivor(On.RoR2.CharacterSelectBarController.orig_ShouldDisplaySurvivor orig, CharacterSelectBarController self, SurvivorDef survivorDef)
         {
-            Debug.Log("this doesn't fucking work lmao");
             if (survivorDef.bodyPrefab.name == "NemforcerBody")
             {
                 if (!SurvivorCatalog.SurvivorIsUnlockedOnThisClient(survivorDef.survivorIndex))
@@ -660,11 +689,30 @@ namespace EnforcerPlugin
 
         private void SurvivorIconController_Rebuild(On.RoR2.UI.SurvivorIconController.orig_Rebuild orig, SurvivorIconController self)
         {
-            if (SurvivorCatalog.GetSurvivorDef(self.survivorIndex).bodyPrefab == NemforcerPlugin.characterPrefab)
+            if (EnforcerPlugin.scrollableLobbyInstalled)
             {
-                if (!SurvivorCatalog.SurvivorIsUnlockedOnThisClient(self.survivorIndex))
+                UnlockableDef unlockable = UnlockableCatalog.GetUnlockableDef(SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).unlockableName);
+
+                if (unlockable != null)
                 {
-                    Destroy(self.gameObject);
+                    if (ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Contains<SurvivorIndex>(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME")))
+                    {
+                        ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Remove(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"));
+                    }
+                }
+                else
+                {
+                    ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Add(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"));
+                }
+            }
+            else
+            {
+                if (SurvivorCatalog.GetSurvivorDef(self.survivorIndex).bodyPrefab == NemforcerPlugin.characterPrefab)
+                {
+                    if (!SurvivorCatalog.SurvivorIsUnlockedOnThisClient(self.survivorIndex))
+                    {
+                        Destroy(self.gameObject);
+                    }
                 }
             }
             orig(self);

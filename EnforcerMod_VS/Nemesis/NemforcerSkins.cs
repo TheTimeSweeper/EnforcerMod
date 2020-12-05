@@ -84,7 +84,7 @@ namespace EnforcerPlugin
             masterySkinDefInfo.NameToken = "NEMFORCERBODY_MASTERY_SKIN_NAME";
             masterySkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             masterySkinDefInfo.RootObject = model;
-            masterySkinDefInfo.UnlockableName = "";
+            masterySkinDefInfo.UnlockableName = "NEMFORCER_MASTERYUNLOCKABLE_REWARD_ID";
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
