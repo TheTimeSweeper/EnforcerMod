@@ -111,7 +111,7 @@ namespace EntityStates.Nemforcer
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
                 this.outer.SetNextStateToMain();
-                base.StartAimMode(2f, false);
+                base.StartAimMode(0.2f, false);
                 return;
             }
         }
@@ -128,8 +128,7 @@ namespace EntityStates.Nemforcer
 
                 base.AddRecoil(-1f * HammerSwing.attackRecoil, -2f * HammerSwing.attackRecoil, -0.5f * HammerSwing.attackRecoil, 0.5f * HammerSwing.attackRecoil);
 
-                string muzzleString = "SwingCenter";
-                EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemSwingFX, base.gameObject, muzzleString, true);
+                EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemSwingFX, base.gameObject, "SwingCenter", true);
             }
 
             if (base.isAuthority)

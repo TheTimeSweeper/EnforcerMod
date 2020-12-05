@@ -80,7 +80,7 @@ namespace EntityStates.Nemforcer
                 }
             }
 
-            if (this.animator) this.animator.SetBool("inCombat", !base.characterBody.outOfCombat);
+            if (this.animator) this.animator.SetBool("inCombat", true);
         }
 
         protected float CalcCharge()
@@ -122,7 +122,7 @@ namespace EntityStates.Nemforcer
         public float charge;
         public static string hitboxString = "UppercutHitbox";
         public static float maxDamageCoefficient = 25f;
-        public static float minDamageCoefficient = 3f;
+        public static float minDamageCoefficient = 4.5f;
         public static float procCoefficient = 1f;
         public static float maxRecoil = 5f;
         public static float minRecoil = 0.4f;
@@ -279,7 +279,9 @@ namespace EntityStates.Nemforcer
 
                             if (this.charge > 0.21f) base.SmallHop(base.characterMotor, this.hopVelocity);
                             base.AddRecoil(-1f * this.recoil, -2f * this.recoil, -0.5f * this.recoil, 0.5f * this.recoil);
+
                             Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwing, healthComponent.gameObject);
+                            EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemUppercutSwingFX, base.gameObject, "SwingCenter", true);
                         }
 
                         if (this.stopwatch <= 0.75f * this.duration && this.attack.Fire())//lazily hardcoding dont mind me
@@ -359,12 +361,13 @@ namespace EntityStates.Nemforcer
         public static float minFallVelocity = 40f;
         public static float maxFallVelocity = 80f;
         public static float maxRadius = 180f;
-        public static float minRadius = 6f;
+        public static float minRadius = 12f;
 
         private float damageCoefficient;
         private float recoil;
         private float duration;
         private float fallVelocity;
+        private float fallStopwatch;
 
         private float storedY;
         private float radius;
@@ -439,7 +442,7 @@ namespace EntityStates.Nemforcer
         private void FireBlast()
         {
             Vector3 sex = this.childLocator.FindChild("HammerHitbox").transform.position;
-            this.radius = Util.Remap(base.characterMotor.velocity.y, 0f, -200f, HammerAirSlam.minRadius, HammerAirSlam.maxRadius);
+            this.radius = Util.Remap(this.fallStopwatch, 0f, 8f, HammerAirSlam.minRadius, HammerAirSlam.maxRadius);
             this.recoil += 0.5f * this.radius;
 
             Vector3 directionFlat = base.GetAimRay().direction;

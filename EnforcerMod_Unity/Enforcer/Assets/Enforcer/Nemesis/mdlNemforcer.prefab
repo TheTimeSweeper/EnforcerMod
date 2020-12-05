@@ -41463,9 +41463,9 @@ MonoBehaviour:
   - name: HammerBurst
     transform: {fileID: 574631666}
   - name: ClavicleL
-    transform: {fileID: 574631666}
+    transform: {fileID: 5495209194712258601}
   - name: ClavicleR
-    transform: {fileID: 574631666}
+    transform: {fileID: 5495209194712258603}
   - name: KneeL
     transform: {fileID: 5495209194712258637}
   - name: KneeR

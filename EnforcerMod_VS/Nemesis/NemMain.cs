@@ -61,7 +61,7 @@ namespace EntityStates.Nemforcer
                 base.characterBody.RecalculateStats();
             }
 
-            if (this.animator) this.animator.SetBool("inCombat", !base.characterBody.outOfCombat);
+            if (this.animator) this.animator.SetBool("inCombat", (!base.characterBody.outOfCombat && !base.characterBody.outOfDanger));
         }
     }
 }

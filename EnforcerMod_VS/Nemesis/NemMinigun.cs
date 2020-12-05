@@ -14,7 +14,7 @@ namespace EntityStates.Nemforcer
         public static float minFireRate = 0.75f;
         public static float maxFireRate = 1.35f;
         public static float fireRateGrowth = 0.01f;
-        public static float selfPushForce = 0.8f;
+        public static float selfPushForce = 0.4f;
 
         private float spreadMod;
         private float fireTimer;

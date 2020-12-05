@@ -230,7 +230,7 @@ namespace EnforcerPlugin
             nemesisSpawnEffect.transform.localScale *= 0.5f;
 
             if (!nemesisSpawnEffect.GetComponent<VFXAttributes>()) nemesisSpawnEffect.AddComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Always;
-            if (!nemesisSpawnEffect.GetComponent<EffectComponent>()) nemesisSpawnEffect.AddComponent<EffectComponent>();
+            if (!nemesisSpawnEffect.GetComponent<EffectComponent>()) nemesisSpawnEffect.AddComponent<EffectComponent>().applyScale = true;
             if (!nemesisSpawnEffect.GetComponent<NetworkIdentity>()) nemesisSpawnEffect.AddComponent<NetworkIdentity>();
 
             EffectAPI.AddEffect(nemesisSpawnEffect);
@@ -327,7 +327,7 @@ namespace EnforcerPlugin
             On.EntityStates.BaseState.OnEnter += ParryState_OnEnter;
             if (nemesisEnabled) On.RoR2.ArenaMissionController.BeginRound += ArenaMissionController_BeginRound;
             On.RoR2.UI.MainMenu.BaseMainMenuScreen.OnEnter += BaseMainMenuScreen_OnEnter;
-            On.RoR2.CharacterSelectBarController.ShouldDisplaySurvivor += CharacterSelectBarController_ShouldDisplaySurvivor;
+            //On.RoR2.CharacterSelectBarController.ShouldDisplaySurvivor += CharacterSelectBarController_ShouldDisplaySurvivor;
             On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
 
             //On.EntityStates.Global1s.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
