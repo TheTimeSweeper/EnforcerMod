@@ -3308,6 +3308,33 @@ namespace EnforcerPlugin
             }
             #endregion
 
+
+            //supply drop displays
+            #region SupplyDrop
+            if (EnforcerPlugin.supplyDropInstalled)
+            {
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "UnassumingTie",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadSivDisplay("UnassumingTie"),
+                                childName = "Spine3",
+                                localPos = new Vector3(0f, 0.03f, -0.025f),
+                                localAngles = new Vector3(0, 0, 0),
+                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+            }
+            #endregion
             //apply displays here
 
             BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
@@ -3605,6 +3632,19 @@ namespace EnforcerPlugin
                     return SivsItemsRoR2.Tarbine.displayPrefab;
                 case "Tentacle":
                     return SivsItemsRoR2.Tentacle.displayPrefab;
+            }
+            return null;
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public static GameObject LoadSupplyDropDisplay(string name)
+        {
+            switch (name)
+            {
+                case "ShellPlating":
+                    return SupplyDrop.Items.ShellPlating.ItemBodyModelPrefab;
+                case "UnassumingTie":
+                    return SupplyDrop.Items.UnassumingTie.ItemBodyModelPrefab;
             }
             return null;
         }

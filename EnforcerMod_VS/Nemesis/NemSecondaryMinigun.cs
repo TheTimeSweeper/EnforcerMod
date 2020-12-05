@@ -15,7 +15,7 @@ namespace EntityStates.Nemforcer
         public static float knockbackForce = 0.14f;
         public static float blastRadius = 12f;
         public static float beefDuration = 0.8f;
-        public static float recoilAmplitude = 3f;
+        public static float recoilAmplitude = 15f;
 
         private float attackStopDuration;
         private float duration;
@@ -24,7 +24,7 @@ namespace EntityStates.Nemforcer
         private BlastAttack blastAttack;
         private ChildLocator childLocator;
         private bool hasFired;
-        private bool usingBash;
+        private bool hasSwung;
 
         private List<CharacterBody> victimList = new List<CharacterBody>();
 
@@ -33,17 +33,13 @@ namespace EntityStates.Nemforcer
             base.OnEnter();
 
             this.duration = baseDuration / this.attackSpeedStat;
-            this.fireDuration = this.duration * 0.75f;
+            this.fireDuration = this.duration * 0.7f;
             this.aimRay = base.GetAimRay();
             this.hasFired = false;
-            this.usingBash = false;
+            this.hasSwung = false;
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
-
             base.StartAimMode(aimRay, 2f, false);
-
             this.attackStopDuration = HammerSlam.beefDuration / this.attackSpeedStat;
-
-            Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisSwing, base.gameObject, this.attackSpeedStat);
 
             base.PlayAnimation("FullBody, Override", "HammerSlam", "HammerSlam.playbackRate", this.duration);
         }
@@ -146,14 +142,14 @@ namespace EntityStates.Nemforcer
 
         private void DestroyProjectiles()
         {
-            Collider[] array = Physics.OverlapSphere(childLocator.FindChild(hitboxString).position, HammerSlam.blastRadius, LayerIndex.projectile.mask);
+            Collider[] array = Physics.OverlapSphere(this.childLocator.FindChild(hitboxString).position, HammerSlam.blastRadius, LayerIndex.projectile.mask);
 
             for (int i = 0; i < array.Length; i++)
             {
                 ProjectileController pc = array[i].GetComponentInParent<ProjectileController>();
                 if (pc)
                 {
-                    if (pc.owner != gameObject)
+                    if (pc.owner != base.gameObject)
                     {
                         Destroy(pc.gameObject);
                     }
@@ -161,10 +157,22 @@ namespace EntityStates.Nemforcer
             }
         }
 
-
         public override void OnExit()
         {
             base.OnExit();
+        }
+
+        private void SwingEffect()
+        {
+            if (!this.hasSwung)
+            {
+                Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisSwing, base.gameObject, this.attackSpeedStat);
+
+                if (base.isAuthority)
+                {
+
+                }
+            }
         }
 
         public override void FixedUpdate()
@@ -177,6 +185,11 @@ namespace EntityStates.Nemforcer
                 {
                     base.characterMotor.moveDirection = Vector3.zero;
                 }
+            }
+
+            if (base.fixedAge >= 0.65f * this.duration)
+            {
+                this.SwingEffect();
             }
 
             if (base.fixedAge >= this.fireDuration)
