@@ -9,8 +9,8 @@ namespace EntityStates.Nemforcer
     public class HammerSlam : BaseSkillState
     {
         public static string hitboxString = "SwingCenter"; //transform where the hitbox is fired
-        public static float baseDuration = 0.8f;
-        public static float damageCoefficient = 8f;
+        public static float baseDuration = 0.9f;
+        public static float damageCoefficient = 10f;
         public static float procCoefficient = 1f;
         public static float knockbackForce = 0.14f;
         public static float blastRadius = 12f;
@@ -33,7 +33,7 @@ namespace EntityStates.Nemforcer
             base.OnEnter();
 
             this.duration = baseDuration / this.attackSpeedStat;
-            this.fireDuration = this.duration * 0.7f;
+            this.fireDuration = this.duration * 0.5f;
             this.aimRay = base.GetAimRay();
             this.hasFired = false;
             this.hasSwung = false;
@@ -166,6 +166,7 @@ namespace EntityStates.Nemforcer
         {
             if (!this.hasSwung)
             {
+                this.hasSwung = true;
                 Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisSwing, base.gameObject, this.attackSpeedStat);
 
                 if (base.isAuthority)
@@ -187,7 +188,7 @@ namespace EntityStates.Nemforcer
                 }
             }
 
-            if (base.fixedAge >= 0.65f * this.duration)
+            if (base.fixedAge >= 0.35f * this.duration)
             {
                 this.SwingEffect();
             }

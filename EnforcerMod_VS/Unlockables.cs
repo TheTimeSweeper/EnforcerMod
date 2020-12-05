@@ -800,7 +800,7 @@ namespace EnforcerPlugin.Achievements
 
         public override int LookUpRequiredBodyIndex()
         {
-            return BodyCatalog.FindBodyIndex("NemforcerBody");
+            return BodyCatalog.FindBodyIndex("NemesisEnforcerBody");
         }
 
         public void ClearCheck(Run run, RunReport runReport)

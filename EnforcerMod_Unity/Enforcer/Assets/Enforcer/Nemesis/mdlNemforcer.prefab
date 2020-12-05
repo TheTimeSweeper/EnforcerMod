@@ -9315,6 +9315,36 @@ Transform:
   m_Father: {fileID: 4994809832350150645}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &602418995427293967
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2526009538124047173}
+  m_Layer: 0
+  m_Name: SwingUppercut
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2526009538124047173
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602418995427293967}
+  m_LocalRotation: {x: -0, y: 0.14591429, z: -0, w: 0.9892973}
+  m_LocalPosition: {x: 0.80260044, y: 1.53, z: 3.949}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2670353129582422685}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &689402007066741789
 GameObject:
   m_ObjectHideFlags: 0
@@ -29852,6 +29882,7 @@ Transform:
   - {fileID: 5387090404259015871}
   - {fileID: 4258585391772121284}
   - {fileID: 3938838438555174809}
+  - {fileID: 2526009538124047173}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -29959,6 +29990,8 @@ MonoBehaviour:
     transform: {fileID: 243017190311318864}
   - name: LegR
     transform: {fileID: 5874924307182280543}
+  - name: SwingUppercut
+    transform: {fileID: 2526009538124047173}
 --- !u!114 &66463809275165588
 MonoBehaviour:
   m_ObjectHideFlags: 0

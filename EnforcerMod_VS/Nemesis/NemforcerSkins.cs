@@ -36,6 +36,11 @@ namespace EnforcerPlugin
                 {
                     renderer = mainRenderer,
                     mesh = mainRenderer.sharedMesh
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[1].renderer,
+                    mesh = characterModel.baseRendererInfos[1].renderer.GetComponent<SkinnedMeshRenderer>().sharedMesh
                 }
             };
             skinDefInfo.Name = "NEMFORCERBODY_DEFAULT_SKIN_NAME";
@@ -61,6 +66,16 @@ namespace EnforcerPlugin
 
             array[0].defaultMaterial = material;
 
+            material = UnityEngine.Object.Instantiate<Material>(commandoMat);
+            material.SetColor("_Color", Color.white);
+            material.SetTexture("_MainTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_MainTex"));
+            material.SetColor("_EmColor", Color.white);
+            material.SetFloat("_EmPower", 5f);
+            material.SetTexture("_EmTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_EmissionMap"));
+            material.SetFloat("_NormalStrength", 0);
+
+            array[1].defaultMaterial = material;
+
             skinDefInfo.RendererInfos = array;
 
             SkinDef defaultSkin = LoadoutAPI.CreateNewSkinDef(skinDefInfo);
@@ -78,6 +93,11 @@ namespace EnforcerPlugin
                 {
                     renderer = mainRenderer,
                     mesh = mainRenderer.sharedMesh
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[1].renderer,
+                    mesh = characterModel.baseRendererInfos[1].renderer.GetComponent<SkinnedMeshRenderer>().sharedMesh
                 }
             };
             masterySkinDefInfo.Name = "NEMFORCERBODY_MASTERY_SKIN_NAME";

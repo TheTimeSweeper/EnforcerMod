@@ -3315,7 +3315,7 @@ namespace EnforcerPlugin
             {
                 list.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
-                    name = "UnassumingTie",
+                    name = "SUPPDRPUnassumingTie",
                     displayRuleGroup = new DisplayRuleGroup
                     {
                         rules = new ItemDisplayRule[]
@@ -3323,7 +3323,133 @@ namespace EnforcerPlugin
                             new ItemDisplayRule
                             {
                                 ruleType = ItemDisplayRuleType.ParentedPrefab,
-                                followerPrefab = ItemDisplays.LoadSivDisplay("UnassumingTie"),
+                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("UnassumingTie"),
+                                childName = "Spine3",
+                                localPos = new Vector3(0f, 0.03f, -0.025f),
+                                localAngles = new Vector3(0, 0, 0),
+                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "SUPPDRPBloodBook",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("BloodBook"),
+                                childName = "Root",
+                                localPos = new Vector3(0f, 0.03f, -0.025f),
+                                localAngles = new Vector3(0, 0, 0),
+                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "SUPPDRPElectroPlankton",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("ElectroPlankton"),
+                                childName = "Spine3",
+                                localPos = new Vector3(0f, 0.03f, -0.025f),
+                                localAngles = new Vector3(0, 0, 0),
+                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "SUPPDRPHardenedBoneFragments",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("HardenedBoneFragments"),
+                                childName = "Spine3",
+                                localPos = new Vector3(0f, 0.03f, -0.025f),
+                                localAngles = new Vector3(0, 0, 0),
+                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "SUPPDRPQSGen",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("QSGen"),
+                                childName = "ElbowL",
+                                localPos = new Vector3(0f, 0.03f, -0.025f),
+                                localAngles = new Vector3(0, 0, 0),
+                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "SUPPDRPSalvagedWires",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("SalvagedWires"),
+                                childName = "LegL",
+                                localPos = new Vector3(0f, 0.03f, -0.025f),
+                                localAngles = new Vector3(0, 0, 0),
+                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "SUPPDRPShellPlating",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("ShellPlating"),
                                 childName = "Spine3",
                                 localPos = new Vector3(0f, 0.03f, -0.025f),
                                 localAngles = new Vector3(0, 0, 0),
@@ -3641,6 +3767,16 @@ namespace EnforcerPlugin
         {
             switch (name)
             {
+                case "BloodBook":
+                    return SupplyDrop.Items.BloodBook.ItemBodyModelPrefab;
+                case "ElectroPlankton":
+                    return SupplyDrop.Items.ElectroPlankton.ItemBodyModelPrefab;
+                case "HardenedBoneFragments":
+                    return SupplyDrop.Items.HardenedBoneFragments.ItemBodyModelPrefab;
+                case "QSGen":
+                    return SupplyDrop.Items.QSGen.ItemBodyModelPrefab;
+                case "SalvagedWires":
+                    return SupplyDrop.Items.SalvagedWires.ItemBodyModelPrefab;
                 case "ShellPlating":
                     return SupplyDrop.Items.ShellPlating.ItemBodyModelPrefab;
                 case "UnassumingTie":
