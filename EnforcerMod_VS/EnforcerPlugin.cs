@@ -339,10 +339,10 @@ namespace EnforcerPlugin
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
             On.EntityStates.BaseState.OnEnter += ParryState_OnEnter;
             On.RoR2.ArenaMissionController.BeginRound += ArenaMissionController_BeginRound;
-            On.RoR2.UI.MainMenu.BaseMainMenuScreen.OnEnter += BaseMainMenuScreen_OnEnter; 
+            On.RoR2.UI.MainMenu.BaseMainMenuScreen.OnEnter += BaseMainMenuScreen_OnEnter;
             //On.RoR2.CharacterSelectBarController.ShouldDisplaySurvivor += CharacterSelectBarController_ShouldDisplaySurvivor;
-            //On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
-            On.RoR2.UI.SurvivorIconController.Awake += SurvivorIconController_Awake; ;
+            On.RoR2.CharacterSelectBarController.Start += CharacterSelectBarController_Start;
+            On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
             On.RoR2.MapZone.TryZoneStart += MapZone_TryZoneStart;
 
             //On.EntityStates.Global1s.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
@@ -696,8 +696,9 @@ namespace EnforcerPlugin
         private void UpdateBlackList()
         {
             UnlockableDef unlockable = UnlockableCatalog.GetUnlockableDef(SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).unlockableName);
-
-            if (SurvivorCatalog.SurvivorIsUnlockedOnThisClient(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"))) 
+            bool unlocked = SurvivorCatalog.SurvivorIsUnlockedOnThisClient(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"));
+            Debug.LogWarning("unlocekd:" + unlocked);
+            if (unlocked) 
             {
                 if (ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Contains<SurvivorIndex>(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME")))
                 {
@@ -706,32 +707,22 @@ namespace EnforcerPlugin
             }
             else
             {
-                ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Add(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"));
+                if (!ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Contains(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"))) {
+                    ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Add(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"));
+                }
             }
         }
 
-
-        private void SurvivorIconController_Awake(On.RoR2.UI.SurvivorIconController.orig_Awake orig, SurvivorIconController self) {
-
+        private void CharacterSelectBarController_Start(On.RoR2.CharacterSelectBarController.orig_Start orig, CharacterSelectBarController self) {
             if (EnforcerPlugin.scrollableLobbyInstalled) {
                 UpdateBlackList();
-            } else {
-                if (SurvivorCatalog.GetSurvivorDef(self.survivorIndex).bodyPrefab == NemforcerPlugin.characterPrefab) {
-                    if (!SurvivorCatalog.SurvivorIsUnlockedOnThisClient(self.survivorIndex)) {
-                        Destroy(self.gameObject);
-                    }
-                }
             }
             orig(self);
         }
 
         private void SurvivorIconController_Rebuild(On.RoR2.UI.SurvivorIconController.orig_Rebuild orig, SurvivorIconController self)
         {
-            if (EnforcerPlugin.scrollableLobbyInstalled)
-            {
-                UpdateBlackList();
-            }
-            else
+            if (!EnforcerPlugin.scrollableLobbyInstalled)
             {
                 if (SurvivorCatalog.GetSurvivorDef(self.survivorIndex).bodyPrefab == NemforcerPlugin.characterPrefab)
                 {
