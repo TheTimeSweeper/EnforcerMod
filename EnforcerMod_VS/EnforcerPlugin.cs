@@ -350,7 +350,7 @@ namespace EnforcerPlugin
 
             if (scrollableLobbyInstalled)
             {
-                On.RoR2.UserProfile.OnLogin += UpdateSurvivorBlacklist;
+                On.RoR2.UI.CharacterSelectController.Awake += UpdateSurvivorBlacklist;
             }
             else On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
 
@@ -716,10 +716,8 @@ namespace EnforcerPlugin
             }
         }
 
-        private void UpdateSurvivorBlacklist(On.RoR2.UserProfile.orig_OnLogin orig , UserProfile self)
+        private void UpdateSurvivorBlacklist(On.RoR2.UI.CharacterSelectController.orig_Awake orig , CharacterSelectController self)
         {
-            orig(self);
-
             if (SurvivorCatalog.SurvivorIsUnlockedOnThisClient(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME")))
             {
                 if (ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Contains<SurvivorIndex>(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME")))
@@ -731,6 +729,8 @@ namespace EnforcerPlugin
             {
                 ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Add(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"));
             }
+
+            orig(self);
         }
 
         private void SurvivorIconController_Rebuild(On.RoR2.UI.SurvivorIconController.orig_Rebuild orig, SurvivorIconController self)
@@ -1150,7 +1150,8 @@ namespace EnforcerPlugin
             // https://youtu.be/zRXl8Ow2bUs
 
             #region add all the things
-            characterPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), "EnforcerBody");
+            characterPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), "EnforcerBody", true);
+            PrefabAPI.RegisterNetworkPrefab(characterPrefab);
 
             characterPrefab.GetComponent<NetworkIdentity>().localPlayerAuthority = true;
 
