@@ -775,7 +775,12 @@ namespace EnforcerPlugin.Achievements
 
         private void CheckDeath(Run run)
         {
-            if (base.meetsBodyRequirement) base.Grant();
+            if (base.meetsBodyRequirement)
+            {
+                base.Grant();
+
+                if (EnforcerPlugin.scrollableLobbyInstalled) EnforcerPlugin.UpdateBlacklist();
+            }
         }
 
         public override void OnInstall()

@@ -247,6 +247,11 @@ namespace EnforcerPlugin
             if (!nemesisSpawnEffect.GetComponent<NetworkIdentity>()) nemesisSpawnEffect.AddComponent<NetworkIdentity>();
 
             EffectAPI.AddEffect(nemesisSpawnEffect);
+
+            if (scrollableLobbyInstalled)
+            {
+                UpdateBlacklist();
+            }
         }
 
         private void ConfigShit()
@@ -341,8 +346,13 @@ namespace EnforcerPlugin
             On.RoR2.ArenaMissionController.BeginRound += ArenaMissionController_BeginRound;
             On.RoR2.UI.MainMenu.BaseMainMenuScreen.OnEnter += BaseMainMenuScreen_OnEnter;
             //On.RoR2.CharacterSelectBarController.ShouldDisplaySurvivor += CharacterSelectBarController_ShouldDisplaySurvivor;
-            On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
             On.RoR2.MapZone.TryZoneStart += MapZone_TryZoneStart;
+
+            if (scrollableLobbyInstalled)
+            {
+                On.RoR2.UserProfile.OnLogin += UpdateSurvivorBlacklist;
+            }
+            else On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
 
             //On.EntityStates.Global1s.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
         }
@@ -691,12 +701,26 @@ namespace EnforcerPlugin
             return orig(self, survivorDef);
         }
 
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        private void UpdateBlackList()
+        public static void UpdateBlacklist()
         {
-            UnlockableDef unlockable = UnlockableCatalog.GetUnlockableDef(SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).unlockableName);
+            if (SurvivorCatalog.SurvivorIsUnlockedOnThisClient(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME")))
+            {
+                if (ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Contains<SurvivorIndex>(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME")))
+                {
+                    ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Remove(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"));
+                }
+            }
+            else
+            {
+                ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Add(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"));
+            }
+        }
 
-            if (unlockable == null)
+        private void UpdateSurvivorBlacklist(On.RoR2.UserProfile.orig_OnLogin orig , UserProfile self)
+        {
+            orig(self);
+
+            if (SurvivorCatalog.SurvivorIsUnlockedOnThisClient(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME")))
             {
                 if (ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Contains<SurvivorIndex>(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME")))
                 {
@@ -711,18 +735,11 @@ namespace EnforcerPlugin
 
         private void SurvivorIconController_Rebuild(On.RoR2.UI.SurvivorIconController.orig_Rebuild orig, SurvivorIconController self)
         {
-            if (EnforcerPlugin.scrollableLobbyInstalled)
+            if (SurvivorCatalog.GetSurvivorDef(self.survivorIndex).bodyPrefab == NemforcerPlugin.characterPrefab)
             {
-                UpdateBlackList();
-            }
-            else
-            {
-                if (SurvivorCatalog.GetSurvivorDef(self.survivorIndex).bodyPrefab == NemforcerPlugin.characterPrefab)
+                if (!SurvivorCatalog.SurvivorIsUnlockedOnThisClient(self.survivorIndex))
                 {
-                    if (!SurvivorCatalog.SurvivorIsUnlockedOnThisClient(self.survivorIndex))
-                    {
-                        Destroy(self.gameObject);
-                    }
+                    Destroy(self.gameObject);
                 }
             }
             orig(self);
