@@ -209,6 +209,9 @@ namespace EnforcerPlugin
             bodyComponent.skinIndex = 0U;
             bodyComponent.preferredPodPrefab = null;
 
+            LoadoutAPI.AddSkill(typeof(EntityStates.Nemforcer.NemforcerMain));
+            LoadoutAPI.AddSkill(typeof(EntityStates.Nemforcer.SpawnState));
+
             var stateMachine = bodyComponent.GetComponent<EntityStateMachine>();
             stateMachine.mainStateType = new SerializableEntityStateType(typeof(EntityStates.Nemforcer.NemforcerMain));
             stateMachine.initialStateType = new SerializableEntityStateType(typeof(EntityStates.Nemforcer.SpawnState));

@@ -164,7 +164,8 @@ namespace EntityStates.Nemforcer
             this.stopwatch = 0f;
             this.hasFired = false;
             base.characterBody.isSprinting = true;
-            this.duration = Util.Remap(this.charge, 0f, 1f, HammerUppercut.minDuration, HammerUppercut.maxDuration) / this.attackSpeedStat;
+            if (this.charge > 0.21f) this.duration = Util.Remap(this.charge, 0f, 1f, HammerUppercut.minDuration, HammerUppercut.maxDuration);
+            else this.duration = Util.Remap(this.charge, 0f, 1f, HammerUppercut.minDuration, HammerUppercut.maxDuration) / this.attackSpeedStat;
             this.speedCoefficient = Util.Remap(this.charge, 0f, 1f, HammerUppercut.initialMinSpeedCoefficient, HammerUppercut.initialMaxSpeedCoefficient);
             this.damageCoefficient = Util.Remap(this.charge, 0f, 1f, HammerUppercut.minDamageCoefficient, HammerUppercut.maxDamageCoefficient);
             this.recoil = Util.Remap(this.charge, 0f, 1f, HammerUppercut.minRecoil, HammerUppercut.maxRecoil);
@@ -281,7 +282,7 @@ namespace EntityStates.Nemforcer
                             base.AddRecoil(-1f * this.recoil, -2f * this.recoil, -0.5f * this.recoil, 0.5f * this.recoil);
 
                             Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwing, healthComponent.gameObject);
-                            EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemUppercutSwingFX, base.gameObject, "SwingCenter", true);
+                            EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemUppercutSwingFX, base.gameObject, "SwingUppercut", true);
                         }
 
                         if (this.stopwatch <= 0.75f * this.duration && this.attack.Fire())//lazily hardcoding dont mind me
@@ -343,7 +344,8 @@ namespace EntityStates.Nemforcer
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            return InterruptPriority.Frozen;
+            if (this.stopwatch >= 0.75f * this.duration) return InterruptPriority.Skill;
+            else return InterruptPriority.Frozen;
         }
     }
 
@@ -405,6 +407,11 @@ namespace EntityStates.Nemforcer
 
             base.PlayAnimation("FullBody, Override", "HammerAirSlam", "HammerCharge.playbackRate", this.duration);
 
+            if (base.isAuthority)
+            {
+                EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemSlamSwingFX, base.gameObject, "SwingUppercut", true);
+            }
+
             this.attack = new OverlapAttack();
             this.attack.damageType = DamageType.Stun1s;
             this.attack.attacker = base.gameObject;
@@ -434,16 +441,18 @@ namespace EntityStates.Nemforcer
 
             this.FireBlast();
 
-            base.characterMotor.velocity *= 0.1f;
-
             base.OnExit();
         }
 
         private void FireBlast()
         {
             Vector3 sex = this.childLocator.FindChild("HammerHitbox").transform.position;
-            this.radius = Util.Remap(this.fallStopwatch, 0f, 8f, HammerAirSlam.minRadius, HammerAirSlam.maxRadius);
+            this.radius = Util.Remap(this.fallStopwatch, 0f, 15f, HammerAirSlam.minRadius, HammerAirSlam.maxRadius);
             this.recoil += 0.5f * this.radius;
+
+            base.characterMotor.velocity *= 0.1f;
+
+            base.SmallHop(base.characterMotor, this.radius * 0.25f);
 
             Vector3 directionFlat = base.GetAimRay().direction;
             directionFlat.y = 0;
@@ -488,7 +497,7 @@ namespace EntityStates.Nemforcer
             base.characterBody.isSprinting = true;
             this.fallStopwatch += Time.fixedDeltaTime;
 
-            if (!base.characterMotor.disableAirControlUntilCollision)
+            if (!base.characterMotor.disableAirControlUntilCollision  || base.characterMotor.isGrounded)
             {
                 this.outer.SetNextStateToMain();
                 return;

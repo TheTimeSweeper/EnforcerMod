@@ -87,7 +87,10 @@ namespace EnforcerPlugin
             spawnCard.runtimeLoadout = new Loadout();
             spawnCard.characterMaster = master;
             spawnCard.characterMaster.loadout.Copy(spawnCard.runtimeLoadout);
-            spawnCard.inventory = master.inventory;
+            spawnCard.inventory = new Inventory();
+
+            //fuck this
+            //spawnCard.inventory.AddItemsFrom(ArenaMissionController.inventory);
 
             return spawnCard;
         }

@@ -117,10 +117,10 @@ namespace EntityStates.Enforcer
                 return;
             }
 
-            if (base.isAuthority && Input.GetKeyDown("z"))
+            /*if (base.isAuthority && Input.GetKeyDown("z"))
             {
                 EnforcerPlugin.NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
-            }
+            }*/
 
             //shield mode camera stuff
             if (shieldIsUp != this.wasShielding)

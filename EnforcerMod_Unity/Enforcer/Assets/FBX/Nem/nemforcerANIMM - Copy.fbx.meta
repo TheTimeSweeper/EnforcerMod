@@ -246,6 +246,9 @@ ModelImporter:
     7400032: Armature|Sprint
     7400034: SetAimMode|HammerSwing1
     7400036: Armature|RestIdle
+    7400038: Armature|RestEmote
+    7400040: Armature|RestEmoteLoop
+    7400042: Armature|UppercutS
     9500000: //RootNode
     13700000: Hammer
     13700002: Nemforcer

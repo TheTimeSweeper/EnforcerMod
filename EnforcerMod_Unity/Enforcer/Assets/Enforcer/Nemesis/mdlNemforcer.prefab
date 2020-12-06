@@ -9339,7 +9339,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 602418995427293967}
   m_LocalRotation: {x: -0, y: 0.14591429, z: -0, w: 0.9892973}
-  m_LocalPosition: {x: 0.80260044, y: 1.53, z: 3.949}
+  m_LocalPosition: {x: 0.80260044, y: 2.11, z: 3.949}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2670353129582422685}
@@ -29985,7 +29985,7 @@ MonoBehaviour:
   - name: Minigun
     transform: {fileID: 6607030265789247580}
   - name: MinigunBarrel
-    transform: {fileID: 6607030265789247580}
+    transform: {fileID: 8846566822574539571}
   - name: LegL
     transform: {fileID: 243017190311318864}
   - name: LegR

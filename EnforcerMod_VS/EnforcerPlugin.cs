@@ -23,9 +23,10 @@ namespace EnforcerPlugin
     [BepInDependency("com.ThinkInvisible.ClassicItems", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KomradeSpectre.Aetherium", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.Sivelos.SivsItems", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency("com.DestroyedClone.RiskOfBulletstorm", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.K1454.SupplyDrop", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.KingEnderBrine.ScrollableLobbyUI", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "1.1.6")]
+    [BepInPlugin(MODUID, "Enforcer", "2.0.0")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -687,23 +688,29 @@ namespace EnforcerPlugin
             return orig(self, survivorDef);
         }
 
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private void UpdateBlackList()
+        {
+            UnlockableDef unlockable = UnlockableCatalog.GetUnlockableDef(SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).unlockableName);
+
+            if (unlockable != null)
+            {
+                if (ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Contains<SurvivorIndex>(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME")))
+                {
+                    ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Remove(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"));
+                }
+            }
+            else
+            {
+                ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Add(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"));
+            }
+        }
+
         private void SurvivorIconController_Rebuild(On.RoR2.UI.SurvivorIconController.orig_Rebuild orig, SurvivorIconController self)
         {
             if (EnforcerPlugin.scrollableLobbyInstalled)
             {
-                UnlockableDef unlockable = UnlockableCatalog.GetUnlockableDef(SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).unlockableName);
-
-                if (unlockable != null)
-                {
-                    if (ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Contains<SurvivorIndex>(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME")))
-                    {
-                        ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Remove(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"));
-                    }
-                }
-                else
-                {
-                    ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Add(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"));
-                }
+                UpdateBlackList();
             }
             else
             {

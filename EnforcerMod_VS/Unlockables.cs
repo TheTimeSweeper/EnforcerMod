@@ -95,12 +95,17 @@ namespace EnforcerPlugin
                 LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC", "Defeat Enforcer's Vestige.");
                 LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_UNLOCKABLE_NAME", "???");
 
-                LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "N.Enforcer: Mastery");
+                LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Mastery");
                 LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Monsoon.");
-                LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "N.Enforcer: Mastery");
+                LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Mastery");
+
+                LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Demolition");
+                LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, destroy 5 projectiles at once with Dominance.");
+                LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Demolition");
 
                 UnlockablesAPI.AddUnlockable<Achievements.NemesisAchievement>(true);
                 UnlockablesAPI.AddUnlockable<Achievements.NemMasteryAchievement>(true);
+                UnlockablesAPI.AddUnlockable<Achievements.NemDominanceAchievement>(true);
             }
         }
     }
@@ -796,7 +801,7 @@ namespace EnforcerPlugin.Achievements
         public override String AchievementNameToken { get; } = "NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC";
         public override String UnlockableNameToken { get; } = "NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME";
-        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texEnforcerAchievement.png");
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texNemforcerAchievement.png");
 
         public override int LookUpRequiredBodyIndex()
         {
@@ -836,6 +841,46 @@ namespace EnforcerPlugin.Achievements
             base.OnUninstall();
 
             Run.onClientGameOverGlobal -= this.ClearCheck;
+        }
+    }
+
+    public class NemDominanceAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
+    {
+        public override String AchievementIdentifier { get; } = "NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_ID";
+        public override String UnlockableIdentifier { get; } = "NEMFORCER_DOMINANCEUNLOCKABLE_REWARD_ID";
+        public override String PrerequisiteUnlockableIdentifier { get; } = "NEMFORCER_DOMINANCEUNLOCKABLE_PREREQ_ID";
+        public override String AchievementNameToken { get; } = "NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_NAME";
+        public override String AchievementDescToken { get; } = "NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC";
+        public override String UnlockableNameToken { get; } = "NEMFORCER_DOMINANCEUNLOCKABLE_UNLOCKABLE_NAME";
+        protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texEnforcerAchievement.png");
+
+        public override int LookUpRequiredBodyIndex()
+        {
+            return BodyCatalog.FindBodyIndex("NemesisEnforcerBody");
+        }
+
+        public void Bonked(Run run)
+        {
+            if (run is null) return;
+
+            if (base.meetsBodyRequirement)
+            {
+                base.Grant();
+            }
+        }
+
+        public override void OnInstall()
+        {
+            base.OnInstall();
+
+            EntityStates.Nemforcer.HammerSlam.Bonked += this.Bonked;
+        }
+
+        public override void OnUninstall()
+        {
+            base.OnUninstall();
+
+            EntityStates.Nemforcer.HammerSlam.Bonked -= this.Bonked;
         }
     }
 }

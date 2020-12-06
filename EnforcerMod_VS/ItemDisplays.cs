@@ -3313,7 +3313,7 @@ namespace EnforcerPlugin
             #region SupplyDrop
             if (EnforcerPlugin.supplyDropInstalled)
             {
-                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                /*list.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
                     name = "SUPPDRPUnassumingTie",
                     displayRuleGroup = new DisplayRuleGroup
@@ -3332,7 +3332,7 @@ namespace EnforcerPlugin
                             }
                         }
                     }
-                });
+                });*/
 
                 list.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
@@ -3346,7 +3346,7 @@ namespace EnforcerPlugin
                                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                                 followerPrefab = ItemDisplays.LoadSupplyDropDisplay("BloodBook"),
                                 childName = "Root",
-                                localPos = new Vector3(0f, 0.03f, -0.025f),
+                                localPos = new Vector3(0f, 0.2f, -0.2f),
                                 localAngles = new Vector3(0, 0, 0),
                                 localScale = new Vector3(0.1f, 0.1f, 0.1f),
                                 limbMask = LimbFlags.None
@@ -3367,9 +3367,9 @@ namespace EnforcerPlugin
                                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                                 followerPrefab = ItemDisplays.LoadSupplyDropDisplay("ElectroPlankton"),
                                 childName = "Spine3",
-                                localPos = new Vector3(0f, 0.03f, -0.025f),
-                                localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                localPos = new Vector3(0, -0.025f, -0.025f),
+                                localAngles = new Vector3(0, 0, 90),
+                                localScale = new Vector3(0.01f, 0.01f, 0.01f),
                                 limbMask = LimbFlags.None
                             }
                         }
@@ -3388,9 +3388,9 @@ namespace EnforcerPlugin
                                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                                 followerPrefab = ItemDisplays.LoadSupplyDropDisplay("HardenedBoneFragments"),
                                 childName = "Spine3",
-                                localPos = new Vector3(0f, 0.03f, -0.025f),
+                                localPos = new Vector3(0f, 0.03f, 0.03f),
                                 localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                localScale = new Vector3(0.2f, 0.2f, 0.2f),
                                 limbMask = LimbFlags.None
                             }
                         }
@@ -3409,9 +3409,9 @@ namespace EnforcerPlugin
                                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                                 followerPrefab = ItemDisplays.LoadSupplyDropDisplay("QSGen"),
                                 childName = "ElbowL",
-                                localPos = new Vector3(0f, 0.03f, -0.025f),
-                                localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                localPos = new Vector3(0, 0, 0),
+                                localAngles = new Vector3(0, 0, 90),
+                                localScale = new Vector3(0.01f, 0.01f, 0.01f),
                                 limbMask = LimbFlags.None
                             }
                         }
@@ -3430,9 +3430,9 @@ namespace EnforcerPlugin
                                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                                 followerPrefab = ItemDisplays.LoadSupplyDropDisplay("SalvagedWires"),
                                 childName = "LegL",
-                                localPos = new Vector3(0f, 0.03f, -0.025f),
-                                localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                localPos = new Vector3(0, 0.05f, -0.02f),
+                                localAngles = new Vector3(0, 90, 180),
+                                localScale = new Vector3(0.04f, 0.04f, 0.04f),
                                 limbMask = LimbFlags.None
                             }
                         }
@@ -3451,9 +3451,9 @@ namespace EnforcerPlugin
                                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                                 followerPrefab = ItemDisplays.LoadSupplyDropDisplay("ShellPlating"),
                                 childName = "Spine3",
-                                localPos = new Vector3(0f, 0.03f, -0.025f),
-                                localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                localPos = new Vector3(0, 0, 0.0035f),
+                                localAngles = new Vector3(30, 0, 0),
+                                localScale = new Vector3(0.02f, 0.02f, 0.02f),
                                 limbMask = LimbFlags.None
                             }
                         }

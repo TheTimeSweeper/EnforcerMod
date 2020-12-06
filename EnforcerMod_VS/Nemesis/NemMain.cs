@@ -18,8 +18,8 @@ namespace EntityStates.Nemforcer
             base.characterBody.GetComponent<NemforcerController>().mainStateMachine = outer;
 
             this.animator = base.GetModelAnimator();
-            smoothingParameters.forwardSpeedSmoothDamp = 0.02f;
-            smoothingParameters.rightSpeedSmoothDamp = 0.02f;
+            base.smoothingParameters.forwardSpeedSmoothDamp = 0.02f;
+            base.smoothingParameters.rightSpeedSmoothDamp = 0.02f;
         }
 
         public override void Update()
@@ -61,7 +61,7 @@ namespace EntityStates.Nemforcer
                 base.characterBody.RecalculateStats();
             }
 
-            if (this.animator) this.animator.SetBool("inCombat", (!base.characterBody.outOfCombat && !base.characterBody.outOfDanger));
+            if (this.animator) this.animator.SetBool("inCombat", (!base.characterBody.outOfCombat || !base.characterBody.outOfDanger));
         }
     }
 }

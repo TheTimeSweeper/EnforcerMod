@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using RoR2.Projectile;
+using System;
 
 namespace EntityStates.Nemforcer
 {
@@ -25,6 +26,8 @@ namespace EntityStates.Nemforcer
         private ChildLocator childLocator;
         private bool hasFired;
         private bool hasSwung;
+
+        public static event Action<Run> Bonked = delegate { };
 
         private List<CharacterBody> victimList = new List<CharacterBody>();
 
@@ -49,6 +52,8 @@ namespace EntityStates.Nemforcer
             if (!this.hasFired)
             {
                 this.hasFired = true;
+
+                this.DestroyProjectiles();
 
                 Vector3 sex = this.childLocator.FindChild("SwingCenter").transform.position;
 
@@ -134,6 +139,14 @@ namespace EntityStates.Nemforcer
                                 }
 
                             }
+                            else
+                            {
+                                var charb = healthComponent.body;
+                                if (charb && charb.modelLocator && charb != base.characterBody)
+                                {
+                                    charb.modelLocator.modelTransform.gameObject.AddComponent<EnforcerPlugin.SquashedComponent>();
+                                }
+                            }
                         }
                     }
                 }
@@ -142,7 +155,9 @@ namespace EntityStates.Nemforcer
 
         private void DestroyProjectiles()
         {
-            Collider[] array = Physics.OverlapSphere(this.childLocator.FindChild(hitboxString).position, HammerSlam.blastRadius, LayerIndex.projectile.mask);
+            Collider[] array = Physics.OverlapSphere(this.childLocator.FindChild(hitboxString).position, 1.5f * HammerSlam.blastRadius, LayerIndex.projectile.mask);
+
+            int projectileCount = 0;
 
             for (int i = 0; i < array.Length; i++)
             {
@@ -151,8 +166,14 @@ namespace EntityStates.Nemforcer
                 {
                     if (pc.owner != base.gameObject)
                     {
+                        projectileCount++;
                         Destroy(pc.gameObject);
                     }
+                }
+
+                if (projectileCount >= 5)
+                {
+                    Bonked?.Invoke(Run.instance);
                 }
             }
         }
@@ -171,7 +192,7 @@ namespace EntityStates.Nemforcer
 
                 if (base.isAuthority)
                 {
-
+                    EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemSlamSwingFX, base.gameObject, "SwingUppercut", true);
                 }
             }
         }

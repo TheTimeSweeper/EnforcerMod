@@ -104,7 +104,7 @@ namespace EnforcerPlugin
             masterySkinDefInfo.NameToken = "NEMFORCERBODY_MASTERY_SKIN_NAME";
             masterySkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             masterySkinDefInfo.RootObject = model;
-            masterySkinDefInfo.UnlockableName = "NEMFORCER_MASTERYUNLOCKABLE_REWARD_ID";
+            masterySkinDefInfo.UnlockableName = "NEMFORCER_DOMINANCEUNLOCKABLE_REWARD_ID";
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -160,7 +160,7 @@ namespace EnforcerPlugin
             classicSkinDefInfo.NameToken = "NEMFORCERBODY_CLASSIC_SKIN_NAME";
             classicSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             classicSkinDefInfo.RootObject = model;
-            classicSkinDefInfo.UnlockableName = "";
+            classicSkinDefInfo.UnlockableName = "NEMFORCER_MASTERYUNLOCKABLE_REWARD_ID";
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
