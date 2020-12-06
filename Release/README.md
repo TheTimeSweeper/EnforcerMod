@@ -60,6 +60,9 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - Skills++ support
 
 ## Changelog
+`2.0.0`
+- Fixed a typo in readme
+
 `1.1.5`
 - Updated character portrait
 - Updated Shield Bash Icon
