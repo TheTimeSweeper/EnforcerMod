@@ -390,9 +390,10 @@ namespace EnforcerPlugin
                     }
                 }
             }
+
             orig(self);
 
-            if (self.currentRound == 9)
+            if (self.currentRound == 8)
             {
                 if (DifficultyIndex.Hard <= Run.instance.selectedDifficulty && Run.instance.stageClearCount >= 5)
                 {
