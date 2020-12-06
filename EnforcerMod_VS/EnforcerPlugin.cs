@@ -350,16 +350,19 @@ namespace EnforcerPlugin
         #region Hooks
         private void MapZone_TryZoneStart(On.RoR2.MapZone.orig_TryZoneStart orig, MapZone self, Collider other)
         {
-            if (other.transform.root.gameObject == NemforcerPlugin.bossPrefab)
+            if (other.gameObject)
             {
                 CharacterBody body = other.GetComponent<CharacterBody>();
                 if (body)
                 {
-                    var teamComponent = body.teamComponent;
-                    teamComponent.teamIndex = TeamIndex.Player;
-                    orig(self, other);
-                    teamComponent.teamIndex = TeamIndex.Neutral;
-                    return;
+                    if (body.name == "NEMFORCER_NAME")
+                    {
+                        var teamComponent = body.teamComponent;
+                        teamComponent.teamIndex = TeamIndex.Player;
+                        orig(self, other);
+                        teamComponent.teamIndex = TeamIndex.Neutral;
+                        return;
+                    }
                 }
             }
             orig(self, other);
@@ -2960,7 +2963,8 @@ namespace EnforcerPlugin
                 typeof(DefaultDance),
                 typeof(Floss),
                 typeof(FLINTLOCKWOOD),
-                typeof(SirenToggle)
+                typeof(SirenToggle),
+                typeof(NemesisRest)
             };
               
             for (int i = 0; i < memes.Length; i++)
@@ -3118,9 +3122,15 @@ namespace EnforcerPlugin
 
         public static readonly string NemesisStartCharge = "Play_chargeStart";
         public static readonly string NemesisMaxCharge = "Play_chargeMax";
+        public static readonly string NemesisFlameLoop = "Play_HammerFlameLoop";
+        public static readonly string NemesisFlameBurst = "Play_Hammer_Slam";
+        public static readonly string NemesisSwingL = "Play_Heavy_Swing_L";
+        public static readonly string NemesisSmash = "Play_Hammer_Smash";
 
         public static readonly string NemesisGrenadeThrow = "Play_GrenadeThrow";
 
+        public static readonly string NemesisMinigunSheathe = "Play_MinigunSheathe";
+        public static readonly string NemesisMinigunUnsheathe = "Play_MinigunUnsheathe";
         public static readonly string NemesisMinigunWindDown = "Play_minigun_wind_down";
         public static readonly string NemesisMinigunWindUp = "Play_minigun_wind_up";
         public static readonly string NemesisMinigunShooting = "Play_Minigun_Shoot";
@@ -3130,6 +3140,7 @@ namespace EnforcerPlugin
         public static readonly string SirenSpawn = "Siren_Spawn";
         public static readonly string Croak = "Croak_siren";
         public static readonly string HomeRun = "Play_Home_Run_Bat_Hit";
+        public static readonly string Bonk = "Play_Bonk";
 
         public static readonly string DefaultDance = "Default_forcer";
         public static readonly string Floss = "Flossforcer";
