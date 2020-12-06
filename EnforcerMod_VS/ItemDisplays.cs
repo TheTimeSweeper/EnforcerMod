@@ -3324,6 +3324,135 @@ namespace EnforcerPlugin
                             {
                                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                                 followerPrefab = ItemDisplays.LoadSupplyDropDisplay("UnassumingTie"),
+<<<<<<< Updated upstream
+=======
+                                childName = "Spine3",
+                                localPos = new Vector3(0f, 0.03f, -0.025f),
+                                localAngles = new Vector3(0, 0, 0),
+                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "SUPPDRPBloodBook",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("BloodBook"),
+                                childName = "Root",
+                                localPos = new Vector3(0f, 0.03f, -0.025f),
+                                localAngles = new Vector3(0, 0, 0),
+                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "SUPPDRPElectroPlankton",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("ElectroPlankton"),
+                                childName = "Spine3",
+                                localPos = new Vector3(0f, 0.03f, -0.025f),
+                                localAngles = new Vector3(0, 0, 0),
+                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "SUPPDRPHardenedBoneFragments",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("HardenedBoneFragments"),
+                                childName = "Spine3",
+                                localPos = new Vector3(0f, 0.03f, -0.025f),
+                                localAngles = new Vector3(0, 0, 0),
+                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "SUPPDRPQSGen",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("QSGen"),
+                                childName = "ElbowL",
+                                localPos = new Vector3(0f, 0.03f, -0.025f),
+                                localAngles = new Vector3(0, 0, 0),
+                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "SUPPDRPSalvagedWires",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("SalvagedWires"),
+                                childName = "LegL",
+                                localPos = new Vector3(0f, 0.03f, -0.025f),
+                                localAngles = new Vector3(0, 0, 0),
+                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "SUPPDRPShellPlating",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("ShellPlating"),
+>>>>>>> Stashed changes
                                 childName = "Spine3",
                                 localPos = new Vector3(0f, 0.03f, -0.025f),
                                 localAngles = new Vector3(0, 0, 0),
