@@ -696,7 +696,7 @@ namespace EnforcerPlugin
         {
             UnlockableDef unlockable = UnlockableCatalog.GetUnlockableDef(SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).unlockableName);
 
-            if (unlockable != null)
+            if (unlockable == null)
             {
                 if (ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Contains<SurvivorIndex>(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME")))
                 {
