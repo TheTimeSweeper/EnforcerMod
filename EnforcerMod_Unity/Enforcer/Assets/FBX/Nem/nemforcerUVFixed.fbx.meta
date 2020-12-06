@@ -109,6 +109,7 @@ ModelImporter:
     100206: Upper Arm.R.001
     100208: UpperLeg.L
     100210: UpperLeg.R
+    100212: Nemforcer.001
     400000: Armature
     400002: BackArm1
     400004: BackArm2
@@ -215,18 +216,22 @@ ModelImporter:
     400206: Upper Arm.R.001
     400208: UpperLeg.L
     400210: UpperLeg.R
+    400212: Nemforcer.001
     2100000: Material.002
     2100002: Material
     4300000: Nemforcer
     4300002: Hammer
+    4300004: Nemforcer.001
     7400000: MinigunStance
     7400002: Armature|CameraAction
     7400004: Armature|GunToHammer
     7400006: Armature|PointAction
     7400008: Armature|RestPose
+    7400010: Armature|weightpaint pose
     9500000: //RootNode
     13700000: Hammer
     13700002: Nemforcer
+    13700004: Nemforcer.001
     2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
