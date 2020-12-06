@@ -684,7 +684,8 @@ namespace EnforcerPlugin
 
             PluginUtils.RegisterSkillDef(secondaryVariant1.skillDef,
                              typeof(HammerCharge),
-                             typeof(HammerUppercut));
+                             typeof(HammerUppercut),
+                             typeof(HammerAirSlam));
 
             SkillDef secondaryDefSlam = SecondarySkillDef_HammerSlam();
             PluginUtils.RegisterSkillDef(secondaryDefSlam,

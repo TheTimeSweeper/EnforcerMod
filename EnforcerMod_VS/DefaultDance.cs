@@ -28,6 +28,7 @@ namespace EntityStates.Enforcer
             {
                 weaponComponent.HideWeapon();
                 this.ToggleShield(false);
+                this.childLocator.FindChild("Skateboard").gameObject.SetActive(false);
             }
 
             if (base.GetAimAnimator()) base.GetAimAnimator().enabled = false;
@@ -79,7 +80,7 @@ namespace EntityStates.Enforcer
                 if (this.childLocator.FindChild("Shield"))
                 {
                     this.childLocator.FindChild("Shield").gameObject.SetActive(sex);
-                    this.childLocator.FindChild("Skateboard").gameObject.SetActive(sex);
+                    //this.childLocator.FindChild("Skateboard").gameObject.SetActive(sex);
                 }
             }
         }

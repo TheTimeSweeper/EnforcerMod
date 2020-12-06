@@ -352,7 +352,8 @@ namespace EnforcerPlugin
         private void MapZone_TryZoneStart(On.RoR2.MapZone.orig_TryZoneStart orig, MapZone self, Collider other)
         {
             if (other.gameObject)
-            {                CharacterBody body = other.GetComponent<CharacterBody>();
+            {
+                CharacterBody body = other.GetComponent<CharacterBody>();
                 if (body)
                 {
                     if (body.baseNameToken == "NEMFORCER_NAME")
@@ -360,7 +361,7 @@ namespace EnforcerPlugin
                         var teamComponent = body.teamComponent;
                         teamComponent.teamIndex = TeamIndex.Player;
                         orig(self, other);
-                        teamComponent.teamIndex = TeamIndex.Neutral;
+                        teamComponent.teamIndex = TeamIndex.Monster;
                         return;
                     }
                 }
@@ -695,9 +696,7 @@ namespace EnforcerPlugin
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         private void UpdateBlackList()
         {
-            UnlockableDef unlockable = UnlockableCatalog.GetUnlockableDef(SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).unlockableName);
             bool unlocked = SurvivorCatalog.SurvivorIsUnlockedOnThisClient(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"));
-            Debug.LogWarning("unlocekd:" + unlocked);
             if (unlocked) 
             {
                 if (ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Contains<SurvivorIndex>(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME")))

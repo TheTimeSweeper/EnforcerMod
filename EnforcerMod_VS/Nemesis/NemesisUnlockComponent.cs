@@ -22,7 +22,7 @@ namespace EnforcerPlugin
         {
             if (healthComponent && !healthComponent.alive)
             {
-                if (healthComponent.body.teamComponent.teamIndex == TeamIndex.Monster)
+                if (healthComponent.body.teamComponent.teamIndex != TeamIndex.Player)
                 {
                     OnDeath?.Invoke(Run.instance);
                 }
