@@ -131,8 +131,7 @@ namespace EnforcerPlugin
 
         private static void CreatePrefab()
         {
-            characterPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), "NemforcerBody", true);
-            PrefabAPI.RegisterNetworkPrefab(characterPrefab);
+            characterPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), "NemforcerBody");
 
             characterPrefab.GetComponent<NetworkIdentity>().localPlayerAuthority = true;
 
