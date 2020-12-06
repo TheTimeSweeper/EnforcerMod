@@ -32,6 +32,7 @@ namespace EntityStates.Nemforcer
             base.PlayAnimation("Gesture, Override", "HammerCharge", "HammerCharge.playbackRate", this.chargeDuration);
 
             this.chargePlayID = Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisStartCharge, base.gameObject, this.attackSpeedStat);
+            this.flameLoopPlayID = Util.PlaySound(EnforcerPlugin.Sounds.NemesisFlameLoop, base.gameObject);
 
             if (base.cameraTargetParams)
             {
@@ -49,11 +50,12 @@ namespace EntityStates.Nemforcer
 
             float charge = this.CalcCharge();
 
+            AkSoundEngine.SetRTPCValue("M2_Charge", 100f * charge);
+
             if (charge >= 1f && !this.finishedCharge)
             {
                 this.finishedCharge = true;
                 Util.PlaySound(EnforcerPlugin.Sounds.NemesisMaxCharge, base.gameObject);
-                this.flameLoopPlayID = Util.PlaySound(EnforcerPlugin.Sounds.NemesisFlameLoop, base.gameObject);
 
                 if (this.nemController) this.nemController.hammerChargeLarge.Play();
 

@@ -351,11 +351,10 @@ namespace EnforcerPlugin
         private void MapZone_TryZoneStart(On.RoR2.MapZone.orig_TryZoneStart orig, MapZone self, Collider other)
         {
             if (other.gameObject)
-            {
-                CharacterBody body = other.GetComponent<CharacterBody>();
+            {                CharacterBody body = other.GetComponent<CharacterBody>();
                 if (body)
                 {
-                    if (body.name == "NEMFORCER_NAME")
+                    if (body.baseNameToken == "NEMFORCER_NAME")
                     {
                         var teamComponent = body.teamComponent;
                         teamComponent.teamIndex = TeamIndex.Player;
@@ -374,26 +373,26 @@ namespace EnforcerPlugin
             {
                 if (DifficultyIndex.Hard <= Run.instance.selectedDifficulty && Run.instance.stageClearCount >= 5)
                 {
+                    bool invasion = false;
                     for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
                     {
-                        bool invasion = false;
                         CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
                         if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
                         {
                             invasion = true;
                         }
+                    }
 
-                        if (invasion && NetworkServer.active)
-                        {
-                            ChatMessage.SendColored("You feel an overwhelming presence..", new Color(0.149f, 0.0039f, 0.2117f));
-                        }
+                    if (invasion && NetworkServer.active)
+                    {
+                        ChatMessage.SendColored("You feel an overwhelming presence..", new Color(0.149f, 0.0039f, 0.2117f));
                     }
                 }
             }
 
             orig(self);
 
-            if (self.currentRound == 8)
+            if (self.currentRound == 9)
             {
                 if (DifficultyIndex.Hard <= Run.instance.selectedDifficulty && Run.instance.stageClearCount >= 5)
                 {
