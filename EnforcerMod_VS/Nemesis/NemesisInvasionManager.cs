@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using R2API.Utils;
+using RoR2;
 using RoR2.Navigation;
 using System;
 using UnityEngine;
@@ -53,7 +54,16 @@ namespace EnforcerPlugin
                     combatSquad = UnityEngine.Object.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/NetworkedObjects/Encounters/ShadowCloneEncounter")).GetComponent<CombatSquad>();
                 }
 
-                combatSquad.AddMember(result.spawnedInstance.GetComponent<CharacterMaster>());
+                CharacterMaster characterMaster = result.spawnedInstance.GetComponent<CharacterMaster>();
+
+                //fuck this
+                // - I will
+                if (ArenaMissionController.instance) {
+                    Inventory arenaInventory = Reflection.GetFieldValue<Inventory>(ArenaMissionController.instance, "inventory");
+                    characterMaster.inventory.AddItemsFrom(arenaInventory);
+                }
+
+                combatSquad.AddMember(characterMaster);
             }));
 
             DirectorCore.instance.TrySpawnObject(directorSpawnRequest);
@@ -70,7 +80,6 @@ namespace EnforcerPlugin
     public class NemesisSpawnCard : CharacterSpawnCard
     {
         private CharacterMaster characterMaster;
-        private Inventory inventory;
 
         public static NemesisSpawnCard FromMaster(CharacterMaster master)
         {
@@ -87,10 +96,6 @@ namespace EnforcerPlugin
             spawnCard.runtimeLoadout = new Loadout();
             spawnCard.characterMaster = master;
             spawnCard.characterMaster.loadout.Copy(spawnCard.runtimeLoadout);
-            spawnCard.inventory = new Inventory();
-
-            //fuck this
-            //spawnCard.inventory.AddItemsFrom(ArenaMissionController.inventory);
 
             return spawnCard;
         }
