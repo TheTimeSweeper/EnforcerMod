@@ -493,7 +493,7 @@ namespace EnforcerPlugin
 
             BodyCatalog.getAdditionalEntries += delegate (List<GameObject> list)
             {
-                list.Add(characterPrefab);
+                list.Add(characterPrefab);  
             };
 
             characterPrefab.tag = "Player";
