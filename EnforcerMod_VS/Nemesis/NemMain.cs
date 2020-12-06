@@ -35,6 +35,16 @@ namespace EntityStates.Nemforcer
                 this.initialTime = Time.fixedTime;
             }
 
+            //emotes
+            if (base.isAuthority && base.characterMotor.isGrounded && !minigunUp)
+            {
+                if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.defaultDanceKey.Value))
+                {
+                    this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Enforcer.NemesisRest))), InterruptPriority.Any);
+                    return;
+                }
+            }
+
             if (minigunUp)
             {
                 CameraTargetParams ctp = base.cameraTargetParams;

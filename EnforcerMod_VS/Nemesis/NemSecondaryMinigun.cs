@@ -63,7 +63,9 @@ namespace EntityStates.Nemforcer
 
                 EffectManager.SpawnEffect(Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/PodGroundImpact"), effectData, true);
 
-                Util.PlaySound("Play_parent_attack1_slam", base.gameObject);
+                AkSoundEngine.SetRTPCValue("M2_Charge", 100f);
+                Util.PlaySound(EnforcerPlugin.Sounds.NemesisSmash, base.gameObject);
+                //Util.PlaySound("Play_parent_attack1_slam", base.gameObject);
 
                 if (base.isAuthority)
                 {
@@ -145,6 +147,7 @@ namespace EntityStates.Nemforcer
                                 if (charb && charb.modelLocator && charb != base.characterBody)
                                 {
                                     charb.modelLocator.modelTransform.gameObject.AddComponent<EnforcerPlugin.SquashedComponent>();
+                                    Util.PlaySound(EnforcerPlugin.Sounds.Bonk, charb.gameObject);
                                 }
                             }
                         }
@@ -188,7 +191,7 @@ namespace EntityStates.Nemforcer
             if (!this.hasSwung)
             {
                 this.hasSwung = true;
-                Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisSwing, base.gameObject, this.attackSpeedStat);
+                Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisSwingL, base.gameObject, this.attackSpeedStat);
 
                 if (base.isAuthority)
                 {

@@ -57,7 +57,7 @@ namespace EntityStates.Nemforcer
                 this.animator.SetFloat("Minigun.spinSpeed", 0);
                 this.animator.SetBool("minigunActive", false);
 
-                string soundString = EnforcerPlugin.Sounds.ShieldDown;
+                string soundString = EnforcerPlugin.Sounds.NemesisMinigunSheathe;
                 Util.PlaySound(soundString, base.gameObject);
             }
             else
@@ -92,7 +92,7 @@ namespace EntityStates.Nemforcer
 
                 this.animator.SetBool("minigunActive", true);
 
-                string soundString = EnforcerPlugin.Sounds.ShieldUp;
+                string soundString = EnforcerPlugin.Sounds.NemesisMinigunUnsheathe;
                 Util.PlaySound(soundString, base.gameObject);
             }
 

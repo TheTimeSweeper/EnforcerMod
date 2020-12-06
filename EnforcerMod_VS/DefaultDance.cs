@@ -7,6 +7,8 @@ namespace EntityStates.Enforcer
     {
         protected string soundString;
         protected string animString;
+        public float duration;
+        public float animDuration;
 
         private uint activePlayID;
         private float initialTime;
@@ -25,29 +27,28 @@ namespace EntityStates.Enforcer
             if (weaponComponent)
             {
                 weaponComponent.HideWeapon();
+                this.ToggleShield(false);
             }
 
             if (base.GetAimAnimator()) base.GetAimAnimator().enabled = false;
             this.animator.SetLayerWeight(animator.GetLayerIndex("AimPitch"), 0);
             this.animator.SetLayerWeight(animator.GetLayerIndex("AimYaw"), 0);
 
-            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) soundString = EnforcerPlugin.Sounds.DOOM;
+            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex && base.characterBody.baseNameToken == "ENFORCER_NAME") soundString = EnforcerPlugin.Sounds.DOOM;
 
-            base.PlayAnimation("FullBody, Override", this.animString);
-            if (!string.IsNullOrEmpty(soundString)) {
+            if (this.animDuration == 0 && this.duration != 0) this.animDuration = this.duration;
+
+            if (this.duration > 0) base.PlayAnimation("FullBody, Override", this.animString, "Emote.playbackRate", this.animDuration);
+            else base.PlayAnimation("FullBody, Override", this.animString);
+
+            if (!string.IsNullOrEmpty(soundString))
+            {
                 this.activePlayID = Util.PlaySound(soundString, base.gameObject);
             }
 
             this.initialTime = Time.fixedTime;
 
             if (base.GetComponent<EnforcerWeaponComponent>()) base.GetComponent<EnforcerWeaponComponent>().HideWeapon();
-
-            this.ToggleShield(false);
-            if (this.childLocator)
-            {
-                this.childLocator.FindChild("Skateboard").gameObject.SetActive(false);
-            }
-
         }
 
         public override void OnExit()
@@ -61,11 +62,14 @@ namespace EntityStates.Enforcer
             this.animator.SetLayerWeight(animator.GetLayerIndex("AimYaw"), 1);
 
             var weaponComponent = base.GetComponent<EnforcerWeaponComponent>();
-            if (weaponComponent) weaponComponent.ResetWeapon();
+            if (weaponComponent)
+            {
+                weaponComponent.ResetWeapon();
+                this.ToggleShield(true);
+            }
 
             base.PlayAnimation("FullBody, Override", "BufferEmpty");
             if (this.activePlayID != 0) AkSoundEngine.StopPlayingID(this.activePlayID);
-            this.ToggleShield(true);
         }
 
         private void ToggleShield(bool sex)
@@ -75,6 +79,7 @@ namespace EntityStates.Enforcer
                 if (this.childLocator.FindChild("Shield"))
                 {
                     this.childLocator.FindChild("Shield").gameObject.SetActive(sex);
+                    this.childLocator.FindChild("Skateboard").gameObject.SetActive(sex);
                 }
             }
         }
@@ -102,27 +107,41 @@ namespace EntityStates.Enforcer
             }
 
             //dance cancels lol
-            if (base.isAuthority && base.characterMotor.isGrounded && !base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+            if (base.isAuthority)
             {
-                if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.defaultDanceKey.Value))
+                if (base.characterBody.baseNameToken == "ENFORCER_NAME")
                 {
-                    flag = false;
-                    this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(DefaultDance))), InterruptPriority.Any);
-                    return;
+                    if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.defaultDanceKey.Value))
+                    {
+                        flag = false;
+                        this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(DefaultDance))), InterruptPriority.Any);
+                        return;
+                    }
+                    else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.flossKey.Value))
+                    {
+                        flag = false;
+                        this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Floss))), InterruptPriority.Any);
+                        return;
+                    }
+                    else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.earlKey.Value))
+                    {
+                        flag = false;
+                        this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(FLINTLOCKWOOD))), InterruptPriority.Any);
+                        return;
+                    }
                 }
-                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.flossKey.Value))
+                else
                 {
-                    flag = false;
-                    this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Floss))), InterruptPriority.Any);
-                    return;
-                }
-                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.earlKey.Value))
-                {
-                    flag = false;
-                    this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(FLINTLOCKWOOD))), InterruptPriority.Any);
-                    return;
+                    if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.defaultDanceKey.Value))
+                    {
+                        flag = false;
+                        this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(NemesisRest))), InterruptPriority.Any);
+                        return;
+                    }
                 }
             }
+
+            if (this.duration > 0 && base.fixedAge >= this.duration) flag = true;
 
             CameraTargetParams ctp = base.cameraTargetParams;
             float denom = (1 + Time.fixedTime - this.initialTime);
@@ -172,18 +191,32 @@ namespace EntityStates.Enforcer
         }
     }
 
-    public class FLINTLOCKWOOD : BaseEmote {
-
-        public override void OnEnter() {
+    public class FLINTLOCKWOOD : BaseEmote
+    {
+        public override void OnEnter()
+        {
             this.animString = "FLINT LOCK WOOD";
             this.soundString = "";
             base.OnEnter();
         }
 
-        public override void FixedUpdate() {
+        public override void FixedUpdate()
+        {
             base.FixedUpdate();
-            StartAimMode(1, true);
-            base.characterMotor.rootMotion = base.characterDirection.forward * this.moveSpeedStat * characterBody.sprintingSpeedMultiplier * Time.fixedDeltaTime;
+
+            base.StartAimMode(1, true);
+            base.characterMotor.rootMotion = base.characterDirection.forward * this.moveSpeedStat * base.characterBody.sprintingSpeedMultiplier * Time.fixedDeltaTime;
+        }
+    }
+
+    public class NemesisRest : BaseEmote
+    {
+        public override void OnEnter()
+        {
+            this.animString = "RestEmote";
+            this.soundString = "";
+            this.animDuration = 1.5f;
+            base.OnEnter();
         }
     }
 }

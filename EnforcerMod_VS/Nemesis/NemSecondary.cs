@@ -15,6 +15,7 @@ namespace EntityStates.Nemforcer
         private Animator animator;
         private Transform modelBaseTransform;
         private uint chargePlayID;
+        private uint flameLoopPlayID;
         private NemforcerController nemController;
 
         public override void OnEnter()
@@ -31,6 +32,7 @@ namespace EntityStates.Nemforcer
             base.PlayAnimation("Gesture, Override", "HammerCharge", "HammerCharge.playbackRate", this.chargeDuration);
 
             this.chargePlayID = Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisStartCharge, base.gameObject, this.attackSpeedStat);
+            this.flameLoopPlayID = Util.PlaySound(EnforcerPlugin.Sounds.NemesisFlameLoop, base.gameObject);
 
             if (base.cameraTargetParams)
             {
@@ -48,10 +50,12 @@ namespace EntityStates.Nemforcer
 
             float charge = this.CalcCharge();
 
+            AkSoundEngine.SetRTPCValue("M2_Charge", 100f * charge);
+
             if (charge >= 1f && !this.finishedCharge)
             {
                 this.finishedCharge = true;
-                Util.PlaySound(EnforcerPlugin.Sounds.NemesisMaxCharge, healthComponent.gameObject);
+                Util.PlaySound(EnforcerPlugin.Sounds.NemesisMaxCharge, base.gameObject);
 
                 if (this.nemController) this.nemController.hammerChargeLarge.Play();
 
@@ -95,6 +99,7 @@ namespace EntityStates.Nemforcer
             base.PlayAnimation("Gesture, Override", "BufferEmpty");
 
             AkSoundEngine.StopPlayingID(this.chargePlayID);
+            AkSoundEngine.StopPlayingID(this.flameLoopPlayID);
 
             if (base.cameraTargetParams)
             {
@@ -105,7 +110,7 @@ namespace EntityStates.Nemforcer
             {
                 this.nemController.hammerChargeSmall.Stop();
                 this.nemController.hammerChargeLarge.Stop();
-                if (this.CalcCharge() >= 0.2f) this.nemController.hammerBurst.Play();
+                if (this.CalcCharge() >= 0.21f) this.nemController.hammerBurst.Play();
             }
 
             if (NetworkServer.active && base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff)) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff);
@@ -180,6 +185,8 @@ namespace EntityStates.Nemforcer
             {
                 this.forwardDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.characterDirection.forward : base.inputBank.moveVector).normalized;
             }
+
+            if (this.charge >= 0.6f) Util.PlaySound(EnforcerPlugin.Sounds.NemesisFlameBurst, base.gameObject);
 
             this.RecalculateSpeed();
 
@@ -281,7 +288,7 @@ namespace EntityStates.Nemforcer
                             if (this.charge > 0.21f) base.SmallHop(base.characterMotor, this.hopVelocity);
                             base.AddRecoil(-1f * this.recoil, -2f * this.recoil, -0.5f * this.recoil, 0.5f * this.recoil);
 
-                            Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwing, healthComponent.gameObject);
+                            Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwingL, healthComponent.gameObject);
                             EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemUppercutSwingFX, base.gameObject, "SwingUppercut", true);
                         }
 
@@ -403,6 +410,8 @@ namespace EntityStates.Nemforcer
                 base.characterMotor.velocity.y -= this.fallVelocity;
             }
 
+            if (this.charge >= 0.6f) Util.PlaySound(EnforcerPlugin.Sounds.NemesisFlameBurst, base.gameObject);
+
             HitBoxGroup hitBoxGroup = Array.Find<HitBoxGroup>(base.GetModelTransform().GetComponents<HitBoxGroup>(), (HitBoxGroup element) => element.groupName == "Uppercut");
 
             base.PlayAnimation("FullBody, Override", "HammerAirSlam", "HammerCharge.playbackRate", this.duration);
@@ -469,7 +478,8 @@ namespace EntityStates.Nemforcer
                 }, true);
             }
 
-            Util.PlaySound("Play_parent_attack1_slam", base.gameObject);
+            AkSoundEngine.SetRTPCValue("M2_Charge", 100f * this.charge);
+            Util.PlaySound(EnforcerPlugin.Sounds.NemesisSmash, base.gameObject);
 
             if (base.isAuthority)
             {
