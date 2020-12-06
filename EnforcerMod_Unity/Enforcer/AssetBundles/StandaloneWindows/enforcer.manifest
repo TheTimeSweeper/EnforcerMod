@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3163455298
+CRC: 781426771
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 50b68150186037c5bc15b6af2b1bc795
+    Hash: c2638017ea2581025c04011fe09c9123
   TypeTreeHash:
     serializedVersion: 2
     Hash: e465eabb9707126898175137816bb4a8
@@ -282,6 +282,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Particles/texTrail.png
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texZeroSuit.png
 - Assets/Enforcer/EnforcerAssets/Icons/TestIcon.png
+- Assets/Enforcer/EnforcerAssets/Icons/texBuffMinigun.png
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerShieldWalkF.anim
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texEnforcerAlt.png
 - Assets/Enforcer/EnforcerAssets/Materials/matFuckingSteve.mat

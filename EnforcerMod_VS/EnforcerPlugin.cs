@@ -1851,7 +1851,7 @@ namespace EnforcerPlugin
             BuffDef minigunBuffDef = new BuffDef
             {
                 name = "HeavyweightV2",
-                iconPath = "@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texBuffProtectAndServe.png",
+                iconPath = "@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texBuffMinigun.png",
                 buffColor = new Color(1, 0.7176f, 0.1725f),
                 canStack = false,
                 isDebuff = false,
