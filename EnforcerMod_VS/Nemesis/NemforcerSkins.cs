@@ -21,7 +21,7 @@ namespace EnforcerPlugin
             SkinnedMeshRenderer mainRenderer = Reflection.GetFieldValue<SkinnedMeshRenderer>(characterModel, "mainSkinnedMeshRenderer");
 
             LanguageAPI.Add("NEMFORCERBODY_DEFAULT_SKIN_NAME", "Nemesis");
-            LanguageAPI.Add("NEMFORCERBODY_MASTERY_SKIN_NAME", "Enforcer");
+            LanguageAPI.Add("NEMFORCERBODY_ENFORCER_SKIN_NAME", "Enforcer");
             LanguageAPI.Add("NEMFORCERBODY_CLASSIC_SKIN_NAME", "Classic");
 
             LoadoutAPI.SkinDefInfo skinDefInfo = default(LoadoutAPI.SkinDefInfo);
@@ -80,19 +80,19 @@ namespace EnforcerPlugin
 
             SkinDef defaultSkin = LoadoutAPI.CreateNewSkinDef(skinDefInfo);
 
-            LoadoutAPI.SkinDefInfo masterySkinDefInfo = default(LoadoutAPI.SkinDefInfo);
-            masterySkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
-            masterySkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
-            masterySkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
-            masterySkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
-            masterySkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
+            LoadoutAPI.SkinDefInfo altSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            altSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            altSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            altSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+            altSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+            altSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
 
-            masterySkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            altSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
                 new SkinDef.MeshReplacement
                 {
                     renderer = mainRenderer,
-                    mesh = mainRenderer.sharedMesh
+                    mesh = Assets.nemAltMesh
                 },
                 new SkinDef.MeshReplacement
                 {
@@ -100,11 +100,11 @@ namespace EnforcerPlugin
                     mesh = characterModel.baseRendererInfos[1].renderer.GetComponent<SkinnedMeshRenderer>().sharedMesh
                 }
             };
-            masterySkinDefInfo.Name = "NEMFORCERBODY_MASTERY_SKIN_NAME";
-            masterySkinDefInfo.NameToken = "NEMFORCERBODY_MASTERY_SKIN_NAME";
-            masterySkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
-            masterySkinDefInfo.RootObject = model;
-            masterySkinDefInfo.UnlockableName = "NEMFORCER_DOMINANCEUNLOCKABLE_REWARD_ID";
+            altSkinDefInfo.Name = "NEMFORCERBODY_ENFORCER_SKIN_NAME";
+            altSkinDefInfo.NameToken = "NEMFORCERBODY_ENFORCER_SKIN_NAME";
+            altSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            altSkinDefInfo.RootObject = model;
+            altSkinDefInfo.UnlockableName = "NEMFORCER_DOMINANCEUNLOCKABLE_REWARD_ID";
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -132,9 +132,9 @@ namespace EnforcerPlugin
                 array[1].defaultMaterial = material;
             }
 
-            masterySkinDefInfo.RendererInfos = array;
+            altSkinDefInfo.RendererInfos = array;
 
-            SkinDef masterySkin = LoadoutAPI.CreateNewSkinDef(masterySkinDefInfo);
+            SkinDef altSkin = LoadoutAPI.CreateNewSkinDef(altSkinDefInfo);
 
             LoadoutAPI.SkinDefInfo classicSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             classicSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
@@ -196,7 +196,7 @@ namespace EnforcerPlugin
             {
                 defaultSkin,
                 classicSkin,
-                masterySkin
+                altSkin
             };
         }
     }
