@@ -21,7 +21,7 @@ namespace EnforcerPlugin
             SkinnedMeshRenderer mainRenderer = Reflection.GetFieldValue<SkinnedMeshRenderer>(characterModel, "mainSkinnedMeshRenderer");
 
             LanguageAPI.Add("NEMFORCERBODY_DEFAULT_SKIN_NAME", "Nemesis");
-            LanguageAPI.Add("NEMFORCERBODY_MASTERY_SKIN_NAME", "Enforcer");
+            LanguageAPI.Add("NEMFORCERBODY_ENFORCER_SKIN_NAME", "Enforcer");
             LanguageAPI.Add("NEMFORCERBODY_CLASSIC_SKIN_NAME", "Classic");
 
             LoadoutAPI.SkinDefInfo skinDefInfo = default(LoadoutAPI.SkinDefInfo);
@@ -100,8 +100,8 @@ namespace EnforcerPlugin
                     mesh = characterModel.baseRendererInfos[1].renderer.GetComponent<SkinnedMeshRenderer>().sharedMesh
                 }
             };
-            altSkinDefInfo.Name = "NEMFORCERBODY_MASTERY_SKIN_NAME";
-            altSkinDefInfo.NameToken = "NEMFORCERBODY_MASTERY_SKIN_NAME";
+            altSkinDefInfo.Name = "NEMFORCERBODY_ENFORCER_SKIN_NAME";
+            altSkinDefInfo.NameToken = "NEMFORCERBODY_ENFORCER_SKIN_NAME";
             altSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             altSkinDefInfo.RootObject = model;
             altSkinDefInfo.UnlockableName = "NEMFORCER_DOMINANCEUNLOCKABLE_REWARD_ID";

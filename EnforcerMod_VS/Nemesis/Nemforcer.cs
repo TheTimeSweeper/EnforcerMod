@@ -821,7 +821,9 @@ namespace EnforcerPlugin
 
         private static SkillDef SecondarySkillDef_HammerBash()
         {
-            string desc = $"<style=cIsUtility>Charge up</style>, then lunge forward and unleash a <style=cIsDamage>rising uppercut</style> for <style=cIsDamage>{100f * HammerUppercut.minDamageCoefficient}-{100f * HammerUppercut.maxDamageCoefficient}% damage</style>. <style=cIsUtility>Use while falling to perform a downward slam instead.</style>";
+            LanguageAPI.Add("KEYWORD_SLAM", $"<style=cKeywordName>Downward Slam</style><style=cIsDamage>Stunning.</style> Violently <style=cIsHealth>slam</style> down your hammer, dealing <style=cIsDamage>{100f * HammerSlam.damageCoefficient}% damage</style> and <style=cIsDamage>knocking back</style> enemies hit. <style=cIsUtility>Destroys projectiles.</style>");
+
+            string desc = $"<style=cIsUtility>Charge up</style>, then lunge forward and unleash a <style=cIsDamage>rising uppercut</style> for <style=cIsDamage>{100f * HammerUppercut.minDamageCoefficient}-{100f * HammerUppercut.maxDamageCoefficient}% damage</style>. Use while falling or with minigun ready to perform a <style=cIsUtility>Downward Slam</style> instead.";
 
             LanguageAPI.Add("NEMFORCER_SECONDARY_BASH_NAME", "Dominance");
             LanguageAPI.Add("NEMFORCER_SECONDARY_BASH_DESCRIPTION", desc);
@@ -847,6 +849,9 @@ namespace EnforcerPlugin
             mySkillDef.skillDescriptionToken = "NEMFORCER_SECONDARY_BASH_DESCRIPTION";
             mySkillDef.skillName = "NEMFORCER_SECONDARY_BASH_NAME";
             mySkillDef.skillNameToken = "NEMFORCER_SECONDARY_BASH_NAME";
+            mySkillDef.keywordTokens = new string[] {
+                "KEYWORD_SLAM",
+            };
 
             return mySkillDef;
         }
