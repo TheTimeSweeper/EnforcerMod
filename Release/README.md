@@ -24,8 +24,10 @@ Violet Chaolan - Sounds
 LucidInceptor - Modeling
 bruh - Modeling
 Destructor - Mod icon
+Draymarc - Concepts
 Moffein - Idea Guy™
 Ruxbieno - Idea Guy™
+Swuff - Idea Guy™
 
 And big thanks to everyone testing and giving their feedback, the mod wouldn't be the same without it
 
@@ -60,6 +62,14 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - Skills++ support
 
 ## Changelog
+`2.0.2`
+- Made Enforcer: Enforcing Perfection require much less Bustling Fungus to unlock
+- Fixed some effects being duplicated in multiplayer
+- Tweaked Herobrine spawn mechanics
+
+`2.0.1`
+- Spotted another readme typo, hopefully last one for today
+
 `2.0.0`
 - Fixed a typo in readme
 

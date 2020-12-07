@@ -54,6 +54,7 @@ namespace EntityStates.Nemforcer
                 this.hasFired = true;
 
                 this.DestroyProjectiles();
+                this.Bonk();
 
                 Vector3 sex = this.childLocator.FindChild("SwingCenter").transform.position;
 
@@ -141,14 +142,30 @@ namespace EntityStates.Nemforcer
                                 }
 
                             }
-                            else
+                        }
+                    }
+                }
+            }
+        }
+
+        private void Bonk()
+        {
+            if (base.teamComponent.teamIndex == TeamIndex.Player)
+            {
+                Collider[] array = Physics.OverlapSphere(childLocator.FindChild(hitboxString).position, HammerSlam.blastRadius, LayerIndex.defaultLayer.mask);
+                for (int i = 0; i < array.Length; i++)
+                {
+                    HealthComponent healthComponent = array[i].GetComponent<HealthComponent>();
+                    if (healthComponent)
+                    {
+                        TeamComponent component2 = healthComponent.GetComponent<TeamComponent>();
+                        if (component2.teamIndex == base.teamComponent.teamIndex)
+                        {
+                            var charb = healthComponent.body;
+                            if (charb && charb.modelLocator && charb != base.characterBody)
                             {
-                                var charb = healthComponent.body;
-                                if (charb && charb.modelLocator && charb != base.characterBody)
-                                {
-                                    charb.modelLocator.modelTransform.gameObject.AddComponent<EnforcerPlugin.SquashedComponent>();
-                                    Util.PlaySound(EnforcerPlugin.Sounds.Bonk, charb.gameObject);
-                                }
+                                charb.modelLocator.modelTransform.gameObject.AddComponent<EnforcerPlugin.SquashedComponent>().speed = 5f;
+                                Util.PlaySound(EnforcerPlugin.Sounds.Bonk, charb.gameObject);
                             }
                         }
                     }

@@ -26,7 +26,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.K1454.SupplyDrop", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ScrollableLobbyUI", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "2.0.0")]
+    [BepInPlugin(MODUID, "Enforcer", "2.0.2")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -339,7 +339,9 @@ namespace EnforcerPlugin
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
             On.EntityStates.BaseState.OnEnter += ParryState_OnEnter;
             On.RoR2.ArenaMissionController.BeginRound += ArenaMissionController_BeginRound;
-            On.RoR2.UI.MainMenu.BaseMainMenuScreen.OnEnter += BaseMainMenuScreen_OnEnter;
+            On.RoR2.ArenaMissionController.EndRound += ArenaMissionController_EndRound;
+            On.RoR2.EscapeSequenceController.BeginEscapeSequence += EscapeSequenceController_BeginEscapeSequence;
+            //On.RoR2.UI.MainMenu.BaseMainMenuScreen.OnEnter += BaseMainMenuScreen_OnEnter;
             //On.RoR2.CharacterSelectBarController.ShouldDisplaySurvivor += CharacterSelectBarController_ShouldDisplaySurvivor;
             On.RoR2.CharacterSelectBarController.Start += CharacterSelectBarController_Start;
             On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
@@ -359,10 +361,16 @@ namespace EnforcerPlugin
                     if (body.baseNameToken == "NEMFORCER_NAME")
                     {
                         var teamComponent = body.teamComponent;
-                        teamComponent.teamIndex = TeamIndex.Player;
-                        orig(self, other);
-                        teamComponent.teamIndex = TeamIndex.Monster;
-                        return;
+                        if (teamComponent)
+                        {
+                            if (teamComponent.teamIndex == TeamIndex.Monster)
+                            {
+                                teamComponent.teamIndex = TeamIndex.Player;
+                                orig(self, other);
+                                teamComponent.teamIndex = TeamIndex.Monster;
+                                return;
+                            }
+                        }
                     }
                 }
             }
@@ -404,10 +412,66 @@ namespace EnforcerPlugin
                         if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
                         {
                             NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+
+                            master.gameObject.AddComponent<NemesisInvasion>().hasInvaded = true;
                         }
                     }
                 }
             }
+        }
+
+        private void ArenaMissionController_EndRound(On.RoR2.ArenaMissionController.orig_EndRound orig, ArenaMissionController self)
+        {
+            orig(self);
+
+            if (self.currentRound == 9 || self.currentRound == 10)
+            {
+                if (DifficultyIndex.Hard <= Run.instance.selectedDifficulty && Run.instance.stageClearCount < 5)
+                {
+                    bool pendingInvasion = false;
+                    for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
+                    {
+                        CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
+                        if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
+                        {
+                            master.gameObject.AddComponent<NemesisInvasion>().pendingInvasion = true;
+                            pendingInvasion = true;
+                        }
+                    }
+
+                    if (pendingInvasion && NetworkServer.active)
+                    {
+                        ChatMessage.SendColored("The void peers into you....", new Color(0.149f, 0.0039f, 0.2117f));
+                    }
+                }
+            }
+        }
+
+        private void EscapeSequenceController_BeginEscapeSequence(On.RoR2.EscapeSequenceController.orig_BeginEscapeSequence orig, EscapeSequenceController self)
+        {
+            if (DifficultyIndex.Hard <= Run.instance.selectedDifficulty)
+            {
+                for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
+                {
+                    CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
+                    if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
+                    {
+                        var j = master.gameObject.GetComponent<NemesisInvasion>();
+                        if (j)
+                        {
+                            if (j.pendingInvasion && !j.hasInvaded)
+                            {
+                                j.pendingInvasion = false;
+                                j.hasInvaded = true;
+
+                                NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+                            }
+                        }
+                    }
+                }
+            }
+
+            orig(self);
         }
 
         private void GlobalEventManager_OnCharacterDeath(On.RoR2.GlobalEventManager.orig_OnCharacterDeath orig, GlobalEventManager self, DamageReport report)
@@ -665,6 +729,28 @@ namespace EnforcerPlugin
                 }
             }
 
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "bazaar")
+            {
+                if (DifficultyIndex.Hard <= Run.instance.selectedDifficulty && Run.instance.stageClearCount >= 5)
+                {
+                    bool conditionsMet = false;
+                    for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
+                    {
+                        CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
+                        if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
+                        {
+                            var j = master.GetComponent<NemesisInvasion>();
+                            if (!j) conditionsMet = true;
+                            else if (!j.hasInvaded && !j.pendingInvasion) conditionsMet = true;
+                        }
+                    }
+
+                    if (conditionsMet && NetworkServer.active)
+                    {
+                        ChatMessage.SendColored("An unusual energy emanates from below..", new Color(0.149f, 0.0039f, 0.2117f));
+                    }
+                }
+            }
             orig(self);
         }
 

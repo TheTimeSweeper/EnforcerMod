@@ -94,10 +94,9 @@ namespace EntityStates.Enforcer
             {
                 this.hasFired = true;
 
-                EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.shieldBashFX, base.gameObject, hitboxString, true);
-
                 if (base.isAuthority)
                 {
+                    EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.shieldBashFX, base.gameObject, hitboxString, true);
                     base.AddRecoil(-0.5f * ShieldBash.recoilAmplitude * 3f, -0.5f * ShieldBash.recoilAmplitude * 3f, -0.5f * ShieldBash.recoilAmplitude * 8f, 0.5f * ShieldBash.recoilAmplitude * 3f);
 
                     Vector3 center = childLocator.FindChild(hitboxString).position;
@@ -404,7 +403,7 @@ namespace EntityStates.Enforcer
             this.attack.hitBoxGroup = hitBoxGroup;
             this.attack.isCrit = base.RollCrit();
 
-            EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.shoulderBashFX, base.gameObject, "ShieldHitbox", true);
+            if (base.isAuthority) EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.shoulderBashFX, base.gameObject, "ShieldHitbox", true);
         }
 
         private void RecalculateSpeed()

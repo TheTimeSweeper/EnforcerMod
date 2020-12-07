@@ -167,7 +167,7 @@ namespace EntityStates.Enforcer
                     if (bungusCount > 0)
                     {
                         flag = true;
-                        float bungusMult = bungusCount * 0.035f;
+                        float bungusMult = bungusCount * 0.35f;
                         this.bungusStopwatch += (1 + bungusMult) * Time.fixedDeltaTime;
 
                         Bungus(this.bungusStopwatch);

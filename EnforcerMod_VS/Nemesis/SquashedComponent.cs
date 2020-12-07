@@ -23,7 +23,7 @@ namespace EnforcerPlugin
             float t = 0f;
             while (t < 1f)
             {
-                t += 5f * Time.deltaTime;
+                t += speed * Time.deltaTime;
                 transform.localScale = Vector3.Lerp(transform.localScale, originalScale, t);
 
                 yield return 0;

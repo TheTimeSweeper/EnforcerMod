@@ -9,6 +9,8 @@ public class NemforcerController : MonoBehaviour
 
     public EntityStateMachine mainStateMachine;
 
+    public bool minigunUp;
+
     public ParticleSystem hammerChargeSmall;
     public ParticleSystem hammerChargeLarge;
     public ParticleSystem hammerBurst;
@@ -139,7 +141,7 @@ public class NemforcerController : MonoBehaviour
     {
         if (charBody)
         {
-            if (charBody.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff))
+            if (minigunUp)
             {
                 charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
             }
