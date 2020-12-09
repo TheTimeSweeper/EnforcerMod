@@ -9,6 +9,9 @@ namespace EntityStates.Nemforcer
     {
         public static float baseChargeDuration = 2.25f;
 
+        private const float lookthreshold = -0.65f;
+        private const float fallSpeedThreshold = -12f;
+
         private float chargeDuration;
         private bool finishedCharge;
         private ChildLocator childLocator;
@@ -17,6 +20,8 @@ namespace EntityStates.Nemforcer
         private uint chargePlayID;
         private uint flameLoopPlayID;
         private NemforcerController nemController;
+
+        private bool slamming;
 
         public override void OnEnter()
         {
@@ -67,10 +72,19 @@ namespace EntityStates.Nemforcer
                 if (NetworkServer.active) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff);
             }
 
+            Vector3 dir = GetAimRay().direction.normalized;
+
+            bool looking = dir.y <= HammerCharge.lookthreshold && !characterMotor.isGrounded;
+            bool falling = base.characterMotor.velocity.y <= HammerCharge.fallSpeedThreshold;
+
+            bool slamming = looking && falling && !characterMotor.isGrounded;
+
+            if (this.animator) this.animator.SetFloat("airSlamReady", slamming ? -1 : 0, 0.1f, Time.fixedDeltaTime);
+
             if (base.isAuthority && ((!base.IsKeyDownAuthority() && base.fixedAge >= 0.1f)) && !base.IsKeyDownAuthority())
             {
-                bool slamming = (base.characterMotor.velocity.y <= -20f);
-                if (slamming)
+ 
+                if (looking)
                 {
                     HammerAirSlam nextState = new HammerAirSlam();
                     nextState.charge = charge;

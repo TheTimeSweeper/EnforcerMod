@@ -50,7 +50,7 @@ namespace EntityStates.Nemforcer
             string swingAnimState = currentSwing % 2 == 0 ? "HammerSwing" : "HammerSwing2";
 
             HitBoxGroup hitBoxGroup = Array.Find<HitBoxGroup>(base.GetModelTransform().GetComponents<HitBoxGroup>(), (HitBoxGroup element) => element.groupName == "Hammer");
-
+            animator.SetBool("swinging", true);
             base.PlayAnimation("Gesture, Override", swingAnimState, "HammerSwing.playbackRate", this.duration);
             //base.PlayAnimation("Legs, Override", "SwingLegs", "HammerSwing.playbackRate", this.duration);
 
@@ -78,7 +78,7 @@ namespace EntityStates.Nemforcer
 
             if (this.hitPauseTimer <= 0f && this.inHitPause)
             {
-                base.ConsumeHitStopCachedState(this.hitStopCachedState, base.characterMotor, this.animator);
+                base.ConsumeHitStopCachedState(this.hitStopCachedState, base.characterMotor, this.animator); 
                 this.inHitPause = false;
             }
 
@@ -110,6 +110,8 @@ namespace EntityStates.Nemforcer
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
+                animator.SetBool("swinging", false);
+
                 this.outer.SetNextStateToMain();
                 base.StartAimMode(0.2f, false);
                 return;

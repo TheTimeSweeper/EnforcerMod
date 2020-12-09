@@ -87,6 +87,7 @@ namespace EntityStates.Enforcer
 
             bool shieldIsUp = (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff));
 
+
             //emotes
             if (base.isAuthority && base.characterMotor.isGrounded && !shieldIsUp)
             {

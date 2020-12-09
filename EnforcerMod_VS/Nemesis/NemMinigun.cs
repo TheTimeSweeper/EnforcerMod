@@ -7,7 +7,7 @@ namespace EntityStates.Nemforcer
 {
     public class NemMinigunFire : NemMinigunState
     {
-        public static float baseDamageCoefficient = 0.65f;
+        public static float baseDamageCoefficient = 0.6f;
         public static float baseForce = 5f;
         public static float baseProcCoefficient = 0.3f;
         public static float recoilAmplitude = 2f;
@@ -131,7 +131,7 @@ namespace EntityStates.Nemforcer
                 force = force,
                 hitMask = LayerIndex.CommonMasks.bullet,
                 minSpread = this.spreadMod * MinigunFire.bulletMinSpread,
-                maxSpread = this.spreadMod * MinigunFire.bulletMaxSpread * 1.5f,
+                maxSpread = this.spreadMod * MinigunFire.bulletMaxSpread * 1f,
                 isCrit = isCrit,
                 owner = base.gameObject,
                 muzzleName = NemMinigunState.muzzleName,
