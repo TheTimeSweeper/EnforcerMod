@@ -10,7 +10,7 @@ namespace EntityStates.Nemforcer
     public class HammerSwing : BaseSkillState
     {
         public static string hitboxString = "HammerHitbox";
-        public static float baseDuration = 1.2f;
+        public static float baseDuration = 1.05f;
         public static float damageCoefficient = 5f;
         public static float procCoefficient = 1f;
         public static float attackRecoil = 1.5f;
@@ -50,7 +50,7 @@ namespace EntityStates.Nemforcer
             string swingAnimState = currentSwing % 2 == 0 ? "HammerSwing" : "HammerSwing2";
 
             HitBoxGroup hitBoxGroup = Array.Find<HitBoxGroup>(base.GetModelTransform().GetComponents<HitBoxGroup>(), (HitBoxGroup element) => element.groupName == "Hammer");
-            animator.SetBool("swinging", true);
+            this.animator.SetBool("swinging", true);
             base.PlayAnimation("Gesture, Override", swingAnimState, "HammerSwing.playbackRate", this.duration);
             //base.PlayAnimation("Legs, Override", "SwingLegs", "HammerSwing.playbackRate", this.duration);
 
@@ -97,21 +97,19 @@ namespace EntityStates.Nemforcer
                 this.FireAttack();
             }
 
-            float rot = animator.GetFloat(mecanimRotateParameter);
-            nemController.pseudoAimMode(rot);
+            float rot = this.animator.GetFloat(mecanimRotateParameter);
+            this.nemController.pseudoAimMode(rot);
 
             if (base.fixedAge >= this.earlyExitDuration && base.inputBank.skill1.down)
             {
                 var nextSwing = new HammerSwing();
-                nextSwing.currentSwing = currentSwing + 1;
+                nextSwing.currentSwing = this.currentSwing + 1;
                 this.outer.SetNextState(nextSwing);
                 return;
             }
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
-                animator.SetBool("swinging", false);
-
                 this.outer.SetNextStateToMain();
                 base.StartAimMode(0.2f, false);
                 return;
@@ -130,7 +128,7 @@ namespace EntityStates.Nemforcer
 
                 base.AddRecoil(-1f * HammerSwing.attackRecoil, -2f * HammerSwing.attackRecoil, -0.5f * HammerSwing.attackRecoil, 0.5f * HammerSwing.attackRecoil);
 
-                EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemSwingFX, base.gameObject, "SwingCenter", true);
+                if (base.isAuthority) EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemSwingFX, base.gameObject, "SwingCenter", true);
             }
 
             if (base.isAuthority) 
@@ -164,6 +162,9 @@ namespace EntityStates.Nemforcer
         public override void OnExit()
         {
             if (!this.hasFired) this.FireAttack();
+
+            this.animator.SetBool("swinging", false);
+
 
             base.OnExit();
         }

@@ -3,6 +3,7 @@ using UnityEngine;
 using R2API;
 using RoR2;
 using R2API.Utils;
+using System.Collections.Generic;
 
 namespace EnforcerPlugin
 {
@@ -23,6 +24,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("NEMFORCERBODY_DEFAULT_SKIN_NAME", "Nemesis");
             LanguageAPI.Add("NEMFORCERBODY_ENFORCER_SKIN_NAME", "Enforcer");
             LanguageAPI.Add("NEMFORCERBODY_CLASSIC_SKIN_NAME", "Classic");
+            LanguageAPI.Add("NEMFORCERBODY_DRIP_SKIN_NAME", "Dripforcer");
 
             LoadoutAPI.SkinDefInfo skinDefInfo = default(LoadoutAPI.SkinDefInfo);
             skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
@@ -192,12 +194,74 @@ namespace EnforcerPlugin
 
             SkinDef classicSkin = LoadoutAPI.CreateNewSkinDef(classicSkinDefInfo);
 
-            skinController.skins = new SkinDef[]
+            LoadoutAPI.SkinDefInfo dripSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            dripSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            dripSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            dripSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+            dripSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+            dripSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerAchievement");
+
+            dripSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                new SkinDef.MeshReplacement
+                {
+                    renderer = mainRenderer,
+                    mesh = Assets.nemDripMesh
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[1].renderer,
+                    mesh = Assets.nemDripHammerMesh
+                }
+            };
+            dripSkinDefInfo.Name = "NEMFORCERBODY_DRIP_SKIN_NAME";
+            dripSkinDefInfo.NameToken = "NEMFORCERBODY_DRIP_SKIN_NAME";
+            dripSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            dripSkinDefInfo.RootObject = model;
+            dripSkinDefInfo.UnlockableName = "";
+
+            rendererInfos = skinDefInfo.RendererInfos;
+            array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos.CopyTo(array, 0);
+
+            material = array[0].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.NemAssetBundle.LoadAsset<Material>("matDripforcer").GetTexture("_MainTex"));
+                material.SetTexture("_EmTex", Assets.NemAssetBundle.LoadAsset<Material>("matDripforcer").GetTexture("_EmissionMap"));
+
+                array[0].defaultMaterial = material;
+            }
+
+            material = array[1].defaultMaterial;
+
+            if (material)
+            {
+                material = UnityEngine.Object.Instantiate<Material>(material);
+                material.SetTexture("_MainTex", Assets.NemAssetBundle.LoadAsset<Material>("matDripforcer").GetTexture("_MainTex"));
+                material.SetTexture("_EmTex", Assets.NemAssetBundle.LoadAsset<Material>("matDripforcer").GetTexture("_EmissionMap"));
+
+                array[1].defaultMaterial = material;
+            }
+
+            dripSkinDefInfo.RendererInfos = array;
+
+            SkinDef dripSkin = LoadoutAPI.CreateNewSkinDef(dripSkinDefInfo);
+
+            var skinDefs = new List<SkinDef>();
+
+            skinDefs = new List<SkinDef>()
             {
                 defaultSkin,
                 classicSkin,
                 altSkin
             };
+
+            if (EnforcerPlugin.cursed.Value) skinDefs.Add(dripSkin);
+
+            skinController.skins = skinDefs.ToArray();
         }
     }
 }

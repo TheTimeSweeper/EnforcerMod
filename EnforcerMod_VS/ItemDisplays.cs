@@ -2794,9 +2794,9 @@ namespace EnforcerPlugin
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             followerPrefab = ItemDisplays.LoadDisplay("DisplayLifestealOnHit"),
                             childName = "Head",
-                            localPos = new Vector3(0, 0.03f, 0.01f),
-                            localAngles = new Vector3(90, 0, 0),
-                            localScale = new Vector3(0.0275f, 0.0275f, 0.02f),
+                            localPos = new Vector3(0.02f, 0.04f, -0.01f),
+                            localAngles = new Vector3(45, 270, 0),
+                            localScale = new Vector3(0.015f, 0.015f, 0.015f),
                             limbMask = LimbFlags.None
                         }
                     }
