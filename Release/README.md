@@ -1,7 +1,7 @@
 # Enforcer
 - Adds the Enforcer from Risk of Rain 1
 - Includes a bunch of unlockable alternate skills and skins
-- Now includes support for ClassicItems' Ancient Scepter
+- Includes support for ClassicItems' Ancient Scepter
 
 [![](https://cdn.discordapp.com/attachments/469291841859092488/782484337379246110/unknown.png)]()
 
@@ -65,6 +65,15 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - More alternate skills
 
 ## Changelog
+`2.0.5`
+- Alright the uppercut animation is ACTUALLY 100% fixed now, if it's not we will deprecate the mod
+- Some more animation and VFX tweaks
+- Minigun variant of Dominance is now shown in loadout
+- Modded difficulties above Monsoon are now counted for Monsoon exclusive content
+- Fixed Dripforcer clipping issues
+- Gave Enforcer's umbra proper AI
+- Changed Herobrine's unlock text to something more accurate
+
 `2.0.4`
 - Fixed multiplayer animations for real this time
 - Fixed minigun crosshair not working properly for spectators
