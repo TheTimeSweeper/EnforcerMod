@@ -61,8 +61,18 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 
 ## Future Plans
 - Skills++ support
+- Scepter support
+- More alternate skills
 
 ## Changelog
+`2.0.4`
+- Fixed multiplayer animations for real this time
+- Fixed minigun crosshair not working properly for spectators
+- Fixed certain effects being duplicated in multiplayer, causing excessive screenshake
+- Fixed Little Disciple and Leech item displays
+- Lowered minigun secondary damage to from 1000% to 600%- Backup Mags were a little excessive
+- Lowered aerial slam minimum radius to 6m from 12m, max unchanged
+
 `2.0.3`
 - Added Supply Drop item displays(missed change from 2.0)
 - Added config for shotgun shell sounds
