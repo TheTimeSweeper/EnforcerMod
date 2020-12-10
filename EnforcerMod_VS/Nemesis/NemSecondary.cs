@@ -10,7 +10,7 @@ namespace EntityStates.Nemforcer
         public static float baseChargeDuration = 2.25f;
 
         private const float lookthreshold = -0.65f;
-        private const float fallSpeedThreshold = -20f;
+        private const float fallSpeedThreshold = -18f;
 
         private float chargeDuration;
         private bool finishedCharge;

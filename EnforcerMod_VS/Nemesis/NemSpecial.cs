@@ -45,7 +45,7 @@ namespace EntityStates.Nemforcer
 
                     //base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerChargeDef);
                     originalSecondary = base.skillLocator.secondary;
-                    base.skillLocator.secondary = base.skillLocator.FindSkill("DominanceHammer");
+                    base.skillLocator.secondary = base.skillLocator.FindSkill("nemSecondary");
 
                     base.skillLocator.secondary.stock = stock;
                     base.skillLocator.secondary.rechargeStopwatch = cooldown;
@@ -85,7 +85,7 @@ namespace EntityStates.Nemforcer
 
                     //base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerSlamDef);
                     originalSecondary = base.skillLocator.secondary;
-                    base.skillLocator.secondary = base.skillLocator.FindSkill("DominanceMinigun");
+                    base.skillLocator.secondary = base.skillLocator.FindSkill("nemSecondaryMinigun");
 
                     base.skillLocator.secondary.stock = stock;
                     base.skillLocator.secondary.rechargeStopwatch = cooldown;

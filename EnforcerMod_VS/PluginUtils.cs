@@ -24,16 +24,20 @@ namespace EnforcerPlugin {
                 LoadoutAPI.AddSkill(skillTypes[i]);
             }
 
-            LoadoutAPI.AddSkillDef(skillDef);
+            LoadoutAPI.AddSkillDef(skillDef); 
         }
 
         public static GenericSkill RegisterSkillsToFamily(GameObject characterBodyObject, params SkillFamily.Variant[] skillVariants) {
+            return RegisterSkillsToFamily(characterBodyObject, "", skillVariants);
+        }
+        public static GenericSkill RegisterSkillsToFamily(GameObject characterBodyObject, string skillname, params SkillFamily.Variant[] skillVariants) {
             GenericSkill genericSkill = characterBodyObject.AddComponent<GenericSkill>();
 
             SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
             LoadoutAPI.AddSkillFamily(newFamily);
 
             genericSkill.SetFieldValue("_skillFamily", newFamily);
+            genericSkill.SetFieldValue("skillName", skillname);
 
             newFamily.variants = skillVariants;
 

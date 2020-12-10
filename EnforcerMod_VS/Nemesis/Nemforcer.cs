@@ -672,17 +672,17 @@ namespace EnforcerPlugin
 
         private void SecondarySetup()
         {
-            SkillDef secondaryDef1 = SecondarySkillDef_HammerBash();
+            SkillDef secondaryDef1 = SecondarySkillDef_HammerUppercut();
             PluginUtils.RegisterSkillDef(secondaryDef1, typeof(HammerCharge), typeof(HammerUppercut), typeof(HammerAirSlam));
             SkillFamily.Variant secondaryVariant1 = PluginUtils.SetupSkillVariant(secondaryDef1);
-
-            skillLocator.secondary = PluginUtils.RegisterSkillsToFamily(characterPrefab, secondaryVariant1);
 
             SkillDef secondaryGunDef1 = SecondarySkillDef_HammerSlam();
             PluginUtils.RegisterSkillDef(secondaryGunDef1, typeof(HammerSlam));
             SkillFamily.Variant secondaryGunVariant1 = PluginUtils.SetupSkillVariant(secondaryGunDef1);
 
-            PluginUtils.RegisterSkillsToFamily(characterPrefab, secondaryGunVariant1);
+            skillLocator.secondary = PluginUtils.RegisterSkillsToFamily(characterPrefab, "nemSecondary", secondaryVariant1);
+
+            GenericSkill secondaryAlt = PluginUtils.RegisterSkillsToFamily(characterPrefab, "nemSecondaryMinigun", secondaryGunVariant1);
 
             hammerChargeDef = secondaryDef1;
             hammerSlamDef = secondaryGunDef1;
@@ -814,11 +814,11 @@ namespace EnforcerPlugin
             return mySkillDef2;
         }
 
-        private static SkillDef SecondarySkillDef_HammerBash()
+        private static SkillDef SecondarySkillDef_HammerUppercut()
         {
             LanguageAPI.Add("KEYWORD_SLAM", $"<style=cKeywordName>Downward Slam</style><style=cIsDamage>Stunning.</style> Viciously <style=cIsHealth>crash down</style> with your hammer, dealing <style=cIsDamage>{100f * HammerAirSlam.minDamageCoefficient}%-{100f * HammerAirSlam.maxDamageCoefficient}% damage</style> and dealing an extra <style=cIsDamage>30%</style> of that on impact. <style=cIsUtility>Impact radius scales with speed.</style>");
 
-            string desc = $"<style=cIsUtility>Charge up</style>, then lunge forward and unleash a <style=cIsDamage>rising uppercut</style> for <style=cIsDamage>{100f * HammerUppercut.minDamageCoefficient}%-{100f * HammerUppercut.maxDamageCoefficient}% damage</style>. Use while falling to perform a <style=cIsUtility>Downward Slam</style> instead.";
+            string desc = $"<style=cIsUtility>Charge up</style>, then lunge forward and unleash a <style=cIsDamage>rising uppercut</style> for <style=cIsDamage>{100f * HammerUppercut.minDamageCoefficient}%-{100f * HammerUppercut.maxDamageCoefficient}% damage</style>. Use while <style=cIsUtility>falling and looking down</style> to perform a <style=cIsUtility>Downward Slam</style> instead.";
 
             LanguageAPI.Add("NEMFORCER_SECONDARY_BASH_NAME", "Dominance");
             LanguageAPI.Add("NEMFORCER_SECONDARY_BASH_DESCRIPTION", desc);
