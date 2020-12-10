@@ -43,7 +43,7 @@ namespace EnforcerPlugin
         public static SkillDef minigunDownDef;//skilldef used while gun is down
         public static SkillDef minigunUpDef;//skilldef used while gun is up
 
-        public const float passiveRegenBonus = 0.02f;
+        public const float passiveRegenBonus = 0.025f;
 
         public SkillLocator skillLocator;
 
@@ -139,7 +139,7 @@ namespace EnforcerPlugin
 
             GameObject gameObject = new GameObject("ModelBase");
             gameObject.transform.parent = characterPrefab.transform;
-            gameObject.transform.localPosition = new Vector3(0f, -0.81f, 0f);
+            gameObject.transform.localPosition = new Vector3(0f, -0.92f, 0f);
             gameObject.transform.localRotation = Quaternion.identity;
             gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
 
@@ -177,8 +177,8 @@ namespace EnforcerPlugin
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             bodyComponent.rootMotionInMainState = false;
             bodyComponent.mainRootSpeed = 0;
-            bodyComponent.baseMaxHealth = 160;
-            bodyComponent.levelMaxHealth = 48;
+            bodyComponent.baseMaxHealth = 224;
+            bodyComponent.levelMaxHealth = 56;
             bodyComponent.baseRegen = 0.5f;
             bodyComponent.levelRegen = 0.25f;
             bodyComponent.baseMaxShield = 0;
@@ -299,15 +299,6 @@ namespace EnforcerPlugin
             teamComponent.hideAllyCardDisplay = false;
             teamComponent.teamIndex = TeamIndex.None;
 
-            HealthComponent healthComponent = characterPrefab.GetComponent<HealthComponent>();
-            healthComponent.health = 160f;
-            healthComponent.shield = 0f;
-            healthComponent.barrier = 0f;
-            healthComponent.magnetiCharge = 0f;
-            healthComponent.body = null;
-            healthComponent.dontShowHealthbar = false;
-            healthComponent.globalDeathEventChanceCoefficient = 1f;
-
             characterPrefab.GetComponent<Interactor>().maxInteractionDistance = 3f;
             characterPrefab.GetComponent<InteractionDriver>().highlightInteractor = true;
 
@@ -363,6 +354,8 @@ namespace EnforcerPlugin
             kinematicCharacterMotor.LedgeHandling = true;
             kinematicCharacterMotor.InteractiveRigidbodyHandling = true;
             kinematicCharacterMotor.SafeMovement = false;
+
+            HealthComponent healthComponent = characterPrefab.GetComponent<HealthComponent>();
 
             HurtBoxGroup hurtBoxGroup = model.AddComponent<HurtBoxGroup>();
 
@@ -821,9 +814,9 @@ namespace EnforcerPlugin
 
         private static SkillDef SecondarySkillDef_HammerBash()
         {
-            LanguageAPI.Add("KEYWORD_SLAM", $"<style=cKeywordName>Downward Slam</style><style=cIsDamage>Stunning.</style> Violently <style=cIsHealth>slam</style> down your hammer, dealing <style=cIsDamage>{100f * HammerSlam.damageCoefficient}% damage</style> and <style=cIsDamage>knocking back</style> enemies hit. <style=cIsUtility>Destroys projectiles.</style>");
+            LanguageAPI.Add("KEYWORD_SLAM", $"<style=cKeywordName>Downward Slam</style><style=cIsDamage>Stunning.</style> Viciously <style=cIsHealth>crash down</style> with your hammer, dealing <style=cIsDamage>{100f * HammerAirSlam.minDamageCoefficient}%-{100f * HammerAirSlam.maxDamageCoefficient}% damage</style> and dealing an extra <style=cIsDamage>30%</style> of that on impact. <style=cIsUtility>Impact radius scales with speed.</style>");
 
-            string desc = $"<style=cIsUtility>Charge up</style>, then lunge forward and unleash a <style=cIsDamage>rising uppercut</style> for <style=cIsDamage>{100f * HammerUppercut.minDamageCoefficient}-{100f * HammerUppercut.maxDamageCoefficient}% damage</style>. Use while falling or with minigun ready to perform a <style=cIsUtility>Downward Slam</style> instead.";
+            string desc = $"<style=cIsUtility>Charge up</style>, then lunge forward and unleash a <style=cIsDamage>rising uppercut</style> for <style=cIsDamage>{100f * HammerUppercut.minDamageCoefficient}%-{100f * HammerUppercut.maxDamageCoefficient}% damage</style>. Use while falling to perform a <style=cIsUtility>Downward Slam</style> instead.";
 
             LanguageAPI.Add("NEMFORCER_SECONDARY_BASH_NAME", "Dominance");
             LanguageAPI.Add("NEMFORCER_SECONDARY_BASH_DESCRIPTION", desc);
@@ -987,7 +980,7 @@ namespace EnforcerPlugin
         private static SkillDef SpecialSkillDef_MinigunDown()
         {
             LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNDOWN_NAME", "Golden Minigun");
-            LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNDOWN_DESCRIPTION", "<style=cIsUtility>Lower your minigun</style>.");
+            LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNDOWN_DESCRIPTION", "<style=cIsUtility>Sheathe your minigun</style>.");
 
             SkillDef mySkillDef2 = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef2.activationState = new SerializableEntityStateType(typeof(MinigunToggle));

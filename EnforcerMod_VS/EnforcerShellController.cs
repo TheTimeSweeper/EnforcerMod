@@ -23,13 +23,16 @@ namespace Enforcer
 
         private void OnCollisionEnter()
         {
-            if (!this.triggered)
+            if (EnforcerPlugin.EnforcerPlugin.shellSounds.Value)
             {
-                this.triggered = true;
-                AkSoundEngine.SetRTPCValue("Shell_Velocity", rb.velocity.magnitude);
+                if (!this.triggered)
+                {
+                    this.triggered = true;
+                    AkSoundEngine.SetRTPCValue("Shell_Velocity", rb.velocity.magnitude);
 
-                if (Random.value > 0.5f) Util.PlaySound(EnforcerPlugin.Sounds.ShellHittingFloorSlow, this.gameObject);
-                else Util.PlaySound(EnforcerPlugin.Sounds.ShellHittingFloorFast, this.gameObject);
+                    if (Random.value > 0.5f) Util.PlaySound(EnforcerPlugin.Sounds.ShellHittingFloorSlow, this.gameObject);
+                    else Util.PlaySound(EnforcerPlugin.Sounds.ShellHittingFloorFast, this.gameObject);
+                }
             }
         }
     }

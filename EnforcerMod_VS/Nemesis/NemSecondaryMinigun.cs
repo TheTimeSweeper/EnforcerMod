@@ -56,20 +56,20 @@ namespace EntityStates.Nemforcer
                 this.DestroyProjectiles();
                 this.Bonk();
 
-                Vector3 sex = this.childLocator.FindChild("SwingCenter").transform.position;
-
-                EffectData effectData = new EffectData();
-                effectData.origin = sex;
-                effectData.scale = 15;
-
-                EffectManager.SpawnEffect(Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/PodGroundImpact"), effectData, true);
-
                 AkSoundEngine.SetRTPCValue("M2_Charge", 100f);
                 Util.PlaySound(EnforcerPlugin.Sounds.NemesisSmash, base.gameObject);
                 //Util.PlaySound("Play_parent_attack1_slam", base.gameObject);
 
                 if (base.isAuthority)
                 {
+                    Vector3 sex = this.childLocator.FindChild("SwingCenter").transform.position;
+
+                    EffectData effectData = new EffectData();
+                    effectData.origin = sex;
+                    effectData.scale = 15;
+
+                    EffectManager.SpawnEffect(Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/PodGroundImpact"), effectData, true);
+
                     base.AddRecoil(-0.5f * HammerSlam.recoilAmplitude * 3f, -0.5f * HammerSlam.recoilAmplitude * 3f, -0.5f * HammerSlam.recoilAmplitude * 8f, 0.5f * HammerSlam.recoilAmplitude * 3f);
 
                     Vector3 center = childLocator.FindChild(hitboxString).position;
@@ -164,8 +164,11 @@ namespace EntityStates.Nemforcer
                             var charb = healthComponent.body;
                             if (charb && charb.modelLocator && charb != base.characterBody)
                             {
-                                charb.modelLocator.modelTransform.gameObject.AddComponent<EnforcerPlugin.SquashedComponent>().speed = 5f;
-                                Util.PlaySound(EnforcerPlugin.Sounds.Bonk, charb.gameObject);
+                                if (!charb.modelLocator.modelTransform.gameObject.GetComponent<EnforcerPlugin.SquashedComponent>())
+                                {
+                                    charb.modelLocator.modelTransform.gameObject.AddComponent<EnforcerPlugin.SquashedComponent>().speed = 5f;
+                                    Util.PlaySound(EnforcerPlugin.Sounds.Bonk, charb.gameObject);
+                                }
                             }
                         }
                     }

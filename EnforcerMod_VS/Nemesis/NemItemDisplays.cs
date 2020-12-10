@@ -47,7 +47,7 @@ namespace EnforcerPlugin
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("Missile", "DisplayMissileLauncher", "Chest", new Vector3(0, 0.03f, 0), new Vector3(0, 270, 0), new Vector3(0.005f, 0.005f, 0.005f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("Dagger", "DisplayDagger", "Chest", new Vector3(0, 0, 0), new Vector3(0, 270, 0), new Vector3(0.02f, 0.02f, 0.02f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ChainLightning", "DisplayUkulele", "MinigunBarrel", new Vector3(0, 0.01f, 0.004f), new Vector3(0, 0, 0), new Vector3(0.03f, 0.03f, 0.03f)));
-            itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("GhostOnKill", "DisplayMask", "Head", new Vector3(-0.025f, 0.003f, 0), new Vector3(0, 270, 0), new Vector3(0.02f, 0.02f, 0.02f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("GhostOnKill", "DisplayMask", "Head", new Vector3(-0.0025f, 0.003f, 0), new Vector3(0, 270, 0), new Vector3(0.02f, 0.02f, 0.02f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("Mushroom", "DisplayMushroom", "ClavicleR", new Vector3(0, 0.01f, 0), new Vector3(45, 90, 0), new Vector3(0.0035f, 0.0035f, 0.0035f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("AttackSpeedOnCrit", "DisplayWolfPelt", "Head", new Vector3(0, 0.008f, 0), new Vector3(0, 270, 0), new Vector3(0.015f, 0.015f, 0.015f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("BleedOnHit", "DisplayTriTip", "MinigunBarrel", new Vector3(0, 0.03f, 0), new Vector3(270, 90, 0), new Vector3(0.015f, 0.015f, 0.015f)));

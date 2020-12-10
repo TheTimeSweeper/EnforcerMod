@@ -107,7 +107,7 @@ namespace EntityStates.Nemforcer
         {
             base.OnExit();
 
-            if (NetworkServer.active) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempLargeSlowDebuff);
+            if (NetworkServer.active && base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.tempLargeSlowDebuff)) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempLargeSlowDebuff);
 
             if (this.ye) this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), 1);
             else this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), 0);
@@ -117,15 +117,12 @@ namespace EntityStates.Nemforcer
         {
             base.FixedUpdate();
 
-            if (base.characterMotor.isGrounded)
-            {
-                base.characterMotor.velocity = Vector3.zero;
-            }
-
             float progress = Mathf.Clamp01(base.fixedAge / this.duration);
 
             if (this.ye) this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), progress);
             else this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), 1 - progress);
+
+            if (NetworkServer.active && base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.tempLargeSlowDebuff) && !base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff) && progress >= 0.5f) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempLargeSlowDebuff);
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {

@@ -10,7 +10,7 @@ namespace EntityStates.Nemforcer
         public static float baseChargeDuration = 2.25f;
 
         private const float lookthreshold = -0.65f;
-        private const float fallSpeedThreshold = -12f;
+        private const float fallSpeedThreshold = -20f;
 
         private float chargeDuration;
         private bool finishedCharge;
@@ -20,7 +20,7 @@ namespace EntityStates.Nemforcer
         private uint chargePlayID;
         private uint flameLoopPlayID;
         private NemforcerController nemController;
-
+        private float fallTime;
         private bool slamming;
 
         public override void OnEnter()
@@ -72,22 +72,25 @@ namespace EntityStates.Nemforcer
                 if (NetworkServer.active) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff);
             }
 
+            if (base.characterMotor.velocity.y <= 0) this.fallTime += Time.fixedDeltaTime;
+            else this.fallTime = 0;
+
             Vector3 dir = GetAimRay().direction.normalized;
 
-            bool looking = dir.y <= HammerCharge.lookthreshold && !characterMotor.isGrounded;
+            bool looking = dir.y <= HammerCharge.lookthreshold && !base.characterMotor.isGrounded;
             bool falling = base.characterMotor.velocity.y <= HammerCharge.fallSpeedThreshold;
 
-            bool slamming = looking && falling && !characterMotor.isGrounded;
+            bool slamming = looking && falling && !base.characterMotor.isGrounded;
 
             if (this.animator) this.animator.SetFloat("airSlamReady", slamming ? -1 : 0, 0.1f, Time.fixedDeltaTime);
 
             if (base.isAuthority && ((!base.IsKeyDownAuthority() && base.fixedAge >= 0.1f)) && !base.IsKeyDownAuthority())
             {
- 
-                if (looking)
+                if (slamming)
                 {
                     HammerAirSlam nextState = new HammerAirSlam();
                     nextState.charge = charge;
+                    nextState.baseFallTime = this.fallTime;
                     this.outer.SetNextState(nextState);
                 }
                 else
@@ -170,6 +173,7 @@ namespace EntityStates.Nemforcer
         private float stopwatch;
         private ChildLocator childLocator;
         private bool hasFired;
+        private bool hasPlayedUppercutAnim;
         private float hitPauseTimer;
         private OverlapAttack attack;
         private bool inHitPause;
@@ -182,7 +186,9 @@ namespace EntityStates.Nemforcer
             base.OnEnter();
             this.stopwatch = 0f;
             this.hasFired = false;
+            this.hasPlayedUppercutAnim = false;
             base.characterBody.isSprinting = true;
+
             if (this.charge > 0.21f) this.duration = Util.Remap(this.charge, 0f, 1f, HammerUppercut.minDuration, HammerUppercut.maxDuration);
             else this.duration = Util.Remap(this.charge, 0f, 1f, HammerUppercut.minDuration, HammerUppercut.maxDuration) / this.attackSpeedStat;
             this.speedCoefficient = Util.Remap(this.charge, 0f, 1f, HammerUppercut.initialMinSpeedCoefficient, HammerUppercut.initialMaxSpeedCoefficient);
@@ -268,6 +274,12 @@ namespace EntityStates.Nemforcer
                 base.cameraTargetParams.fovOverride = Mathf.Lerp(Commando.DodgeState.dodgeFOV, 60f, this.stopwatch / this.duration);
             }
 
+            if (this.stopwatch >= (HammerUppercut.dashDuration * this.duration) && !this.hasPlayedUppercutAnim)
+            {
+                this.hasPlayedUppercutAnim = true;
+                base.PlayAnimation("FullBody, Override", "Uppercut", "Uppercut.playbackRate", (1 - HammerUppercut.dashDuration) * this.duration);
+            }
+
             if (base.isAuthority)
             {
                 if (!this.inHitPause)
@@ -296,8 +308,6 @@ namespace EntityStates.Nemforcer
                         if (!this.hasFired)
                         {
                             this.hasFired = true;
-
-                            base.PlayAnimation("FullBody, Override", "Uppercut", "Uppercut.playbackRate", (1 - HammerUppercut.dashDuration) * this.duration);
 
                             if (this.charge > 0.21f) base.SmallHop(base.characterMotor, this.hopVelocity);
                             base.AddRecoil(-1f * this.recoil, -2f * this.recoil, -0.5f * this.recoil, 0.5f * this.recoil);
@@ -365,7 +375,7 @@ namespace EntityStates.Nemforcer
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            if (this.stopwatch >= 0.75f * this.duration) return InterruptPriority.Skill;
+            if (this.stopwatch >= HammerUppercut.dashDuration * this.duration) return InterruptPriority.Skill;
             else return InterruptPriority.Frozen;
         }
     }
@@ -373,6 +383,7 @@ namespace EntityStates.Nemforcer
     public class HammerAirSlam : BaseSkillState
     {
         public float charge;
+        public float baseFallTime;
         public static string hitboxString = "UppercutHitbox";
         public static float maxDamageCoefficient = 25f;
         public static float minDamageCoefficient = 3f;
@@ -384,7 +395,7 @@ namespace EntityStates.Nemforcer
         public static float minFallVelocity = 40f;
         public static float maxFallVelocity = 80f;
         public static float maxRadius = 180f;
-        public static float minRadius = 12f;
+        public static float minRadius = 6f;
 
         private float damageCoefficient;
         private float recoil;
@@ -470,27 +481,12 @@ namespace EntityStates.Nemforcer
         private void FireBlast()
         {
             Vector3 sex = this.childLocator.FindChild("HammerHitbox").transform.position;
-            this.radius = Util.Remap(this.fallStopwatch, 0f, 15f, HammerAirSlam.minRadius, HammerAirSlam.maxRadius);
+            this.radius = Util.Remap(this.fallStopwatch + this.baseFallTime, 0f, 8f, HammerAirSlam.minRadius, HammerAirSlam.maxRadius);
             this.recoil += 0.5f * this.radius;
 
             base.characterMotor.velocity *= 0.1f;
 
-            base.SmallHop(base.characterMotor, this.radius * 0.25f);
-
-            Vector3 directionFlat = base.GetAimRay().direction;
-            directionFlat.y = 0;
-            directionFlat.Normalize();
-
-            GameObject impactEffect = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/PodGroundImpact");
-
-            for (int i = 5; i <= Mathf.RoundToInt(this.radius) + 1; i += 2)
-            {
-                EffectManager.SpawnEffect(impactEffect, new EffectData
-                {
-                    origin = base.transform.position + i * directionFlat.normalized - 1.8f * Vector3.up,
-                    scale = 0.5f
-                }, true);
-            }
+            base.SmallHop(base.characterMotor, this.radius * 0.3f);
 
             AkSoundEngine.SetRTPCValue("M2_Charge", 100f * this.charge);
             Util.PlaySound(EnforcerPlugin.Sounds.NemesisSmash, base.gameObject);
@@ -512,6 +508,21 @@ namespace EntityStates.Nemforcer
                 blastAttack.damageType = DamageType.Stun1s;
                 blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
                 BlastAttack.Result result = blastAttack.Fire();
+
+                Vector3 directionFlat = base.GetAimRay().direction;
+                directionFlat.y = 0;
+                directionFlat.Normalize();
+
+                GameObject impactEffect = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/PodGroundImpact");
+
+                for (int i = 5; i <= Mathf.RoundToInt(this.radius) + 1; i += 2)
+                {
+                    EffectManager.SpawnEffect(impactEffect, new EffectData
+                    {
+                        origin = base.transform.position + i * directionFlat.normalized - 1.8f * Vector3.up,
+                        scale = 0.5f
+                    }, true);
+                }
             }
         }
 

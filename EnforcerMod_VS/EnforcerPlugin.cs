@@ -26,7 +26,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.K1454.SupplyDrop", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ScrollableLobbyUI", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "2.0.2")]
+    [BepInPlugin(MODUID, "Enforcer", "2.0.3")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -132,6 +132,8 @@ namespace EnforcerPlugin
         public static ConfigEntry<bool> femSkin;
         public static ConfigEntry<bool> oldEngiShield;
         public static ConfigEntry<bool> pig;
+        public static ConfigEntry<bool> shellSounds;
+        public static ConfigEntry<bool> globalInvasion;
 
         public static ConfigEntry<KeyCode> defaultDanceKey;
         public static ConfigEntry<KeyCode> flossKey;
@@ -263,6 +265,8 @@ namespace EnforcerPlugin
             femSkin = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Femforcer"), false, new ConfigDescription("Enables femforcer skin. Not for good boys and girls.", null, Array.Empty<object>()));
             oldEngiShield = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Old Engi Shield"), false, new ConfigDescription("Reverts the look of the Engi shield.", null, Array.Empty<object>()));
             pig = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Pig"), false, new ConfigDescription("Pig", null, Array.Empty<object>()));
+            shellSounds = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Shell Sounds"), true, new ConfigDescription("Play a sound when ejected shotgun shells hit the ground", null, Array.Empty<object>()));
+            globalInvasion = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Global Invasion"), false, new ConfigDescription("Allows invasions when playing any character, not just Enforcer. Purely for fun.", null, Array.Empty<object>()));
 
             defaultDanceKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Default Dance"), KeyCode.Alpha1, new ConfigDescription("Key used to Default Dance", null, Array.Empty<object>()));
             flossKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Floss"), KeyCode.Alpha2, new ConfigDescription("Key used to Floss", null, Array.Empty<object>()));
@@ -387,9 +391,19 @@ namespace EnforcerPlugin
                     for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
                     {
                         CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
-                        if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
+                        if (!globalInvasion.Value)
                         {
-                            invasion = true;
+                            if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
+                            {
+                                invasion = true;
+                            }
+                        }
+                        else
+                        {
+                            if (master.teamIndex == TeamIndex.Player)
+                            {
+                                invasion = true;
+                            }
                         }
                     }
 
@@ -409,11 +423,23 @@ namespace EnforcerPlugin
                     for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
                     {
                         CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
-                        if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
+                        if (!globalInvasion.Value)
                         {
-                            NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+                            if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
+                            {
+                                NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
 
-                            master.gameObject.AddComponent<NemesisInvasion>().hasInvaded = true;
+                                master.gameObject.AddComponent<NemesisInvasion>().hasInvaded = true;
+                            }
+                        }
+                        else
+                        {
+                            if (master.teamIndex == TeamIndex.Player && master.playerCharacterMasterController)
+                            {
+                                NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+
+                                master.gameObject.AddComponent<NemesisInvasion>().hasInvaded = true;
+                            }
                         }
                     }
                 }
@@ -429,15 +455,32 @@ namespace EnforcerPlugin
                 if (DifficultyIndex.Hard <= Run.instance.selectedDifficulty && Run.instance.stageClearCount < 5)
                 {
                     bool pendingInvasion = false;
-                    for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
+
+                    if (!globalInvasion.Value)
                     {
-                        CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
-                        if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
+                        for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
                         {
-                            master.gameObject.AddComponent<NemesisInvasion>().pendingInvasion = true;
-                            pendingInvasion = true;
+                            CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
+                            if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
+                            {
+                                master.gameObject.AddComponent<NemesisInvasion>().pendingInvasion = true;
+                                pendingInvasion = true;
+                            }
                         }
                     }
+                    else
+                    {
+                        for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
+                        {
+                            CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
+                            if (master.teamIndex == TeamIndex.Player && master.playerCharacterMasterController)
+                            {
+                                master.gameObject.AddComponent<NemesisInvasion>().pendingInvasion = true;
+                                pendingInvasion = true;
+                            }
+                        }
+                    }
+
 
                     if (pendingInvasion && NetworkServer.active)
                     {
@@ -454,17 +497,38 @@ namespace EnforcerPlugin
                 for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
                 {
                     CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
-                    if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
-                    {
-                        var j = master.gameObject.GetComponent<NemesisInvasion>();
-                        if (j)
-                        {
-                            if (j.pendingInvasion && !j.hasInvaded)
-                            {
-                                j.pendingInvasion = false;
-                                j.hasInvaded = true;
 
-                                NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+                    if (!globalInvasion.Value)
+                    {
+                        if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
+                        {
+                            var j = master.gameObject.GetComponent<NemesisInvasion>();
+                            if (j)
+                            {
+                                if (j.pendingInvasion && !j.hasInvaded)
+                                {
+                                    j.pendingInvasion = false;
+                                    j.hasInvaded = true;
+
+                                    NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (master.teamIndex == TeamIndex.Player && master.playerCharacterMasterController)
+                        {
+                            var j = master.gameObject.GetComponent<NemesisInvasion>();
+                            if (j)
+                            {
+                                if (j.pendingInvasion && !j.hasInvaded)
+                                {
+                                    j.pendingInvasion = false;
+                                    j.hasInvaded = true;
+
+                                    NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+                                }
                             }
                         }
                     }
@@ -520,7 +584,7 @@ namespace EnforcerPlugin
 
                 if (self.HasBuff(minigunBuff))
                 {
-                    Reflection.SetPropertyValue<float>(self, "armor", self.armor + 50);
+                    Reflection.SetPropertyValue<float>(self, "armor", self.armor + 60);
                     Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.8f);
                 }
 
@@ -561,11 +625,11 @@ namespace EnforcerPlugin
 
                 if (self.HasBuff(tempLargeSlowDebuff))
                 {
-                    Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
-                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.3f);
+                    //Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
+                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.2f);
                 }
 
-                //armor passive
+                //regen passive
                 if (self.baseNameToken == "NEMFORCER_NAME")
                 {
                     HealthComponent hp = self.healthComponent;
@@ -1233,7 +1297,7 @@ namespace EnforcerPlugin
 
             GameObject gameObject = new GameObject("ModelBase");
             gameObject.transform.parent = characterPrefab.transform;
-            gameObject.transform.localPosition = new Vector3(0f, -0.81f, 0f);
+            gameObject.transform.localPosition = new Vector3(0f, -0.91f, 0f);
             gameObject.transform.localRotation = Quaternion.identity;
             gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
 

@@ -7,8 +7,8 @@ namespace EntityStates.Nemforcer
 {
     public class NemMinigunFire : NemMinigunState
     {
-        public static float baseDamageCoefficient = 0.6f;
-        public static float baseForce = 5f;
+        public static float baseDamageCoefficient = 0.65f;
+        public static float baseForce = 15f;
         public static float baseProcCoefficient = 0.3f;
         public static float recoilAmplitude = 2f;
         public static float minFireRate = 0.75f;
@@ -88,6 +88,8 @@ namespace EntityStates.Nemforcer
 
         private void OnFireShared()
         {
+            base.characterBody.AddSpreadBloom(0.25f);
+
             if (base.isAuthority)
             {
                 this.OnFireAuthority();
@@ -99,12 +101,11 @@ namespace EntityStates.Nemforcer
             this.UpdateCrits();
             bool isCrit = !this.critEndTime.hasPassed;
 
-            base.characterBody.AddSpreadBloom(0.25f);
             base.AddRecoil(-0.6f * NemMinigunFire.recoilAmplitude, -0.8f * NemMinigunFire.recoilAmplitude, -0.3f * NemMinigunFire.recoilAmplitude, 0.3f * NemMinigunFire.recoilAmplitude);
 
             this.currentFireRate = Mathf.Clamp(currentFireRate + fireRateGrowth, minFireRate, maxFireRate);
 
-            this.spreadMod += 0.15f;
+            this.spreadMod += 0.1f;
             if (this.spreadMod >= 1f) this.spreadMod = 1f;
 
             float damage = NemMinigunFire.baseDamageCoefficient * this.damageStat;
@@ -131,7 +132,7 @@ namespace EntityStates.Nemforcer
                 force = force,
                 hitMask = LayerIndex.CommonMasks.bullet,
                 minSpread = this.spreadMod * MinigunFire.bulletMinSpread,
-                maxSpread = this.spreadMod * MinigunFire.bulletMaxSpread * 1f,
+                maxSpread = this.spreadMod * MinigunFire.bulletMaxSpread * 1.5f,
                 isCrit = isCrit,
                 owner = base.gameObject,
                 muzzleName = NemMinigunState.muzzleName,
@@ -167,7 +168,7 @@ namespace EntityStates.Nemforcer
             if (base.characterMotor)
             {
                 //animator.speed = 0;
-                base.characterMotor.moveDirection /= 2;
+                base.characterMotor.moveDirection /= 1.5f;
             }
 
             if (this.fireTimer <= 0f)

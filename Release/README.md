@@ -22,7 +22,7 @@ Jot - Animations
 DarkLordLui - Animations
 Violet Chaolan - Sounds
 LucidInceptor - Modeling
-bruh - Modeling
+bruh - Modeling, swag
 Destructor - Mod icon
 Draymarc - Concepts
 Moffein - Idea Guy™
@@ -55,13 +55,42 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 ## Known Issues
 - Teleporter particles kinda big (We could fix this but we won't)
 - Cancelling shield with sprint does not work properly in multiplayer
-- Pending an R2API update, some achievements can't be unlocked in multiplayer. (they only work for host or single player).
+- Pending an R2API update, some achievements can't be unlocked in multiplayer (they only work for host or single player)
 - RyanSkinAPI causes the model to be invisible sometimes
+- Life Savings may not work
 
 ## Future Plans
 - Skills++ support
 
 ## Changelog
+`2.0.3`
+- Added Supply Drop item displays(missed change from 2.0)
+- Added config for shotgun shell sounds
+- Adjusted Leech placement
+- Fixed Enforcer always being elevated slightly above the ground
+- Heavy TF2 changes- goal is to make him more fluid and address his low durability
+- Boss variant now uses unique boss scaling, should no longer be a pushover
+- Added config to enable invasions as any character, for fun
+- Various animation tweaks
+- Base max health increased from 160 to 224
+- Max health growth increased from 48 to 56
+- Passive regen increased from 2% to 2.5%
+- Lowered primary base duration from 1.2s to 1.05s, tweaked animation
+- Fixed duplicate effects on primary
+- Fixed bugged secondary animation in multiplayer
+- Secondary slam now only activates when falling and looking down
+- Secondary slam now carries over speed from the charge state when calculating impact radius
+- Uppercut cancel window now begins at the start of the uppercut rather than the end
+- Minigun spread now ramps up more slowly
+- Minigun self slow reduced
+- Minigun swap no longer prevents jumping, shorter slow duration when sheathing minigun
+- Minigun stance armor buff increased from 50 to 60
+- Fixed Happiest Mask placement
+- Added drip
+- Life Savings still does nothing
+- I don't even know if the problem is on our end nothing makes sense
+- Just don't grab the item
+
 `2.0.2`
 - Made Enforcer: Enforcing Perfection require much less Bustling Fungus to unlock
 - Fixed some effects being duplicated in multiplayer
