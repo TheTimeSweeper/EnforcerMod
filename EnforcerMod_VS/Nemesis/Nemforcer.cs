@@ -658,10 +658,12 @@ namespace EnforcerPlugin
         {
 
             SkillDef primaryDef1 = PrimarySkillDef_Hammer();
-            SkillFamily.Variant primaryVariant1 = PluginUtils.SetupSkillVariant(primaryDef1, typeof(EntityStates.Nemforcer.HammerSwing));
+            PluginUtils.RegisterSkillDef(primaryDef1, typeof(EntityStates.Nemforcer.HammerSwing));
+            SkillFamily.Variant primaryVariant1 = PluginUtils.SetupSkillVariant(primaryDef1);
 
             SkillDef primaryDef2 = PrimarySkillDef_Throw();
-            SkillFamily.Variant primaryVariant2 = PluginUtils.SetupSkillVariant(primaryDef2, typeof(EntityStates.Nemforcer.ThrowHammer));
+            PluginUtils.RegisterSkillDef(primaryDef2, typeof(ThrowHammer));
+            SkillFamily.Variant primaryVariant2 = PluginUtils.SetupSkillVariant(primaryDef2);
 
             skillLocator.primary = PluginUtils.RegisterSkillsToFamily(characterPrefab, primaryVariant1);
 
@@ -678,31 +680,30 @@ namespace EnforcerPlugin
         private void SecondarySetup()
         {
             SkillDef secondaryDef1 = SecondarySkillDef_HammerBash();
-            SkillFamily.Variant secondaryVariant1 = PluginUtils.SetupSkillVariant(secondaryDef1, typeof(HammerCharge));
+            PluginUtils.RegisterSkillDef(secondaryDef1, typeof(HammerCharge), typeof(HammerUppercut), typeof(HammerAirSlam));
+            SkillFamily.Variant secondaryVariant1 = PluginUtils.SetupSkillVariant(secondaryDef1);
 
             skillLocator.secondary = PluginUtils.RegisterSkillsToFamily(characterPrefab, secondaryVariant1);
 
-            PluginUtils.RegisterSkillDef(secondaryVariant1.skillDef,
-                             typeof(HammerCharge),
-                             typeof(HammerUppercut),
-                             typeof(HammerAirSlam));
+            SkillDef secondaryGunDef1 = SecondarySkillDef_HammerSlam();
+            PluginUtils.RegisterSkillDef(secondaryGunDef1, typeof(HammerSlam));
+            SkillFamily.Variant secondaryGunVariant1 = PluginUtils.SetupSkillVariant(secondaryGunDef1);
 
-            SkillDef secondaryDefSlam = SecondarySkillDef_HammerSlam();
-            PluginUtils.RegisterSkillDef(secondaryDefSlam,
-                                         typeof(HammerSlam));
+            PluginUtils.RegisterSkillsToFamily(characterPrefab, secondaryGunVariant1);
 
             hammerChargeDef = secondaryDef1;
-            hammerSlamDef = secondaryDefSlam;
+            hammerSlamDef = secondaryGunDef1;
         }
 
         private void UtilitySetup()
         {
             SkillDef utilityDef1 = UtilitySkillDef_Gas();
-            SkillFamily.Variant utilityVariant1 = PluginUtils.SetupSkillVariant(utilityDef1,
-                                                                                typeof(AimNemGas));
+            PluginUtils.RegisterSkillDef(utilityDef1, typeof(AimNemGas));
+            SkillFamily.Variant utilityVariant1 = PluginUtils.SetupSkillVariant(utilityDef1);
 
             SkillDef utilityDef2 = UtilitySkillDef_Grenade();
-            SkillFamily.Variant utilityVariant2 = PluginUtils.SetupSkillVariant(utilityDef2/*, typeof(StunGrenade)*/);
+            PluginUtils.RegisterSkillDef(utilityDef2, typeof(StunGrenade));
+            SkillFamily.Variant utilityVariant2 = PluginUtils.SetupSkillVariant(utilityDef2);
 
             skillLocator.utility = PluginUtils.RegisterSkillsToFamily(characterPrefab, utilityVariant1, utilityVariant2);
         }
@@ -710,7 +711,8 @@ namespace EnforcerPlugin
         private void SpecialSetup()
         {
             SkillDef specialDef1 = SpecialSkillDef_MinigunUp();
-            SkillFamily.Variant specialVariant1 = PluginUtils.SetupSkillVariant(specialDef1, typeof(MinigunToggle));
+            PluginUtils.RegisterSkillDef(specialDef1, typeof(MinigunToggle));
+            SkillFamily.Variant specialVariant1 = PluginUtils.SetupSkillVariant(specialDef1);
 
             skillLocator.special = PluginUtils.RegisterSkillsToFamily(characterPrefab, specialVariant1);
 
@@ -858,9 +860,9 @@ namespace EnforcerPlugin
 
         private static SkillDef SecondarySkillDef_HammerSlam()
         {
-            string desc = $"<style=cIsDamage>Stunning.</style> Violently <style=cIsHealth>slam</style> down your hammer, dealing <style=cIsDamage>{100f * HammerSlam.damageCoefficient}% damage</style> and <style=cIsDamage>knocking back</style> enemies hit. <style=cIsUtility>Destroys projectiles.</style>";
+            string desc = $"<style=cIsDamage>Stunning.</style> While using minigun, violently <style=cIsHealth>slam</style> down your hammer, dealing <style=cIsDamage>{100f * HammerSlam.damageCoefficient}% damage</style> and <style=cIsDamage>knocking back</style> enemies hit. <style=cIsUtility>Destroys projectiles.</style>";
 
-            LanguageAPI.Add("NEMFORCER_SECONDARY_SLAM_NAME", "Dominance");
+            LanguageAPI.Add("NEMFORCER_SECONDARY_SLAM_NAME", "Dominance (minigun)");
             LanguageAPI.Add("NEMFORCER_SECONDARY_SLAM_DESCRIPTION", desc);
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();

@@ -2404,22 +2404,25 @@ namespace EnforcerPlugin
         private void PrimarySetup()
         {
             SkillDef primaryDef1 = PrimarySkillDef_RiotShotgun();
-            SkillFamily.Variant primaryVariant1 = PluginUtils.SetupSkillVariant(primaryDef1, typeof(RiotShotgun));
+            PluginUtils.RegisterSkillDef(primaryDef1, typeof(RiotShotgun));
+            SkillFamily.Variant primaryVariant1 = PluginUtils.SetupSkillVariant(primaryDef1);
 
             SkillDef primaryDef2 = PrimarySkillDef_SuperShotgun();
-            SkillFamily.Variant primaryVariant2 = PluginUtils.SetupSkillVariant(primaryDef2, "ENFORCER_SHOTGUNUNLOCKABLE_REWARD_ID",
-                                                                                typeof(SuperShotgun));
+            PluginUtils.RegisterSkillDef(primaryDef2, typeof(SuperShotgun));
+            SkillFamily.Variant primaryVariant2 = PluginUtils.SetupSkillVariant(primaryDef2, "ENFORCER_SHOTGUNUNLOCKABLE_REWARD_ID");
 
             SkillDef primaryDef3 = PrimarySkillDef_AssaultRifle();
-            SkillFamily.Variant primaryVariant3 = PluginUtils.SetupSkillVariant(primaryDef3, "ENFORCER_RIFLEUNLOCKABLE_REWARD_ID",
-                                                                                typeof(FireBurstRifle));
+            PluginUtils.RegisterSkillDef(primaryDef3, typeof(FireBurstRifle));
+            SkillFamily.Variant primaryVariant3 = PluginUtils.SetupSkillVariant(primaryDef3, "ENFORCER_RIFLEUNLOCKABLE_REWARD_ID");
 
             skillLocator.primary = PluginUtils.RegisterSkillsToFamily(characterPrefab, primaryVariant1, primaryVariant2, primaryVariant3);
             primarySkillChangeDefs = new List<SkillDef> { primaryDef1, primaryDef2, primaryDef3 };
 
             //cursed
             SkillDef primaryDef4 = PrimarySkillDef_Hammer();
-            SkillFamily.Variant primaryVariant4 = PluginUtils.SetupSkillVariant(primaryDef4, typeof(HammerSwing));
+            PluginUtils.RegisterSkillDef(primaryDef4, typeof(HammerSwing));
+            SkillFamily.Variant primaryVariant4 = PluginUtils.SetupSkillVariant(primaryDef4);
+
             if (cursed.Value)
             {
                 PluginUtils.RegisterAdditionalSkills(skillLocator.primary, primaryVariant4);
@@ -2429,10 +2432,8 @@ namespace EnforcerPlugin
 
         private void SecondarySetup() {
             SkillDef secondaryDef1 = SecondarySkillDef_Bash();
-            SkillFamily.Variant secondaryVariant1 = PluginUtils.SetupSkillVariant(secondaryDef1,
-                                                                                  typeof(ShieldBash),
-                                                                                  typeof(ShoulderBash),
-                                                                                  typeof(ShoulderBashImpact));
+            PluginUtils.RegisterSkillDef(secondaryDef1, typeof(ShieldBash), typeof(ShoulderBash), typeof(ShoulderBashImpact));
+            SkillFamily.Variant secondaryVariant1 = PluginUtils.SetupSkillVariant(secondaryDef1);
 
             skillLocator.secondary = PluginUtils.RegisterSkillsToFamily(characterPrefab, secondaryVariant1);
         }
@@ -2440,13 +2441,12 @@ namespace EnforcerPlugin
         private void UtilitySetup()
         {
             SkillDef utilityDef1 = UtilitySkillDef_TearGas();
-            SkillFamily.Variant utilityVariant1 = PluginUtils.SetupSkillVariant(utilityDef1,
-                                                                                typeof(AimTearGas),
-                                                                                typeof(TearGas));
+            PluginUtils.RegisterSkillDef(utilityDef1, typeof(AimTearGas), typeof(TearGas));
+            SkillFamily.Variant utilityVariant1 = PluginUtils.SetupSkillVariant(utilityDef1);
 
             SkillDef utilityDef2 = UtilitySkillDef_StunGrenade();
-            SkillFamily.Variant utilityVariant2 = PluginUtils.SetupSkillVariant(utilityDef2, "ENFORCER_STUNGRENADEUNLOCKABLE_REWARD_ID",
-                                                                                typeof(StunGrenade));
+            PluginUtils.RegisterSkillDef(utilityDef2, typeof(StunGrenade));
+            SkillFamily.Variant utilityVariant2 = PluginUtils.SetupSkillVariant(utilityDef2, "ENFORCER_STUNGRENADEUNLOCKABLE_REWARD_ID");
 
             skillLocator.utility = PluginUtils.RegisterSkillsToFamily(characterPrefab, utilityVariant1, utilityVariant2);
         }
@@ -2454,7 +2454,8 @@ namespace EnforcerPlugin
         private void SpecialSetup()
         {
             SkillDef specialDef1 = SpecialSkillDef_ProtectAndServe();
-            SkillFamily.Variant specialVariant1 = PluginUtils.SetupSkillVariant(specialDef1, typeof(ProtectAndServe));
+            PluginUtils.RegisterSkillDef(specialDef1, typeof(ProtectAndServe));
+            SkillFamily.Variant specialVariant1 = PluginUtils.SetupSkillVariant(specialDef1);
 
             SkillDef specialDef1Down = SpecialSkillDef_ShieldDown();
             PluginUtils.RegisterSkillDef(specialDef1Down);
@@ -2467,7 +2468,8 @@ namespace EnforcerPlugin
 
             //cursed
             SkillDef specialDef2 = SpecialSkillDef_EnergyShield();
-            SkillFamily.Variant specialVariant2 = PluginUtils.SetupSkillVariant(specialDef2, typeof(EnergyShield));
+            PluginUtils.RegisterSkillDef(specialDef2, typeof(EnergyShield));
+            SkillFamily.Variant specialVariant2 = PluginUtils.SetupSkillVariant(specialDef2);
 
             SkillDef specialDef2Down = SpecialSkillDef_EnergyShieldDown();
             PluginUtils.RegisterSkillDef(specialDef2Down);
@@ -2476,7 +2478,8 @@ namespace EnforcerPlugin
             shieldOnDef = specialDef2Down;
 
             SkillDef specialDef3 = SpecialSkillDef_SkamteBord();
-            SkillFamily.Variant specialVariant3 = PluginUtils.SetupSkillVariant(specialDef3, typeof(Skateboard));
+            PluginUtils.RegisterSkillDef(specialDef3, typeof(Skateboard));
+            SkillFamily.Variant specialVariant3 = PluginUtils.SetupSkillVariant(specialDef3);
 
             SkillDef specialDef3Down = SpecialSkillDef_SkamteBordDown();
             PluginUtils.RegisterSkillDef(specialDef3Down);

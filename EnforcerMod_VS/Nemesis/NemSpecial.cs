@@ -15,6 +15,7 @@ namespace EntityStates.Nemforcer
         private Animator animator;
         private ChildLocator childLocator;
         private NemforcerController nemController;
+        private GenericSkill originalSecondary;
 
         public override void OnEnter()
         {
@@ -42,7 +43,9 @@ namespace EntityStates.Nemforcer
                     float cooldown = base.skillLocator.secondary.rechargeStopwatch;
                     int stock = base.skillLocator.secondary.stock;
 
-                    base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerChargeDef);
+                    //base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerChargeDef);
+                    originalSecondary = base.skillLocator.secondary;
+                    base.skillLocator.secondary = base.skillLocator.FindSkill("DominanceHammer");
 
                     base.skillLocator.secondary.stock = stock;
                     base.skillLocator.secondary.rechargeStopwatch = cooldown;
@@ -79,7 +82,10 @@ namespace EntityStates.Nemforcer
                     float cooldown = base.skillLocator.secondary.rechargeStopwatch;
                     int stock = base.skillLocator.secondary.stock;
 
-                    base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerSlamDef);
+
+                    //base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerSlamDef);
+                    originalSecondary = base.skillLocator.secondary;
+                    base.skillLocator.secondary = base.skillLocator.FindSkill("DominanceMinigun");
 
                     base.skillLocator.secondary.stock = stock;
                     base.skillLocator.secondary.rechargeStopwatch = cooldown;

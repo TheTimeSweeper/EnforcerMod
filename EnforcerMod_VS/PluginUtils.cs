@@ -10,18 +10,13 @@ using System.Collections.Generic;
 namespace EnforcerPlugin {
     public class PluginUtils {
 
-        public static SkillFamily.Variant SetupSkillVariant(SkillDef skillDef, string unlockableType, params Type[] skillTypes) {
-            RegisterSkillDef(skillDef, skillTypes);
+        public static SkillFamily.Variant SetupSkillVariant(SkillDef skillDef, string unlockableName = "") {
 
             return new SkillFamily.Variant {
                 skillDef = skillDef,
-                unlockableName = unlockableType,
+                unlockableName = unlockableName,
                 viewableNode = new ViewablesCatalog.Node(skillDef.skillNameToken, false, null)
             };
-        }
-
-        public static SkillFamily.Variant SetupSkillVariant(SkillDef skillDef, params Type[] skillTypes) {
-            return SetupSkillVariant(skillDef, "", skillTypes);
         }
 
         public static void RegisterSkillDef(SkillDef skillDef, params Type[] skillTypes) {
@@ -54,18 +49,18 @@ namespace EnforcerPlugin {
 
         public static void createHitbox(HitBoxGroup hitboxGroup,
                                         ChildLocator childLocator,
-                                        string childName) {
+                                        string objectName) {
 
-            createHitbox(hitboxGroup, childLocator, childName, Vector3.one, Vector3.one);
+            createHitbox(hitboxGroup, childLocator, objectName, Vector3.one, Vector3.one);
         }
 
         public static void createHitbox(HitBoxGroup hitboxGroup,
                                         ChildLocator childLocator,
-                                        string childName,
+                                        string objectName,
                                         Vector3 scaleMultiplier,
                                         Vector3 position) {
 
-            GameObject hitboxObject = childLocator.FindChild(childName).gameObject;
+            GameObject hitboxObject = childLocator.FindChild(objectName).gameObject;
             hitboxObject.transform.localScale = Vector3.Scale(hitboxObject.transform.localScale, scaleMultiplier);
             hitboxObject.transform.localPosition = Vector3.one;
             hitboxObject.layer = LayerIndex.projectile.intVal;
