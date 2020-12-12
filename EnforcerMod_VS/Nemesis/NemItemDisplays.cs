@@ -80,7 +80,7 @@ namespace EnforcerPlugin
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("RepeatHeal", "DisplayCorpseFlower", "ClavicleR", new Vector3(0.005f, 0.01f, 0), new Vector3(0, 25, 300), new Vector3(0.01f, 0.01f, 0.01f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("AutoCastEquipment", "DisplayFossil", "Pelvis", new Vector3(-0.009f, 0.002f, 0), new Vector3(0, 0, 0), new Vector3(0.02f, 0.02f, 0.02f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("TitanGoldDuringTP", "DisplayGoldHeart", "Chest", new Vector3(-0.005f, 0.002f, -0.005f), new Vector3(0, 235, 0), new Vector3(0.0085f, 0.0085f, 0.0085f)));
-            itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("SprintWisp", "DisplayBrokenMask", "ShoulderL", new Vector3(0, 0.002f, 0), new Vector3(270, 90, 0), new Vector3(0.02f, 0.0175f, 0.0175f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("SprintWisp", "DisplayBrokenMask", "ShoulderL", new Vector3(0.005f, 0.003f, 0), new Vector3(0, 90, 180), new Vector3(0.01f, 0.01f, 0.01f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("BarrierOnKill", "DisplayBrooch", "Chest", new Vector3(-0.007f, 0.007f, 0), new Vector3(90, 270, 0), new Vector3(0.015f, 0.015f, 0.015f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("TPHealingNova", "DisplayGlowFlower", "Chest", new Vector3(-0.0055f, 0.003f, -0.004f), new Vector3(0, 250, 0), new Vector3(0.01f, 0.01f, 0.01f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("LunarUtilityReplacement", "DisplayBirdFoot", "Head", new Vector3(0.008f, 0.008f, 0), new Vector3(0, 180, 0), new Vector3(0.02f, 0.02f, 0.02f)));
@@ -133,7 +133,7 @@ namespace EnforcerPlugin
             equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("Gateway", "DisplayVase", "Pelvis", new Vector3(0, 0, 0.009f), new Vector3(0, 0, 180), new Vector3(0.01f, 0.01f, 0.01f)));
             equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("Scanner", "DisplayScanner", "Pelvis", new Vector3(0, 0.005f, 0.008f), new Vector3(90, 270, 0), new Vector3(0.005f, 0.005f, 0.005f)));
             equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("DeathProjectile", "DisplayDeathProjectile", "Pelvis", new Vector3(-0.0012f, 0.005f, 0), new Vector3(0, 270, 180), new Vector3(0.005f, 0.005f, 0.005f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("LifestealOnHit", "DisplayLifestealOnHit", "Head", new Vector3(0.002f, 0.02f, -0.005f), new Vector3(90, 180, 0), new Vector3(0.01f, 0.01f, 0.01f)));
+            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("LifestealOnHit", "DisplayLifestealOnHit", "Head", new Vector3(0.002f, 0.015f, 0.0075f), new Vector3(45, 180, 0), new Vector3(0.005f, 0.005f, 0.005f)));
             equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("TeamWarCry", "DisplayTeamWarCry", "Pelvis", new Vector3(0.01f, 0.003f, 0), new Vector3(10, 90, 0), new Vector3(0.0035f, 0.0035f, 0.0035f)));
 
             itemRules.Add(NemItemDisplays.CreateFollowerDisplayRule("Icicle", "DisplayFrostRelic", new Vector3(0.035f, 0.03f, 0.04f), new Vector3(0, 0, 90), new Vector3(2, 2, 2)));

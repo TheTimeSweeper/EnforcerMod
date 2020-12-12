@@ -73,6 +73,8 @@ namespace EnforcerPlugin
         public static GameObject nemSwingFX;
         public static GameObject nemUppercutSwingFX;
         public static GameObject nemSlamSwingFX;
+        public static GameObject nemSlamDownFX;
+        public static GameObject nemDashFX;
         public static GameObject nemImpactFX;
         public static GameObject nemHeavyImpactFX;
 
@@ -246,6 +248,12 @@ namespace EnforcerPlugin
             nemSwingFX = Assets.LoadEffect("NemforcerSwing", "", NemAssetBundle);
             nemUppercutSwingFX = Assets.LoadEffect("NemforcerSwingUppercut", "", NemAssetBundle);
             nemSlamSwingFX = Assets.LoadEffect("NemforcerSwingSlam", "", NemAssetBundle);
+            nemSlamDownFX = Assets.LoadEffect("HammerAirSlamFX", "", NemAssetBundle);
+            nemSlamDownFX.transform.GetChild(0).localScale /= 7f;
+            nemSlamDownFX.transform.GetChild(0).localPosition = Vector3.zero;
+            nemDashFX = Assets.LoadEffect("HammerDashFX", "", NemAssetBundle);
+            nemDashFX.transform.GetChild(0).localScale /= 7f;
+            nemDashFX.transform.GetChild(0).localPosition = Vector3.zero;
             nemImpactFX = Assets.LoadEffect("ImpactNemforcer", "", NemAssetBundle);
             nemHeavyImpactFX = Assets.LoadEffect("HeavyImpactNemforcer", "", NemAssetBundle);
 

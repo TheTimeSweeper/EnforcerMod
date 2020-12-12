@@ -71,11 +71,11 @@ namespace EnforcerPlugin
                 num2 += Run.instance.difficultyCoefficient / 30f;
                 int num3 = Mathf.Max(1, Run.instance.livingPlayerCount);
                 num *= Mathf.Pow((float)num3, 0.5f);
-                Debug.LogFormat("Nemesis Encounter: currentBoostHpCoefficient={0}, currentBoostDamageCoefficient={1}", new object[]
+                /*Debug.LogFormat("Nemesis Encounter: currentBoostHpCoefficient={0}, currentBoostDamageCoefficient={1}", new object[]
                 {
                         num,
                         num2
-                });
+                });*/
                 characterMaster.inventory.GiveItem(ItemIndex.BoostHp, Mathf.RoundToInt((num - 1f) * 10f));
                 characterMaster.inventory.GiveItem(ItemIndex.BoostDamage, Mathf.RoundToInt((num2 - 1f) * 10f));
 

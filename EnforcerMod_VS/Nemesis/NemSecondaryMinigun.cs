@@ -11,7 +11,7 @@ namespace EntityStates.Nemforcer
     {
         public static string hitboxString = "SwingCenter"; //transform where the hitbox is fired
         public static float baseDuration = 0.9f;
-        public static float damageCoefficient = 10f;
+        public static float damageCoefficient = 6f;
         public static float procCoefficient = 1f;
         public static float knockbackForce = 0.14f;
         public static float blastRadius = 12f;

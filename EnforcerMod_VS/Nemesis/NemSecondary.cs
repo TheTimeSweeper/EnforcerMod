@@ -223,6 +223,9 @@ namespace EntityStates.Nemforcer
 
             base.PlayAnimation("FullBody, Override", "DashForward", "DashForward.playbackRate", HammerUppercut.dashDuration * this.duration);
             this.animator.SetFloat("charge", this.charge);
+            
+            //ill optimize this effect later maybe
+            //if (base.isAuthority && this.charge >= 0.9f) EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemDashFX, base.gameObject, "MainHurtbox", true);
 
             this.attack = new OverlapAttack();
             this.attack.damageType = DamageType.Stun1s;
@@ -233,7 +236,7 @@ namespace EntityStates.Nemforcer
             this.attack.procCoefficient = 1;
             this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemHeavyImpactFX;
             this.attack.forceVector = Vector3.up * this.knockupForce;
-            this.attack.pushAwayForce = 50f;
+            this.attack.pushAwayForce = 500f;
             this.attack.hitBoxGroup = hitBoxGroup;
             this.attack.isCrit = base.RollCrit();
         }
@@ -261,6 +264,8 @@ namespace EntityStates.Nemforcer
             base.FixedUpdate();
             base.characterBody.isSprinting = true;
 
+            if (!this.inHitPause) this.stopwatch += Time.fixedDeltaTime;
+
             if (this.stopwatch >= this.duration)
             {
                 this.outer.SetNextStateToMain();
@@ -284,7 +289,6 @@ namespace EntityStates.Nemforcer
             {
                 if (!this.inHitPause)
                 {
-                    this.stopwatch += Time.fixedDeltaTime;
                     Vector3 normalized = (base.transform.position - this.previousPosition).normalized;
 
                     if (base.characterDirection)
@@ -419,7 +423,7 @@ namespace EntityStates.Nemforcer
             base.OnEnter();
             this.duration = HammerAirSlam.baseDuration / this.attackSpeedStat;
             this.hasFired = false;
-            base.characterBody.isSprinting = true;
+            base.characterBody.isSprinting = false;
             this.damageCoefficient = Util.Remap(this.charge, 0f, 1f, HammerAirSlam.minDamageCoefficient, HammerAirSlam.maxDamageCoefficient);
             this.recoil = Util.Remap(this.charge, 0f, 1f, HammerAirSlam.minRecoil, HammerAirSlam.maxRecoil);
             this.fallVelocity = Util.Remap(this.charge, 0f, 1f, HammerAirSlam.minFallVelocity, HammerAirSlam.maxFallVelocity);
@@ -444,6 +448,7 @@ namespace EntityStates.Nemforcer
             if (base.isAuthority)
             {
                 EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemSlamSwingFX, base.gameObject, "SwingUppercut", true);
+                if (this.charge >= 0.6f) EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemSlamDownFX, base.gameObject, "MainHurtbox", true);
             }
 
             this.attack = new OverlapAttack();
