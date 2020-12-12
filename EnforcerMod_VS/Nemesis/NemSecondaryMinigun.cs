@@ -17,6 +17,12 @@ namespace EntityStates.Nemforcer
         public static float blastRadius = 12f;
         public static float beefDuration = 0.8f;
         public static float recoilAmplitude = 15f;
+        public static GameObject slamPrefab = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
+
+        public static float projectileBlastRadius = 7f;
+        public static float blastDamageCoefficient = 1f;
+        public static float blastProcCoefficient = 1f;
+        public GameObject projectileBlastPrefab = Resources.Load<GameObject>("prefabs/effects/omnieffect/OmniExplosionVFX");
 
         private float attackStopDuration;
         private float duration;
@@ -26,6 +32,9 @@ namespace EntityStates.Nemforcer
         private ChildLocator childLocator;
         private bool hasFired;
         private bool hasSwung;
+
+        private BlastAttack projectileBlastAttack;
+        private EffectData blastEffectData;
 
         public static event Action<Run> Bonked = delegate { };
 
@@ -45,6 +54,24 @@ namespace EntityStates.Nemforcer
             this.attackStopDuration = HammerSlam.beefDuration / this.attackSpeedStat;
 
             base.PlayAnimation("FullBody, Override", "HammerSlam", "HammerSlam.playbackRate", this.duration);
+
+            projectileBlastAttack = new BlastAttack {
+                radius = HammerSlam.projectileBlastRadius,
+                procCoefficient = HammerSlam.blastProcCoefficient,
+                position = Vector3.zero,
+                attacker = base.gameObject,
+                crit = Util.CheckRoll(base.characterBody.crit, base.characterBody.master),
+                baseDamage = base.characterBody.damage * HammerSlam.blastDamageCoefficient,
+                falloffModel = BlastAttack.FalloffModel.None,
+                baseForce = 1f,
+                damageType = DamageType.Generic,
+                attackerFiltering = AttackerFiltering.NeverHit,
+            };
+            projectileBlastAttack.teamIndex = TeamComponent.GetObjectTeam(projectileBlastAttack.attacker);
+
+            blastEffectData = new EffectData();
+            blastEffectData.scale = 3f;
+            blastEffectData.color = new Color32(234, 200, 127, 100);
         }
 
         private void FireBlast()
@@ -65,12 +92,12 @@ namespace EntityStates.Nemforcer
                     Vector3 sex = this.childLocator.FindChild("SwingCenter").transform.position;
 
                     EffectData effectData = new EffectData();
-                    effectData.origin = sex;
+                    effectData.origin = sex - Vector3.up * 2;
                     effectData.scale = 15;
 
-                    EffectManager.SpawnEffect(Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/PodGroundImpact"), effectData, true);
+                    EffectManager.SpawnEffect(slamPrefab, effectData, true);
 
-                    base.AddRecoil(-0.5f * HammerSlam.recoilAmplitude * 3f, -0.5f * HammerSlam.recoilAmplitude * 3f, -0.5f * HammerSlam.recoilAmplitude * 8f, 0.5f * HammerSlam.recoilAmplitude * 3f);
+                    base.AddRecoil(-0.5f * HammerSlam.recoilAmplitude * 3f, -0.5f * HammerSlam.recoilAmplitude * 3f, -0.5f * HammerSlam.recoilAmplitude * 5f, 0.5f * HammerSlam.recoilAmplitude * 3f);
 
                     Vector3 center = childLocator.FindChild(hitboxString).position;
 
@@ -191,6 +218,12 @@ namespace EntityStates.Nemforcer
                     {
                         projectileCount++;
                         Destroy(pc.gameObject);
+
+                        projectileBlastAttack.position = pc.transform.position;
+                        projectileBlastAttack.Fire();
+
+                        blastEffectData.origin = pc.transform.position;
+                        EffectManager.SpawnEffect(projectileBlastPrefab, blastEffectData, true);
                     }
                 }
 

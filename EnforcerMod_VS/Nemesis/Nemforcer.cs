@@ -379,8 +379,8 @@ namespace EnforcerPlugin
             HitBoxGroup hitBoxGroup = model.AddComponent<HitBoxGroup>();
 
             GameObject hammerHitbox = childLocator.FindChild("HammerHitbox").gameObject;
-            hammerHitbox.transform.localScale = new Vector3(0.155f, 0.19f, 0.10f);
-            hammerHitbox.transform.localPosition = Vector3.up * 0.015f;
+            hammerHitbox.transform.localScale = new Vector3(0.155f, 0.17f, 0.08f);
+            hammerHitbox.transform.localPosition = Vector3.up * 0.02f;
 
             HitBox hitBox = hammerHitbox.AddComponent<HitBox>();
             hammerHitbox.layer = LayerIndex.projectile.intVal;
@@ -853,7 +853,7 @@ namespace EnforcerPlugin
 
         private static SkillDef SecondarySkillDef_HammerSlam()
         {
-            string desc = $"<style=cIsDamage>Stunning.</style> While in minigun stance, violently <style=cIsHealth>slam</style> down your hammer, dealing <style=cIsDamage>{100f * HammerSlam.damageCoefficient}% damage</style> and <style=cIsDamage>knocking back</style> enemies hit. <style=cIsUtility>Destroys projectiles.</style>";
+            string desc = $"<style=cIsDamage>Stunning.</style> While in minigun stance, violently <style=cIsHealth>slam</style> down your hammer, dealing <style=cIsDamage>{100f * HammerSlam.damageCoefficient}% damage</style> and <style=cIsDamage>knocking back</style> enemies hit. <style=cIsUtility>Explodes projectiles.</style>";
 
             LanguageAPI.Add("NEMFORCER_SECONDARY_SLAM_NAME", "Dominance (Minigun)");
             LanguageAPI.Add("NEMFORCER_SECONDARY_SLAM_DESCRIPTION", desc);
