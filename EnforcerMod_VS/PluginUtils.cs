@@ -55,7 +55,7 @@ namespace EnforcerPlugin {
                                         ChildLocator childLocator,
                                         string objectName) {
 
-            createHitbox(hitboxGroup, childLocator, objectName, Vector3.one, Vector3.one);
+            createHitbox(hitboxGroup, childLocator, objectName, Vector3.one, Vector3.zero);
         }
 
         public static void createHitbox(HitBoxGroup hitboxGroup,
@@ -66,7 +66,7 @@ namespace EnforcerPlugin {
 
             GameObject hitboxObject = childLocator.FindChild(objectName).gameObject;
             hitboxObject.transform.localScale = Vector3.Scale(hitboxObject.transform.localScale, scaleMultiplier);
-            hitboxObject.transform.localPosition = Vector3.one;
+            hitboxObject.transform.localPosition = position;
             hitboxObject.layer = LayerIndex.projectile.intVal;
 
             HitBox hitBox = hitboxObject.AddComponent<HitBox>();

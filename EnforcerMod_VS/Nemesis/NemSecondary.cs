@@ -9,7 +9,7 @@ namespace EntityStates.Nemforcer
     {
         public static float baseChargeDuration = 2.25f;
 
-        private const float lookthreshold = -0.65f;
+        private const float lookthreshold = -0.6f;
         private const float fallSpeedThreshold = -18f;
 
         private float chargeDuration;
@@ -143,7 +143,7 @@ namespace EntityStates.Nemforcer
     {
         public float charge;
         public static string hitboxString = "UppercutHitbox";
-        public static float maxDamageCoefficient = 25f;
+        public static float maxDamageCoefficient = 15f;
         public static float minDamageCoefficient = 4.5f;
         public static float procCoefficient = 1f;
         public static float maxRecoil = 5f;

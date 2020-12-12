@@ -350,6 +350,7 @@ namespace EnforcerPlugin
             On.RoR2.CharacterSelectBarController.Start += CharacterSelectBarController_Start;
             On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
             On.RoR2.MapZone.TryZoneStart += MapZone_TryZoneStart;
+            On.RoR2.HealthComponent.Suicide += HealthComponent_Suicide;
 
             //On.EntityStates.Global1s.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
         }
@@ -882,6 +883,18 @@ namespace EnforcerPlugin
                 }
             }
             orig(self);
+        }
+
+        private void HealthComponent_Suicide(On.RoR2.HealthComponent.orig_Suicide orig, HealthComponent self, GameObject killerOverride, GameObject inflictorOverride, DamageType damageType) {
+
+            if (damageType == DamageType.VoidDeath) {
+                if (self.body.bodyIndex == BodyCatalog.FindBodyIndex("NemforcerBody")) {
+                    if(self.body.teamComponent.teamIndex != TeamIndex.Player) {
+                        return;
+                    }
+                }
+            }
+            orig(self, killerOverride, inflictorOverride, damageType);
         }
 
         private bool GetShieldBlock(HealthComponent self, DamageInfo info, ShieldComponent shieldComponent)
