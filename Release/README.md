@@ -66,6 +66,9 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - More alternate skills
 
 ## Changelog
+`2.0.8`
+- Fixed broken swing animation
+
 `2.0.7`
 - Adjusted some camera things, improving overall smoothness
 - Minor optimization to shotgun shells

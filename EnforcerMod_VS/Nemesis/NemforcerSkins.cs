@@ -214,8 +214,8 @@ namespace EnforcerPlugin
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
-            array[0].defaultMaterial = Assets.CreateNemMaterial("matDedede", 5f, Color.white, 0);
-            array[1].defaultMaterial = Assets.CreateNemMaterial("matDedede", 5f, Color.white, 0);
+            array[0].defaultMaterial = Assets.CreateNemMaterial("matDedede", 0f, Color.black, 0);
+            array[1].defaultMaterial = Assets.CreateNemMaterial("matDedede", 0f, Color.black, 0);
 
             dededeSkinDefInfo.RendererInfos = array;
 
