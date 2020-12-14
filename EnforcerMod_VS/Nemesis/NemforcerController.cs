@@ -18,18 +18,18 @@ public class NemforcerController : MonoBehaviour
     private CharacterBody charBody;
     private CharacterMotor charMotor;
     private HealthComponent charHealth;
+    private CameraTargetParams cameraShit;
     private ChildLocator childLocator;
 
-    public float slamRecastTimer;
-    private float rotationResetTimer;
-    private float previousAngle;
     private Vector3 previousDirection;
+    private float previousAngle;
 
     private void Start()
     {
-        charBody = GetComponentInChildren<CharacterBody>();
-        charMotor = GetComponentInChildren<CharacterMotor>();
-        charHealth = GetComponentInChildren<HealthComponent>();
+        charBody = GetComponent<CharacterBody>();
+        charMotor = GetComponent<CharacterMotor>();
+        charHealth = GetComponent<HealthComponent>();
+        cameraShit = GetComponent<CameraTargetParams>();
         childLocator = GetComponentInChildren<ChildLocator>();
 
         primarySkillDef = charBody.skillLocator.primary.skillDef;
@@ -48,9 +48,21 @@ public class NemforcerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        slamRecastTimer -= Time.fixedDeltaTime;
-        if (mainStateMachine) {
+        if (mainStateMachine)
+        {
             previousDirection = mainStateMachine.commonComponents.characterDirection.forward;
+        }
+    }
+
+    public void UpdateCamera()
+    {
+        if (!minigunUp)
+        {
+            cameraShit.cameraParams.standardLocalCameraPos = new Vector3(0, 0.5f, -12);
+        }
+        else
+        {
+            cameraShit.cameraParams.standardLocalCameraPos = new Vector3(-1.2f, -0.5f, -9f);
         }
     }
 

@@ -15,6 +15,7 @@ namespace EntityStates.Enforcer
         private ShieldComponent shieldComponent;
         private Animator animator;
         private ChildLocator childLocator;
+        private EnforcerWeaponComponent weaponComponent;
 
         public override void OnEnter()
         {
@@ -22,6 +23,7 @@ namespace EntityStates.Enforcer
             this.animator = GetModelAnimator();
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
             this.childLocator = base.GetModelChildLocator();
+            this.weaponComponent = base.GetComponent<EnforcerWeaponComponent>();
 
             bool isEngi = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value;
             if (EnforcerPlugin.EnforcerPlugin.oldEngiShield.Value) isEngi = false;
@@ -67,6 +69,12 @@ namespace EntityStates.Enforcer
                 Util.PlaySound(soundString, base.gameObject);
 
                 characterBody.aimOriginTransform = shieldComponent.origOrigin;
+
+                if (this.weaponComponent)
+                {
+                    this.weaponComponent.shieldUp = false;
+                    this.weaponComponent.UpdateCamera();
+                }
             }
             else
             {
@@ -109,6 +117,12 @@ namespace EntityStates.Enforcer
                 Util.PlaySound(soundString, base.gameObject);
 
                 characterBody.aimOriginTransform = childLocator.FindChild("ShieldHurtbox");
+
+                if (this.weaponComponent)
+                {
+                    this.weaponComponent.shieldUp = true;
+                    this.weaponComponent.UpdateCamera();
+                }
             }
         }
 

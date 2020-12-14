@@ -27,7 +27,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.K1454.SupplyDrop", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ScrollableLobbyUI", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "2.0.6")]
+    [BepInPlugin(MODUID, "Enforcer", "2.0.7")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -135,6 +135,7 @@ namespace EnforcerPlugin
         public static ConfigEntry<bool> pig;
         public static ConfigEntry<bool> shellSounds;
         public static ConfigEntry<bool> globalInvasion;
+        public static ConfigEntry<bool> multipleInvasions;
 
         public static ConfigEntry<KeyCode> defaultDanceKey;
         public static ConfigEntry<KeyCode> flossKey;
@@ -268,6 +269,7 @@ namespace EnforcerPlugin
             pig = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Pig"), false, new ConfigDescription("Pig", null, Array.Empty<object>()));
             shellSounds = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Shell Sounds"), true, new ConfigDescription("Play a sound when ejected shotgun shells hit the ground", null, Array.Empty<object>()));
             globalInvasion = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Global Invasion"), false, new ConfigDescription("Allows invasions when playing any character, not just Enforcer. Purely for fun.", null, Array.Empty<object>()));
+            multipleInvasions = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Multiple Invasion Bosses"), false, new ConfigDescription("Allows multiple bosses to spawn from an invasion.", null, Array.Empty<object>()));
 
             defaultDanceKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Default Dance"), KeyCode.Alpha1, new ConfigDescription("Key used to Default Dance", null, Array.Empty<object>()));
             flossKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Floss"), KeyCode.Alpha2, new ConfigDescription("Key used to Floss", null, Array.Empty<object>()));
@@ -436,20 +438,46 @@ namespace EnforcerPlugin
                         CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
                         if (!globalInvasion.Value)
                         {
-                            if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
+                            if (multipleInvasions.Value)
                             {
-                                NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+                                if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
+                                {
+                                    NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
 
-                                master.gameObject.AddComponent<NemesisInvasion>().hasInvaded = true;
+                                    master.gameObject.AddComponent<NemesisInvasion>().hasInvaded = true;
+                                }
+                            }
+                            else
+                            {
+                                bool flag = false;
+                                if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
+                                {
+                                    flag = true;
+                                    master.gameObject.AddComponent<NemesisInvasion>().hasInvaded = true;
+                                }
+                                if (flag) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
                             }
                         }
                         else
                         {
-                            if (master.teamIndex == TeamIndex.Player && master.playerCharacterMasterController)
+                            if (multipleInvasions.Value)
                             {
-                                NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+                                if (master.teamIndex == TeamIndex.Player && master.playerCharacterMasterController)
+                                {
+                                    NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
 
-                                master.gameObject.AddComponent<NemesisInvasion>().hasInvaded = true;
+                                    master.gameObject.AddComponent<NemesisInvasion>().hasInvaded = true;
+                                }
+                            }
+                            else
+                            {
+                                bool flag = false;
+                                if (master.teamIndex == TeamIndex.Player && master.playerCharacterMasterController)
+                                {
+                                    flag = true;
+                                    master.gameObject.AddComponent<NemesisInvasion>().hasInvaded = true;
+                                }
+                                if (flag) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
                             }
                         }
                     }
@@ -508,6 +536,7 @@ namespace EnforcerPlugin
                 for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
                 {
                     CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
+                    bool hasInvaded = false;
 
                     if (!globalInvasion.Value)
                     {
@@ -521,7 +550,10 @@ namespace EnforcerPlugin
                                     j.pendingInvasion = false;
                                     j.hasInvaded = true;
 
-                                    NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+                                    if (multipleInvasions.Value) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+                                    else if (!hasInvaded) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+
+                                    hasInvaded = true;
                                 }
                             }
                         }
@@ -538,7 +570,10 @@ namespace EnforcerPlugin
                                     j.pendingInvasion = false;
                                     j.hasInvaded = true;
 
-                                    NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+                                    if (multipleInvasions.Value) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+                                    else if (!hasInvaded) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+
+                                    hasInvaded = true;
                                 }
                             }
                         }
@@ -1404,7 +1439,13 @@ namespace EnforcerPlugin
             characterMotor.generateParametersOnAwake = true;
 
             CameraTargetParams cameraTargetParams = characterPrefab.GetComponent<CameraTargetParams>();
-            cameraTargetParams.cameraParams = Resources.Load<GameObject>("Prefabs/CharacterBodies/LoaderBody").GetComponent<CameraTargetParams>().cameraParams;
+            cameraTargetParams.cameraParams = ScriptableObject.CreateInstance<CharacterCameraParams>();
+            cameraTargetParams.cameraParams.maxPitch = 70;
+            cameraTargetParams.cameraParams.minPitch = -70;
+            cameraTargetParams.cameraParams.wallCushion = 0.1f;
+            cameraTargetParams.cameraParams.pivotVerticalOffset = 1.37f;
+            cameraTargetParams.cameraParams.standardLocalCameraPos = new Vector3(0, 0f, -12);
+
             cameraTargetParams.cameraPivotTransform = null;
             cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
             cameraTargetParams.recoil = Vector2.zero;

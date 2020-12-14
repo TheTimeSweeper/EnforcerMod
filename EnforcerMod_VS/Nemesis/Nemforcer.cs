@@ -20,6 +20,7 @@ namespace EnforcerPlugin
     {
         public const string characterName = "Nemesis Enforcer";
         public const string characterSubtitle = "Uncorruptible Shadow";
+        public const string bossSubtitle = "End of the Line";
         public const string characterOutro = "..and so he left, with newfound might to honor.";
         public const string characterLore = "\nHeavy TF2\n\n";
 
@@ -226,7 +227,13 @@ namespace EnforcerPlugin
             characterMotor.generateParametersOnAwake = true;
 
             CameraTargetParams cameraTargetParams = characterPrefab.GetComponent<CameraTargetParams>();
-            cameraTargetParams.cameraParams = Resources.Load<GameObject>("Prefabs/CharacterBodies/LoaderBody").GetComponent<CameraTargetParams>().cameraParams;
+            cameraTargetParams.cameraParams = ScriptableObject.CreateInstance<CharacterCameraParams>();
+            cameraTargetParams.cameraParams.maxPitch = 70;
+            cameraTargetParams.cameraParams.minPitch = -70;
+            cameraTargetParams.cameraParams.wallCushion = 0.1f;
+            cameraTargetParams.cameraParams.pivotVerticalOffset = 1.37f;
+            cameraTargetParams.cameraParams.standardLocalCameraPos = new Vector3(0, 0.5f, -12);
+
             cameraTargetParams.cameraPivotTransform = null;
             cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
             cameraTargetParams.recoil = Vector2.zero;
@@ -1033,10 +1040,12 @@ namespace EnforcerPlugin
 
             CharacterBody charBody = bossPrefab.GetComponent<CharacterBody>();
 
+            LanguageAPI.Add("NEMFORCER_BOSS_SUBTITLE", bossSubtitle);
+
             charBody.bodyIndex = -1;
             charBody.name = "NemesisEnforcerBossBody";
             charBody.baseNameToken = "NEMFORCER_NAME";
-            charBody.subtitleNameToken = "NEMFORCER_SUBTITLE";
+            charBody.subtitleNameToken = "NEMFORCER_BOSS_SUBTITLE";
             charBody.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             charBody.rootMotionInMainState = false;
             charBody.mainRootSpeed = 0;

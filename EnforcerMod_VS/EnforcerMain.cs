@@ -14,8 +14,6 @@ namespace EntityStates.Enforcer
         public Transform origOrigin;
 
         private ShieldComponent shieldComponent;
-        private bool wasShielding = false;
-        private float initialTime;
 
         private float skateSpeedMultiplier = 0.5f;
         private float bungusStopwatch;
@@ -122,22 +120,6 @@ namespace EntityStates.Enforcer
             {
                 EnforcerPlugin.NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
             }*/
-
-            //shield mode camera stuff
-            if (shieldIsUp != this.wasShielding)
-            {
-                this.wasShielding = shieldIsUp;
-                this.initialTime = Time.fixedTime;
-            }
-
-            if (shieldIsUp)
-            {
-                CameraTargetParams ctp = base.cameraTargetParams;
-                float denom = (1 + Time.fixedTime - this.initialTime);
-                float smoothFactor = 8 / Mathf.Pow(denom, 2);
-                Vector3 smoothVector = new Vector3(-3 /20, 1 / 16, -1);
-                ctp.idealLocalCameraPos = new Vector3(1.8f, -0.5f, -6f) + smoothFactor * smoothVector;
-            }
         }
 
         public override void FixedUpdate()

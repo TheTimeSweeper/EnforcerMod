@@ -337,20 +337,21 @@ namespace EnforcerPlugin
             #region Aetherium
             if (EnforcerPlugin.aetheriumInstalled)
             {
-                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ATHRMAccursedPotion", ItemDisplays.LoadAetheriumDisplay("AccursedPotion"), "Pelvis", new Vector3(0.002f, 0, 0.008f), new Vector3(0, 0, 180), new Vector3(0.02f, 0.02f, 0.02f)));
-                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ATHRMVoidheart", ItemDisplays.LoadAetheriumDisplay("VoidHeart"), "Chest", new Vector3(0, 0.005f, 0), new Vector3(0, 0, 0), new Vector3(0.004f, 0.004f, 0.004f)));
-                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ATHRMSharkTeeth", ItemDisplays.LoadAetheriumDisplay("SharkTeeth"), "KneeL", new Vector3(0, 0.01f, 0), new Vector3(0, 0, 310), new Vector3(0.02f, 0.02f, 0.01f)));
-                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ATHRMBloodSoakedShield", ItemDisplays.LoadAetheriumDisplay("BloodSoakedShield"), "ElbowL", new Vector3(0.004f, 0.005f, 0.001f), new Vector3(0, 90, 90), new Vector3(0.01f, 0.01f, 0.01f)));
-                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ATHRMFeatheredPlume", ItemDisplays.LoadAetheriumDisplay("FeatheredPlume"), "Head", new Vector3(0.003f, 0.006f, 0), new Vector3(0, 270, 0), new Vector3(0.02f, 0.02f, 0.02f)));
-                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ATHRMShieldingCore", ItemDisplays.LoadAetheriumDisplay("ShieldingCore"), "Chest", new Vector3(-0.008f, 0.001f, 0), new Vector3(0, 0, 0), new Vector3(0.005f, 0.005f, 0.005f)));
-                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ATHRMUnstableDesign", ItemDisplays.LoadAetheriumDisplay("UnstableDesign"), "Chest", new Vector3(0.012f, 0.01f, 0), new Vector3(0, 315, 0), new Vector3(0.02f, 0.02f, 0.02f)));
-                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ATHRMWeightedAnklet", ItemDisplays.LoadAetheriumDisplay("WeightedAnklet"), "KneeR", new Vector3(0, 0.005f, 0), new Vector3(0, 0, 0), new Vector3(0.01f, 0.01f, 0.01f)));
-                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ATHRMBlasterSword", ItemDisplays.LoadAetheriumDisplay("BlasterSword"), "Hammer", new Vector3(0.006f, 0.005f, 0.001f), new Vector3(10, 90, 180), new Vector3(0.005f, 0.005f, 0.005f)));
-                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ATHRMWitchesRing", ItemDisplays.LoadAetheriumDisplay("WitchesRing"), "Hammer", new Vector3(0, 0.011f, 0), new Vector3(270, 0, 0), new Vector3(0.035f, 0.035f, 0.035f)));
-                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ATHRMAccursedPotion", ItemDisplays.LoadAetheriumDisplay("AccursedPotion"), "Pelvis", new Vector3(0.002f, 0.005f, 0.001f), new Vector3(0, 270, 270), new Vector3(0.002f, 0.002f, 0.002f)));
+                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ITEM_ACCURSED_POTION", ItemDisplays.LoadAetheriumDisplay("AccursedPotion"), "Pelvis", new Vector3(0.002f, 0, 0.008f), new Vector3(0, 0, 180), new Vector3(0.02f, 0.02f, 0.02f)));
+                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ITEM_VOID_HEART", ItemDisplays.LoadAetheriumDisplay("VoidHeart"), "Chest", new Vector3(0, 0.005f, 0), new Vector3(0, 0, 0), new Vector3(0.004f, 0.004f, 0.004f)));
+                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ITEM_SHARK_TEETH", ItemDisplays.LoadAetheriumDisplay("SharkTeeth"), "KneeL", new Vector3(0, 0.01f, 0), new Vector3(0, 0, 310), new Vector3(0.02f, 0.02f, 0.01f)));
+                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ITEM_BLOOD_SOAKED_SHIELD", ItemDisplays.LoadAetheriumDisplay("BloodSoakedShield"), "ElbowL", new Vector3(0.004f, 0.005f, 0.001f), new Vector3(0, 90, 90), new Vector3(0.01f, 0.01f, 0.01f)));
+                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ITEM_FEATHERED_PLUME", ItemDisplays.LoadAetheriumDisplay("FeatheredPlume"), "Head", new Vector3(0.003f, 0.006f, 0), new Vector3(0, 270, 0), new Vector3(0.02f, 0.02f, 0.02f)));
+                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ITEM_SHIELDING_CORE", ItemDisplays.LoadAetheriumDisplay("ShieldingCore"), "Chest", new Vector3(-0.008f, 0.001f, 0), new Vector3(0, 0, 0), new Vector3(0.005f, 0.005f, 0.005f)));
+                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ITEM_UNSTABLE_DESIGN", ItemDisplays.LoadAetheriumDisplay("UnstableDesign"), "Chest", new Vector3(0.012f, 0.01f, 0), new Vector3(0, 315, 0), new Vector3(0.02f, 0.02f, 0.02f)));
+                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ITEM_WEIGHTED_ANKLET", ItemDisplays.LoadAetheriumDisplay("WeightedAnklet"), "KneeR", new Vector3(0, 0.005f, 0), new Vector3(0, 0, 0), new Vector3(0.01f, 0.01f, 0.01f)));
+                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ITEM_BLASTER_SWORD", ItemDisplays.LoadAetheriumDisplay("BlasterSword"), "Hammer", new Vector3(0.006f, 0.005f, 0.001f), new Vector3(10, 90, 180), new Vector3(0.005f, 0.005f, 0.005f)));
+                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ITEM_WITCHES_RING", ItemDisplays.LoadAetheriumDisplay("WitchesRing"), "Hammer", new Vector3(0, 0.011f, 0), new Vector3(270, 0, 0), new Vector3(0.035f, 0.035f, 0.035f)));
 
-                itemRules.Add(NemItemDisplays.CreateFollowerDisplayRule("ATHRMAlienMagnet", ItemDisplays.LoadAetheriumDisplay("AlienMagnet"), new Vector3(0.04f, 0.01f, -0.02f), new Vector3(0, 0, 0), new Vector3(0.005f, 0.005f, 0.005f)));
-                itemRules.Add(NemItemDisplays.CreateFollowerDisplayRule("ATHRMInspiringDrone", ItemDisplays.LoadAetheriumDisplay("InspiringDrone"), new Vector3(-0.07f, 0.03f, -0.07f), new Vector3(0, 90, 0), new Vector3(0.005f, 0.005f, 0.005f)));
+                itemRules.Add(NemItemDisplays.CreateFollowerDisplayRule("ITEM_ALIEN_MAGNET", ItemDisplays.LoadAetheriumDisplay("AlienMagnet"), new Vector3(0.04f, 0.01f, -0.02f), new Vector3(0, 0, 0), new Vector3(0.005f, 0.005f, 0.005f)));
+                itemRules.Add(NemItemDisplays.CreateFollowerDisplayRule("ITEM_INSPIRING_DRONE", ItemDisplays.LoadAetheriumDisplay("InspiringDrone"), new Vector3(-0.07f, 0.03f, -0.07f), new Vector3(0, 90, 0), new Vector3(0.005f, 0.005f, 0.005f)));
+
+                equipmentRules.Add(NemItemDisplays.CreateFollowerDisplayRule("EQUIPMENT_JAR_OF_RESHAPING", ItemDisplays.LoadAetheriumDisplay("JarOfReshaping"), new Vector3(0.04f, 0.04f, 0), new Vector3(0, 270, 270), new Vector3(0.003f, 0.003f, 0.003f)));
             }
             #endregion
             #region SivsItems
@@ -365,6 +366,18 @@ namespace EnforcerPlugin
                 itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ImpEye", ItemDisplays.LoadSivDisplay("ImpEye"), "Head", new Vector3(-0.003f, 0.003f, 0), new Vector3(0, 270, 0), new Vector3(0.02f, 0.02f, 0.02f)));
 
                 itemRules.Add(NemItemDisplays.CreateFollowerDisplayRule("NullSeed", ItemDisplays.LoadSivDisplay("NullSeed"), new Vector3(0.02f, 0.05f, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
+            }
+            #endregion
+            #region SupplyDrop
+            if (EnforcerPlugin.supplyDropInstalled)
+            {
+                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("SUPPDRPElectroPlankton", ItemDisplays.LoadSupplyDropDisplay("ElectroPlankton"), "Chest", new Vector3(0.014f, 0.0085f, 0), new Vector3(90, 0, 0), new Vector3(0.004f, 0.004f, 0.004f)));
+                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("SUPPDRPHardenedBoneFragments", ItemDisplays.LoadSupplyDropDisplay("HardenedBoneFragments"), "Chest", new Vector3(-0.008f, 0, 0), new Vector3(0, 270, 0), new Vector3(0.075f, 0.075f, 0.075f)));
+                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("SUPPDRPQSGen", ItemDisplays.LoadSupplyDropDisplay("QSGen"), "ElbowL", new Vector3(0, 0.006f, 0), new Vector3(0, 0, 270), new Vector3(0.0035f, 0.0035f, 0.0035f)));
+                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("SUPPDRPSalvagedWires", ItemDisplays.LoadSupplyDropDisplay("SalvagedWires"), "Minigun", new Vector3(0.005f, 0.004f, -0.014f), new Vector3(0, 90, 0), new Vector3(0.02f, 0.02f, 0.02f)));
+                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("SUPPDRPShellPlating", ItemDisplays.LoadSupplyDropDisplay("ShellPlating"), "Pelvis", new Vector3(0.0095f, 0.006f, 0), new Vector3(30, 90, 0), new Vector3(0.0075f, 0.0075f, 0.0075f)));
+
+                itemRules.Add(NemItemDisplays.CreateFollowerDisplayRule("SUPPDRPBloodBook", ItemDisplays.LoadSupplyDropDisplay("BloodBook"), new Vector3(0, 0.05f, 0.04f), new Vector3(0, 270, 0), new Vector3(0.08f, 0.08f, 0.08f)));
             }
             #endregion
             #endregion
