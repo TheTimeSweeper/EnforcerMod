@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 457966740
+CRC: 137495051
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 674ac0d339642828507dfc23e8425f2d
+    Hash: 2294f8f6feadc679f89852a4f918d4e6
   TypeTreeHash:
     serializedVersion: 2
     Hash: e465eabb9707126898175137816bb4a8
@@ -275,6 +275,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/ImpactEnforcer.prefab
 - Assets/Enforcer/EnforcerAssets/Materials/texEnergy.mat
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texMarauderArmShield.png
+- Assets/Enforcer/EnforcerAssets/Icons/texDededeSkin.png
 - Assets/Enforcer/EnforcerAssets/Particles/texRay.png
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerShieldUp.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matEnforcerLaserTracer.mat
