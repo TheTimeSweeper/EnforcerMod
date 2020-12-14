@@ -1,4 +1,5 @@
 ﻿using RoR2;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace EntityStates.Nemforcer
@@ -26,6 +27,9 @@ namespace EntityStates.Nemforcer
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+
+            base.inputBank.aimDirection = -base.modelLocator.modelBaseTransform.forward;
+            base.cameraTargetParams.idealLocalCameraPos = new Vector3(0f, -0.8f, -14f);
 
             if (base.fixedAge >= SpawnState.duration && base.isAuthority)
             {

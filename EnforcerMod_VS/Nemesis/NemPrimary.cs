@@ -138,6 +138,7 @@ namespace EntityStates.Nemforcer
                 if (this.attack.Fire())
                 {
                     Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact, base.gameObject);
+                    base.AddRecoil(-1f * HammerSwing.attackRecoil, -2f * HammerSwing.attackRecoil, -0.5f * HammerSwing.attackRecoil, 0.5f * HammerSwing.attackRecoil);
 
                     if (!this.hasHopped)
                     {

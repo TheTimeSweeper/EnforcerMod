@@ -2831,7 +2831,7 @@ namespace EnforcerPlugin
             {
                 list.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
-                    name = "ATHRMAccursedPotion",
+                    name = "ITEM_ACCURSED_POTION",
                     displayRuleGroup = new DisplayRuleGroup
                     {
                         rules = new ItemDisplayRule[]
@@ -2852,7 +2852,7 @@ namespace EnforcerPlugin
 
                 list.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
-                    name = "ATHRMAlienMagnet",
+                    name = "ITEM_ALIEN_MAGNET",
                     displayRuleGroup = new DisplayRuleGroup
                     {
                         rules = new ItemDisplayRule[]
@@ -2873,7 +2873,7 @@ namespace EnforcerPlugin
 
                 list.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
-                    name = "ATHRMVoidheart",
+                    name = "ITEM_VOID_HEART",
                     displayRuleGroup = new DisplayRuleGroup
                     {
                         rules = new ItemDisplayRule[]
@@ -2894,7 +2894,7 @@ namespace EnforcerPlugin
 
                 list.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
-                    name = "ATHRMSharkTeeth",
+                    name = "ITEM_SHARK_TEETH",
                     displayRuleGroup = new DisplayRuleGroup
                     {
                         rules = new ItemDisplayRule[]
@@ -2915,7 +2915,7 @@ namespace EnforcerPlugin
 
                 list.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
-                    name = "ATHRMBloodSoakedShield",
+                    name = "ITEM_BLOOD_SOAKED_SHIELD",
                     displayRuleGroup = new DisplayRuleGroup
                     {
                         rules = new ItemDisplayRule[]
@@ -2936,7 +2936,7 @@ namespace EnforcerPlugin
 
                 list.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
-                    name = "ATHRMInspiringDrone",
+                    name = "ITEM_INSPIRING_DRONE",
                     displayRuleGroup = new DisplayRuleGroup
                     {
                         rules = new ItemDisplayRule[]
@@ -2957,7 +2957,7 @@ namespace EnforcerPlugin
 
                 list.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
-                    name = "ATHRMFeatheredPlume",
+                    name = "ITEM_FEATHERED_PLUME",
                     displayRuleGroup = new DisplayRuleGroup
                     {
                         rules = new ItemDisplayRule[]
@@ -2978,7 +2978,7 @@ namespace EnforcerPlugin
 
                 list.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
-                    name = "ATHRMShieldingCore",
+                    name = "ITEM_SHIELDING_CORE",
                     displayRuleGroup = new DisplayRuleGroup
                     {
                         rules = new ItemDisplayRule[]
@@ -2999,7 +2999,7 @@ namespace EnforcerPlugin
 
                 list.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
-                    name = "ATHRMUnstableDesign",
+                    name = "ITEM_UNSTABLE_DESIGN",
                     displayRuleGroup = new DisplayRuleGroup
                     {
                         rules = new ItemDisplayRule[]
@@ -3020,7 +3020,7 @@ namespace EnforcerPlugin
 
                 list.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
-                    name = "ATHRMWeightedAnklet",
+                    name = "ITEM_WEIGHTED_ANKLET",
                     displayRuleGroup = new DisplayRuleGroup
                     {
                         rules = new ItemDisplayRule[]
@@ -3041,7 +3041,7 @@ namespace EnforcerPlugin
 
                 list.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
-                    name = "ATHRMBlasterSword",
+                    name = "ITEM_BLASTER_SWORD",
                     displayRuleGroup = new DisplayRuleGroup
                     {
                         rules = new ItemDisplayRule[]
@@ -3092,7 +3092,7 @@ namespace EnforcerPlugin
 
                 list.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
-                    name = "ATHRMWitchesRing",
+                    name = "ITEM_WITCHES_RING",
                     displayRuleGroup = new DisplayRuleGroup
                     {
                         rules = new ItemDisplayRule[]
@@ -3111,9 +3111,9 @@ namespace EnforcerPlugin
                     }
                 });
 
-                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                list2.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
-                    name = "ATHRMAccursedPotion",
+                    name = "EQUIPMENT_JAR_OF_RESHAPING",
                     displayRuleGroup = new DisplayRuleGroup
                     {
                         rules = new ItemDisplayRule[]
@@ -3121,11 +3121,11 @@ namespace EnforcerPlugin
                             new ItemDisplayRule
                             {
                                 ruleType = ItemDisplayRuleType.ParentedPrefab,
-                                followerPrefab = ItemDisplays.LoadAetheriumDisplay("AccursedPotion"),
-                                childName = "Spine1",
-                                localPos = new Vector3(0.02f, 0.025f, 0),
+                                followerPrefab = ItemDisplays.LoadAetheriumDisplay("JarOfReshaping"),
+                                childName = "Root",
+                                localPos = new Vector3(0, 0.2f, -0.05f),
                                 localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(0.05f, 0.05f, 0.05f),
+                                localScale = new Vector3(0.01f, 0.01f, 0.01f),
                                 limbMask = LimbFlags.None
                             }
                         }
@@ -3313,156 +3313,6 @@ namespace EnforcerPlugin
             #region SupplyDrop
             if (EnforcerPlugin.supplyDropInstalled)
             {
-                /*list.Add(new ItemDisplayRuleSet.NamedRuleGroup
-                {
-                    name = "SUPPDRPUnassumingTie",
-                    displayRuleGroup = new DisplayRuleGroup
-                    {
-                        rules = new ItemDisplayRule[]
-                        {
-                            new ItemDisplayRule
-                            {
-                                ruleType = ItemDisplayRuleType.ParentedPrefab,
-                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("UnassumingTie"),
-<<<<<<< Updated upstream
-=======
-                                childName = "Spine3",
-                                localPos = new Vector3(0f, 0.03f, -0.025f),
-                                localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
-                                limbMask = LimbFlags.None
-                            }
-                        }
-                    }
-                });
-
-                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
-                {
-                    name = "SUPPDRPBloodBook",
-                    displayRuleGroup = new DisplayRuleGroup
-                    {
-                        rules = new ItemDisplayRule[]
-                        {
-                            new ItemDisplayRule
-                            {
-                                ruleType = ItemDisplayRuleType.ParentedPrefab,
-                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("BloodBook"),
-                                childName = "Root",
-                                localPos = new Vector3(0f, 0.03f, -0.025f),
-                                localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
-                                limbMask = LimbFlags.None
-                            }
-                        }
-                    }
-                });
-
-                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
-                {
-                    name = "SUPPDRPElectroPlankton",
-                    displayRuleGroup = new DisplayRuleGroup
-                    {
-                        rules = new ItemDisplayRule[]
-                        {
-                            new ItemDisplayRule
-                            {
-                                ruleType = ItemDisplayRuleType.ParentedPrefab,
-                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("ElectroPlankton"),
-                                childName = "Spine3",
-                                localPos = new Vector3(0f, 0.03f, -0.025f),
-                                localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
-                                limbMask = LimbFlags.None
-                            }
-                        }
-                    }
-                });
-
-                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
-                {
-                    name = "SUPPDRPHardenedBoneFragments",
-                    displayRuleGroup = new DisplayRuleGroup
-                    {
-                        rules = new ItemDisplayRule[]
-                        {
-                            new ItemDisplayRule
-                            {
-                                ruleType = ItemDisplayRuleType.ParentedPrefab,
-                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("HardenedBoneFragments"),
-                                childName = "Spine3",
-                                localPos = new Vector3(0f, 0.03f, -0.025f),
-                                localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
-                                limbMask = LimbFlags.None
-                            }
-                        }
-                    }
-                });
-
-                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
-                {
-                    name = "SUPPDRPQSGen",
-                    displayRuleGroup = new DisplayRuleGroup
-                    {
-                        rules = new ItemDisplayRule[]
-                        {
-                            new ItemDisplayRule
-                            {
-                                ruleType = ItemDisplayRuleType.ParentedPrefab,
-                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("QSGen"),
-                                childName = "ElbowL",
-                                localPos = new Vector3(0f, 0.03f, -0.025f),
-                                localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
-                                limbMask = LimbFlags.None
-                            }
-                        }
-                    }
-                });
-
-                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
-                {
-                    name = "SUPPDRPSalvagedWires",
-                    displayRuleGroup = new DisplayRuleGroup
-                    {
-                        rules = new ItemDisplayRule[]
-                        {
-                            new ItemDisplayRule
-                            {
-                                ruleType = ItemDisplayRuleType.ParentedPrefab,
-                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("SalvagedWires"),
-                                childName = "LegL",
-                                localPos = new Vector3(0f, 0.03f, -0.025f),
-                                localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
-                                limbMask = LimbFlags.None
-                            }
-                        }
-                    }
-                });
-
-                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
-                {
-                    name = "SUPPDRPShellPlating",
-                    displayRuleGroup = new DisplayRuleGroup
-                    {
-                        rules = new ItemDisplayRule[]
-                        {
-                            new ItemDisplayRule
-                            {
-                                ruleType = ItemDisplayRuleType.ParentedPrefab,
-                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("ShellPlating"),
->>>>>>> Stashed changes
-                                childName = "Spine3",
-                                localPos = new Vector3(0f, 0.03f, -0.025f),
-                                localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(0.1f, 0.1f, 0.1f),
-                                limbMask = LimbFlags.None
-                            }
-                        }
-                    }
-                });*/
-
                 list.Add(new ItemDisplayRuleSet.NamedRuleGroup
                 {
                     name = "SUPPDRPBloodBook",
@@ -3841,7 +3691,7 @@ namespace EnforcerPlugin
                 case "AccursedPotion":
                     return Aetherium.Items.AccursedPotion.ItemBodyModelPrefab;
                 case "AlienMagnet":
-                    return Aetherium.Items.AlienMagnet.ItemBodyModelPrefab;
+                    return Aetherium.Items.AlienMagnet.ItemFollowerPrefab;
                 case "BlasterSword":
                     return Aetherium.Items.BlasterSword.ItemBodyModelPrefab;
                 case "BloodSoakedShield":
@@ -3862,6 +3712,8 @@ namespace EnforcerPlugin
                     return Aetherium.Items.WeightedAnklet.ItemBodyModelPrefab;
                 case "WitchesRing":
                     return Aetherium.Items.WitchesRing.ItemBodyModelPrefab;
+                case "JarOfReshaping":
+                    return Aetherium.Equipment.JarOfReshaping.ItemBodyModelPrefab;
             }
             return null;
         }

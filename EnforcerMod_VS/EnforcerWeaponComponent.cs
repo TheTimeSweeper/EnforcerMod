@@ -8,6 +8,8 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
     public static int maxShellCount = 12;
 
+    public bool shieldUp;
+
     private GameObject skateboard;
     private Transform skateboardBase;
     private Transform skateboardHandBase;
@@ -21,6 +23,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
     private CharacterBody charBody;
     private CharacterMotor charMotor;
     private HealthComponent charHealth;
+    private CameraTargetParams cameraShit;
     private ChildLocator childLocator;
     private ParticleSystem shellController;
     private int impCount;
@@ -32,6 +35,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
         charBody = GetComponentInChildren<CharacterBody>();
         charMotor = GetComponentInChildren<CharacterMotor>();
         charHealth = GetComponentInChildren<HealthComponent>();
+        cameraShit = GetComponent<CameraTargetParams>();
         childLocator = GetComponentInChildren<ChildLocator>();
         footStep = GetComponentInChildren<FootstepHandler>();
         sfx = GetComponentInChildren<SfxLocator>();
@@ -78,6 +82,19 @@ public class EnforcerWeaponComponent : MonoBehaviour
             }
         }
     }
+
+    public void UpdateCamera()
+    {
+        if (!shieldUp)
+        {
+            cameraShit.cameraParams.standardLocalCameraPos = new Vector3(0, 0f, -12);
+        }
+        else
+        {
+            cameraShit.cameraParams.standardLocalCameraPos = new Vector3(1.8f, -0.5f, -6f);
+        }
+    }
+
 
     private int GetWeapon()
     {
@@ -376,5 +393,16 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
         skateboard.transform.localPosition = Vector3.zero;
         skateboard.transform.localRotation = Quaternion.identity;
+    }
+
+    private void OnDestroy()
+    {
+        if (shellObjects != null && shellObjects.Length > 0)
+        {
+            for (int i = 0; i < shellObjects.Length; i++)
+            {
+                if (shellObjects[i]) Destroy(shellObjects[i]);
+            }
+        }
     }
 }

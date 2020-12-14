@@ -281,7 +281,7 @@ namespace EnforcerPlugin
             nemAltMesh = NemAssetBundle.LoadAsset<Mesh>("MeshNemforcerAlt");
             nemDripMesh = NemAssetBundle.LoadAsset<Mesh>("MeshDripforcer");
             nemDripHammerMesh = NemAssetBundle.LoadAsset<Mesh>("MeshDripforcerHammer");
-            dededeMesh = NemAssetBundle.LoadAsset<Mesh>("meshDededeHammer");
+            dededeMesh = NemAssetBundle.LoadAsset<Mesh>("meshDedede");
             dededeHammerMesh = NemAssetBundle.LoadAsset<Mesh>("meshDededeHammer");
         }
 

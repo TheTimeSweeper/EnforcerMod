@@ -184,7 +184,7 @@ namespace EnforcerPlugin
             array[33].defaultMaterial = Assets.CreateMaterial("matEnforcerAlt", 1f, Color.white, 1);
             array[34].defaultMaterial = Assets.CreateMaterial("matEnforcerAlt", 1f, Color.white, 1);
             //skateboard
-            array[35].defaultMaterial = Assets.CreateMaterial("matSkamtebord", 0f, Color.white, 0);
+            array[35].defaultMaterial = Assets.CreateMaterial("matSkamtebord", 0f, Color.black, 0);
             //minecraft shield
             array[36].defaultMaterial = Assets.CreateMaterial("matCubeShield", 0f, Color.white, 0);
             //minecraft shotgun

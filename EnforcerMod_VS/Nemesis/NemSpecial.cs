@@ -62,7 +62,11 @@ namespace EntityStates.Nemforcer
 
                 string soundString = EnforcerPlugin.Sounds.NemesisMinigunSheathe;
                 Util.PlaySound(soundString, base.gameObject);
-                if (this.nemController) this.nemController.minigunUp = false;
+                if (this.nemController)
+                {
+                    this.nemController.minigunUp = false;
+                    this.nemController.UpdateCamera();
+                }
             }
             else
             {
@@ -101,7 +105,11 @@ namespace EntityStates.Nemforcer
 
                 string soundString = EnforcerPlugin.Sounds.NemesisMinigunUnsheathe;
                 Util.PlaySound(soundString, base.gameObject);
-                if (this.nemController) this.nemController.minigunUp = true;
+                if (this.nemController)
+                {
+                    this.nemController.minigunUp = true;
+                    this.nemController.UpdateCamera();
+                }
             }
 
             base.characterBody.SetAimTimer(this.duration + 0.2f);

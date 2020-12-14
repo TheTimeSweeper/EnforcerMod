@@ -5,8 +5,8 @@
 
 [![](https://cdn.discordapp.com/attachments/469291841859092488/782484337379246110/unknown.png)]()
 
-[![](https://i.imgur.com/lVOcJCY.png)]()
-[![](https://i.imgur.com/wVL1Ilk.png)]()
+[![](https://cdn.discordapp.com/attachments/739704939671978024/787500376793677844/screen1.png)]()
+[![](https://cdn.discordapp.com/attachments/739704939671978024/787500388198514728/screen2.png)]()
 
 [![](https://cdn.discordapp.com/attachments/469291841859092488/782568907009425418/texEnforcerIcon.png)]()
 
@@ -25,6 +25,7 @@ LucidInceptor - Modeling
 bruh - Modeling, swag
 Destructor - Mod icon
 Draymarc - Concepts
+Lethan - Screenshots
 Moffein - Idea Guy™
 Ruxbieno - Idea Guy™
 Swuff - Idea Guy™
@@ -65,6 +66,25 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - More alternate skills
 
 ## Changelog
+`2.0.7`
+- Adjusted some camera things, improving overall smoothness
+- Minor optimization to shotgun shells
+- King Dedede model tweaks- Improved rig, 200% less jank squish, added minigun
+- Tweaked Heavy TF2 spawn animation to somewhat more consistently face the camera
+
+`2.0.6`
+- Fixed Aetherium item displays
+- Lots of King Dedede changes
+- No longer requires Enforcer to unlock- meaning someone else can play him and get the unlock for everyone
+- Added fall damage immunity and adaptive armor to boss variant
+- Capped maximum spawns per invasion to 1(can revert in config if you like the challenge)
+- Added a new skin(Must be enabled via cursed config(I sincerely apologize))
+- Added Supply Drop item displays
+- Tweaked secondary visuals
+- Fixed uppercut not playing sounds in multiplayer
+- Increased Dominance (Minigun) base duration from 0.9s to 1.2s
+- Dominance (Minigun) now explodes projectiles, rather than simply destroying them
+
 `2.0.5`
 - Alright the uppercut animation is ACTUALLY 100% fixed now, if it's not we will deprecate the mod
 - Some more animation and VFX tweaks

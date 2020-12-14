@@ -10,7 +10,7 @@ namespace EntityStates.Nemforcer
     public class HammerSlam : BaseSkillState
     {
         public static string hitboxString = "SwingCenter"; //transform where the hitbox is fired
-        public static float baseDuration = 0.9f;
+        public static float baseDuration = 1.2f;
         public static float damageCoefficient = 6f;
         public static float procCoefficient = 1f;
         public static float knockbackForce = 0.14f;

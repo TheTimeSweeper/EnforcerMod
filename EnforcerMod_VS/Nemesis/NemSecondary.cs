@@ -32,8 +32,6 @@ namespace EntityStates.Nemforcer
             this.animator = base.GetModelAnimator();
             this.nemController = base.GetComponent<NemforcerController>();
 
-            if (this.nemController && this.nemController.slamRecastTimer > 0) this.nemController.slamRecastTimer += this.chargeDuration;
-
             base.PlayAnimation("Gesture, Override", "HammerCharge", "HammerCharge.playbackRate", this.chargeDuration);
 
             this.chargePlayID = Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisStartCharge, base.gameObject, this.attackSpeedStat);
@@ -283,6 +281,8 @@ namespace EntityStates.Nemforcer
             {
                 this.hasPlayedUppercutAnim = true;
                 base.PlayAnimation("FullBody, Override", "Uppercut", "Uppercut.playbackRate", (1 - HammerUppercut.dashDuration) * this.duration);
+
+                Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwingL, healthComponent.gameObject);
             }
 
             if (base.isAuthority)
@@ -316,7 +316,6 @@ namespace EntityStates.Nemforcer
                             if (this.charge > 0.21f) base.SmallHop(base.characterMotor, this.hopVelocity);
                             base.AddRecoil(-1f * this.recoil, -2f * this.recoil, -0.5f * this.recoil, 0.5f * this.recoil);
 
-                            Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwingL, healthComponent.gameObject);
                             EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemUppercutSwingFX, base.gameObject, "SwingUppercut", true);
                         }
 

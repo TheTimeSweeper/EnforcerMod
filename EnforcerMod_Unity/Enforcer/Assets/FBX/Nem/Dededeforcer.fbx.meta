@@ -239,6 +239,7 @@ ModelImporter:
     100466: mdlDedede
     100468: meshDedede
     100470: meshDededeHammer
+    100472: Cylinder.004
     400000: _007_dedede_normal_VIS_O_OBJ_
     400002: _01_-_TransN
     400004: _02_-_RotN
@@ -475,6 +476,7 @@ ModelImporter:
     400466: mdlDedede
     400468: meshDedede
     400470: meshDededeHammer
+    400472: Cylinder.004
     2100000: Material
     2100002: _4_1_0_8
     2100004: _4_1_0_26
@@ -483,11 +485,13 @@ ModelImporter:
     2100010: _4_1_0_11
     2100012: _4_1_0_26.001
     2100014: matDedede
+    2100016: Material.001
     4300000: Hammer
     4300002: _007_dedede_normal_VIS_O_OBJ_
     4300004: _019_HammerM3_O_OBJ_
     4300006: meshDedede
     4300008: meshDededeHammer
+    4300010: Cylinder.004
     7400000: MinigunStance
     7400002: Armature|_007_dedede_normal_VIS_O_OBJ_Action
     7400004: Armature|Armature.001Action
@@ -499,12 +503,16 @@ ModelImporter:
     7400016: mdlDedede|_007_dedede_normal_VIS_O_OBJ_Action
     7400018: mdlDedede|_019_HammerM3_O_OBJ_Action
     7400020: mdlDedede|Armature.001Action
+    7400022: Armature|GunToHammer.001
+    7400024: Armature|GunToHammer.002
+    7400026: Armature|GunToHammer.003
     9500000: //RootNode
     13700000: _007_dedede_normal_VIS_O_OBJ_
     13700002: Hammer
     13700004: _019_HammerM3_O_OBJ_
     13700006: meshDedede
     13700008: meshDededeHammer
+    13700010: Cylinder.004
     2186277476908879412: ImportLogs
   externalObjects: {}
   materials:

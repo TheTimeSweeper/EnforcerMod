@@ -14,12 +14,16 @@ namespace EntityStates.Enforcer
         private float initialTime;
         private Animator animator;
         private ChildLocator childLocator;
+        private Vector3 originalCameraPos;
 
         public override void OnEnter()
         {
             base.OnEnter();
             this.animator = base.GetModelAnimator();
             this.childLocator = base.GetModelChildLocator();
+
+            this.originalCameraPos = base.cameraTargetParams.cameraParams.standardLocalCameraPos;
+            base.cameraTargetParams.cameraParams.standardLocalCameraPos = new Vector3(0f, -1.4f, -6f);
 
             base.characterBody.hideCrosshair = true;
 
@@ -55,6 +59,8 @@ namespace EntityStates.Enforcer
         public override void OnExit()
         {
             base.OnExit();
+
+            base.cameraTargetParams.cameraParams.standardLocalCameraPos = this.originalCameraPos;
 
             base.characterBody.hideCrosshair = false;
 
@@ -143,12 +149,6 @@ namespace EntityStates.Enforcer
             }
 
             if (this.duration > 0 && base.fixedAge >= this.duration) flag = true;
-
-            CameraTargetParams ctp = base.cameraTargetParams;
-            float denom = (1 + Time.fixedTime - this.initialTime);
-            float smoothFactor = 8 / Mathf.Pow(denom, 2);
-            Vector3 smoothVector = new Vector3(-3 / 20, 1 / 16, -1);
-            ctp.idealLocalCameraPos = new Vector3(0f, -1.4f, -6f) + smoothFactor * smoothVector;
 
             if (flag)
             {
