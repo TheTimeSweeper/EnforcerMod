@@ -1064,6 +1064,8 @@ namespace EnforcerPlugin
             charBody.isChampion = true;
             charBody.skinIndex = 0U;
 
+            charBody.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
+
             BodyCatalog.getAdditionalEntries += delegate (List<GameObject> list)
             {
                 list.Add(bossPrefab);

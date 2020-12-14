@@ -100,7 +100,7 @@ namespace EnforcerPlugin
                 LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Mastery");
 
                 LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Demolition");
-                LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, destroy 5 projectiles at once with a Downward Slam.");
+                LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, destroy 5 projectiles at once with Dominance.");
                 LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Demolition");
 
                 UnlockablesAPI.AddUnlockable<Achievements.NemesisAchievement>(true);
@@ -768,14 +768,9 @@ namespace EnforcerPlugin.Achievements
         public override String UnlockableNameToken { get; } = "ENFORCER_NEMESIS2UNLOCKABLE_UNLOCKABLE_NAME";
         protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texNemesisUnlockAchievement.png");
 
-        public override int LookUpRequiredBodyIndex()
-        {
-            return BodyCatalog.FindBodyIndex("EnforcerBody");
-        }
-
         private void CheckDeath(Run run)
         {
-            if (base.meetsBodyRequirement) base.Grant();
+            base.Grant();
         }
 
         public override void OnInstall()

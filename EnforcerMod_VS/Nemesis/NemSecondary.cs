@@ -143,7 +143,7 @@ namespace EntityStates.Nemforcer
     {
         public float charge;
         public static string hitboxString = "UppercutHitbox";
-        public static float maxDamageCoefficient = 20f;
+        public static float maxDamageCoefficient = 25f;
         public static float minDamageCoefficient = 4.5f;
         public static float procCoefficient = 1f;
         public static float maxRecoil = 5f;

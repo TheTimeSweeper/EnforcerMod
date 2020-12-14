@@ -12,6 +12,8 @@ namespace EnforcerPlugin
         public static AssetBundle MainAssetBundle = null;
         public static AssetBundle NemAssetBundle = null;
 
+        public static Material commandoMat;
+
         public static Texture charPortrait;
 
         public static Texture nemCharPortrait;
@@ -96,9 +98,13 @@ namespace EnforcerPlugin
         public static Mesh nemAltMesh;
         public static Mesh nemDripMesh;
         public static Mesh nemDripHammerMesh;
+        public static Mesh dededeMesh;
+        public static Mesh dededeHammerMesh;
 
         public static void PopulateAssets()
         {
+            commandoMat = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial;
+
             if (MainAssetBundle == null)
             {
                 using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.enforcer"))
@@ -275,6 +281,8 @@ namespace EnforcerPlugin
             nemAltMesh = NemAssetBundle.LoadAsset<Mesh>("MeshNemforcerAlt");
             nemDripMesh = NemAssetBundle.LoadAsset<Mesh>("MeshDripforcer");
             nemDripHammerMesh = NemAssetBundle.LoadAsset<Mesh>("MeshDripforcerHammer");
+            dededeMesh = NemAssetBundle.LoadAsset<Mesh>("meshDededeHammer");
+            dededeHammerMesh = NemAssetBundle.LoadAsset<Mesh>("meshDededeHammer");
         }
 
         private static GameObject LoadEffect(string resourceName, string soundName, AssetBundle bundle)
@@ -294,6 +302,52 @@ namespace EnforcerPlugin
             EffectAPI.AddEffect(newEffect);
 
             return newEffect;
+        }
+
+        public static Material CreateMaterial(string materialName, float emission, Color emissionColor, float normalStrength)
+        {
+            if (!commandoMat) commandoMat = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial;
+
+            Material tempMat = Assets.MainAssetBundle.LoadAsset<Material>(materialName);
+            if (!tempMat)
+            {
+                return commandoMat;
+            }
+
+            Material mat = UnityEngine.Object.Instantiate<Material>(commandoMat);
+            mat.name = materialName;
+
+            mat.SetColor("_Color", tempMat.GetColor("_Color"));
+            mat.SetTexture("_MainTex", tempMat.GetTexture("_MainTex"));
+            mat.SetColor("_EmColor", emissionColor);
+            mat.SetFloat("_EmPower", emission);
+            mat.SetTexture("_EmTex", tempMat.GetTexture("_EmissionMap"));
+            mat.SetFloat("_NormalStrength", normalStrength);
+
+            return mat;
+        }
+
+        public static Material CreateNemMaterial(string materialName, float emission, Color emissionColor, float normalStrength)
+        {
+            if (!commandoMat) commandoMat = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial;
+
+            Material tempMat = Assets.NemAssetBundle.LoadAsset<Material>(materialName);
+            if (!tempMat)
+            {
+                return commandoMat;
+            }
+
+            Material mat = UnityEngine.Object.Instantiate<Material>(commandoMat);
+            mat.name = materialName;
+
+            mat.SetColor("_Color", tempMat.GetColor("_Color"));
+            mat.SetTexture("_MainTex", tempMat.GetTexture("_MainTex"));
+            mat.SetColor("_EmColor", emissionColor);
+            mat.SetFloat("_EmPower", emission);
+            mat.SetTexture("_EmTex", tempMat.GetTexture("_EmissionMap"));
+            mat.SetFloat("_NormalStrength", normalStrength);
+
+            return mat;
         }
     }
 }

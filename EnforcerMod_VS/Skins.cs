@@ -128,427 +128,69 @@ namespace EnforcerPlugin
             CharacterModel.RendererInfo[] array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
-            //clone commando material for that spicy hopoo shader
+            //AGONY
             Material material = array[0].defaultMaterial;
-            Material commandoMat = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Color.white);
-                material.SetTexture("_MainTex", Assets.mainMat.GetTexture("_MainTex"));
-                material.SetColor("_EmColor", Color.white);
-                material.SetFloat("_EmPower", 2.5f);
-                material.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
-                material.SetFloat("_NormalStrength", 1);
-                material.SetTexture("_NormalTex", Assets.mainMat.GetTexture("_BumpMap"));
-
-                array[0].defaultMaterial = material;
-            }
-
-            //change the shield texture too
-            material = array[2].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Color.white);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShield").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 1);
-                material.SetTexture("_NormalTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShield").GetTexture("_BumpMap"));
-
-                array[2].defaultMaterial = material;
-            }
-
-            //and guns
-            material = array[1].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0.5f);
-                material.SetTexture("_NormalTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_BumpMap"));
-
-                array[1].defaultMaterial = material;
-            }
-
-            material = array[3].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[3].defaultMaterial = material;
-            }
-
-            material = array[4].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[4].defaultMaterial = material;
-            }
-
-            material = array[5].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matRifle").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matRifle").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[5].defaultMaterial = material;
-            }
-
-            material = array[7].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[7].defaultMaterial = material;
-            }
-
-            material = array[8].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[8].defaultMaterial = material;
-            }
-
-            material = array[9].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[9].defaultMaterial = material;
-            }
-
-            material = array[10].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[10].defaultMaterial = material;
-            }
-
-            material = array[11].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[11].defaultMaterial = material;
-            }
-
-            material = array[12].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matSuperShotgun").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSuperShotgun").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[12].defaultMaterial = material;
-            }
-
-            material = array[13].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[13].defaultMaterial = material;
-            }
-
-            material = array[14].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[14].defaultMaterial = material;
-            }
-
-            material = array[15].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[15].defaultMaterial = material;
-            }
-
-            material = array[16].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[16].defaultMaterial = material;
-            }
-
-            material = array[17].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matTemp").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[17].defaultMaterial = material;
-            }
-
-            material = array[18].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matSexShield").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexShield").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[18].defaultMaterial = material;
-            }
-
-            material = array[20].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matNeedler").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matNeedler").GetTexture("_MainTex"));
-                material.SetColor("_EmColor", Color.white);
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matNeedler").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 5);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[20].defaultMaterial = material;
-            }
-
-            material = array[21].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matShotgun").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[21].defaultMaterial = material;
-            }
-
-            material = array[22].defaultMaterial;
-
-            if (material)
-            {
-                material = EnforcerPlugin.bungusMat;
-                array[22].defaultMaterial = material;
-            }
-
+            //body
+            array[0].defaultMaterial = Assets.CreateMaterial("matEnforcerAlt", 2.5f, Color.white, 1);
+            //shield
+            array[2].defaultMaterial = Assets.CreateMaterial("matEquippedShield", 0f, Color.white, 1);
+            //shotgun stuff
+            array[1].defaultMaterial = Assets.CreateMaterial("matShotgun", 0f, Color.white, 0.5f);
+            array[3].defaultMaterial = Assets.CreateMaterial("matShotgun", 0f, Color.white, 0.5f);
+            array[4].defaultMaterial = Assets.CreateMaterial("matShotgun", 0f, Color.white, 0.5f);
+            //assault rifle
+            array[5].defaultMaterial = Assets.CreateMaterial("matRifle", 0f, Color.white, 0f);
+            array[7].defaultMaterial = Assets.CreateMaterial("matShotgun", 0f, Color.white, 0.5f);
+            //blaster
+            array[8].defaultMaterial = Assets.CreateMaterial("matTemp", 0f, Color.white, 0f);
+            array[9].defaultMaterial = Assets.CreateMaterial("matShotgun", 0f, Color.white, 0.5f);
+            array[10].defaultMaterial = Assets.CreateMaterial("matTemp", 0f, Color.white, 0f);
+            array[11].defaultMaterial = Assets.CreateMaterial("matShotgun", 0f, Color.white, 0.5f);
+            //super shotgun
+            array[12].defaultMaterial = Assets.CreateMaterial("matSuperShotgun", 0f, Color.white, 0f);
+            array[13].defaultMaterial = Assets.CreateMaterial("matTemp", 0f, Color.white, 0f);
+            array[14].defaultMaterial = Assets.CreateMaterial("matShotgun", 0f, Color.white, 0f);
+            //not even sure at this point
+            array[15].defaultMaterial = Assets.CreateMaterial("matShotgun", 0f, Color.white, 0f);
+            array[16].defaultMaterial = Assets.CreateMaterial("matTemp", 0f, Color.white, 0f);
+            array[17].defaultMaterial = Assets.CreateMaterial("matTemp", 0f, Color.white, 0f);
+            //sexforcer shield
+            array[18].defaultMaterial = Assets.CreateMaterial("matSexShield", 0f, Color.white, 0f);
+            //needler
+            array[20].defaultMaterial = Assets.CreateMaterial("matNeedler", 5f, Color.white, 0f);
+            array[21].defaultMaterial = Assets.CreateMaterial("matShotgun", 0f, Color.white, 0f);
+            //bungus
+            array[22].defaultMaterial = EnforcerPlugin.bungusMat;
+            //i think this is marauder shield
             material = array[24].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Color.black);
-                material.SetTexture("_MainTex", null);
-                material.SetFloat("_EmPower", 20);
-                material.SetColor("_EmColor", Color.red);
-                material.SetTexture("_EmTex", null);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[24].defaultMaterial = material;
-            }
-
-            material = array[27].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matMarauderArmShield").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matMarauderArmShield").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 20);
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matMarauderArmShield").GetTexture("_EmissionMap"));
-                material.SetFloat("_NormalStrength", 0);
-
-                array[27].defaultMaterial = material;
-            }
-
-            material = array[28].defaultMaterial;
-
-            if (material)
-            {
-                material = EnforcerPlugin.bungusMat;
-                array[28].defaultMaterial = material;
-            }
-
-            material = array[29].defaultMaterial;
-            if (material) {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Color.white);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcerShield").GetTexture("_MainTex"));
-                material.SetColor("_EmColor", Color.white);
-                material.SetFloat("_EmPower", 0.69f);
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcerShield").GetTexture("_EmissionMap"));
-
-                array[29].defaultMaterial = material;
-            }
-
-            material = array[31].defaultMaterial;
-            if (material)
-            {
-                material = EnforcerPlugin.bungusMat;
-                array[31].defaultMaterial = material;
-            }
-
-            material = array[32].defaultMaterial;
-            if (material)
-            {
-                material = EnforcerPlugin.bungusMat;
-                array[32].defaultMaterial = material;
-            }
-
-            material = array[33].defaultMaterial;
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Color.white);
-                material.SetTexture("_MainTex", Assets.mainMat.GetTexture("_MainTex"));
-                material.SetColor("_EmColor", Color.white);
-                material.SetFloat("_EmPower", 1f);
-                material.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
-                material.SetFloat("_NormalStrength", 0f);
-
-                array[33].defaultMaterial = material;
-            }
-
-            material = array[34].defaultMaterial;
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Color.white);
-                material.SetTexture("_MainTex", Assets.mainMat.GetTexture("_MainTex"));
-                material.SetColor("_EmColor", Color.white);
-                material.SetFloat("_EmPower", 1f);
-                material.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
-                material.SetFloat("_NormalStrength", 0f);
-
-                array[34].defaultMaterial = material;
-            }
-
-            material = array[35].defaultMaterial;
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Color.white);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSkamtebord").GetTexture("_MainTex"));
-                material.SetColor("_EmColor", Color.black);
-                material.SetFloat("_EmPower", 0f);
-                material.SetTexture("_EmTex", null);
-                material.SetFloat("_NormalStrength", 0f);
-
-                array[35].defaultMaterial = material;
-            }
-
-            material = array[36].defaultMaterial;
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Color.white);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matCubeShield").GetTexture("_MainTex"));
-                material.SetColor("_EmColor", Color.black);
-                material.SetFloat("_EmPower", 0f);
-                material.SetTexture("_EmTex", null);
-                material.SetFloat("_NormalStrength", 0f);
-
-                array[36].defaultMaterial = material;
-            }
-
-            material = array[37].defaultMaterial;
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matCubeShotgun").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matCubeShotgun").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0f);
-
-                array[37].defaultMaterial = material;
-            }
-
-            material = array[38].defaultMaterial;
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matRifle").GetColor("_Color"));
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matRifle").GetTexture("_MainTex"));
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[38].defaultMaterial = material;
-            }
+            material = UnityEngine.Object.Instantiate<Material>(Assets.commandoMat);
+            material.SetColor("_Color", Color.black);
+            material.SetTexture("_MainTex", null);
+            material.SetFloat("_EmPower", 20);
+            material.SetColor("_EmColor", Color.red);
+            material.SetTexture("_EmTex", null);
+            material.SetFloat("_NormalStrength", 0);
+            array[24].defaultMaterial = material;
+            //marauder shield arm attachment
+            array[27].defaultMaterial = Assets.CreateMaterial("matMarauderArmShield", 20f, Color.white, 0f);
+            //bungus shield arm attachment
+            array[28].defaultMaterial = EnforcerPlugin.bungusMat;
+            //femforcer shield
+            array[29].defaultMaterial = Assets.CreateMaterial("matFemforcerShield", 0.69f, Color.white, 0f);
+            //more bungus guns
+            array[31].defaultMaterial = EnforcerPlugin.bungusMat;
+            array[32].defaultMaterial = EnforcerPlugin.bungusMat;
+            //pauldrons
+            array[33].defaultMaterial = Assets.CreateMaterial("matEnforcerAlt", 1f, Color.white, 1);
+            array[34].defaultMaterial = Assets.CreateMaterial("matEnforcerAlt", 1f, Color.white, 1);
+            //skateboard
+            array[35].defaultMaterial = Assets.CreateMaterial("matSkamtebord", 0f, Color.white, 0);
+            //minecraft shield
+            array[36].defaultMaterial = Assets.CreateMaterial("matCubeShield", 0f, Color.white, 0);
+            //minecraft shotgun
+            array[37].defaultMaterial = Assets.CreateMaterial("matCubeShotgun", 0f, Color.white, 0);
+            //minecraft assault rifle
+            array[38].defaultMaterial = Assets.CreateMaterial("matRifle", 0f, Color.white, 0);
 
             skinDefInfo.RendererInfos = array;
 
@@ -583,59 +225,10 @@ namespace EnforcerPlugin
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
-            //change the body texture
-            material = array[0].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSpaceEnforcer").GetTexture("_MainTex"));
-                material.SetColor("_EmColor", Color.black);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[0].defaultMaterial = material;
-            }
-
-            //change the shield texture
-            material = array[2].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldWhite").GetTexture("_MainTex"));
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldWhite").GetColor("_Color"));
-                material.SetFloat("_NormalStrength", 0);
-
-                array[2].defaultMaterial = material;
-            }
-
-            material = array[33].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSpaceEnforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", null);
-                material.SetColor("_EmColor", Color.white);
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[33].defaultMaterial = material;
-            }
-
-            material = array[34].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSpaceEnforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", null);
-                material.SetColor("_EmColor", Color.white);
-                material.SetFloat("_EmPower", 0);
-                material.SetFloat("_NormalStrength", 0);
-
-                array[34].defaultMaterial = material;
-            }
+            array[0].defaultMaterial = Assets.CreateMaterial("matSpaceEnforcer", 0f, Color.black, 0f);
+            array[2].defaultMaterial = Assets.CreateMaterial("matEquippedShieldWhite", 0f, Color.white, 0f);
+            array[33].defaultMaterial = Assets.CreateMaterial("matSpaceEnforcer", 0f, Color.white, 0f);
+            array[34].defaultMaterial = Assets.CreateMaterial("matSpaceEnforcer", 0f, Color.white, 0f);
 
             spaceSkinDefInfo.RendererInfos = array;
 
@@ -676,53 +269,10 @@ namespace EnforcerPlugin
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
-            material = array[0].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEngiforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEngiforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 1);
-
-                array[0].defaultMaterial = material;
-            }
-
-            material = array[2].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldEngi").GetTexture("_MainTex"));
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldEngi").GetColor("_Color"));
-                material.SetFloat("_NormalStrength", 0);
-
-                array[2].defaultMaterial = material;
-            }
-
-            material = array[33].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEngiforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEngiforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 1);
-
-                array[33].defaultMaterial = material;
-            }
-
-            material = array[34].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEngiforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEngiforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 1);
-
-                array[34].defaultMaterial = material;
-            }
+            array[0].defaultMaterial = Assets.CreateMaterial("matEngiforcer", 1f, Color.white, 1f);
+            array[2].defaultMaterial = Assets.CreateMaterial("matEquippedShieldEngi", 0f, Color.white, 0f);
+            array[33].defaultMaterial = Assets.CreateMaterial("matEngiforcer", 3f, Color.white, 1f);
+            array[34].defaultMaterial = Assets.CreateMaterial("matEngiforcer", 3f, Color.white, 1f);
 
             engiSkinDefInfo.RendererInfos = array;
 
@@ -757,53 +307,10 @@ namespace EnforcerPlugin
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
-            material = array[0].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matDoomEnforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matDoomEnforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 1);
-
-                array[0].defaultMaterial = material;
-            }
-
-            material = array[2].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldBlack").GetTexture("_MainTex"));
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldBlack").GetColor("_Color"));
-                material.SetFloat("_NormalStrength", 0);
-
-                array[2].defaultMaterial = material;
-            }
-
-            material = array[33].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matDoomEnforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matDoomEnforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 1);
-
-                array[33].defaultMaterial = material;
-            }
-
-            material = array[34].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matDoomEnforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matDoomEnforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 1);
-
-                array[34].defaultMaterial = material;
-            }
+            array[0].defaultMaterial = Assets.CreateMaterial("matDoomEnforcer", 1f, Color.white, 1f);
+            array[2].defaultMaterial = Assets.CreateMaterial("matEquippedShieldBlack", 0f, Color.white, 0f);
+            array[33].defaultMaterial = Assets.CreateMaterial("matDoomEnforcer", 1f, Color.white, 1f);
+            array[34].defaultMaterial = Assets.CreateMaterial("matDoomEnforcer", 1f, Color.white, 1f);
 
             doomSkinDefInfo.RendererInfos = array;
 
@@ -838,18 +345,7 @@ namespace EnforcerPlugin
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
-            material = array[0].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matSexforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 1);
-                //material.SetFloat("_NormalStrength", 0);
-
-                array[0].defaultMaterial = material;
-            }
+            array[0].defaultMaterial = Assets.CreateMaterial("matSexforcer", 1f, Color.white, 0f);
 
             masterySkinDefInfo.RendererInfos = array;
 
@@ -884,53 +380,10 @@ namespace EnforcerPlugin
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
-            material = array[0].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 8f);
-
-                array[0].defaultMaterial = material;
-            }
-
-            material = array[2].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matRiotShieldDesperado").GetTexture("_MainTex"));
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matRiotShieldDesperado").GetColor("_Color"));
-                material.SetFloat("_NormalStrength", 0);
-
-                array[2].defaultMaterial = material;
-            }
-
-            material = array[33].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 1f);
-
-                array[33].defaultMaterial = material;
-            }
-
-            material = array[34].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matEnforcerDesperado").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 1f);
-
-                array[34].defaultMaterial = material;
-            }
+            array[0].defaultMaterial = Assets.CreateMaterial("matEnforcerDesperado", 8f, Color.white, 1f);
+            array[2].defaultMaterial = Assets.CreateMaterial("matRiotShieldDesperado", 0f, Color.white, 0f);
+            array[33].defaultMaterial = Assets.CreateMaterial("matEnforcerDesperado", 1f, Color.white, 1f);
+            array[34].defaultMaterial = Assets.CreateMaterial("matEnforcerDesperado", 1f, Color.white, 1f);
 
             desperadoSkinDefInfo.RendererInfos = array;
 
@@ -965,17 +418,7 @@ namespace EnforcerPlugin
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
-            material = array[0].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matZeroSuit").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 1);
-
-                array[0].defaultMaterial = material;
-            }
+            array[0].defaultMaterial = Assets.CreateMaterial("matZeroSuit", 1f, Color.white, 1f);
 
             frogSkinDefInfo.RendererInfos = array;
 
@@ -1012,20 +455,8 @@ namespace EnforcerPlugin
 
             material = array[0].defaultMaterial;
 
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Color.white);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcer").GetTexture("_MainTex"));
-                material.SetColor("_EmColor", Color.white);
-                material.SetFloat("_EmPower", 2.5f);
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_NormalStrength", 0.14f);
-                material.SetTexture("_NormalTex", Assets.MainAssetBundle.LoadAsset<Material>("matFemforcer").GetTexture("_BumpMap"));
-                material.SetFloat("_SpecularStrength", 0.5f);
-
-                array[0].defaultMaterial = material;
-            }
+            array[0].defaultMaterial = Assets.CreateMaterial("matFemforcer", 2.5f, Color.white, 0.14f);
+            array[0].defaultMaterial.SetFloat("_SpecularStrength", 0.5f);
 
             femSkinDefInfo.RendererInfos = array;
 
@@ -1060,20 +491,7 @@ namespace EnforcerPlugin
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
-            material = array[0].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Color.white);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matFuckingSteve").GetTexture("_MainTex"));
-                material.SetColor("_EmColor", Color.white);
-                material.SetFloat("_EmPower", 0.3f);
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matFuckingSteve").GetTexture("_EmissionMap"));
-                material.SetFloat("_NormalStrength", 0f);
-
-                array[0].defaultMaterial = material;
-            }
+            array[0].defaultMaterial = Assets.CreateMaterial("matFuckingSteve", 0.3f, Color.white, 0f);
 
             fuckingSteveSkinDefInfo.RendererInfos = array;
 
@@ -1108,53 +526,10 @@ namespace EnforcerPlugin
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
-            material = array[0].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 3f);
-
-                array[0].defaultMaterial = material;
-            }
-
-            material = array[2].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldBlack").GetTexture("_MainTex"));
-                material.SetColor("_Color", Assets.MainAssetBundle.LoadAsset<Material>("matEquippedShieldBlack").GetColor("_Color"));
-                material.SetFloat("_NormalStrength", 0);
-
-                array[2].defaultMaterial = material;
-            }
-
-            material = array[33].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 3f);
-
-                array[33].defaultMaterial = material;
-            }
-
-            material = array[34].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_EmissionMap"));
-                material.SetFloat("_EmPower", 3f);
-
-                array[34].defaultMaterial = material;
-            }
+            array[0].defaultMaterial = Assets.CreateMaterial("matNemforcer", 3f, Color.white, 1f);
+            array[2].defaultMaterial = Assets.CreateMaterial("matEquippedShieldBlack", 0f, Color.white, 0f);
+            array[33].defaultMaterial = Assets.CreateMaterial("matNemforcer", 3f, Color.white, 1f);
+            array[34].defaultMaterial = Assets.CreateMaterial("matNemforcer", 3f, Color.white, 1f);
 
             nemesisSkinDefInfo.RendererInfos = array;
 
@@ -1173,20 +548,7 @@ namespace EnforcerPlugin
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
-            material = array[0].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-                material.SetColor("_Color", Color.white);
-                material.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matPig").GetTexture("_MainTex"));
-                material.SetColor("_EmColor", Color.white);
-                material.SetFloat("_EmPower", 0f);
-                material.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matPig").GetTexture("_EmissionMap"));
-                material.SetFloat("_NormalStrength", 0f);
-
-                array[0].defaultMaterial = material;
-            }
+            array[0].defaultMaterial = Assets.CreateMaterial("matPig", 0f, Color.white, 0f);
 
             pigSkinDefInfo.RendererInfos = array;
 

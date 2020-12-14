@@ -25,7 +25,9 @@ namespace EnforcerPlugin
             LanguageAPI.Add("NEMFORCERBODY_ENFORCER_SKIN_NAME", "Enforcer");
             LanguageAPI.Add("NEMFORCERBODY_CLASSIC_SKIN_NAME", "Classic");
             LanguageAPI.Add("NEMFORCERBODY_DRIP_SKIN_NAME", "Dripforcer");
+            LanguageAPI.Add("NEMFORCERBODY_DEDEDE_SKIN_NAME", "King Dedede");
 
+            #region DefaultSkin
             LoadoutAPI.SkinDefInfo skinDefInfo = default(LoadoutAPI.SkinDefInfo);
             skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             skinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
@@ -56,32 +58,15 @@ namespace EnforcerPlugin
             rendererInfos.CopyTo(array, 0);
 
             Material material = array[0].defaultMaterial;
-            Material commandoMat = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial;
-
-            material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-            material.SetColor("_Color", Color.white);
-            material.SetTexture("_MainTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_MainTex"));
-            material.SetColor("_EmColor", Color.white);
-            material.SetFloat("_EmPower", 5f);
-            material.SetTexture("_EmTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_EmissionMap"));
-            material.SetFloat("_NormalStrength", 0);
-
-            array[0].defaultMaterial = material;
-
-            material = UnityEngine.Object.Instantiate<Material>(commandoMat);
-            material.SetColor("_Color", Color.white);
-            material.SetTexture("_MainTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_MainTex"));
-            material.SetColor("_EmColor", Color.white);
-            material.SetFloat("_EmPower", 5f);
-            material.SetTexture("_EmTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcer").GetTexture("_EmissionMap"));
-            material.SetFloat("_NormalStrength", 0);
-
-            array[1].defaultMaterial = material;
+            array[0].defaultMaterial = Assets.CreateNemMaterial("matNemforcer", 5f, Color.white, 0);
+            array[1].defaultMaterial = Assets.CreateNemMaterial("matNemforcer", 5f, Color.white, 0);
 
             skinDefInfo.RendererInfos = array;
 
             SkinDef defaultSkin = LoadoutAPI.CreateNewSkinDef(skinDefInfo);
+            #endregion
 
+            #region EnforcerSkin
             LoadoutAPI.SkinDefInfo altSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             altSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             altSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
@@ -112,32 +97,15 @@ namespace EnforcerPlugin
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
-            material = array[0].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcerAlt").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcerAlt").GetTexture("_EmissionMap"));
-
-                array[0].defaultMaterial = material;
-            }
-
-            material = array[1].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcerAlt").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcerAlt").GetTexture("_EmissionMap"));
-
-                array[1].defaultMaterial = material;
-            }
+            array[0].defaultMaterial = Assets.CreateNemMaterial("matNemforcerAlt", 5f, Color.white, 0);
+            array[1].defaultMaterial = Assets.CreateNemMaterial("matNemforcerAlt", 5f, Color.white, 0);
 
             altSkinDefInfo.RendererInfos = array;
 
             SkinDef altSkin = LoadoutAPI.CreateNewSkinDef(altSkinDefInfo);
+            #endregion
 
+            #region ClassicSkin
             LoadoutAPI.SkinDefInfo classicSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             classicSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             classicSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
@@ -168,32 +136,15 @@ namespace EnforcerPlugin
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
-            material = array[0].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcerClassic").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcerClassic").GetTexture("_EmissionMap"));
-
-                array[0].defaultMaterial = material;
-            }
-
-            material = array[1].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcerClassic").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.NemAssetBundle.LoadAsset<Material>("matNemforcerClassic").GetTexture("_EmissionMap"));
-
-                array[1].defaultMaterial = material;
-            }
+            array[0].defaultMaterial = Assets.CreateNemMaterial("matNemforcerClassic", 5f, Color.white, 0);
+            array[1].defaultMaterial = Assets.CreateNemMaterial("matNemforcerClassic", 5f, Color.white, 0);
 
             classicSkinDefInfo.RendererInfos = array;
 
             SkinDef classicSkin = LoadoutAPI.CreateNewSkinDef(classicSkinDefInfo);
+            #endregion
 
+            #region DripSkin
             LoadoutAPI.SkinDefInfo dripSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             dripSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             dripSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
@@ -224,31 +175,52 @@ namespace EnforcerPlugin
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
-            material = array[0].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.NemAssetBundle.LoadAsset<Material>("matDripforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.NemAssetBundle.LoadAsset<Material>("matDripforcer").GetTexture("_EmissionMap"));
-
-                array[0].defaultMaterial = material;
-            }
-
-            material = array[1].defaultMaterial;
-
-            if (material)
-            {
-                material = UnityEngine.Object.Instantiate<Material>(material);
-                material.SetTexture("_MainTex", Assets.NemAssetBundle.LoadAsset<Material>("matDripforcer").GetTexture("_MainTex"));
-                material.SetTexture("_EmTex", Assets.NemAssetBundle.LoadAsset<Material>("matDripforcer").GetTexture("_EmissionMap"));
-
-                array[1].defaultMaterial = material;
-            }
+            array[0].defaultMaterial = Assets.CreateNemMaterial("matDripforcer", 5f, Color.white, 0);
+            array[1].defaultMaterial = Assets.CreateNemMaterial("matDripforcer", 5f, Color.white, 0);
 
             dripSkinDefInfo.RendererInfos = array;
 
             SkinDef dripSkin = LoadoutAPI.CreateNewSkinDef(dripSkinDefInfo);
+            #endregion
+
+            #region DededeSkin
+            LoadoutAPI.SkinDefInfo dededeSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            dededeSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            dededeSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            dededeSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+            dededeSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+            dededeSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texDededeSkin");
+
+            dededeSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                new SkinDef.MeshReplacement
+                {
+                    renderer = mainRenderer,
+                    mesh = Assets.dededeMesh
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[1].renderer,
+                    mesh = Assets.dededeHammerMesh
+                }
+            };
+            dededeSkinDefInfo.Name = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
+            dededeSkinDefInfo.NameToken = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
+            dededeSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            dededeSkinDefInfo.RootObject = model;
+            dededeSkinDefInfo.UnlockableName = "";
+
+            rendererInfos = skinDefInfo.RendererInfos;
+            array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos.CopyTo(array, 0);
+
+            array[0].defaultMaterial = Assets.CreateNemMaterial("matDedede", 5f, Color.white, 0);
+            array[1].defaultMaterial = Assets.CreateNemMaterial("matDedede", 5f, Color.white, 0);
+
+            dededeSkinDefInfo.RendererInfos = array;
+
+            SkinDef dededeSkin = LoadoutAPI.CreateNewSkinDef(dededeSkinDefInfo);
+            #endregion
 
             var skinDefs = new List<SkinDef>();
 
@@ -259,7 +231,11 @@ namespace EnforcerPlugin
                 altSkin
             };
 
-            if (EnforcerPlugin.cursed.Value) skinDefs.Add(dripSkin);
+            if (EnforcerPlugin.cursed.Value)
+            {
+                skinDefs.Add(dripSkin);
+                skinDefs.Add(dededeSkin);
+            }
 
             skinController.skins = skinDefs.ToArray();
         }
