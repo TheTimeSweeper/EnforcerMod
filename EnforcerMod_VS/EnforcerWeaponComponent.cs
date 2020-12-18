@@ -6,6 +6,8 @@ public class EnforcerWeaponComponent : MonoBehaviour
 {
     public static event Action<int> Imp = delegate { };
 
+    public bool isMultiplayer;
+
     public static int maxShellCount = 12;
 
     public bool shieldUp;
@@ -50,6 +52,8 @@ public class EnforcerWeaponComponent : MonoBehaviour
         InitSkateboard();
 
         Invoke("ModelCheck", 0.2f);
+
+        UpdateCamera();
     }
 
     public void ModelCheck()
@@ -85,13 +89,22 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
     public void UpdateCamera()
     {
-        if (!shieldUp)
+        isMultiplayer = Run.instance.participatingPlayerCount > 1;
+
+        if (isMultiplayer)
         {
             cameraShit.cameraParams.standardLocalCameraPos = new Vector3(0, 0f, -12);
         }
         else
         {
-            cameraShit.cameraParams.standardLocalCameraPos = new Vector3(1.8f, -0.5f, -6f);
+            if (!shieldUp)
+            {
+                cameraShit.cameraParams.standardLocalCameraPos = new Vector3(0, 0f, -12);
+            }
+            else
+            {
+                cameraShit.cameraParams.standardLocalCameraPos = new Vector3(1.8f, -0.5f, -6f);
+            }
         }
     }
 

@@ -13,8 +13,11 @@ namespace EntityStates.Enforcer
 
         public Transform origOrigin;
 
+        private EnforcerWeaponComponent weaponComponent;
         private ShieldComponent shieldComponent;
 
+        private bool wasShielding = false;
+        private float initialTime;
         private float skateSpeedMultiplier = 0.5f;
         private float bungusStopwatch;
         private ChildLocator childLocator;        
@@ -26,6 +29,7 @@ namespace EntityStates.Enforcer
         private EnforcerLightController lightController;
         private EnforcerLightControllerAlt lightControllerAlt;
 
+
         public static event Action<float> Bungus = delegate { };
 
         public override void OnEnter()
@@ -36,6 +40,7 @@ namespace EntityStates.Enforcer
 
             this.lightController = base.characterBody.GetComponent<EnforcerLightController>();
             this.lightControllerAlt = base.characterBody.GetComponent<EnforcerLightControllerAlt>();
+            this.weaponComponent = base.characterBody.GetComponent<EnforcerWeaponComponent>();
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
             this.shieldComponent.origOrigin = base.characterBody.aimOriginTransform;
 
@@ -120,6 +125,25 @@ namespace EntityStates.Enforcer
             {
                 EnforcerPlugin.NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
             }*/
+
+            //shield mode camera stuff
+            if (this.weaponComponent.isMultiplayer)
+            {
+                if (shieldIsUp != this.wasShielding)
+                {
+                    this.wasShielding = shieldIsUp;
+                    this.initialTime = Time.fixedTime;
+                }
+
+                if (shieldIsUp)
+                {
+                    CameraTargetParams ctp = base.cameraTargetParams;
+                    float denom = (1 + Time.fixedTime - this.initialTime);
+                    float smoothFactor = 8 / Mathf.Pow(denom, 2);
+                    Vector3 smoothVector = new Vector3(-3 / 20, 1 / 16, -1);
+                    ctp.idealLocalCameraPos = new Vector3(1.8f, -0.5f, -6f) + smoothFactor * smoothVector;
+                }
+            }
         }
 
         public override void FixedUpdate()

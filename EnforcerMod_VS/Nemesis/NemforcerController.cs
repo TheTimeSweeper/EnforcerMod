@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class NemforcerController : MonoBehaviour
 {
+    public bool isMultiplayer;
+
     public SkillDef primarySkillDef;
 
     public EntityStateMachine mainStateMachine;
@@ -56,13 +58,22 @@ public class NemforcerController : MonoBehaviour
 
     public void UpdateCamera()
     {
-        if (!minigunUp)
+        isMultiplayer = Run.instance.participatingPlayerCount > 1;
+
+        if (isMultiplayer)
         {
             cameraShit.cameraParams.standardLocalCameraPos = new Vector3(0, 0.5f, -12);
         }
         else
         {
-            cameraShit.cameraParams.standardLocalCameraPos = new Vector3(-1.2f, -0.5f, -9f);
+            if (!minigunUp)
+            {
+                cameraShit.cameraParams.standardLocalCameraPos = new Vector3(0, 0.5f, -12);
+            }
+            else
+            {
+                cameraShit.cameraParams.standardLocalCameraPos = new Vector3(-1.2f, -0.5f, -9f);
+            }
         }
     }
 

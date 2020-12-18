@@ -66,6 +66,9 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - More alternate skills
 
 ## Changelog
+`2.1.0`
+- Partially reverted some camera stuff to fix bugs resulting from it- smoother camera now only works in singleplayer
+
 `2.0.9`
 - Fixed stuff
 
