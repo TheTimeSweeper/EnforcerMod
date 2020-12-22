@@ -86,13 +86,6 @@ namespace EnforcerPlugin
             {
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>().material,
-                    renderer = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
                     defaultMaterial = childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>().material,
                     renderer = childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
@@ -118,6 +111,14 @@ namespace EnforcerPlugin
                     renderer = childLocator.FindChild("GrenadeR").GetComponentInChildren<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = true
+                },
+                //keep body last for teleporter particles
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>().material,
+                    renderer = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
                 }
             };
 
@@ -125,7 +126,7 @@ namespace EnforcerPlugin
             characterModel.invisibilityCount = 0;
             characterModel.temporaryOverlays = new List<TemporaryOverlay>();
 
-            characterModel.SetFieldValue("mainSkinnedMeshRenderer", characterModel.baseRendererInfos[0].renderer.gameObject.GetComponent<SkinnedMeshRenderer>());
+            characterModel.SetFieldValue("mainSkinnedMeshRenderer", characterModel.baseRendererInfos[characterModel.baseRendererInfos.Length - 1].renderer.gameObject.GetComponent<SkinnedMeshRenderer>());
 
             characterDisplay = tempDisplay;
         }
@@ -252,13 +253,6 @@ namespace EnforcerPlugin
             {
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>().material,
-                    renderer = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
                     defaultMaterial = childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>().material,
                     renderer = childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
@@ -284,12 +278,20 @@ namespace EnforcerPlugin
                     renderer = childLocator.FindChild("GrenadeR").GetComponentInChildren<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = true
+                },
+                //keep body last for teleporter particles
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>().material,
+                    renderer = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
                 }
             };
 
             Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/hgstandard");
 
-            foreach (CharacterModel.RendererInfo i in characterModel.baseRendererInfos)
+            foreach (CharacterModel.RendererInfo i in characterModel.baseRendererInfos) 
             {
                 if (i.defaultMaterial) i.defaultMaterial.shader = hotpoo;
             }
@@ -298,7 +300,7 @@ namespace EnforcerPlugin
             characterModel.invisibilityCount = 0;
             characterModel.temporaryOverlays = new List<TemporaryOverlay>();
 
-            characterModel.SetFieldValue("mainSkinnedMeshRenderer", characterModel.baseRendererInfos[0].renderer.gameObject.GetComponent<SkinnedMeshRenderer>());
+            characterModel.SetFieldValue("mainSkinnedMeshRenderer", characterModel.baseRendererInfos[characterModel.baseRendererInfos.Length - 1].renderer.gameObject.GetComponent<SkinnedMeshRenderer>());
 
             TeamComponent teamComponent = null;
             if (characterPrefab.GetComponent<TeamComponent>() != null) teamComponent = characterPrefab.GetComponent<TeamComponent>();

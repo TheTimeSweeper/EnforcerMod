@@ -43,8 +43,8 @@ namespace EnforcerPlugin
                 },
                 new SkinDef.MeshReplacement
                 {
-                    renderer = characterModel.baseRendererInfos[1].renderer,
-                    mesh = characterModel.baseRendererInfos[1].renderer.GetComponent<SkinnedMeshRenderer>().sharedMesh
+                    renderer = characterModel.baseRendererInfos[0].renderer,
+                    mesh = characterModel.baseRendererInfos[0].renderer.GetComponent<SkinnedMeshRenderer>().sharedMesh
                 }
             };
             skinDefInfo.Name = "NEMFORCERBODY_DEFAULT_SKIN_NAME";
@@ -59,7 +59,7 @@ namespace EnforcerPlugin
 
             Material material = array[0].defaultMaterial;
             array[0].defaultMaterial = Assets.CreateNemMaterial("matNemforcer", 5f, Color.white, 0);
-            array[1].defaultMaterial = Assets.CreateNemMaterial("matNemforcer", 5f, Color.white, 0);
+            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matNemforcer", 5f, Color.white, 0);
 
             skinDefInfo.RendererInfos = array;
 
@@ -83,8 +83,8 @@ namespace EnforcerPlugin
                 },
                 new SkinDef.MeshReplacement
                 {
-                    renderer = characterModel.baseRendererInfos[1].renderer,
-                    mesh = characterModel.baseRendererInfos[1].renderer.GetComponent<SkinnedMeshRenderer>().sharedMesh
+                    renderer = characterModel.baseRendererInfos[0].renderer,
+                    mesh = characterModel.baseRendererInfos[0].renderer.GetComponent<SkinnedMeshRenderer>().sharedMesh
                 }
             };
             altSkinDefInfo.Name = "NEMFORCERBODY_ENFORCER_SKIN_NAME";
@@ -98,7 +98,7 @@ namespace EnforcerPlugin
             rendererInfos.CopyTo(array, 0);
 
             array[0].defaultMaterial = Assets.CreateNemMaterial("matNemforcerAlt", 5f, Color.white, 0);
-            array[1].defaultMaterial = Assets.CreateNemMaterial("matNemforcerAlt", 5f, Color.white, 0);
+            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matNemforcerAlt", 5f, Color.white, 0);
 
             altSkinDefInfo.RendererInfos = array;
 
@@ -122,7 +122,7 @@ namespace EnforcerPlugin
                 },
                 new SkinDef.MeshReplacement
                 {
-                    renderer = characterModel.baseRendererInfos[1].renderer,
+                    renderer = characterModel.baseRendererInfos[0].renderer,
                     mesh = Assets.nemClassicHammerMesh
                 }
             };
@@ -137,7 +137,7 @@ namespace EnforcerPlugin
             rendererInfos.CopyTo(array, 0);
 
             array[0].defaultMaterial = Assets.CreateNemMaterial("matNemforcerClassic", 5f, Color.white, 0);
-            array[1].defaultMaterial = Assets.CreateNemMaterial("matNemforcerClassic", 5f, Color.white, 0);
+            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matNemforcerClassic", 5f, Color.white, 0);
 
             classicSkinDefInfo.RendererInfos = array;
 
@@ -161,7 +161,7 @@ namespace EnforcerPlugin
                 },
                 new SkinDef.MeshReplacement
                 {
-                    renderer = characterModel.baseRendererInfos[1].renderer,
+                    renderer = characterModel.baseRendererInfos[0].renderer,
                     mesh = Assets.nemDripHammerMesh
                 }
             };
@@ -176,7 +176,7 @@ namespace EnforcerPlugin
             rendererInfos.CopyTo(array, 0);
 
             array[0].defaultMaterial = Assets.CreateNemMaterial("matDripforcer", 5f, Color.white, 0);
-            array[1].defaultMaterial = Assets.CreateNemMaterial("matDripforcer", 5f, Color.white, 0);
+            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matDripforcer", 5f, Color.white, 0);
 
             dripSkinDefInfo.RendererInfos = array;
 
@@ -200,7 +200,7 @@ namespace EnforcerPlugin
                 },
                 new SkinDef.MeshReplacement
                 {
-                    renderer = characterModel.baseRendererInfos[1].renderer,
+                    renderer = characterModel.baseRendererInfos[0].renderer,
                     mesh = Assets.dededeHammerMesh
                 }
             };
@@ -215,7 +215,7 @@ namespace EnforcerPlugin
             rendererInfos.CopyTo(array, 0);
 
             array[0].defaultMaterial = Assets.CreateNemMaterial("matDedede", 0f, Color.black, 0);
-            array[1].defaultMaterial = Assets.CreateNemMaterial("matDedede", 0f, Color.black, 0);
+            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matDedede", 0f, Color.black, 0);
 
             dededeSkinDefInfo.RendererInfos = array;
 

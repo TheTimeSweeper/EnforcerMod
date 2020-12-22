@@ -1331,14 +1331,6 @@ namespace EnforcerPlugin
             CharacterSelectSurvivorPreviewDisplayController displayController = characterDisplay.GetComponent<CharacterSelectSurvivorPreviewDisplayController>();
 
             displayController.bodyPrefab = characterPrefab;
-
-            //EventFunctions eventFunctions = characterDisplay.AddComponent<EventFunctions>();
-
-            displayController.skillChangeResponses[1].response.AddListener(() => 
-            {
-                Debug.LogWarning("UNITYEVENT");
-                //eventFunctions.DisableAllChildrenExcept(childLocator.FindChild("SuperShotgun").gameObject); 
-            });
         }
 
         private static void CreatePrefab()
