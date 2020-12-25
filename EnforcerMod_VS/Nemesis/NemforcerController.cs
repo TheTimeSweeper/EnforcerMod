@@ -46,6 +46,8 @@ public class NemforcerController : MonoBehaviour
         InitWeapon();
 
         Invoke("ModelCheck", 0.2f);
+
+        UpdateCamera();
     }
 
     private void FixedUpdate()

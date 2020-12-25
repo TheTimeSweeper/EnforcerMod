@@ -616,9 +616,11 @@ namespace EnforcerPlugin
             GameObject gasFX = Assets.nemGasEffectPrefab.InstantiateClone("FX", true);
             gasFX.AddComponent<NetworkIdentity>();
             gasFX.AddComponent<TearGasComponent>();
+            gasFX.AddComponent<DestroyOnTimer>().duration = 18f;
             gasFX.transform.parent = nemGas.transform;
             gasFX.transform.localPosition = Vector3.zero;
 
+            nemGasGrenade.AddComponent<DestroyOnTimer>().duration = 32;
             nemGas.AddComponent<DestroyOnTimer>().duration = 18;
 
             ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list)
