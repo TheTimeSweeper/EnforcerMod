@@ -54,7 +54,6 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 [![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)]()
 
 ## Known Issues
-- Teleporter particles kinda big (We could fix this but we won't)
 - Cancelling shield with sprint does not work properly in multiplayer
 - Pending an R2API update, some achievements can't be unlocked in multiplayer (they only work for host or single player)
 - RyanSkinAPI causes the model to be invisible sometimes
@@ -66,6 +65,18 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - More alternate skills
 
 ## Changelog
+`2.1.2`
+- Optimized all gases, should no longer kill fps after using too many on a stage
+- Fixed rest emote not being looped
+
+`2.1.1`
+- Fixed an issue causing the game to softlock after Mithrix's defeat
+- Fixed a minor camera bug
+- Fixed Dedede's rig
+- Fixed big teleporter particles
+- Updated shield model
+- Added an experimental Heavy TF2 skin, still a heavy work in progress
+
 `2.1.0`
 - Partially reverted some camera stuff to fix bugs resulting from it- smoother camera now only works in singleplayer
 

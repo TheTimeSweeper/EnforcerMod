@@ -100,6 +100,8 @@ namespace EnforcerPlugin
         public static Mesh nemDripHammerMesh;
         public static Mesh dededeMesh;
         public static Mesh dededeHammerMesh;
+        public static Mesh minecraftNemMesh;
+        public static Mesh minecraftHammerMesh;
 
         public static void PopulateAssets()
         {
@@ -281,8 +283,10 @@ namespace EnforcerPlugin
             nemAltMesh = NemAssetBundle.LoadAsset<Mesh>("MeshNemforcerAlt");
             nemDripMesh = NemAssetBundle.LoadAsset<Mesh>("MeshDripforcer");
             nemDripHammerMesh = NemAssetBundle.LoadAsset<Mesh>("MeshDripforcerHammer");
-            dededeMesh = NemAssetBundle.LoadAsset<Mesh>("MeshDedede");
-            dededeHammerMesh = NemAssetBundle.LoadAsset<Mesh>("MeshDededeHammer");
+            dededeMesh = NemAssetBundle.LoadAsset<Mesh>("meshDedede");
+            dededeHammerMesh = NemAssetBundle.LoadAsset<Mesh>("meshDededeHammer");
+            minecraftNemMesh = NemAssetBundle.LoadAsset<Mesh>("meshMinecraftNem");
+            minecraftHammerMesh = NemAssetBundle.LoadAsset<Mesh>("meshMinecraftHammer");
         }
 
         private static GameObject LoadEffect(string resourceName, string soundName, AssetBundle bundle)

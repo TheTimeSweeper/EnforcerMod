@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 4044789325
+CRC: 1763522606
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: df8a6da0f70df2fbcc9dbb289f5b3419
+    Hash: 179176e4f7838bbc2079fdc45f3820e6
   TypeTreeHash:
     serializedVersion: 2
     Hash: e465eabb9707126898175137816bb4a8
@@ -344,6 +344,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Materials/matSkamtebord.mat
 - Assets/Enforcer/EnforcerAssets/ShellController.prefab
 - Assets/Enforcer/EnforcerAssets/Particles/matRing.mat
+- Assets/Enforcer/EnforcerAssets/Icons/texMinecraftShit.png
 - Assets/Enforcer/EnforcerAssets/Materials/matBeeble.mat
 - Assets/Enforcer/EnforcerAssets/Animations/FireShotgunShielded.anim
 - Assets/Enforcer/EnforcerAssets/Animations/Weapon/animEnforcerGrenade.controller
@@ -366,4 +367,4 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/Masks/PitchMask.mask
 - Assets/Enforcer/EnforcerAssets/Animations/ShieldWalkF_old.anim
 Dependencies:
-- E:/Abbas's stuff VII I think/1337 haxx/ror2lol/Chikara ga minegitte kuru/EnforcerMod/EnforcerMod_Unity/Enforcer/AssetBundles/StandaloneWindows/nemforcer
+- C:/Users/rseid/Documents/GitHub/EnforcerMod/EnforcerMod_Unity/Enforcer/AssetBundles/StandaloneWindows/nemforcer

@@ -12,7 +12,7 @@ namespace EnforcerPlugin
         public static void PerformInvasion(Xoroshiro128Plus rng)
         {
             CharacterMaster master = NemforcerPlugin.bossMaster.GetComponent<CharacterMaster>();
-            CreateNemesis(master, rng);
+            if (master) CreateNemesis(master, rng);
         }
 
         private static void CreateNemesis(CharacterMaster master, Xoroshiro128Plus rng)
@@ -29,6 +29,8 @@ namespace EnforcerPlugin
                     targetMaster = tempMaster;
                 }
             }
+
+            if (!targetMaster.GetBody()) return;
 
             Transform spawnOnTarget = targetMaster.GetBody().coreTransform;
             DirectorCore.MonsterSpawnDistance input = DirectorCore.MonsterSpawnDistance.Far;

@@ -1,0 +1,266 @@
+fileFormatVersion: 2
+guid: 5050611c99f6f3b4e9eaab9f052027fa
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Armature
+    100002: BackArm1
+    100004: BackArm2
+    100006: Backarm3
+    100008: BackArmElbow
+    100010: Barrel
+    100012: Base
+    100014: Chest
+    100016: Collar.L
+    100018: Collar.R.001
+    100020: Elbow.L
+    100022: Elbow.R
+    100024: Foot.L
+    100026: Foot.R
+    100028: Hammer
+    100030: HammerBottom
+    100032: HammerHead
+    100034: HammerHeadBack2
+    100036: HammerHeadBack3
+    100038: HammerHeadFront2
+    100040: HammerHeadTop
+    100042: HammerHeadTop2
+    100044: HammerRoot
+    100046: Hand.L
+    100048: Hand.R.001
+    100050: Head
+    100052: IK-Hand.L
+    100054: IK-Hand.R
+    100056: IK-Leg.L
+    100058: IK-Leg.R
+    100060: IK.BackArm
+    100062: Index1.L
+    100064: Index1.R.001
+    100066: Index2.L
+    100068: Index2.R.001
+    100070: Index3.L
+    100072: Index3.R.001
+    100074: Knee.L
+    100076: Knee.R
+    100078: LowerArm.L
+    100080: LowerArm.R.001
+    100082: LowerLeg.L
+    100084: LowerLeg.R.003
+    100086: Middle1.L
+    100088: Middle1.R.001
+    100090: Middle2.L
+    100092: Middle2.R.001
+    100094: Middle3.L
+    100096: Middle3.R.001
+    100098: //RootNode
+    100100: Minigun
+    100102: Neck
+    100104: Pelvis
+    100106: Pinky1.L
+    100108: Pinky1.R.001
+    100110: Pinky2.L
+    100112: Pinky2.R.001
+    100114: Pinky3.L
+    100116: Pinky3.R.001
+    100118: Ring1.L
+    100120: Ring1.R.001
+    100122: Ring2.L
+    100124: Ring2.R.001
+    100126: Ring3.L
+    100128: Ring3.R.001
+    100130: Root
+    100132: Stomach
+    100134: Thumb1.L
+    100136: Thumb1.R.001
+    100138: Thumb2.L
+    100140: Thumb2.R.001
+    100142: Thumb3.L
+    100144: Thumb3.R.001
+    100146: Toe.L
+    100148: Toe.R
+    100150: Upper Arm.L
+    100152: Upper Arm.R.001
+    100154: UpperLeg.L
+    100156: UpperLeg.R
+    100158: zbod
+    400000: Armature
+    400002: BackArm1
+    400004: BackArm2
+    400006: Backarm3
+    400008: BackArmElbow
+    400010: Barrel
+    400012: Base
+    400014: Chest
+    400016: Collar.L
+    400018: Collar.R.001
+    400020: Elbow.L
+    400022: Elbow.R
+    400024: Foot.L
+    400026: Foot.R
+    400028: Hammer
+    400030: HammerBottom
+    400032: HammerHead
+    400034: HammerHeadBack2
+    400036: HammerHeadBack3
+    400038: HammerHeadFront2
+    400040: HammerHeadTop
+    400042: HammerHeadTop2
+    400044: HammerRoot
+    400046: Hand.L
+    400048: Hand.R.001
+    400050: Head
+    400052: IK-Hand.L
+    400054: IK-Hand.R
+    400056: IK-Leg.L
+    400058: IK-Leg.R
+    400060: IK.BackArm
+    400062: Index1.L
+    400064: Index1.R.001
+    400066: Index2.L
+    400068: Index2.R.001
+    400070: Index3.L
+    400072: Index3.R.001
+    400074: Knee.L
+    400076: Knee.R
+    400078: LowerArm.L
+    400080: LowerArm.R.001
+    400082: LowerLeg.L
+    400084: LowerLeg.R.003
+    400086: Middle1.L
+    400088: Middle1.R.001
+    400090: Middle2.L
+    400092: Middle2.R.001
+    400094: Middle3.L
+    400096: Middle3.R.001
+    400098: //RootNode
+    400100: Minigun
+    400102: Neck
+    400104: Pelvis
+    400106: Pinky1.L
+    400108: Pinky1.R.001
+    400110: Pinky2.L
+    400112: Pinky2.R.001
+    400114: Pinky3.L
+    400116: Pinky3.R.001
+    400118: Ring1.L
+    400120: Ring1.R.001
+    400122: Ring2.L
+    400124: Ring2.R.001
+    400126: Ring3.L
+    400128: Ring3.R.001
+    400130: Root
+    400132: Stomach
+    400134: Thumb1.L
+    400136: Thumb1.R.001
+    400138: Thumb2.L
+    400140: Thumb2.R.001
+    400142: Thumb3.L
+    400144: Thumb3.R.001
+    400146: Toe.L
+    400148: Toe.R
+    400150: Upper Arm.L
+    400152: Upper Arm.R.001
+    400154: UpperLeg.L
+    400156: UpperLeg.R
+    400158: zbod
+    2100000: Material
+    2100002: 'Material #25.002'
+    2100004: matMinecraft
+    4300000: Hammer
+    4300002: zbod
+    7400000: MinigunStance
+    7400002: Armature|GunToHammer
+    7400004: Armature|GunToHammer.001
+    7400006: Armature|GunToHammer.002
+    7400008: Armature|weightpaint pose.001
+    7400010: Armature|zbodAction
+    9500000: //RootNode
+    13700000: Hammer
+    13700002: zbod
+    2186277476908879412: ImportLogs
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

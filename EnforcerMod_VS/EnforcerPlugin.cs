@@ -27,7 +27,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.K1454.SupplyDrop", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ScrollableLobbyUI", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "2.1.0")]
+    [BepInPlugin(MODUID, "Enforcer", "2.1.2")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -540,7 +540,7 @@ namespace EnforcerPlugin
 
                     if (!globalInvasion.Value)
                     {
-                        if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
+                        if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody") && master.GetBody())
                         {
                             var j = master.gameObject.GetComponent<NemesisInvasion>();
                             if (j)
@@ -560,7 +560,7 @@ namespace EnforcerPlugin
                     }
                     else
                     {
-                        if (master.teamIndex == TeamIndex.Player && master.playerCharacterMasterController)
+                        if (master.teamIndex == TeamIndex.Player && master.playerCharacterMasterController && master.GetBody())
                         {
                             var j = master.gameObject.GetComponent<NemesisInvasion>();
                             if (j)
@@ -658,7 +658,7 @@ namespace EnforcerPlugin
                 if (self.HasBuff(unusedDebuff))
                 {
                     Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
-                    Reflection.SetPropertyValue<float>(self, "armor", self.armor - 200);
+                    Reflection.SetPropertyValue<float>(self, "armor", self.armor - 8000);
                     Reflection.SetPropertyValue<float>(self, "moveSpeed", 0);
                     Reflection.SetPropertyValue<float>(self, "attackSpeed", 0.01f);
                 }
@@ -2263,6 +2263,7 @@ namespace EnforcerPlugin
             GameObject gasFX = Assets.tearGasEffectPrefab.InstantiateClone("FX", true);
             gasFX.AddComponent<NetworkIdentity>();
             gasFX.AddComponent<TearGasComponent>();
+            gasFX.AddComponent<DestroyOnTimer>().duration = 18f;
             gasFX.transform.parent = tearGasPrefab.transform;
             gasFX.transform.localPosition = Vector3.zero;
 
@@ -2337,6 +2338,7 @@ namespace EnforcerPlugin
             GameObject scepterGasFX = Assets.tearGasEffectPrefabAlt.InstantiateClone("FX", true);
             scepterGasFX.AddComponent<NetworkIdentity>();
             scepterGasFX.AddComponent<TearGasComponent>();
+            scepterGasFX.AddComponent<DestroyOnTimer>().duration = 18f;
             scepterGasFX.transform.parent = damageGasEffect.transform;
             scepterGasFX.transform.localPosition = Vector3.zero;
 

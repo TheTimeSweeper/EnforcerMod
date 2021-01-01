@@ -26,6 +26,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("NEMFORCERBODY_CLASSIC_SKIN_NAME", "Classic");
             LanguageAPI.Add("NEMFORCERBODY_DRIP_SKIN_NAME", "Dripforcer");
             LanguageAPI.Add("NEMFORCERBODY_DEDEDE_SKIN_NAME", "King Dedede");
+            LanguageAPI.Add("NEMFORCERBODY_MINECRAFT_SKIN_NAME", "Minecraft");
 
             #region DefaultSkin
             LoadoutAPI.SkinDefInfo skinDefInfo = default(LoadoutAPI.SkinDefInfo);
@@ -222,6 +223,45 @@ namespace EnforcerPlugin
             SkinDef dededeSkin = LoadoutAPI.CreateNewSkinDef(dededeSkinDefInfo);
             #endregion
 
+            #region MinecraftSkin
+            LoadoutAPI.SkinDefInfo minecraftSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            minecraftSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            minecraftSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            minecraftSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+            minecraftSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+            minecraftSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texMinecraftShit");
+
+            minecraftSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                new SkinDef.MeshReplacement
+                {
+                    renderer = mainRenderer,
+                    mesh = Assets.minecraftNemMesh
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[0].renderer,
+                    mesh = Assets.minecraftHammerMesh
+                }
+            };
+            minecraftSkinDefInfo.Name = "NEMFORCERBODY_MINECRAFT_SKIN_NAME";
+            minecraftSkinDefInfo.NameToken = "NEMFORCERBODY_MINECRAFT_SKIN_NAME";
+            minecraftSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            minecraftSkinDefInfo.RootObject = model;
+            minecraftSkinDefInfo.UnlockableName = "";
+
+            rendererInfos = skinDefInfo.RendererInfos;
+            array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos.CopyTo(array, 0);
+
+            array[0].defaultMaterial = Assets.CreateNemMaterial("matMinecraftNem", 5f, Color.white, 0);
+            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matMinecraftNem", 5f, Color.black, 0);
+
+            minecraftSkinDefInfo.RendererInfos = array;
+
+            SkinDef minecraftSkin = LoadoutAPI.CreateNewSkinDef(minecraftSkinDefInfo);
+            #endregion
+
             var skinDefs = new List<SkinDef>();
 
             skinDefs = new List<SkinDef>()
@@ -235,6 +275,7 @@ namespace EnforcerPlugin
             {
                 skinDefs.Add(dripSkin);
                 skinDefs.Add(dededeSkin);
+                skinDefs.Add(minecraftSkin);
             }
 
             skinController.skins = skinDefs.ToArray();
