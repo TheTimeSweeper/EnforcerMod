@@ -17,7 +17,7 @@ namespace EntityStates.Nemforcer
         public static float hitHopVelocity = 5.5f;
         public static string mecanimRotateParameter = "baseRotate";
         public int currentSwing;
-        private float earlyExitTime = 0.95f;
+        private float earlyExitTime = 0.90f;
 
         private float duration;
         private float earlyExitDuration;
@@ -46,13 +46,17 @@ namespace EntityStates.Nemforcer
             this.modelBaseTransform = base.GetModelBaseTransform();
             this.animator = base.GetModelAnimator();
             bool grounded = base.characterMotor.isGrounded;
+            bool moving = this.animator.GetBool("isMoving");
 
             string swingAnimState = currentSwing % 2 == 0 ? "HammerSwing" : "HammerSwing2";
 
             HitBoxGroup hitBoxGroup = Array.Find<HitBoxGroup>(base.GetModelTransform().GetComponents<HitBoxGroup>(), (HitBoxGroup element) => element.groupName == "Hammer");
             this.animator.SetBool("swinging", true);
+
             base.PlayCrossfade("Gesture, Override", swingAnimState, "HammerSwing.playbackRate", this.duration, 0.05f);
-            //base.PlayAnimation("Legs, Override", "SwingLegs", "HammerSwing.playbackRate", this.duration);
+            if (grounded && !moving) {
+                base.PlayCrossfade("Legs, Override", swingAnimState, "HammerSwing.playbackRate", this.duration, 0.05f);
+            }
 
             float dmg = HammerSwing.damageCoefficient;
 
