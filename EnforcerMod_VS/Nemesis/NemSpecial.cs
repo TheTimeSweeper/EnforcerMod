@@ -101,8 +101,6 @@ namespace EntityStates.Nemforcer
                     base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.tempLargeSlowDebuff);
                 }
 
-                this.animator.SetBool("minigunActive", true);
-
                 string soundString = EnforcerPlugin.Sounds.NemesisMinigunUnsheathe;
                 Util.PlaySound(soundString, base.gameObject);
                 if (this.nemController)
@@ -133,13 +131,17 @@ namespace EntityStates.Nemforcer
 
             float progress = Mathf.Clamp01(base.fixedAge / this.duration);
 
-            if (this.ye) this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), progress);
-            else this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), 1 - progress);
+            if (this.ye) {
+                this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), progress);
+            } else {
+                this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), 1 - progress);
+            }
 
             if (NetworkServer.active && base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.tempLargeSlowDebuff) && !base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff) && progress >= 0.5f) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempLargeSlowDebuff);
 
-            if (base.fixedAge >= this.duration && base.isAuthority)
-            {
+            if (base.fixedAge >= this.duration && base.isAuthority) {
+
+                this.animator.SetBool("minigunActive", this.ye);
                 this.outer.SetNextStateToMain();
                 return;
             }

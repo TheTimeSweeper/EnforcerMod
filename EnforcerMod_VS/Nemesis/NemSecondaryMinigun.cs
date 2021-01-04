@@ -93,7 +93,7 @@ namespace EntityStates.Nemforcer
 
                     EffectData effectData = new EffectData();
                     effectData.origin = sex - Vector3.up * 2;
-                    effectData.scale = 15;
+                    effectData.scale = 25;
 
                     EffectManager.SpawnEffect(slamPrefab, effectData, true);
 

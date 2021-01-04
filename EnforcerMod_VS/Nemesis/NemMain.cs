@@ -9,6 +9,7 @@ namespace EntityStates.Nemforcer
         private float initialTime;
         private float currentHealth;
         private Animator animator;
+        private AimAnimator aimAnimator;
         private NemforcerController nemComponent;
 
         public override void OnEnter()
@@ -18,6 +19,7 @@ namespace EntityStates.Nemforcer
             this.nemComponent.mainStateMachine = outer;
 
             this.animator = base.GetModelAnimator();
+            this.aimAnimator = base.GetAimAnimator();
             base.smoothingParameters.forwardSpeedSmoothDamp = 0.02f;
             base.smoothingParameters.rightSpeedSmoothDamp = 0.02f;
         }
