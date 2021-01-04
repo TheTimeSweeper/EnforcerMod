@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2876117213
+CRC: 3736422019
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0d1d3694b9fcbc54c9afb2e51780df75
+    Hash: 8fc61fe9b4711ef04379e109c7a9cdae
   TypeTreeHash:
     serializedVersion: 2
     Hash: e465eabb9707126898175137816bb4a8
@@ -245,6 +245,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Icons/Old/RiotShotgunIconOld.png
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texRiotShieldWhite.png
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texSuperShell.png
+- Assets/Enforcer/EnforcerAssets/Animations/HammerSwing_Hammer.anim
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texCubeShield.png
 - Assets/Enforcer/EnforcerAssets/Materials/matIronManforcer.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matShotgun.mat

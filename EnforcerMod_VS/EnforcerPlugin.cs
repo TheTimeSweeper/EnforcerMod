@@ -79,6 +79,7 @@ namespace EnforcerPlugin
         public static GameObject shockGrenade;
 
         public static GameObject blockEffectPrefab;
+        public static GameObject hammerSlamEffect;
 
         public GameObject doppelganger;
 
@@ -1910,11 +1911,10 @@ namespace EnforcerPlugin
             //hammer hitbox
             HitBoxGroup hammerHitBoxGroup = model.AddComponent<HitBoxGroup>();
 
-            GameObject hammerHitbox = new GameObject("HammerHitbox");
-            hammerHitbox.transform.parent = childLocator.FindChild("HammerModel2");
-            hammerHitbox.transform.localPosition = new Vector3(0f, 0f, 0f);
+            GameObject hammerHitbox = childLocator.FindChild("ActualHammerHitbox").gameObject;
+            hammerHitbox.transform.localPosition = new Vector3(0f, 13.3f, 13.7f);
             hammerHitbox.transform.localRotation = Quaternion.identity;
-            hammerHitbox.transform.localScale = Vector3.one * 7f;
+            hammerHitbox.transform.localScale = new Vector3(48, 41, 60);
 
             HitBox hammerHitBox = hammerHitbox.AddComponent<HitBox>();
             hammerHitbox.layer = LayerIndex.projectile.intVal;
@@ -2435,6 +2435,18 @@ namespace EnforcerPlugin
             blockEffectPrefab.GetComponent<EffectComponent>().soundName = "";
             if (!blockEffectPrefab.GetComponent<NetworkIdentity>()) blockEffectPrefab.AddComponent<NetworkIdentity>();
 
+            //hammer slam effect for enforcer m1 and nemforcer m2
+            hammerSlamEffect = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect").InstantiateClone("EnforcerHammerSlamEffect");
+            hammerSlamEffect.GetComponent<EffectComponent>().applyScale = true;
+
+            Transform dust = hammerSlamEffect.transform.Find("Dust, Directional");
+            if(dust) dust.localScale = new Vector3(1, 0.7f, 1);
+
+            Transform nova = hammerSlamEffect.transform.Find("Nova Sphere");
+            if(nova) nova.localScale = new Vector3(8, 8, 8);
+
+            if (!hammerSlamEffect.GetComponent<NetworkIdentity>()) hammerSlamEffect.AddComponent<NetworkIdentity>();
+
             ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list) 
             {
                 list.Add(projectilePrefab);
@@ -2450,6 +2462,7 @@ namespace EnforcerPlugin
             EffectAPI.AddEffect(laserTracer);
             EffectAPI.AddEffect(minigunTracer);
             EffectAPI.AddEffect(blockEffectPrefab);
+            EffectAPI.AddEffect(hammerSlamEffect);
         }
 
         private void CreateCrosshair()

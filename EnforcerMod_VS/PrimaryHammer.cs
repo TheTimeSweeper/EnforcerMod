@@ -7,10 +7,12 @@ namespace EntityStates.Enforcer
     public class HammerSwing : BaseSkillState
     {
         public static float baseDuration = 0.75f;
+        public static float baseShieldDuration = 0.5f;
         public static float damageCoefficient = 4f;
         public static float procCoefficient = 1f;
         public static float attackRecoil = 1.15f;
         public static float hitHopVelocity = 5.5f;
+        public static GameObject slamPrefab = EnforcerPlugin.EnforcerPlugin.hammerSlamEffect;
 
         private float duration;
         private ChildLocator childLocator;
@@ -39,14 +41,23 @@ namespace EntityStates.Enforcer
 
             base.PlayAnimation("Gesture, Override", "HammerSwing", "HammerSwing.playbackRate", this.duration);
 
+            Animator hammerAnim = null;
             if (this.childLocator.FindChild("Hammer"))
             {
-                var anim = base.GetModelChildLocator().FindChild("Hammer").GetComponentInChildren<Animator>();
-                if (anim)
-                {
-                    anim.Play("HammerSwing");
-                    anim.SetFloat("HammerSwing.playbackRate", this.duration);
-                }
+                hammerAnim = base.GetModelChildLocator().FindChild("Hammer").GetComponentInChildren<Animator>();
+            if (hammerAnim) {
+                PlayAnimationOnAnimator(hammerAnim, "Base Layer", "HammerSwing", "HammerSwing.playbackRate", this.duration);
+            }
+            }
+
+            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff)) {
+                this.duration = HammerSwing.baseShieldDuration / this.attackSpeedStat;
+
+                base.PlayAnimation("RightArm, Override", "HammerSwing", "HammerSwing.playbackRate", this.duration);
+            } else {
+                this.duration = HammerSwing.baseDuration / this.attackSpeedStat;
+
+                base.PlayAnimation("Gesture, Override", "HammerSwing", "HammerSwing.playbackRate", this.duration);
             }
 
             HitBoxGroup hitBoxGroup = Array.Find<HitBoxGroup>(base.GetModelTransform().GetComponents<HitBoxGroup>(), (HitBoxGroup element) => element.groupName == "Hammer");
@@ -89,7 +100,7 @@ namespace EntityStates.Enforcer
                 if (this.animator) this.animator.SetFloat("HammerSwing.playbackRate", 0f);
             }
 
-            if (this.stopwatch >= this.duration * 0.25f && this.stopwatch <= this.duration * 0.75f)
+            if (this.stopwatch >= this.duration * 0.5f && this.stopwatch <= this.duration * 0.8)
             {
                 this.FireAttack();
             }
@@ -114,6 +125,15 @@ namespace EntityStates.Enforcer
 
                 string muzzleString = "ShieldHitbox";
                 EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.hammerSwingFX, base.gameObject, muzzleString, true);
+
+                //Vector3 sex = this.childLocator.FindChild("SlamEffectCenter").transform.position;
+
+                //EffectData effectData = new EffectData();
+                //effectData.origin = sex - Vector3.up;
+                //effectData.scale = 1;
+
+                //EffectManager.SpawnEffect(slamPrefab, effectData, true);
+
             }
 
             if (base.isAuthority)

@@ -2767,6 +2767,36 @@ Transform:
   m_Father: {fileID: 6093736068760964175}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -0.0000019356112, y: 0.00001831365, z: -1.1439428}
+--- !u!1 &3067441125494773363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8735117326821743902}
+  m_Layer: 0
+  m_Name: ActualHammerHitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8735117326821743902
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3067441125494773363}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 13.3, z: 13.7}
+  m_LocalScale: {x: 48, y: 41.336403, z: 60}
+  m_Children: []
+  m_Father: {fileID: 181713245510940606}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3128266430050262943
 GameObject:
   m_ObjectHideFlags: 0
@@ -3633,6 +3663,8 @@ Transform:
   - {fileID: 5174930110266189676}
   - {fileID: 3844658487246204604}
   - {fileID: 6648020771627615551}
+  - {fileID: 8735117326821743902}
+  - {fileID: 4013843546049334957}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3842,6 +3874,10 @@ MonoBehaviour:
     transform: {fileID: 5598599500579656787}
   - name: CubeRifle
     transform: {fileID: 1055209853254087372}
+  - name: ActualHammerHitbox
+    transform: {fileID: 8735117326821743902}
+  - name: SlamEffectCenter
+    transform: {fileID: 4013843546049334957}
 --- !u!114 &6157052733401436380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9321,6 +9357,36 @@ Transform:
   m_Father: {fileID: 6938500319898104948}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -0.0000000120444605, y: 0.000004185265, z: 2.2192426}
+--- !u!1 &8961998886910266546
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4013843546049334957}
+  m_Layer: 0
+  m_Name: SlamEffectCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4013843546049334957
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8961998886910266546}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.03, z: 14.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 181713245510940606}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9051001402613262272
 GameObject:
   m_ObjectHideFlags: 0

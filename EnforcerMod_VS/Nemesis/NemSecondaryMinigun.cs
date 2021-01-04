@@ -70,7 +70,7 @@ namespace EntityStates.Nemforcer
             projectileBlastAttack.teamIndex = TeamComponent.GetObjectTeam(projectileBlastAttack.attacker);
 
             blastEffectData = new EffectData();
-            blastEffectData.scale = 3f;
+            blastEffectData.scale = 6f;
             blastEffectData.color = new Color32(234, 200, 127, 100);
         }
 
@@ -93,9 +93,9 @@ namespace EntityStates.Nemforcer
 
                     EffectData effectData = new EffectData();
                     effectData.origin = sex - Vector3.up * 2;
-                    effectData.scale = 25;
+                    effectData.scale = 2;
 
-                    EffectManager.SpawnEffect(slamPrefab, effectData, true);
+                    EffectManager.SpawnEffect(slamPrefab, effectData, true); 
 
                     base.AddRecoil(-0.5f * HammerSlam.recoilAmplitude * 3f, -0.5f * HammerSlam.recoilAmplitude * 3f, -0.5f * HammerSlam.recoilAmplitude * 5f, 0.5f * HammerSlam.recoilAmplitude * 3f);
 
