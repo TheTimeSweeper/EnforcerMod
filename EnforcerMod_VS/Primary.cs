@@ -332,9 +332,9 @@ namespace EntityStates.Enforcer
         {
             if (this.GetModelChildLocator().FindChild("SuperShotgunModel"))
             {
-                var anim = this.GetModelChildLocator().FindChild("SuperShotgunModel").GetComponent<Animator>();
-                anim.SetFloat("SuperShottyFire.playbackRate", this.attackSpeedStat);
-                anim.SetTrigger(animString);
+                Animator anim = this.GetModelChildLocator().FindChild("SuperShotgunModel").GetComponent<Animator>();
+
+                PlayAnimationOnAnimator(anim, "Base Layer", "animString", "SuperShottyFire.playbackRate", this.duration);
             }
         }
     }

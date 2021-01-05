@@ -384,33 +384,57 @@ namespace EnforcerPlugin
             hurtBoxGroup.mainHurtBox = mainHurtbox;
             hurtBoxGroup.bullseyeCount = 1;
 
-            //make a hitbox for hammer
             HitBoxGroup hitBoxGroup = model.AddComponent<HitBoxGroup>();
-
+            #region legacyHitboxes
+            ////make a hitbox for hammer (old)
             //GameObject hammerHitbox = childLocator.FindChild("HammerHitbox").gameObject;
             //hammerHitbox.transform.localScale = new Vector3(0.155f, 0.17f, 0.08f);
             //hammerHitbox.transform.localPosition = Vector3.up * 0.02f;
+            //hammerHitbox.layer = LayerIndex.projectile.intVal;
 
+            //HitBox hitBox0 = hammerHitbox.AddComponent<HitBox>();
 
-            GameObject hammerHitbox1 = childLocator.FindChild("HammerHitboxHead").gameObject;
-            hammerHitbox1.transform.localScale = new Vector3(0.155f, 0.102f, 0.08f);
-            hammerHitbox1.transform.localPosition = Vector3.up * 0.0518f;
+            //hitBoxGroup.hitBoxes = new HitBox[]
+            //{
+            //    hitBox0,
+            //};
 
-            GameObject hammerHitbox2 = childLocator.FindChild("HammerHitboxShaft").gameObject;
-            hammerHitbox2.transform.localScale = new Vector3(0.155f, 0.102f, 0.043f);
-            hammerHitbox2.transform.localPosition = Vector3.up * -0.0144f;
+            ////make hitboxes for hammer (old)
+            //GameObject hammerHitbox1 = childLocator.FindChild("HammerHitboxHead").gameObject;
+            //hammerHitbox1.transform.localScale = new Vector3(0.155f, 0.102f, 0.08f);
+            //hammerHitbox1.transform.localPosition = Vector3.up * 0.0518f;
+            //hammerHitbox1.layer = LayerIndex.projectile.intVal;
+
+            //GameObject hammerHitbox2 = childLocator.FindChild("HammerHitboxShaft").gameObject;
+            //hammerHitbox2.transform.localScale = new Vector3(0.155f, 0.102f, 0.043f);
+            //hammerHitbox2.transform.localPosition = Vector3.up * -0.0144f;
+            //hammerHitbox2.layer = LayerIndex.projectile.intVal;
+
+            //HitBox hitBox1 = hammerHitbox1.AddComponent<HitBox>();
+            //HitBox hitBox11 = hammerHitbox2.AddComponent<HitBox>();
+
+            //hitBoxGroup.hitBoxes = new HitBox[]
+            //{
+            //    hitBox1,
+            //    hitBox11,
+            //};
+            #endregion
+
+            //make hitboxes for hammer (old)
+            GameObject hammerHitbox1 = childLocator.FindChild("HammerHitboxFront").gameObject;
+            hammerHitbox1.layer = LayerIndex.projectile.intVal;
+
+            GameObject hammerHitbox2 = childLocator.FindChild("HammerHitboxBack").gameObject;
+            hammerHitbox2.layer = LayerIndex.projectile.intVal;
 
             HitBox hitBox1 = hammerHitbox1.AddComponent<HitBox>();
-            hammerHitbox1.layer = LayerIndex.projectile.intVal;
-            HitBox hitBox11 = hammerHitbox2.AddComponent<HitBox>(); 
-            hammerHitbox2.layer = LayerIndex.projectile.intVal;
+            HitBox hitBox11 = hammerHitbox2.AddComponent<HitBox>();
 
             hitBoxGroup.hitBoxes = new HitBox[]
             {
                 hitBox1,
                 hitBox11,
             };
-
             hitBoxGroup.groupName = "Hammer";
 
             //uppercut hitbox

@@ -356,7 +356,7 @@ namespace EnforcerPlugin
             On.RoR2.MapZone.TryZoneStart += MapZone_TryZoneStart;
             On.RoR2.HealthComponent.Suicide += HealthComponent_Suicide;
 
-            //On.EntityStates.Global1s.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
+            //On.EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
         }
 
         private bool isMonsoon()
@@ -814,6 +814,7 @@ namespace EnforcerPlugin
         private void FireLunarNeedle_OnEnter(On.EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle.orig_OnEnter orig, EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle self)
         {
             // this actually didn't work, hopefully someone else can figure it out bc needler shotgun sounds badass
+            // don't forget to register the state if you do :^)
             if (self.outer.commonComponents.characterBody)
             {
                 if (self.outer.commonComponents.characterBody.baseNameToken == "ENFORCER_NAME")
@@ -934,8 +935,11 @@ namespace EnforcerPlugin
         private void HealthComponent_Suicide(On.RoR2.HealthComponent.orig_Suicide orig, HealthComponent self, GameObject killerOverride, GameObject inflictorOverride, DamageType damageType) {
 
             if (damageType == DamageType.VoidDeath) {
-                if (self.body.bodyIndex == BodyCatalog.FindBodyIndex("NemforcerBody")) {
-                    if(self.body.teamComponent.teamIndex != TeamIndex.Player) {
+                Debug.LogWarning("voidDeath");
+                if (self.body.baseNameToken == "NEMFORCER_NAME") {
+                    Debug.LogWarning("nemmememme");
+                    if (self.body.teamComponent.teamIndex != TeamIndex.Player) {
+                        Debug.LogWarning("spookyscary");
                         return;
                     }
                 }
@@ -1351,6 +1355,7 @@ namespace EnforcerPlugin
             gameObject.transform.localPosition = new Vector3(0f, -0.91f, 0f);
             gameObject.transform.localRotation = Quaternion.identity;
             gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
+
 
             GameObject gameObject2 = new GameObject("CameraPivot");
             gameObject2.transform.parent = gameObject.transform;
@@ -1912,19 +1917,37 @@ namespace EnforcerPlugin
             HitBoxGroup hammerHitBoxGroup = model.AddComponent<HitBoxGroup>();
 
             GameObject hammerHitbox = childLocator.FindChild("ActualHammerHitbox").gameObject;
-            hammerHitbox.transform.localPosition = new Vector3(0f, 13.3f, 13.7f);
+            hammerHitbox.transform.localPosition = new Vector3(0f, 15.35f, 13.7f);
             hammerHitbox.transform.localRotation = Quaternion.identity;
-            hammerHitbox.transform.localScale = new Vector3(48, 41, 60);
+            hammerHitbox.transform.localScale = new Vector3(48, 45.1f, 60);
 
             HitBox hammerHitBox = hammerHitbox.AddComponent<HitBox>();
             hammerHitbox.layer = LayerIndex.projectile.intVal;
 
-            hammerHitBoxGroup.hitBoxes = new HitBox[]
+            hammerHitBoxGroup.hitBoxes = new HitBox[] 
             {
                 hammerHitBox
             };
 
             hammerHitBoxGroup.groupName = "Hammer";
+
+            //hammer hitbox2
+            HitBoxGroup hammerHitBoxGroup2 = model.AddComponent<HitBoxGroup>();
+
+            GameObject hammerHitbox2 = childLocator.FindChild("ActualHammerHitboxBig").gameObject;
+            //hammerHitbox2.transform.localPosition = new Vector3(0f, 13.3f, 13.7f);
+            //hammerHitbox2.transform.localRotation = Quaternion.identity;
+            //hammerHitbox2.transform.localScale = new Vector3(48, 41, 60);
+
+            HitBox hammerHitBox2 = hammerHitbox2.AddComponent<HitBox>();
+            hammerHitbox2.layer = LayerIndex.projectile.intVal;
+
+            hammerHitBoxGroup2.hitBoxes = new HitBox[]
+            {
+                hammerHitBox2
+            };
+
+            hammerHitBoxGroup2.groupName = "HammerBig";
 
             FootstepHandler footstepHandler = model.AddComponent<FootstepHandler>();
             footstepHandler.baseFootstepString = "Play_player_footstep";
@@ -2896,7 +2919,8 @@ namespace EnforcerPlugin
 
         private SkillDef PrimarySkillDef_AssaultRifle()
         {
-            string desc = "Fire a burst of bullets dealing <style=cIsDamage>" + FireBurstRifle.projectileCount + "x" +  100f * FireBurstRifle.damageCoefficient + "% damage</style>. <style=cIsUtility>Fires " + 2 * FireBurstRifle.projectileCount + " bullets instead during Protect and Serve</style>.";
+            string damage = $"<style=cIsDamage>{FireBurstRifle.projectileCount}x{100f * FireBurstRifle.damageCoefficient}% damage</style>";
+            string desc = $"Fire a burst of bullets dealing {damage}. <style=cIsUtility>During Protect and Serve</style>, Fires <style=cIsDamage>{2 * FireBurstRifle.projectileCount} bullets</style> instead.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_NAME", "Assault Rifle");
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_DESCRIPTION", desc);
@@ -2928,7 +2952,9 @@ namespace EnforcerPlugin
 
         private SkillDef PrimarySkillDef_Hammer()
         {
-            string desc = "Swing your hammer for <style=cIsDamage>" + 100f * HammerSwing.damageCoefficient + "%</style> damage.";
+            string damage = $"<style=cIsDamage>{ 100f * HammerSwing.damageCoefficient}% damage</style>.";
+            string shieldDamage = $"<style=cIsDamage>{ 100f * HammerSwing.shieldDamageCoefficient}% damage</style>.";
+            string desc = $"Swing your hammer for {damage}damage. <style=cIsUtility>During Protect and Serve</style>, swing for {shieldDamage} instead";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_HAMMER_NAME", "Breaching Hammer");
             LanguageAPI.Add("ENFORCER_PRIMARY_HAMMER_DESCRIPTION", desc);
@@ -3313,6 +3339,7 @@ namespace EnforcerPlugin
         private void CSSPreviewSetup()
         {
             //something broke here i don't really understand it
+            //  that's because holy shit i wrote this like a fucking ape. do not forgive me for this
             CharacterSelectSurvivorPreviewDisplayController previewController = characterDisplay.GetComponent<CharacterSelectSurvivorPreviewDisplayController>();
 
             for (int i = 0; i < previewController.skillChangeResponses.Length; i++)

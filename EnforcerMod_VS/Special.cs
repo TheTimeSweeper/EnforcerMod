@@ -114,9 +114,9 @@ namespace EntityStates.Enforcer
                 string soundString = EnforcerPlugin.Sounds.ShieldUp;
                 if (isEngi || isDoom) soundString = EnforcerPlugin.Sounds.EnergyShieldUp;
 
-                Util.PlaySound(soundString, base.gameObject);
+                Util.PlaySound(soundString, base.gameObject); 
 
-                characterBody.aimOriginTransform = childLocator.FindChild("ShieldHurtbox");
+                characterBody.aimOriginTransform = childLocator.FindChild("ShieldMuzzle");
 
                 if (this.weaponComponent)
                 {

@@ -50,7 +50,7 @@ namespace EntityStates.Nemforcer
 
             string swingAnimState = currentSwing % 2 == 0 ? "HammerSwing" : "HammerSwing2";
 
-            HitBoxGroup hitBoxGroup = Array.Find<HitBoxGroup>(base.GetModelTransform().GetComponents<HitBoxGroup>(), (HitBoxGroup element) => element.groupName == "Hammer");
+            HitBoxGroup hitBoxGroup = base.FindHitBoxGroup("Hammer");
             this.animator.SetBool("swinging", true);
 
             base.PlayCrossfade("Gesture, Override", swingAnimState, "HammerSwing.playbackRate", this.duration, 0.05f);
