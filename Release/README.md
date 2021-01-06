@@ -69,6 +69,8 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - made stun grenade actually hit things you're fucking aiming at
 - tweaked secret boss hammer hitboxes so you can more reliably block them with enforcer's shield
 - secret boss cannot be deleted by the void
+- minigun aims up and down
+- improved golden hammer swing animations
 
 `2.1.2`
 - Optimized all gases, should no longer kill fps after using too many on a stage
