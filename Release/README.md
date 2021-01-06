@@ -71,6 +71,8 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - secret boss cannot be deleted by the void
 - minigun aims up and down
 - improved golden hammer swing animations
+- added enforcer idlein
+- updated icon
 
 `2.1.2`
 - Optimized all gases, should no longer kill fps after using too many on a stage
