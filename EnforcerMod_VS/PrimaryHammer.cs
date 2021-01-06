@@ -14,12 +14,15 @@ namespace EntityStates.Enforcer
         public static float procCoefficient = 1f;
         public static float attackRecoil = 1.15f;
         public static float hitHopVelocity = 5.5f;
-        public static GameObject slamPrefab = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
+        public static GameObject slamEffectPrefab = null; // Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
+        public static GameObject shieldSlamEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
 
         private float duration;
         private float earlyExitDuration;
         private float damage;
         private string hitboxString;
+        private GameObject slamPrefab;
+
         private ChildLocator childLocator;
         private bool hasFired;
         private float hitPauseTimer;
@@ -58,12 +61,15 @@ namespace EntityStates.Enforcer
                 this.duration = HammerSwing.baseShieldDuration / this.attackSpeedStat;
                 this.damage = HammerSwing.shieldDamageCoefficient;
                 hitboxString = "HammerBig";
+                slamPrefab = shieldSlamEffectPrefab;
 
                 base.PlayCrossfade("RightArm, Override", "HammerSwing", "HammerSwing.playbackRate", this.duration, 0.05f);
             } else {
                 this.duration = HammerSwing.baseDuration / this.attackSpeedStat;
                 this.damage = HammerSwing.damageCoefficient;
                 hitboxString = "Hammer";
+                slamPrefab = slamEffectPrefab;
+
 
                 base.PlayCrossfade("Gesture, Override", "HammerSwing", "HammerSwing.playbackRate", this.duration, 0.05f);
             }
@@ -144,13 +150,15 @@ namespace EntityStates.Enforcer
                 string muzzleString = "ShieldHitbox";
                 EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.hammerSwingFX, base.gameObject, muzzleString, true);
 
-                //Vector3 sex = this.childLocator.FindChild("SlamEffectCenter").transform.position;
+                if (slamPrefab) {
+                    Vector3 sex = this.childLocator.FindChild("SlamEffectCenter").transform.position;
 
-                //EffectData effectData = new EffectData();
-                //effectData.origin = sex - Vector3.up;
-                //effectData.scale = 1;
+                    EffectData effectData = new EffectData();
+                    effectData.origin = sex - Vector3.up;
+                    effectData.scale = 1;
 
-                //EffectManager.SpawnEffect(slamPrefab, effectData, true);
+                    EffectManager.SpawnEffect(slamPrefab, effectData, true);
+                }
             }
 
             if (base.isAuthority)
