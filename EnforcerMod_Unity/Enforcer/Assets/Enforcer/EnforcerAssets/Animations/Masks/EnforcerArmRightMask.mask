@@ -84,7 +84,7 @@ AvatarMask:
   - m_Path: Armature/Root/Pelvis/Spine1/Spine2/Spine3/ClavicleL/ShoulderL/ElbowL/HandL/Thumb1L/Thumb2L/Thumb3L/Thumb3L_end
     m_Weight: 0
   - m_Path: Armature/Root/Pelvis/Spine1/Spine2/Spine3/ClavicleR
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Armature/Root/Pelvis/Spine1/Spine2/Spine3/ClavicleR/ShoulderR
     m_Weight: 1
   - m_Path: Armature/Root/Pelvis/Spine1/Spine2/Spine3/ClavicleR/ShoulderR/ElbowR

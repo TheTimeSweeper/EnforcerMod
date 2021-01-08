@@ -14,7 +14,7 @@ namespace EntityStates.Enforcer
         public static float procCoefficient = 1f;
         public static float attackRecoil = 1.15f;
         public static float hitHopVelocity = 5.5f;
-        public static GameObject slamEffectPrefab = null; // Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
+        public static GameObject slamEffectPrefab = null;// EnforcerPlugin.EnforcerPlugin.hammerSlamEffect; // Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
         public static GameObject shieldSlamEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
 
         private float duration;
@@ -46,17 +46,6 @@ namespace EntityStates.Enforcer
             this.animator = base.GetModelAnimator();
             bool grounded = base.characterMotor.isGrounded;
 
-            base.PlayAnimation("Gesture, Override", "HammerSwing", "HammerSwing.playbackRate", this.duration);
-
-            Animator hammerAnim = null;
-            if (this.childLocator.FindChild("Hammer"))
-            {
-                hammerAnim = base.GetModelChildLocator().FindChild("Hammer").GetComponentInChildren<Animator>();
-                if (hammerAnim) {
-                    PlayAnimationOnAnimator(hammerAnim, "Base Layer", "HammerSwing", "HammerSwing.playbackRate", this.duration);
-                }
-            }
-
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff)) {
                 this.duration = HammerSwing.baseShieldDuration / this.attackSpeedStat;
                 this.damage = HammerSwing.shieldDamageCoefficient;
@@ -73,11 +62,19 @@ namespace EntityStates.Enforcer
 
                 base.PlayCrossfade("Gesture, Override", "HammerSwing", "HammerSwing.playbackRate", this.duration, 0.05f);
             }
+
             this.earlyExitDuration = this.duration * HammerSwing.baseEarlyExitTime;
 
-            
+            Animator hammerAnim = null;
+            if (this.childLocator.FindChild("Hammer")) {
+                hammerAnim = base.GetModelChildLocator().FindChild("Hammer").GetComponentInChildren<Animator>();
+                if (hammerAnim) {
+                    PlayAnimationOnAnimator(hammerAnim, "Base Layer", "HammerSwing", "HammerSwing.playbackRate", this.duration);
+                }
+            }
+
+
             HitBoxGroup hitBoxGroup = base.FindHitBoxGroup(hitboxString);
-            Debug.LogWarning(hitBoxGroup != null);
 
             this.attack = new OverlapAttack();
             this.attack.damageType = DamageType.Generic;
@@ -122,11 +119,6 @@ namespace EntityStates.Enforcer
 
             if (base.fixedAge >= this.earlyExitDuration && base.inputBank.skill1.down && base.isAuthority) {
                 this.outer.SetNextState(new HammerSwing());
-                return;
-            }
-
-            if (base.fixedAge >= this.earlyExitDuration ) {
-                this.outer.SetNextStateToMain();
                 return;
             }
 

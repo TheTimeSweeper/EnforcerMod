@@ -2460,15 +2460,15 @@ namespace EnforcerPlugin
 
             //hammer slam effect for enforcer m1 and nemforcer m2
             hammerSlamEffect = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect").InstantiateClone("EnforcerHammerSlamEffect");
-            hammerSlamEffect.GetComponent<EffectComponent>().applyScale = true;
+            //hammerSlamEffect.GetComponent<EffectComponent>().applyScale = true;
 
-            Transform dust = hammerSlamEffect.transform.Find("Dust, Directional");
-            if(dust) dust.localScale = new Vector3(1, 0.7f, 1);
+            //Transform dust = hammerSlamEffect.transform.Find("Dust, Directional");
+            //if(dust) dust.localScale = new Vector3(1, 0.7f, 1);
 
-            Transform nova = hammerSlamEffect.transform.Find("Nova Sphere");
-            if(nova) nova.localScale = new Vector3(8, 8, 8);
+            //Transform nova = hammerSlamEffect.transform.Find("Nova Sphere");
+            //if(nova) nova.localScale = new Vector3(8, 8, 8);
 
-            if (!hammerSlamEffect.GetComponent<NetworkIdentity>()) hammerSlamEffect.AddComponent<NetworkIdentity>();
+            if (!hammerSlamEffect.GetComponent<NetworkIdentity>()) hammerSlamEffect.AddComponent<NetworkIdentity>();  
 
             ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list) 
             {

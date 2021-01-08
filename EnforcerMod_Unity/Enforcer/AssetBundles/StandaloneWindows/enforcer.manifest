@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2148773811
+CRC: 3010936751
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 944df508f8218b2cc089f255a069f604
+    Hash: f0f917bf194352617d4628bf521eccf2
   TypeTreeHash:
     serializedVersion: 2
     Hash: e465eabb9707126898175137816bb4a8
@@ -325,6 +325,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/Weapon/animBungusShield.controller
 - Assets/Enforcer/EnforcerAssets/Animations/Weapon/GrenadeSpawn.anim
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texNeedler.png
+- Assets/Enforcer/EnforcerAssets/Animations/EnforcerIdleIn.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matDoomEnforcer.mat
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texFemforcer.png
 - Assets/Enforcer/EnforcerAssets/Particles/texSpark.png

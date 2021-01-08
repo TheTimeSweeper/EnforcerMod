@@ -200,6 +200,7 @@ public class NemforcerController : MonoBehaviour
         Vector3 aimDirection = mainStateMachine.commonComponents.inputBank.aimDirection;
         aimDirection.y = 0;
 
+        //direction perpendicular to the aiming
         Vector3 turningDirection = Vector3.Cross(aimDirection, Vector3.up);
 
         float rot = angle;
