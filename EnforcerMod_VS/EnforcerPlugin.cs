@@ -333,6 +333,7 @@ namespace EnforcerPlugin
             ThinkInvisible.ClassicItems.Scepter_V2.instance.RegisterScepterSkill(shockGrenadeDef, "EnforcerBody", SkillSlot.Utility, 1);
         }
 
+        #region hooks
         private void Hook()
         {
             //add hooks here
@@ -359,8 +360,9 @@ namespace EnforcerPlugin
             //On.EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
         }
 
-        private bool isMonsoon()
-        {
+        #region Hooks
+
+        private bool isMonsoon() {
             bool flag = true;
 
             if (Run.instance.selectedDifficulty == DifficultyIndex.Easy || Run.instance.selectedDifficulty == DifficultyIndex.Normal) flag = false;
@@ -368,7 +370,6 @@ namespace EnforcerPlugin
             return flag;
         }
 
-        #region Hooks
         private void MapZone_TryZoneStart(On.RoR2.MapZone.orig_TryZoneStart orig, MapZone self, Collider other)
         {
             if (other.gameObject)
@@ -2920,7 +2921,7 @@ namespace EnforcerPlugin
         private SkillDef PrimarySkillDef_AssaultRifle()
         {
             string damage = $"<style=cIsDamage>{FireBurstRifle.projectileCount}x{100f * FireBurstRifle.damageCoefficient}% damage</style>";
-            string desc = $"Fire a burst of bullets dealing {damage}. <style=cIsUtility>During Protect and Serve</style>, Fires <style=cIsDamage>{2 * FireBurstRifle.projectileCount} bullets</style> instead.";
+            string desc = $"Fire a burst of bullets dealing {damage}. <style=cIsUtility>During Protect and Serve</style>, fires <style=cIsDamage>{2 * FireBurstRifle.projectileCount} bullets</style> instead.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_NAME", "Assault Rifle");
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_DESCRIPTION", desc);
@@ -2952,9 +2953,9 @@ namespace EnforcerPlugin
 
         private SkillDef PrimarySkillDef_Hammer()
         {
-            string damage = $"<style=cIsDamage>{ 100f * HammerSwing.damageCoefficient}% damage</style>.";
-            string shieldDamage = $"<style=cIsDamage>{ 100f * HammerSwing.shieldDamageCoefficient}% damage</style>.";
-            string desc = $"Swing your hammer for {damage}damage. <style=cIsUtility>During Protect and Serve</style>, swing for {shieldDamage} instead";
+            string damage = $"<style=cIsDamage>{ 100f * HammerSwing.damageCoefficient}% damage</style>";
+            string shieldDamage = $"<style=cIsDamage>{ 100f * HammerSwing.shieldDamageCoefficient}% damage</style>";
+            string desc = $"Swing your hammer for {damage}. <style=cIsUtility>During Protect and Serve</style>, swing in a larger area for {shieldDamage} instead.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_HAMMER_NAME", "Breaching Hammer");
             LanguageAPI.Add("ENFORCER_PRIMARY_HAMMER_DESCRIPTION", desc);
