@@ -43,8 +43,11 @@ namespace EntityStates.Enforcer
             if (base.isAuthority)
             {
                 Ray aimRay = base.GetAimRay();
-                Vector3 aimCross = Vector3.Cross(aimRay.direction, Vector3.up);
+                Vector3 aimTweak;
+
+                Vector3 aimCross = Vector3.Cross(aimRay.direction, Vector3.up).normalized;
                 Vector3 aimUpPerpendicular = Vector3.Cross(aimCross, aimRay.direction).normalized;
+                aimTweak = aimUpPerpendicular;
 
                 FireProjectileInfo info = new FireProjectileInfo()
                 {
@@ -57,7 +60,7 @@ namespace EntityStates.Enforcer
                     position = aimRay.origin,
                     procChainMask = default(ProcChainMask),
                     projectilePrefab = EnforcerPlugin.EnforcerPlugin.stunGrenade,
-                    rotation = RoR2.Util.QuaternionSafeLookRotation(aimRay.direction + aimUpPerpendicular * 0.08f),
+                    rotation = RoR2.Util.QuaternionSafeLookRotation(aimRay.direction + aimTweak * 0.08f),
                     useFuseOverride = false,
                     useSpeedOverride = true,
                     speedOverride = StunGrenade.projectileSpeed,

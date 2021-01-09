@@ -8,20 +8,29 @@ namespace EntityStates.Enforcer
     {
         public static float baseDuration = 1f;
         public static float baseShieldDuration = 1.2f;
-        public static float baseEarlyExitTime = 0.78f;
         public static float damageCoefficient = 5f;
         public static float shieldDamageCoefficient = 10f;
-        public static float procCoefficient = 1f;
-        public static float attackRecoil = 1.15f;
-        public static float hitHopVelocity = 5.5f;
+
+        public static float baseDownwardForce = 480;
+        public static float shieldDownwardForce = 800;
+        public static float basePushawayForce = 120;
+        public static float shieldPushawayForce = 160;
+
         public static GameObject slamEffectPrefab = null;// EnforcerPlugin.EnforcerPlugin.hammerSlamEffect; // Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
         public static GameObject shieldSlamEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
 
+        public static float baseEarlyExitTime = 0.78f;
+        public static float procCoefficient = 1f;
+        public static float attackRecoil = 1.15f;
+        public static float hitHopVelocity = 5.5f;
+
         private float duration;
-        private float earlyExitDuration;
         private float damage;
-        private string hitboxString;
+        private float downwardForce;
+        private float pushawayForce;
         private GameObject slamPrefab;
+        private float earlyExitDuration;
+        private string hitboxString;
 
         private ChildLocator childLocator;
         private bool hasFired;
@@ -49,16 +58,20 @@ namespace EntityStates.Enforcer
             if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff)) {
                 this.duration = HammerSwing.baseShieldDuration / this.attackSpeedStat;
                 this.damage = HammerSwing.shieldDamageCoefficient;
-                hitboxString = "HammerBig";
-                slamPrefab = shieldSlamEffectPrefab;
+                this.hitboxString = "HammerBig";
+                this.downwardForce = HammerSwing.shieldDownwardForce;
+                this.pushawayForce = HammerSwing.shieldPushawayForce;
+                this.slamPrefab = HammerSwing.shieldSlamEffectPrefab;
 
                 base.PlayCrossfade("RightArm, Override", "HammerSwing", "HammerSwing.playbackRate", this.duration, 0.05f);
+
             } else {
                 this.duration = HammerSwing.baseDuration / this.attackSpeedStat;
                 this.damage = HammerSwing.damageCoefficient;
-                hitboxString = "Hammer";
-                slamPrefab = slamEffectPrefab;
-
+                this.hitboxString = "Hammer";
+                this.downwardForce = HammerSwing.baseDownwardForce;
+                this.pushawayForce = HammerSwing.basePushawayForce;
+                this.slamPrefab = HammerSwing.slamEffectPrefab;
 
                 base.PlayCrossfade("Gesture, Override", "HammerSwing", "HammerSwing.playbackRate", this.duration, 0.05f);
             }
@@ -67,7 +80,7 @@ namespace EntityStates.Enforcer
 
             Animator hammerAnim = null;
             if (this.childLocator.FindChild("Hammer")) {
-                hammerAnim = base.GetModelChildLocator().FindChild("Hammer").GetComponentInChildren<Animator>();
+                hammerAnim = this.childLocator.FindChild("Hammer").GetComponentInChildren<Animator>();
                 if (hammerAnim) {
                     PlayAnimationOnAnimator(hammerAnim, "Base Layer", "HammerSwing", "HammerSwing.playbackRate", this.duration);
                 }
@@ -81,11 +94,11 @@ namespace EntityStates.Enforcer
             this.attack.attacker = base.gameObject;
             this.attack.inflictor = base.gameObject;
             this.attack.teamIndex = base.GetTeam();
-            this.attack.damage = damage * this.damageStat;
+            this.attack.damage = this.damage * this.damageStat;
             this.attack.procCoefficient = 1;
             this.attack.hitEffectPrefab = EnforcerPlugin.Assets.hammerImpactFX;
-            this.attack.forceVector = Vector3.zero;
-            this.attack.pushAwayForce = 800f;
+            this.attack.forceVector = Vector3.down * this.downwardForce;
+            this.attack.pushAwayForce = this.pushawayForce;
             this.attack.hitBoxGroup = hitBoxGroup;
             this.attack.isCrit = base.RollCrit();
         }
@@ -112,7 +125,7 @@ namespace EntityStates.Enforcer
                 if (this.animator) this.animator.SetFloat("HammerSwing.playbackRate", 0f);
             }
 
-            if (this.stopwatch >= this.duration * 0.5f && this.stopwatch <= this.duration * 0.8)
+            if (this.stopwatch >= this.duration * 0.48f && this.stopwatch <= this.duration * 0.7)
             {
                 this.FireAttack();
             }
