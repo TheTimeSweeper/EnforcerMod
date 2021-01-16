@@ -113,6 +113,8 @@ namespace EnforcerPlugin
                     ignoreOverlays = true
                 },
                 //keep body last for teleporter particles
+                // god can i just say i fucking hate this
+                // fix your shit hopoo
                 new CharacterModel.RendererInfo
                 {
                     defaultMaterial = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>().material,

@@ -255,7 +255,7 @@ namespace EnforcerPlugin
             rendererInfos.CopyTo(array, 0);
 
             array[0].defaultMaterial = Assets.CreateNemMaterial("matMinecraftNem", 5f, Color.white, 0);
-            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matMinecraftNem", 5f, Color.black, 0);
+            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matMinecraftNem", 5f, Color.white, 0);
 
             minecraftSkinDefInfo.RendererInfos = array;
 

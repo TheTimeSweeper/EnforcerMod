@@ -284,6 +284,13 @@ namespace EntityStates.Enforcer
                     //return;
                 }
             }*/
+
+            // im fucking retarded lets goooo
+            if (this.animator)
+            {
+                bool sirensOn = this.lightController.sirenToggle;
+                this.animator.SetFloat("shitpost", sirensOn ? 1 : 0, 0.1f, Time.fixedDeltaTime);
+            }
         }
 
         private void UpdateSkateDirection()

@@ -27,7 +27,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.K1454.SupplyDrop", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ScrollableLobbyUI", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "2.1.2")]
+    [BepInPlugin(MODUID, "Enforcer", "2.1.3")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -333,7 +333,6 @@ namespace EnforcerPlugin
             ThinkInvisible.ClassicItems.Scepter_V2.instance.RegisterScepterSkill(shockGrenadeDef, "EnforcerBody", SkillSlot.Utility, 1);
         }
 
-        #region hooks
         private void Hook()
         {
             //add hooks here
@@ -362,7 +361,8 @@ namespace EnforcerPlugin
 
         #region Hooks
 
-        private bool isMonsoon() {
+        private bool isMonsoon()
+        {
             bool flag = true;
 
             if (Run.instance.selectedDifficulty == DifficultyIndex.Easy || Run.instance.selectedDifficulty == DifficultyIndex.Normal) flag = false;

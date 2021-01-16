@@ -89,8 +89,8 @@ public class NemforcerController : MonoBehaviour
                 var characterModel = charBody.modelLocator.modelTransform.GetComponentInChildren<CharacterModel>();
                 if (characterModel)
                 {
-                    characterModel.baseRendererInfos[1].defaultMaterial = characterModel.gameObject.GetComponent<ModelSkinController>().skins[charBody.skinIndex].rendererInfos[1].defaultMaterial;
-                    if (charBody.master.inventory.GetItemCount(ItemIndex.ArmorReductionOnHit) > 0) characterModel.baseRendererInfos[1].defaultMaterial = null;
+                    characterModel.baseRendererInfos[0].defaultMaterial = characterModel.gameObject.GetComponent<ModelSkinController>().skins[charBody.skinIndex].rendererInfos[0].defaultMaterial;
+                    if (charBody.master.inventory.GetItemCount(ItemIndex.ArmorReductionOnHit) > 0) characterModel.baseRendererInfos[0].defaultMaterial = null;
                 }
             }
         }

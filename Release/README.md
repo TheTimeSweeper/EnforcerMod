@@ -23,6 +23,7 @@ DarkLordLui - Animations
 Violet Chaolan - Sounds
 LucidInceptor - Modeling
 bruh - Modeling, swag
+SalvadorBunny - Heavy TF2 Minecraft skin
 Destructor - Mod icon
 Draymarc - Concepts
 Lethan - Screenshots
@@ -65,14 +66,16 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 
 ## Changelog
 `2.1.3`
-- made breaching hammer not retarded, fixed animations and hitbox
-- made stun grenade actually hit things you're fucking aiming at
-- tweaked secret boss hammer hitboxes so you can more reliably block them with enforcer's shield
-- secret boss cannot be deleted by the void
-- improved golden hammer swing animations
-- golden minigun aims up and down
-- added enforcer idlein
-- updated icon
+- Updated King Dedede's Minecraft skin- special thanks to SalvadorBunny for making it!
+- Made Breaching Hammer an actual skill (not sure if it's still locked behind config to be honest)
+- Improved Stun Grenade aim
+- Tweaked King Dedede hammer hitboxes so they can be more reliably blocked by the shield
+- King Dedede is now immune to the void
+- Improved Golden Hammer swing animations
+- Golden Minigun now aims up and down
+- Added Enforcer idlein animation
+- Toggling sirens now toggles an alternate run animation because letting this feature sit around unused was depressing
+- Fixed Shattering Justice not properly replacing the hammer
 
 `2.1.2`
 - Optimized all gases, should no longer kill fps after using too many on a stage

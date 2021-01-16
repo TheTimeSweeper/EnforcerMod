@@ -27,7 +27,6 @@ public class EnforcerWeaponComponent : MonoBehaviour
     private HealthComponent charHealth;
     private CameraTargetParams cameraShit;
     private ChildLocator childLocator;
-    private ParticleSystem shellController;
     private int impCount;
     private int currentShell;
     private GameObject[] shellObjects;
