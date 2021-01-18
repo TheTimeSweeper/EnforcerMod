@@ -9,6 +9,8 @@ namespace EnforcerPlugin
 {
     public static class NemforcerSkins
     {
+        public static SkinDef dededeBossSkin;
+
         public static void RegisterSkins()
         {
             GameObject bodyPrefab = NemforcerPlugin.characterPrefab;
@@ -215,13 +217,53 @@ namespace EnforcerPlugin
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
             rendererInfos.CopyTo(array, 0);
 
-            array[0].defaultMaterial = Assets.CreateNemMaterial("matDedede", 0f, Color.black, 0);
-            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matDedede", 0f, Color.black, 0);
+            array[0].defaultMaterial = Assets.CreateNemMaterial("matDedede");
+            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matDedede");
 
             dededeSkinDefInfo.RendererInfos = array;
 
             SkinDef dededeSkin = LoadoutAPI.CreateNewSkinDef(dededeSkinDefInfo);
             #endregion
+
+            #region DededeBossSkin
+            LoadoutAPI.SkinDefInfo dededeBossSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            dededeBossSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            dededeBossSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            dededeBossSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+            dededeBossSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+            dededeBossSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texDededeSkin");
+
+            dededeBossSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                new SkinDef.MeshReplacement
+                {
+                    renderer = mainRenderer,
+                    mesh = Assets.dededeBossMesh
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[0].renderer,
+                    mesh = Assets.dededeHammerMesh
+                }
+            };
+            dededeBossSkinDefInfo.Name = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
+            dededeBossSkinDefInfo.NameToken = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
+            dededeBossSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            dededeBossSkinDefInfo.RootObject = model;
+            dededeBossSkinDefInfo.UnlockableName = "";
+
+            rendererInfos = skinDefInfo.RendererInfos;
+            array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos.CopyTo(array, 0);
+
+            array[0].defaultMaterial = Assets.CreateNemMaterial("matDedede");
+            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matDedede");
+
+            dededeBossSkinDefInfo.RendererInfos = array;
+
+            dededeBossSkin = LoadoutAPI.CreateNewSkinDef(dededeBossSkinDefInfo);
+            #endregion
+
 
             #region MinecraftSkin
             LoadoutAPI.SkinDefInfo minecraftSkinDefInfo = default(LoadoutAPI.SkinDefInfo);

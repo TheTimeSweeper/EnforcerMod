@@ -27,7 +27,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.K1454.SupplyDrop", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ScrollableLobbyUI", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "2.1.3")]
+    [BepInPlugin(MODUID, "Enforcer", "2.1.5")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -137,6 +137,7 @@ namespace EnforcerPlugin
         public static ConfigEntry<bool> shellSounds;
         public static ConfigEntry<bool> globalInvasion;
         public static ConfigEntry<bool> multipleInvasions;
+        public static ConfigEntry<bool> kingDededeBoss;
 
         public static ConfigEntry<KeyCode> defaultDanceKey;
         public static ConfigEntry<KeyCode> flossKey;
@@ -271,6 +272,7 @@ namespace EnforcerPlugin
             shellSounds = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Shell Sounds"), true, new ConfigDescription("Play a sound when ejected shotgun shells hit the ground", null, Array.Empty<object>()));
             globalInvasion = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Global Invasion"), false, new ConfigDescription("Allows invasions when playing any character, not just Enforcer. Purely for fun.", null, Array.Empty<object>()));
             multipleInvasions = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Multiple Invasion Bosses"), false, new ConfigDescription("Allows multiple bosses to spawn from an invasion.", null, Array.Empty<object>()));
+            kingDededeBoss = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "King Dedede Boss"), false, new ConfigDescription("Adds a King Dedede boss that spawns on Sky Meadow and post-loop Titanic Plains."));
 
             defaultDanceKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Default Dance"), KeyCode.Alpha1, new ConfigDescription("Key used to Default Dance", null, Array.Empty<object>()));
             flossKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Floss"), KeyCode.Alpha2, new ConfigDescription("Key used to Floss", null, Array.Empty<object>()));

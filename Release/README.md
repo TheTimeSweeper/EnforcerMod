@@ -65,6 +65,18 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - More alternate skills
 
 ## Changelog
+`2.1.5`
+- Quick hotfix, King Dedede's skills were replacing Commando's by mistake
+
+`2.1.4`
+- Added a custom King Dedede boss, must be enabled via config- spawns on Sky Meadow and post-loop Titanic Plains
+- Added a new skill variant for Heavy TF2, must be enabled via cursed config
+- Fixed Heavy TF2's spawn animation
+- Fixed Heavy TF2's umbra not having proper AI
+- Increased size of secret boss
+- Added passive regen VFX
+- Tweaked Minecraft skin and improved rig
+
 `2.1.3`
 - Updated King Dedede's Minecraft skin- special thanks to SalvadorBunny for making it!
 - Made Breaching Hammer an actual skill (not sure if it's still locked behind config to be honest)

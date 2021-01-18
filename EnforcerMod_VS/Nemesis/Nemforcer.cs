@@ -13,6 +13,7 @@ using EntityStates.Nemforcer;
 using EntityStates.Enforcer;
 using RoR2.Projectile;
 using RoR2.CharacterAI;
+using RoR2.Navigation;
 
 namespace EnforcerPlugin
 {
@@ -30,6 +31,9 @@ namespace EnforcerPlugin
         public static GameObject bossPrefab;
         public static GameObject bossMaster;
 
+        public static GameObject dededePrefab;
+        public static GameObject dededeMaster;
+
         public static GameObject nemGasGrenade;
         public static GameObject nemGas;
 
@@ -43,6 +47,7 @@ namespace EnforcerPlugin
         public static SkillDef hammerSlamDef;//skilldef for m2 during minigun
         public static SkillDef minigunDownDef;//skilldef used while gun is down
         public static SkillDef minigunUpDef;//skilldef used while gun is up
+        public static SkillDef jumpDef;
 
         public const float passiveRegenBonus = 0.025f;
 
@@ -58,6 +63,8 @@ namespace EnforcerPlugin
             RegisterProjectiles();
             CreateDoppelganger();
             CreateBossPrefab();
+
+            if (EnforcerPlugin.kingDededeBoss.Value) CreateDededeBoss();
         }
 
         private static GameObject CreateModel(GameObject main, int index)
@@ -71,7 +78,7 @@ namespace EnforcerPlugin
             if (index == 0) model = Assets.NemAssetBundle.LoadAsset<GameObject>("mdlNemforcer");
             else if (index == 1) model = Assets.NemAssetBundle.LoadAsset<GameObject>("NemforcerDisplay");
 
-            return model;
+            return GameObject.Instantiate(model);
         }
 
         private static void CreateDisplayPrefab()
@@ -698,7 +705,6 @@ namespace EnforcerPlugin
 
         private void PrimarySetup()
         {
-
             SkillDef primaryDef1 = PrimarySkillDef_Hammer();
             PluginUtils.RegisterSkillDef(primaryDef1, typeof(EntityStates.Nemforcer.HammerSwing));
             SkillFamily.Variant primaryVariant1 = PluginUtils.SetupSkillVariant(primaryDef1);
@@ -747,7 +753,13 @@ namespace EnforcerPlugin
             PluginUtils.RegisterSkillDef(utilityDef2, typeof(StunGrenade));
             SkillFamily.Variant utilityVariant2 = PluginUtils.SetupSkillVariant(utilityDef2);
 
+            SkillDef utilityDef3 = UtilitySkillDef_Jump();
+            PluginUtils.RegisterSkillDef(utilityDef3, typeof(SuperDededeJump));
+            SkillFamily.Variant utilityVariant3 = PluginUtils.SetupSkillVariant(utilityDef3);
+
             skillLocator.utility = PluginUtils.RegisterSkillsToFamily(characterPrefab, utilityVariant1, utilityVariant2);
+
+            if (EnforcerPlugin.cursed.Value) PluginUtils.RegisterAdditionalSkills(skillLocator.utility, utilityVariant3);
         }
 
         private void SpecialSetup()
@@ -999,6 +1011,38 @@ namespace EnforcerPlugin
             return mySkillDef;
         }
 
+        private static SkillDef UtilitySkillDef_Jump()
+        {
+            LanguageAPI.Add("NEMFORCER_UTILITY_JUMP_NAME", "Super Dedede Jump");
+            LanguageAPI.Add("NEMFORCER_UTILITY_JUMP_DESCRIPTION", "Jump into the air, then slam down for <style=cIsDamage>" + 100f * SuperDededeJump.slamDamageCoefficient + "% damage</style>. <style=cIsUtility>Deals reduced damage outside the center of the impact.</style>");
+
+            SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(SuperDededeJump));
+            mySkillDef.activationStateMachineName = "Body";
+            mySkillDef.baseMaxStock = 1;
+            mySkillDef.baseRechargeInterval = 24;
+            mySkillDef.beginSkillCooldownOnSkillEnd = true;
+            mySkillDef.canceledFromSprinting = false;
+            mySkillDef.fullRestockOnAssign = true;
+            mySkillDef.interruptPriority = InterruptPriority.Skill;
+            mySkillDef.isBullets = false;
+            mySkillDef.isCombatSkill = true;
+            mySkillDef.mustKeyPress = true;
+            mySkillDef.noSprint = true;
+            mySkillDef.rechargeStock = 1;
+            mySkillDef.requiredStock = 1;
+            mySkillDef.shootDelay = 0f;
+            mySkillDef.stockToConsume = 1;
+            mySkillDef.icon = Assets.testIcon;
+            mySkillDef.skillDescriptionToken = "NEMFORCER_UTILITY_JUMP_DESCRIPTION";
+            mySkillDef.skillName = "NEMFORCER_UTILITY_JUMP_NAME";
+            mySkillDef.skillNameToken = "NEMFORCER_UTILITY_JUMP_NAME";
+
+            jumpDef = mySkillDef;
+
+            return mySkillDef;
+        }
+
         private static SkillDef SpecialSkillDef_MinigunUp()
         {
             LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNUP_NAME", "Golden Minigun");
@@ -1075,6 +1119,8 @@ namespace EnforcerPlugin
         private void CreateBossPrefab()
         {
             bossPrefab = PrefabAPI.InstantiateClone(characterPrefab, "NemesisEnforcerBossBody");
+
+            bossPrefab.GetComponent<ModelLocator>().modelBaseTransform.localScale *= 1.5f;
 
             EnforcerPlugin.Destroy(bossPrefab.transform.Find("ModelBase").gameObject);
             EnforcerPlugin.Destroy(bossPrefab.transform.Find("CameraPivot").gameObject);
@@ -1592,6 +1638,641 @@ namespace EnforcerPlugin
             strafeIdleDriver.requiredSkill = minigunUpDef;*/
 
             AISkillDriver followDriver = bossMaster.AddComponent<AISkillDriver>();
+            followDriver.customName = "Chase";
+            followDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            followDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            followDriver.activationRequiresAimConfirmation = false;
+            followDriver.activationRequiresTargetLoS = false;
+            followDriver.maxDistance = Mathf.Infinity;
+            followDriver.minDistance = 0f;
+            followDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
+            followDriver.ignoreNodeGraph = false;
+            followDriver.moveInputScale = 1f;
+            followDriver.driverUpdateTimerOverride = -1f;
+            followDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            followDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            followDriver.maxTargetHealthFraction = Mathf.Infinity;
+            followDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            followDriver.maxUserHealthFraction = Mathf.Infinity;
+            followDriver.skillSlot = SkillSlot.None;
+        }
+
+        private static void CreateDededePrefab()
+        {
+            dededePrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), "KingDededeBody");
+
+            dededePrefab.GetComponent<NetworkIdentity>().localPlayerAuthority = true;
+
+            GameObject model = CreateModel(dededePrefab, 0);
+
+            GameObject gameObject = new GameObject("ModelBase");
+            gameObject.transform.parent = dededePrefab.transform;
+            gameObject.transform.localPosition = new Vector3(0f, -0.92f, 0f);
+            gameObject.transform.localRotation = Quaternion.identity;
+            gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
+
+            GameObject gameObject2 = new GameObject("CameraPivot");
+            gameObject2.transform.parent = gameObject.transform;
+            gameObject2.transform.localPosition = new Vector3(0f, 1.6f, 0f);
+            gameObject2.transform.localRotation = Quaternion.identity;
+            gameObject2.transform.localScale = Vector3.one;
+
+            GameObject gameObject3 = new GameObject("AimOrigin");
+            gameObject3.transform.parent = gameObject.transform;
+            gameObject3.transform.localPosition = new Vector3(0f, 1.8f, 0f);
+            gameObject3.transform.localRotation = Quaternion.identity;
+            gameObject3.transform.localScale = Vector3.one;
+
+            Transform transform = model.transform;
+            transform.parent = gameObject.transform;
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
+
+            CharacterDirection characterDirection = dededePrefab.GetComponent<CharacterDirection>();
+            characterDirection.moveVector = Vector3.zero;
+            characterDirection.targetTransform = gameObject.transform;
+            characterDirection.overrideAnimatorForwardTransform = null;
+            characterDirection.rootMotionAccumulator = null;
+            characterDirection.modelAnimator = model.GetComponentInChildren<Animator>();
+            characterDirection.driveFromRootRotation = false;
+            characterDirection.turnSpeed = 720f;
+
+            CharacterBody bodyComponent = dededePrefab.GetComponent<CharacterBody>();
+            bodyComponent.name = "KingDededeBody";
+            bodyComponent.baseNameToken = "DEDEDE_NAME";
+            bodyComponent.subtitleNameToken = "DEDEDE_SUBTITLE";
+            bodyComponent.baseAcceleration = 80;
+            bodyComponent.baseJumpCount = 1;
+            bodyComponent.sprintingSpeedMultiplier = 1.45f;
+            bodyComponent.wasLucky = false;
+            bodyComponent.hideCrosshair = false;
+            bodyComponent.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
+            bodyComponent.aimOriginTransform = gameObject3.transform;
+            bodyComponent.hullClassification = HullClassification.Human;
+            bodyComponent.portraitIcon = Assets.nemCharPortrait;
+            bodyComponent.isChampion = false;
+            bodyComponent.currentVehicle = null;
+            bodyComponent.skinIndex = 0U;
+            bodyComponent.preferredPodPrefab = null;
+
+            var stateMachine = bodyComponent.GetComponent<EntityStateMachine>();
+            stateMachine.mainStateType = new SerializableEntityStateType(typeof(EntityStates.Nemforcer.NemforcerMain));
+            stateMachine.initialStateType = new SerializableEntityStateType(typeof(EntityStates.Bison.SpawnState));
+
+            CharacterMotor characterMotor = dededePrefab.GetComponent<CharacterMotor>();
+            characterMotor.walkSpeedPenaltyCoefficient = 1f;
+            characterMotor.characterDirection = characterDirection;
+            characterMotor.muteWalkMotion = false;
+            characterMotor.mass = 2000f;
+            characterMotor.airControl = 0.25f;
+            characterMotor.disableAirControlUntilCollision = false;
+            characterMotor.generateParametersOnAwake = true;
+
+            CameraTargetParams cameraTargetParams = dededePrefab.GetComponent<CameraTargetParams>();
+            cameraTargetParams.cameraParams = ScriptableObject.CreateInstance<CharacterCameraParams>();
+            cameraTargetParams.cameraParams.maxPitch = 70;
+            cameraTargetParams.cameraParams.minPitch = -70;
+            cameraTargetParams.cameraParams.wallCushion = 0.1f;
+            cameraTargetParams.cameraParams.pivotVerticalOffset = 1.37f;
+            cameraTargetParams.cameraParams.standardLocalCameraPos = new Vector3(0, 0.5f, -12);
+
+            cameraTargetParams.cameraPivotTransform = null;
+            cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
+            cameraTargetParams.recoil = Vector2.zero;
+            cameraTargetParams.idealLocalCameraPos = Vector3.zero;
+            cameraTargetParams.dontRaycastToPivot = false;
+
+            ModelLocator modelLocator = dededePrefab.GetComponent<ModelLocator>();
+            modelLocator.modelTransform = transform;
+            modelLocator.modelBaseTransform = gameObject.transform;
+
+            ChildLocator childLocator = model.GetComponent<ChildLocator>();
+
+            CharacterModel characterModel = model.AddComponent<CharacterModel>();
+            characterModel.body = bodyComponent;
+            characterModel.baseRendererInfos = new CharacterModel.RendererInfo[]
+            {
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = Assets.CreateNemMaterial("matDedede"),
+                    renderer = childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("AltHammer").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("AltHammer").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = true
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("GrenadeL").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("GrenadeL").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = true
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = childLocator.FindChild("GrenadeR").GetComponentInChildren<MeshRenderer>().material,
+                    renderer = childLocator.FindChild("GrenadeR").GetComponentInChildren<MeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = true
+                },
+                //keep body last for teleporter particles
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = Assets.CreateNemMaterial("matDedede"),
+                    renderer = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                }
+            };
+
+            childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh = Assets.dededeBossMesh;
+            childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh = Assets.dededeHammerMesh;
+
+            Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/hgstandard");
+
+            foreach (CharacterModel.RendererInfo i in characterModel.baseRendererInfos)
+            {
+                if (i.defaultMaterial) i.defaultMaterial.shader = hotpoo;
+            }
+
+            characterModel.autoPopulateLightInfos = true;
+            characterModel.invisibilityCount = 0;
+            characterModel.temporaryOverlays = new List<TemporaryOverlay>();
+
+            characterModel.SetFieldValue("mainSkinnedMeshRenderer", characterModel.baseRendererInfos[characterModel.baseRendererInfos.Length - 1].renderer.gameObject.GetComponent<SkinnedMeshRenderer>());
+
+            TeamComponent teamComponent = null;
+            if (dededePrefab.GetComponent<TeamComponent>() != null) teamComponent = dededePrefab.GetComponent<TeamComponent>();
+            else teamComponent = dededePrefab.GetComponent<TeamComponent>();
+            teamComponent.hideAllyCardDisplay = false;
+            teamComponent.teamIndex = TeamIndex.None;
+
+            dededePrefab.GetComponent<Interactor>().maxInteractionDistance = 3f;
+            dededePrefab.GetComponent<InteractionDriver>().highlightInteractor = true;
+
+            CharacterDeathBehavior characterDeathBehavior = dededePrefab.GetComponent<CharacterDeathBehavior>();
+            characterDeathBehavior.deathStateMachine = dededePrefab.GetComponent<EntityStateMachine>();
+            //characterDeathBehavior.deathState = new SerializableEntityStateType(typeof(GenericCharacterDeath));
+
+            SfxLocator sfxLocator = dededePrefab.GetComponent<SfxLocator>();
+            sfxLocator.deathSound = "Play_bison_death";
+            sfxLocator.barkSound = "";
+            sfxLocator.openSound = "";
+            sfxLocator.landingSound = "Play_char_land";
+            sfxLocator.fallDamageSound = "";
+            sfxLocator.aliveLoopStart = "";
+            sfxLocator.aliveLoopStop = "";
+
+            Rigidbody rigidbody = dededePrefab.GetComponent<Rigidbody>();
+            rigidbody.mass = 2000f;
+            rigidbody.drag = 0f;
+            rigidbody.angularDrag = 0f;
+            rigidbody.useGravity = false;
+            rigidbody.isKinematic = true;
+            rigidbody.interpolation = RigidbodyInterpolation.None;
+            rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+            rigidbody.constraints = RigidbodyConstraints.None;
+
+            CapsuleCollider capsuleCollider = dededePrefab.GetComponent<CapsuleCollider>();
+            capsuleCollider.isTrigger = false;
+            capsuleCollider.material = null;
+            capsuleCollider.center = new Vector3(0f, 0f, 0f);
+            capsuleCollider.radius = 0.5f;
+            capsuleCollider.height = 1.82f;
+            capsuleCollider.direction = 1;
+
+            KinematicCharacterMotor kinematicCharacterMotor = dededePrefab.GetComponent<KinematicCharacterMotor>();
+            kinematicCharacterMotor.CharacterController = characterMotor;
+            kinematicCharacterMotor.Capsule = capsuleCollider;
+            kinematicCharacterMotor.Rigidbody = rigidbody;
+
+            kinematicCharacterMotor.DetectDiscreteCollisions = false;
+            kinematicCharacterMotor.GroundDetectionExtraDistance = 0f;
+            kinematicCharacterMotor.MaxStepHeight = 0.2f;
+            kinematicCharacterMotor.MinRequiredStepDepth = 0.1f;
+            kinematicCharacterMotor.MaxStableSlopeAngle = 55f;
+            kinematicCharacterMotor.MaxStableDistanceFromLedge = 0.5f;
+            kinematicCharacterMotor.PreventSnappingOnLedges = false;
+            kinematicCharacterMotor.MaxStableDenivelationAngle = 55f;
+            kinematicCharacterMotor.RigidbodyInteractionType = RigidbodyInteractionType.None;
+            kinematicCharacterMotor.PreserveAttachedRigidbodyMomentum = true;
+            kinematicCharacterMotor.HasPlanarConstraint = false;
+            kinematicCharacterMotor.PlanarConstraintAxis = Vector3.up;
+            kinematicCharacterMotor.StepHandling = StepHandlingMethod.None;
+            kinematicCharacterMotor.LedgeHandling = true;
+            kinematicCharacterMotor.InteractiveRigidbodyHandling = true;
+            kinematicCharacterMotor.SafeMovement = false;
+
+            HealthComponent healthComponent = dededePrefab.GetComponent<HealthComponent>();
+
+            HurtBoxGroup hurtBoxGroup = model.AddComponent<HurtBoxGroup>();
+
+            HurtBox mainHurtbox = model.transform.Find("MainHurtbox").GetComponent<CapsuleCollider>().gameObject.AddComponent<HurtBox>();
+            mainHurtbox.gameObject.layer = LayerIndex.entityPrecise.intVal;
+            mainHurtbox.healthComponent = healthComponent;
+            mainHurtbox.isBullseye = true;
+            mainHurtbox.damageModifier = HurtBox.DamageModifier.Normal;
+            mainHurtbox.hurtBoxGroup = hurtBoxGroup;
+            mainHurtbox.indexInGroup = 0;
+
+            hurtBoxGroup.hurtBoxes = new HurtBox[]
+            {
+                mainHurtbox
+            };
+
+            hurtBoxGroup.mainHurtBox = mainHurtbox;
+            hurtBoxGroup.bullseyeCount = 1;
+
+            HitBoxGroup hitBoxGroup = model.AddComponent<HitBoxGroup>();
+            #region legacyHitboxes
+            ////make a hitbox for hammer (old)
+            //GameObject hammerHitbox = childLocator.FindChild("HammerHitbox").gameObject;
+            //hammerHitbox.transform.localScale = new Vector3(0.155f, 0.17f, 0.08f);
+            //hammerHitbox.transform.localPosition = Vector3.up * 0.02f;
+            //hammerHitbox.layer = LayerIndex.projectile.intVal;
+
+            //HitBox hitBox0 = hammerHitbox.AddComponent<HitBox>();
+
+            //hitBoxGroup.hitBoxes = new HitBox[]
+            //{
+            //    hitBox0,
+            //};
+
+            ////make hitboxes for hammer (old)
+            //GameObject hammerHitbox1 = childLocator.FindChild("HammerHitboxHead").gameObject;
+            //hammerHitbox1.transform.localScale = new Vector3(0.155f, 0.102f, 0.08f);
+            //hammerHitbox1.transform.localPosition = Vector3.up * 0.0518f;
+            //hammerHitbox1.layer = LayerIndex.projectile.intVal;
+
+            //GameObject hammerHitbox2 = childLocator.FindChild("HammerHitboxShaft").gameObject;
+            //hammerHitbox2.transform.localScale = new Vector3(0.155f, 0.102f, 0.043f);
+            //hammerHitbox2.transform.localPosition = Vector3.up * -0.0144f;
+            //hammerHitbox2.layer = LayerIndex.projectile.intVal;
+
+            //HitBox hitBox1 = hammerHitbox1.AddComponent<HitBox>();
+            //HitBox hitBox11 = hammerHitbox2.AddComponent<HitBox>();
+
+            //hitBoxGroup.hitBoxes = new HitBox[]
+            //{
+            //    hitBox1,
+            //    hitBox11,
+            //};
+            #endregion
+
+            //make hitboxes for hammer (old)
+            GameObject hammerHitbox1 = childLocator.FindChild("HammerHitboxFront").gameObject;
+            hammerHitbox1.layer = LayerIndex.projectile.intVal;
+
+            GameObject hammerHitbox2 = childLocator.FindChild("HammerHitboxBack").gameObject;
+            hammerHitbox2.layer = LayerIndex.projectile.intVal;
+
+            HitBox hitBox1 = hammerHitbox1.AddComponent<HitBox>();
+            HitBox hitBox11 = hammerHitbox2.AddComponent<HitBox>();
+
+            hitBoxGroup.hitBoxes = new HitBox[]
+            {
+                hitBox1,
+                hitBox11,
+            };
+            hitBoxGroup.groupName = "Hammer";
+
+            //uppercut hitbox
+
+            HitBoxGroup hitBoxGroup2 = model.AddComponent<HitBoxGroup>();
+
+            GameObject uppercutHitbox = childLocator.FindChild("UppercutHitbox").gameObject;
+            uppercutHitbox.transform.localScale = Vector3.one * 10f;
+
+            HitBox hitBox2 = uppercutHitbox.AddComponent<HitBox>();
+            uppercutHitbox.layer = LayerIndex.projectile.intVal;
+
+            hitBoxGroup2.hitBoxes = new HitBox[]
+            {
+                hitBox2
+            };
+
+            hitBoxGroup2.groupName = "Uppercut";
+
+            FootstepHandler footstepHandler = model.AddComponent<FootstepHandler>();
+            footstepHandler.baseFootstepString = "Play_scav_step";
+            footstepHandler.sprintFootstepOverrideString = "";
+            footstepHandler.enableFootstepDust = true;
+            footstepHandler.footstepDustPrefab = Resources.Load<GameObject>("Prefabs/GenericHugeFootstepDust");
+
+            RagdollController ragdollController = model.GetComponent<RagdollController>();
+
+            PhysicMaterial physicMat = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<RagdollController>().bones[1].GetComponent<Collider>().material;
+
+            foreach (Transform i in ragdollController.bones)
+            {
+                if (i)
+                {
+                    i.gameObject.layer = LayerIndex.ragdoll.intVal;
+                    Collider j = i.GetComponent<Collider>();
+                    if (j)
+                    {
+                        j.material = physicMat;
+                        j.sharedMaterial = physicMat;
+                    }
+                }
+            }
+
+            AimAnimator aimAnimator = model.AddComponent<AimAnimator>();
+            aimAnimator.directionComponent = characterDirection;
+            aimAnimator.pitchRangeMax = 60f;
+            aimAnimator.pitchRangeMin = -60f;
+            aimAnimator.yawRangeMin = -90f;
+            aimAnimator.yawRangeMax = 90f;
+            aimAnimator.pitchGiveupRange = 30f;
+            aimAnimator.yawGiveupRange = 10f;
+            aimAnimator.giveupDuration = 3f;
+            aimAnimator.inputBank = dededePrefab.GetComponent<InputBankTest>();
+
+            dededePrefab.AddComponent<NemforcerController>();
+            dededePrefab.AddComponent<DeathRewards>();
+        }
+
+        private void CreateDededeBoss()
+        {
+            CreateDededePrefab();
+
+            dededePrefab.GetComponent<ModelLocator>().modelBaseTransform.localScale *= 2f;
+
+            EnforcerPlugin.Destroy(dededePrefab.GetComponentInChildren<ModelSkinController>());
+
+            CharacterBody charBody = dededePrefab.GetComponent<CharacterBody>();
+
+            LanguageAPI.Add("DEDEDE_NAME", "King Dedede");
+            LanguageAPI.Add("DEDEDE_BOSS_SUBTITLE", "King of Dreamland");
+
+            charBody.bodyIndex = -1;
+            charBody.name = "KingDededeBody";
+            charBody.baseNameToken = "DEDEDE_NAME";
+            charBody.subtitleNameToken = "DEDEDE_BOSS_SUBTITLE";
+            charBody.bodyFlags = CharacterBody.BodyFlags.None;
+            charBody.rootMotionInMainState = false;
+            charBody.mainRootSpeed = 0;
+            charBody.baseMaxHealth = 2800;
+            charBody.levelMaxHealth = 840;
+            charBody.baseRegen = 0f;
+            charBody.levelRegen = 0f;
+            charBody.baseMaxShield = 0;
+            charBody.levelMaxShield = 0;
+            charBody.baseMoveSpeed = 8;
+            charBody.levelMoveSpeed = 0;
+            charBody.baseAcceleration = 80;
+            charBody.baseJumpPower = 15;
+            charBody.levelJumpPower = 0;
+            charBody.baseDamage = 8;
+            charBody.levelDamage = charBody.baseDamage * 0.2f;
+            charBody.baseAttackSpeed = 1;
+            charBody.levelAttackSpeed = 0;
+            charBody.baseCrit = 0;
+            charBody.levelCrit = 0;
+            charBody.baseArmor = 20;
+            charBody.levelArmor = 0;
+            charBody.baseJumpCount = 6;
+            charBody.portraitIcon = Assets.NemAssetBundle.LoadAsset<Sprite>("texDededeIcon").texture;
+            charBody.isChampion = true;
+            charBody.skinIndex = 0U;
+
+            foreach (GenericSkill obj in dededePrefab.GetComponentsInChildren<GenericSkill>())
+            {
+                BaseUnityPlugin.DestroyImmediate(obj);
+            }
+
+            SkillLocator skillLocator = dededePrefab.GetComponent<SkillLocator>();
+
+            skillLocator.primary = dededePrefab.AddComponent<GenericSkill>();
+            SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
+            newFamily.variants = new SkillFamily.Variant[1];
+            LoadoutAPI.AddSkillFamily(newFamily);
+            skillLocator.primary.SetFieldValue("_skillFamily", newFamily);
+            SkillFamily skillFamily = skillLocator.primary.skillFamily;
+
+            skillFamily.variants[0] = new SkillFamily.Variant
+            {
+                skillDef = hammerSwingDef,
+                unlockableName = "",
+                viewableNode = new ViewablesCatalog.Node(hammerSwingDef.skillNameToken, false, null)
+            };
+
+            skillLocator.secondary = dededePrefab.AddComponent<GenericSkill>();
+            newFamily = ScriptableObject.CreateInstance<SkillFamily>();
+            newFamily.variants = new SkillFamily.Variant[1];
+            LoadoutAPI.AddSkillFamily(newFamily);
+            skillLocator.secondary.SetFieldValue("_skillFamily", newFamily);
+            skillFamily = skillLocator.secondary.skillFamily;
+
+            skillFamily.variants[0] = new SkillFamily.Variant
+            {
+                skillDef = hammerChargeDef,
+                unlockableName = "",
+                viewableNode = new ViewablesCatalog.Node(hammerChargeDef.skillNameToken, false, null)
+            };
+
+            skillLocator.utility = dededePrefab.AddComponent<GenericSkill>();
+            newFamily = ScriptableObject.CreateInstance<SkillFamily>();
+            newFamily.variants = new SkillFamily.Variant[1];
+            LoadoutAPI.AddSkillFamily(newFamily);
+            skillLocator.utility.SetFieldValue("_skillFamily", newFamily);
+            skillFamily = skillLocator.utility.skillFamily;
+
+            skillFamily.variants[0] = new SkillFamily.Variant
+            {
+                skillDef = jumpDef,
+                unlockableName = "",
+                viewableNode = new ViewablesCatalog.Node(jumpDef.skillNameToken, false, null)
+            };
+
+            BodyCatalog.getAdditionalEntries += delegate (List<GameObject> list)
+            {
+                list.Add(dededePrefab);
+            };
+
+            dededeMaster = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/LemurianMaster"), "KingDededeMaster", true);
+            dededeMaster.GetComponent<CharacterMaster>().bodyPrefab = dededePrefab;
+
+            CreateDededeAI();
+
+            MasterCatalog.getAdditionalEntries += delegate (List<GameObject> list)
+            {
+                list.Add(dededeMaster);
+            };
+
+            CreateDededeSpawnCard();
+        }
+
+        private void CreateDededeSpawnCard()
+        {
+            CharacterSpawnCard characterSpawnCard = ScriptableObject.CreateInstance<CharacterSpawnCard>();
+            characterSpawnCard.name = "cscDedede";
+            characterSpawnCard.prefab = dededeMaster;
+            characterSpawnCard.sendOverNetwork = true;
+            characterSpawnCard.hullSize = HullClassification.BeetleQueen;
+            characterSpawnCard.nodeGraphType = MapNodeGroup.GraphType.Ground;
+            characterSpawnCard.requiredFlags = NodeFlags.None;
+            characterSpawnCard.forbiddenFlags = NodeFlags.TeleporterOK;
+            characterSpawnCard.directorCreditCost = 2000;
+            characterSpawnCard.occupyPosition = false;
+            characterSpawnCard.loadout = new SerializableLoadout();
+            characterSpawnCard.noElites = false;
+            characterSpawnCard.forbiddenAsBoss = false;
+
+            DirectorCard card = new DirectorCard
+            {
+                spawnCard = characterSpawnCard,
+                selectionWeight = 1,
+                allowAmbushSpawn = false,
+                preventOverhead = false,
+                minimumStageCompletions = 3,
+                requiredUnlockable = "",
+                forbiddenUnlockable = "",
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Close
+            };
+
+            DirectorAPI.DirectorCardHolder dededeCard = new DirectorAPI.DirectorCardHolder
+            {
+                Card = card,
+                MonsterCategory = DirectorAPI.MonsterCategory.Champions,
+                InteractableCategory = DirectorAPI.InteractableCategory.None
+            };
+
+            DirectorAPI.MonsterActions += delegate (List<DirectorAPI.DirectorCardHolder> list, DirectorAPI.StageInfo stage)
+            {
+                if (stage.stage == DirectorAPI.Stage.SkyMeadow || stage.stage == DirectorAPI.Stage.GildedCoast || stage.stage == DirectorAPI.Stage.TitanicPlains || stage.stage == DirectorAPI.Stage.VoidCell)
+                {
+                    if (!list.Contains(dededeCard))
+                    {
+                        list.Add(dededeCard);
+                    }
+                }
+            };
+        }
+
+        private void CreateDededeAI()
+        {
+            foreach (AISkillDriver ai in dededeMaster.GetComponentsInChildren<AISkillDriver>())
+            {
+                BaseUnityPlugin.DestroyImmediate(ai);
+            }
+
+            dededeMaster.GetComponent<BaseAI>().minDistanceFromEnemy = 0f;
+            dededeMaster.GetComponent<BaseAI>().fullVision = true;
+
+            AISkillDriver slamDriver = dededeMaster.AddComponent<AISkillDriver>();
+            slamDriver.customName = "Slam";
+            slamDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            slamDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            slamDriver.activationRequiresAimConfirmation = true;
+            slamDriver.activationRequiresTargetLoS = false;
+            slamDriver.selectionRequiresTargetLoS = true;
+            slamDriver.requireSkillReady = true;
+            slamDriver.maxDistance = 12f;
+            slamDriver.minDistance = 0f;
+            slamDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            slamDriver.ignoreNodeGraph = false;
+            slamDriver.moveInputScale = 1f;
+            slamDriver.driverUpdateTimerOverride = 0.5f;
+            slamDriver.buttonPressType = AISkillDriver.ButtonPressType.TapContinuous;
+            slamDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            slamDriver.maxTargetHealthFraction = Mathf.Infinity;
+            slamDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            slamDriver.maxUserHealthFraction = 0.5f;
+            slamDriver.skillSlot = SkillSlot.Utility;
+
+            AISkillDriver hammerTapDriver = dededeMaster.AddComponent<AISkillDriver>();
+            hammerTapDriver.customName = "HammerTap";
+            hammerTapDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            hammerTapDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            hammerTapDriver.activationRequiresAimConfirmation = true;
+            hammerTapDriver.activationRequiresTargetLoS = false;
+            hammerTapDriver.selectionRequiresTargetLoS = true;
+            hammerTapDriver.maxDistance = 8f;
+            hammerTapDriver.minDistance = 2f;
+            hammerTapDriver.requireSkillReady = true;
+            hammerTapDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            hammerTapDriver.ignoreNodeGraph = true;
+            hammerTapDriver.moveInputScale = 1f;
+            hammerTapDriver.driverUpdateTimerOverride = 1.5f;
+            hammerTapDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            hammerTapDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            hammerTapDriver.maxTargetHealthFraction = Mathf.Infinity;
+            hammerTapDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            hammerTapDriver.maxUserHealthFraction = Mathf.Infinity;
+            hammerTapDriver.skillSlot = SkillSlot.Secondary;
+            hammerTapDriver.noRepeat = true;
+
+            AISkillDriver hammerChargeDriver = dededeMaster.AddComponent<AISkillDriver>();
+            hammerChargeDriver.customName = "HammerCharge";
+            hammerChargeDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            hammerChargeDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            hammerChargeDriver.activationRequiresAimConfirmation = true;
+            hammerChargeDriver.activationRequiresTargetLoS = false;
+            hammerChargeDriver.selectionRequiresTargetLoS = true;
+            hammerChargeDriver.maxDistance = 24f;
+            hammerChargeDriver.minDistance = 12f;
+            hammerChargeDriver.requireSkillReady = true;
+            hammerChargeDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            hammerChargeDriver.ignoreNodeGraph = true;
+            hammerChargeDriver.moveInputScale = 1f;
+            hammerChargeDriver.driverUpdateTimerOverride = 2.5f;
+            hammerChargeDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            hammerChargeDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            hammerChargeDriver.maxTargetHealthFraction = Mathf.Infinity;
+            hammerChargeDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            hammerChargeDriver.maxUserHealthFraction = Mathf.Infinity;
+            hammerChargeDriver.skillSlot = SkillSlot.Secondary;
+            hammerChargeDriver.noRepeat = true;
+
+            AISkillDriver hammerSwingCloseDriver = dededeMaster.AddComponent<AISkillDriver>();
+            hammerSwingCloseDriver.customName = "HammerCloseRange";
+            hammerSwingCloseDriver.movementType = AISkillDriver.MovementType.StrafeMovetarget;
+            hammerSwingCloseDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            hammerSwingCloseDriver.activationRequiresAimConfirmation = true;
+            hammerSwingCloseDriver.activationRequiresTargetLoS = false;
+            hammerSwingCloseDriver.selectionRequiresTargetLoS = true;
+            hammerSwingCloseDriver.maxDistance = 3f;
+            hammerSwingCloseDriver.minDistance = 0f;
+            hammerSwingCloseDriver.requireSkillReady = true;
+            hammerSwingCloseDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            hammerSwingCloseDriver.ignoreNodeGraph = true;
+            hammerSwingCloseDriver.moveInputScale = 0.4f;
+            hammerSwingCloseDriver.driverUpdateTimerOverride = 0.5f;
+            hammerSwingCloseDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            hammerSwingCloseDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            hammerSwingCloseDriver.maxTargetHealthFraction = Mathf.Infinity;
+            hammerSwingCloseDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            hammerSwingCloseDriver.maxUserHealthFraction = Mathf.Infinity;
+            hammerSwingCloseDriver.skillSlot = SkillSlot.Primary;
+
+            AISkillDriver hammerSwingDriver = dededeMaster.AddComponent<AISkillDriver>();
+            hammerSwingDriver.customName = "WalkAndHammer";
+            hammerSwingDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            hammerSwingDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            hammerSwingDriver.activationRequiresAimConfirmation = true;
+            hammerSwingDriver.activationRequiresTargetLoS = false;
+            hammerSwingDriver.selectionRequiresTargetLoS = true;
+            hammerSwingDriver.maxDistance = 12f;
+            hammerSwingDriver.minDistance = 0f;
+            hammerSwingDriver.requireSkillReady = true;
+            hammerSwingDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            hammerSwingDriver.ignoreNodeGraph = true;
+            hammerSwingDriver.moveInputScale = 1f;
+            hammerSwingDriver.driverUpdateTimerOverride = 0.5f;
+            hammerSwingDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            hammerSwingDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            hammerSwingDriver.maxTargetHealthFraction = Mathf.Infinity;
+            hammerSwingDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            hammerSwingDriver.maxUserHealthFraction = Mathf.Infinity;
+            hammerSwingDriver.skillSlot = SkillSlot.Primary;
+
+            AISkillDriver followDriver = dededeMaster.AddComponent<AISkillDriver>();
             followDriver.customName = "Chase";
             followDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
             followDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;

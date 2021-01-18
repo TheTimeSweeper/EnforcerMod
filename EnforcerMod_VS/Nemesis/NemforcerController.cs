@@ -13,6 +13,14 @@ public class NemforcerController : MonoBehaviour
 
     public bool minigunUp;
 
+    private float maxLightningIntensity = 64f;
+    private float maxMoonIntensity = 16f;
+
+    private ParticleSystem passiveLightning;
+    private ParticleSystem passiveMoons;
+    private ParticleSystem.EmissionModule passiveLightningEm;
+    private ParticleSystem.EmissionModule passiveMoonsEm;
+
     public ParticleSystem hammerChargeSmall;
     public ParticleSystem hammerChargeLarge;
     public ParticleSystem hammerBurst;
@@ -25,6 +33,7 @@ public class NemforcerController : MonoBehaviour
 
     private Vector3 previousDirection;
     private float previousAngle;
+    private bool passiveIsPlaying;
 
     private void Start()
     {
@@ -41,6 +50,13 @@ public class NemforcerController : MonoBehaviour
             hammerChargeSmall = childLocator.FindChild("HammerChargeSmall").gameObject.GetComponentInChildren<ParticleSystem>();
             hammerChargeLarge = childLocator.FindChild("HammerChargeLarge").gameObject.GetComponentInChildren<ParticleSystem>();
             hammerBurst = childLocator.FindChild("HammerBurst").gameObject.GetComponentInChildren<ParticleSystem>();
+
+            passiveLightning = childLocator.FindChild("PassiveHealEffect").GetChild(0).gameObject.GetComponent<ParticleSystem>();
+            passiveMoons = childLocator.FindChild("PassiveHealEffect").GetChild(1).gameObject.GetComponent<ParticleSystem>();
+            passiveLightningEm = passiveLightning.emission;
+            passiveMoonsEm = passiveMoons.emission;
+
+            UpdatePassiveEffect();
         }
 
         InitWeapon();
@@ -55,6 +71,39 @@ public class NemforcerController : MonoBehaviour
         if (mainStateMachine)
         {
             previousDirection = mainStateMachine.commonComponents.characterDirection.forward;
+        }
+
+        UpdatePassiveEffect();
+    }
+
+    private void UpdatePassiveEffect()
+    {
+        //dont give dedede the cool effect for obvious reasons
+        if (charBody.baseNameToken == "DEDEDE_NAME") return;
+        if (passiveLightning == null || passiveMoons == null) return;
+
+        float value = charHealth.combinedHealth / charHealth.fullCombinedHealth;
+
+        if (value <= 0.5f)
+        {
+            if (!passiveIsPlaying)
+            {
+                passiveIsPlaying = true;
+                passiveLightning.Play();
+                passiveMoons.Play();
+            }
+
+            passiveLightningEm.rateOverTime = Mathf.SmoothStep(maxLightningIntensity, 0, value);
+            passiveMoonsEm.rateOverTime = Mathf.SmoothStep(maxMoonIntensity, 0, value);
+        }
+        else
+        {
+            if (passiveIsPlaying)
+            {
+                passiveIsPlaying = false;
+                passiveLightning.Stop();
+                passiveMoons.Stop();
+            }
         }
     }
 
@@ -83,6 +132,8 @@ public class NemforcerController : MonoBehaviour
     {
         if (charBody && charBody.master)
         {
+            if (charBody.baseNameToken == "DEDEDE_NAME") return;
+
             if (charBody.master.inventory)
             {
                 //this hides the hammer
@@ -119,6 +170,8 @@ public class NemforcerController : MonoBehaviour
 
     public void InitWeapon()
     {
+        if (charBody.baseNameToken == "DEDEDE_NAME") return;
+
         int weapon = GetWeapon();
         EquipWeapon(weapon);
         SetCrosshair(weapon);

@@ -100,6 +100,7 @@ namespace EnforcerPlugin
         public static Mesh nemDripHammerMesh;
         public static Mesh dededeMesh;
         public static Mesh dededeHammerMesh;
+        public static Mesh dededeBossMesh;
         public static Mesh minecraftNemMesh;
         public static Mesh minecraftHammerMesh;
 
@@ -285,6 +286,7 @@ namespace EnforcerPlugin
             nemDripHammerMesh = NemAssetBundle.LoadAsset<Mesh>("MeshDripforcerHammer");
             dededeMesh = NemAssetBundle.LoadAsset<Mesh>("meshDedede");
             dededeHammerMesh = NemAssetBundle.LoadAsset<Mesh>("meshDededeHammer");
+            dededeBossMesh = NemAssetBundle.LoadAsset<Mesh>("meshDededeBoss");
             minecraftNemMesh = NemAssetBundle.LoadAsset<Mesh>("meshMinecraftNem");
             minecraftHammerMesh = NemAssetBundle.LoadAsset<Mesh>("meshMinecraftHammer");
         }
@@ -329,6 +331,11 @@ namespace EnforcerPlugin
             mat.SetFloat("_NormalStrength", normalStrength);
 
             return mat;
+        }
+
+        public static Material CreateNemMaterial(string materialName)
+        {
+            return CreateNemMaterial(materialName, 0, Color.black, 0);
         }
 
         public static Material CreateNemMaterial(string materialName, float emission, Color emissionColor, float normalStrength)
