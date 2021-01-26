@@ -196,6 +196,9 @@ ModelImporter:
     7400040: Armature|RestIdleIn
     7400042: Armature|Sprint
     7400044: SetAimMode|ForwardDash.2
+    7400046: Armature|HighJumpV2
+    7400048: Armature|UppercutL2
+    7400050: Armature|UppercutL3
     9500000: //RootNode
     13700000: Hammer
     13700002: Nemforcer

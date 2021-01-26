@@ -149,7 +149,7 @@ public class NemforcerController : MonoBehaviour
 
     private int GetWeapon()
     {
-        int weapon = -1;
+        int weapon = 0;
 
         if (charBody && charBody.skillLocator)
         {

@@ -9,7 +9,6 @@ namespace EntityStates.Nemforcer
         private float initialTime;
         private float currentHealth;
         private Animator animator;
-        private AimAnimator aimAnimator;
         private NemforcerController nemComponent;
 
         public override void OnEnter()
@@ -19,7 +18,6 @@ namespace EntityStates.Nemforcer
             this.nemComponent.mainStateMachine = outer;
 
             this.animator = base.GetModelAnimator();
-            this.aimAnimator = base.GetAimAnimator();
             base.smoothingParameters.forwardSpeedSmoothDamp = 0.02f;
             base.smoothingParameters.rightSpeedSmoothDamp = 0.02f;
         }
@@ -43,6 +41,11 @@ namespace EntityStates.Nemforcer
                 if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.defaultDanceKey.Value))
                 {
                     this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Enforcer.NemesisRest))), InterruptPriority.Any);
+                    return;
+                }
+                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.flossKey.Value))
+                {
+                    this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Emotes.Salute))), InterruptPriority.Any);
                     return;
                 }
             }

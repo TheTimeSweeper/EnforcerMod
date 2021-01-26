@@ -280,9 +280,9 @@ namespace EntityStates.Nemforcer
             if (this.stopwatch >= (HammerUppercut.dashDuration * this.duration) && !this.hasPlayedUppercutAnim)
             {
                 this.hasPlayedUppercutAnim = true;
-                base.PlayAnimation("FullBody, Override", "Uppercut", "Uppercut.playbackRate", (1 - HammerUppercut.dashDuration) * this.duration);
+                base.PlayAnimation("FullBody, Override", "Uppercut", "Uppercut.playbackRate", this.duration - (this.duration * HammerUppercut.dashDuration));
 
-                Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwingL, healthComponent.gameObject);
+                Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwingL, base.gameObject);
             }
 
             if (base.isAuthority)

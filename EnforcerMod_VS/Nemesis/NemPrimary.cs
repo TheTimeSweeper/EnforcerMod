@@ -41,6 +41,7 @@ namespace EntityStates.Nemforcer
             this.hasFired = false;
             base.characterBody.isSprinting = false;
             this.nemController = base.GetComponent<NemforcerController>();
+            base.characterBody.outOfCombatStopwatch = 0f;
 
             this.childLocator = base.GetModelChildLocator();
             this.modelBaseTransform = base.GetModelBaseTransform();
@@ -169,7 +170,6 @@ namespace EntityStates.Nemforcer
             if (!this.hasFired) this.FireAttack();
 
             this.animator.SetBool("swinging", false);
-
 
             base.OnExit();
         }
