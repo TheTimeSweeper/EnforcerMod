@@ -110,11 +110,10 @@ namespace EntityStates.Nemforcer
         public override void OnExit()
         {
             base.OnExit();
-
             base.PlayAnimation("Gesture, Override", "BufferEmpty");
 
-            AkSoundEngine.StopPlayingID(this.chargePlayID);
-            AkSoundEngine.StopPlayingID(this.flameLoopPlayID);
+            if (this.chargePlayID != 0) AkSoundEngine.StopPlayingID(this.chargePlayID);
+            if (this.flameLoopPlayID != 0) AkSoundEngine.StopPlayingID(this.flameLoopPlayID);
 
             if (base.cameraTargetParams)
             {
@@ -123,12 +122,12 @@ namespace EntityStates.Nemforcer
 
             if (this.nemController)
             {
-                this.nemController.hammerChargeSmall.Stop();
-                this.nemController.hammerChargeLarge.Stop();
-                if (this.CalcCharge() >= 0.21f) this.nemController.hammerBurst.Play();
+                if (this.nemController.hammerChargeSmall) this.nemController.hammerChargeSmall.Stop();
+                if (this.nemController.hammerChargeLarge) this.nemController.hammerChargeLarge.Stop();
+                if (this.nemController.hammerBurst && this.CalcCharge() >= 0.21f) this.nemController.hammerBurst.Play();
             }
 
-            if (NetworkServer.active && base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff)) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff);
+            if (NetworkServer.active && base.characterBody && base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff)) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

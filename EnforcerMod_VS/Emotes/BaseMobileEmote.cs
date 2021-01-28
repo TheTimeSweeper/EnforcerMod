@@ -31,11 +31,11 @@ namespace EntityStates.Nemforcer.Emotes
 
             if (this.animDuration == 0 && this.duration != 0) this.animDuration = this.duration;
 
-            if (this.duration > 0) base.PlayAnimation("FullBody, Override", this.animString, "Emote.playbackRate", this.animDuration);
+            if (this.duration > 0) base.PlayAnimation("Gesture, Override", this.animString, "Emote.playbackRate", this.animDuration);
             else
             {
                 this.animator.SetFloat("Emote.playbackRate", 1f);
-                base.PlayAnimation("FullBody, Override", this.animString);
+                base.PlayAnimation("Gesture, Override", this.animString);
             }
 
             if (!string.IsNullOrEmpty(soundString))
