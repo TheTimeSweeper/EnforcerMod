@@ -129,7 +129,7 @@ namespace EntityStates.Nemforcer
 
                 if (this.nemController && this.attack.isCrit) this.nemController.hammerBurst.Play();
 
-                Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisSwing, base.gameObject, this.attackSpeedStat);
+                Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisSwing2, base.gameObject, this.attackSpeedStat);
 
                 base.AddRecoil(-1f * HammerSwing.attackRecoil, -2f * HammerSwing.attackRecoil, -0.5f * HammerSwing.attackRecoil, 0.5f * HammerSwing.attackRecoil);
 
@@ -142,7 +142,7 @@ namespace EntityStates.Nemforcer
 
                 if (this.attack.Fire())
                 {
-                    Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact, base.gameObject);
+                    Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact2, base.gameObject);
                     base.AddRecoil(-1f * HammerSwing.attackRecoil, -2f * HammerSwing.attackRecoil, -0.5f * HammerSwing.attackRecoil, 0.5f * HammerSwing.attackRecoil);
 
                     if (!this.hasHopped)

@@ -28,6 +28,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("NEMFORCERBODY_CLASSIC_SKIN_NAME", "Classic");
             LanguageAPI.Add("NEMFORCERBODY_DRIP_SKIN_NAME", "Dripforcer");
             LanguageAPI.Add("NEMFORCERBODY_DEDEDE_SKIN_NAME", "King Dedede");
+            LanguageAPI.Add("NEMFORCERBODY_SNEED_SKIN_NAME", "Sneed");
             LanguageAPI.Add("NEMFORCERBODY_MINECRAFT_SKIN_NAME", "Minecraft");
 
             #region DefaultSkin
@@ -264,6 +265,44 @@ namespace EnforcerPlugin
             dededeBossSkin = LoadoutAPI.CreateNewSkinDef(dededeBossSkinDefInfo);
             #endregion
 
+            #region sneedSkin
+            LoadoutAPI.SkinDefInfo sneedSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            sneedSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            sneedSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            sneedSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+            sneedSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+            sneedSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texSneedSkin");
+
+            sneedSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                new SkinDef.MeshReplacement
+                {
+                    renderer = mainRenderer,
+                    mesh = Assets.sneedMesh
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[0].renderer,
+                    mesh = Assets.sneedHammerMesh
+                }
+            };
+            sneedSkinDefInfo.Name = "NEMFORCERBODY_SNEED_SKIN_NAME";
+            sneedSkinDefInfo.NameToken = "NEMFORCERBODY_SNEED_SKIN_NAME";
+            sneedSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            sneedSkinDefInfo.RootObject = model;
+            sneedSkinDefInfo.UnlockableName = "";
+
+            rendererInfos = skinDefInfo.RendererInfos;
+            array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos.CopyTo(array, 0);
+
+            array[0].defaultMaterial = Assets.CreateNemMaterial("matSneed");
+            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matSneed");
+
+            sneedSkinDefInfo.RendererInfos = array;
+
+            SkinDef sneedSkin = LoadoutAPI.CreateNewSkinDef(sneedSkinDefInfo);
+            #endregion
 
             #region MinecraftSkin
             LoadoutAPI.SkinDefInfo minecraftSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
@@ -319,6 +358,9 @@ namespace EnforcerPlugin
                 skinDefs.Add(dededeSkin);
                 skinDefs.Add(minecraftSkin);
             }
+
+            // pepe
+            skinDefs = new List<SkinDef>() { sneedSkin };
 
             skinController.skins = skinDefs.ToArray();
         }

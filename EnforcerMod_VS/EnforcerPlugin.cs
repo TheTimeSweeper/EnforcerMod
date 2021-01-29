@@ -27,7 +27,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.K1454.SupplyDrop", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ScrollableLobbyUI", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "2.1.9")]
+    [BepInPlugin(MODUID, "Enforcer", "2.2.0")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -3589,6 +3589,9 @@ namespace EnforcerPlugin
 
         public static readonly string NemesisSwing = "Play_Heavy_Swing";
         public static readonly string NemesisImpact = "Play_Heavy_Swing_Hit";
+        public static readonly string NemesisSwing2 = "Play_HammerswingNewL";
+        public static readonly string NemesisImpact2 = "Play_NemHammerImpact";
+        public static readonly string NemesisSwingSecondary = "Play_NemSwingSecondary";
 
         public static readonly string NemesisStartCharge = "Play_chargeStart";
         public static readonly string NemesisMaxCharge = "Play_chargeMax";
@@ -3629,5 +3632,9 @@ namespace EnforcerPlugin
         public static readonly string SkamteScore = "HUD_score";
         public static readonly string SkamtePerfectTrick = "HUD_perfecttrick";
         public static readonly string SkamteSpecialTrick = "HUD_specialtrick";
+
+        public static readonly string DededeSwing = "Play_se_dedede_hammer_swing_m";
+        public static readonly string DededeImpactS = "Play_dedede_hammer_attack_m";
+        public static readonly string DededeImpactL = "Play_dedede_hammer_attack_l";
     }
 }

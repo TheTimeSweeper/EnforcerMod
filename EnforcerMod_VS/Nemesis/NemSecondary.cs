@@ -281,7 +281,8 @@ namespace EntityStates.Nemforcer
                 this.hasPlayedUppercutAnim = true;
                 base.PlayAnimation("FullBody, Override", "Uppercut", "Uppercut.playbackRate", this.duration - (this.duration * HammerUppercut.dashDuration));
 
-                Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwingL, base.gameObject);
+                if (this.charge >= 0.75f) Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwingSecondary, base.gameObject);
+                else Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwingL, base.gameObject);
             }
 
             if (base.isAuthority)
@@ -324,7 +325,7 @@ namespace EntityStates.Nemforcer
                             {
                                 Util.PlaySound(EnforcerPlugin.Sounds.HomeRun, healthComponent.gameObject);
                             }
-                            else Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact, healthComponent.gameObject);
+                            else Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact2, healthComponent.gameObject);
 
                             this.hitStopCachedState = base.CreateHitStopCachedState(base.characterMotor, this.animator, "Uppercut.playbackRate");
                             this.inHitPause = true;
@@ -339,7 +340,7 @@ namespace EntityStates.Nemforcer
                             {
                                 Util.PlaySound(EnforcerPlugin.Sounds.HomeRun, healthComponent.gameObject);
                             }
-                            else Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact, healthComponent.gameObject);
+                            else Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact2, healthComponent.gameObject);
 
                             this.hitStopCachedState = base.CreateHitStopCachedState(base.characterMotor, this.animator, "Uppercut.playbackRate");
                             this.inHitPause = true;
@@ -553,12 +554,12 @@ namespace EntityStates.Nemforcer
                     if (!this.hasFired)
                     {
                         this.hasFired = true;
-                        Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwing, healthComponent.gameObject);
+                        Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwing2, healthComponent.gameObject);
                     }
 
                     if (this.attack.Fire())
                     {
-                        Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact, healthComponent.gameObject);
+                        Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact2, healthComponent.gameObject);
 
                         if (base.characterMotor.velocity.y != 0) this.storedY = base.characterMotor.velocity.y;
                         this.hitStopCachedState = base.CreateHitStopCachedState(base.characterMotor, this.animator, "HammerCharge.playbackRate");
