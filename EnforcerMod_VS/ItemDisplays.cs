@@ -3438,147 +3438,59 @@ namespace EnforcerPlugin
                         }
                     }
                 });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "SUPPDRPPlagueHat",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("PlagueHat"),
+childName = "Head",
+localPos = new Vector3(0F, 0.0197F, 0F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(0.0157F, 0.0157F, 0.0157F),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
+
+                list.Add(new ItemDisplayRuleSet.NamedRuleGroup
+                {
+                    name = "SUPPDRPPlagueMask",
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = ItemDisplays.LoadSupplyDropDisplay("PlagueMask"),
+childName = "Head",
+localPos = new Vector3(0F, 0.0111F, 0.0226F),
+localAngles = new Vector3(0F, 180F, 0F),
+localScale = new Vector3(0.016F, 0.016F, 0.016F),
+                                limbMask = LimbFlags.None
+                            }
+                        }
+                    }
+                });
             }
             #endregion
             //apply displays here
 
-            BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
-            ItemDisplayRuleSet.NamedRuleGroup[] value = list.ToArray();
-            ItemDisplayRuleSet.NamedRuleGroup[] value2 = list2.ToArray();
-            typeof(ItemDisplayRuleSet).GetField("namedItemRuleGroups", bindingAttr).SetValue(itemDisplayRuleSet, value);
-            typeof(ItemDisplayRuleSet).GetField("namedEquipmentRuleGroups", bindingAttr).SetValue(itemDisplayRuleSet, value2);
+            ItemDisplayRuleSet.NamedRuleGroup[] item = list.ToArray();
+            ItemDisplayRuleSet.NamedRuleGroup[] equip = list2.ToArray();
+            itemDisplayRuleSet.namedItemRuleGroups = item;
+            itemDisplayRuleSet.namedEquipmentRuleGroups = equip;
 
             characterModel.itemDisplayRuleSet = itemDisplayRuleSet;
         }
-
-/*        public static void RegisterHarbCrateDisplays()
-        {
-            Debug.Log("setting up harbcrate stuff");
-            if (HarbCrate.HarbCratePlugin.AllPickups["BrawnOverBrain"] != null) Debug.Log("1");
-            if (HarbCrate.HarbCratePlugin.AllPickups["BoB"] != null) Debug.Log("2");
-            if (HarbCrate.HarbCratePlugin.AllPickups["HC_BOB"] != null) Debug.Log("3");
-            if (HarbCrate.HarbCratePlugin.AllPickups["Brawn over Brain"] != null) Debug.Log("4");
-
-            GameObject bodyPrefab = EnforcerPlugin.characterPrefab;
-
-            GameObject model = bodyPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
-            CharacterModel characterModel = model.GetComponent<CharacterModel>();
-
-            ItemDisplayRuleSet itemDisplayRuleSet = characterModel.itemDisplayRuleSet;
-
-            list.Add(new ItemDisplayRuleSet.NamedRuleGroup
-            {
-                name = "HC_BOB",
-                displayRuleGroup = new DisplayRuleGroup
-                {
-                    rules = new ItemDisplayRule[]
-                    {
-                            new ItemDisplayRule
-                            {
-                                ruleType = ItemDisplayRuleType.ParentedPrefab,
-                                followerPrefab = Resources.Load<GameObject>(HarbCrate.HarbCratePlugin.AllPickups["BrawnOverBrain"].AssetPath),
-                                childName = "Spine3",
-                                localPos = new Vector3(0, 0, 0),
-                                localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(1, 1, 1),
-                                limbMask = LimbFlags.None
-                            }
-                    }
-                }
-            });
-
-            list.Add(new ItemDisplayRuleSet.NamedRuleGroup
-            {
-                name = "HC_MAXSHIELDONMULTIKILL",
-                displayRuleGroup = new DisplayRuleGroup
-                {
-                    rules = new ItemDisplayRule[]
-                    {
-                            new ItemDisplayRule
-                            {
-                                ruleType = ItemDisplayRuleType.ParentedPrefab,
-                                followerPrefab = Resources.Load<GameObject>(HarbCrate.HarbCratePlugin.AllPickups["ObsidianBouche"].AssetPath),
-                                childName = "HandL",
-                                localPos = new Vector3(0, 0, 0),
-                                localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(1, 1, 1),
-                                limbMask = LimbFlags.None
-                            }
-                    }
-                }
-            });
-
-            list2.Add(new ItemDisplayRuleSet.NamedRuleGroup
-            {
-                name = "HC_COLDSNAP",
-                displayRuleGroup = new DisplayRuleGroup
-                {
-                    rules = new ItemDisplayRule[]
-                    {
-                            new ItemDisplayRule
-                            {
-                                ruleType = ItemDisplayRuleType.ParentedPrefab,
-                                followerPrefab = Resources.Load<GameObject>(HarbCrate.HarbCratePlugin.AllPickups["Coldsnap"].AssetPath),
-                                childName = "LegL",
-                                localPos = new Vector3(0, 0, 0),
-                                localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(1, 1, 1),
-                                limbMask = LimbFlags.None
-                            }
-                    }
-                }
-            });
-
-            list2.Add(new ItemDisplayRuleSet.NamedRuleGroup
-            {
-                name = "HC_LUCKJUICE",
-                displayRuleGroup = new DisplayRuleGroup
-                {
-                    rules = new ItemDisplayRule[]
-                    {
-                            new ItemDisplayRule
-                            {
-                                ruleType = ItemDisplayRuleType.ParentedPrefab,
-                                followerPrefab = Resources.Load<GameObject>(HarbCrate.HarbCratePlugin.AllPickups["DivinationDistillate"].AssetPath),
-                                childName = "Spine1",
-                                localPos = new Vector3(0, 0, 0),
-                                localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(1, 1, 1),
-                                limbMask = LimbFlags.None
-                            }
-                    }
-                }
-            });
-
-            list2.Add(new ItemDisplayRuleSet.NamedRuleGroup
-            {
-                name = "HC_WORMJAR",
-                displayRuleGroup = new DisplayRuleGroup
-                {
-                    rules = new ItemDisplayRule[]
-                    {
-                            new ItemDisplayRule
-                            {
-                                ruleType = ItemDisplayRuleType.ParentedPrefab,
-                                followerPrefab = Resources.Load<GameObject>(HarbCrate.HarbCratePlugin.AllPickups["TheWrithingJar"].AssetPath),
-                                childName = "Spine1",
-                                localPos = new Vector3(0, 0, 0),
-                                localAngles = new Vector3(0, 0, 0),
-                                localScale = new Vector3(1, 1, 1),
-                                limbMask = LimbFlags.None
-                            }
-                    }
-                }
-            });
-
-            BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
-            ItemDisplayRuleSet.NamedRuleGroup[] value = list.ToArray();
-            ItemDisplayRuleSet.NamedRuleGroup[] value2 = list2.ToArray();
-            typeof(ItemDisplayRuleSet).GetField("namedItemRuleGroups", bindingAttr).SetValue(itemDisplayRuleSet, value);
-            typeof(ItemDisplayRuleSet).GetField("namedEquipmentRuleGroups", bindingAttr).SetValue(itemDisplayRuleSet, value2);
-
-            characterModel.itemDisplayRuleSet = itemDisplayRuleSet;
-        }*/
 
         public static GameObject LoadDisplay(string name)
         {
@@ -3637,18 +3549,17 @@ namespace EnforcerPlugin
 
             gatDronePrefab.GetComponent<ItemDisplay>().rendererInfos = newInfos;
 
-            BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
-            ItemDisplayRuleSet.NamedRuleGroup[] array = typeof(ItemDisplayRuleSet).GetField("namedItemRuleGroups", bindingAttr).GetValue(itemDisplayRuleSet) as ItemDisplayRuleSet.NamedRuleGroup[];
-            ItemDisplayRuleSet.NamedRuleGroup[] array2 = typeof(ItemDisplayRuleSet).GetField("namedEquipmentRuleGroups", bindingAttr).GetValue(itemDisplayRuleSet) as ItemDisplayRuleSet.NamedRuleGroup[];
-            ItemDisplayRuleSet.NamedRuleGroup[] array3 = array;
+            ItemDisplayRuleSet.NamedRuleGroup[] item = itemDisplayRuleSet.namedItemRuleGroups;
+            ItemDisplayRuleSet.NamedRuleGroup[] equip = itemDisplayRuleSet.namedEquipmentRuleGroups;
 
-            for (int i = 0; i < array3.Length; i++)
+            for (int i = 0; i < item.Length; i++)
             {
-                ItemDisplayRule[] rules = array3[i].displayRuleGroup.rules;
+                ItemDisplayRule[] rules = item[i].displayRuleGroup.rules;
+
                 for (int j = 0; j < rules.Length; j++)
                 {
                     GameObject followerPrefab = rules[j].followerPrefab;
-                    if (!(followerPrefab == null))
+                    if (followerPrefab)
                     {
                         string name = followerPrefab.name;
                         string key = (name != null) ? name.ToLower() : null;
@@ -3660,20 +3571,20 @@ namespace EnforcerPlugin
                 }
             }
 
-            array3 = array2;
-            for (int i = 0; i < array3.Length; i++)
+            for (int i = 0; i < equip.Length; i++)
             {
-                ItemDisplayRule[] rules = array3[i].displayRuleGroup.rules;
+                ItemDisplayRule[] rules = equip[i].displayRuleGroup.rules;
                 for (int j = 0; j < rules.Length; j++)
                 {
-                    GameObject followerPrefab2 = rules[j].followerPrefab;
-                    if (!(followerPrefab2 == null))
+                    GameObject followerPrefab = rules[j].followerPrefab;
+
+                    if (followerPrefab)
                     {
-                        string name2 = followerPrefab2.name;
+                        string name2 = followerPrefab.name;
                         string key2 = (name2 != null) ? name2.ToLower() : null;
                         if (!itemDisplayPrefabs.ContainsKey(key2))
                         {
-                            itemDisplayPrefabs[key2] = followerPrefab2;
+                            itemDisplayPrefabs[key2] = followerPrefab;
                         }
                     }
                 }
@@ -3754,6 +3665,10 @@ namespace EnforcerPlugin
                     return SupplyDrop.Items.ElectroPlankton.ItemBodyModelPrefab;
                 case "HardenedBoneFragments":
                     return SupplyDrop.Items.HardenedBoneFragments.ItemBodyModelPrefab;
+                case "PlagueHat":
+                    return SupplyDrop.Items.PlagueHat.ItemBodyModelPrefab;
+                case "PlagueMask":
+                    return SupplyDrop.Items.PlagueMask.ItemBodyModelPrefab;
                 case "QSGen":
                     return SupplyDrop.Items.QSGen.ItemBodyModelPrefab;
                 case "SalvagedWires":

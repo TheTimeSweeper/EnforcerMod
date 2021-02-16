@@ -177,6 +177,7 @@ namespace EntityStates.Nemforcer
         private Animator animator;
         private BaseState.HitStopCachedState hitStopCachedState;
         private Transform modelBaseTransform;
+        private Vector3 storedVelocity;
 
         public override void OnEnter()
         {
@@ -220,9 +221,13 @@ namespace EntityStates.Nemforcer
 
             base.PlayAnimation("FullBody, Override", "DashForward", "DashForward.playbackRate", HammerUppercut.dashDuration * this.duration);
             this.animator.SetFloat("charge", this.charge);
-            
+
             //ill optimize this effect later maybe
             //if (base.isAuthority && this.charge >= 0.9f) EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemDashFX, base.gameObject, "MainHurtbox", true);
+
+            NetworkSoundEventDef hitSound = EnforcerPlugin.Assets.nemHammerHitSoundEvent;
+
+            if (base.characterBody.skinIndex == 2 && EnforcerPlugin.EnforcerPlugin.starstormInstalled) hitSound = EnforcerPlugin.Assets.nemAxeHitSoundEvent;
 
             this.attack = new OverlapAttack();
             this.attack.damageType = DamageType.Stun1s;
@@ -232,10 +237,12 @@ namespace EntityStates.Nemforcer
             this.attack.damage = this.damageCoefficient * this.damageStat;
             this.attack.procCoefficient = 1;
             this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemHeavyImpactFX;
+            if (base.characterBody.skinIndex == 2 && EnforcerPlugin.EnforcerPlugin.starstormInstalled) this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemAxeImpactFX;
             this.attack.forceVector = Vector3.up * this.knockupForce;
             this.attack.pushAwayForce = 500f;
             this.attack.hitBoxGroup = hitBoxGroup;
             this.attack.isCrit = base.RollCrit();
+            this.attack.impactSound = hitSound.index;
         }
 
         private void RecalculateSpeed()
@@ -325,8 +332,8 @@ namespace EntityStates.Nemforcer
                             {
                                 Util.PlaySound(EnforcerPlugin.Sounds.HomeRun, healthComponent.gameObject);
                             }
-                            else Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact2, healthComponent.gameObject);
 
+                            if (base.characterMotor.velocity != Vector3.zero) this.storedVelocity = base.characterMotor.velocity;
                             this.hitStopCachedState = base.CreateHitStopCachedState(base.characterMotor, this.animator, "Uppercut.playbackRate");
                             this.inHitPause = true;
                             this.hitPauseTimer = (4f * EntityStates.Merc.GroundLight.hitPauseDuration) / this.attackSpeedStat;
@@ -340,8 +347,8 @@ namespace EntityStates.Nemforcer
                             {
                                 Util.PlaySound(EnforcerPlugin.Sounds.HomeRun, healthComponent.gameObject);
                             }
-                            else Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact2, healthComponent.gameObject);
 
+                            if (base.characterMotor.velocity != Vector3.zero) this.storedVelocity = base.characterMotor.velocity;
                             this.hitStopCachedState = base.CreateHitStopCachedState(base.characterMotor, this.animator, "Uppercut.playbackRate");
                             this.inHitPause = true;
                             this.hitPauseTimer = (1.5f * EntityStates.Merc.GroundLight.hitPauseDuration) / this.attackSpeedStat;
@@ -359,6 +366,7 @@ namespace EntityStates.Nemforcer
                     {
                         base.ConsumeHitStopCachedState(this.hitStopCachedState, base.characterMotor, this.animator);
                         this.inHitPause = false;
+                        if (this.storedVelocity != Vector3.zero) base.characterMotor.velocity = this.storedVelocity;
                     }
                 }
             }
@@ -450,6 +458,10 @@ namespace EntityStates.Nemforcer
                 if (this.charge >= 0.6f) EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemSlamDownFX, base.gameObject, "MainHurtbox", true);
             }
 
+            NetworkSoundEventDef hitSound = EnforcerPlugin.Assets.nemHammerHitSoundEvent;
+
+            if (base.characterBody.skinIndex == 2 && EnforcerPlugin.EnforcerPlugin.starstormInstalled) hitSound = EnforcerPlugin.Assets.nemAxeHitSoundEvent;
+
             this.attack = new OverlapAttack();
             this.attack.damageType = DamageType.Stun1s;
             this.attack.attacker = base.gameObject;
@@ -458,10 +470,12 @@ namespace EntityStates.Nemforcer
             this.attack.damage = this.damageCoefficient * this.damageStat;
             this.attack.procCoefficient = 1;
             this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemHeavyImpactFX;
+            if (base.characterBody.skinIndex == 2 && EnforcerPlugin.EnforcerPlugin.starstormInstalled) this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemAxeImpactFX;
             this.attack.forceVector = Vector3.up * HammerAirSlam.knockupForce;
             this.attack.pushAwayForce = 50f;
             this.attack.hitBoxGroup = hitBoxGroup;
             this.attack.isCrit = base.RollCrit();
+            this.attack.impactSound = hitSound.index;
 
             base.characterMotor.disableAirControlUntilCollision = true;
         }
@@ -554,13 +568,15 @@ namespace EntityStates.Nemforcer
                     if (!this.hasFired)
                     {
                         this.hasFired = true;
-                        Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwing2, healthComponent.gameObject);
+
+                        string soundString = EnforcerPlugin.Sounds.NemesisSwing2;
+                        if (base.characterBody.skinIndex == 2 && EnforcerPlugin.EnforcerPlugin.starstormInstalled) soundString = EnforcerPlugin.Sounds.NemesisSwingAxe;
+
+                        Util.PlaySound(soundString, base.gameObject);
                     }
 
                     if (this.attack.Fire())
                     {
-                        Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact2, healthComponent.gameObject);
-
                         if (base.characterMotor.velocity.y != 0) this.storedY = base.characterMotor.velocity.y;
                         this.hitStopCachedState = base.CreateHitStopCachedState(base.characterMotor, this.animator, "HammerCharge.playbackRate");
                         this.inHitPause = true;

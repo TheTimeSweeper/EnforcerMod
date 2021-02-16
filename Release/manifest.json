@@ -1,8 +1,8 @@
 {
     "name": "Enforcer",
-    "version_number": "2.2.1",
+    "version_number": "2.2.2",
     "website_url": "https://github.com/GnomeModder/EnforcerMod",
-    "description": "Adds the Enforcers from Risk of Rain 1 as fully fleshed out playable survivors.",
+    "description": "Adds the Enforcers from Risk of Rain 1 as fully fleshed out playable survivors. Now with Starstorm 2 crosscompat!",
     "dependencies": [
         "bbepis-BepInExPack-5.3.1",
 		"tristanmcpherson-R2API-2.5.14"

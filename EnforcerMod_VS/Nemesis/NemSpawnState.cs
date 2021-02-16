@@ -6,27 +6,16 @@ namespace EntityStates.Nemforcer
 {
     public class SpawnState : BaseState
     {
-        public static float duration = 2.25f;
+        public static float duration = 2.5f;
 
         private CameraRigController cameraController;
+        private bool initCamera;
 
         public override void OnEnter()
         {
             base.OnEnter();
             base.PlayAnimation("Body", "Spawn");
             Util.PlaySound(NullifierMonster.SpawnState.spawnSoundString, base.gameObject);
-
-            // i don't know if all this null checking is necessary but i'd rather play it safe than spend time testing
-            if (base.characterBody && base.characterBody.master)
-            {
-                if (base.characterBody.master.playerCharacterMasterController)
-                {
-                    if (base.characterBody.master.playerCharacterMasterController.networkUser)
-                    {
-                        this.cameraController = base.characterBody.master.playerCharacterMasterController.networkUser.cameraRigController;
-                    }
-                }
-            }
 
             base.GetModelAnimator().SetLayerWeight(base.GetModelAnimator().GetLayerIndex("Minigun"), 0);
 
@@ -42,9 +31,27 @@ namespace EntityStates.Nemforcer
         {
             base.FixedUpdate();
 
-            if (this.cameraController)
+            // i don't know if all this null checking is necessary but i'd rather play it safe than spend time testing
+            if (!this.cameraController)
             {
-                this.cameraController.SetPitchYawFromLookVector(base.characterDirection.forward);
+                if (base.characterBody && base.characterBody.master)
+                {
+                    if (base.characterBody.master.playerCharacterMasterController)
+                    {
+                        if (base.characterBody.master.playerCharacterMasterController.networkUser)
+                        {
+                            this.cameraController = base.characterBody.master.playerCharacterMasterController.networkUser.cameraRigController;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (!this.initCamera)
+                {
+                    this.initCamera = true;
+                    this.cameraController.SetPitchYawFromLookVector(-base.characterDirection.forward);
+                }
             }
 
             if (base.fixedAge >= SpawnState.duration && base.isAuthority)

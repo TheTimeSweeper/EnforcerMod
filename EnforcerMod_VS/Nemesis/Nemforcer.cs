@@ -65,6 +65,17 @@ namespace EnforcerPlugin
             CreateBossPrefab();
 
             if (EnforcerPlugin.kingDededeBoss.Value) CreateDededeBoss();
+
+            //if (EnforcerPlugin.starstormInstalled) StarstormCompat();
+        }
+
+        private static void StarstormCompat()
+        {
+            Starstorm2.Cores.VoidCore.nemesisSpawns.Add(new Starstorm2.Cores.VoidCore.NemesisSpawnData
+            {
+                prefab = NemforcerPlugin.bossPrefab,
+                itemDrop = ItemIndex.NovaOnLowHealth
+            });
         }
 
         private static GameObject CreateModel(GameObject main, int index)
@@ -1130,11 +1141,13 @@ namespace EnforcerPlugin
 
             CharacterBody charBody = bossPrefab.GetComponent<CharacterBody>();
 
+            LanguageAPI.Add("NEMFORCER_BOSS_NAME", "Ultra Nemesis Enforcer");
             LanguageAPI.Add("NEMFORCER_BOSS_SUBTITLE", bossSubtitle);
 
             charBody.bodyIndex = -1;
             charBody.name = "NemesisEnforcerBossBody";
             charBody.baseNameToken = "NEMFORCER_NAME";
+            //if (EnforcerPlugin.starstormInstalled) charBody.baseNameToken = "NEMFORCER_BOSS_NAME";
             charBody.subtitleNameToken = "NEMFORCER_BOSS_SUBTITLE";
             charBody.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             charBody.rootMotionInMainState = false;

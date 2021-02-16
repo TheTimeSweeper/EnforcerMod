@@ -46,7 +46,7 @@ namespace EntityStates.Nemforcer
             this.critEndTime = Run.FixedTimeStamp.negativeInfinity;
             this.lastCritCheck = Run.FixedTimeStamp.negativeInfinity;
 
-            this.playID = Util.PlaySound(EnforcerPlugin.Sounds.NemesisMinigunShooting, base.gameObject);
+            this.playID = Util.PlaySound(EnforcerPlugin.Sounds.NemesisMinigunLoop, base.gameObject);
         }
 
         private void UpdateCrits()
@@ -62,7 +62,7 @@ namespace EntityStates.Nemforcer
                 }
             }
 
-            AkSoundEngine.SetRTPCValue("Minigun_Shooting", 1);
+            /*AkSoundEngine.SetRTPCValue("Minigun_Shooting", 1);
             if (!this.critEndTime.hasPassed)
             {
                 AkSoundEngine.SetRTPCValue("Minigun_Crit", 1);
@@ -70,7 +70,7 @@ namespace EntityStates.Nemforcer
             else
             {
                 AkSoundEngine.SetRTPCValue("Minigun_Crit", 0);
-            }
+            }*/
         }
 
         public override void OnExit()
@@ -202,7 +202,7 @@ namespace EntityStates.Nemforcer
         {
             base.OnEnter();
             this.duration = NemMinigunSpinDown.baseDuration / this.attackSpeedStat;
-            Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisMinigunWindDown, base.gameObject, this.attackSpeedStat);
+            Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisMinigunSpinDown, base.gameObject, this.attackSpeedStat);
 
             spin = animator.GetFloat("Minigun.spinSpeed");
         }
@@ -232,7 +232,7 @@ namespace EntityStates.Nemforcer
         {
             base.OnEnter();
             this.duration = NemMinigunSpinUp.baseDuration / this.attackSpeedStat;
-            Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisMinigunWindUp, base.gameObject, this.attackSpeedStat);
+            Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisMinigunSpinUp, base.gameObject, this.attackSpeedStat);
 
             if (this.muzzleTransform && MinigunSpinUp.chargeEffectPrefab)
             {
@@ -293,7 +293,7 @@ namespace EntityStates.Nemforcer
         {
             base.FixedUpdate();
 
-            AkSoundEngine.SetRTPCValue("Minigun_Speed", this.attackSpeedStat);
+            //AkSoundEngine.SetRTPCValue("Minigun_Speed", this.attackSpeedStat);
         }
 
         public override void OnExit()

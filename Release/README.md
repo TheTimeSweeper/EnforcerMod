@@ -61,10 +61,24 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - Life Savings may not work
 
 ## Future Plans
-- Skills++ support
 - More alternate skills
 
 ## Changelog
+`2.2.2`
+- Updated skill icons
+- Networked shield block effect
+- Added item displays for Plague Mask and Plague Hat from Supply Drop
+- Heavy TF2 changes below
+- Added Grand Mastery skin, available via Starstorm 2 crosscompat
+- Added new minigun sounds
+- Updated a lot of VFX
+- Updated uppercut animation
+- Updated skin icons
+- Tweaked camera angle on spawn
+- Tweaked hammer hitstop to stop it from interfering with movement
+- Networked salute emote, oops
+- Networked melee hit sounds
+
 `2.2.1`
 - Unsneeded the feed
 

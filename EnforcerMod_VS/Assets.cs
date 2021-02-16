@@ -4,6 +4,8 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.Networking;
 using RoR2;
+using RoR2.Audio;
+using System.Collections.Generic;
 
 namespace EnforcerPlugin
 {
@@ -79,6 +81,7 @@ namespace EnforcerPlugin
         public static GameObject nemDashFX;
         public static GameObject nemImpactFX;
         public static GameObject nemHeavyImpactFX;
+        public static GameObject nemAxeImpactFX;
 
         public static GameObject gatDrone;
 
@@ -95,6 +98,8 @@ namespace EnforcerPlugin
 
         public static Mesh nemClassicMesh;
         public static Mesh nemClassicHammerMesh;
+        public static Mesh nemMeshGM;
+        public static Mesh nemHammerMeshGM;
         public static Mesh nemAltMesh;
         public static Mesh nemDripMesh;
         public static Mesh nemDripHammerMesh;
@@ -105,6 +110,10 @@ namespace EnforcerPlugin
         public static Mesh sneedHammerMesh;
         public static Mesh minecraftNemMesh;
         public static Mesh minecraftHammerMesh;
+
+        internal static NetworkSoundEventDef hammerHitSoundEvent;
+        internal static NetworkSoundEventDef nemHammerHitSoundEvent;
+        internal static NetworkSoundEventDef nemAxeHitSoundEvent;
 
         public static void PopulateAssets()
         {
@@ -139,6 +148,13 @@ namespace EnforcerPlugin
                 SoundAPI.SoundBanks.Add(array);
             }
 
+            using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.NemforcerBank2.bnk"))
+            {
+                byte[] array = new byte[manifestResourceStream2.Length];
+                manifestResourceStream2.Read(array, 0, array.Length);
+                SoundAPI.SoundBanks.Add(array);
+            }
+
             Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/hgstandard");
 
             charPortrait = MainAssetBundle.LoadAsset<Sprite>("texEnforcerIcon").texture;
@@ -151,6 +167,7 @@ namespace EnforcerPlugin
                 icon1 = MainAssetBundle.LoadAsset<Sprite>("Skill1Icon");
                 icon1B = MainAssetBundle.LoadAsset<Sprite>("Skill1Icon");
                 icon1C = MainAssetBundle.LoadAsset<Sprite>("Skill1Icon");
+                icon1D = MainAssetBundle.LoadAsset<Sprite>("Skill1Icon");
                 icon2 = MainAssetBundle.LoadAsset<Sprite>("Skill2Icon");
                 icon3 = MainAssetBundle.LoadAsset<Sprite>("Skill3Icon");
                 icon3S = MainAssetBundle.LoadAsset<Sprite>("Skill3Icon");
@@ -165,6 +182,7 @@ namespace EnforcerPlugin
                 icon1 = MainAssetBundle.LoadAsset<Sprite>("RiotShotgunIcon");
                 icon1B = MainAssetBundle.LoadAsset<Sprite>("SuperShotgunIcon");
                 icon1C = MainAssetBundle.LoadAsset<Sprite>("AssaultRifleIcon");
+                icon1D = MainAssetBundle.LoadAsset<Sprite>("BreachingHammerIcon");
                 icon2 = MainAssetBundle.LoadAsset<Sprite>("ShieldBashIcon");
                 icon3 = MainAssetBundle.LoadAsset<Sprite>("TearGasIcon");
                 icon3S = MainAssetBundle.LoadAsset<Sprite>("TearGasScepterIcon");
@@ -267,6 +285,7 @@ namespace EnforcerPlugin
             nemDashFX.transform.GetChild(0).localPosition = Vector3.zero;
             nemImpactFX = Assets.LoadEffect("ImpactNemforcer", "", NemAssetBundle);
             nemHeavyImpactFX = Assets.LoadEffect("HeavyImpactNemforcer", "", NemAssetBundle);
+            nemAxeImpactFX = Assets.LoadEffect("ImpactNemforcerAxe", "", NemAssetBundle);
 
             gatDrone = MainAssetBundle.LoadAsset<GameObject>("GatDrone");
 
@@ -281,8 +300,10 @@ namespace EnforcerPlugin
             femMesh = MainAssetBundle.LoadAsset<Mesh>("FemforcerMesh");
             fuckingSteveMesh = MainAssetBundle.LoadAsset<Mesh>("FuckingSteveMesh");
 
-            nemClassicMesh = NemAssetBundle.LoadAsset<Mesh>("MeshClassic");
+            nemClassicMesh = NemAssetBundle.LoadAsset<Mesh>("meshNemforcerClassic");
             nemClassicHammerMesh = NemAssetBundle.LoadAsset<Mesh>("MeshClassicHammer");
+            nemMeshGM = NemAssetBundle.LoadAsset<Mesh>("meshNemforcerGM");
+            nemHammerMeshGM = NemAssetBundle.LoadAsset<Mesh>("meshHammerGM");
             nemAltMesh = NemAssetBundle.LoadAsset<Mesh>("MeshNemforcerAlt");
             nemDripMesh = NemAssetBundle.LoadAsset<Mesh>("MeshDripforcer");
             nemDripHammerMesh = NemAssetBundle.LoadAsset<Mesh>("MeshDripforcerHammer");
@@ -293,6 +314,24 @@ namespace EnforcerPlugin
             sneedHammerMesh = NemAssetBundle.LoadAsset<Mesh>("meshMallet");
             minecraftNemMesh = NemAssetBundle.LoadAsset<Mesh>("meshMinecraftNem");
             minecraftHammerMesh = NemAssetBundle.LoadAsset<Mesh>("meshMinecraftHammer");
+
+            hammerHitSoundEvent = CreateNetworkSoundEventDef(Sounds.NemesisImpact);
+            nemHammerHitSoundEvent = CreateNetworkSoundEventDef(Sounds.NemesisImpact2);
+            nemAxeHitSoundEvent = CreateNetworkSoundEventDef(Sounds.NemesisImpactAxe);
+        }
+
+        private static NetworkSoundEventDef CreateNetworkSoundEventDef(string eventName)
+        {
+            NetworkSoundEventDef networkSoundEventDef = ScriptableObject.CreateInstance<NetworkSoundEventDef>();
+            networkSoundEventDef.akId = AkSoundEngine.GetIDFromString(eventName);
+            networkSoundEventDef.eventName = eventName;
+
+            NetworkSoundEventCatalog.getSoundEventDefs += delegate (List<NetworkSoundEventDef> list)
+            {
+                list.Add(networkSoundEventDef);
+            };
+
+            return networkSoundEventDef;
         }
 
         private static GameObject LoadEffect(string resourceName, string soundName, AssetBundle bundle)

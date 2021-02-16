@@ -26,8 +26,9 @@ namespace EnforcerPlugin
     [BepInDependency("com.Sivelos.SivsItems", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.K1454.SupplyDrop", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ScrollableLobbyUI", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.TeamMoonstorm.Starstorm2", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "2.2.0")]
+    [BepInPlugin(MODUID, "Enforcer", "2.2.2")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -79,6 +80,7 @@ namespace EnforcerPlugin
         public static GameObject shockGrenade;
 
         public static GameObject blockEffectPrefab;
+        public static GameObject heavyBlockEffectPrefab;
         public static GameObject hammerSlamEffect;
 
         public GameObject doppelganger;
@@ -116,6 +118,7 @@ namespace EnforcerPlugin
         public static bool sivsItemsInstalled = false;
         public static bool supplyDropInstalled = false;
         public static bool scrollableLobbyInstalled = false;
+        public static bool starstormInstalled = false;
 
         public const uint doomGuyIndex = 2;
         public const uint engiIndex = 3;
@@ -227,6 +230,11 @@ namespace EnforcerPlugin
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ScrollableLobbyUI"))
             {
                 scrollableLobbyInstalled = true;
+            }
+            //shartstorm 2 xDDDD
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TeamMoonstorm.Starstorm2"))
+            {
+                starstormInstalled = true;
             }
 
             ItemDisplays.RegisterDisplays();
@@ -791,10 +799,8 @@ namespace EnforcerPlugin
 
             if (blocked)
             {
-                string soundString = Sounds.ShieldBlockLight;
-                if (info.procCoefficient >= 1) soundString = Sounds.ShieldBlockHeavy;
-
-                Util.PlaySound(soundString, self.gameObject);
+                GameObject blockEffect = EnforcerPlugin.blockEffectPrefab;
+                if (info.procCoefficient >= 1) blockEffect = EnforcerPlugin.heavyBlockEffectPrefab;
 
                 EffectData effectData = new EffectData
                 {
@@ -802,7 +808,7 @@ namespace EnforcerPlugin
                     rotation = Util.QuaternionSafeLookRotation((info.force != Vector3.zero) ? info.force : UnityEngine.Random.onUnitSphere)
                 };
 
-                EffectManager.SpawnEffect(EnforcerPlugin.blockEffectPrefab, effectData, false);
+                EffectManager.SpawnEffect(blockEffect, effectData, true);
 
                 info.rejected = true;
             }
@@ -2467,10 +2473,14 @@ namespace EnforcerPlugin
             //block effect
             blockEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/BearProc").InstantiateClone("EnforcerBlockEffect", true);
 
-            if (blockEffectPrefab.GetComponent<AkEvent>()) Destroy(blockEffectPrefab.GetComponent<AkEvent>());
-            if (blockEffectPrefab.GetComponent<AkGameObj>()) Destroy(blockEffectPrefab.GetComponent<AkGameObj>());
-            blockEffectPrefab.GetComponent<EffectComponent>().soundName = "";
+            blockEffectPrefab.GetComponent<EffectComponent>().soundName = Sounds.ShieldBlockLight;
             if (!blockEffectPrefab.GetComponent<NetworkIdentity>()) blockEffectPrefab.AddComponent<NetworkIdentity>();
+
+            //heavy block effect
+            heavyBlockEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/BearProc").InstantiateClone("EnforcerHeavyBlockEffect", true);
+
+            heavyBlockEffectPrefab.GetComponent<EffectComponent>().soundName = Sounds.ShieldBlockHeavy;
+            if (!heavyBlockEffectPrefab.GetComponent<NetworkIdentity>()) heavyBlockEffectPrefab.AddComponent<NetworkIdentity>();
 
             //hammer slam effect for enforcer m1 and nemforcer m2
             hammerSlamEffect = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect").InstantiateClone("EnforcerHammerSlamEffect");
@@ -2499,6 +2509,7 @@ namespace EnforcerPlugin
             EffectAPI.AddEffect(laserTracer);
             EffectAPI.AddEffect(minigunTracer);
             EffectAPI.AddEffect(blockEffectPrefab);
+            EffectAPI.AddEffect(heavyBlockEffectPrefab);
             EffectAPI.AddEffect(hammerSlamEffect);
         }
 
@@ -2990,7 +3001,7 @@ namespace EnforcerPlugin
             skillDefHammer.requiredStock = 1;
             skillDefHammer.shootDelay = 0f;
             skillDefHammer.stockToConsume = 1;
-            skillDefHammer.icon = Assets.testIcon;
+            skillDefHammer.icon = Assets.icon1D;
             skillDefHammer.skillDescriptionToken = "ENFORCER_PRIMARY_HAMMER_DESCRIPTION";
             skillDefHammer.skillName = "ENFORCER_PRIMARY_HAMMER_NAME";
             skillDefHammer.skillNameToken = "ENFORCER_PRIMARY_HAMMER_NAME";
@@ -3434,7 +3445,8 @@ namespace EnforcerPlugin
                 typeof(Floss),
                 typeof(FLINTLOCKWOOD),
                 typeof(SirenToggle),
-                typeof(NemesisRest)
+                typeof(NemesisRest),
+                typeof(EntityStates.Nemforcer.Emotes.Salute)
             };
               
             for (int i = 0; i < memes.Length; i++)
@@ -3593,6 +3605,9 @@ namespace EnforcerPlugin
         public static readonly string NemesisImpact2 = "Play_NemHammerImpact";
         public static readonly string NemesisSwingSecondary = "Play_NemSwingSecondary";
 
+        public static readonly string NemesisSwingAxe = "NemforcerAxeSwing";
+        public static readonly string NemesisImpactAxe = "NemforcerAxeHit";
+
         public static readonly string NemesisStartCharge = "Play_chargeStart";
         public static readonly string NemesisMaxCharge = "Play_chargeMax";
         public static readonly string NemesisFlameLoop = "Play_HammerFlameLoop";
@@ -3607,6 +3622,10 @@ namespace EnforcerPlugin
         public static readonly string NemesisMinigunWindDown = "Play_minigun_wind_down";
         public static readonly string NemesisMinigunWindUp = "Play_minigun_wind_up";
         public static readonly string NemesisMinigunShooting = "Play_Minigun_Shoot";
+
+        public static readonly string NemesisMinigunSpinUp = "NemforcerMinigunSpinUp";
+        public static readonly string NemesisMinigunSpinDown = "NemforcerMinigunSpinDown";
+        public static readonly string NemesisMinigunLoop = "NemforcerMinigunLoop";
 
         public static readonly string DeathSound = "Death_Siren";
         public static readonly string SirenButton = "Siren_Button";

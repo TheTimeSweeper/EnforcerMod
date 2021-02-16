@@ -101,6 +101,7 @@ namespace EntityStates.Enforcer
             this.attack.pushAwayForce = this.pushawayForce;
             this.attack.hitBoxGroup = hitBoxGroup;
             this.attack.isCrit = base.RollCrit();
+            this.attack.impactSound = EnforcerPlugin.Assets.hammerHitSoundEvent.index;
         }
 
         public override void FixedUpdate()
@@ -170,8 +171,6 @@ namespace EntityStates.Enforcer
             {
                 if (this.attack.Fire())
                 {
-                    Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact, base.gameObject);
-
                     if (!this.hasHopped)
                     {
                         if (base.characterMotor && !base.characterMotor.isGrounded)

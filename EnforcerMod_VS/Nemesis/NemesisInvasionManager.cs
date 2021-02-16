@@ -61,7 +61,7 @@ namespace EnforcerPlugin
                 //fuck this
                 // - I will
                 if (ArenaMissionController.instance) {
-                    Inventory arenaInventory = Reflection.GetFieldValue<Inventory>(ArenaMissionController.instance, "inventory");
+                    Inventory arenaInventory = ArenaMissionController.instance.inventory;
                     characterMaster.inventory.AddItemsFrom(arenaInventory);
                 }
 
@@ -118,6 +118,9 @@ namespace EnforcerPlugin
             spawnCard.runtimeLoadout = new Loadout();
             spawnCard.characterMaster = master;
             spawnCard.characterMaster.loadout.Copy(spawnCard.runtimeLoadout);
+
+            // this might work? try after we have proper void event crosscompat
+            //spawnCard.characterMaster.loadout.bodyLoadoutManager.SetSkinIndex(BodyCatalog.FindBodyIndex("NemforcerBody"), 0);
 
             return spawnCard;
         }

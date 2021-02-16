@@ -376,17 +376,18 @@ namespace EnforcerPlugin
                 itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("SUPPDRPQSGen", ItemDisplays.LoadSupplyDropDisplay("QSGen"), "ElbowL", new Vector3(0, 0.006f, 0), new Vector3(0, 0, 270), new Vector3(0.0035f, 0.0035f, 0.0035f)));
                 itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("SUPPDRPSalvagedWires", ItemDisplays.LoadSupplyDropDisplay("SalvagedWires"), "Minigun", new Vector3(0.005f, 0.004f, -0.014f), new Vector3(0, 90, 0), new Vector3(0.02f, 0.02f, 0.02f)));
                 itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("SUPPDRPShellPlating", ItemDisplays.LoadSupplyDropDisplay("ShellPlating"), "Pelvis", new Vector3(0.0095f, 0.006f, 0), new Vector3(30, 90, 0), new Vector3(0.0075f, 0.0075f, 0.0075f)));
+                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("SUPPDRPPlagueHat", ItemDisplays.LoadSupplyDropDisplay("PlagueHat"), "Head", new Vector3(1.896406E-07f, 0.008753167f, 1.76311E-07f), new Vector3(0, 0, 0), new Vector3(0.005486776f, 0.005486776f, 0.005486776f)));
+                itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("SUPPDRPPlagueMask", ItemDisplays.LoadSupplyDropDisplay("PlagueMask"), "Head", new Vector3(-0.007689702f, 0.004630757f, 2.040761E-07f), new Vector3(0, 90, 0), new Vector3(0.0075f, 0.0075f, 0.0075f)));
 
                 itemRules.Add(NemItemDisplays.CreateFollowerDisplayRule("SUPPDRPBloodBook", ItemDisplays.LoadSupplyDropDisplay("BloodBook"), new Vector3(0, 0.05f, 0.04f), new Vector3(0, 270, 0), new Vector3(0.08f, 0.08f, 0.08f)));
             }
             #endregion
             #endregion
 
-            BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
             ItemDisplayRuleSet.NamedRuleGroup[] item = itemRules.ToArray();
             ItemDisplayRuleSet.NamedRuleGroup[] equip = equipmentRules.ToArray();
-            typeof(ItemDisplayRuleSet).GetField("namedItemRuleGroups", bindingAttr).SetValue(itemDisplayRuleSet, item);
-            typeof(ItemDisplayRuleSet).GetField("namedEquipmentRuleGroups", bindingAttr).SetValue(itemDisplayRuleSet, equip);
+            itemDisplayRuleSet.namedItemRuleGroups = item;
+            itemDisplayRuleSet.namedEquipmentRuleGroups = equip;
 
             characterModel.itemDisplayRuleSet = itemDisplayRuleSet;
         }
@@ -492,6 +493,5 @@ namespace EnforcerPlugin
 
             return displayRule;
         }
-
     }
 }

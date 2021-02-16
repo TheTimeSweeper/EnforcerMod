@@ -26,6 +26,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("NEMFORCERBODY_DEFAULT_SKIN_NAME", "Nemesis");
             LanguageAPI.Add("NEMFORCERBODY_ENFORCER_SKIN_NAME", "Enforcer");
             LanguageAPI.Add("NEMFORCERBODY_CLASSIC_SKIN_NAME", "Classic");
+            LanguageAPI.Add("NEMFORCERBODY_TYPHOON_SKIN_NAME", "Champion");
             LanguageAPI.Add("NEMFORCERBODY_DRIP_SKIN_NAME", "Dripforcer");
             LanguageAPI.Add("NEMFORCERBODY_DEDEDE_SKIN_NAME", "King Dedede");
             LanguageAPI.Add("NEMFORCERBODY_SNEED_SKIN_NAME", "Sneed");
@@ -76,7 +77,7 @@ namespace EnforcerPlugin
             altSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             altSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
             altSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
-            altSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
+            altSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerEnforcer");
 
             altSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
@@ -115,7 +116,7 @@ namespace EnforcerPlugin
             classicSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             classicSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
             classicSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
-            classicSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerAchievement");
+            classicSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerMastery");
 
             classicSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
@@ -148,13 +149,52 @@ namespace EnforcerPlugin
             SkinDef classicSkin = LoadoutAPI.CreateNewSkinDef(classicSkinDefInfo);
             #endregion
 
+            #region TyphoonSkin
+            LoadoutAPI.SkinDefInfo typhoonSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            typhoonSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            typhoonSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            typhoonSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+            typhoonSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+            typhoonSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerGrandMastery");
+
+            typhoonSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                new SkinDef.MeshReplacement
+                {
+                    renderer = mainRenderer,
+                    mesh = Assets.nemMeshGM
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[0].renderer,
+                    mesh = Assets.nemHammerMeshGM
+                }
+            };
+            typhoonSkinDefInfo.Name = "NEMFORCERBODY_TYPHOON_SKIN_NAME";
+            typhoonSkinDefInfo.NameToken = "NEMFORCERBODY_TYPHOON_SKIN_NAME";
+            typhoonSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            typhoonSkinDefInfo.RootObject = model;
+            typhoonSkinDefInfo.UnlockableName = "NEMFORCER_TYPHOONUNLOCKABLE_REWARD_ID";
+
+            rendererInfos = skinDefInfo.RendererInfos;
+            array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos.CopyTo(array, 0);
+
+            array[0].defaultMaterial = Assets.CreateNemMaterial("matNemforcer", 5f, Color.white, 0);
+            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matNemforcer", 5f, Color.white, 0);
+
+            typhoonSkinDefInfo.RendererInfos = array;
+
+            SkinDef typhoonSkin = LoadoutAPI.CreateNewSkinDef(typhoonSkinDefInfo);
+            #endregion
+
             #region DripSkin
             LoadoutAPI.SkinDefInfo dripSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             dripSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             dripSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             dripSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
             dripSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
-            dripSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerAchievement");
+            dripSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerDrip");
 
             dripSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
@@ -348,9 +388,15 @@ namespace EnforcerPlugin
             skinDefs = new List<SkinDef>()
             {
                 defaultSkin,
-                classicSkin,
-                altSkin
+                classicSkin
             };
+
+            if (EnforcerPlugin.starstormInstalled)
+            {
+                skinDefs.Add(typhoonSkin);
+            }
+
+            skinDefs.Add(altSkin);
 
             if (EnforcerPlugin.cursed.Value)
             {
