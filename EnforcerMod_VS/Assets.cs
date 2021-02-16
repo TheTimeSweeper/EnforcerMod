@@ -142,7 +142,7 @@ namespace EnforcerPlugin
             Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/hgstandard");
 
             charPortrait = MainAssetBundle.LoadAsset<Sprite>("texEnforcerIcon").texture;
-            nemCharPortrait = NemAssetBundle.LoadAsset<Sprite>("texSneedIcon").texture;//pain- nemIconBlu
+            nemCharPortrait = NemAssetBundle.LoadAsset<Sprite>("nemIconBlu").texture;
             nemBossPortrait = NemAssetBundle.LoadAsset<Sprite>("nemIconRed").texture;
 
             if (EnforcerPlugin.classicIcons.Value)

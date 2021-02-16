@@ -355,12 +355,10 @@ namespace EnforcerPlugin
             if (EnforcerPlugin.cursed.Value)
             {
                 skinDefs.Add(dripSkin);
-                skinDefs.Add(dededeSkin);
                 skinDefs.Add(minecraftSkin);
+                skinDefs.Add(dededeSkin);
+                skinDefs.Add(sneedSkin);
             }
-
-            // pepe
-            skinDefs = new List<SkinDef>() { sneedSkin };
 
             skinController.skins = skinDefs.ToArray();
         }

@@ -65,6 +65,9 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - More alternate skills
 
 ## Changelog
+`2.2.1`
+- Unsneeded the feed
+
 `2.2.0`
 - Added a new skin for Heavy TF2
 - Updated hammer sounds

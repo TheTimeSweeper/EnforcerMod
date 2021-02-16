@@ -19,11 +19,11 @@ namespace EnforcerPlugin
 {
     public class NemforcerPlugin
     {
-        public const string characterName = "Sneed";// Nemesis Enforcer
-        public const string characterSubtitle = "Feeder & Seeder"; // Uncorruptible Shadow
+        public const string characterName = "Nemesis Enforcer";
+        public const string characterSubtitle = "Uncorruptible Shadow";
         public const string bossSubtitle = "End of the Line";
-        public const string characterOutro = "..and so he left, his feed thoroughly seeded.";// ..and so he left, with newfound might to honor.
-        public const string characterLore = "\nnot heavy tf2\n\n";
+        public const string characterOutro = "..and so he left, with newfound might to honor.";
+        public const string characterLore = "\nheavy tf2\n\n";
 
         public static GameObject characterPrefab;
         public static GameObject characterDisplay;
