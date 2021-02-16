@@ -8,11 +8,25 @@ namespace EntityStates.Nemforcer
     {
         public static float duration = 2.25f;
 
+        private CameraRigController cameraController;
+
         public override void OnEnter()
         {
             base.OnEnter();
             base.PlayAnimation("Body", "Spawn");
             Util.PlaySound(NullifierMonster.SpawnState.spawnSoundString, base.gameObject);
+
+            // i don't know if all this null checking is necessary but i'd rather play it safe than spend time testing
+            if (base.characterBody && base.characterBody.master)
+            {
+                if (base.characterBody.master.playerCharacterMasterController)
+                {
+                    if (base.characterBody.master.playerCharacterMasterController.networkUser)
+                    {
+                        this.cameraController = base.characterBody.master.playerCharacterMasterController.networkUser.cameraRigController;
+                    }
+                }
+            }
 
             base.GetModelAnimator().SetLayerWeight(base.GetModelAnimator().GetLayerIndex("Minigun"), 0);
 
@@ -28,8 +42,10 @@ namespace EntityStates.Nemforcer
         {
             base.FixedUpdate();
 
-            base.inputBank.aimDirection = -base.modelLocator.modelBaseTransform.forward;
-            base.cameraTargetParams.idealLocalCameraPos = new Vector3(0f, -0.8f, -14f);
+            if (this.cameraController)
+            {
+                this.cameraController.SetPitchYawFromLookVector(base.characterDirection.forward);
+            }
 
             if (base.fixedAge >= SpawnState.duration && base.isAuthority)
             {

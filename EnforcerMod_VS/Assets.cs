@@ -101,6 +101,8 @@ namespace EnforcerPlugin
         public static Mesh dededeMesh;
         public static Mesh dededeHammerMesh;
         public static Mesh dededeBossMesh;
+        public static Mesh sneedMesh;
+        public static Mesh sneedHammerMesh;
         public static Mesh minecraftNemMesh;
         public static Mesh minecraftHammerMesh;
 
@@ -140,7 +142,7 @@ namespace EnforcerPlugin
             Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/hgstandard");
 
             charPortrait = MainAssetBundle.LoadAsset<Sprite>("texEnforcerIcon").texture;
-            nemCharPortrait = NemAssetBundle.LoadAsset<Sprite>("nemIconBlu").texture;
+            nemCharPortrait = NemAssetBundle.LoadAsset<Sprite>("texSneedIcon").texture;//pain- nemIconBlu
             nemBossPortrait = NemAssetBundle.LoadAsset<Sprite>("nemIconRed").texture;
 
             if (EnforcerPlugin.classicIcons.Value)
@@ -287,6 +289,8 @@ namespace EnforcerPlugin
             dededeMesh = NemAssetBundle.LoadAsset<Mesh>("meshDedede");
             dededeHammerMesh = NemAssetBundle.LoadAsset<Mesh>("meshDededeHammer");
             dededeBossMesh = NemAssetBundle.LoadAsset<Mesh>("meshDededeBoss");
+            sneedMesh = NemAssetBundle.LoadAsset<Mesh>("meshSneed");
+            sneedHammerMesh = NemAssetBundle.LoadAsset<Mesh>("meshMallet");
             minecraftNemMesh = NemAssetBundle.LoadAsset<Mesh>("meshMinecraftNem");
             minecraftHammerMesh = NemAssetBundle.LoadAsset<Mesh>("meshMinecraftHammer");
         }

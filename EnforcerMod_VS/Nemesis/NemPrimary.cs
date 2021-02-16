@@ -41,6 +41,7 @@ namespace EntityStates.Nemforcer
             this.hasFired = false;
             base.characterBody.isSprinting = false;
             this.nemController = base.GetComponent<NemforcerController>();
+            base.characterBody.outOfCombatStopwatch = 0f;
 
             this.childLocator = base.GetModelChildLocator();
             this.modelBaseTransform = base.GetModelBaseTransform();
@@ -128,7 +129,7 @@ namespace EntityStates.Nemforcer
 
                 if (this.nemController && this.attack.isCrit) this.nemController.hammerBurst.Play();
 
-                Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisSwing, base.gameObject, this.attackSpeedStat);
+                Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisSwing2, base.gameObject, this.attackSpeedStat);
 
                 base.AddRecoil(-1f * HammerSwing.attackRecoil, -2f * HammerSwing.attackRecoil, -0.5f * HammerSwing.attackRecoil, 0.5f * HammerSwing.attackRecoil);
 
@@ -141,7 +142,7 @@ namespace EntityStates.Nemforcer
 
                 if (this.attack.Fire())
                 {
-                    Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact, base.gameObject);
+                    Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact2, base.gameObject);
                     base.AddRecoil(-1f * HammerSwing.attackRecoil, -2f * HammerSwing.attackRecoil, -0.5f * HammerSwing.attackRecoil, 0.5f * HammerSwing.attackRecoil);
 
                     if (!this.hasHopped)
@@ -169,7 +170,6 @@ namespace EntityStates.Nemforcer
             if (!this.hasFired) this.FireAttack();
 
             this.animator.SetBool("swinging", false);
-
 
             base.OnExit();
         }

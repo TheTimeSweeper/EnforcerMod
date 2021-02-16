@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1412854415
+CRC: 3676552174
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 483a5074c74d1bea283b4d82689d3fc3
+    Hash: 49bed11cd69bc598eeaa70a3263b06a8
   TypeTreeHash:
     serializedVersion: 2
     Hash: e465eabb9707126898175137816bb4a8
@@ -208,6 +208,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texIronManforcer.png
 - Assets/Enforcer/EnforcerAssets/Materials/matNeedler.mat
 - Assets/Enforcer/EnforcerAssets/FuckingSteveMesh.mesh
+- Assets/Enforcer/EnforcerAssets/Icons/texSneedSkin.png
 - Assets/Enforcer/EnforcerAssets/Animations/Masks/ShieldPitchMask.mask
 - Assets/Enforcer/EnforcerAssets/Materials/matRifle.mat
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texSexforcerEmission.png

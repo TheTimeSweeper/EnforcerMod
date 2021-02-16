@@ -155,6 +155,7 @@ namespace EntityStates.Nemforcer
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+            base.characterBody.outOfCombatStopwatch = 0f;
 
             this.baseFireRate = 1f / MinigunFire.baseFireInterval;
             this.baseBulletsPerSecond = (float)MinigunFire.baseBulletCount * this.baseFireRate;

@@ -65,6 +65,29 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - More alternate skills
 
 ## Changelog
+`2.2.0`
+- Added a new skin for Heavy TF2
+- Updated hammer sounds
+
+`2.1.9`
+- Fixed salute emote doing nothing
+
+`2.1.8`
+- Fixed Dominance breaking when used on dedicated servers
+
+`2.1.7`
+- Fixed Fortnite dances (sorry)
+
+`2.1.6`
+- Added salute emote
+- Tweaked sprint animation timing
+- Tweaked uppercut animation
+- Added work in progress alt primary (enable cursed in config)
+- Removed all reflection from code, improving performance
+- Fixed SSG reload animation
+- Fixed some stupid vanilla EffectCatalog errors
+- Fixed Red Whip activating while using certain primaries
+
 `2.1.5`
 - Quick hotfix, King Dedede's skills were replacing Commando's by mistake
 

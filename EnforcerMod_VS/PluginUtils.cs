@@ -61,8 +61,8 @@ namespace EnforcerPlugin {
             SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
             LoadoutAPI.AddSkillFamily(newFamily);
 
-            genericSkill.SetFieldValue("_skillFamily", newFamily);
-            genericSkill.SetFieldValue("skillName", skillname);
+            genericSkill._skillFamily = newFamily;
+            genericSkill.skillName = skillname;
 
             newFamily.variants = skillVariants;
 

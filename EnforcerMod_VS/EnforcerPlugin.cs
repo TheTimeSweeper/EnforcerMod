@@ -27,7 +27,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.K1454.SupplyDrop", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ScrollableLobbyUI", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "2.1.5")]
+    [BepInPlugin(MODUID, "Enforcer", "2.2.0")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -240,6 +240,8 @@ namespace EnforcerPlugin
 
             if (nemesisEnabled) new NemforcerPlugin().Init();
 
+            FixVanillaErrors();
+
             Hook();
         }
 
@@ -253,6 +255,16 @@ namespace EnforcerPlugin
             if (!nemesisSpawnEffect.GetComponent<NetworkIdentity>()) nemesisSpawnEffect.AddComponent<NetworkIdentity>();
 
             EffectAPI.AddEffect(nemesisSpawnEffect);
+        }
+
+        private void FixVanillaErrors()
+        {
+            //HOPOO PLEASE
+            Resources.Load<GameObject>("Prefabs/Effects/DroneFlamethrowerEffect").AddComponent<EffectComponent>();
+            Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/FireMeatBallPool").AddComponent<EffectComponent>();
+            Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/LunarWispTrackingBombExp_Prf").AddComponent<EffectComponent>();
+            Resources.Load<GameObject>("Prefabs/Effects/LunarWispMinigunChargeUp").AddComponent<EffectComponent>();
+            Resources.Load<GameObject>("Prefabs/Effects/SiphonTetherHealing").AddComponent<EffectComponent>();
         }
 
         private void ConfigShit()
@@ -627,56 +639,55 @@ namespace EnforcerPlugin
             {
                 if (self.HasBuff(jackBoots))
                 {
-                    Reflection.SetPropertyValue<float>(self, "armor", self.armor + 10);
-                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.35f);
-                    Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
+                    self.armor += 10f;
+                    self.moveSpeed *= 0.35f;
+                    self.maxJumpCount = 0;
                 }
 
                 if (self.HasBuff(minigunBuff))
                 {
-                    Reflection.SetPropertyValue<float>(self, "armor", self.armor + 60);
-                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.8f);
+                    self.armor += 60f;
+                    self.moveSpeed *= 0.8f;
                 }
 
                 if (self.HasBuff(energyShieldBuff))
                 {
-                    Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
-                    Reflection.SetPropertyValue<float>(self, "armor", self.armor + 40);
-                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.65f);
+                    self.maxJumpCount = 0;
+                    self.armor += 40f;
+                    self.moveSpeed *= 0.65f;
                 }
 
                 if (self.HasBuff(tearGasDebuff))
                 {
-                    Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
-                    Reflection.SetPropertyValue<float>(self, "armor", self.armor - 20);
-                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.25f);
-                    Reflection.SetPropertyValue<float>(self, "attackSpeed", self.attackSpeed * 0.75f);
+                    self.maxJumpCount = 0;
+                    self.armor -= 20f;
+                    self.moveSpeed *= 0.25f;
+                    self.attackSpeed *= 0.75f;
                 }
 
                 if (self.HasBuff(nemGasDebuff))
                 {
-                    Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
-                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.25f);
+                    self.maxJumpCount = 0;
+                    self.moveSpeed *= 0.25f;
                 }
 
                 if (self.HasBuff(unusedDebuff))
                 {
-                    Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
-                    Reflection.SetPropertyValue<float>(self, "armor", self.armor - 8000);
-                    Reflection.SetPropertyValue<float>(self, "moveSpeed", 0);
-                    Reflection.SetPropertyValue<float>(self, "attackSpeed", 0.01f);
+                    self.maxJumpCount = 0;
+                    self.armor -= 8000f;
+                    self.moveSpeed = 0f;
+                    self.attackSpeed = 0.01f;
                 }
 
                 if (self.HasBuff(tempSlowDebuff))
                 {
-                    Reflection.SetPropertyValue<float>(self, "armor", self.armor + 10);
-                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.7f);
+                    self.armor += 10f;
+                    self.moveSpeed *= 0.7f;
                 }
 
                 if (self.HasBuff(tempLargeSlowDebuff))
                 {
-                    //Reflection.SetPropertyValue<int>(self, "maxJumpCount", 0);
-                    Reflection.SetPropertyValue<float>(self, "moveSpeed", self.moveSpeed * 0.2f);
+                    self.moveSpeed *= 0.2f;
                 }
 
                 //regen passive
@@ -685,7 +696,7 @@ namespace EnforcerPlugin
                     HealthComponent hp = self.healthComponent;
                     float regenValue = hp.fullCombinedHealth * NemforcerPlugin.passiveRegenBonus;
                     float regen = Mathf.SmoothStep(regenValue, 0, hp.combinedHealth / hp.fullCombinedHealth);
-                    Reflection.SetPropertyValue<float>(self, "regen", self.regen + regen);
+                    self.regen += regen;
                 }
             }
         }
@@ -810,7 +821,7 @@ namespace EnforcerPlugin
 
             if (self.outer.customName == "EnforcerParry")
             {
-                Reflection.SetFieldValue(self, "damageStat", self.outer.commonComponents.characterBody.damage * 5);
+                self.damageStat = self.outer.commonComponents.characterBody.damage * 5f;
             }
         }
 
@@ -1319,7 +1330,7 @@ namespace EnforcerPlugin
             characterModel.invisibilityCount = 0;
             characterModel.temporaryOverlays = new List<TemporaryOverlay>();
 
-            characterModel.SetFieldValue("mainSkinnedMeshRenderer", characterModel.baseRendererInfos[0].renderer.gameObject.GetComponent<SkinnedMeshRenderer>());
+            characterModel.mainSkinnedMeshRenderer = characterModel.baseRendererInfos[0].renderer.gameObject.GetComponent<SkinnedMeshRenderer>();
 
             characterDisplay = PrefabAPI.InstantiateClone(model, "EnforcerDisplay", true);
 
@@ -1792,7 +1803,7 @@ namespace EnforcerPlugin
             characterModel.baseRendererInfos[34].defaultMaterial.SetFloat("_EmPower", 1f);
             characterModel.baseRendererInfos[34].defaultMaterial.SetColor("_EmColor", Color.white);
 
-            characterModel.SetFieldValue("mainSkinnedMeshRenderer", characterModel.baseRendererInfos[0].renderer.gameObject.GetComponent<SkinnedMeshRenderer>());
+            characterModel.mainSkinnedMeshRenderer = characterModel.baseRendererInfos[0].renderer.gameObject.GetComponent<SkinnedMeshRenderer>();
 
             //fuck man
             childLocator.FindChild("Head").transform.localScale = Vector3.one * headSize.Value;
@@ -3578,6 +3589,9 @@ namespace EnforcerPlugin
 
         public static readonly string NemesisSwing = "Play_Heavy_Swing";
         public static readonly string NemesisImpact = "Play_Heavy_Swing_Hit";
+        public static readonly string NemesisSwing2 = "Play_HammerswingNewL";
+        public static readonly string NemesisImpact2 = "Play_NemHammerImpact";
+        public static readonly string NemesisSwingSecondary = "Play_NemSwingSecondary";
 
         public static readonly string NemesisStartCharge = "Play_chargeStart";
         public static readonly string NemesisMaxCharge = "Play_chargeMax";
@@ -3618,5 +3632,9 @@ namespace EnforcerPlugin
         public static readonly string SkamteScore = "HUD_score";
         public static readonly string SkamtePerfectTrick = "HUD_perfecttrick";
         public static readonly string SkamteSpecialTrick = "HUD_specialtrick";
+
+        public static readonly string DededeSwing = "Play_se_dedede_hammer_swing_m";
+        public static readonly string DededeImpactS = "Play_dedede_hammer_attack_m";
+        public static readonly string DededeImpactL = "Play_dedede_hammer_attack_l";
     }
 }

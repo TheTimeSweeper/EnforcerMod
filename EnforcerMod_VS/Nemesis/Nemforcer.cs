@@ -19,11 +19,11 @@ namespace EnforcerPlugin
 {
     public class NemforcerPlugin
     {
-        public const string characterName = "Nemesis Enforcer";
-        public const string characterSubtitle = "Uncorruptible Shadow";
+        public const string characterName = "Sneed";// Nemesis Enforcer
+        public const string characterSubtitle = "Feeder & Seeder"; // Uncorruptible Shadow
         public const string bossSubtitle = "End of the Line";
-        public const string characterOutro = "..and so he left, with newfound might to honor.";
-        public const string characterLore = "\nHeavy TF2\n\n";
+        public const string characterOutro = "..and so he left, his feed thoroughly seeded.";// ..and so he left, with newfound might to honor.
+        public const string characterLore = "\nnot heavy tf2\n\n";
 
         public static GameObject characterPrefab;
         public static GameObject characterDisplay;
@@ -135,7 +135,7 @@ namespace EnforcerPlugin
             characterModel.invisibilityCount = 0;
             characterModel.temporaryOverlays = new List<TemporaryOverlay>();
 
-            characterModel.SetFieldValue("mainSkinnedMeshRenderer", characterModel.baseRendererInfos[characterModel.baseRendererInfos.Length - 1].renderer.gameObject.GetComponent<SkinnedMeshRenderer>());
+            characterModel.mainSkinnedMeshRenderer = characterModel.baseRendererInfos[characterModel.baseRendererInfos.Length - 1].renderer.gameObject.GetComponent<SkinnedMeshRenderer>();
 
             characterDisplay = tempDisplay;
         }
@@ -309,7 +309,7 @@ namespace EnforcerPlugin
             characterModel.invisibilityCount = 0;
             characterModel.temporaryOverlays = new List<TemporaryOverlay>();
 
-            characterModel.SetFieldValue("mainSkinnedMeshRenderer", characterModel.baseRendererInfos[characterModel.baseRendererInfos.Length - 1].renderer.gameObject.GetComponent<SkinnedMeshRenderer>());
+            characterModel.mainSkinnedMeshRenderer = characterModel.baseRendererInfos[characterModel.baseRendererInfos.Length - 1].renderer.gameObject.GetComponent<SkinnedMeshRenderer>();
 
             TeamComponent teamComponent = null;
             if (characterPrefab.GetComponent<TeamComponent>() != null) teamComponent = characterPrefab.GetComponent<TeamComponent>();
@@ -714,6 +714,8 @@ namespace EnforcerPlugin
             SkillFamily.Variant primaryVariant2 = PluginUtils.SetupSkillVariant(primaryDef2);
 
             skillLocator.primary = PluginUtils.RegisterSkillsToFamily(characterPrefab, primaryVariant1);
+
+            if (EnforcerPlugin.cursed.Value) PluginUtils.RegisterAdditionalSkills(skillLocator.primary, primaryVariant2);
 
             SkillDef primaryDefMinigun = PrimarySkillDef_FireMinigun();
             PluginUtils.RegisterSkillDef(primaryDefMinigun,
@@ -1804,7 +1806,7 @@ namespace EnforcerPlugin
             characterModel.invisibilityCount = 0;
             characterModel.temporaryOverlays = new List<TemporaryOverlay>();
 
-            characterModel.SetFieldValue("mainSkinnedMeshRenderer", characterModel.baseRendererInfos[characterModel.baseRendererInfos.Length - 1].renderer.gameObject.GetComponent<SkinnedMeshRenderer>());
+            characterModel.mainSkinnedMeshRenderer = characterModel.baseRendererInfos[characterModel.baseRendererInfos.Length - 1].renderer.gameObject.GetComponent<SkinnedMeshRenderer>();
 
             TeamComponent teamComponent = null;
             if (dededePrefab.GetComponent<TeamComponent>() != null) teamComponent = dededePrefab.GetComponent<TeamComponent>();
@@ -2052,7 +2054,7 @@ namespace EnforcerPlugin
             SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
             newFamily.variants = new SkillFamily.Variant[1];
             LoadoutAPI.AddSkillFamily(newFamily);
-            skillLocator.primary.SetFieldValue("_skillFamily", newFamily);
+            skillLocator.primary._skillFamily = newFamily;
             SkillFamily skillFamily = skillLocator.primary.skillFamily;
 
             skillFamily.variants[0] = new SkillFamily.Variant
@@ -2066,7 +2068,7 @@ namespace EnforcerPlugin
             newFamily = ScriptableObject.CreateInstance<SkillFamily>();
             newFamily.variants = new SkillFamily.Variant[1];
             LoadoutAPI.AddSkillFamily(newFamily);
-            skillLocator.secondary.SetFieldValue("_skillFamily", newFamily);
+            skillLocator.secondary._skillFamily = newFamily;
             skillFamily = skillLocator.secondary.skillFamily;
 
             skillFamily.variants[0] = new SkillFamily.Variant
@@ -2080,7 +2082,7 @@ namespace EnforcerPlugin
             newFamily = ScriptableObject.CreateInstance<SkillFamily>();
             newFamily.variants = new SkillFamily.Variant[1];
             LoadoutAPI.AddSkillFamily(newFamily);
-            skillLocator.utility.SetFieldValue("_skillFamily", newFamily);
+            skillLocator.utility._skillFamily = newFamily;
             skillFamily = skillLocator.utility.skillFamily;
 
             skillFamily.variants[0] = new SkillFamily.Variant
