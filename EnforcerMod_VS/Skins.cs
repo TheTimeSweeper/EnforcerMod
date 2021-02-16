@@ -11,6 +11,13 @@ namespace EnforcerPlugin
 {
     public static class Skins
     {
+
+        /// <summary>
+        /// create an array of all gameobjects that are activated/deactivated by skins, then for each skin pass in the specific objects that will be active
+        /// </summary>
+        /// <param name="allObjects">array of all gameobjects that are activated/deactivated by skins</param>
+        /// <param name="activatedObjects">specific objects that will be active</param>
+        /// <returns></returns>
         private static SkinDef.GameObjectActivation[] getActivations(GameObject[] allObjects, params GameObject[] activatedObjects) {
 
             List<SkinDef.GameObjectActivation> GameObjectActivations = new List<SkinDef.GameObjectActivation>();

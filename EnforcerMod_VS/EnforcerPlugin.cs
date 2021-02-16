@@ -69,7 +69,7 @@ namespace EnforcerPlugin
         public static GameObject bungusTracer = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerEngiTurret");
         public static GameObject minigunTracer;
 
-        public static GameObject projectilePrefab;
+        public static GameObject tearGasProjectilePrefab;
         public GameObject tearGasPrefab;
 
         public static GameObject damageGasProjectile;
@@ -1332,7 +1332,7 @@ namespace EnforcerPlugin
             //i really wish this was set up in code rather than in the editor so we wouldn't have to build a new assetbundle and redo the components/events every time something on the prefab changes
             //it's seriously tedious as fuck.
             // just make it not tedious 4head
-            //   turns out addlistener doesn't even fuckin work so I actually can't set it up in code even if i wanted to try the inferior way
+            //   turns out addlistener doesn't even fuckin work so I actually can't set it up in code even if when I wanted to try the inferior way
             //pain.
             //but yea i tried it too and gave up so understandable
 
@@ -2196,7 +2196,7 @@ namespace EnforcerPlugin
             shockGrenadeImpact.explosionSoundString = "Play_mage_m2_impact";
             shockGrenadeImpact.offsetForLifetimeExpiredSound = 1;
             shockGrenadeImpact.destroyOnEnemy = false;
-            shockGrenadeImpact.destroyOnWorld = false;
+            shockGrenadeImpact.destroyOnWorld = false;                          
             shockGrenadeImpact.timerAfterImpact = true;
             shockGrenadeImpact.falloffModel = BlastAttack.FalloffModel.None;
             shockGrenadeImpact.lifetimeAfterImpact = 0f;
@@ -2209,20 +2209,20 @@ namespace EnforcerPlugin
             shockGrenadeImpact.impactEffect = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/LightningStrikeImpact");
             shockGrenadeController.procCoefficient = 1;
 
-            projectilePrefab = Resources.Load<GameObject>("Prefabs/Projectiles/CommandoGrenadeProjectile").InstantiateClone("EnforcerTearGasGrenade", true);
+            tearGasProjectilePrefab = Resources.Load<GameObject>("Prefabs/Projectiles/CommandoGrenadeProjectile").InstantiateClone("EnforcerTearGasGrenade", true);
             tearGasPrefab = Resources.Load<GameObject>("Prefabs/Projectiles/SporeGrenadeProjectileDotZone").InstantiateClone("TearGasDotZone", true);
 
-            ProjectileController grenadeController = projectilePrefab.GetComponent<ProjectileController>();
+            ProjectileController grenadeController = tearGasProjectilePrefab.GetComponent<ProjectileController>();
             ProjectileController tearGasController = tearGasPrefab.GetComponent<ProjectileController>();
 
-            ProjectileDamage grenadeDamage = projectilePrefab.GetComponent<ProjectileDamage>();
+            ProjectileDamage grenadeDamage = tearGasProjectilePrefab.GetComponent<ProjectileDamage>();
             ProjectileDamage tearGasDamage = tearGasPrefab.GetComponent<ProjectileDamage>();
 
-            ProjectileSimple simple = projectilePrefab.GetComponent<ProjectileSimple>();
+            ProjectileSimple simple = tearGasProjectilePrefab.GetComponent<ProjectileSimple>();
 
             TeamFilter filter = tearGasPrefab.GetComponent<TeamFilter>();
 
-            ProjectileImpactExplosion grenadeImpact = projectilePrefab.GetComponent<ProjectileImpactExplosion>();
+            ProjectileImpactExplosion grenadeImpact = tearGasProjectilePrefab.GetComponent<ProjectileImpactExplosion>();
 
             Destroy(tearGasPrefab.GetComponent<ProjectileDotZone>());
 
@@ -2475,7 +2475,7 @@ namespace EnforcerPlugin
 
             ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list) 
             {
-                list.Add(projectilePrefab);
+                list.Add(tearGasProjectilePrefab);
                 list.Add(damageGasProjectile);
                 list.Add(tearGasPrefab);
                 list.Add(damageGasEffect);

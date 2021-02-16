@@ -16,7 +16,7 @@ namespace EntityStates.Enforcer
             maxDistance = 48;
             rayRadius = 2f;
             arcVisualizerPrefab = goodState.arcVisualizerPrefab;
-            projectilePrefab = EnforcerPlugin.EnforcerPlugin.projectilePrefab;
+            projectilePrefab = EnforcerPlugin.EnforcerPlugin.tearGasProjectilePrefab;
             endpointVisualizerPrefab = goodState.endpointVisualizerPrefab;
             endpointVisualizerRadiusScale = 4f;
             setFuse = false;
@@ -137,7 +137,7 @@ namespace EntityStates.Enforcer
                     owner = base.gameObject,
                     position = childLocator.FindChild(TearGas.muzzleString).position,
                     procChainMask = default(ProcChainMask),
-                    projectilePrefab = EnforcerPlugin.EnforcerPlugin.projectilePrefab,
+                    projectilePrefab = EnforcerPlugin.EnforcerPlugin.tearGasProjectilePrefab,
                     rotation = Quaternion.LookRotation(base.GetAimRay().direction),
                     useFuseOverride = false,
                     useSpeedOverride = false,
