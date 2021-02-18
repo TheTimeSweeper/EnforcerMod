@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3882821746
+CRC: 3032531049
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8adbdc8ec58b45be9c7afd67042cbb4b
+    Hash: a3b7e941fca6098b328fc9351907d4d5
   TypeTreeHash:
     serializedVersion: 2
     Hash: e465eabb9707126898175137816bb4a8
@@ -88,6 +88,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texBeeble.png
 - Assets/Enforcer/EnforcerAssets/Particles/texGrenadeExplosion.png
 - Assets/Enforcer/EnforcerAssets/Icons/Skill4Icon.png
+- Assets/Enforcer/EnforcerAssets/meshEnforcerGM.mesh
 - Assets/Enforcer/EnforcerAssets/Particles/matRay.mat
 - Assets/Enforcer/EnforcerAssets/Icons/texZeroSuitAchievement.png
 - Assets/Enforcer/EnforcerAssets/Materials/matFemforcer.mat
@@ -178,6 +179,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Particles/matGrenadeSpark.mat
 - Assets/Enforcer/EnforcerAssets/Animations/ShieldWalkR.anim
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texSkamtebord.png
+- Assets/Enforcer/EnforcerAssets/Icons/texTyphoonAchievement.png
 - Assets/Enforcer/EnforcerAssets/Materials/matEquippedShieldEngi.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matGlass.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matZeroSuit.mat

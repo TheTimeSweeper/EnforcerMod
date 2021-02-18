@@ -119,9 +119,6 @@ namespace EnforcerPlugin
             spawnCard.characterMaster = master;
             spawnCard.characterMaster.loadout.Copy(spawnCard.runtimeLoadout);
 
-            // this might work? try after we have proper void event crosscompat
-            //spawnCard.characterMaster.loadout.bodyLoadoutManager.SetSkinIndex(BodyCatalog.FindBodyIndex("NemforcerBody"), 0);
-
             return spawnCard;
         }
     }
