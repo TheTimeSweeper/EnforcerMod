@@ -87,6 +87,7 @@ namespace EnforcerPlugin
 
         public static Material mainMat;
 
+        public static Mesh gmMesh;
         public static Mesh stormtrooperMesh;
         public static Mesh engiMesh;
         public static Mesh desperadoMesh;
@@ -291,6 +292,7 @@ namespace EnforcerPlugin
 
             mainMat = MainAssetBundle.LoadAsset<Material>("matEnforcerAlt");
 
+            gmMesh = MainAssetBundle.LoadAsset<Mesh>("meshEnforcerGM");
             stormtrooperMesh = MainAssetBundle.LoadAsset<Mesh>("StormtrooperMesh");
             engiMesh = MainAssetBundle.LoadAsset<Mesh>("EngiforcerMesh");
             desperadoMesh = MainAssetBundle.LoadAsset<Mesh>("EnforcerMesh");

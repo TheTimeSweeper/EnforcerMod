@@ -770,7 +770,11 @@ namespace EnforcerPlugin
             PluginUtils.RegisterSkillDef(utilityDef3, typeof(SuperDededeJump));
             SkillFamily.Variant utilityVariant3 = PluginUtils.SetupSkillVariant(utilityDef3);
 
-            skillLocator.utility = PluginUtils.RegisterSkillsToFamily(characterPrefab, utilityVariant1, utilityVariant2);
+            SkillDef utilityDef4 = UtilitySkillDef_HeatCrash();
+            PluginUtils.RegisterSkillDef(utilityDef4, typeof(HeatCrash));
+            SkillFamily.Variant utilityVariant4 = PluginUtils.SetupSkillVariant(utilityDef4);
+
+            skillLocator.utility = PluginUtils.RegisterSkillsToFamily(characterPrefab, utilityVariant1, utilityVariant2, utilityVariant4);
 
             if (EnforcerPlugin.cursed.Value) PluginUtils.RegisterAdditionalSkills(skillLocator.utility, utilityVariant3);
         }
@@ -1056,6 +1060,36 @@ namespace EnforcerPlugin
             return mySkillDef;
         }
 
+        private static SkillDef UtilitySkillDef_HeatCrash()
+        {
+            LanguageAPI.Add("NEMFORCER_UTILITY_CRASH_NAME", "Heat Crash");
+            LanguageAPI.Add("NEMFORCER_UTILITY_CRASH_DESCRIPTION", "Jump into the air, then slam down for <style=cIsDamage>" + 100f * HeatCrash.slamDamageCoefficient + "% damage</style>. <style=cIsUtility>Deals reduced damage outside the center of the impact.</style>");
+
+            SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            mySkillDef.activationState = new SerializableEntityStateType(typeof(HeatCrash));
+            mySkillDef.activationStateMachineName = "Weapon";
+            mySkillDef.baseMaxStock = 1;
+            mySkillDef.baseRechargeInterval = 12;
+            mySkillDef.beginSkillCooldownOnSkillEnd = true;
+            mySkillDef.canceledFromSprinting = false;
+            mySkillDef.fullRestockOnAssign = true;
+            mySkillDef.interruptPriority = InterruptPriority.Skill;
+            mySkillDef.isBullets = false;
+            mySkillDef.isCombatSkill = true;
+            mySkillDef.mustKeyPress = true;
+            mySkillDef.noSprint = true;
+            mySkillDef.rechargeStock = 1;
+            mySkillDef.requiredStock = 1;
+            mySkillDef.shootDelay = 0f;
+            mySkillDef.stockToConsume = 1;
+            mySkillDef.icon = Assets.testIcon;
+            mySkillDef.skillDescriptionToken = "NEMFORCER_UTILITY_CRASH_DESCRIPTION";
+            mySkillDef.skillName = "NEMFORCER_UTILITY_CRASH_NAME";
+            mySkillDef.skillNameToken = "NEMFORCER_UTILITY_CRASH_NAME";
+
+            return mySkillDef;
+        }
+
         private static SkillDef SpecialSkillDef_MinigunUp()
         {
             LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNUP_NAME", "Golden Minigun");
@@ -1147,7 +1181,7 @@ namespace EnforcerPlugin
             charBody.bodyIndex = -1;
             charBody.name = "NemesisEnforcerBossBody";
             charBody.baseNameToken = "NEMFORCER_NAME";
-            //if (EnforcerPlugin.starstormInstalled) charBody.baseNameToken = "NEMFORCER_BOSS_NAME";
+            if (EnforcerPlugin.starstormInstalled) charBody.baseNameToken = "NEMFORCER_BOSS_NAME";
             charBody.subtitleNameToken = "NEMFORCER_BOSS_SUBTITLE";
             charBody.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             charBody.rootMotionInMainState = false;

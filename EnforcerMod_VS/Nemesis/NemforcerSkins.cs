@@ -2,7 +2,6 @@
 using UnityEngine;
 using R2API;
 using RoR2;
-using R2API.Utils;
 using System.Collections.Generic;
 
 namespace EnforcerPlugin
@@ -10,6 +9,7 @@ namespace EnforcerPlugin
     public static class NemforcerSkins
     {
         public static SkinDef dededeBossSkin;
+        public static SkinDef ultraSkin;
 
         public static void RegisterSkins()
         {
@@ -186,6 +186,7 @@ namespace EnforcerPlugin
             typhoonSkinDefInfo.RendererInfos = array;
 
             SkinDef typhoonSkin = LoadoutAPI.CreateNewSkinDef(typhoonSkinDefInfo);
+            ultraSkin = typhoonSkin;
             #endregion
 
             #region DripSkin

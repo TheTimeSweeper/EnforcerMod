@@ -120,10 +120,10 @@ namespace EnforcerPlugin
         public static bool scrollableLobbyInstalled = false;
         public static bool starstormInstalled = false;
 
-        public const uint doomGuyIndex = 2;
-        public const uint engiIndex = 3;
-        public const uint stormtrooperIndex = 4;
-        public const uint frogIndex = 7;
+        public static uint doomGuyIndex = 2;
+        public static uint engiIndex = 3;
+        public static uint stormtrooperIndex = 4;
+        public static uint frogIndex = 7;
 
         public static ConfigEntry<bool> forceUnlock;
         public static ConfigEntry<bool> classicShotgun;
@@ -399,7 +399,7 @@ namespace EnforcerPlugin
                 CharacterBody body = other.GetComponent<CharacterBody>();
                 if (body)
                 {
-                    if (body.baseNameToken == "NEMFORCER_NAME")
+                    if (body.baseNameToken == "NEMFORCER_NAME" || body.baseNameToken == "NEMFORCER_BOSS_NAME")
                     {
                         var teamComponent = body.teamComponent;
                         if (teamComponent)
@@ -699,12 +699,14 @@ namespace EnforcerPlugin
                 }
 
                 //regen passive
-                if (self.baseNameToken == "NEMFORCER_NAME")
+                if (self.baseNameToken == "NEMFORCER_NAME" || self.baseNameToken == "NEMFORCER_BOSS_NAME")
                 {
                     HealthComponent hp = self.healthComponent;
                     float regenValue = hp.fullCombinedHealth * NemforcerPlugin.passiveRegenBonus;
                     float regen = Mathf.SmoothStep(regenValue, 0, hp.combinedHealth / hp.fullCombinedHealth);
                     self.regen += regen;
+
+                    if (self.teamComponent.teamIndex == TeamIndex.Monster && self.HasBuff(BuffIndex.Bleeding)) self.regen *= 0.25f;
                 }
             }
         }

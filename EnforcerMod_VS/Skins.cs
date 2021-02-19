@@ -96,6 +96,7 @@ namespace EnforcerPlugin
             #region LanguageTokens
             LanguageAPI.Add("ENFORCERBODY_DEFAULT_SKIN_NAME", "Default");
             LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Peacekeeper");
+            LanguageAPI.Add("ENFORCERBODY_TYPHOON_SKIN_NAME", "Lawbringer");
             LanguageAPI.Add("ENFORCERBODY_SPACE_SKIN_NAME", "Rainstormtrooper");
             LanguageAPI.Add("ENFORCERBODY_ENGI_SKIN_NAME", "Engineer?");
             LanguageAPI.Add("ENFORCERBODY_DOOM_SKIN_NAME", "Doom Slayer");
@@ -359,6 +360,41 @@ namespace EnforcerPlugin
             SkinDef masterySkin = LoadoutAPI.CreateNewSkinDef(masterySkinDefInfo);
             #endregion
 
+            #region GrandMastery
+            LoadoutAPI.SkinDefInfo grandMasterySkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            grandMasterySkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            grandMasterySkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            grandMasterySkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+
+            grandMasterySkinDefInfo.GameObjectActivations = getActivations(allObjects, shotgunModel, rifleModel, superShotgun, shieldModel);
+
+            grandMasterySkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texTyphoonAchievement");
+            //grandMasterySkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.31f, 0.49f, 0.69f), new Color(0.86f, 0.83f, 0.63f), new Color(0.1f, 0.07f, 0.06f), new Color(0.21f, 0.29f, 0.38f));
+            grandMasterySkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                new SkinDef.MeshReplacement
+                {
+                    renderer = mainRenderer,
+                    mesh = Assets.gmMesh
+                }
+            };
+            grandMasterySkinDefInfo.Name = "ENFORCERBODY_TYPHOON_SKIN_NAME";
+            grandMasterySkinDefInfo.NameToken = "ENFORCERBODY_TYPHOON_SKIN_NAME";
+            grandMasterySkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            grandMasterySkinDefInfo.RootObject = model;
+            grandMasterySkinDefInfo.UnlockableName = "ENFORCER_TYPHOONUNLOCKABLE_REWARD_ID";
+
+            rendererInfos = skinDefInfo.RendererInfos;
+            array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos.CopyTo(array, 0);
+
+            array[0].defaultMaterial = Assets.CreateMaterial("matEnforcerGM", 0f, Color.black, 0f);
+
+            grandMasterySkinDefInfo.RendererInfos = array;
+
+            SkinDef grandMasterySkin = LoadoutAPI.CreateNewSkinDef(grandMasterySkinDefInfo);
+            #endregion
+
             #region Desperado
             LoadoutAPI.SkinDefInfo desperadoSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
             desperadoSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
@@ -563,7 +599,14 @@ namespace EnforcerPlugin
             #endregion
 
 
-            var skinDefs = new List<SkinDef>();
+            var skinDefs = new List<SkinDef>()
+            {
+                    defaultSkin,
+                    masterySkin,
+                    doomSkin,
+                    desperadoSkin,
+                    nemesisSkin
+            };
 
             if (EnforcerPlugin.cursed.Value)
             {
@@ -578,16 +621,37 @@ namespace EnforcerPlugin
                     nemesisSkin
                 };
             }
-            else
+
+            if (EnforcerPlugin.starstormInstalled)
             {
-                skinDefs = new List<SkinDef>()
+                // jesus fuck this is awful LMAO
+                if (EnforcerPlugin.cursed.Value)
                 {
+                    skinDefs = new List<SkinDef>() {
                     defaultSkin,
                     masterySkin,
+                    grandMasterySkin,
                     doomSkin,
                     desperadoSkin,
                     nemesisSkin
-                };
+                };}
+                else
+                {
+                    skinDefs = new List<SkinDef>() {
+                    defaultSkin,
+                    masterySkin,
+                    grandMasterySkin,
+                    doomSkin,
+                    engiSkin,
+                    spaceSkin,
+                    desperadoSkin,
+                    nemesisSkin
+                };};
+
+                EnforcerPlugin.doomGuyIndex++;
+                EnforcerPlugin.engiIndex++;
+                EnforcerPlugin.frogIndex++;
+                EnforcerPlugin.stormtrooperIndex++;
             }
 
             if (EnforcerPlugin.cursed.Value)

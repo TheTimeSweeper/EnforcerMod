@@ -50,6 +50,12 @@ namespace EntityStates.Nemforcer
                 }
             }
 
+            //invasion test
+            if (base.isAuthority && Input.GetKeyDown("z"))
+            {
+                EnforcerPlugin.NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+            }
+
             if (this.nemComponent.isMultiplayer)
             {
                 if (minigunUp)
