@@ -1,5 +1,8 @@
 ﻿using RoR2;
 using UnityEngine;
+using System.Linq;
+using Enforcer.Nemesis;
+using UnityEngine.Networking;
 
 namespace EntityStates.Nemforcer
 {
@@ -19,6 +22,7 @@ namespace EntityStates.Nemforcer
         private Transform slamIndicatorInstance;
         private Transform slamCenterIndicatorInstance;
         private Ray downRay;
+        private NemforcerGrabController grabController;
 
         public override void OnEnter()
         {
@@ -78,6 +82,8 @@ namespace EntityStates.Nemforcer
             base.characterMotor.velocity.y = -HeatCrash.dropForce;
 
             base.PlayAnimation("FullBody, Override", "HeatCrashSlam", "HighJump.playbackRate", 0.2f);
+
+            this.GrabEnemy();
         }
 
         private void CreateIndicator()
@@ -100,6 +106,11 @@ namespace EntityStates.Nemforcer
 
         private void LandingImpact()
         {
+            if (this.grabController)
+            {
+                this.grabController.Release();
+            }
+
             base.characterMotor.velocity *= 0.1f;
 
             BlastAttack blastAttack = new BlastAttack();
@@ -165,6 +176,42 @@ namespace EntityStates.Nemforcer
             base.PlayAnimation("FullBody, Override", "BufferEmpty");
 
             base.characterBody.bodyFlags &= ~CharacterBody.BodyFlags.IgnoreFallDamage;
+
+            if (NetworkServer.active && base.characterBody.HasBuff(BuffIndex.HiddenInvincibility)) base.characterBody.RemoveBuff(BuffIndex.HiddenInvincibility);
+        }
+
+        private void GrabEnemy()
+        {
+            Ray aimRay = base.GetAimRay();
+
+            BullseyeSearch search = new BullseyeSearch
+            {
+                teamMaskFilter = TeamMask.GetEnemyTeams(base.GetTeam()),
+                filterByLoS = true,
+                searchOrigin = aimRay.origin,
+                searchDirection = aimRay.direction,
+                sortMode = BullseyeSearch.SortMode.Distance,
+                maxDistanceFilter = 12f,
+                maxAngleFilter = 360f,
+            };
+
+            search.RefreshCandidates();
+            search.FilterOutGameObject(base.gameObject);
+
+            HurtBox target = search.GetResults().FirstOrDefault<HurtBox>();
+            if (target)
+            {
+                if (target.healthComponent.body && target.healthComponent.body.hullClassification == HullClassification.Human)
+                {
+                    if (base.isAuthority)
+                    {
+                        this.grabController = target.healthComponent.body.gameObject.AddComponent<NemforcerGrabController>();
+                        this.grabController.pivotTransform = this.FindModelChild("HandL");
+                    }
+
+                    if (NetworkServer.active) base.characterBody.AddBuff(BuffIndex.HiddenInvincibility);
+                }
+            }
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

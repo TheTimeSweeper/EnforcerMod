@@ -66,7 +66,7 @@ namespace EnforcerPlugin
 
             if (EnforcerPlugin.kingDededeBoss.Value) CreateDededeBoss();
 
-            //if (EnforcerPlugin.starstormInstalled) StarstormCompat();
+            if (EnforcerPlugin.starstormInstalled) StarstormCompat();
         }
 
         private static void StarstormCompat()
@@ -1070,14 +1070,14 @@ namespace EnforcerPlugin
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 1;
             mySkillDef.baseRechargeInterval = 12;
-            mySkillDef.beginSkillCooldownOnSkillEnd = true;
+            mySkillDef.beginSkillCooldownOnSkillEnd = false;
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Skill;
             mySkillDef.isBullets = false;
             mySkillDef.isCombatSkill = true;
-            mySkillDef.mustKeyPress = true;
-            mySkillDef.noSprint = true;
+            mySkillDef.mustKeyPress = false;
+            mySkillDef.noSprint = false;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
             mySkillDef.shootDelay = 0f;
@@ -1092,7 +1092,7 @@ namespace EnforcerPlugin
 
         private static SkillDef SpecialSkillDef_MinigunUp()
         {
-            LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNUP_NAME", "Golden Minigun");
+            LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNUP_NAME", "Suppression Stance");
             LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNUP_DESCRIPTION", "Take an offensive stance, <style=cIsDamage>readying your minigun</style>. <style=cIsHealth>Prevents sprinting</style>.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
@@ -1121,7 +1121,7 @@ namespace EnforcerPlugin
         }
         private static SkillDef SpecialSkillDef_MinigunDown()
         {
-            LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNDOWN_NAME", "Golden Minigun");
+            LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNDOWN_NAME", "Destruction Stance");
             LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNDOWN_DESCRIPTION", "<style=cIsUtility>Sheathe your minigun</style>.");
 
             SkillDef mySkillDef2 = ScriptableObject.CreateInstance<SkillDef>();
