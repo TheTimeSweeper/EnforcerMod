@@ -9,16 +9,29 @@ namespace Enforcer.Nemesis
 
         private CharacterBody body;
         private CharacterMotor motor;
+        private CharacterDirection direction;
+        private ModelLocator modelLocator;
+        private Transform modelTransform;
+        private Quaternion originalRotation;
 
         private void Awake()
         {
             this.body = this.GetComponent<CharacterBody>();
             this.motor = this.GetComponent<CharacterMotor>();
+            this.direction = this.GetComponent<CharacterDirection>();
+            this.modelLocator = this.GetComponent<ModelLocator>();
 
-            if (this.motor)
+            if (this.direction) this.direction.enabled = false;
+
+            if (this.modelLocator)
             {
-                this.gameObject.layer = LayerIndex.fakeActor.intVal;
-                this.motor.Motor.RebuildCollidableLayers();
+                if (this.modelLocator.modelTransform)
+                {
+                    this.modelTransform = modelLocator.modelTransform;
+                    this.originalRotation = this.modelTransform.rotation;
+
+                    this.modelLocator.enabled = false;
+                }
             }
         }
 
@@ -29,21 +42,27 @@ namespace Enforcer.Nemesis
                 this.motor.disableAirControlUntilCollision = true;
                 this.motor.velocity = Vector3.zero;
                 this.motor.rootMotion = Vector3.zero;
+
+                this.motor.Motor.SetPosition(this.pivotTransform.position, true);
             }
 
             if (this.pivotTransform)
             {
                 this.transform.position = this.pivotTransform.position;
             }
+
+            if (this.modelTransform)
+            {
+                this.modelTransform.position = this.pivotTransform.position;
+                this.modelTransform.rotation = this.pivotTransform.rotation;
+            }
         }
 
         public void Release()
         {
-            if (this.motor)
-            {
-                this.gameObject.layer = LayerIndex.defaultLayer.intVal;
-                this.motor.Motor.RebuildCollidableLayers();
-            }
+            if (this.modelLocator) this.modelLocator.enabled = true;
+            if (this.modelTransform) this.modelTransform.rotation = this.originalRotation;
+            if (this.direction) this.direction.enabled = true;
 
             Destroy(this);
         }

@@ -567,7 +567,7 @@ namespace EnforcerPlugin
             GameObject hammerModel = Assets.hammerProjectileModel.InstantiateClone("HammerProjectileGhost", true);
             hammerModel.AddComponent<NetworkIdentity>();
             hammerModel.AddComponent<ProjectileGhostController>();
-            hammerController.transform.localScale *= 1.5f;
+            hammerController.transform.localScale *= 1.75f;
 
             hammerController.ghostPrefab = hammerModel;
 
@@ -581,7 +581,7 @@ namespace EnforcerPlugin
             hammerImpact.lifetime = 18;
             hammerImpact.lifetimeAfterImpact = 0f;
             hammerImpact.lifetimeRandomOffset = 0f;
-            hammerImpact.blastRadius = 0.75f;
+            hammerImpact.blastRadius = 1.5f;
             hammerImpact.blastDamageCoefficient = 1;
             hammerImpact.blastProcCoefficient = 1;
             hammerImpact.fireChildren = false;
@@ -865,7 +865,7 @@ namespace EnforcerPlugin
         {
             string desc = "Rev up and fire a hail of bullets dealing <style=cIsDamage>" + NemMinigunFire.baseDamageCoefficient * 100f + "% damage</style> per bullet. <style=cIsUtility>Slows your movement while shooting.</style>";
 
-            LanguageAPI.Add("NEMFORCER_PRIMARY_MINIGUN_NAME", "Fire Minigun");
+            LanguageAPI.Add("NEMFORCER_PRIMARY_MINIGUN_NAME", "Golden Minigun");
             LanguageAPI.Add("NEMFORCER_PRIMARY_MINIGUN_DESCRIPTION", desc);
 
             SkillDef mySkillDef2 = ScriptableObject.CreateInstance<SkillDef>();
@@ -1062,8 +1062,10 @@ namespace EnforcerPlugin
 
         private static SkillDef UtilitySkillDef_HeatCrash()
         {
+            LanguageAPI.Add("KEYWORD_GRAPPLE", "<style=cKeywordName>Grappling</style><style=cSub>Applies <style=cIsDamage>stun</style> and attempts to <style=cIsUtility>grab</style> a nearby enemy.");
+
             LanguageAPI.Add("NEMFORCER_UTILITY_CRASH_NAME", "Heat Crash");
-            LanguageAPI.Add("NEMFORCER_UTILITY_CRASH_DESCRIPTION", "Jump into the air, then slam down for <style=cIsDamage>" + 100f * HeatCrash.slamDamageCoefficient + "% damage</style>. <style=cIsUtility>Deals reduced damage outside the center of the impact.</style>");
+            LanguageAPI.Add("NEMFORCER_UTILITY_CRASH_DESCRIPTION", "<style=cIsUtility>Grappling.</style> Jump into the air, then slam down for <style=cIsDamage>" + 100f * HeatCrash.slamDamageCoefficient + "% damage</style>. <style=cIsUtility>Deals reduced damage outside the center of the impact.</style>");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(HeatCrash));
@@ -1086,6 +1088,10 @@ namespace EnforcerPlugin
             mySkillDef.skillDescriptionToken = "NEMFORCER_UTILITY_CRASH_DESCRIPTION";
             mySkillDef.skillName = "NEMFORCER_UTILITY_CRASH_NAME";
             mySkillDef.skillNameToken = "NEMFORCER_UTILITY_CRASH_NAME";
+            mySkillDef.keywordTokens = new string[]
+            {
+                "KEYWORD_GRAPPLE"
+            };
 
             return mySkillDef;
         }
