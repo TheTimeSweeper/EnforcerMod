@@ -73,7 +73,7 @@ namespace EnforcerPlugin
         {
             Starstorm2.Cores.VoidCore.nemesisSpawns.Add(new Starstorm2.Cores.VoidCore.NemesisSpawnData
             {
-                prefab = NemforcerPlugin.bossPrefab,
+                masterPrefab = NemforcerPlugin.bossMaster,
                 itemDrop = ItemIndex.NovaOnLowHealth
             });
         }
