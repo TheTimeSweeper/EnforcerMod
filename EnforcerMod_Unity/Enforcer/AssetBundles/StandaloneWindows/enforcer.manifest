@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2736454187
+CRC: 1649839955
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: c815666a5855907ed05b745b9e550d7e
+    Hash: e65c6c45fc24de0bc7cb64a7a83a633b
   TypeTreeHash:
     serializedVersion: 2
     Hash: e465eabb9707126898175137816bb4a8
@@ -89,6 +89,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Particles/texGrenadeExplosion.png
 - Assets/Enforcer/EnforcerAssets/Icons/Skill4Icon.png
 - Assets/Enforcer/EnforcerAssets/meshEnforcerGM.mesh
+- Assets/Enforcer/EnforcerAssets/Textures/Body/texEnforcerGMEmission.png
 - Assets/Enforcer/EnforcerAssets/Particles/matRay.mat
 - Assets/Enforcer/EnforcerAssets/Icons/texZeroSuitAchievement.png
 - Assets/Enforcer/EnforcerAssets/Materials/matFemforcer.mat
@@ -152,6 +153,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Materials/matSuperShell.mat
 - Assets/Enforcer/EnforcerAssets/Icons/Old/ShieldBashIconOld.png
 - Assets/Enforcer/EnforcerAssets/Materials/matShockGrenade.mat
+- Assets/Enforcer/EnforcerAssets/meshShield.mesh
 - Assets/Enforcer/EnforcerAssets/Materials/matMinigun.mat
 - Assets/Enforcer/EnforcerAssets/Particles/matSmoke.mat
 - Assets/Enforcer/EnforcerAssets/Animations/ShieldWalkL_old.anim
@@ -167,6 +169,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/ShieldWalkB_old.anim
 - Assets/Enforcer/EnforcerAssets/Particles/matTrail.mat
 - Assets/Enforcer/EnforcerAssets/Materials/matEnforcer.mat
+- Assets/Enforcer/EnforcerAssets/Materials/matShieldGM.mat
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerCalmIdle.anim
 - Assets/Enforcer/EnforcerAssets/Icons/texNemforcerDrip.png
 - Assets/Enforcer/EnforcerAssets/Materials/matMarauderShield.mat
@@ -333,6 +336,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/ShellPhysics.physicMaterial
 - Assets/Enforcer/EnforcerAssets/Animations/Weapon/animBungusShield.controller
 - Assets/Enforcer/EnforcerAssets/Animations/Weapon/GrenadeSpawn.anim
+- Assets/Enforcer/EnforcerAssets/meshShieldGM.mesh
 - Assets/Enforcer/EnforcerAssets/Textures/Weapon/texNeedler.png
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerIdleIn.anim
 - Assets/Enforcer/EnforcerAssets/Textures/Body/texEnforcerGM.png
@@ -355,6 +359,7 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/EnforcerArmLeftTemp.anim
 - Assets/Enforcer/EnforcerAssets/Materials/matSkamtebord.mat
 - Assets/Enforcer/EnforcerAssets/ShellController.prefab
+- Assets/Enforcer/EnforcerAssets/Textures/Weapon/texRiotShieldGM.png
 - Assets/Enforcer/EnforcerAssets/Particles/matRing.mat
 - Assets/Enforcer/EnforcerAssets/Icons/texMinecraftShit.png
 - Assets/Enforcer/EnforcerAssets/Materials/matBeeble.mat
@@ -379,4 +384,4 @@ Assets:
 - Assets/Enforcer/EnforcerAssets/Animations/Masks/PitchMask.mask
 - Assets/Enforcer/EnforcerAssets/Animations/ShieldWalkF_old.anim
 Dependencies:
-- E:/Abbas's stuff VII I think/1337 haxx/ror2lol/Chikara ga minegitte kuru/EnforcerMod/EnforcerMod_Unity/Enforcer/AssetBundles/StandaloneWindows/nemforcer
+- C:/Users/rseid/Documents/GitHub/EnforcerMod/EnforcerMod_Unity/Enforcer/AssetBundles/StandaloneWindows/nemforcer

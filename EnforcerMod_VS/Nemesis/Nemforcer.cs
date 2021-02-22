@@ -716,11 +716,11 @@ namespace EnforcerPlugin
 
         private void PrimarySetup()
         {
-            SkillDef primaryDef1 = PrimarySkillDef_Hammer();
+            SkillDef primaryDef1 = UtilitySkillDef_HeatCrash();
             PluginUtils.RegisterSkillDef(primaryDef1, typeof(EntityStates.Nemforcer.HammerSwing));
             SkillFamily.Variant primaryVariant1 = PluginUtils.SetupSkillVariant(primaryDef1);
 
-            SkillDef primaryDef2 = PrimarySkillDef_Throw();
+            SkillDef primaryDef2 = UtilitySkillDef_HeatCrash();
             PluginUtils.RegisterSkillDef(primaryDef2, typeof(ThrowHammer));
             SkillFamily.Variant primaryVariant2 = PluginUtils.SetupSkillVariant(primaryDef2);
 
@@ -728,7 +728,7 @@ namespace EnforcerPlugin
 
             if (EnforcerPlugin.cursed.Value) PluginUtils.RegisterAdditionalSkills(skillLocator.primary, primaryVariant2);
 
-            SkillDef primaryDefMinigun = PrimarySkillDef_FireMinigun();
+            SkillDef primaryDefMinigun = UtilitySkillDef_HeatCrash();
             PluginUtils.RegisterSkillDef(primaryDefMinigun,
                                          typeof(NemMinigunFire),
                                          typeof(NemMinigunSpinDown),
@@ -740,11 +740,11 @@ namespace EnforcerPlugin
 
         private void SecondarySetup()
         {
-            SkillDef secondaryDef1 = SecondarySkillDef_HammerUppercut();
+            SkillDef secondaryDef1 = UtilitySkillDef_HeatCrash();
             PluginUtils.RegisterSkillDef(secondaryDef1, typeof(HammerCharge), typeof(HammerUppercut), typeof(HammerAirSlam));
             SkillFamily.Variant secondaryVariant1 = PluginUtils.SetupSkillVariant(secondaryDef1);
 
-            SkillDef secondaryGunDef1 = SecondarySkillDef_HammerSlam();
+            SkillDef secondaryGunDef1 = UtilitySkillDef_HeatCrash();
             PluginUtils.RegisterSkillDef(secondaryGunDef1, typeof(HammerSlam));
             SkillFamily.Variant secondaryGunVariant1 = PluginUtils.SetupSkillVariant(secondaryGunDef1);
 
@@ -758,15 +758,15 @@ namespace EnforcerPlugin
 
         private void UtilitySetup()
         {
-            SkillDef utilityDef1 = UtilitySkillDef_Gas();
+            SkillDef utilityDef1 = UtilitySkillDef_HeatCrash();
             PluginUtils.RegisterSkillDef(utilityDef1, typeof(AimNemGas));
             SkillFamily.Variant utilityVariant1 = PluginUtils.SetupSkillVariant(utilityDef1);
 
-            SkillDef utilityDef2 = UtilitySkillDef_Grenade();
+            SkillDef utilityDef2 = UtilitySkillDef_HeatCrash();
             PluginUtils.RegisterSkillDef(utilityDef2, typeof(StunGrenade));
             SkillFamily.Variant utilityVariant2 = PluginUtils.SetupSkillVariant(utilityDef2);
 
-            SkillDef utilityDef3 = UtilitySkillDef_Jump();
+            SkillDef utilityDef3 = UtilitySkillDef_HeatCrash();
             PluginUtils.RegisterSkillDef(utilityDef3, typeof(SuperDededeJump));
             SkillFamily.Variant utilityVariant3 = PluginUtils.SetupSkillVariant(utilityDef3);
 
@@ -781,13 +781,13 @@ namespace EnforcerPlugin
 
         private void SpecialSetup()
         {
-            SkillDef specialDef1 = SpecialSkillDef_MinigunUp();
+            SkillDef specialDef1 = UtilitySkillDef_HeatCrash();
             PluginUtils.RegisterSkillDef(specialDef1, typeof(MinigunToggle));
             SkillFamily.Variant specialVariant1 = PluginUtils.SetupSkillVariant(specialDef1);
 
             skillLocator.special = PluginUtils.RegisterSkillsToFamily(characterPrefab, specialVariant1);
 
-            SkillDef specialDef2 = SpecialSkillDef_MinigunDown();
+            SkillDef specialDef2 = UtilitySkillDef_HeatCrash();
             PluginUtils.RegisterSkillDef(specialDef2);
 
             minigunDownDef = specialDef1;
