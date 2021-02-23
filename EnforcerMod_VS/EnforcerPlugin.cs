@@ -28,7 +28,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.KingEnderBrine.ScrollableLobbyUI", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.TeamMoonstorm.Starstorm2", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "2.2.2")]
+    [BepInPlugin(MODUID, "Enforcer", "2.2.4")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -175,6 +175,16 @@ namespace EnforcerPlugin
 
         public static ConfigEntry<bool> balancedShieldBash;
         public static ConfigEntry<bool> stupidShieldBash;
+
+        // a blacklist for teleporter particles- the fix for it is retarded so we just disable them on certain characters.
+        public static List<string> tpParticleBlacklist = new List<string>
+        {
+            "PALADIN_NAME",
+            "LUNAR_KNIGHT_BODY_NAME",
+            "NEMMANDO_NAME",
+            "EXECUTIONER_NAME",
+            "MINER_NAME"
+        };
 
         //public static ConfigEntry<bool> classicSkin;
 
@@ -377,6 +387,7 @@ namespace EnforcerPlugin
             On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
             On.RoR2.MapZone.TryZoneStart += MapZone_TryZoneStart;
             On.RoR2.HealthComponent.Suicide += HealthComponent_Suicide;
+            On.RoR2.TeleportOutController.OnStartClient += TeleportOutController_OnStartClient;
 
             //On.EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
         }
@@ -390,6 +401,25 @@ namespace EnforcerPlugin
             if (Run.instance.selectedDifficulty == DifficultyIndex.Easy || Run.instance.selectedDifficulty == DifficultyIndex.Normal) flag = false;
 
             return flag;
+        }
+
+        private void TeleportOutController_OnStartClient(On.RoR2.TeleportOutController.orig_OnStartClient orig, TeleportOutController self)
+        {
+            // fuck you hopoo
+            if (self.target)
+            {
+                CharacterBody targetBody = self.target.GetComponent<CharacterBody>();
+                if (targetBody)
+                {
+                    if (EnforcerPlugin.tpParticleBlacklist.Contains(targetBody.baseNameToken))
+                    {
+                        self.bodyGlowParticles.Play();
+                        return;
+                    }
+                }
+            }
+
+            orig(self);
         }
 
         private void MapZone_TryZoneStart(On.RoR2.MapZone.orig_TryZoneStart orig, MapZone self, Collider other)

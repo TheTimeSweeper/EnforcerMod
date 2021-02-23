@@ -64,6 +64,14 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - More alternate skills
 
 ## Changelog
+`2.2.4`
+- Fixed a minor issue with skins
+
+`2.2.3`
+- Added compatibility for Starstorm 2's void event- the default invasion event is still here, only now with a twist
+- Added Enforcer's Grand Mastery skin- huge thanks to bruh for the model
+- Added work in progress alt utility for Heavy TF2, locked behind config
+
 `2.2.2`
 - Updated skill icons
 - Networked shield block effect

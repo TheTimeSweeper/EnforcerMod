@@ -50,6 +50,10 @@ namespace Enforcer.Nemesis
             {
                 this.transform.position = this.pivotTransform.position;
             }
+            else
+            {
+                this.Release();
+            }
 
             if (this.modelTransform)
             {

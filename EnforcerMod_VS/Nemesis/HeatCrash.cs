@@ -111,10 +111,7 @@ namespace EntityStates.Nemforcer
 
         private void LandingImpact()
         {
-            if (this.grabController)
-            {
-                this.grabController.Release();
-            }
+            if (this.grabController) this.grabController.Release();
 
             base.characterMotor.velocity *= 0.1f;
 
@@ -174,6 +171,8 @@ namespace EntityStates.Nemforcer
         public override void OnExit()
         {
             base.OnExit();
+
+            if (this.grabController) this.grabController.Release();
 
             if (this.slamIndicatorInstance) EntityState.Destroy(this.slamIndicatorInstance.gameObject);
             if (this.slamCenterIndicatorInstance) EntityState.Destroy(this.slamCenterIndicatorInstance.gameObject);

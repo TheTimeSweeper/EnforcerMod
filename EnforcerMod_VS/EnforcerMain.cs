@@ -55,7 +55,7 @@ namespace EntityStates.Enforcer
             drOctagonapus.mainStateType = new SerializableEntityStateType(typeof(Idle));
             this.shieldComponent.drOctagonapus = drOctagonapus;
 
-            if (!EnforcerPlugin.EnforcerPlugin.cum && base.characterBody.skinIndex == 2)
+            if (!EnforcerPlugin.EnforcerPlugin.cum && base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex)
             {
                 EnforcerPlugin.EnforcerPlugin.cum = true;
                 Util.PlaySound(EnforcerPlugin.Sounds.DOOM, base.gameObject);
