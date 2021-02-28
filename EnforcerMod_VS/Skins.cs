@@ -625,7 +625,7 @@ namespace EnforcerPlugin
             if (EnforcerPlugin.starstormInstalled)
             {
                 // jesus fuck this is awful LMAO
-                if (EnforcerPlugin.cursed.Value)
+                if (!EnforcerPlugin.cursed.Value)
                 {
                     skinDefs = new List<SkinDef>() {
                     defaultSkin,

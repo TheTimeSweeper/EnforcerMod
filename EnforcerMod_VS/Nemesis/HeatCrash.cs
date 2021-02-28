@@ -1,5 +1,8 @@
 ﻿using RoR2;
 using UnityEngine;
+using System.Linq;
+using Enforcer.Nemesis;
+using UnityEngine.Networking;
 
 namespace EntityStates.Nemforcer
 {
@@ -19,6 +22,7 @@ namespace EntityStates.Nemforcer
         private Transform slamIndicatorInstance;
         private Transform slamCenterIndicatorInstance;
         private Ray downRay;
+        private NemforcerGrabController grabController;
 
         public override void OnEnter()
         {
@@ -34,6 +38,9 @@ namespace EntityStates.Nemforcer
             base.characterMotor.velocity = Vector3.zero;
 
             base.characterBody.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
+
+            base.gameObject.layer = LayerIndex.fakeActor.intVal;
+            base.characterMotor.Motor.RebuildCollidableLayers();
         }
 
         public override void Update()
@@ -49,8 +56,10 @@ namespace EntityStates.Nemforcer
 
             if (!this.hasDropped)
             {
-                base.characterMotor.rootMotion += this.flyVector * ((0.8f * this.moveSpeedStat) * Mage.FlyUpState.speedCoefficientCurve.Evaluate(base.fixedAge / HeatCrash.jumpDuration) * Time.fixedDeltaTime);
+                base.characterMotor.rootMotion += this.flyVector * ((0.6f * this.moveSpeedStat) * Mage.FlyUpState.speedCoefficientCurve.Evaluate(base.fixedAge / HeatCrash.jumpDuration) * Time.fixedDeltaTime);
                 base.characterMotor.velocity.y = 0f;
+
+                this.AttemptGrab(5f);
             }
 
             if (base.fixedAge >= (0.25f * HeatCrash.jumpDuration) && !this.slamIndicatorInstance)
@@ -78,6 +87,8 @@ namespace EntityStates.Nemforcer
             base.characterMotor.velocity.y = -HeatCrash.dropForce;
 
             base.PlayAnimation("FullBody, Override", "HeatCrashSlam", "HighJump.playbackRate", 0.2f);
+
+            this.AttemptGrab(10f);
         }
 
         private void CreateIndicator()
@@ -100,6 +111,8 @@ namespace EntityStates.Nemforcer
 
         private void LandingImpact()
         {
+            if (this.grabController) this.grabController.Release();
+
             base.characterMotor.velocity *= 0.1f;
 
             BlastAttack blastAttack = new BlastAttack();
@@ -159,12 +172,83 @@ namespace EntityStates.Nemforcer
         {
             base.OnExit();
 
+            if (this.grabController) this.grabController.Release();
+
             if (this.slamIndicatorInstance) EntityState.Destroy(this.slamIndicatorInstance.gameObject);
             if (this.slamCenterIndicatorInstance) EntityState.Destroy(this.slamCenterIndicatorInstance.gameObject);
 
             base.PlayAnimation("FullBody, Override", "BufferEmpty");
 
             base.characterBody.bodyFlags &= ~CharacterBody.BodyFlags.IgnoreFallDamage;
+
+            if (NetworkServer.active && base.characterBody.HasBuff(BuffIndex.HiddenInvincibility)) base.characterBody.RemoveBuff(BuffIndex.HiddenInvincibility);
+
+            base.gameObject.layer = LayerIndex.defaultLayer.intVal;
+            base.characterMotor.Motor.RebuildCollidableLayers();
+        }
+
+        private void AttemptGrab(float grabRadius)
+        {
+            if (this.grabController) return;
+
+            Ray aimRay = base.GetAimRay();
+
+            BullseyeSearch search = new BullseyeSearch
+            {
+                teamMaskFilter = TeamMask.GetEnemyTeams(base.GetTeam()),
+                filterByLoS = false,
+                searchOrigin = base.transform.position,
+                searchDirection = Random.onUnitSphere,
+                sortMode = BullseyeSearch.SortMode.Distance,
+                maxDistanceFilter = grabRadius,
+                maxAngleFilter = 360f
+            };
+
+            search.RefreshCandidates();
+            search.FilterOutGameObject(base.gameObject);
+
+            HurtBox target = search.GetResults().FirstOrDefault<HurtBox>();
+            if (target)
+            {
+                if (target.healthComponent && target.healthComponent.body)
+                {
+                    if (BodyMeetsGrabConditions(target.healthComponent.body))
+                    {
+                        this.grabController = target.healthComponent.body.gameObject.AddComponent<NemforcerGrabController>();
+                        this.grabController.pivotTransform = this.FindModelChild("HandL");
+                    }
+
+                    if (NetworkServer.active)
+                    {
+                        base.characterBody.AddBuff(BuffIndex.HiddenInvincibility);
+
+                        DamageInfo info = new DamageInfo
+                        {
+                            attacker = base.gameObject,
+                            crit = false,
+                            damage = 1f,
+                            damageColorIndex = DamageColorIndex.Default,
+                            damageType = DamageType.Shock5s,
+                            force = Vector3.zero,
+                            inflictor = base.gameObject,
+                            position = base.transform.position,
+                            procChainMask = default(ProcChainMask),
+                            procCoefficient = 0f,
+                        };
+
+                        target.healthComponent.TakeDamage(info);
+                    }
+                }
+            }
+        }
+
+        private bool BodyMeetsGrabConditions(CharacterBody targetBody)
+        {
+            bool meetsConditions = true;
+
+            //if (targetBody.hullClassification == HullClassification.BeetleQueen) meetsConditions = false;
+
+            return meetsConditions;
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

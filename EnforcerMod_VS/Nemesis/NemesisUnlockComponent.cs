@@ -16,13 +16,17 @@ namespace EnforcerPlugin
 
             if (EnforcerPlugin.starstormInstalled)
             {
-                ModelSkinController skinController = this.GetComponentInChildren<ModelSkinController>();
-                skinController.skins = new SkinDef[]
+                CharacterBody body = this.GetComponent<CharacterBody>();
+                if (body && body.baseNameToken == "NEMFORCER_BOSS_NAME")
                 {
-                NemforcerSkins.ultraSkin
-                };
+                    ModelSkinController skinController = this.GetComponentInChildren<ModelSkinController>();
+                    skinController.skins = new SkinDef[]
+                    {
+                        NemforcerSkins.ultraSkin
+                    };
 
-                Invoke("FuckYou", 2f);
+                    Invoke("FuckYou", 2f);
+                }
             }
         }
 
