@@ -20,7 +20,7 @@ namespace EnforcerPlugin
     public class NemforcerPlugin
     {
         public const string characterName = "Nemesis Enforcer";
-        public const string characterSubtitle = "Uncorruptible Shadow";
+        public const string characterSubtitle = "Incorruptible Shadow";
         public const string bossSubtitle = "End of the Line";
         public const string characterOutro = "..and so he left, with newfound might to honor.";
         public const string characterLore = "\nheavy tf2\n\n";
