@@ -21,14 +21,14 @@ using UnityEngine.UI;
 namespace EnforcerPlugin
 {
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
-    [BepInDependency("com.ThinkInvisible.ClassicItems", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.DestroyedClone.AncientScepter", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KomradeSpectre.Aetherium", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.Sivelos.SivsItems", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.K1454.SupplyDrop", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ScrollableLobbyUI", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.TeamMoonstorm.Starstorm2", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "2.2.4")]
+    [BepInPlugin(MODUID, "Enforcer", "2.2.6")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -230,8 +230,8 @@ namespace EnforcerPlugin
             {
                 supplyDropInstalled = true;
             }
-            //scepter stuff- dll won't compile without a reference to TILER2 and ClassicItems
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.ThinkInvisible.ClassicItems"))
+            //scepter stuff
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter"))
             {
                 ScepterSkillSetup();
                 ScepterSetup();
@@ -361,8 +361,8 @@ namespace EnforcerPlugin
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         private void ScepterSetup()
         {
-            ThinkInvisible.ClassicItems.Scepter_V2.instance.RegisterScepterSkill(tearGasScepterDef, "EnforcerBody", SkillSlot.Utility, 0);
-            ThinkInvisible.ClassicItems.Scepter_V2.instance.RegisterScepterSkill(shockGrenadeDef, "EnforcerBody", SkillSlot.Utility, 1);
+            AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(tearGasScepterDef, "EnforcerBody", SkillSlot.Utility, 0);
+            AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(shockGrenadeDef, "EnforcerBody", SkillSlot.Utility, 1);
         }
 
         private void Hook()
@@ -734,9 +734,18 @@ namespace EnforcerPlugin
                     HealthComponent hp = self.healthComponent;
                     float regenValue = hp.fullCombinedHealth * NemforcerPlugin.passiveRegenBonus;
                     float regen = Mathf.SmoothStep(regenValue, 0, hp.combinedHealth / hp.fullCombinedHealth);
+
+                    // reduce it while taking damage, scale it back up over time- only apply this to the normal boss and let ultra keep the bullshit regen
+                    if (self.teamComponent.teamIndex == TeamIndex.Monster && self.baseNameToken == "NEMFORCER_NAME")
+                    {
+                        float maxRegenValue = regen;
+                        float i = Mathf.Clamp(self.outOfDangerStopwatch, 0f, 5f);
+                        regen = Util.Remap(i, 0f, 5f, 0f, maxRegenValue);
+                    }
+
                     self.regen += regen;
 
-                    if (self.teamComponent.teamIndex == TeamIndex.Monster && self.HasBuff(BuffIndex.Bleeding)) self.regen *= 0.25f;
+                    if (self.teamComponent.teamIndex == TeamIndex.Monster && self.HasBuff(BuffIndex.Bleeding)) self.regen = 0f;
                 }
             }
         }

@@ -1,7 +1,7 @@
 # Enforcer
 - Adds the Enforcer from Risk of Rain 1
 - Includes a bunch of unlockable alternate skills and skins
-- Includes support for ClassicItems' Ancient Scepter
+- Includes support for Ancient Scepter and most modded items
 
 [![](https://cdn.discordapp.com/attachments/469291841859092488/782484337379246110/unknown.png)]()
 
@@ -64,6 +64,12 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - More alternate skills
 
 ## Changelog
+`2.2.6`
+- King Dedede's bonus health regen is now disabled upon taking damage, and bleed now cuts ALL regen by 100% (only applies to Starstorm 2 invasion variant)
+
+`2.2.5`
+- Added compatibility with Standalone Ancient Scepter and removed ClassicItems compatibility
+
 `2.2.4`
 - Fixed a minor issue with skins
 
