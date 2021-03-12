@@ -19,14 +19,16 @@ class EnforcerLightControllerAlt : MonoBehaviour
     private int lightFlashes;
     private CharacterBody characterBody;
     private ChildLocator childLocator;
+    private CharacterModel characterModel;
     private float flashStopwatch;
     private bool sex;
 
-    //it works !
-
-    private void Start()
+    private void Awake()
     {
-        if (!this.sex) this.InitLights();
+        this.childLocator = this.gameObject.GetComponentInChildren<ChildLocator>();
+        this.characterModel = this.gameObject.GetComponentInChildren<CharacterModel>();
+
+        this.Invoke("InitLights", 0.25f);
     }
 
     private void InitLights()
@@ -35,17 +37,14 @@ class EnforcerLightControllerAlt : MonoBehaviour
         this.sex = true;
         this.sirenToggle = false;
         this.characterBody = this.gameObject.GetComponent<CharacterBody>();
-        this.childLocator = this.gameObject.GetComponentInChildren<ChildLocator>();
 
         if (this.characterBody)
         {
-            Transform modelTransform = this.characterBody.GetComponent<ModelLocator>().modelTransform;
-            if (modelTransform)
+            if (this.characterModel)
             {
                 this.lights = new Material[]
                 {
-                    modelTransform.GetComponent<ModelSkinController>().skins[this.characterBody.skinIndex].rendererInfos[33].defaultMaterial,
-                    modelTransform.GetComponent<ModelSkinController>().skins[this.characterBody.skinIndex].rendererInfos[34].defaultMaterial
+                    this.characterModel.baseRendererInfos[2].defaultMaterial
                 };
             }
 
@@ -59,8 +58,7 @@ class EnforcerLightControllerAlt : MonoBehaviour
             var mats = new List<Material>();
             var model = base.GetComponent<CharacterModel>();
 
-            mats.Add(model.baseRendererInfos[33].defaultMaterial);
-            mats.Add(model.baseRendererInfos[34].defaultMaterial);
+            mats.Add(model.baseRendererInfos[2].defaultMaterial);
 
             this.lights = mats.ToArray();
         }

@@ -38,13 +38,14 @@ public class ShieldComponent : MonoBehaviour
 
     void Start()
     {
-        var childLocator = GetComponentInChildren<ChildLocator>();
+        // dead.
+        /*var childLocator = GetComponentInChildren<ChildLocator>();
         energyShield = childLocator.FindChild("EnergyShield").gameObject;
 
         energyShield.SetActive(true);// i don't know if the object has to be active to get the component but i'm playing it safe
         energyShieldControler = energyShield.GetComponentInChildren<EnergyShieldControler>();
         energyShield = energyShieldControler?.gameObject;
-        energyShield.SetActive(false);
+        energyShield.SetActive(false);*/
     }
 
     void FixedUpdate() {

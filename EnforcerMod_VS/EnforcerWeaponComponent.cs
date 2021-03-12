@@ -33,41 +33,41 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
     private void Start()
     {
-        charBody = GetComponentInChildren<CharacterBody>();
-        charMotor = GetComponentInChildren<CharacterMotor>();
-        charHealth = GetComponentInChildren<HealthComponent>();
-        cameraShit = GetComponent<CameraTargetParams>();
-        childLocator = GetComponentInChildren<ChildLocator>();
-        footStep = GetComponentInChildren<FootstepHandler>();
-        sfx = GetComponentInChildren<SfxLocator>();
+        this.charBody = this.GetComponentInChildren<CharacterBody>();
+        this.charMotor = this.GetComponentInChildren<CharacterMotor>();
+        this.charHealth = this.GetComponentInChildren<HealthComponent>();
+        this.cameraShit = this.GetComponent<CameraTargetParams>();
+        this.childLocator = this.GetComponentInChildren<ChildLocator>();
+        this.footStep = this.GetComponentInChildren<FootstepHandler>();
+        this.sfx = this.GetComponentInChildren<SfxLocator>();
 
-        if (footStep) stepSoundString = footStep.baseFootstepString;
-        if (sfx) landSoundString = sfx.landingSound;
+        if (this.footStep) this.stepSoundString = this.footStep.baseFootstepString;
+        if (this.sfx) this.landSoundString = this.sfx.landingSound;
 
-        impCount = 0;
+        this.impCount = 0;
 
-        InitWeapon();
-        InitShells();
-        InitSkateboard();
+        this.InitWeapon();
+        this.InitShells();
+        this.InitSkateboard();
 
-        Invoke("ModelCheck", 0.2f);
+        this.Invoke("ModelCheck", 0.2f);
 
-        UpdateCamera();
+        this.UpdateCamera();
     }
 
     public void ModelCheck()
     {
-        if (charBody && charBody.master)
+        if (this.charBody && this.charBody.master)
         {
-            if (charBody.master.inventory)
+            if (this.charBody.master.inventory)
             {
                 if (EnforcerPlugin.EnforcerPlugin.sillyHammer.Value)
                 {
                     var characterModel = charBody.modelLocator.modelTransform.GetComponentInChildren<CharacterModel>();
                     if (characterModel)
                     {
-                        characterModel.baseRendererInfos[0].defaultMaterial = characterModel.gameObject.GetComponent<ModelSkinController>().skins[charBody.skinIndex].rendererInfos[0].defaultMaterial;
-                        if (charBody.master.inventory.GetItemCount(ItemIndex.ArmorReductionOnHit) > 0) characterModel.baseRendererInfos[0].defaultMaterial = null;
+                        //characterModel.baseRendererInfos[0].defaultMaterial = characterModel.gameObject.GetComponent<ModelSkinController>().skins[charBody.skinIndex].rendererInfos[0].defaultMaterial;
+                        //if (charBody.master.inventory.GetItemCount(ItemIndex.ArmorReductionOnHit) > 0) characterModel.baseRendererInfos[0].defaultMaterial = null;
                     }
                 }
                 /*else
@@ -88,21 +88,21 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
     public void UpdateCamera()
     {
-        isMultiplayer = Run.instance.participatingPlayerCount > 1;
+        this.isMultiplayer = Run.instance.participatingPlayerCount > 1;
 
-        if (isMultiplayer)
+        if (this.isMultiplayer)
         {
-            cameraShit.cameraParams.standardLocalCameraPos = new Vector3(0, 0f, -12);
+            this.cameraShit.cameraParams.standardLocalCameraPos = new Vector3(0, 0f, -12);
         }
         else
         {
-            if (!shieldUp)
+            if (!this.shieldUp)
             {
-                cameraShit.cameraParams.standardLocalCameraPos = new Vector3(0, 0f, -12);
+                this.cameraShit.cameraParams.standardLocalCameraPos = new Vector3(0, 0f, -12);
             }
             else
             {
-                cameraShit.cameraParams.standardLocalCameraPos = new Vector3(1.8f, -0.5f, -6f);
+                this.cameraShit.cameraParams.standardLocalCameraPos = new Vector3(1.8f, -0.5f, -6f);
             }
         }
     }
@@ -112,9 +112,9 @@ public class EnforcerWeaponComponent : MonoBehaviour
     {
         int weapon = -1;
 
-        if (charBody && charBody.skillLocator)
+        if (this.charBody && this.charBody.skillLocator)
         {
-            string skillString = charBody.skillLocator.primary.skillDef.skillNameToken;
+            string skillString = this.charBody.skillLocator.primary.skillDef.skillNameToken;
             switch (skillString)
             {
                 case "ENFORCER_PRIMARY_SHOTGUN_NAME":
@@ -142,10 +142,10 @@ public class EnforcerWeaponComponent : MonoBehaviour
     {
         int shield = 0;
 
-        if (charBody)
+        if (this.charBody)
         {
-            if (charBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) shield = 1;
-            if (charBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex) shield = 2;
+            if (this.charBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) shield = 1;
+            if (this.charBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex) shield = 2;
         }
 
         return shield;
@@ -154,58 +154,60 @@ public class EnforcerWeaponComponent : MonoBehaviour
     public void InitWeapon()
     {
         int weapon = GetWeapon();
-        EquipWeapon(weapon);
-        SetCrosshair(weapon);
+        this.EquipWeapon(weapon);
+        this.SetCrosshair(weapon);
         //SetWeaponDisplays(weapon);
-        SetShieldDisplayRules(GetShield());
+        this.SetShieldDisplayRules(GetShield());
     }
 
     public void HideWeapon()
     {
-        if (childLocator)
+        return;
+        if (this.childLocator)
         {
-            childLocator.FindChild("Shotgun").gameObject.SetActive(false);
-            childLocator.FindChild("Rifle").gameObject.SetActive(false);
-            childLocator.FindChild("SuperShotgun").gameObject.SetActive(false);
-            childLocator.FindChild("Hammer").gameObject.SetActive(false);
-            childLocator.FindChild("Needler").gameObject.SetActive(false);
+            this.childLocator.FindChild("Shotgun").gameObject.SetActive(false);
+            this.childLocator.FindChild("Rifle").gameObject.SetActive(false);
+            this.childLocator.FindChild("SuperShotgun").gameObject.SetActive(false);
+            this.childLocator.FindChild("Hammer").gameObject.SetActive(false);
+            this.childLocator.FindChild("Needler").gameObject.SetActive(false);
         }
     }
 
     public void DelayedResetWeapon()
     {
-        Invoke("ResetWeapon", 0.1f);
+        this.Invoke("ResetWeapon", 0.1f);
     }
 
     public void ResetWeapon()
     {
         int weapon = GetWeapon();
-        EquipWeapon(weapon);
-        SetCrosshair(weapon);
+        this.EquipWeapon(weapon);
+        this.SetCrosshair(weapon);
     }
 
     private void EquipWeapon(int weapon)
     {
-        if (childLocator)
+        return;
+        if (this.childLocator)
         {
-            HideWeapon();
+            this.HideWeapon();
 
             switch (weapon)
             {
                 case 0:
-                    childLocator.FindChild("Shotgun").gameObject.SetActive(true);
+                    this.childLocator.FindChild("Shotgun").gameObject.SetActive(true);
                     break;
                 case 1:
-                    childLocator.FindChild("Rifle").gameObject.SetActive(true);
+                    this.childLocator.FindChild("Rifle").gameObject.SetActive(true);
                     break;
                 case 2:
-                    childLocator.FindChild("SuperShotgun").gameObject.SetActive(true);
+                    this.childLocator.FindChild("SuperShotgun").gameObject.SetActive(true);
                     break;
                 case 3:
-                    childLocator.FindChild("Hammer").gameObject.SetActive(true);
+                    this.childLocator.FindChild("Hammer").gameObject.SetActive(true);
                     break;
                 case 4:
-                    childLocator.FindChild("Needler").gameObject.SetActive(true);
+                    this.childLocator.FindChild("Needler").gameObject.SetActive(true);
                     break;
             }
         }
@@ -213,7 +215,8 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
     private void SetShieldDisplayRules(int newShield)
     {
-        ItemDisplayRuleSet ruleset = GetComponentInChildren<CharacterModel>().itemDisplayRuleSet;
+        return;
+        ItemDisplayRuleSet ruleset = this.GetComponentInChildren<CharacterModel>().itemDisplayRuleSet;
 
         if (newShield == 0)
         {
@@ -273,7 +276,8 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
     private void SetWeaponDisplays(int newWeapon)
     {
-        ItemDisplayRuleSet ruleset = GetComponentInChildren<CharacterModel>().itemDisplayRuleSet;
+        return;
+        ItemDisplayRuleSet ruleset = this.GetComponentInChildren<CharacterModel>().itemDisplayRuleSet;
 
         if (newWeapon == 0)
         {
@@ -287,24 +291,24 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
     private void SetCrosshair(int weapon)
     {
-        if (charBody)
+        if (this.charBody)
         {
             switch (weapon)
             {
                 case 0:
-                    charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
+                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
                     break;
                 case 1:
-                    charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
+                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
                     break;
                 case 2:
-                    charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
+                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
                     break;
                 case 3:
-                    charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
+                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
                     break;
                 case 4:
-                    charBody.crosshairPrefab = EnforcerPlugin.EnforcerPlugin.needlerCrosshair;
+                    this.charBody.crosshairPrefab = EnforcerPlugin.EnforcerPlugin.needlerCrosshair;
                     break;
             }
         }
@@ -312,14 +316,14 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
     public void AddImp(int asdf)
     {
-        impCount += asdf;
+        this.impCount += asdf;
 
-        Imp(impCount);
+        Imp(this.impCount);
     }
 
     private void InitShells()
     {
-        if (childLocator is null) return;
+        if (this.childLocator is null) return;
 
         /*GameObject desiredShell = EnforcerPlugin.Assets.shotgunShell;
         if (GetWeapon() == 2) desiredShell = EnforcerPlugin.Assets.superShotgunShell;
@@ -336,84 +340,86 @@ public class EnforcerWeaponComponent : MonoBehaviour
         var x = shellController.main;
         x.simulationSpace = ParticleSystemSimulationSpace.World;*/
 
-        currentShell = 0;
+        this.currentShell = 0;
 
-        shellObjects = new GameObject[EnforcerWeaponComponent.maxShellCount + 1];
+        this.shellObjects = new GameObject[EnforcerWeaponComponent.maxShellCount + 1];
 
         GameObject desiredShell = EnforcerPlugin.Assets.shotgunShell;
-        if (GetWeapon() == 2) desiredShell = EnforcerPlugin.Assets.superShotgunShell;
+        if (this.GetWeapon() == 2) desiredShell = EnforcerPlugin.Assets.superShotgunShell;
 
         for (int i = 0; i < EnforcerWeaponComponent.maxShellCount; i++)
         {
-            shellObjects[i] = GameObject.Instantiate(desiredShell, childLocator.FindChild("Shotgun"), false);
-            shellObjects[i].transform.localScale *= 0.075f;
-            shellObjects[i].SetActive(false);
-            shellObjects[i].GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.Continuous;
+            this.shellObjects[i] = GameObject.Instantiate(desiredShell, this.childLocator.FindChild("Gun"), false);
+            this.shellObjects[i].transform.localScale *= 0.075f;
+            this.shellObjects[i].SetActive(false);
+            this.shellObjects[i].GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.Continuous;
         }
     }
 
     public void DropShell(Vector3 force)
     {
         //if (shellController) shellController.Play();
-        if (shellObjects == null) return;
+        if (this.shellObjects == null) return;
 
-        if (shellObjects[currentShell] == null) return;
+        if (this.shellObjects[currentShell] == null) return;
 
-        Transform origin = childLocator.FindChild("GrenadeMuzzle");
+        Transform origin = this.childLocator.FindChild("Muzzle");
 
-        shellObjects[currentShell].SetActive(false);
+        this.shellObjects[currentShell].SetActive(false);
 
-        shellObjects[currentShell].transform.position = origin.position;
-        shellObjects[currentShell].transform.parent = null;
+        this.shellObjects[currentShell].transform.position = origin.position;
+        this.shellObjects[currentShell].transform.parent = null;
 
-        shellObjects[currentShell].SetActive(true);
+        this.shellObjects[currentShell].SetActive(true);
 
-        Rigidbody rb = shellObjects[currentShell].gameObject.GetComponent<Rigidbody>();
+        Rigidbody rb = this.shellObjects[currentShell].gameObject.GetComponent<Rigidbody>();
         if (rb) rb.velocity = force;
 
-        currentShell++;
-        if (currentShell >= EnforcerWeaponComponent.maxShellCount) currentShell = 0;
+        this.currentShell++;
+        if (this.currentShell >= EnforcerWeaponComponent.maxShellCount) this.currentShell = 0;
     }
 
     private void InitSkateboard()
     {
-        if (childLocator)
+        return;
+        if (this.childLocator)
         {
-            skateboard = childLocator.FindChild("Skateboard").gameObject;
-            skateboardBase = childLocator.FindChild("BoardBase");
-            skateboardHandBase = childLocator.FindChild("BoardHandBase");
+            this.skateboard = this.childLocator.FindChild("Skateboard").gameObject;
+            this.skateboardBase = this.childLocator.FindChild("BoardBase");
+            this.skateboardHandBase = this.childLocator.FindChild("BoardHandBase");
         }
     }
 
     public void ReparentSkateboard(string newParent)
     {
-        if (!skateboard) return;
+        return;
+        if (!this.skateboard) return;
 
         switch (newParent)
         {
             case "Base":
-                skateboard.transform.parent = skateboardBase;
-                if (footStep) footStep.baseFootstepString = "";
-                if (sfx) sfx.landingSound = EnforcerPlugin.Sounds.SkateLand;
+                this.skateboard.transform.parent = this.skateboardBase;
+                if (this.footStep) this.footStep.baseFootstepString = "";
+                if (this.sfx) this.sfx.landingSound = EnforcerPlugin.Sounds.SkateLand;
                 break;
             case "Hand":
-                skateboard.transform.parent = skateboardHandBase;
-                if (footStep) footStep.baseFootstepString = stepSoundString;
-                if (sfx) sfx.landingSound = landSoundString;
+                this.skateboard.transform.parent = this.skateboardHandBase;
+                if (this.footStep) this.footStep.baseFootstepString = this.stepSoundString;
+                if (this.sfx) this.sfx.landingSound = this.landSoundString;
                 break;
         }
 
-        skateboard.transform.localPosition = Vector3.zero;
-        skateboard.transform.localRotation = Quaternion.identity;
+        this.skateboard.transform.localPosition = Vector3.zero;
+        this.skateboard.transform.localRotation = Quaternion.identity;
     }
 
     private void OnDestroy()
     {
-        if (shellObjects != null && shellObjects.Length > 0)
+        if (this.shellObjects != null && this.shellObjects.Length > 0)
         {
-            for (int i = 0; i < shellObjects.Length; i++)
+            for (int i = 0; i < this.shellObjects.Length; i++)
             {
-                if (shellObjects[i]) Destroy(shellObjects[i]);
+                if (this.shellObjects[i]) Destroy(this.shellObjects[i]);
             }
         }
     }

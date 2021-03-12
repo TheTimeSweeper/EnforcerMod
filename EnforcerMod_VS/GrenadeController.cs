@@ -2,6 +2,7 @@
 using UnityEngine;
 //sidenote what the fuck is this using??
 //using UnityEngine.Experimental.PlayerLoop;
+// lmao this shit is ancient
 
 public class GrenadeController : MonoBehaviour
 {

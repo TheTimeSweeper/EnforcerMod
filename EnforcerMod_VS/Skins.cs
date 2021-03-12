@@ -37,6 +37,8 @@ namespace EnforcerPlugin
 
         public static void RegisterSkins()
         {
+            // something is null in here and i don't wanna deal with it
+            return;
             GameObject bodyPrefab = EnforcerPlugin.characterPrefab;
 
             GameObject model = bodyPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
@@ -47,6 +49,56 @@ namespace EnforcerPlugin
 
             SkinnedMeshRenderer mainRenderer = characterModel.mainSkinnedMeshRenderer;
 
+            List<SkinDef> skinDefs = new List<SkinDef>();
+
+            #region LanguageTokens
+            LanguageAPI.Add("ENFORCERBODY_DEFAULT_SKIN_NAME", "Default");
+            LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Peacekeeper");
+            LanguageAPI.Add("ENFORCERBODY_TYPHOON_SKIN_NAME", "Lawbringer");
+            LanguageAPI.Add("ENFORCERBODY_SPACE_SKIN_NAME", "Rainstormtrooper");
+            LanguageAPI.Add("ENFORCERBODY_ENGI_SKIN_NAME", "Engineer?");
+            LanguageAPI.Add("ENFORCERBODY_DOOM_SKIN_NAME", "Doom Slayer");
+            LanguageAPI.Add("ENFORCERBODY_DESPERADO_SKIN_NAME", "Desperado");
+            LanguageAPI.Add("ENFORCERBODY_FROG_SKIN_NAME", "Zero Suit");
+            LanguageAPI.Add("ENFORCERBODY_FEM_SKIN_NAME", "Femforcer");
+            LanguageAPI.Add("ENFORCERBODY_STEVE_SKIN_NAME", "Minecraft");
+            LanguageAPI.Add("ENFORCERBODY_PIG_SKIN_NAME", "Pig");
+            LanguageAPI.Add("ENFORCERBODY_NEMESIS_SKIN_NAME", "Nemesis");
+            #endregion
+
+            LoadoutAPI.SkinDefInfo skinDefInfo = new LoadoutAPI.SkinDefInfo();
+            skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            skinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            skinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+            skinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+
+            skinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
+            //skinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.31f, 0.49f, 0.69f), new Color(0.86f, 0.83f, 0.63f), new Color(0.1f, 0.07f, 0.06f), new Color(0.21f, 0.29f, 0.38f));
+            skinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                new SkinDef.MeshReplacement
+                {
+                    renderer = mainRenderer,
+                    mesh = mainRenderer.sharedMesh
+                }
+            };
+            skinDefInfo.Name = "ENFORCERBODY_DEFAULT_SKIN_NAME";
+            skinDefInfo.NameToken = "ENFORCERBODY_DEFAULT_SKIN_NAME";
+            skinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            skinDefInfo.RootObject = model;
+            skinDefInfo.UnlockableName = "";
+
+            skinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matRiotShield", 0f, Color.black, 1f);
+            skinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matShotgun", 0f, Color.black, 0);
+            skinDefInfo.RendererInfos[2].defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 0f);
+            skinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 0f);
+
+            SkinDef defaultSkin = LoadoutAPI.CreateNewSkinDef(skinDefInfo);
+            skinDefs.Add(defaultSkin);
+
+            // what are we gonna do about all this...........
+            #region FUCK
+            /*
             #region GameObjects
             GameObject engiShield = childLocator.FindChild("EngiShield").gameObject;
             GameObject shotgunModel = childLocator.FindChild("ShotgunModel").gameObject;
@@ -91,21 +143,6 @@ namespace EnforcerPlugin
                 lightL,
                 lightR
             };
-            #endregion
-
-            #region LanguageTokens
-            LanguageAPI.Add("ENFORCERBODY_DEFAULT_SKIN_NAME", "Default");
-            LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Peacekeeper");
-            LanguageAPI.Add("ENFORCERBODY_TYPHOON_SKIN_NAME", "Lawbringer");
-            LanguageAPI.Add("ENFORCERBODY_SPACE_SKIN_NAME", "Rainstormtrooper");
-            LanguageAPI.Add("ENFORCERBODY_ENGI_SKIN_NAME", "Engineer?");
-            LanguageAPI.Add("ENFORCERBODY_DOOM_SKIN_NAME", "Doom Slayer");
-            LanguageAPI.Add("ENFORCERBODY_DESPERADO_SKIN_NAME", "Desperado");
-            LanguageAPI.Add("ENFORCERBODY_FROG_SKIN_NAME", "Zero Suit");
-            LanguageAPI.Add("ENFORCERBODY_FEM_SKIN_NAME", "Femforcer");
-            LanguageAPI.Add("ENFORCERBODY_STEVE_SKIN_NAME", "Minecraft");
-            LanguageAPI.Add("ENFORCERBODY_PIG_SKIN_NAME", "Pig");
-            LanguageAPI.Add("ENFORCERBODY_NEMESIS_SKIN_NAME", "Nemesis");
             #endregion
 
             #region DefaultSkin
@@ -597,9 +634,10 @@ namespace EnforcerPlugin
 
             SkinDef pigSkin = LoadoutAPI.CreateNewSkinDef(pigSkinDefInfo);
             #endregion
+            */
+            #endregion
 
-
-            var skinDefs = new List<SkinDef>()
+            /*var skinDefs = new List<SkinDef>()
             {
                     defaultSkin,
                     masterySkin,
@@ -668,7 +706,7 @@ namespace EnforcerPlugin
             if (EnforcerPlugin.femSkin.Value)
             {
                 skinDefs.Add(femSkin);
-            }
+            }*/
 
             skinController.skins = skinDefs.ToArray();
         }

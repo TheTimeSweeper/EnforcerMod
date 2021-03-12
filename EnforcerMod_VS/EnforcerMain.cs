@@ -199,7 +199,7 @@ namespace EntityStates.Enforcer
             }
 
             //for idle anim
-            if (this.animator) this.animator.SetBool("inCombat", !base.characterBody.outOfCombat);
+            //if (this.animator) this.animator.SetBool("inCombat", !base.characterBody.outOfCombat);
 
             //visions anim
             if (base.hasSkillLocator)
@@ -210,11 +210,11 @@ namespace EntityStates.Enforcer
                     {
                         if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
                         {
-                            base.PlayAnimation("RightArm, Override", "FireSSGShielded", "FireShotgun.playbackRate", this.attackSpeedStat);
+                            base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.attackSpeedStat);
                         }
                         else
                         {
-                            base.PlayAnimation("RightArm, Override", "FireSSG", "FireShotgun.playbackRate", this.attackSpeedStat);
+                            base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.attackSpeedStat);
                         }
                     }
                 }

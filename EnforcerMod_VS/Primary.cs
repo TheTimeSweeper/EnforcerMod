@@ -39,12 +39,10 @@ namespace EntityStates.Enforcer
             this.isEngi = false;
             if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value)
             {
-                this.muzzleString = "BlasterMuzzle";
                 this.isStormtrooper = true;
             }
             if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value)
             {
-                this.muzzleString = "GrenadeMuzzle";
                 this.isEngi = true;
             }
             this.hasFired = false;
@@ -54,14 +52,14 @@ namespace EntityStates.Enforcer
                 this.duration = this.baseShieldDuration / this.attackSpeedStat;
                 this.attackStopDuration = RiotShotgun.beefDurationShield / this.attackSpeedStat;
 
-                base.PlayAnimation("RightArm, Override", "FireShotgunShielded", "FireShotgun.playbackRate", this.duration);
+                base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", 1.75f * this.duration);
             }
             else
             {
                 this.duration = this.baseDuration / this.attackSpeedStat;
                 this.attackStopDuration = RiotShotgun.beefDurationNoShield / this.attackSpeedStat;
 
-                base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
+                base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", 1.75f * this.duration);
             }
 
             this.fireDuration = 0.1f * this.duration;
@@ -254,9 +252,7 @@ namespace EntityStates.Enforcer
             {
                 this.hasFired = true;
 
-                this.muzzleString = "SuperShotgunMuzzle";
-                if (this.isStormtrooper) this.muzzleString = "BlasterSuperMuzzle";
-                if (this.isEngi) this.muzzleString = "GrenadeMuzzle";
+                this.muzzleString = "Muzzle";
 
                 string soundString = "";
 

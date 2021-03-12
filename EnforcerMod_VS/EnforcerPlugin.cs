@@ -28,7 +28,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.KingEnderBrine.ScrollableLobbyUI", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.TeamMoonstorm.Starstorm2", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "2.2.6")]
+    [BepInPlugin(MODUID, "Enforcer", "3.0.0")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -1085,299 +1085,39 @@ namespace EnforcerPlugin
             {
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = model.GetComponentInChildren<SkinnedMeshRenderer>().material,
-                    renderer = model.GetComponentInChildren<SkinnedMeshRenderer>(),
+                    defaultMaterial = Assets.CreateMaterial("matRiotShield", 0f, Color.black, 1f),
+                    renderer = childLocator.FindChild("ShieldModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("ShotgunModel").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("ShotgunModel").GetComponentInChildren<MeshRenderer>(),
+                    defaultMaterial = Assets.CreateMaterial("matShotgun", 0f, Color.black, 0f),
+                    renderer = childLocator.FindChild("GunModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("ShieldModel").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("ShieldModel").GetComponent<MeshRenderer>(),
+                    defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 0f),
+                    renderer = childLocator.FindChild("PauldronModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("Attachment").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("Attachment").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("Pump").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("Pump").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("RifleModel").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("RifleModel").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("EngiShield").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("EngiShield").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("RifleAttachment").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("RifleAttachment").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("Blaster").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("Blaster").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BlasterAttachment").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BlasterAttachment").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BlasterRifle").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BlasterRifle").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BlasterRifleAttachment").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BlasterRifleAttachment").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("SuperShotgunModel").transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material,
-                    renderer = childLocator.FindChild("SuperShotgunModel").transform.GetChild(1).GetComponent<SkinnedMeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BlasterSuper").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BlasterSuper").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BlasterSuperAttachment").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BlasterSuperAttachment").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("SuperShotgunAttachment").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("SuperShotgunAttachment").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("HammerModel1").GetComponentInChildren<SkinnedMeshRenderer>().material,
-                    renderer = childLocator.FindChild("HammerModel1").GetComponentInChildren<SkinnedMeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("HammerModel2").GetComponentInChildren<SkinnedMeshRenderer>().material,
-                    renderer = childLocator.FindChild("HammerModel2").GetComponentInChildren<SkinnedMeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("SexShieldModel").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("SexShieldModel").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("SexShieldGlass").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("SexShieldGlass").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("NeedlerModel").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("NeedlerModel").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("NeedlerAttachment").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("NeedlerAttachment").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BungusShotgun").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BungusShotgun").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("MarauderShieldFill").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("MarauderShieldFill").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("MarauderShieldOutline").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("MarauderShieldOutline").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BungusShieldFill").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BungusShieldFill").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BungusShieldOutline").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BungusShieldOutline").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("MarauderArmShield").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("MarauderArmShield").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                }, 
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BungusArmShield").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BungusArmShield").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("FemShield").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("FemShield").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("FemShieldGlass").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("FemShieldGlass").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BungusSSG").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BungusSSG").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BungusRifle").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BungusRifle").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("LightL").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("LightL").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("LightR").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("LightR").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("Skateboard").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("Skateboard").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("CubeShield").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("CubeShield").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("CubeShotgun").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("CubeShotgun").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("CubeRifle").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("CubeRifle").GetComponent<MeshRenderer>(),
+                    defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 1f),
+                    renderer = childLocator.FindChild("Model").gameObject.GetComponent<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 }
             };
 
-            Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/hgstandard");
-
-            characterModel.baseRendererInfos[0].defaultMaterial.shader = hotpoo;
-            characterModel.baseRendererInfos[1].defaultMaterial.shader = hotpoo;
-            characterModel.baseRendererInfos[2].defaultMaterial.shader = hotpoo;
-            characterModel.baseRendererInfos[33].defaultMaterial.shader = hotpoo;
-            characterModel.baseRendererInfos[34].defaultMaterial.shader = hotpoo;
-
-            characterModel.baseRendererInfos[0].defaultMaterial.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
-            characterModel.baseRendererInfos[0].defaultMaterial.SetFloat("_EmPower", 1f);
-            characterModel.baseRendererInfos[33].defaultMaterial.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
-            characterModel.baseRendererInfos[33].defaultMaterial.SetFloat("_EmPower", 1f);
-            characterModel.baseRendererInfos[34].defaultMaterial.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
-            characterModel.baseRendererInfos[34].defaultMaterial.SetFloat("_EmPower", 1f);
-
             characterModel.autoPopulateLightInfos = true;
             characterModel.invisibilityCount = 0;
             characterModel.temporaryOverlays = new List<TemporaryOverlay>();
 
-            characterModel.mainSkinnedMeshRenderer = characterModel.baseRendererInfos[0].renderer.gameObject.GetComponent<SkinnedMeshRenderer>();
+            characterModel.mainSkinnedMeshRenderer = characterModel.baseRendererInfos[3].renderer.gameObject.GetComponent<SkinnedMeshRenderer>();
 
             characterDisplay = PrefabAPI.InstantiateClone(model, "EnforcerDisplay", true);
 
@@ -1396,7 +1136,7 @@ namespace EnforcerPlugin
 
             CharacterSelectSurvivorPreviewDisplayController displayController = characterDisplay.GetComponent<CharacterSelectSurvivorPreviewDisplayController>();
 
-            displayController.bodyPrefab = characterPrefab;
+            if (displayController) displayController.bodyPrefab = characterPrefab;
         }
 
         private static void CreatePrefab()
@@ -1519,13 +1259,13 @@ namespace EnforcerPlugin
 
             //bubble shield stuff
 
-            GameObject engiShieldObj = Resources.Load<GameObject>("Prefabs/Projectiles/EngiBubbleShield");
+            /*GameObject engiShieldObj = Resources.Load<GameObject>("Prefabs/Projectiles/EngiBubbleShield");
 
             Material shieldFillMat = UnityEngine.Object.Instantiate<Material>(engiShieldObj.transform.Find("Collision").Find("ActiveVisual").GetComponent<MeshRenderer>().material);
             childLocator.FindChild("BungusShieldFill").GetComponent<MeshRenderer>().material = shieldFillMat;
 
             Material shieldOuterMat = UnityEngine.Object.Instantiate<Material>(engiShieldObj.transform.Find("Collision").Find("ActiveVisual").Find("Edge").GetComponent<MeshRenderer>().material);
-            childLocator.FindChild("BungusShieldOutline").GetComponent<MeshRenderer>().material = shieldOuterMat;
+            childLocator.FindChild("BungusShieldOutline").GetComponent<MeshRenderer>().material = shieldOuterMat;*/
 
             /*Material marauderShieldFillMat = UnityEngine.Object.Instantiate<Material>(shieldFillMat);
             marauderShieldFillMat.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matMarauderShield").GetTexture("_MainTex"));
@@ -1553,274 +1293,29 @@ namespace EnforcerPlugin
             {
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = model.GetComponentInChildren<SkinnedMeshRenderer>().material,
-                    renderer = model.GetComponentInChildren<SkinnedMeshRenderer>(),
+                    defaultMaterial = Assets.CreateMaterial("matRiotShield", 0f, Color.black, 1f),
+                    renderer = childLocator.FindChild("ShieldModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("ShotgunModel").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("ShotgunModel").GetComponentInChildren<MeshRenderer>(),
+                    defaultMaterial = Assets.CreateMaterial("matShotgun", 0f, Color.black, 0f),
+                    renderer = childLocator.FindChild("GunModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("ShieldModel").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("ShieldModel").GetComponent<MeshRenderer>(),
+                    defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 0f),
+                    renderer = childLocator.FindChild("PauldronModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("Attachment").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("Attachment").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("Pump").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("Pump").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("RifleModel").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("RifleModel").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("EngiShield").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("EngiShield").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("RifleAttachment").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("RifleAttachment").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("Blaster").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("Blaster").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BlasterAttachment").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BlasterAttachment").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BlasterRifle").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BlasterRifle").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BlasterRifleAttachment").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BlasterRifleAttachment").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("SuperShotgunModel").transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material,
-                    renderer = childLocator.FindChild("SuperShotgunModel").transform.GetChild(1).GetComponent<SkinnedMeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BlasterSuper").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BlasterSuper").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BlasterSuperAttachment").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BlasterSuperAttachment").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("SuperShotgunAttachment").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("SuperShotgunAttachment").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("HammerModel1").GetComponentInChildren<SkinnedMeshRenderer>().material,
-                    renderer = childLocator.FindChild("HammerModel1").GetComponentInChildren<SkinnedMeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("HammerModel2").GetComponentInChildren<SkinnedMeshRenderer>().material,
-                    renderer = childLocator.FindChild("HammerModel2").GetComponentInChildren<SkinnedMeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("SexShieldModel").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("SexShieldModel").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("SexShieldGlass").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("SexShieldGlass").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("NeedlerModel").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("NeedlerModel").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("NeedlerAttachment").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("NeedlerAttachment").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BungusShotgun").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BungusShotgun").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("MarauderShieldFill").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("MarauderShieldFill").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("MarauderShieldOutline").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("MarauderShieldOutline").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BungusShieldFill").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BungusShieldFill").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BungusShieldOutline").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BungusShieldOutline").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("MarauderArmShield").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("MarauderArmShield").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BungusArmShield").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BungusArmShield").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("FemShield").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("FemShield").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("FemShieldGlass").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("FemShieldGlass").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BungusSSG").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BungusSSG").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("BungusRifle").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("BungusRifle").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("LightL").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("LightL").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("LightR").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("LightR").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("Skateboard").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("Skateboard").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("CubeShield").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("CubeShield").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("CubeShotgun").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("CubeShotgun").GetComponent<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("CubeRifle").GetComponent<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("CubeRifle").GetComponent<MeshRenderer>(),
+                    defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 1f),
+                    renderer = childLocator.FindChild("Model").gameObject.GetComponent<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 }
@@ -1829,37 +1324,8 @@ namespace EnforcerPlugin
             characterModel.invisibilityCount = 0;
             characterModel.temporaryOverlays = new List<TemporaryOverlay>();
 
-            Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/hgstandard");
-
-            characterModel.baseRendererInfos[0].defaultMaterial.shader = hotpoo;
-            characterModel.baseRendererInfos[1].defaultMaterial.shader = hotpoo;
-            characterModel.baseRendererInfos[2].defaultMaterial.shader = hotpoo;
-            characterModel.baseRendererInfos[3].defaultMaterial.shader = hotpoo;
-            characterModel.baseRendererInfos[4].defaultMaterial.shader = hotpoo;
-            characterModel.baseRendererInfos[5].defaultMaterial.shader = hotpoo;
-            characterModel.baseRendererInfos[33].defaultMaterial.shader = hotpoo;
-            characterModel.baseRendererInfos[34].defaultMaterial.shader = hotpoo;
-
-            characterModel.baseRendererInfos[0].defaultMaterial.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
-            characterModel.baseRendererInfos[0].defaultMaterial.SetFloat("_EmPower", 1f);
-            characterModel.baseRendererInfos[0].defaultMaterial.SetColor("_EmColor", Color.white);
-            characterModel.baseRendererInfos[33].defaultMaterial.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
-            characterModel.baseRendererInfos[33].defaultMaterial.SetFloat("_EmPower", 1f);
-            characterModel.baseRendererInfos[33].defaultMaterial.SetColor("_EmColor", Color.white);
-            characterModel.baseRendererInfos[34].defaultMaterial.SetTexture("_EmTex", Assets.mainMat.GetTexture("_EmissionMap"));
-            characterModel.baseRendererInfos[34].defaultMaterial.SetFloat("_EmPower", 1f);
-            characterModel.baseRendererInfos[34].defaultMaterial.SetColor("_EmColor", Color.white);
-
-            characterModel.mainSkinnedMeshRenderer = characterModel.baseRendererInfos[0].renderer.gameObject.GetComponent<SkinnedMeshRenderer>();
-
             //fuck man
             childLocator.FindChild("Head").transform.localScale = Vector3.one * headSize.Value;
-
-            TeamComponent teamComponent = null;
-            if (characterPrefab.GetComponent<TeamComponent>() != null) teamComponent = characterPrefab.GetComponent<TeamComponent>();
-            else teamComponent = characterPrefab.GetComponent<TeamComponent>();
-            teamComponent.hideAllyCardDisplay = false;
-            teamComponent.teamIndex = TeamIndex.None;
 
             HealthComponent healthComponent = characterPrefab.GetComponent<HealthComponent>();
             healthComponent.health = 160f;
@@ -1869,9 +1335,6 @@ namespace EnforcerPlugin
             healthComponent.body = null;
             healthComponent.dontShowHealthbar = false;
             healthComponent.globalDeathEventChanceCoefficient = 1f;
-
-            characterPrefab.GetComponent<Interactor>().maxInteractionDistance = 3f;
-            characterPrefab.GetComponent<InteractionDriver>().highlightInteractor = true;
 
             CharacterDeathBehavior characterDeathBehavior = characterPrefab.GetComponent<CharacterDeathBehavior>();
             characterDeathBehavior.deathStateMachine = characterPrefab.GetComponent<EntityStateMachine>();
@@ -1975,7 +1438,7 @@ namespace EnforcerPlugin
             hitBoxGroup.groupName = "Charge";
 
             //hammer hitbox
-            HitBoxGroup hammerHitBoxGroup = model.AddComponent<HitBoxGroup>();
+            /*HitBoxGroup hammerHitBoxGroup = model.AddComponent<HitBoxGroup>();
 
             GameObject hammerHitbox = childLocator.FindChild("ActualHammerHitbox").gameObject;
             hammerHitbox.transform.localPosition = new Vector3(0f, 15.35f, 13.7f);
@@ -2008,7 +1471,7 @@ namespace EnforcerPlugin
                 hammerHitBox2
             };
 
-            hammerHitBoxGroup2.groupName = "HammerBig";
+            hammerHitBoxGroup2.groupName = "HammerBig";*/
 
             FootstepHandler footstepHandler = model.AddComponent<FootstepHandler>();
             footstepHandler.baseFootstepString = "Play_player_footstep";
@@ -2020,11 +1483,15 @@ namespace EnforcerPlugin
 
             PhysicMaterial physicMat = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<RagdollController>().bones[1].GetComponent<Collider>().material;
 
-            foreach (Transform i in ragdollController.bones) {
-                if (i) {
+            foreach (Transform i in ragdollController.bones)
+            {
+                if (i)
+                {
                     i.gameObject.layer = LayerIndex.ragdoll.intVal;
+
                     Collider j = i.GetComponent<Collider>();
-                    if (j) {
+                    if (j)
+                    {
                         j.material = physicMat;
                         j.sharedMaterial = physicMat;
                     }
@@ -2102,7 +1569,7 @@ namespace EnforcerPlugin
             BuffDef jackBootsDef = new BuffDef
             {
                 name = "Heavyweight",
-                iconPath = "@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texBuffProtectAndServe.png",
+                iconPath = "@Enforcer:Assets/Enforcer/Enforcer/Icons/texBuffProtectAndServe.png",
                 buffColor = characterColor,
                 canStack = false,
                 isDebuff = false,
@@ -2114,7 +1581,7 @@ namespace EnforcerPlugin
             BuffDef energyShieldBuffDef = new BuffDef
             {
                 name = "Heavyweight",
-                iconPath = "@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texBuffProtectAndServe.png",
+                iconPath = "@Enforcer:Assets/Enforcer/Enforcer/Icons/texBuffProtectAndServe.png",
                 buffColor = characterColor,
                 canStack = false,
                 isDebuff = false,
@@ -2150,7 +1617,7 @@ namespace EnforcerPlugin
             BuffDef minigunBuffDef = new BuffDef
             {
                 name = "HeavyweightV2",
-                iconPath = "@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texBuffMinigun.png",
+                iconPath = "@Enforcer:Assets/Enforcer/Enforcer/Icons/texBuffMinigun.png",
                 buffColor = new Color(1, 0.7176f, 0.1725f),
                 canStack = false,
                 isDebuff = false,
@@ -3408,74 +2875,82 @@ namespace EnforcerPlugin
             //  that's because holy shit i wrote this like a fucking ape. do not forgive me for this
             CharacterSelectSurvivorPreviewDisplayController previewController = characterDisplay.GetComponent<CharacterSelectSurvivorPreviewDisplayController>();
 
-            for (int i = 0; i < previewController.skillChangeResponses.Length; i++)
+            // NULLCHECK YOUR SHIT FOR FUCKS SAKE
+            if (previewController)
             {
-                var skillChangeResponse = previewController.skillChangeResponses[i];
-
-                switch (i)
+                for (int i = 0; i < previewController.skillChangeResponses.Length; i++)
                 {
-                    case 0:
-                        skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
-                        skillChangeResponse.triggerSkill = primarySkillChangeDefs[0];
-                        break;
-                    case 1:
-                        skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
-                        skillChangeResponse.triggerSkill = primarySkillChangeDefs[1];
-                        break;
-                    case 2:
-                        skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
-                        skillChangeResponse.triggerSkill = primarySkillChangeDefs[2];
-                        break;
-                    case 3:
-                        if (cursed.Value)
-                        {
+                    var skillChangeResponse = previewController.skillChangeResponses[i];
+
+                    switch (i)
+                    {
+                        case 0:
                             skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
-                            skillChangeResponse.triggerSkill = primarySkillChangeDefs[3];
-                        }
-                        break;
-                    case 4:
-                        skillChangeResponse.triggerSkillFamily = skillLocator.special.skillFamily;
-                        skillChangeResponse.triggerSkill = specialSkillChangeDefs[0];
-                        break;
-                    case 5:
-                        if (cursed.Value)
-                        {
+                            skillChangeResponse.triggerSkill = primarySkillChangeDefs[0];
+                            break;
+                        case 1:
+                            skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
+                            skillChangeResponse.triggerSkill = primarySkillChangeDefs[1];
+                            break;
+                        case 2:
+                            skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
+                            skillChangeResponse.triggerSkill = primarySkillChangeDefs[2];
+                            break;
+                        case 3:
+                            if (cursed.Value)
+                            {
+                                skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
+                                skillChangeResponse.triggerSkill = primarySkillChangeDefs[3];
+                            }
+                            break;
+                        case 4:
                             skillChangeResponse.triggerSkillFamily = skillLocator.special.skillFamily;
-                            skillChangeResponse.triggerSkill = specialSkillChangeDefs[1];
-                        }
-                        break;
-                    case 6:
-                        if (cursed.Value)
-                        {
-                            skillChangeResponse.triggerSkillFamily = skillLocator.special.skillFamily;
-                            skillChangeResponse.triggerSkill = specialSkillChangeDefs[2];
-                        }
-                        break;
+                            skillChangeResponse.triggerSkill = specialSkillChangeDefs[0];
+                            break;
+                        case 5:
+                            if (cursed.Value)
+                            {
+                                skillChangeResponse.triggerSkillFamily = skillLocator.special.skillFamily;
+                                skillChangeResponse.triggerSkill = specialSkillChangeDefs[1];
+                            }
+                            break;
+                        case 6:
+                            if (cursed.Value)
+                            {
+                                skillChangeResponse.triggerSkillFamily = skillLocator.special.skillFamily;
+                                skillChangeResponse.triggerSkill = specialSkillChangeDefs[2];
+                            }
+                            break;
+                    }
+
+                    previewController.skillChangeResponses[i] = skillChangeResponse;
+
                 }
 
-                previewController.skillChangeResponses[i] = skillChangeResponse;
-
-            }
-
-            List<int> emptyIndices = new List<int>();
-            for (int i = 0; i < previewController.skillChangeResponses.Length; i++) {
-                if (previewController.skillChangeResponses[i].triggerSkillFamily == null ||
-                    previewController.skillChangeResponses[i].triggerSkillFamily == null) {
-                    emptyIndices.Add(i);
+                List<int> emptyIndices = new List<int>();
+                for (int i = 0; i < previewController.skillChangeResponses.Length; i++)
+                {
+                    if (previewController.skillChangeResponses[i].triggerSkillFamily == null ||
+                        previewController.skillChangeResponses[i].triggerSkillFamily == null)
+                    {
+                        emptyIndices.Add(i);
+                    }
                 }
-            }
 
-            if (emptyIndices.Count == 0)
-                return;
+                if (emptyIndices.Count == 0)
+                    return;
 
-            var responsesList = previewController.skillChangeResponses.ToList();
-            for (int i = responsesList.Count - 1; i >= 0; i--) {
-                if (emptyIndices.Contains(i)) {
-                    responsesList.RemoveAt(i);
+                var responsesList = previewController.skillChangeResponses.ToList();
+                for (int i = responsesList.Count - 1; i >= 0; i--)
+                {
+                    if (emptyIndices.Contains(i))
+                    {
+                        responsesList.RemoveAt(i);
+                    }
                 }
-            }
 
-            previewController.skillChangeResponses = responsesList.ToArray();
+                previewController.skillChangeResponses = responsesList.ToArray();
+            }
         }
 
         private void MemeSetup()

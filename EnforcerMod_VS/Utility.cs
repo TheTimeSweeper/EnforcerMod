@@ -13,27 +13,26 @@ namespace EntityStates.Enforcer
         {
             if (goodState == null) goodState = Instantiate(typeof(AimStunDrone)) as AimStunDrone;
 
-            maxDistance = 48;
-            rayRadius = 2f;
-            arcVisualizerPrefab = goodState.arcVisualizerPrefab;
-            projectilePrefab = EnforcerPlugin.EnforcerPlugin.tearGasProjectilePrefab;
-            endpointVisualizerPrefab = goodState.endpointVisualizerPrefab;
-            endpointVisualizerRadiusScale = 4f;
-            setFuse = false;
-            damageCoefficient = 0f;
-            baseMinimumDuration = 0.1f;
-            projectileBaseSpeed = 80;
+            this.maxDistance = 48;
+            this.rayRadius = 2f;
+            this.arcVisualizerPrefab = goodState.arcVisualizerPrefab;
+            this.projectilePrefab = EnforcerPlugin.EnforcerPlugin.tearGasProjectilePrefab;
+            this.endpointVisualizerPrefab = goodState.endpointVisualizerPrefab;
+            this.endpointVisualizerRadiusScale = 4f;
+            this.setFuse = false;
+            this.damageCoefficient = 0f;
+            this.baseMinimumDuration = 0.2f;
+            this.projectileBaseSpeed = 80;
 
             base.OnEnter();
+
+            base.PlayAnimation("Gesture, Override", "AimGrenade");
         }
 
         public override void FixedUpdate()
         {
             base.characterBody.SetAimTimer(0.25f);
             this.fixedAge += Time.fixedDeltaTime;
-
-            bool isShielded = base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff);
-            if (!isShielded) base.PlayAnimation("RightArm, Override", "FireRifle");
 
             bool flag = false;
 
@@ -53,16 +52,9 @@ namespace EntityStates.Enforcer
         {
             base.OnExit();
 
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
-            {
-                base.PlayAnimation("RightArm, Override", "FireShotgunShielded");
-            }
-            else
-            {
-                base.PlayAnimation("RightArm, Override", "FireShotgun");
-            }
+            base.PlayAnimation("Gesture, Override", "ThrowGrenade");
 
-            Util.PlaySound(EnforcerPlugin.Sounds.LaunchTearGas, base.gameObject);
+            Util.PlaySound(EnforcerPlugin.Sounds.NemesisGrenadeThrow, base.gameObject);
 
             base.AddRecoil(-2f * TearGas.bulletRecoil, -3f * TearGas.bulletRecoil, -1f * TearGas.bulletRecoil, 1f * TearGas.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * TearGas.bulletRecoil);

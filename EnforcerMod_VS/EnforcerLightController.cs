@@ -29,7 +29,7 @@ class EnforcerLightController : MonoBehaviour
         this.childLocator = this.gameObject.GetComponentInChildren<ChildLocator>();
         this.flashDuration = 0.5f;
 
-        this.lights = new Light[]
+        /*this.lights = new Light[]
         {
             this.childLocator.FindChild("TempLightL").GetComponentInChildren<Light>(),
             this.childLocator.FindChild("TempLightR").GetComponentInChildren<Light>()
@@ -78,7 +78,7 @@ class EnforcerLightController : MonoBehaviour
                     i.range *= 1.25f;
                 }
             }
-        }
+        }*/
     }
 
     private void FixedUpdate()
@@ -101,13 +101,13 @@ class EnforcerLightController : MonoBehaviour
         this.lightStopwatch -= Time.fixedDeltaTime;
         if (this.lightStopwatch <= 0.5f * this.flashDuration)
         {
-            if (this.lights.Length > 0)
+            /*if (this.lights.Length > 0)
             {
                 foreach (Light i in this.lights)
                 {
                     if (i) i.enabled = false;
                 }
-            }
+            }*/
 
             if (this.lightStopwatch <= 0)
             {
@@ -125,7 +125,7 @@ class EnforcerLightController : MonoBehaviour
     {
         if (!this.sex) this.InitLights();
 
-        if (this.lights != null)
+        /*if (this.lights != null)
         {
             if (this.lights.Length > 0)
             {
@@ -134,7 +134,7 @@ class EnforcerLightController : MonoBehaviour
                     if (i) i.enabled = true;
                 }
             }
-        }
+        }*/
     }
 
     public void FlashLights(int flashCount)

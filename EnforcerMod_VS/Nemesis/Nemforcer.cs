@@ -89,15 +89,15 @@ namespace EnforcerPlugin
 
             GameObject model = null;
 
-            if (index == 0) model = Assets.NemAssetBundle.LoadAsset<GameObject>("mdlNemforcer");
-            else if (index == 1) model = Assets.NemAssetBundle.LoadAsset<GameObject>("NemforcerDisplay");
+            if (index == 0) model = Assets.MainAssetBundle.LoadAsset<GameObject>("mdlNemforcer");
+            else if (index == 1) model = Assets.MainAssetBundle.LoadAsset<GameObject>("NemforcerDisplay");
 
             return GameObject.Instantiate(model);
         }
 
         private static void CreateDisplayPrefab()
         {
-            GameObject tempDisplay = Assets.NemAssetBundle.LoadAsset<GameObject>("NemforcerDisplay");
+            GameObject tempDisplay = Assets.MainAssetBundle.LoadAsset<GameObject>("NemforcerDisplay");
 
             ChildLocator childLocator = tempDisplay.GetComponent<ChildLocator>();
 
@@ -990,7 +990,7 @@ namespace EnforcerPlugin
             utilityDef1.requiredStock = 1;
             utilityDef1.shootDelay = 0f;
             utilityDef1.stockToConsume = 1;
-            utilityDef1.icon = Assets.icon3B;
+            utilityDef1.icon = Assets.nIcon3B;
             utilityDef1.skillDescriptionToken = "ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION";
             utilityDef1.skillName = "ENFORCER_UTILITY_STUNGRENADE_NAME";
             utilityDef1.skillNameToken = "ENFORCER_UTILITY_STUNGRENADE_NAME";
@@ -1087,7 +1087,7 @@ namespace EnforcerPlugin
             mySkillDef.requiredStock = 1;
             mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.testIcon;
+            mySkillDef.icon = Assets.nIcon3C;
             mySkillDef.skillDescriptionToken = "NEMFORCER_UTILITY_CRASH_DESCRIPTION";
             mySkillDef.skillName = "NEMFORCER_UTILITY_CRASH_NAME";
             mySkillDef.skillNameToken = "NEMFORCER_UTILITY_CRASH_NAME";
@@ -2409,7 +2409,7 @@ namespace EnforcerPlugin
             charBody.baseArmor = 20;
             charBody.levelArmor = 0;
             charBody.baseJumpCount = 6;
-            charBody.portraitIcon = Assets.NemAssetBundle.LoadAsset<Sprite>("texDededeIcon").texture;
+            charBody.portraitIcon = Assets.MainAssetBundle.LoadAsset<Sprite>("texDededeIcon").texture;
             charBody.isChampion = true;
             charBody.skinIndex = 0U;
 
