@@ -130,25 +130,51 @@ namespace EntityStates.Enforcer
                         {
                             TeamComponent component2 = healthComponent.GetComponent<TeamComponent>();
 
-                            bool flag = false;
+                            bool enemyTeam = component2.teamIndex != base.teamComponent.teamIndex;
+                            bool configKnockbackAllies = EnforcerPlugin.EnforcerPlugin.stupidShieldBash.Value && healthComponent != base.healthComponent;
 
-                            if (component2.teamIndex != base.teamComponent.teamIndex || (EnforcerPlugin.EnforcerPlugin.stupidShieldBash.Value && healthComponent != base.healthComponent)) flag = true;
+                            bool redirecting = false;
 
-                            if (flag)
+                            if (enemyTeam || configKnockbackAllies)
                             {
                                 Util.PlaySound(EnforcerPlugin.Sounds.BashHitEnemy, healthComponent.gameObject);
 
-                                var charb = healthComponent.body;
-                                if (charb)
+                                CharacterBody hitCharacterBody = healthComponent.body;
+                                if (hitCharacterBody)
                                 {
-                                    var motor = charb.GetComponent<CharacterMotor>();
-                                    var rb = charb.GetComponent<Rigidbody>();
+                                    //TODO: redirecting allies
+                                    //CharacterDirection hitCharacterDirection = hitCharacterBody.GetComponent<CharacterDirection>();
+
+                                    //if (hitCharacterDirection) {
+                                    //    hitCharacterDirection.forward = aimRay.direction;
+
+                                    //    AimAnimator hitAimAnimator = hitCharacterBody.modelLocator.modelTransform?.GetComponent<AimAnimator>();
+                                    //    if (hitAimAnimator) {
+                                    //        hitAimAnimator.AimImmediate();
+                                    //    }
+                                    //}
+
+                                    CharacterMotor hitCharacterMotor = hitCharacterBody.GetComponent<CharacterMotor>();
+                                    Rigidbody hitRigidbody = hitCharacterBody.GetComponent<Rigidbody>();
                                     Vector3 force = pushForce;
 
                                     float mass = 0f;
 
-                                    if (motor) mass = motor.mass;
-                                    else if (rb) mass = rb.mass;
+                                    if (hitCharacterMotor) {
+
+                                        mass = hitCharacterMotor.mass;
+
+                                        //TODO: redirecting allies
+                                        //if(hitCharacterMotor.velocity.magnitude > niggaspeed) {
+                                        //    redirectBody(hitCharacterMotor);
+                                        //    continue;
+                                        //}
+                                        //float vel = hitCharacterMotor.velocity.magnitude;
+                                        //hitCharacterMotor.velocity = aimRay.direction * vel;
+
+                                    } else if (hitRigidbody) {
+                                        mass = hitRigidbody.mass;
+                                    }
 
                                     if (mass <= 100f) mass = 100f;
                                     if (EnforcerPlugin.EnforcerPlugin.balancedShieldBash.Value && mass > 500f) mass = 500f; 
@@ -170,14 +196,17 @@ namespace EntityStates.Enforcer
                                         procCoefficient = 0
                                     };
 
-                                    charb.healthComponent.TakeDamageForce(info, true, true);
+                                    hitCharacterBody.healthComponent.TakeDamageForce(info, true, true);
                                 }
-
                             }
                         }
                     }
                 }
             }
+        }
+
+        private void redirectBody(CharacterMotor hitCharacterMotor) {
+
         }
 
         public override void OnExit()
