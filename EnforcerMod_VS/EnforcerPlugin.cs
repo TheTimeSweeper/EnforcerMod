@@ -344,7 +344,7 @@ namespace EnforcerPlugin
             Action awake = EnforcerPlugin.awake;
             if (awake == null)
             {
-                return;
+                return; 
             }
             awake();
         }
