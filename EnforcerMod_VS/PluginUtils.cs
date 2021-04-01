@@ -1,11 +1,8 @@
 ﻿using System;
-using R2API;
-using R2API.Utils;
 using RoR2;
 using RoR2.Skills;
 using UnityEngine;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace EnforcerPlugin {
     public class PluginUtils {
@@ -17,10 +14,10 @@ namespace EnforcerPlugin {
         /// <param name="skillTypes"></param>
         public static void RegisterSkillDef(SkillDef skillDef, params Type[] skillTypes) {
             for (int i = 0; i < skillTypes.Length; i++) {
-                LoadoutAPI.AddSkill(skillTypes[i]);
+                Modules.States.AddSkill(skillTypes[i]);
             }
 
-            LoadoutAPI.AddSkillDef(skillDef); 
+            Modules.States.AddSkillDef(skillDef); 
         }
 
         /// <summary>
@@ -28,11 +25,11 @@ namespace EnforcerPlugin {
         /// <param name="skillDef"></param>
         /// <param name="unlockableName"></param>
         /// <returns>Returns a new skill variant to add to your character's skill families</returns>
-        public static SkillFamily.Variant SetupSkillVariant(SkillDef skillDef, string unlockableName = "") {
+        public static SkillFamily.Variant SetupSkillVariant(SkillDef skillDef, UnlockableDef unlockableDef = null) {
 
             return new SkillFamily.Variant {
                 skillDef = skillDef,
-                unlockableName = unlockableName,
+                unlockableDef = unlockableDef,
                 viewableNode = new ViewablesCatalog.Node(skillDef.skillNameToken, false, null)
             };
             
@@ -59,7 +56,7 @@ namespace EnforcerPlugin {
             GenericSkill genericSkill = characterBodyObject.AddComponent<GenericSkill>();
 
             SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
-            LoadoutAPI.AddSkillFamily(newFamily);
+            Modules.States.AddSkillFamily(newFamily);
 
             genericSkill._skillFamily = newFamily;
             genericSkill.skillName = skillname;

@@ -55,7 +55,7 @@ namespace EntityStates.Enforcer
             this.animator = base.GetModelAnimator();
             bool grounded = base.characterMotor.isGrounded;
 
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff)) {
+            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) {
                 this.duration = HammerSwing.baseShieldDuration / this.attackSpeedStat;
                 this.damage = HammerSwing.shieldDamageCoefficient;
                 this.hitboxString = "HammerBig";
@@ -131,7 +131,8 @@ namespace EntityStates.Enforcer
                 this.FireAttack();
             }
 
-            if (base.fixedAge >= this.earlyExitDuration && base.inputBank.skill1.down && base.isAuthority) {
+            if (base.fixedAge >= this.earlyExitDuration && base.inputBank.skill1.down && base.isAuthority)
+            {
                 this.outer.SetNextState(new HammerSwing());
                 return;
             }
@@ -149,7 +150,7 @@ namespace EntityStates.Enforcer
             {
                 this.hasFired = true;
 
-                Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisSwing, base.gameObject, 0.25f + this.attackSpeedStat);
+                Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.NemesisSwing, base.gameObject, 0.25f + this.attackSpeedStat);
 
                 base.AddRecoil(-1f * HammerSwing.attackRecoil, -2f * HammerSwing.attackRecoil, -0.5f * HammerSwing.attackRecoil, 0.5f * HammerSwing.attackRecoil);
 

@@ -47,12 +47,19 @@ namespace EntityStates.Enforcer
             }
             this.hasFired = false;
 
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
+            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
             {
                 this.duration = this.baseShieldDuration / this.attackSpeedStat;
                 this.attackStopDuration = RiotShotgun.beefDurationShield / this.attackSpeedStat;
 
-                base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", 1.75f * this.duration);
+                if (base.characterMotor.isGrounded)
+                {
+                    base.PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", 0.5f * this.duration);
+                }
+                else
+                {
+                    base.PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", this.duration);
+                }
             }
             else
             {
@@ -87,11 +94,11 @@ namespace EntityStates.Enforcer
                 if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
                 if (this.isEngi) soundString = EnforcerPlugin.Sounds.FireBungusShotgun;
 
-                Util.PlayScaledSound(soundString, base.gameObject, this.attackSpeedStat);
+                Util.PlayAttackSpeedSound(soundString, base.gameObject, this.attackSpeedStat);
 
                 float recoil = RiotShotgun.bulletRecoil;
 
-                if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff)) recoil = RiotShotgun.shieldedBulletRecoil;
+                if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) recoil = RiotShotgun.shieldedBulletRecoil;
 
                 base.AddRecoil(-2f * recoil, -3f * recoil, -1f * recoil, 1f * recoil);
                 base.characterBody.AddSpreadBloom(0.33f * recoil);
@@ -112,7 +119,7 @@ namespace EntityStates.Enforcer
                     Ray aimRay = base.GetAimRay();
 
                     float spread = RiotShotgun.bulletSpread;
-                    if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots)) spread *= 0.5f;
+                    if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff)) spread *= 0.5f;
 
                     BulletAttack bulletAttack = new BulletAttack {
                         aimVector = aimRay.direction,
@@ -211,7 +218,7 @@ namespace EntityStates.Enforcer
             base.OnEnter();
             this.droppedShell = false;
 
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
+            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
             {
                 this.duration = SuperShotgun.baseShieldDuration / this.attackSpeedStat;
                 this.attackStopDuration = RiotShotgun.beefDurationShield / this.attackSpeedStat;
@@ -266,11 +273,11 @@ namespace EntityStates.Enforcer
                 if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
                 if (this.isEngi) soundString = EnforcerPlugin.Sounds.FireBungusSSG;
 
-                Util.PlayScaledSound(soundString, base.gameObject, this.attackSpeedStat);
+                Util.PlayAttackSpeedSound(soundString, base.gameObject, this.attackSpeedStat);
 
                 float recoil = RiotShotgun.bulletRecoil;
 
-                if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff)) recoil = RiotShotgun.shieldedBulletRecoil;
+                if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) recoil = RiotShotgun.shieldedBulletRecoil;
 
                 base.AddRecoil(-2f * recoil, -3f * recoil, -1f * recoil, 1f * recoil);
                 base.characterBody.AddSpreadBloom(0.33f * recoil);

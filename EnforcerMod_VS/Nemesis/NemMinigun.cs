@@ -202,7 +202,7 @@ namespace EntityStates.Nemforcer
         {
             base.OnEnter();
             this.duration = NemMinigunSpinDown.baseDuration / this.attackSpeedStat;
-            Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisMinigunSpinDown, base.gameObject, this.attackSpeedStat);
+            Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.NemesisMinigunSpinDown, base.gameObject, this.attackSpeedStat);
 
             spin = animator.GetFloat("Minigun.spinSpeed");
         }
@@ -232,7 +232,7 @@ namespace EntityStates.Nemforcer
         {
             base.OnEnter();
             this.duration = NemMinigunSpinUp.baseDuration / this.attackSpeedStat;
-            Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisMinigunSpinUp, base.gameObject, this.attackSpeedStat);
+            Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.NemesisMinigunSpinUp, base.gameObject, this.attackSpeedStat);
 
             if (this.muzzleTransform && MinigunSpinUp.chargeEffectPrefab)
             {
@@ -286,7 +286,7 @@ namespace EntityStates.Nemforcer
             this.muzzleTransform = base.FindModelChild("MinigunMuzzle");
             animator = base.GetModelAnimator();
 
-            if (NetworkServer.active) base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff);
+            if (NetworkServer.active) base.characterBody.AddBuff(EnforcerPlugin.Modules.Buffs.smallSlowBuff);
         }
 
         public override void FixedUpdate()
@@ -300,7 +300,7 @@ namespace EntityStates.Nemforcer
         {
             base.OnExit();
 
-            if (NetworkServer.active && base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff)) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff);
+            if (NetworkServer.active && base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.smallSlowBuff)) base.characterBody.RemoveBuff(EnforcerPlugin.Modules.Buffs.smallSlowBuff);
         }
 
         protected ref InputBankTest.ButtonState skillButtonState

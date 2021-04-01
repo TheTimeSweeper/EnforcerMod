@@ -33,7 +33,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("NEMFORCERBODY_MINECRAFT_SKIN_NAME", "Minecraft");
 
             #region DefaultSkin
-            LoadoutAPI.SkinDefInfo skinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            Skins.SkinDefInfo skinDefInfo = default(Skins.SkinDefInfo);
             skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             skinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             skinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
@@ -56,7 +56,7 @@ namespace EnforcerPlugin
             skinDefInfo.NameToken = "NEMFORCERBODY_DEFAULT_SKIN_NAME";
             skinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             skinDefInfo.RootObject = model;
-            skinDefInfo.UnlockableName = "";
+            skinDefInfo.UnlockableDef = null;
 
             CharacterModel.RendererInfo[] rendererInfos = skinDefInfo.RendererInfos;
             CharacterModel.RendererInfo[] array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -68,11 +68,11 @@ namespace EnforcerPlugin
 
             skinDefInfo.RendererInfos = array;
 
-            SkinDef defaultSkin = LoadoutAPI.CreateNewSkinDef(skinDefInfo);
+            SkinDef defaultSkin = Skins.CreateSkinDef(skinDefInfo);
             #endregion
 
             #region EnforcerSkin
-            LoadoutAPI.SkinDefInfo altSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            Skins.SkinDefInfo altSkinDefInfo = default(Skins.SkinDefInfo);
             altSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             altSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             altSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
@@ -96,7 +96,7 @@ namespace EnforcerPlugin
             altSkinDefInfo.NameToken = "NEMFORCERBODY_ENFORCER_SKIN_NAME";
             altSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             altSkinDefInfo.RootObject = model;
-            altSkinDefInfo.UnlockableName = "NEMFORCER_DOMINANCEUNLOCKABLE_REWARD_ID";
+            altSkinDefInfo.UnlockableDef = null;
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -107,11 +107,11 @@ namespace EnforcerPlugin
 
             altSkinDefInfo.RendererInfos = array;
 
-            SkinDef altSkin = LoadoutAPI.CreateNewSkinDef(altSkinDefInfo);
+            SkinDef altSkin = Skins.CreateSkinDef(altSkinDefInfo);
             #endregion
 
             #region ClassicSkin
-            LoadoutAPI.SkinDefInfo classicSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            Skins.SkinDefInfo classicSkinDefInfo = default(Skins.SkinDefInfo);
             classicSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             classicSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             classicSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
@@ -135,7 +135,7 @@ namespace EnforcerPlugin
             classicSkinDefInfo.NameToken = "NEMFORCERBODY_CLASSIC_SKIN_NAME";
             classicSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             classicSkinDefInfo.RootObject = model;
-            classicSkinDefInfo.UnlockableName = "NEMFORCER_MASTERYUNLOCKABLE_REWARD_ID";
+            classicSkinDefInfo.UnlockableDef = null;
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -146,11 +146,11 @@ namespace EnforcerPlugin
 
             classicSkinDefInfo.RendererInfos = array;
 
-            SkinDef classicSkin = LoadoutAPI.CreateNewSkinDef(classicSkinDefInfo);
+            SkinDef classicSkin = Skins.CreateSkinDef(classicSkinDefInfo);
             #endregion
 
             #region TyphoonSkin
-            LoadoutAPI.SkinDefInfo typhoonSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            Skins.SkinDefInfo typhoonSkinDefInfo = default(Skins.SkinDefInfo);
             typhoonSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             typhoonSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             typhoonSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
@@ -174,7 +174,7 @@ namespace EnforcerPlugin
             typhoonSkinDefInfo.NameToken = "NEMFORCERBODY_TYPHOON_SKIN_NAME";
             typhoonSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             typhoonSkinDefInfo.RootObject = model;
-            typhoonSkinDefInfo.UnlockableName = "NEMFORCER_TYPHOONUNLOCKABLE_REWARD_ID";
+            typhoonSkinDefInfo.UnlockableDef = null;
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -185,12 +185,12 @@ namespace EnforcerPlugin
 
             typhoonSkinDefInfo.RendererInfos = array;
 
-            SkinDef typhoonSkin = LoadoutAPI.CreateNewSkinDef(typhoonSkinDefInfo);
+            SkinDef typhoonSkin = Skins.CreateSkinDef(typhoonSkinDefInfo);
             ultraSkin = typhoonSkin;
             #endregion
 
             #region DripSkin
-            LoadoutAPI.SkinDefInfo dripSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            Skins.SkinDefInfo dripSkinDefInfo = default(Skins.SkinDefInfo);
             dripSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             dripSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             dripSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
@@ -214,7 +214,7 @@ namespace EnforcerPlugin
             dripSkinDefInfo.NameToken = "NEMFORCERBODY_DRIP_SKIN_NAME";
             dripSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             dripSkinDefInfo.RootObject = model;
-            dripSkinDefInfo.UnlockableName = "";
+            dripSkinDefInfo.UnlockableDef = null;
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -225,11 +225,11 @@ namespace EnforcerPlugin
 
             dripSkinDefInfo.RendererInfos = array;
 
-            SkinDef dripSkin = LoadoutAPI.CreateNewSkinDef(dripSkinDefInfo);
+            SkinDef dripSkin = Skins.CreateSkinDef(dripSkinDefInfo);
             #endregion
 
             #region DededeSkin
-            LoadoutAPI.SkinDefInfo dededeSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            Skins.SkinDefInfo dededeSkinDefInfo = default(Skins.SkinDefInfo);
             dededeSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             dededeSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             dededeSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
@@ -253,7 +253,7 @@ namespace EnforcerPlugin
             dededeSkinDefInfo.NameToken = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
             dededeSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             dededeSkinDefInfo.RootObject = model;
-            dededeSkinDefInfo.UnlockableName = "";
+            dededeSkinDefInfo.UnlockableDef = null;
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -264,11 +264,11 @@ namespace EnforcerPlugin
 
             dededeSkinDefInfo.RendererInfos = array;
 
-            SkinDef dededeSkin = LoadoutAPI.CreateNewSkinDef(dededeSkinDefInfo);
+            SkinDef dededeSkin = Skins.CreateSkinDef(dededeSkinDefInfo);
             #endregion
 
             #region DededeBossSkin
-            LoadoutAPI.SkinDefInfo dededeBossSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            Skins.SkinDefInfo dededeBossSkinDefInfo = default(Skins.SkinDefInfo);
             dededeBossSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             dededeBossSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             dededeBossSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
@@ -292,7 +292,7 @@ namespace EnforcerPlugin
             dededeBossSkinDefInfo.NameToken = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
             dededeBossSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             dededeBossSkinDefInfo.RootObject = model;
-            dededeBossSkinDefInfo.UnlockableName = "";
+            dededeBossSkinDefInfo.UnlockableDef = null;
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -303,11 +303,11 @@ namespace EnforcerPlugin
 
             dededeBossSkinDefInfo.RendererInfos = array;
 
-            dededeBossSkin = LoadoutAPI.CreateNewSkinDef(dededeBossSkinDefInfo);
+            dededeBossSkin = Skins.CreateSkinDef(dededeBossSkinDefInfo);
             #endregion
 
-            #region sneedSkin
-            LoadoutAPI.SkinDefInfo sneedSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            #region SneedSkin
+            Skins.SkinDefInfo sneedSkinDefInfo = default(Skins.SkinDefInfo);
             sneedSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             sneedSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             sneedSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
@@ -331,7 +331,7 @@ namespace EnforcerPlugin
             sneedSkinDefInfo.NameToken = "NEMFORCERBODY_SNEED_SKIN_NAME";
             sneedSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             sneedSkinDefInfo.RootObject = model;
-            sneedSkinDefInfo.UnlockableName = "";
+            sneedSkinDefInfo.UnlockableDef = null;
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -342,11 +342,11 @@ namespace EnforcerPlugin
 
             sneedSkinDefInfo.RendererInfos = array;
 
-            SkinDef sneedSkin = LoadoutAPI.CreateNewSkinDef(sneedSkinDefInfo);
+            SkinDef sneedSkin = Skins.CreateSkinDef(sneedSkinDefInfo);
             #endregion
 
             #region MinecraftSkin
-            LoadoutAPI.SkinDefInfo minecraftSkinDefInfo = default(LoadoutAPI.SkinDefInfo);
+            Skins.SkinDefInfo minecraftSkinDefInfo = default(Skins.SkinDefInfo);
             minecraftSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             minecraftSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             minecraftSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
@@ -370,7 +370,7 @@ namespace EnforcerPlugin
             minecraftSkinDefInfo.NameToken = "NEMFORCERBODY_MINECRAFT_SKIN_NAME";
             minecraftSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             minecraftSkinDefInfo.RootObject = model;
-            minecraftSkinDefInfo.UnlockableName = "";
+            minecraftSkinDefInfo.UnlockableDef = null;
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -381,7 +381,7 @@ namespace EnforcerPlugin
 
             minecraftSkinDefInfo.RendererInfos = array;
 
-            SkinDef minecraftSkin = LoadoutAPI.CreateNewSkinDef(minecraftSkinDefInfo);
+            SkinDef minecraftSkin = Skins.CreateSkinDef(minecraftSkinDefInfo);
             #endregion
 
             var skinDefs = new List<SkinDef>();

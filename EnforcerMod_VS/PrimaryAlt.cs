@@ -51,7 +51,7 @@ namespace EntityStates.Enforcer
             }
             this.hasFired = 0;
 
-            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+            if (base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff))
             {
                 this.bulletCount = 2 * FireBurstRifle.projectileCount;
             }
@@ -75,9 +75,9 @@ namespace EntityStates.Enforcer
 
                 base.AddRecoil(-2f * this.bulletRecoil, -3f * this.bulletRecoil, -1f * this.bulletRecoil, 1f * this.bulletRecoil);
                 base.characterBody.AddSpreadBloom(0.33f * this.bulletRecoil);
-                EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol.effectPrefab, base.gameObject, this.muzzleString, false);
+                EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, base.gameObject, this.muzzleString, false);
 
-                if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+                if (base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff))
                 {
                     base.PlayAnimation("RightArm, Override", "FireShotgunShielded", "FireShotgun.playbackRate", this.duration);
                 }
@@ -90,7 +90,7 @@ namespace EntityStates.Enforcer
                 if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterRifle;
                 if (this.isEngi) soundString = EnforcerPlugin.Sounds.FireBungusRifle;
 
-                Util.PlayScaledSound(soundString, base.gameObject, this.attackSpeedStat);
+                Util.PlayAttackSpeedSound(soundString, base.gameObject, this.attackSpeedStat);
 
                 if (base.isAuthority)
                 {

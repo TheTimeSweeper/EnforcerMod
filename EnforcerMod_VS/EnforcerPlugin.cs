@@ -32,14 +32,8 @@ namespace EnforcerPlugin
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
-        "SurvivorAPI",
-        "LoadoutAPI",
-        "BuffAPI",
         "LanguageAPI",
-        "SoundAPI",
-        "EffectAPI",
-        "UnlockablesAPI", 
-        "ResourcesAPI"
+        "SoundAPI"
     })]
 
     public class EnforcerPlugin : BaseUnityPlugin
@@ -49,11 +43,17 @@ namespace EnforcerPlugin
         public const string characterName = "Enforcer";
         public const string characterSubtitle = "Unwavering Bastion";
         public const string characterOutro = "..and so he left, unsure of his title as protector.";
+        public const string characterOutroFailure = "..and so he vanished, the planet's minorities finally at peace.";
         public const string characterLore = "\n<style=cMono>\"You don't have to do this.\"</style>\r\n\r\nThe words echoed in his head, yet he pushed forward. The pod was only a few steps away — he had a chance to leave — but something in his core kept him moving. He didn't know what it was, but he didn't question it. It was a natural force: the same force that always drove him to follow orders.\n\nThis time, however, it didn't seem so natural. There were no orders. The heavy trigger and its rhythmic thunder were his — and his alone.";
 
         public static EnforcerPlugin instance;
 
         public static bool nemesisEnabled = true;
+
+        internal static List<GameObject> bodyPrefabs = new List<GameObject>();
+        internal static List<GameObject> masterPrefabs = new List<GameObject>();
+        internal static List<GameObject> projectilePrefabs = new List<GameObject>();
+        internal static List<SurvivorDef> survivorDefs = new List<SurvivorDef>();
 
         //i didn't want this to be static considering we're using an instance now but it throws 23 errors if i remove the static modifier 
         //i'm not dealing with that
@@ -89,16 +89,6 @@ namespace EnforcerPlugin
         public static event Action start;
 
         public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
-
-        public static BuffIndex jackBoots;
-        public static BuffIndex energyShieldBuff;
-        public static BuffIndex minigunBuff;
-        public static BuffIndex skateboardBuff;
-        public static BuffIndex tearGasDebuff;
-        public static BuffIndex nemGasDebuff;
-        public static BuffIndex unusedDebuff;//accursed potion users be damned
-        public static BuffIndex tempSlowDebuff;
-        public static BuffIndex tempLargeSlowDebuff;
 
         public static SkillDef shieldDownDef;//skilldef used while shield is down
         public static SkillDef shieldUpDef;//skilldef used while shield is up
@@ -209,6 +199,7 @@ namespace EnforcerPlugin
         {
             //touch this all you want tho
             ConfigShit();
+            Modules.States.FixStates();
             Assets.PopulateAssets();
             MemeSetup();
             CreatePrefab();
@@ -247,42 +238,24 @@ namespace EnforcerPlugin
                 starstormInstalled = true;
             }
 
-            ItemDisplays.RegisterDisplays();
+            ItemDisplays.PopulateDisplays();
             Skins.RegisterSkins();
             Unlockables.RegisterUnlockables();
 
-            RegisterBuffs();
+            Modules.Buffs.RegisterBuffs();
             RegisterProjectile();
             CreateDoppelganger();
             CreateCrosshair();
 
             if (nemesisEnabled) new NemforcerPlugin().Init();
 
-            FixVanillaErrors();
-
             Hook();
+
+            new Modules.ContentPacks().CreateContentPack();
         }
 
         private void EnforcerPlugin_LoadStart()
         {
-            nemesisSpawnEffect = EntityStates.NullifierMonster.SpawnState.spawnEffectPrefab.InstantiateClone("NemesisSpawnEffect", false);
-            nemesisSpawnEffect.transform.localScale *= 0.5f;
-
-            if (!nemesisSpawnEffect.GetComponent<VFXAttributes>()) nemesisSpawnEffect.AddComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Always;
-            if (!nemesisSpawnEffect.GetComponent<EffectComponent>()) nemesisSpawnEffect.AddComponent<EffectComponent>().applyScale = true;
-            if (!nemesisSpawnEffect.GetComponent<NetworkIdentity>()) nemesisSpawnEffect.AddComponent<NetworkIdentity>();
-
-            EffectAPI.AddEffect(nemesisSpawnEffect);
-        }
-
-        private void FixVanillaErrors()
-        {
-            //HOPOO PLEASE
-            Resources.Load<GameObject>("Prefabs/Effects/DroneFlamethrowerEffect").AddComponent<EffectComponent>();
-            Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/FireMeatBallPool").AddComponent<EffectComponent>();
-            Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/LunarWispTrackingBombExp_Prf").AddComponent<EffectComponent>();
-            Resources.Load<GameObject>("Prefabs/Effects/LunarWispMinigunChargeUp").AddComponent<EffectComponent>();
-            Resources.Load<GameObject>("Prefabs/Effects/SiphonTetherHealing").AddComponent<EffectComponent>();
         }
 
         private void ConfigShit()
@@ -372,7 +345,7 @@ namespace EnforcerPlugin
             //On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnEnemyHit;
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
             On.RoR2.CharacterBody.Update += CharacterBody_Update;
-            On.RoR2.CharacterBody.OnLevelChanged += CharacterBody_OnLevelChanged;
+            On.RoR2.CharacterBody.OnLevelUp += CharacterBody_OnLevelChanged;
             On.RoR2.CharacterMaster.OnInventoryChanged += CharacterMaster_OnInventoryChanged;
             On.RoR2.BodyCatalog.SetBodyPrefabs += BodyCatalog_SetBodyPrefabs;
             On.RoR2.GlobalEventManager.OnCharacterDeath += GlobalEventManager_OnCharacterDeath;
@@ -384,7 +357,6 @@ namespace EnforcerPlugin
             //On.RoR2.UI.MainMenu.BaseMainMenuScreen.OnEnter += BaseMainMenuScreen_OnEnter;
             //On.RoR2.CharacterSelectBarController.ShouldDisplaySurvivor += CharacterSelectBarController_ShouldDisplaySurvivor;
             On.RoR2.CharacterSelectBarController.Start += CharacterSelectBarController_Start;
-            On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
             On.RoR2.MapZone.TryZoneStart += MapZone_TryZoneStart;
             On.RoR2.HealthComponent.Suicide += HealthComponent_Suicide;
             On.RoR2.TeleportOutController.OnStartClient += TeleportOutController_OnStartClient;
@@ -675,27 +647,27 @@ namespace EnforcerPlugin
 
             if (self)
             {
-                if (self.HasBuff(jackBoots))
+                if (self.HasBuff(Modules.Buffs.protectAndServeBuff))
                 {
                     self.armor += 10f;
                     self.moveSpeed *= 0.35f;
                     self.maxJumpCount = 0;
                 }
 
-                if (self.HasBuff(minigunBuff))
+                if (self.HasBuff(Modules.Buffs.minigunBuff))
                 {
                     self.armor += 60f;
                     self.moveSpeed *= 0.8f;
                 }
 
-                if (self.HasBuff(energyShieldBuff))
+                if (self.HasBuff(Modules.Buffs.energyShieldBuff))
                 {
                     self.maxJumpCount = 0;
                     self.armor += 40f;
                     self.moveSpeed *= 0.65f;
                 }
 
-                if (self.HasBuff(tearGasDebuff))
+                if (self.HasBuff(Modules.Buffs.impairedBuff))
                 {
                     self.maxJumpCount = 0;
                     self.armor -= 20f;
@@ -703,27 +675,19 @@ namespace EnforcerPlugin
                     self.attackSpeed *= 0.75f;
                 }
 
-                if (self.HasBuff(nemGasDebuff))
+                if (self.HasBuff(Modules.Buffs.nemImpairedBuff))
                 {
                     self.maxJumpCount = 0;
                     self.moveSpeed *= 0.25f;
                 }
 
-                if (self.HasBuff(unusedDebuff))
-                {
-                    self.maxJumpCount = 0;
-                    self.armor -= 8000f;
-                    self.moveSpeed = 0f;
-                    self.attackSpeed = 0.01f;
-                }
-
-                if (self.HasBuff(tempSlowDebuff))
+                if (self.HasBuff(Modules.Buffs.smallSlowBuff))
                 {
                     self.armor += 10f;
                     self.moveSpeed *= 0.7f;
                 }
 
-                if (self.HasBuff(tempLargeSlowDebuff))
+                if (self.HasBuff(Modules.Buffs.bigSlowBuff))
                 {
                     self.moveSpeed *= 0.2f;
                 }
@@ -745,7 +709,7 @@ namespace EnforcerPlugin
 
                     self.regen += regen;
 
-                    if (self.teamComponent.teamIndex == TeamIndex.Monster && self.HasBuff(BuffIndex.Bleeding)) self.regen = 0f;
+                    if (self.teamComponent.teamIndex == TeamIndex.Monster && (self.HasBuff(RoR2Content.Buffs.SuperBleed) || self.HasBuff(RoR2Content.Buffs.Bleeding))) self.regen = 0f;
                 }
             }
         }
@@ -778,7 +742,7 @@ namespace EnforcerPlugin
                     }
                     else if (self.inventory && useNeedlerCrosshair.Value)
                     {
-                        if (self.inventory.GetItemCount(ItemIndex.LunarPrimaryReplacement) > 0)
+                        if (self.inventory.GetItemCount(RoR2Content.Items.LunarPrimaryReplacement) > 0)
                         {
                             self.GetBody().crosshairPrefab = needlerCrosshair;
                         }
@@ -787,7 +751,7 @@ namespace EnforcerPlugin
             }
         }
 
-        private void CharacterBody_OnLevelChanged(On.RoR2.CharacterBody.orig_OnLevelChanged orig, CharacterBody self)
+        private void CharacterBody_OnLevelChanged(On.RoR2.CharacterBody.orig_OnLevelUp orig, CharacterBody self)
         {
             orig(self);
 
@@ -819,7 +783,7 @@ namespace EnforcerPlugin
 
                     if (cb.baseNameToken == "GOLEM_BODY_NAME" && GetShieldBlock(self, info, enforcerShield))
                     {
-                        blocked = self.body.HasBuff(jackBoots);
+                        blocked = self.body.HasBuff(Modules.Buffs.protectAndServeBuff);
 
                         if (enforcerShield != null)
                         {
@@ -952,44 +916,21 @@ namespace EnforcerPlugin
             return orig(self, survivorDef);
         }
 
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        private void UpdateBlackList()
+        private void CharacterSelectBarController_Start(On.RoR2.CharacterSelectBarController.orig_Start orig, CharacterSelectBarController self)
         {
-            bool unlocked = SurvivorCatalog.SurvivorIsUnlockedOnThisClient(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"));
-            if (unlocked) 
+            string bodyName = NemforcerPlugin.characterPrefab.GetComponent<CharacterBody>().baseNameToken;
+            bool unlocked = SurvivorCatalog.SurvivorIsUnlockedOnThisClient(SurvivorCatalog.FindSurvivorIndex(bodyName));
+            if (unlocked)
             {
-                if (ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Contains<SurvivorIndex>(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME")))
-                {
-                    ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Remove(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"));
-                }
+                SurvivorCatalog.FindSurvivorDefFromBody(characterPrefab).hidden = true;
             }
             else
             {
-                if (!ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Contains(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"))) {
-                    ScrollableLobbyUI.CharacterSelectBarControllerReplacement.SurvivorBlacklist.Add(SurvivorCatalog.FindSurvivorIndex("NEMFORCER_NAME"));
-                }
+                SurvivorCatalog.FindSurvivorDefFromBody(characterPrefab).hidden = false;
             }
-        }
 
-        private void CharacterSelectBarController_Start(On.RoR2.CharacterSelectBarController.orig_Start orig, CharacterSelectBarController self) {
-            if (EnforcerPlugin.scrollableLobbyInstalled) {
-                UpdateBlackList();
-            }
             orig(self);
-        }
 
-        private void SurvivorIconController_Rebuild(On.RoR2.UI.SurvivorIconController.orig_Rebuild orig, SurvivorIconController self)
-        {
-            if (!EnforcerPlugin.scrollableLobbyInstalled)
-            {
-                if (SurvivorCatalog.GetSurvivorDef(self.survivorIndex).bodyPrefab == NemforcerPlugin.characterPrefab)
-                {
-                    if (!SurvivorCatalog.SurvivorIsUnlockedOnThisClient(self.survivorIndex))
-                    {
-                        Destroy(self.gameObject);
-                    }
-                }
-            }
             orig(self);
         }
 
@@ -1185,7 +1126,6 @@ namespace EnforcerPlugin
             characterDirection.turnSpeed = 720f;
 
             CharacterBody bodyComponent = characterPrefab.GetComponent<CharacterBody>();
-            bodyComponent.bodyIndex = -1;
             bodyComponent.name = "EnforcerBody";
             bodyComponent.baseNameToken = "ENFORCER_NAME";
             bodyComponent.subtitleNameToken = "ENFORCER_SUBTITLE";
@@ -1222,8 +1162,9 @@ namespace EnforcerPlugin
             bodyComponent.isChampion = false;
             bodyComponent.currentVehicle = null;
             bodyComponent.skinIndex = 0U;
+            bodyComponent.bodyColor = characterColor;
 
-            LoadoutAPI.AddSkill(typeof(EnforcerMain));
+            Modules.States.AddSkill(typeof(EnforcerMain));
 
             var stateMachine = bodyComponent.GetComponent<EntityStateMachine>();
             stateMachine.mainStateType = new SerializableEntityStateType(typeof(EnforcerMain));
@@ -1323,6 +1264,8 @@ namespace EnforcerPlugin
             characterModel.autoPopulateLightInfos = true;
             characterModel.invisibilityCount = 0;
             characterModel.temporaryOverlays = new List<TemporaryOverlay>();
+
+            characterModel.mainSkinnedMeshRenderer = childLocator.FindChild("Model").gameObject.GetComponent<SkinnedMeshRenderer>();
 
             //fuck man
             childLocator.FindChild("Head").transform.localScale = Vector3.one * headSize.Value;
@@ -1534,145 +1477,18 @@ namespace EnforcerPlugin
             //LanguageAPI.Add("ENFORCER_LORE", "I'M FUCKING INVINCIBLE");
             LanguageAPI.Add("ENFORCER_LORE", characterLore);
             LanguageAPI.Add("ENFORCER_OUTRO_FLAVOR", outro);
+            LanguageAPI.Add("ENFORCER_OUTRO_FAILURE", characterOutroFailure);
 
             characterDisplay.AddComponent<NetworkIdentity>();
 
-            string unlockString = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
-            if (forceUnlock.Value) unlockString = "";
+            //string unlockString = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
+            //if (forceUnlock.Value) unlockString = "";
 
-            SurvivorDef survivorDef = new SurvivorDef
-            {
-                name = "ENFORCER_NAME",
-                unlockableName = unlockString,
-                descriptionToken = "ENFORCER_DESCRIPTION",
-                primaryColor = characterColor,
-                bodyPrefab = characterPrefab,
-                displayPrefab = characterDisplay,
-                outroFlavorToken = "ENFORCER_OUTRO_FLAVOR"
-            };
-
-
-            SurvivorAPI.AddSurvivor(survivorDef);
+            Modules.Survivors.RegisterNewSurvivor(characterPrefab, characterDisplay, "ENFORCER");
 
             SkillSetup();
 
-            BodyCatalog.getAdditionalEntries += delegate (List<GameObject> list) 
-            {
-                list.Add(characterPrefab);
-            };
-
-            characterPrefab.tag = "Player";
-        }
-
-        private void RegisterBuffs()
-        {
-            BuffDef jackBootsDef = new BuffDef
-            {
-                name = "Heavyweight",
-                iconPath = "@Enforcer:Assets/Enforcer/Enforcer/Icons/texBuffProtectAndServe.png",
-                buffColor = characterColor,
-                canStack = false,
-                isDebuff = false,
-                eliteIndex = EliteIndex.None
-            };
-            CustomBuff jackBoots = new CustomBuff(jackBootsDef);
-            EnforcerPlugin.jackBoots = BuffAPI.Add(jackBoots);
-
-            BuffDef energyShieldBuffDef = new BuffDef
-            {
-                name = "Heavyweight",
-                iconPath = "@Enforcer:Assets/Enforcer/Enforcer/Icons/texBuffProtectAndServe.png",
-                buffColor = characterColor,
-                canStack = false,
-                isDebuff = false,
-                eliteIndex = EliteIndex.None
-            };
-            CustomBuff energyShieldBuff = new CustomBuff(energyShieldBuffDef);
-            EnforcerPlugin.energyShieldBuff = BuffAPI.Add(energyShieldBuff);
-
-            BuffDef tearGasDef = new BuffDef
-            {
-                name = "TearGasDebuff",
-                iconPath = "Textures/BuffIcons/texBuffCloakIcon",
-                buffColor = Color.grey,
-                canStack = false,
-                isDebuff = true,
-                eliteIndex = EliteIndex.None
-            };
-            CustomBuff tearGas = new CustomBuff(tearGasDef);
-            EnforcerPlugin.tearGasDebuff = BuffAPI.Add(tearGas);
-
-            BuffDef nemGasDef = new BuffDef
-            {
-                name = "CorrosiveGasDebuff",
-                iconPath = "Textures/BuffIcons/texBuffSlow50Icon",
-                buffColor = new Color(1, 0.7176f, 0.1725f),
-                canStack = false,
-                isDebuff = true,
-                eliteIndex = EliteIndex.None
-            };
-            CustomBuff nemGas = new CustomBuff(nemGasDef);
-            EnforcerPlugin.nemGasDebuff = BuffAPI.Add(nemGas);
-
-            BuffDef minigunBuffDef = new BuffDef
-            {
-                name = "HeavyweightV2",
-                iconPath = "@Enforcer:Assets/Enforcer/Enforcer/Icons/texBuffMinigun.png",
-                buffColor = new Color(1, 0.7176f, 0.1725f),
-                canStack = false,
-                isDebuff = false,
-                eliteIndex = EliteIndex.None
-            };
-            CustomBuff minigunBuff = new CustomBuff(minigunBuffDef);
-            EnforcerPlugin.minigunBuff = BuffAPI.Add(minigunBuff);
-
-            BuffDef skateBuffDef = new BuffDef
-            {
-                name = "Skateboard",
-                iconPath = "Textures/BuffIcons/texMovespeedBuffIcon",
-                buffColor = characterColor,
-                canStack = false,
-                isDebuff = false,
-                eliteIndex = EliteIndex.None
-            };
-            CustomBuff skateBuff = new CustomBuff(skateBuffDef);
-            EnforcerPlugin.skateboardBuff = BuffAPI.Add(skateBuff);
-
-            BuffDef unusedDebuffDef = new BuffDef
-            {
-                name = "Fuck you",
-                iconPath = "Textures/BuffIcons/texBuffCloakIcon",
-                buffColor = Color.black,
-                canStack = false,
-                isDebuff = true,
-                eliteIndex = EliteIndex.None
-            };
-            CustomBuff unusedDebuff = new CustomBuff(unusedDebuffDef);
-            EnforcerPlugin.unusedDebuff = BuffAPI.Add(unusedDebuff);
-
-            BuffDef tempSlowDebuffDef = new BuffDef
-            {
-                name = "Fuck you too",
-                iconPath = "Textures/BuffIcons/texBuffSlow50Icon",
-                buffColor = new Color(0.647f, 0.168f, 0.184f),
-                canStack = false,
-                isDebuff = true,
-                eliteIndex = EliteIndex.None
-            };
-            CustomBuff tempSlowDebuff = new CustomBuff(tempSlowDebuffDef);
-            EnforcerPlugin.tempSlowDebuff = BuffAPI.Add(tempSlowDebuff);
-
-            BuffDef tempLargeSlowDebuffDef = new BuffDef
-            {
-                name = "Fuck you x3",
-                iconPath = "Textures/BuffIcons/texBuffSlow50Icon",
-                buffColor = new Color(0.65f, 0.078f, 0.078f),
-                canStack = false,
-                isDebuff = true,
-                eliteIndex = EliteIndex.None
-            };
-            CustomBuff tempLargeSlowDebuff = new CustomBuff(tempLargeSlowDebuffDef);
-            EnforcerPlugin.tempLargeSlowDebuff = BuffAPI.Add(tempLargeSlowDebuff);
+            bodyPrefabs.Add(characterPrefab);
         }
 
         private void RegisterProjectile()
@@ -1800,7 +1616,7 @@ namespace EnforcerPlugin
             buffWard.radius = 18;
             buffWard.interval = 1;
             buffWard.rangeIndicator = null;
-            buffWard.buffType = tearGasDebuff;
+            buffWard.buffDef = Modules.Buffs.impairedBuff;
             buffWard.buffDuration = 1.5f;
             buffWard.floorWard = false;
             buffWard.expires = false;
@@ -1900,7 +1716,7 @@ namespace EnforcerPlugin
             buffWard2.radius = 18;
             buffWard2.interval = 1;
             buffWard2.rangeIndicator = null;
-            buffWard2.buffType = tearGasDebuff;
+            buffWard2.buffDef = Modules.Buffs.impairedBuff;
             buffWard2.buffDuration = 1.5f;
             buffWard2.floorWard = false;
             buffWard2.expires = false;
@@ -2000,25 +1816,22 @@ namespace EnforcerPlugin
             //Transform nova = hammerSlamEffect.transform.Find("Nova Sphere");
             //if(nova) nova.localScale = new Vector3(8, 8, 8);
 
-            if (!hammerSlamEffect.GetComponent<NetworkIdentity>()) hammerSlamEffect.AddComponent<NetworkIdentity>();  
+            if (!hammerSlamEffect.GetComponent<NetworkIdentity>()) hammerSlamEffect.AddComponent<NetworkIdentity>();
 
-            ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list) 
-            {
-                list.Add(tearGasProjectilePrefab);
-                list.Add(damageGasProjectile);
-                list.Add(tearGasPrefab);
-                list.Add(damageGasEffect);
-                list.Add(stunGrenade);
-                list.Add(shockGrenade);
-            };
+            projectilePrefabs.Add(tearGasProjectilePrefab);
+            projectilePrefabs.Add(damageGasProjectile);
+            projectilePrefabs.Add(tearGasPrefab);
+            projectilePrefabs.Add(damageGasEffect);
+            projectilePrefabs.Add(stunGrenade);
+            projectilePrefabs.Add(shockGrenade);
 
-            EffectAPI.AddEffect(bulletTracer);
-            EffectAPI.AddEffect(bulletTracerSSG);
-            EffectAPI.AddEffect(laserTracer);
-            EffectAPI.AddEffect(minigunTracer);
-            EffectAPI.AddEffect(blockEffectPrefab);
-            EffectAPI.AddEffect(heavyBlockEffectPrefab);
-            EffectAPI.AddEffect(hammerSlamEffect);
+            Modules.Effects.AddEffect(bulletTracer);
+            Modules.Effects.AddEffect(bulletTracerSSG);
+            Modules.Effects.AddEffect(laserTracer);
+            Modules.Effects.AddEffect(minigunTracer);
+            Modules.Effects.AddEffect(blockEffectPrefab);
+            Modules.Effects.AddEffect(heavyBlockEffectPrefab);
+            Modules.Effects.AddEffect(hammerSlamEffect);
         }
 
         private void CreateCrosshair()
@@ -2259,10 +2072,7 @@ namespace EnforcerPlugin
             followDriver.maxUserHealthFraction = Mathf.Infinity;
             followDriver.skillSlot = SkillSlot.None;
 
-            MasterCatalog.getAdditionalEntries += delegate (List<GameObject> list) 
-            {
-                list.Add(doppelganger);
-            };
+            masterPrefabs.Add(doppelganger);
 
             CharacterMaster master = doppelganger.GetComponent<CharacterMaster>();
             master.bodyPrefab = characterPrefab;
@@ -2299,24 +2109,25 @@ namespace EnforcerPlugin
 
             SkillDef primaryDef2 = PrimarySkillDef_SuperShotgun();
             PluginUtils.RegisterSkillDef(primaryDef2, typeof(SuperShotgun));
-            SkillFamily.Variant primaryVariant2 = PluginUtils.SetupSkillVariant(primaryDef2, "ENFORCER_SHOTGUNUNLOCKABLE_REWARD_ID");
+            SkillFamily.Variant primaryVariant2 = PluginUtils.SetupSkillVariant(primaryDef2, null);
 
             SkillDef primaryDef3 = PrimarySkillDef_AssaultRifle();
             PluginUtils.RegisterSkillDef(primaryDef3, typeof(FireBurstRifle));
-            SkillFamily.Variant primaryVariant3 = PluginUtils.SetupSkillVariant(primaryDef3, "ENFORCER_RIFLEUNLOCKABLE_REWARD_ID");
+            SkillFamily.Variant primaryVariant3 = PluginUtils.SetupSkillVariant(primaryDef3, null);
 
             skillLocator.primary = PluginUtils.RegisterSkillsToFamily(characterPrefab, primaryVariant1, primaryVariant2, primaryVariant3);
-            primarySkillChangeDefs = new List<SkillDef> { primaryDef1, primaryDef2, primaryDef3 };
+            primarySkillChangeDefs = new List<SkillDef> { primaryDef1};
+            //primarySkillChangeDefs = new List<SkillDef> { primaryDef1, primaryDef2, primaryDef3 };
 
             //cursed
-            SkillDef primaryDef4 = PrimarySkillDef_Hammer();
-            PluginUtils.RegisterSkillDef(primaryDef4, typeof(HammerSwing));
-            SkillFamily.Variant primaryVariant4 = PluginUtils.SetupSkillVariant(primaryDef4);
+            //SkillDef primaryDef4 = PrimarySkillDef_Hammer();
+            //PluginUtils.RegisterSkillDef(primaryDef4, typeof(HammerSwing));
+            //SkillFamily.Variant primaryVariant4 = PluginUtils.SetupSkillVariant(primaryDef4);
 
             if (cursed.Value)
             {
-                PluginUtils.RegisterAdditionalSkills(skillLocator.primary, primaryVariant4);
-                primarySkillChangeDefs.Add(primaryDef4);
+                //PluginUtils.RegisterAdditionalSkills(skillLocator.primary, primaryVariant4);
+                //primarySkillChangeDefs.Add(primaryDef4);
             }
         }
 
@@ -2336,7 +2147,7 @@ namespace EnforcerPlugin
 
             SkillDef utilityDef2 = UtilitySkillDef_StunGrenade();
             PluginUtils.RegisterSkillDef(utilityDef2, typeof(StunGrenade));
-            SkillFamily.Variant utilityVariant2 = PluginUtils.SetupSkillVariant(utilityDef2, "ENFORCER_STUNGRENADEUNLOCKABLE_REWARD_ID");
+            SkillFamily.Variant utilityVariant2 = PluginUtils.SetupSkillVariant(utilityDef2, null);
 
             skillLocator.utility = PluginUtils.RegisterSkillsToFamily(characterPrefab, utilityVariant1, utilityVariant2);
         }
@@ -2379,9 +2190,9 @@ namespace EnforcerPlugin
 
             if (cursed.Value)
             {
-                PluginUtils.RegisterAdditionalSkills(skillLocator.special, specialVariant3);
-                specialSkillChangeDefs.Add(specialDef2);
-                specialSkillChangeDefs.Add(specialDef3);
+                //PluginUtils.RegisterAdditionalSkills(skillLocator.special, specialVariant3);
+                //specialSkillChangeDefs.Add(specialDef2);
+                //specialSkillChangeDefs.Add(specialDef3);
             }
         }
 
@@ -2402,13 +2213,12 @@ namespace EnforcerPlugin
             skillDefRiotShotgun.canceledFromSprinting = false;
             skillDefRiotShotgun.fullRestockOnAssign = true;
             skillDefRiotShotgun.interruptPriority = InterruptPriority.Any;
-            skillDefRiotShotgun.isBullets = false;
+            skillDefRiotShotgun.resetCooldownTimerOnUse = false;
             skillDefRiotShotgun.isCombatSkill = true;
             skillDefRiotShotgun.mustKeyPress = false;
-            skillDefRiotShotgun.noSprint = true;
+            skillDefRiotShotgun.cancelSprintingOnActivation = true;
             skillDefRiotShotgun.rechargeStock = 1;
             skillDefRiotShotgun.requiredStock = 1;
-            skillDefRiotShotgun.shootDelay = 0f;
             skillDefRiotShotgun.stockToConsume = 1;
             skillDefRiotShotgun.icon = Assets.icon1;
             skillDefRiotShotgun.skillDescriptionToken = "ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION";
@@ -2434,13 +2244,12 @@ namespace EnforcerPlugin
             skillDefSuperShotgun.canceledFromSprinting = false;
             skillDefSuperShotgun.fullRestockOnAssign = true;
             skillDefSuperShotgun.interruptPriority = InterruptPriority.Any;
-            skillDefSuperShotgun.isBullets = false;
+            skillDefSuperShotgun.resetCooldownTimerOnUse = false;
             skillDefSuperShotgun.isCombatSkill = true;
             skillDefSuperShotgun.mustKeyPress = false;
-            skillDefSuperShotgun.noSprint = true;
+            skillDefSuperShotgun.cancelSprintingOnActivation = true;
             skillDefSuperShotgun.rechargeStock = 1;
             skillDefSuperShotgun.requiredStock = 1;
-            skillDefSuperShotgun.shootDelay = 0f;
             skillDefSuperShotgun.stockToConsume = 1;
             skillDefSuperShotgun.icon = Assets.icon1B;
             skillDefSuperShotgun.skillDescriptionToken = "ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION";
@@ -2467,13 +2276,12 @@ namespace EnforcerPlugin
             skillDefAssaultRifle.canceledFromSprinting = false;
             skillDefAssaultRifle.fullRestockOnAssign = true;
             skillDefAssaultRifle.interruptPriority = InterruptPriority.Any;
-            skillDefAssaultRifle.isBullets = false;
+            skillDefAssaultRifle.resetCooldownTimerOnUse = false;
             skillDefAssaultRifle.isCombatSkill = true;
             skillDefAssaultRifle.mustKeyPress = false;
-            skillDefAssaultRifle.noSprint = true;
+            skillDefAssaultRifle.cancelSprintingOnActivation = true;
             skillDefAssaultRifle.rechargeStock = 1;
             skillDefAssaultRifle.requiredStock = 1;
-            skillDefAssaultRifle.shootDelay = 0f;
             skillDefAssaultRifle.stockToConsume = 1;
             skillDefAssaultRifle.icon = Assets.icon1C;
             skillDefAssaultRifle.skillDescriptionToken = "ENFORCER_PRIMARY_RIFLE_DESCRIPTION";
@@ -2501,13 +2309,12 @@ namespace EnforcerPlugin
             skillDefHammer.canceledFromSprinting = false;
             skillDefHammer.fullRestockOnAssign = true;
             skillDefHammer.interruptPriority = InterruptPriority.Any;
-            skillDefHammer.isBullets = false;
+            skillDefHammer.resetCooldownTimerOnUse = false;
             skillDefHammer.isCombatSkill = true;
             skillDefHammer.mustKeyPress = false;
-            skillDefHammer.noSprint = true;
+            skillDefHammer.cancelSprintingOnActivation = true;
             skillDefHammer.rechargeStock = 1;
             skillDefHammer.requiredStock = 1;
-            skillDefHammer.shootDelay = 0f;
             skillDefHammer.stockToConsume = 1;
             skillDefHammer.icon = Assets.icon1D;
             skillDefHammer.skillDescriptionToken = "ENFORCER_PRIMARY_HAMMER_DESCRIPTION";
@@ -2536,13 +2343,12 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Skill;
-            mySkillDef.isBullets = false;
+            mySkillDef.resetCooldownTimerOnUse = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = false;
-            mySkillDef.noSprint = false;
+            mySkillDef.cancelSprintingOnActivation = false;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
-            mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
             mySkillDef.icon = Assets.icon2;
             mySkillDef.skillDescriptionToken = "ENFORCER_SECONDARY_BASH_DESCRIPTION";
@@ -2572,13 +2378,12 @@ namespace EnforcerPlugin
             tearGasDef.canceledFromSprinting = false;
             tearGasDef.fullRestockOnAssign = true;
             tearGasDef.interruptPriority = InterruptPriority.Skill;
-            tearGasDef.isBullets = false;
+            tearGasDef.resetCooldownTimerOnUse = false;
             tearGasDef.isCombatSkill = true;
             tearGasDef.mustKeyPress = true;
-            tearGasDef.noSprint = true;
+            tearGasDef.cancelSprintingOnActivation = true;
             tearGasDef.rechargeStock = 1;
             tearGasDef.requiredStock = 1;
-            tearGasDef.shootDelay = 0f;
             tearGasDef.stockToConsume = 1;
             tearGasDef.icon = Assets.icon3;
             tearGasDef.skillDescriptionToken = "ENFORCER_UTILITY_TEARGAS_DESCRIPTION";
@@ -2605,13 +2410,12 @@ namespace EnforcerPlugin
             stunGrenadeDef.canceledFromSprinting = false;
             stunGrenadeDef.fullRestockOnAssign = true;
             stunGrenadeDef.interruptPriority = InterruptPriority.Skill;
-            stunGrenadeDef.isBullets = false;
+            stunGrenadeDef.resetCooldownTimerOnUse = false;
             stunGrenadeDef.isCombatSkill = true;
             stunGrenadeDef.mustKeyPress = false;
-            stunGrenadeDef.noSprint = true;
+            stunGrenadeDef.cancelSprintingOnActivation = true;
             stunGrenadeDef.rechargeStock = 1;
             stunGrenadeDef.requiredStock = 1;
-            stunGrenadeDef.shootDelay = 0f;
             stunGrenadeDef.stockToConsume = 1;
             stunGrenadeDef.icon = Assets.icon3B;
             stunGrenadeDef.skillDescriptionToken = "ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION";
@@ -2638,13 +2442,12 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.PrioritySkill;
-            mySkillDef.isBullets = false;
+            mySkillDef.resetCooldownTimerOnUse = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = true;
-            mySkillDef.noSprint = true;
+            mySkillDef.cancelSprintingOnActivation = true;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
-            mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
             mySkillDef.icon = Assets.icon4;
             mySkillDef.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION";
@@ -2667,13 +2470,12 @@ namespace EnforcerPlugin
             mySkillDef2.canceledFromSprinting = false;
             mySkillDef2.fullRestockOnAssign = true;
             mySkillDef2.interruptPriority = InterruptPriority.PrioritySkill;
-            mySkillDef2.isBullets = false;
+            mySkillDef2.resetCooldownTimerOnUse = false;
             mySkillDef2.isCombatSkill = true;
             mySkillDef2.mustKeyPress = true;
-            mySkillDef2.noSprint = false;
+            mySkillDef2.cancelSprintingOnActivation = false;
             mySkillDef2.rechargeStock = 1;
             mySkillDef2.requiredStock = 1;
-            mySkillDef2.shootDelay = 0f;
             mySkillDef2.stockToConsume = 1;
             mySkillDef2.icon = Assets.icon4B;
             mySkillDef2.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDDOWN_DESCRIPTION";
@@ -2697,13 +2499,12 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.PrioritySkill;
-            mySkillDef.isBullets = false;
+            mySkillDef.resetCooldownTimerOnUse = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = true;
-            mySkillDef.noSprint = true;
+            mySkillDef.cancelSprintingOnActivation = true;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
-            mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
             mySkillDef.icon = Assets.testIcon;
             mySkillDef.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDON_DESCRIPTION";
@@ -2726,13 +2527,12 @@ namespace EnforcerPlugin
             mySkillDef2.canceledFromSprinting = false;
             mySkillDef2.fullRestockOnAssign = true;
             mySkillDef2.interruptPriority = InterruptPriority.PrioritySkill;
-            mySkillDef2.isBullets = false;
+            mySkillDef2.resetCooldownTimerOnUse = false;
             mySkillDef2.isCombatSkill = true;
             mySkillDef2.mustKeyPress = true;
-            mySkillDef2.noSprint = false;
+            mySkillDef2.cancelSprintingOnActivation = false;
             mySkillDef2.rechargeStock = 1;
             mySkillDef2.requiredStock = 1;
-            mySkillDef2.shootDelay = 0f;
             mySkillDef2.stockToConsume = 1;
             mySkillDef2.icon = Assets.testIcon;
             mySkillDef2.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDOFF_DESCRIPTION";
@@ -2756,13 +2556,12 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.PrioritySkill;
-            mySkillDef.isBullets = false;
+            mySkillDef.resetCooldownTimerOnUse = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = true;
-            mySkillDef.noSprint = true;
+            mySkillDef.cancelSprintingOnActivation = true;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
-            mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
             mySkillDef.icon = Assets.icon4C;
             mySkillDef.skillDescriptionToken = "ENFORCER_SPECIAL_BOARDUP_DESCRIPTION";
@@ -2785,13 +2584,12 @@ namespace EnforcerPlugin
             mySkillDef2.canceledFromSprinting = false;
             mySkillDef2.fullRestockOnAssign = true;
             mySkillDef2.interruptPriority = InterruptPriority.PrioritySkill;
-            mySkillDef2.isBullets = false;
+            mySkillDef2.resetCooldownTimerOnUse = false;
             mySkillDef2.isCombatSkill = true;
             mySkillDef2.mustKeyPress = true;
-            mySkillDef2.noSprint = false;
+            mySkillDef2.cancelSprintingOnActivation = false;
             mySkillDef2.rechargeStock = 1;
             mySkillDef2.requiredStock = 1;
-            mySkillDef2.shootDelay = 0f;
             mySkillDef2.stockToConsume = 1;
             mySkillDef2.icon = Assets.icon4D;
             mySkillDef2.skillDescriptionToken = "ENFORCER_SPECIAL_BOARDDOWN_DESCRIPTION";
@@ -2804,7 +2602,7 @@ namespace EnforcerPlugin
 
         private void ScepterSkillSetup()
         {
-            LoadoutAPI.AddSkill(typeof(AimDamageGas));
+            Modules.States.AddSkill(typeof(AimDamageGas));
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_NAME", "Mustard Gas");
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_DESCRIPTION", "Launch a grenade that explodes into a cloud of <style=cIsDamage>mustard gas</style> that leaves enemies <style=cIsDamage>Impaired</style>, deals <style=cIsDamage>200% damage per second</style> and lasts for <style=cIsDamage>16 seconds</style>.");
@@ -2818,13 +2616,12 @@ namespace EnforcerPlugin
             tearGasScepterDef.canceledFromSprinting = false;
             tearGasScepterDef.fullRestockOnAssign = true;
             tearGasScepterDef.interruptPriority = InterruptPriority.Skill;
-            tearGasScepterDef.isBullets = false;
+            tearGasScepterDef.resetCooldownTimerOnUse = false;
             tearGasScepterDef.isCombatSkill = true;
             tearGasScepterDef.mustKeyPress = true;
-            tearGasScepterDef.noSprint = true;
+            tearGasScepterDef.cancelSprintingOnActivation = true;
             tearGasScepterDef.rechargeStock = 1;
             tearGasScepterDef.requiredStock = 1;
-            tearGasScepterDef.shootDelay = 0f;
             tearGasScepterDef.stockToConsume = 1;
             tearGasScepterDef.icon = Assets.icon3S;
             tearGasScepterDef.skillDescriptionToken = "ENFORCER_UTILITY_TEARGASSCEPTER_DESCRIPTION";
@@ -2834,9 +2631,9 @@ namespace EnforcerPlugin
                 "KEYWORD_BLINDED"
             };
 
-            LoadoutAPI.AddSkillDef(tearGasScepterDef);
+            Modules.States.AddSkillDef(tearGasScepterDef);
 
-            LoadoutAPI.AddSkill(typeof(ShockGrenade));
+            Modules.States.AddSkill(typeof(ShockGrenade));
 
             LanguageAPI.Add("ENFORCER_UTILITY_SHOCKGRENADE_NAME", "Shock Grenade");
             LanguageAPI.Add("ENFORCER_UTILITY_SHOCKGRENADE_DESCRIPTION", "<style=cIsDamage>Shocking</style>. Launch a shock grenade that releases a pulse of electrical energy on impact, dealing <style=cIsDamage>" + 100f * ShockGrenade.damageCoefficient + "% damage</style>. <style=cIsUtility>Store up to 3 grenades</style>.");
@@ -2850,13 +2647,12 @@ namespace EnforcerPlugin
             shockGrenadeDef.canceledFromSprinting = false;
             shockGrenadeDef.fullRestockOnAssign = true;
             shockGrenadeDef.interruptPriority = InterruptPriority.Skill;
-            shockGrenadeDef.isBullets = false;
+            shockGrenadeDef.resetCooldownTimerOnUse = false;
             shockGrenadeDef.isCombatSkill = true;
             shockGrenadeDef.mustKeyPress = false;
-            shockGrenadeDef.noSprint = true;
+            shockGrenadeDef.cancelSprintingOnActivation = true;
             shockGrenadeDef.rechargeStock = 1;
             shockGrenadeDef.requiredStock = 1;
-            shockGrenadeDef.shootDelay = 0f;
             shockGrenadeDef.stockToConsume = 1;
             shockGrenadeDef.icon = Assets.icon3BS;
             shockGrenadeDef.skillDescriptionToken = "ENFORCER_UTILITY_SHOCKGRENADE_DESCRIPTION";
@@ -2866,7 +2662,7 @@ namespace EnforcerPlugin
                 "KEYWORD_SHOCKING"
             };
 
-            LoadoutAPI.AddSkillDef(shockGrenadeDef);
+            Modules.States.AddSkillDef(shockGrenadeDef);
         }
 
         private void CSSPreviewSetup()
@@ -2962,12 +2758,13 @@ namespace EnforcerPlugin
                 typeof(FLINTLOCKWOOD),
                 typeof(SirenToggle),
                 typeof(NemesisRest),
-                typeof(EntityStates.Nemforcer.Emotes.Salute)
+                typeof(EntityStates.Nemforcer.Emotes.Salute),
+                typeof(Enforcer.Emotes.EnforcerSalute)
             };
               
             for (int i = 0; i < memes.Length; i++)
             {
-                LoadoutAPI.AddSkill(memes[i]);
+                Modules.States.AddSkill(memes[i]);
             }
         }
     }
@@ -3055,7 +2852,7 @@ namespace EnforcerPlugin
 
             foreach(CharacterBody i in GameObject.FindObjectsOfType<CharacterBody>())
             {
-                if (i && i.HasBuff(EnforcerPlugin.tearGasDebuff)) count++;
+                if (i && i.HasBuff(Modules.Buffs.impairedBuff)) count++;
             }
 
             if (lastCount != count) GasCheck(count);

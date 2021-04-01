@@ -11,7 +11,7 @@ namespace EntityStates.Enforcer
 
         public override void OnEnter()
         {
-            if (goodState == null) goodState = Instantiate(typeof(AimStunDrone)) as AimStunDrone;
+            if (goodState == null) goodState = new AimStunDrone();
 
             maxDistance = 48;
             rayRadius = 2f;
@@ -32,7 +32,7 @@ namespace EntityStates.Enforcer
             base.characterBody.SetAimTimer(0.25f);
             this.fixedAge += Time.fixedDeltaTime;
 
-            bool isShielded = base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff);
+            bool isShielded = base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
             if (!isShielded) base.PlayAnimation("RightArm, Override", "FireRifle");
 
             bool flag = false;
@@ -53,9 +53,9 @@ namespace EntityStates.Enforcer
         {
             base.OnExit();
 
-            Util.PlayScaledSound(EnforcerPlugin.Sounds.LaunchTearGas, base.gameObject, 0.7f);
+            Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.LaunchTearGas, base.gameObject, 0.7f);
 
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
+            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
             {
                 base.PlayAnimation("RightArm, Override", "FireShotgunShielded");
             }
@@ -66,7 +66,7 @@ namespace EntityStates.Enforcer
 
             base.AddRecoil(-2f * TearGas.bulletRecoil, -3f * TearGas.bulletRecoil, -1f * TearGas.bulletRecoil, 1f * TearGas.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * TearGas.bulletRecoil);
-            EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol.effectPrefab, base.gameObject, TearGas.muzzleString, false);
+            EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, base.gameObject, TearGas.muzzleString, false);
         }
     }
 
@@ -93,7 +93,7 @@ namespace EntityStates.Enforcer
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
             this.animator = base.GetModelAnimator();
 
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
+            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
             {
                 base.PlayAnimation("RightArm, Override", "FireShotgunShielded", "FireShotgun.playbackRate", this.duration);
             }
@@ -102,7 +102,7 @@ namespace EntityStates.Enforcer
                 base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
             }
 
-            Util.PlayScaledSound(EnforcerPlugin.Sounds.LaunchStunGrenade, base.gameObject, 2.5f);
+            Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.LaunchStunGrenade, base.gameObject, 2.5f);
 
             base.AddRecoil(-2f * ShockGrenade.bulletRecoil, -3f * ShockGrenade.bulletRecoil, -1f * ShockGrenade.bulletRecoil, 1f * ShockGrenade.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * ShockGrenade.bulletRecoil);

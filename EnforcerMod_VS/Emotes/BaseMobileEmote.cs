@@ -43,7 +43,7 @@ namespace EntityStates.Nemforcer.Emotes
                 this.activePlayID = Util.PlaySound(soundString, base.gameObject);
             }
 
-            if (NetworkServer.active) base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.tempLargeSlowDebuff);
+            if (NetworkServer.active) base.characterBody.AddBuff(EnforcerPlugin.Modules.Buffs.bigSlowBuff);
 
             this.initialTime = Time.fixedTime;
         }
@@ -67,7 +67,7 @@ namespace EntityStates.Nemforcer.Emotes
                 if (base.inputBank.skill2.down) flag = true;
                 if (base.inputBank.skill3.down) flag = true;
                 if (base.inputBank.skill4.down) flag = true;
-                if (base.inputBank.sprint.down) flag = true;
+                if (base.inputBank.sprint.justPressed) flag = true;
             }
 
             if (this.duration > 0 && base.fixedAge >= this.duration) flag = true;
@@ -90,7 +90,7 @@ namespace EntityStates.Nemforcer.Emotes
 
             base.characterBody.hideCrosshair = false;
 
-            if (NetworkServer.active) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempLargeSlowDebuff);
+            if (NetworkServer.active) base.characterBody.RemoveBuff(EnforcerPlugin.Modules.Buffs.bigSlowBuff);
 
             if (base.GetAimAnimator()) base.GetAimAnimator().enabled = true;
             this.animator.SetLayerWeight(animator.GetLayerIndex("AimPitch"), 1);

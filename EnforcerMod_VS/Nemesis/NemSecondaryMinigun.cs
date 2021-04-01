@@ -244,7 +244,7 @@ namespace EntityStates.Nemforcer
             if (!this.hasSwung)
             {
                 this.hasSwung = true;
-                Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisSwingL, base.gameObject, this.attackSpeedStat);
+                Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.NemesisSwingL, base.gameObject, this.attackSpeedStat);
 
                 if (base.isAuthority)
                 {

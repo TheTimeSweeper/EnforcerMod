@@ -34,17 +34,17 @@ namespace EntityStates.Nemforcer
 
             base.PlayAnimation("Gesture, Override", "HammerCharge", "HammerCharge.playbackRate", this.chargeDuration);
 
-            this.chargePlayID = Util.PlayScaledSound(EnforcerPlugin.Sounds.NemesisStartCharge, base.gameObject, this.attackSpeedStat);
+            this.chargePlayID = Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.NemesisStartCharge, base.gameObject, this.attackSpeedStat);
             this.flameLoopPlayID = Util.PlaySound(EnforcerPlugin.Sounds.NemesisFlameLoop, base.gameObject);
 
             if (base.cameraTargetParams)
             {
-                base.cameraTargetParams.aimMode = CameraTargetParams.AimType.AimThrow;
+                base.cameraTargetParams.aimMode = CameraTargetParams.AimType.OverTheShoulder;
             }
 
             if (this.nemController) this.nemController.hammerChargeSmall.Play();
 
-            if (NetworkServer.active) base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff);
+            if (NetworkServer.active) base.characterBody.AddBuff(EnforcerPlugin.Modules.Buffs.smallSlowBuff);
         }
 
         public override void FixedUpdate()
@@ -67,7 +67,7 @@ namespace EntityStates.Nemforcer
                     base.cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
                 }
 
-                if (NetworkServer.active) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff);
+                if (NetworkServer.active) base.characterBody.RemoveBuff(EnforcerPlugin.Modules.Buffs.smallSlowBuff);
             }
 
             if (base.characterMotor.velocity.y <= 0) this.fallTime += Time.fixedDeltaTime;
@@ -127,7 +127,7 @@ namespace EntityStates.Nemforcer
                 if (this.nemController.hammerBurst && this.CalcCharge() >= 0.21f) this.nemController.hammerBurst.Play();
             }
 
-            if (NetworkServer.active && base.characterBody && base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff)) base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.tempSlowDebuff);
+            if (NetworkServer.active && base.characterBody && base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.smallSlowBuff)) base.characterBody.RemoveBuff(EnforcerPlugin.Modules.Buffs.smallSlowBuff);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -439,7 +439,7 @@ namespace EntityStates.Nemforcer
             this.modelBaseTransform = base.GetModelBaseTransform();
             this.animator = base.GetModelAnimator();
 
-            if (NetworkServer.active) base.characterBody.AddBuff(BuffIndex.HiddenInvincibility);
+            if (NetworkServer.active) base.characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
 
             if (base.characterMotor)
             {
@@ -489,7 +489,7 @@ namespace EntityStates.Nemforcer
 
             base.PlayAnimation("FullBody, Override", "BufferEmpty");
 
-            if (NetworkServer.active) base.characterBody.RemoveBuff(BuffIndex.HiddenInvincibility);
+            if (NetworkServer.active) base.characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
 
             this.FireBlast();
 

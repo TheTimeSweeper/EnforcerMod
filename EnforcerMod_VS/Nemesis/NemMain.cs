@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using RoR2;
+using EntityStates.Nemforcer.Emotes;
+using EntityStates.Enforcer;
 
 namespace EntityStates.Nemforcer
 {
@@ -27,7 +29,7 @@ namespace EntityStates.Nemforcer
             base.Update();
 
             //minigun mode camera stuff
-            bool minigunUp = base.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff);
+            bool minigunUp = base.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff);
 
             if (minigunUp != this.wasShielding)
             {
@@ -40,12 +42,12 @@ namespace EntityStates.Nemforcer
             {
                 if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.defaultDanceKey.Value))
                 {
-                    this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Enforcer.NemesisRest))), InterruptPriority.Any);
+                    this.outer.SetInterruptState(new NemesisRest(), InterruptPriority.Any);
                     return;
                 }
                 else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.flossKey.Value))
                 {
-                    this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Emotes.Salute))), InterruptPriority.Any);
+                    this.outer.SetInterruptState(new Salute(), InterruptPriority.Any);
                     return;
                 }
             }
@@ -71,7 +73,7 @@ namespace EntityStates.Nemforcer
         {
             base.FixedUpdate();
             
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff))
+            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff))
             {
                 base.characterBody.SetAimTimer(0.2f);
                 base.characterBody.isSprinting = false;

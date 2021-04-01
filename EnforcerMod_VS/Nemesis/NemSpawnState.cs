@@ -19,11 +19,11 @@ namespace EntityStates.Nemforcer
 
             base.GetModelAnimator().SetLayerWeight(base.GetModelAnimator().GetLayerIndex("Minigun"), 0);
 
-            if (NetworkServer.active) base.characterBody.AddBuff(BuffIndex.HiddenInvincibility);
+            if (NetworkServer.active) base.characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
 
             if (EnforcerPlugin.EnforcerPlugin.nemesisSpawnEffect)
             {
-                EffectManager.SimpleMuzzleFlash(EnforcerPlugin.EnforcerPlugin.nemesisSpawnEffect, base.gameObject, "SpawnOrigin", false);
+                EffectManager.SimpleMuzzleFlash(EntityStates.NullifierMonster.SpawnState.spawnEffectPrefab, base.gameObject, "SpawnOrigin", false);
             }
         }
 
@@ -64,7 +64,7 @@ namespace EntityStates.Nemforcer
         {
             base.OnExit();
 
-            if (NetworkServer.active) base.characterBody.RemoveBuff(BuffIndex.HiddenInvincibility);
+            if (NetworkServer.active) base.characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

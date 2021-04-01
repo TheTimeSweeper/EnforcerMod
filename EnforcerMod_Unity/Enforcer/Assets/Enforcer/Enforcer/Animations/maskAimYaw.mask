@@ -54,7 +54,7 @@ AvatarMask:
   - m_Path: Armature/Root/Pelvis/UpperLeg.R/LowerLeg.R/Foot.R/Toe.R
     m_Weight: 0
   - m_Path: Armature/Root/Stomach
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Armature/Root/Stomach/Chest
     m_Weight: 1
   - m_Path: Armature/Root/Stomach/Chest/Collar.L

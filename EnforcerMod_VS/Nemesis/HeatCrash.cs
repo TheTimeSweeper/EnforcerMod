@@ -181,7 +181,7 @@ namespace EntityStates.Nemforcer
 
             base.characterBody.bodyFlags &= ~CharacterBody.BodyFlags.IgnoreFallDamage;
 
-            if (NetworkServer.active && base.characterBody.HasBuff(BuffIndex.HiddenInvincibility)) base.characterBody.RemoveBuff(BuffIndex.HiddenInvincibility);
+            if (NetworkServer.active && base.characterBody.HasBuff(RoR2Content.Buffs.HiddenInvincibility)) base.characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
 
             base.gameObject.layer = LayerIndex.defaultLayer.intVal;
             base.characterMotor.Motor.RebuildCollidableLayers();
@@ -220,23 +220,7 @@ namespace EntityStates.Nemforcer
 
                     if (NetworkServer.active)
                     {
-                        base.characterBody.AddBuff(BuffIndex.HiddenInvincibility);
-
-                        DamageInfo info = new DamageInfo
-                        {
-                            attacker = base.gameObject,
-                            crit = false,
-                            damage = 1f,
-                            damageColorIndex = DamageColorIndex.Default,
-                            damageType = DamageType.Shock5s,
-                            force = Vector3.zero,
-                            inflictor = base.gameObject,
-                            position = base.transform.position,
-                            procChainMask = default(ProcChainMask),
-                            procCoefficient = 0f,
-                        };
-
-                        target.healthComponent.TakeDamage(info);
+                        base.characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
                     }
                 }
             }

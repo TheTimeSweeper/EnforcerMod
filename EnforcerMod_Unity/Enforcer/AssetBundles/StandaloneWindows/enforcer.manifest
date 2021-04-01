@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3696853425
+CRC: 2167996284
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: cb47cbd5a2ccb509d953d8c1826658eb
+    Hash: 8fd553cc65faf0af6b177710e95b0bd9
   TypeTreeHash:
     serializedVersion: 2
-    Hash: def72a0d1b95bb290e31a12b4969acd8
+    Hash: f68b3a4fa81e69e32c3279ac4ee46f22
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -43,6 +43,8 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 114
   Script: {fileID: 11500000, guid: 67079b849227b734694872d8810229b8, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: d1a30f469916a8c4b90a4646e138c16a, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: db294d07add6b364f99a346939dd2a8a, type: 3}
 - Class: 115
@@ -81,6 +83,7 @@ Assets:
 - Assets/Enforcer/Nemesis/Mesh/MeshDripforcerHammer.mesh
 - Assets/Enforcer/Nemesis/Animations/NemImpact.anim
 - Assets/Enforcer/Nemesis/Textures/texNemforcerAlt.png
+- Assets/Enforcer/Enforcer/Animations/Salute.anim
 - Assets/Enforcer/Nemesis/Animations/ForwardDash.anim
 - Assets/Enforcer/Enforcer/Icons/Skill4BIcon.png
 - Assets/Enforcer/Nemesis/Animations/HeatCrashSlam.anim
@@ -96,6 +99,7 @@ Assets:
 - Assets/Enforcer/Enforcer/Animations/Idle.anim
 - Assets/Enforcer/Enforcer/Animations/maskGesture.mask
 - Assets/Enforcer/Nemesis/VFX/texTornado.png
+- Assets/Enforcer/Enforcer/Animations/ShieldDescend.anim
 - Assets/Enforcer/Nemesis/Animations/SwapToGun.anim
 - Assets/Enforcer/Nemesis/Animations/UppercutL2.anim
 - Assets/Enforcer/Nemesis/Mesh/meshDededeHammer.mesh
@@ -133,10 +137,12 @@ Assets:
 - Assets/Enforcer/Nemesis/VFX/matNemSlash.mat
 - Assets/Enforcer/Enforcer/Materials/matRiotShield.mat
 - Assets/Enforcer/Enforcer/Icons/Skill2Icon.png
+- Assets/Enforcer/Enforcer/Animations/ShieldAscend.anim
 - Assets/Enforcer/Nemesis/HammerProjectile.prefab
 - Assets/Enforcer/Enforcer/Materials/matShotgun.mat
 - Assets/Enforcer/Enforcer/sortThisAllLater/matSuperShell.mat
 - Assets/Enforcer/Nemesis/Animations/HammerDescendCharge.anim
+- Assets/Enforcer/Enforcer/Animations/ShieldFireShotgun.anim
 - Assets/Enforcer/Enforcer/sortThisAllLater/matShockGrenade.mat
 - Assets/Enforcer/Nemesis/Textures/texMinecraftNem.png
 - Assets/Enforcer/Nemesis/VFX/texNemHitFlash.png
@@ -144,6 +150,7 @@ Assets:
 - Assets/Enforcer/Nemesis/Animations/MinigunAscend.anim
 - Assets/Enforcer/Enforcer/Animations/animEnforcer.controller
 - Assets/Enforcer/Nemesis/Textures/texNemGrenade.png
+- Assets/Enforcer/Enforcer/Animations/ShieldBash.anim
 - Assets/Enforcer/Enforcer/Icons/texEnforcerIcon.png
 - Assets/Enforcer/Nemesis/Animations/MinigunWalkL.anim
 - Assets/Enforcer/Nemesis/VFX/texNemforcerSwing.png
@@ -183,8 +190,10 @@ Assets:
 - Assets/Enforcer/Enforcer/Icons/Skill1Icon.png
 - Assets/Enforcer/Nemesis/Icons/NemStunGrenadeIcon.png
 - Assets/Enforcer/Nemesis/Animations/HammerAirSlam.anim
+- Assets/Enforcer/Enforcer/Animations/ShieldWalkL.anim
 - Assets/Enforcer/Enforcer/EnforcerDisplay.prefab
 - Assets/Enforcer/Nemesis/VFX/matNemforcerImpact.mat
+- Assets/Enforcer/Enforcer/Animations/ExitShield.anim
 - Assets/Enforcer/Enforcer/sortThisAllLater/ShockGrenade.prefab
 - Assets/Enforcer/Enforcer/Icons/texBuffProtectAndServe.png
 - Assets/Enforcer/Nemesis/Animations/HammerWalkB.anim
@@ -229,6 +238,7 @@ Assets:
 - Assets/Enforcer/Nemesis/VFX/matNemStar.mat
 - Assets/Enforcer/Nemesis/VFX/texNemforcerLightningAnimated.png
 - Assets/Enforcer/Nemesis/Textures/texDripforcer.png
+- Assets/Enforcer/Enforcer/Animations/ShieldedBash.anim
 - Assets/Enforcer/Enforcer/Icons/texStormtrooperAchievement.png
 - Assets/Enforcer/Enforcer/Animations/IdleIn.anim
 - Assets/Enforcer/Enforcer/sortThisAllLater/TearGasEffectAlt.prefab
@@ -240,6 +250,7 @@ Assets:
 - Assets/Enforcer/Nemesis/NemGasEffect.prefab
 - Assets/Enforcer/Nemesis/VFX/TornadoMesh1.fbx
 - Assets/Enforcer/Enforcer/sortThisAllLater/matTearGasGrenadeAlt.mat
+- Assets/Enforcer/Enforcer/Animations/ShieldIdle.anim
 - Assets/Enforcer/Enforcer/sortThisAllLater/texSuperShell.png
 - Assets/Enforcer/Nemesis/Materials/matNemforcerAlt.mat
 - Assets/Enforcer/Nemesis/VFX/texNemforcerHitSpark.png
@@ -249,6 +260,7 @@ Assets:
 - Assets/Enforcer/Nemesis/VFX/matNemImpact2.mat
 - Assets/Enforcer/Nemesis/Materials/matNemGrenade.mat
 - Assets/Enforcer/Nemesis/NemforcerSwingUppercut.prefab
+- Assets/Enforcer/Enforcer/Animations/ShieldWalkR.anim
 - Assets/Enforcer/Nemesis/Animations/temp/HoldGrenadeHammer.anim
 - Assets/Enforcer/Enforcer/sortThisAllLater/texShockGrenade.png
 - Assets/Enforcer/Nemesis/Mesh/meshSneed.mesh
@@ -261,6 +273,7 @@ Assets:
 - Assets/Enforcer/Nemesis/VFX/matNemImpact1.mat
 - Assets/Enforcer/Nemesis/Icons/HeatCrashIcon.png
 - Assets/Enforcer/Nemesis/Animations/Masks/maskNemLegs.mask
+- Assets/Enforcer/Enforcer/Animations/Sprint.anim
 - Assets/Enforcer/Enforcer/Icons/texNemforcerMastery.png
 - Assets/Enforcer/Enforcer/sortThisAllLater/TearGasGrenade.prefab
 - Assets/Enforcer/Nemesis/Animations/temp/TempFall.anim
@@ -291,6 +304,7 @@ Assets:
 - Assets/Enforcer/Nemesis/Mesh/MeshNemforcerHammer.mesh
 - Assets/Enforcer/Enforcer/sortThisAllLater/TearGasGrenadeAlt.prefab
 - Assets/Enforcer/Nemesis/Animations/temp/ThrowHammer.anim
+- Assets/Enforcer/Enforcer/Animations/PumpShotgun.anim
 - Assets/Enforcer/Nemesis/Textures/texNemforcerAltEmission.png
 - Assets/Enforcer/Nemesis/VFX/matNemHitFlash.mat
 - Assets/Enforcer/Enforcer/mdlEnforcer.prefab
@@ -313,6 +327,7 @@ Assets:
 - Assets/Enforcer/Nemesis/VFX/texNemforcerMoon.png
 - Assets/Enforcer/Nemesis/Animations/UppercutL3.anim
 - Assets/Enforcer/Enforcer/sortThisAllLater/matTearGasGrenade.mat
+- Assets/Enforcer/Enforcer/Animations/EnterShield.anim
 - Assets/Enforcer/Nemesis/mdlNemforcer.prefab
 - Assets/Enforcer/Enforcer/Icons/texEnforcerAchievement.png
 - Assets/Enforcer/Nemesis/Icons/HammerThrowIcon.png
@@ -346,6 +361,7 @@ Assets:
 - Assets/Enforcer/Nemesis/Animations/HammerIdle.anim
 - Assets/Enforcer/Nemesis/VFX/matNemStarAB.mat
 - Assets/Enforcer/Nemesis/Animations/RestEmote.anim
+- Assets/Enforcer/Enforcer/Animations/ShieldWalkF.anim
 - Assets/Enforcer/Enforcer/Icons/texNemforcerAchievement.png
 - Assets/Enforcer/Nemesis/Mesh/meshNemforcerGM.mesh
 - Assets/Enforcer/Nemesis/VFX/matNemforcerSwing.mat
@@ -364,9 +380,9 @@ Assets:
 - Assets/Enforcer/Nemesis/Animations/MinigunWalkF.anim
 - Assets/Enforcer/Nemesis/VFX/matNemforcerLightning.mat
 - Assets/Enforcer/Enforcer/sortThisAllLater/texGatDrone.png
+- Assets/Enforcer/Enforcer/Animations/ShieldWalkB.anim
 - Assets/Enforcer/Nemesis/Textures/texDedede.png
 - Assets/Enforcer/Nemesis/VFX/texTornado3.png
-- Assets/Enforcer/Enforcer/Animations/Sprint.anim
 - Assets/Enforcer/Enforcer/Icons/TearGasScepterIcon.png
 - Assets/Enforcer/Nemesis/Materials/matNemforcer.mat
 - Assets/Enforcer/Enforcer/Animations/LightImpact.anim

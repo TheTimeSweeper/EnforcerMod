@@ -117,6 +117,8 @@ namespace EnforcerPlugin
         internal static NetworkSoundEventDef nemHammerHitSoundEvent;
         internal static NetworkSoundEventDef nemAxeHitSoundEvent;
 
+        internal static List<NetworkSoundEventDef> networkSoundEventDefs = new List<NetworkSoundEventDef>();
+
         public static void PopulateAssets()
         {
             commandoMat = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial;
@@ -126,8 +128,6 @@ namespace EnforcerPlugin
                 using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.enforcer"))
                 {
                     MainAssetBundle = AssetBundle.LoadFromStream(assetStream);
-                    var provider = new AssetBundleResourcesProvider("@Enforcer", MainAssetBundle);
-                    ResourcesAPI.AddProvider(provider);
                 }
             }
 
@@ -315,16 +315,13 @@ namespace EnforcerPlugin
             nemAxeHitSoundEvent = CreateNetworkSoundEventDef(Sounds.NemesisImpactAxe);
         }
 
-        private static NetworkSoundEventDef CreateNetworkSoundEventDef(string eventName)
+        internal static NetworkSoundEventDef CreateNetworkSoundEventDef(string eventName)
         {
             NetworkSoundEventDef networkSoundEventDef = ScriptableObject.CreateInstance<NetworkSoundEventDef>();
             networkSoundEventDef.akId = AkSoundEngine.GetIDFromString(eventName);
             networkSoundEventDef.eventName = eventName;
 
-            NetworkSoundEventCatalog.getSoundEventDefs += delegate (List<NetworkSoundEventDef> list)
-            {
-                list.Add(networkSoundEventDef);
-            };
+            networkSoundEventDefs.Add(networkSoundEventDef);
 
             return networkSoundEventDef;
         }
@@ -343,7 +340,7 @@ namespace EnforcerPlugin
             effect.positionAtReferencedTransform = true;
             effect.soundName = soundName;
 
-            EffectAPI.AddEffect(newEffect);
+            Modules.Effects.AddEffect(newEffect);
 
             return newEffect;
         }

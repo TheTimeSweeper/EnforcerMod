@@ -14,7 +14,7 @@ namespace EntityStates.Nemforcer
 
         public override void OnEnter()
         {
-            if (goodState == null) goodState = Instantiate(typeof(AimStunDrone)) as AimStunDrone;
+            if (goodState == null) goodState = new AimStunDrone();
 
             maxDistance = 64;
             rayRadius = 2f;
@@ -27,7 +27,7 @@ namespace EntityStates.Nemforcer
             baseMinimumDuration = 0.1f;
             projectileBaseSpeed = 150;
             
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff))
+            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff))
             {
                 base.PlayAnimation("Grenade, Override", "HoldGrenadeMinigun", "ThrowGrenade.playbackRate", 0.5f);
             }
@@ -62,7 +62,7 @@ namespace EntityStates.Nemforcer
         {
             base.OnExit();
 
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff))
+            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff))
             {
                 base.PlayAnimation("Grenade, Override", "ThrowGrenadeMinigun", "ThrowGrenade.playbackRate", 0.5f);
             }
@@ -75,7 +75,7 @@ namespace EntityStates.Nemforcer
 
             base.AddRecoil(-2f * TearGas.bulletRecoil, -3f * TearGas.bulletRecoil, -1f * TearGas.bulletRecoil, 1f * TearGas.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * TearGas.bulletRecoil);
-            EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol.effectPrefab, base.gameObject, "HandR", false);
+            //EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol.effectPrefab, base.gameObject, "HandR", false);
         }
     }
 

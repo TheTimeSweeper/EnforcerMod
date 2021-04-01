@@ -122,7 +122,7 @@ namespace EnforcerPlugin
             equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("AffixHaunted", "DisplayEliteStealthCrown", "Head", new Vector3(0, 0.008f, 0), new Vector3(270, 0, 0), new Vector3(0.002f, 0.002f, 0.002f)));
             equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("CritOnUse", "DisplayNeuralImplant", "Head", new Vector3(-0.008f, 0.006f, 0), new Vector3(0, 90, 0), new Vector3(0.01f, 0.01f, 0.01f)));
             equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("DroneBackup", "DisplayRadio", "Pelvis", new Vector3(0, 0, 0.008f), new Vector3(0, 0, 180), new Vector3(0.01f, 0.01f, 0.01f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("Lightning", ItemDisplays.capacitorPrefab, "ClavicleL", new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0.04f, 0.04f, 0.04f)));
+            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("Lightning", "DisplayLightning", "ClavicleL", new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0.04f, 0.04f, 0.04f)));
             equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("BurnNearby", "DisplayPotion", "Pelvis", new Vector3(0, 0, 0.008f), new Vector3(0, 0, 180), new Vector3(0.002f, 0.002f, 0.002f)));
             equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("CrippleWard", "DisplayEffigy", "Pelvis", new Vector3(0, 0.008f, 0.009f), new Vector3(0, 180, 180), new Vector3(0.02f, 0.02f, 0.02f)));
             equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("GainArmor", "DisplayElephantFigure", "KneeR", new Vector3(0.004f, 0.012f, 0), new Vector3(90, 90, 0), new Vector3(0.02f, 0.02f, 0.02f)));
@@ -333,7 +333,7 @@ namespace EnforcerPlugin
                 }
             });
             #endregion
-
+            /*
             #region Aetherium
             if (EnforcerPlugin.aetheriumInstalled)
             {
@@ -381,7 +381,7 @@ namespace EnforcerPlugin
 
                 itemRules.Add(NemItemDisplays.CreateFollowerDisplayRule("SUPPDRPBloodBook", ItemDisplays.LoadSupplyDropDisplay("BloodBook"), new Vector3(0, 0.05f, 0.04f), new Vector3(0, 270, 0), new Vector3(0.08f, 0.08f, 0.08f)));
             }
-            #endregion
+            #endregion*/
             #endregion
 
             ItemDisplayRuleSet.NamedRuleGroup[] item = itemRules.ToArray();

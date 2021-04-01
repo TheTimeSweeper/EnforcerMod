@@ -23,6 +23,7 @@ namespace EnforcerPlugin
         public const string characterSubtitle = "Incorruptible Shadow";
         public const string bossSubtitle = "End of the Line";
         public const string characterOutro = "..and so he left, with newfound might to honor.";
+        public const string characterOutroFailure = "..and so he returned, infallible bastion truly immortalized";
         public const string characterLore = "\nheavy tf2\n\n";
 
         public static GameObject characterPrefab;
@@ -60,7 +61,7 @@ namespace EnforcerPlugin
             CreatePrefab();
             CreateDisplayPrefab();
             RegisterCharacter();
-            NemItemDisplays.RegisterDisplays();
+            //NemItemDisplays.RegisterDisplays();
             NemforcerSkins.RegisterSkins();
             RegisterProjectiles();
             CreateDoppelganger();
@@ -74,11 +75,11 @@ namespace EnforcerPlugin
 
         private static void StarstormCompat()
         {
-            Starstorm2.Cores.VoidCore.nemesisSpawns.Add(new Starstorm2.Cores.VoidCore.NemesisSpawnData
+            /*Starstorm2.Cores.VoidCore.nemesisSpawns.Add(new Starstorm2.Cores.VoidCore.NemesisSpawnData
             {
                 masterPrefab = NemforcerPlugin.minibossMaster,
                 itemDrop = ItemIndex.NovaOnLowHealth
-            });
+            });*/
         }
 
         private static GameObject CreateModel(GameObject main, int index)
@@ -195,7 +196,6 @@ namespace EnforcerPlugin
             characterDirection.turnSpeed = 720f;
 
             CharacterBody bodyComponent = characterPrefab.GetComponent<CharacterBody>();
-            bodyComponent.bodyIndex = -1;
             bodyComponent.name = "NemesisEnforcerBody";
             bodyComponent.baseNameToken = "NEMFORCER_NAME";
             bodyComponent.subtitleNameToken = "NEMFORCER_SUBTITLE";
@@ -233,9 +233,10 @@ namespace EnforcerPlugin
             bodyComponent.currentVehicle = null;
             bodyComponent.skinIndex = 0U;
             bodyComponent.preferredPodPrefab = null;
+            bodyComponent.bodyColor = characterColor;
 
-            LoadoutAPI.AddSkill(typeof(EntityStates.Nemforcer.NemforcerMain));
-            LoadoutAPI.AddSkill(typeof(EntityStates.Nemforcer.SpawnState));
+            Modules.States.AddSkill(typeof(EntityStates.Nemforcer.NemforcerMain));
+            Modules.States.AddSkill(typeof(EntityStates.Nemforcer.SpawnState));
 
             var stateMachine = bodyComponent.GetComponent<EntityStateMachine>();
             stateMachine.mainStateType = new SerializableEntityStateType(typeof(EntityStates.Nemforcer.NemforcerMain));
@@ -523,41 +524,21 @@ namespace EnforcerPlugin
             desc = desc + "< ! > Strafing with Golden Minigun is key to taking down powerful bosses." + Environment.NewLine + Environment.NewLine;
             desc = desc + "< ! > Shields are for pussies." + Environment.NewLine + Environment.NewLine;
 
-            string outro = characterOutro;
-
             LanguageAPI.Add("NEMFORCER_NAME", characterName);
             LanguageAPI.Add("NEMFORCER_DESCRIPTION", desc);
             LanguageAPI.Add("NEMFORCER_SUBTITLE", characterSubtitle);
             //LanguageAPI.Add("ENFORCER_LORE", "I'M FUCKING INVINCIBLE");
             LanguageAPI.Add("NEMFORCER_LORE", characterLore);
-            LanguageAPI.Add("NEMFORCER_OUTRO_FLAVOR", outro);
+            LanguageAPI.Add("NEMFORCER_OUTRO_FLAVOR", characterOutro);
+            LanguageAPI.Add("NEMFORCER_OUTRO_FAILURE", characterOutroFailure);
 
             characterDisplay.AddComponent<NetworkIdentity>();
 
-            string unlockString = "ENFORCER_NEMESIS2UNLOCKABLE_REWARD_ID";
-            //unlockString = "";
-
-            SurvivorDef survivorDef = new SurvivorDef
-            {
-                name = "NEMFORCER_NAME",
-                unlockableName = unlockString,
-                descriptionToken = "NEMFORCER_DESCRIPTION",
-                primaryColor = characterColor,
-                bodyPrefab = characterPrefab,
-                displayPrefab = characterDisplay,
-                outroFlavorToken = "NEMFORCER_OUTRO_FLAVOR"
-            };
-
-            SurvivorAPI.AddSurvivor(survivorDef);
+            Modules.Survivors.RegisterNewSurvivor(characterPrefab, characterDisplay, "NEMFORCER");
 
             SkillSetup();
 
-            BodyCatalog.getAdditionalEntries += delegate (List<GameObject> list)
-            {
-                list.Add(characterPrefab);  
-            };
-
-            characterPrefab.tag = "Player";
+            EnforcerPlugin.bodyPrefabs.Add(characterPrefab);
         }
 
         private void RegisterProjectiles()
@@ -621,7 +602,7 @@ namespace EnforcerPlugin
             buffWard2.radius = 18;
             buffWard2.interval = 1;
             buffWard2.rangeIndicator = null;
-            buffWard2.buffType = EnforcerPlugin.nemGasDebuff;
+            buffWard2.buffDef = Modules.Buffs.nemImpairedBuff;
             buffWard2.buffDuration = 1.5f;
             buffWard2.floorWard = false;
             buffWard2.expires = false;
@@ -682,12 +663,9 @@ namespace EnforcerPlugin
             nemGasGrenade.AddComponent<DestroyOnTimer>().duration = 32;
             nemGas.AddComponent<DestroyOnTimer>().duration = 18;
 
-            ProjectileCatalog.getAdditionalEntries += delegate (List<GameObject> list)
-            {
-                list.Add(hammerProjectile);
-                list.Add(nemGasGrenade);
-                list.Add(nemGas);
-            };
+            EnforcerPlugin.projectilePrefabs.Add(nemGasGrenade);
+            EnforcerPlugin.projectilePrefabs.Add(nemGas);
+            EnforcerPlugin.projectilePrefabs.Add(hammerProjectile);
         }
 
         private void SkillSetup()
@@ -814,13 +792,12 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Any;
-            mySkillDef.isBullets = false;
+            mySkillDef.beginSkillCooldownOnSkillEnd = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = false;
-            mySkillDef.noSprint = true;
+            mySkillDef.cancelSprintingOnActivation = true;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
-            mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
             mySkillDef.icon = Assets.nIcon1;
             mySkillDef.skillDescriptionToken = "NEMFORCER_PRIMARY_HAMMER_DESCRIPTION";
@@ -848,13 +825,12 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Any;
-            mySkillDef.isBullets = false;
+            mySkillDef.beginSkillCooldownOnSkillEnd = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = false;
-            mySkillDef.noSprint = true;
+            mySkillDef.cancelSprintingOnActivation = true;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
-            mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
             mySkillDef.icon = Assets.nIcon1C;
             mySkillDef.skillDescriptionToken = "NEMFORCER_PRIMARY_THROWHAMMER_DESCRIPTION";
@@ -880,13 +856,12 @@ namespace EnforcerPlugin
             mySkillDef2.canceledFromSprinting = false;
             mySkillDef2.fullRestockOnAssign = true;
             mySkillDef2.interruptPriority = InterruptPriority.Any;
-            mySkillDef2.isBullets = false;
+            mySkillDef2.beginSkillCooldownOnSkillEnd = false;
             mySkillDef2.isCombatSkill = true;
             mySkillDef2.mustKeyPress = false;
-            mySkillDef2.noSprint = true;
+            mySkillDef2.cancelSprintingOnActivation = true;
             mySkillDef2.rechargeStock = 1;
             mySkillDef2.requiredStock = 1;
-            mySkillDef2.shootDelay = 0f;
             mySkillDef2.stockToConsume = 1;
             mySkillDef2.icon = Assets.nIcon1B;
             mySkillDef2.skillDescriptionToken = "NEMFORCER_PRIMARY_MINIGUN_DESCRIPTION";
@@ -913,13 +888,12 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Skill;
-            mySkillDef.isBullets = false;
+            mySkillDef.beginSkillCooldownOnSkillEnd = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = false;
-            mySkillDef.noSprint = false;
+            mySkillDef.cancelSprintingOnActivation = false;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
-            mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
             mySkillDef.icon = Assets.nIcon2;
             mySkillDef.skillDescriptionToken = "NEMFORCER_SECONDARY_BASH_DESCRIPTION";
@@ -948,13 +922,12 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Skill;
-            mySkillDef.isBullets = false;
+            mySkillDef.beginSkillCooldownOnSkillEnd = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = false;
-            mySkillDef.noSprint = false;
+            mySkillDef.cancelSprintingOnActivation = false;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
-            mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
             mySkillDef.icon = Assets.nIcon2B;
             mySkillDef.skillDescriptionToken = "NEMFORCER_SECONDARY_SLAM_DESCRIPTION";
@@ -982,13 +955,12 @@ namespace EnforcerPlugin
             utilityDef1.canceledFromSprinting = false;
             utilityDef1.fullRestockOnAssign = true;
             utilityDef1.interruptPriority = InterruptPriority.Skill;
-            utilityDef1.isBullets = false;
+            utilityDef1.beginSkillCooldownOnSkillEnd = false;
             utilityDef1.isCombatSkill = true;
             utilityDef1.mustKeyPress = false;
-            utilityDef1.noSprint = true;
+            utilityDef1.cancelSprintingOnActivation = true;
             utilityDef1.rechargeStock = 1;
             utilityDef1.requiredStock = 1;
-            utilityDef1.shootDelay = 0f;
             utilityDef1.stockToConsume = 1;
             utilityDef1.icon = Assets.nIcon3B;
             utilityDef1.skillDescriptionToken = "ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION";
@@ -1015,13 +987,12 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Skill;
-            mySkillDef.isBullets = false;
+            mySkillDef.beginSkillCooldownOnSkillEnd = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = true;
-            mySkillDef.noSprint = true;
+            mySkillDef.cancelSprintingOnActivation = true;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
-            mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
             mySkillDef.icon = Assets.nIcon3;
             mySkillDef.skillDescriptionToken = "NEMFORCER_UTILITY_GAS_DESCRIPTION";
@@ -1045,13 +1016,12 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Skill;
-            mySkillDef.isBullets = false;
+            mySkillDef.beginSkillCooldownOnSkillEnd = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = true;
-            mySkillDef.noSprint = true;
+            mySkillDef.cancelSprintingOnActivation = true;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
-            mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
             mySkillDef.icon = Assets.testIcon;
             mySkillDef.skillDescriptionToken = "NEMFORCER_UTILITY_JUMP_DESCRIPTION";
@@ -1079,13 +1049,12 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Skill;
-            mySkillDef.isBullets = false;
+            mySkillDef.beginSkillCooldownOnSkillEnd = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = false;
-            mySkillDef.noSprint = false;
+            mySkillDef.cancelSprintingOnActivation = false;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
-            mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
             mySkillDef.icon = Assets.nIcon3C;
             mySkillDef.skillDescriptionToken = "NEMFORCER_UTILITY_CRASH_DESCRIPTION";
@@ -1113,13 +1082,12 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Skill;
-            mySkillDef.isBullets = false;
+            mySkillDef.beginSkillCooldownOnSkillEnd = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = true;
-            mySkillDef.noSprint = true;
+            mySkillDef.cancelSprintingOnActivation = true;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
-            mySkillDef.shootDelay = 0f;
             mySkillDef.stockToConsume = 1;
             mySkillDef.icon = Assets.nIcon4;
             mySkillDef.skillDescriptionToken = "NEMFORCER_SPECIAL_MINIGUNUP_DESCRIPTION";
@@ -1142,13 +1110,12 @@ namespace EnforcerPlugin
             mySkillDef2.canceledFromSprinting = false;
             mySkillDef2.fullRestockOnAssign = true;
             mySkillDef2.interruptPriority = InterruptPriority.Skill;
-            mySkillDef2.isBullets = false;
+            mySkillDef2.beginSkillCooldownOnSkillEnd = false;
             mySkillDef2.isCombatSkill = true;
             mySkillDef2.mustKeyPress = true;
-            mySkillDef2.noSprint = false;
+            mySkillDef2.cancelSprintingOnActivation = false;
             mySkillDef2.rechargeStock = 1;
             mySkillDef2.requiredStock = 1;
-            mySkillDef2.shootDelay = 0f;
             mySkillDef2.stockToConsume = 1;
             mySkillDef2.icon = Assets.nIcon4B;
             mySkillDef2.skillDescriptionToken = "NEMFORCER_SPECIAL_MINIGUNDOWN_DESCRIPTION";
@@ -1166,10 +1133,7 @@ namespace EnforcerPlugin
 
             CreateUmbraAI();
 
-            MasterCatalog.getAdditionalEntries += delegate (List<GameObject> list)
-            {
-                list.Add(doppelganger);
-            };
+            EnforcerPlugin.masterPrefabs.Add(doppelganger);
         }
 
         private void CreateBossPrefab()
@@ -1187,7 +1151,6 @@ namespace EnforcerPlugin
             LanguageAPI.Add("NEMFORCER_BOSS_NAME", "Ultra Nemesis Enforcer");
             LanguageAPI.Add("NEMFORCER_BOSS_SUBTITLE", bossSubtitle);
 
-            charBody.bodyIndex = -1;
             charBody.name = "NemesisEnforcerBossBody";
             charBody.baseNameToken = "NEMFORCER_NAME";
             if (EnforcerPlugin.starstormInstalled) charBody.baseNameToken = "NEMFORCER_BOSS_NAME";
@@ -1218,13 +1181,11 @@ namespace EnforcerPlugin
             charBody.portraitIcon = Assets.nemBossPortrait;
             charBody.isChampion = true;
             charBody.skinIndex = 0U;
+            charBody.bodyColor = characterColor;
 
             charBody.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
 
-            BodyCatalog.getAdditionalEntries += delegate (List<GameObject> list)
-            {
-                list.Add(bossPrefab);
-            };
+            EnforcerPlugin.bodyPrefabs.Add(bossPrefab);
 
             bossMaster = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/LemurianMaster"), "NemesisEnforcerBossMaster", true);
             bossMaster.GetComponent<CharacterMaster>().bodyPrefab = bossPrefab;
@@ -1233,10 +1194,7 @@ namespace EnforcerPlugin
 
             CreateNemesisAI();
 
-            MasterCatalog.getAdditionalEntries += delegate (List<GameObject> list)
-            {
-                list.Add(bossMaster);
-            };
+            EnforcerPlugin.masterPrefabs.Add(bossMaster);
         }
 
         private void CreateMiniBossPrefab()
@@ -1251,7 +1209,6 @@ namespace EnforcerPlugin
 
             CharacterBody charBody = minibossPrefab.GetComponent<CharacterBody>();
 
-            charBody.bodyIndex = -1;
             charBody.name = "NemesisEnforcerMiniBossBody";
             charBody.baseNameToken = "NEMFORCER_NAME";
             charBody.subtitleNameToken = "NEMFORCER_SUBTITLE";
@@ -1281,13 +1238,11 @@ namespace EnforcerPlugin
             charBody.portraitIcon = Assets.nemBossPortrait;
             charBody.isChampion = true;
             charBody.skinIndex = 0U;
+            charBody.bodyColor = characterColor;
 
             charBody.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
 
-            BodyCatalog.getAdditionalEntries += delegate (List<GameObject> list)
-            {
-                list.Add(minibossPrefab);
-            };
+            EnforcerPlugin.bodyPrefabs.Add(minibossPrefab);
 
             minibossMaster = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/LemurianMaster"), "NemesisEnforcerMiniBossMaster", true);
             minibossMaster.GetComponent<CharacterMaster>().bodyPrefab = minibossPrefab;
@@ -1296,10 +1251,7 @@ namespace EnforcerPlugin
 
             CreateMiniNemesisAI();
 
-            MasterCatalog.getAdditionalEntries += delegate (List<GameObject> list)
-            {
-                list.Add(minibossMaster);
-            };
+            EnforcerPlugin.masterPrefabs.Add(minibossMaster);
         }
 
         private void CreateUmbraAI()
@@ -1534,7 +1486,6 @@ namespace EnforcerPlugin
                 BaseUnityPlugin.DestroyImmediate(ai);
             }
 
-            bossMaster.GetComponent<BaseAI>().minDistanceFromEnemy = 0f;
             bossMaster.GetComponent<BaseAI>().fullVision = true;
 
             /*AISkillDriver grenadeDriver = bossMaster.AddComponent<AISkillDriver>();
@@ -1785,7 +1736,6 @@ namespace EnforcerPlugin
                 BaseUnityPlugin.DestroyImmediate(ai);
             }
 
-            minibossMaster.GetComponent<BaseAI>().minDistanceFromEnemy = 0f;
             minibossMaster.GetComponent<BaseAI>().fullVision = true;
 
             /*AISkillDriver grenadeDriver = bossMaster.AddComponent<AISkillDriver>();
@@ -2382,7 +2332,6 @@ namespace EnforcerPlugin
             LanguageAPI.Add("DEDEDE_NAME", "King Dedede");
             LanguageAPI.Add("DEDEDE_BOSS_SUBTITLE", "King of Dreamland");
 
-            charBody.bodyIndex = -1;
             charBody.name = "KingDededeBody";
             charBody.baseNameToken = "DEDEDE_NAME";
             charBody.subtitleNameToken = "DEDEDE_BOSS_SUBTITLE";
@@ -2412,6 +2361,7 @@ namespace EnforcerPlugin
             charBody.portraitIcon = Assets.MainAssetBundle.LoadAsset<Sprite>("texDededeIcon").texture;
             charBody.isChampion = true;
             charBody.skinIndex = 0U;
+            charBody.bodyColor = Color.red;
 
             foreach (GenericSkill obj in dededePrefab.GetComponentsInChildren<GenericSkill>())
             {
@@ -2423,66 +2373,57 @@ namespace EnforcerPlugin
             skillLocator.primary = dededePrefab.AddComponent<GenericSkill>();
             SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
             newFamily.variants = new SkillFamily.Variant[1];
-            LoadoutAPI.AddSkillFamily(newFamily);
+            Modules.States.AddSkillFamily(newFamily);
             skillLocator.primary._skillFamily = newFamily;
             SkillFamily skillFamily = skillLocator.primary.skillFamily;
 
             skillFamily.variants[0] = new SkillFamily.Variant
             {
                 skillDef = hammerSwingDef,
-                unlockableName = "",
                 viewableNode = new ViewablesCatalog.Node(hammerSwingDef.skillNameToken, false, null)
             };
 
             skillLocator.secondary = dededePrefab.AddComponent<GenericSkill>();
             newFamily = ScriptableObject.CreateInstance<SkillFamily>();
             newFamily.variants = new SkillFamily.Variant[1];
-            LoadoutAPI.AddSkillFamily(newFamily);
+            Modules.States.AddSkillFamily(newFamily);
             skillLocator.secondary._skillFamily = newFamily;
             skillFamily = skillLocator.secondary.skillFamily;
 
             skillFamily.variants[0] = new SkillFamily.Variant
             {
                 skillDef = hammerChargeDef,
-                unlockableName = "",
                 viewableNode = new ViewablesCatalog.Node(hammerChargeDef.skillNameToken, false, null)
             };
 
             skillLocator.utility = dededePrefab.AddComponent<GenericSkill>();
             newFamily = ScriptableObject.CreateInstance<SkillFamily>();
             newFamily.variants = new SkillFamily.Variant[1];
-            LoadoutAPI.AddSkillFamily(newFamily);
+            Modules.States.AddSkillFamily(newFamily);
             skillLocator.utility._skillFamily = newFamily;
             skillFamily = skillLocator.utility.skillFamily;
 
             skillFamily.variants[0] = new SkillFamily.Variant
             {
                 skillDef = jumpDef,
-                unlockableName = "",
                 viewableNode = new ViewablesCatalog.Node(jumpDef.skillNameToken, false, null)
             };
 
-            BodyCatalog.getAdditionalEntries += delegate (List<GameObject> list)
-            {
-                list.Add(dededePrefab);
-            };
+            EnforcerPlugin.bodyPrefabs.Add(dededePrefab);
 
             dededeMaster = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/LemurianMaster"), "KingDededeMaster", true);
             dededeMaster.GetComponent<CharacterMaster>().bodyPrefab = dededePrefab;
 
             CreateDededeAI();
 
-            MasterCatalog.getAdditionalEntries += delegate (List<GameObject> list)
-            {
-                list.Add(dededeMaster);
-            };
+            EnforcerPlugin.masterPrefabs.Add(dededeMaster);
 
             CreateDededeSpawnCard();
         }
 
         private void CreateDededeSpawnCard()
         {
-            CharacterSpawnCard characterSpawnCard = ScriptableObject.CreateInstance<CharacterSpawnCard>();
+            /*CharacterSpawnCard characterSpawnCard = ScriptableObject.CreateInstance<CharacterSpawnCard>();
             characterSpawnCard.name = "cscDedede";
             characterSpawnCard.prefab = dededeMaster;
             characterSpawnCard.sendOverNetwork = true;
@@ -2503,8 +2444,6 @@ namespace EnforcerPlugin
                 allowAmbushSpawn = false,
                 preventOverhead = false,
                 minimumStageCompletions = 3,
-                requiredUnlockable = "",
-                forbiddenUnlockable = "",
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Close
             };
 
@@ -2524,7 +2463,7 @@ namespace EnforcerPlugin
                         list.Add(dededeCard);
                     }
                 }
-            };
+            };*/
         }
 
         private void CreateDededeAI()
@@ -2534,7 +2473,6 @@ namespace EnforcerPlugin
                 BaseUnityPlugin.DestroyImmediate(ai);
             }
 
-            dededeMaster.GetComponent<BaseAI>().minDistanceFromEnemy = 0f;
             dededeMaster.GetComponent<BaseAI>().fullVision = true;
 
             AISkillDriver slamDriver = dededeMaster.AddComponent<AISkillDriver>();

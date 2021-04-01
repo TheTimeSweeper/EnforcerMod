@@ -1,8 +1,6 @@
 ﻿using System;
 using UnityEngine;
-using R2API;
 using RoR2;
-using R2API.Utils;
 
 namespace EnforcerPlugin
 {
@@ -10,7 +8,7 @@ namespace EnforcerPlugin
     {
         public static void RegisterUnlockables()
         {
-            LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME", "Riot");
+            /*LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME", "Riot");
             LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC", "Kill a Magma Worm, a Wandering Vagrant and a Stone Titan in a single run. <color=#c11>Host only</color>");
             LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_UNLOCKABLE_NAME", "Riot");
 
@@ -120,13 +118,14 @@ namespace EnforcerPlugin
                     UnlockablesAPI.AddUnlockable<Achievements.GrandMasteryAchievement>(true);
                     UnlockablesAPI.AddUnlockable<Achievements.NemGrandMasteryAchievement>(true);
                 }
-            }
+            }*/
         }
     }
 }
 
 namespace EnforcerPlugin.Achievements
 {
+    /*
     [R2APISubmoduleDependency(nameof(UnlockablesAPI))]
 
     public class UnlockAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
@@ -993,5 +992,5 @@ namespace EnforcerPlugin.Achievements
 
             EntityStates.Nemforcer.HammerSlam.Bonked -= this.Bonked;
         }
-    }
+    }*/
 }

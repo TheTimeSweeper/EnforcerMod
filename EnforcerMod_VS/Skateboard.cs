@@ -27,7 +27,7 @@ namespace EntityStates.Enforcer
                 base.SmallHop(base.characterMotor, Skateboard.hopHeight);
             }
 
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff))
+            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff))
             {
                 base.modelLocator.normalizeToFloor = false;
                 this.duration = Skateboard.exitDuration / this.attackSpeedStat;
@@ -41,14 +41,14 @@ namespace EntityStates.Enforcer
 
                 if (NetworkServer.active)
                 {
-                    base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff);
+                    base.characterBody.RemoveBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff);
                 }
 
                 string soundString = EnforcerPlugin.Sounds.ShieldDown;
 
                 if (this.weaponComponent) this.weaponComponent.ReparentSkateboard("Hand");
 
-                Util.PlayScaledSound(soundString, base.gameObject, 2f);
+                Util.PlayAttackSpeedSound(soundString, base.gameObject, 2f);
             }
             else
             {
@@ -64,12 +64,12 @@ namespace EntityStates.Enforcer
 
                 if (NetworkServer.active)
                 {
-                    base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff);
+                    base.characterBody.AddBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff);
                 }
 
                 string soundString = EnforcerPlugin.Sounds.ShieldUp;
 
-                Util.PlayScaledSound(soundString, base.gameObject, 2f);
+                Util.PlayAttackSpeedSound(soundString, base.gameObject, 2f);
             }
         }
 
@@ -77,7 +77,7 @@ namespace EntityStates.Enforcer
         {
             base.OnExit();
 
-            if (this.weaponComponent && base.HasBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff)) this.weaponComponent.ReparentSkateboard("Base");
+            if (this.weaponComponent && base.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff)) this.weaponComponent.ReparentSkateboard("Base");
         }
 
         public override void FixedUpdate()
@@ -93,7 +93,7 @@ namespace EntityStates.Enforcer
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff)) return InterruptPriority.PrioritySkill;
+            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff)) return InterruptPriority.PrioritySkill;
             else return InterruptPriority.Skill;
         }
     }

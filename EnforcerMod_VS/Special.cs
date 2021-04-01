@@ -29,15 +29,16 @@ namespace EntityStates.Enforcer
             if (EnforcerPlugin.EnforcerPlugin.oldEngiShield.Value) isEngi = false;
             bool isDoom = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex;
 
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff))
             {
                 this.duration = ProtectAndServe.exitDuration / this.attackSpeedStat;
 
                 this.shieldComponent.isShielding = false;
 
-                base.PlayAnimation("FullBody, Override", "ShieldDown", "ShieldUp.playbackRate", this.duration);
-                //base.PlayAnimation("LeftArm, Override", "ShieldDown", "ShieldUp.playbackRate", this.duration);
-                //base.GetModelAnimator().SetBool("shieldUp", false);
+                base.PlayAnimation("Gesture, Override", "BufferEmpty");
+                base.PlayAnimation("Grenade, Override", "BufferEmpty");
+                base.PlayAnimation("FullBody, Override", "BufferEmpty");
+                base.PlayAnimation("Shield", "ShieldDown", "ShieldMode.playbackRate", this.duration);
 
                 this.childLocator.FindChild("ShieldHurtbox").gameObject.SetActive(false);
 
@@ -60,7 +61,7 @@ namespace EntityStates.Enforcer
 
                 if (NetworkServer.active)
                 {
-                    base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
+                    base.characterBody.RemoveBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff);
                 }
 
                 string soundString = EnforcerPlugin.Sounds.ShieldDown;
@@ -82,10 +83,10 @@ namespace EntityStates.Enforcer
 
                 this.shieldComponent.isShielding = true;
 
-                base.PlayAnimation("RightArm, Override", "BufferEmpty");
-                base.PlayAnimation("FullBody, Override", "ShieldUp", "ShieldUp.playbackRate", this.duration);
-                //base.PlayAnimation("LeftArm, Override", "ShieldUp", "ShieldUp.playbackRate", this.duration);
-                //base.GetModelAnimator().SetBool("shieldUp", true);
+                base.PlayAnimation("Gesture, Override", "BufferEmpty");
+                base.PlayAnimation("Grenade, Override", "BufferEmpty");
+                base.PlayAnimation("FullBody, Override", "BufferEmpty");
+                base.PlayAnimation("Shield", "ShieldUp", "ShieldMode.playbackRate", this.duration);
 
                 this.childLocator.FindChild("ShieldHurtbox").gameObject.SetActive(true);
 
@@ -108,7 +109,7 @@ namespace EntityStates.Enforcer
 
                 if (NetworkServer.active)
                 {
-                    base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.jackBoots);
+                    base.characterBody.AddBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff);
                 }
 
                 string soundString = EnforcerPlugin.Sounds.ShieldUp;
@@ -144,7 +145,7 @@ namespace EntityStates.Enforcer
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots)) return InterruptPriority.PrioritySkill;
+            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff)) return InterruptPriority.PrioritySkill;
             else return InterruptPriority.Skill;
         }
     }

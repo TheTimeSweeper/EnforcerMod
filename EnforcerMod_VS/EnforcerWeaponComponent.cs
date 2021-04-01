@@ -215,8 +215,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
     private void SetShieldDisplayRules(int newShield)
     {
-        return;
-        ItemDisplayRuleSet ruleset = this.GetComponentInChildren<CharacterModel>().itemDisplayRuleSet;
+        /*ItemDisplayRuleSet ruleset = this.GetComponentInChildren<CharacterModel>().itemDisplayRuleSet;
 
         if (newShield == 0)
         {
@@ -271,7 +270,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
             ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localPos = new Vector3(0, 0, 0);
             ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localAngles = new Vector3(0, 0, 0);
             ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localScale = new Vector3(1, 1, 1);
-        }
+        }*/
     }
 
     private void SetWeaponDisplays(int newWeapon)

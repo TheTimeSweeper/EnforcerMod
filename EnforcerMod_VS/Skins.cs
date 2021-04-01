@@ -37,18 +37,12 @@ namespace EnforcerPlugin
 
         public static void RegisterSkins()
         {
-            // something is null in here and i don't wanna deal with it
-            return;
             GameObject bodyPrefab = EnforcerPlugin.characterPrefab;
-
             GameObject model = bodyPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
             CharacterModel characterModel = model.GetComponent<CharacterModel>();
-
             ModelSkinController skinController = model.AddComponent<ModelSkinController>();
             ChildLocator childLocator = model.GetComponent<ChildLocator>();
-
             SkinnedMeshRenderer mainRenderer = characterModel.mainSkinnedMeshRenderer;
-
             List<SkinDef> skinDefs = new List<SkinDef>();
 
             #region LanguageTokens
@@ -66,7 +60,7 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCERBODY_NEMESIS_SKIN_NAME", "Nemesis");
             #endregion
 
-            LoadoutAPI.SkinDefInfo skinDefInfo = new LoadoutAPI.SkinDefInfo();
+            SkinDefInfo skinDefInfo = new SkinDefInfo();
             skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             skinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             skinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
@@ -86,14 +80,13 @@ namespace EnforcerPlugin
             skinDefInfo.NameToken = "ENFORCERBODY_DEFAULT_SKIN_NAME";
             skinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             skinDefInfo.RootObject = model;
-            skinDefInfo.UnlockableName = "";
 
             skinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matRiotShield", 0f, Color.black, 1f);
             skinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matShotgun", 0f, Color.black, 0);
             skinDefInfo.RendererInfos[2].defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 0f);
             skinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 0f);
 
-            SkinDef defaultSkin = LoadoutAPI.CreateNewSkinDef(skinDefInfo);
+            SkinDef defaultSkin = CreateSkinDef(skinDefInfo);
             skinDefs.Add(defaultSkin);
 
             // what are we gonna do about all this...........
@@ -709,6 +702,89 @@ namespace EnforcerPlugin
             }*/
 
             skinController.skins = skinDefs.ToArray();
+        }
+
+        internal static SkinDef CreateSkinDef(SkinDefInfo skinDefInfo)
+        {
+            On.RoR2.SkinDef.Awake += DoNothing;
+
+            SkinDef skinDef = ScriptableObject.CreateInstance<RoR2.SkinDef>();
+            skinDef.baseSkins = skinDefInfo.BaseSkins;
+            skinDef.icon = skinDefInfo.Icon;
+            skinDef.unlockableDef = skinDefInfo.UnlockableDef;
+            skinDef.rootObject = skinDefInfo.RootObject;
+            skinDef.rendererInfos = skinDefInfo.RendererInfos;
+            skinDef.gameObjectActivations = skinDefInfo.GameObjectActivations;
+            skinDef.meshReplacements = skinDefInfo.MeshReplacements;
+            skinDef.projectileGhostReplacements = skinDefInfo.ProjectileGhostReplacements;
+            skinDef.minionSkinReplacements = skinDefInfo.MinionSkinReplacements;
+            skinDef.nameToken = skinDefInfo.NameToken;
+            skinDef.name = skinDefInfo.Name;
+
+            On.RoR2.SkinDef.Awake -= DoNothing;
+
+            return skinDef;
+        }
+
+        internal static SkinDef CreateSkinDef(string skinName, Sprite skinIcon, CharacterModel.RendererInfo[] rendererInfos, SkinnedMeshRenderer mainRenderer, GameObject root)
+        {
+            return CreateSkinDef(skinName, skinIcon, rendererInfos, mainRenderer, root, null);
+        }
+
+        internal static SkinDef CreateSkinDef(string skinName, Sprite skinIcon, CharacterModel.RendererInfo[] rendererInfos, SkinnedMeshRenderer mainRenderer, GameObject root, UnlockableDef unlockableDef)
+        {
+            SkinDefInfo skinDefInfo = new SkinDefInfo
+            {
+                BaseSkins = Array.Empty<SkinDef>(),
+                GameObjectActivations = new SkinDef.GameObjectActivation[0],
+                Icon = skinIcon,
+                MeshReplacements = new SkinDef.MeshReplacement[0],
+                MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0],
+                Name = skinName,
+                NameToken = skinName,
+                ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0],
+                RendererInfos = rendererInfos,
+                RootObject = root,
+                UnlockableDef = unlockableDef
+            };
+
+            On.RoR2.SkinDef.Awake += DoNothing;
+
+            SkinDef skinDef = ScriptableObject.CreateInstance<RoR2.SkinDef>();
+            skinDef.baseSkins = skinDefInfo.BaseSkins;
+            skinDef.icon = skinDefInfo.Icon;
+            skinDef.unlockableDef = skinDefInfo.UnlockableDef;
+            skinDef.rootObject = skinDefInfo.RootObject;
+            skinDef.rendererInfos = skinDefInfo.RendererInfos;
+            skinDef.gameObjectActivations = skinDefInfo.GameObjectActivations;
+            skinDef.meshReplacements = skinDefInfo.MeshReplacements;
+            skinDef.projectileGhostReplacements = skinDefInfo.ProjectileGhostReplacements;
+            skinDef.minionSkinReplacements = skinDefInfo.MinionSkinReplacements;
+            skinDef.nameToken = skinDefInfo.NameToken;
+            skinDef.name = skinDefInfo.Name;
+
+            On.RoR2.SkinDef.Awake -= DoNothing;
+
+            return skinDef;
+        }
+
+        private static void DoNothing(On.RoR2.SkinDef.orig_Awake orig, RoR2.SkinDef self)
+        {
+        }
+
+        internal struct SkinDefInfo
+        {
+            internal SkinDef[] BaseSkins;
+            internal Sprite Icon;
+            internal string NameToken;
+            internal UnlockableDef UnlockableDef;
+            internal GameObject RootObject;
+            internal CharacterModel.RendererInfo[] RendererInfos;
+            internal SkinDef.MeshReplacement[] MeshReplacements;
+            internal SkinDef.GameObjectActivation[] GameObjectActivations;
+            internal SkinDef.ProjectileGhostReplacement[] ProjectileGhostReplacements;
+            internal SkinDef.MinionSkinReplacement[] MinionSkinReplacements;
+            internal string Name;
         }
     }
 }

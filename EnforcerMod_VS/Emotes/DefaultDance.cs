@@ -1,4 +1,6 @@
-﻿using RoR2;
+﻿using Enforcer.Emotes;
+using EntityStates.Nemforcer.Emotes;
+using RoR2;
 using UnityEngine;
 
 namespace EntityStates.Enforcer
@@ -119,19 +121,19 @@ namespace EntityStates.Enforcer
                     if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.defaultDanceKey.Value))
                     {
                         flag = false;
-                        this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(DefaultDance))), InterruptPriority.Any);
+                        this.outer.SetInterruptState(new DefaultDance(), InterruptPriority.Any);
                         return;
                     }
                     else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.flossKey.Value))
                     {
                         flag = false;
-                        this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Floss))), InterruptPriority.Any);
+                        this.outer.SetInterruptState(new Salute(), InterruptPriority.Any);
                         return;
                     }
                     else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.earlKey.Value))
                     {
                         flag = false;
-                        this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(FLINTLOCKWOOD))), InterruptPriority.Any);
+                        this.outer.SetInterruptState(new FLINTLOCKWOOD(), InterruptPriority.Any);
                         return;
                     }
                 }
@@ -140,13 +142,13 @@ namespace EntityStates.Enforcer
                     if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.defaultDanceKey.Value))
                     {
                         flag = false;
-                        this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(NemesisRest))), InterruptPriority.Any);
+                        this.outer.SetInterruptState(new NemesisRest(), InterruptPriority.Any);
                         return;
                     }
                     else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.flossKey.Value))
                     {
                         flag = false;
-                        this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Nemforcer.Emotes.Salute))), InterruptPriority.Any);
+                        this.outer.SetInterruptState(new EnforcerSalute(), InterruptPriority.Any);
                         return;
                     }
                 }

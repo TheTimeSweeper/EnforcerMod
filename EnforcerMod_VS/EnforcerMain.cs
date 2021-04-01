@@ -1,4 +1,6 @@
-﻿using RoR2;
+﻿using Enforcer.Emotes;
+using EntityStates.Nemforcer.Emotes;
+using RoR2;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -28,7 +30,7 @@ namespace EntityStates.Enforcer
         private uint skatePlayID;
         private EnforcerLightController lightController;
         private EnforcerLightControllerAlt lightControllerAlt;
-
+        private EntityStateMachine sirenStateMachine;
 
         public static event Action<float> Bungus = delegate { };
 
@@ -44,16 +46,34 @@ namespace EntityStates.Enforcer
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
             this.shieldComponent.origOrigin = base.characterBody.aimOriginTransform;
 
-            EntityStateMachine drOctagonapus = characterBody.gameObject.AddComponent<EntityStateMachine>();
-            drOctagonapus.customName = "EnforcerParry";
+            bool hasParryStateMachine = false;
 
-            SerializableEntityStateType idleState = new SerializableEntityStateType(typeof(Idle));
-            drOctagonapus.initialStateType = idleState;
-            drOctagonapus.mainStateType = idleState;
+            foreach(EntityStateMachine i in base.gameObject.GetComponents<EntityStateMachine>())
+            {
+                if (i.customName == "EnforcerParry")
+                {
+                    hasParryStateMachine = true;
+                }
 
-            this.shieldComponent.drOctagonapus = drOctagonapus;
-            drOctagonapus.mainStateType = new SerializableEntityStateType(typeof(Idle));
-            this.shieldComponent.drOctagonapus = drOctagonapus;
+                if (i.customName == "Slide")
+                {
+                    this.sirenStateMachine = i;
+                }
+            }
+
+            if (!hasParryStateMachine)
+            {
+                EntityStateMachine drOctagonapus = characterBody.gameObject.AddComponent<EntityStateMachine>();
+                drOctagonapus.customName = "EnforcerParry";
+
+                SerializableEntityStateType idleState = new SerializableEntityStateType(typeof(Idle));
+                drOctagonapus.initialStateType = idleState;
+                drOctagonapus.mainStateType = idleState;
+
+                this.shieldComponent.drOctagonapus = drOctagonapus;
+                drOctagonapus.mainStateType = new SerializableEntityStateType(typeof(Idle));
+                this.shieldComponent.drOctagonapus = drOctagonapus;
+            }
 
             if (!EnforcerPlugin.EnforcerPlugin.cum && base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex)
             {
@@ -74,7 +94,7 @@ namespace EntityStates.Enforcer
                 if (this.childLocator.FindChild("Skateboard")) this.childLocator.FindChild("Skateboard").gameObject.SetActive(true);
             }
 
-            if (base.isGrounded && base.HasBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff))
+            if (base.isGrounded && base.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff))
             {
                 this.skatePlayID = Util.PlaySound(EnforcerPlugin.Sounds.SkateRoll, base.gameObject);
             }
@@ -88,8 +108,7 @@ namespace EntityStates.Enforcer
         {
             base.Update();
 
-            bool shieldIsUp = (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff));
-
+            bool shieldIsUp = (base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff) || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff));
 
             //emotes
             if (base.isAuthority && base.characterMotor.isGrounded && !shieldIsUp)
@@ -97,19 +116,19 @@ namespace EntityStates.Enforcer
                 if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.defaultDanceKey.Value))
                 {
                     onDance(true);
-                    this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(DefaultDance))), InterruptPriority.Any);
+                    this.outer.SetInterruptState(new DefaultDance(), InterruptPriority.Any);
                     return;
                 }
                 else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.flossKey.Value))
                 {
                     onDance(true);
-                    this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(Floss))), InterruptPriority.Any);
+                    this.outer.SetInterruptState(new EnforcerSalute(), InterruptPriority.Any);
                     return;
                 }
                 else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.earlKey.Value))
                 {
                     onDance(true);
-                    this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(FLINTLOCKWOOD))), InterruptPriority.Any);
+                    this.outer.SetInterruptState(new FLINTLOCKWOOD(), InterruptPriority.Any);
                     return;
                 }
             }
@@ -117,7 +136,7 @@ namespace EntityStates.Enforcer
             //sirens
             if (base.isAuthority && Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.sirensKey.Value))
             {
-                this.outer.SetInterruptState(EntityState.Instantiate(new SerializableEntityStateType(typeof(SirenToggle))), InterruptPriority.Any);
+                this.sirenStateMachine.SetInterruptState(new SirenToggle(), InterruptPriority.Any);
                 return;
             }
 
@@ -151,7 +170,7 @@ namespace EntityStates.Enforcer
             base.FixedUpdate();
             if (this.shieldComponent) this.shieldComponent.aimRay = base.GetAimRay();
 
-            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff) || base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.minigunBuff))
+            if (base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff) || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff))
             {
                 base.characterBody.isSprinting = false;
                 base.characterBody.SetAimTimer(0.2f);
@@ -166,11 +185,11 @@ namespace EntityStates.Enforcer
             //bungus achievement
             if (base.isAuthority && base.hasCharacterMotor)
             {
-                bool flag = false;
+                //bool flag = false;
 
-                if (base.characterMotor.velocity == Vector3.zero && base.characterMotor.isGrounded)
+                /*if (base.characterMotor.velocity == Vector3.zero && base.characterMotor.isGrounded)
                 {
-                    int bungusCount = base.characterBody.master.inventory.GetItemCount(ItemIndex.Mushroom);
+                    int bungusCount = base.characterBody.master.inventory.GetItemCount(RoR2Content.Items.Mushroom);
                     if (bungusCount > 0)
                     {
                         flag = true;
@@ -181,13 +200,13 @@ namespace EntityStates.Enforcer
                     }
                 }
 
-                if (!flag) this.bungusStopwatch = 0;
+                if (!flag) this.bungusStopwatch = 0;*/
 
 
                 //sprint shield cancel
                 if (base.isAuthority && NetworkServer.active && this.sprintCancelEnabled && base.inputBank)
                 {
-                    if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) && base.inputBank.sprint.down)
+                    if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) && base.inputBank.sprint.down)
                     {
                         if (base.skillLocator)
                         {
@@ -208,7 +227,7 @@ namespace EntityStates.Enforcer
                 {
                     if (base.inputBank.skill1.down)
                     {
-                        if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots) || base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
+                        if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
                         {
                             base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.attackSpeedStat);
                         }
@@ -221,7 +240,7 @@ namespace EntityStates.Enforcer
             }
 
             //skateboard
-            if (base.characterBody.HasBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff))
+            if (base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff))
             {
                 if (base.isAuthority)
                 {

@@ -139,7 +139,7 @@ namespace EntityStates.Nemforcer
 
                 string soundString = EnforcerPlugin.Sounds.NemesisSwing2;
                 if (base.characterBody.skinIndex == 2 && EnforcerPlugin.EnforcerPlugin.starstormInstalled) soundString = EnforcerPlugin.Sounds.NemesisSwingAxe;
-                Util.PlayScaledSound(soundString, base.gameObject, this.attackSpeedStat);
+                Util.PlayAttackSpeedSound(soundString, base.gameObject, this.attackSpeedStat);
 
                 base.AddRecoil(-1f * HammerSwing.attackRecoil, -2f * HammerSwing.attackRecoil, -0.5f * HammerSwing.attackRecoil, 0.5f * HammerSwing.attackRecoil);
 

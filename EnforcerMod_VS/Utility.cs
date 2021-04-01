@@ -11,7 +11,7 @@ namespace EntityStates.Enforcer
 
         public override void OnEnter()
         {
-            if (goodState == null) goodState = Instantiate(typeof(AimStunDrone)) as AimStunDrone;
+            if (goodState == null) goodState = new AimStunDrone();
 
             this.maxDistance = 48;
             this.rayRadius = 2f;
@@ -26,7 +26,8 @@ namespace EntityStates.Enforcer
 
             base.OnEnter();
 
-            base.PlayAnimation("Gesture, Override", "AimGrenade");
+            base.PlayAnimation("Gesture, Override", "BufferEmpty");
+            base.PlayAnimation("Grenade, Override", "AimGrenade");
         }
 
         public override void FixedUpdate()
@@ -52,13 +53,13 @@ namespace EntityStates.Enforcer
         {
             base.OnExit();
 
-            base.PlayAnimation("Gesture, Override", "ThrowGrenade");
+            base.PlayAnimation("Grenade, Override", "ThrowGrenade");
 
             Util.PlaySound(EnforcerPlugin.Sounds.NemesisGrenadeThrow, base.gameObject);
 
             base.AddRecoil(-2f * TearGas.bulletRecoil, -3f * TearGas.bulletRecoil, -1f * TearGas.bulletRecoil, 1f * TearGas.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * TearGas.bulletRecoil);
-            EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol.effectPrefab, base.gameObject, TearGas.muzzleString, false);
+            //EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, base.gameObject, TearGas.muzzleString, false);
         }
     }
 
@@ -81,13 +82,13 @@ namespace EntityStates.Enforcer
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
             this.animator = base.GetModelAnimator();
 
-            base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
+            base.PlayAnimation("Grenade, Override", "ThrowGrenade");
 
-            Util.PlaySound(EnforcerPlugin.Sounds.LaunchTearGas, base.gameObject);
+            Util.PlaySound(EnforcerPlugin.Sounds.NemesisGrenadeThrow, base.gameObject);
 
             base.AddRecoil(-2f * TearGas.bulletRecoil, -3f * TearGas.bulletRecoil, -1f * TearGas.bulletRecoil, 1f * TearGas.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * TearGas.bulletRecoil);
-            EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol.effectPrefab, base.gameObject, TearGas.muzzleString, false);
+            //EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol.effectPrefab, base.gameObject, TearGas.muzzleString, false);
 
             if (base.isAuthority)
             {

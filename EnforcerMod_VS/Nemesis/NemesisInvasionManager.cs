@@ -78,12 +78,12 @@ namespace EnforcerPlugin
                         num,
                         num2
                 });*/
-                characterMaster.inventory.GiveItem(ItemIndex.BoostHp, Mathf.RoundToInt((num - 1f) * 10f));
-                characterMaster.inventory.GiveItem(ItemIndex.BoostDamage, Mathf.RoundToInt((num2 - 1f) * 10f));
+                characterMaster.inventory.GiveItem(RoR2Content.Items.BoostHp, Mathf.RoundToInt((num - 1f) * 10f));
+                characterMaster.inventory.GiveItem(RoR2Content.Items.BoostDamage, Mathf.RoundToInt((num2 - 1f) * 10f));
 
                 //haha fuck you
                 //!
-                characterMaster.inventory.GiveItem(ItemIndex.AdaptiveArmor, 1);
+                characterMaster.inventory.GiveItem(RoR2Content.Items.AdaptiveArmor, 1);
 
                 combatSquad.AddMember(characterMaster);
             }));

@@ -35,7 +35,6 @@ public class EnergyShieldControler : MonoBehaviour
         isSet = true;
 
         CharacterBody characterBody = gameObject.AddComponent<CharacterBody>();
-        characterBody.bodyIndex = -1;
         characterBody.name = "EnergyShield";
         characterBody.baseNameToken = "";
         characterBody.subtitleNameToken = "";

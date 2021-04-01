@@ -72,20 +72,22 @@ namespace EntityStates.Enforcer
 
             bool grounded = base.characterMotor.isGrounded;
 
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.jackBoots))
+            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff))
             {
-                if (grounded) base.PlayAnimation("FullBody, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
-                else base.PlayAnimation("Gesture, Override", "Bash", "ShieldBash.playbackRate", this.duration);
+                base.PlayAnimation("Shield", "ShieldBash", "ShieldBash.playbackRate", this.duration);
+                //if (grounded) base.PlayAnimation("FullBody, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
+                //else base.PlayAnimation("Gesture, Override", "Bash", "ShieldBash.playbackRate", this.duration);
                 this.attackStopDuration = ShieldBash.beefDurationShield / this.attackSpeedStat;
             }
             else
             {
-                if (grounded) base.PlayAnimation("FullBody, Override", "Bash", "ShieldBash.playbackRate", this.duration);
-                else base.PlayAnimation("Gesture, Override", "Bash", "ShieldBash.playbackRate", this.duration);
+                base.PlayAnimation("Gesture, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
+                //if (grounded) base.PlayAnimation("FullBody, Override", "Bash", "ShieldBash.playbackRate", this.duration);
+                //else base.PlayAnimation("Gesture, Override", "Bash", "ShieldBash.playbackRate", this.duration);
                 this.attackStopDuration = ShieldBash.beefDurationNoShield / this.attackSpeedStat;
             }
 
-            Util.PlayScaledSound(EnforcerPlugin.Sounds.ShieldBash, base.gameObject, this.attackSpeedStat);
+            Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.ShieldBash, base.gameObject, this.attackSpeedStat);
         }
 
         private void FireBlast()
@@ -288,7 +290,7 @@ namespace EntityStates.Enforcer
                         };
                         ProjectileManager.instance.FireProjectile(info);
 
-                        Util.PlayScaledSound(EnforcerPlugin.Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
+                        Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
 
                         Destroy(pc.gameObject);
 
@@ -314,7 +316,7 @@ namespace EntityStates.Enforcer
             if (_parries <= 0)
                 return;
 
-            Util.PlayScaledSound(EnforcerPlugin.Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
+            Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
 
             for (int i = 0; i < _parries; i++)
             {
@@ -381,7 +383,7 @@ namespace EntityStates.Enforcer
         private float hitPauseTimer;
         private OverlapAttack attack;
         private bool inHitPause;
-        private List<HealthComponent> victimsStruck = new List<HealthComponent>();
+        private List<HurtBox> victimsStruck = new List<HurtBox>();
 
         public override void OnEnter()
         {
@@ -393,9 +395,9 @@ namespace EntityStates.Enforcer
             base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(6);
             base.characterBody.isSprinting = true;
 
-            Util.PlayScaledSound(Croco.Leap.leapSoundString, base.gameObject, 1.75f);
+            Util.PlayAttackSpeedSound(Croco.Leap.leapSoundString, base.gameObject, 1.75f);
 
-            if (!base.HasBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff)) base.PlayAnimation("FullBody, Override", "ShoulderBash");//, "ShoulderBash.playbackRate", this.duration
+            if (!base.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff)) base.PlayAnimation("FullBody, Override", "ShoulderBash");//, "ShoulderBash.playbackRate", this.duration
 
             if (base.isAuthority && base.inputBank && base.characterDirection)
             {
@@ -523,7 +525,7 @@ namespace EntityStates.Enforcer
                         for (int i = 0; i < this.victimsStruck.Count; i++)
                         {
                             float mass = 0f;
-                            HealthComponent healthComponent = this.victimsStruck[i];
+                            HealthComponent healthComponent = this.victimsStruck[i].healthComponent;
                             CharacterMotor characterMotor = healthComponent.GetComponent<CharacterMotor>();
                             if (characterMotor)
                             {
@@ -598,10 +600,10 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
             this.duration = ShoulderBashImpact.baseDuration / this.attackSpeedStat;
-            if (!base.HasBuff(EnforcerPlugin.EnforcerPlugin.skateboardBuff)) base.PlayAnimation("FullBody, Override", "BashRecoil");
+            if (!base.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff)) base.PlayAnimation("FullBody, Override", "BashRecoil");
             base.SmallHop(base.characterMotor, ShoulderBash.smallHopVelocity);
 
-            Util.PlayScaledSound(EnforcerPlugin.Sounds.ShoulderBashHit, base.gameObject, 0.5f);
+            Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.ShoulderBashHit, base.gameObject, 0.5f);
 
             if (NetworkServer.active)
             {

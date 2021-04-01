@@ -23,9 +23,9 @@ namespace EntityStates.Enforcer
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
 
-            this.shieldComponent.isShielding = !base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff);
+            this.shieldComponent.isShielding = !base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
 
-            if (base.HasBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff))
+            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
             {
                 this.duration = EnergyShield.exitDuration / this.attackSpeedStat;
                 this.EnableEnergyShield(false);
@@ -41,7 +41,7 @@ namespace EntityStates.Enforcer
 
                 if (NetworkServer.active)
                 {
-                    base.characterBody.RemoveBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff);
+                    base.characterBody.RemoveBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
                 }
 
                 Util.PlaySound(EnforcerPlugin.Sounds.EnergyShieldDown, base.gameObject);
@@ -62,7 +62,7 @@ namespace EntityStates.Enforcer
 
                 if (NetworkServer.active)
                 {
-                    base.characterBody.AddBuff(EnforcerPlugin.EnforcerPlugin.energyShieldBuff);
+                    base.characterBody.AddBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
                 }
 
                 Util.PlaySound(EnforcerPlugin.Sounds.EnergyShieldUp, base.gameObject);
