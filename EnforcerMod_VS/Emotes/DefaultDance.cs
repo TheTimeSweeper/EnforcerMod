@@ -28,16 +28,16 @@ namespace EntityStates.Enforcer
             var weaponComponent = base.GetComponent<EnforcerWeaponComponent>();
             if (weaponComponent)
             {
-                weaponComponent.HideWeapon();
-                this.ToggleShield(false);
-                this.childLocator.FindChild("Skateboard").gameObject.SetActive(false);
+                //weaponComponent.HideWeapon();
+                //this.ToggleShield(false);
+                //this.childLocator.FindChild("Skateboard").gameObject.SetActive(false);
             }
 
             if (base.GetAimAnimator()) base.GetAimAnimator().enabled = false;
             this.animator.SetLayerWeight(animator.GetLayerIndex("AimPitch"), 0);
             this.animator.SetLayerWeight(animator.GetLayerIndex("AimYaw"), 0);
 
-            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex && base.characterBody.baseNameToken == "ENFORCER_NAME") soundString = EnforcerPlugin.Sounds.DOOM;
+            //if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex && base.characterBody.baseNameToken == "ENFORCER_NAME") soundString = EnforcerPlugin.Sounds.DOOM;
 
             if (this.animDuration == 0 && this.duration != 0) this.animDuration = this.duration;
 
@@ -71,8 +71,8 @@ namespace EntityStates.Enforcer
             var weaponComponent = base.GetComponent<EnforcerWeaponComponent>();
             if (weaponComponent)
             {
-                weaponComponent.ResetWeapon();
-                this.ToggleShield(true);
+                //weaponComponent.ResetWeapon();
+                //this.ToggleShield(true);
             }
 
             base.PlayAnimation("FullBody, Override", "BufferEmpty");
@@ -85,7 +85,7 @@ namespace EntityStates.Enforcer
             {
                 if (this.childLocator.FindChild("Shield"))
                 {
-                    this.childLocator.FindChild("Shield").gameObject.SetActive(sex);
+                    //this.childLocator.FindChild("Shield").gameObject.SetActive(sex);
                     //this.childLocator.FindChild("Skateboard").gameObject.SetActive(sex);
                 }
             }
@@ -121,20 +121,20 @@ namespace EntityStates.Enforcer
                     if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.defaultDanceKey.Value))
                     {
                         flag = false;
-                        this.outer.SetInterruptState(new DefaultDance(), InterruptPriority.Any);
+                        this.outer.SetInterruptState(new NemesisRest(), InterruptPriority.Any);
                         return;
                     }
                     else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.flossKey.Value))
                     {
                         flag = false;
-                        this.outer.SetInterruptState(new Salute(), InterruptPriority.Any);
+                        this.outer.SetInterruptState(new EnforcerSalute(), InterruptPriority.Any);
                         return;
                     }
                     else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.earlKey.Value))
                     {
-                        flag = false;
-                        this.outer.SetInterruptState(new FLINTLOCKWOOD(), InterruptPriority.Any);
-                        return;
+                        //flag = false;
+                        //this.outer.SetInterruptState(new FLINTLOCKWOOD(), InterruptPriority.Any);
+                        //return;
                     }
                 }
                 else
@@ -148,7 +148,7 @@ namespace EntityStates.Enforcer
                     else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.flossKey.Value))
                     {
                         flag = false;
-                        this.outer.SetInterruptState(new EnforcerSalute(), InterruptPriority.Any);
+                        this.outer.SetInterruptState(new Salute(), InterruptPriority.Any);
                         return;
                     }
                 }

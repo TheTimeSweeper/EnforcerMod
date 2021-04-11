@@ -5,7 +5,7 @@ namespace EnforcerPlugin.Modules
 {
     internal static class Survivors
     {
-        internal static void RegisterNewSurvivor(GameObject bodyPrefab, GameObject displayPrefab, string namePrefix, UnlockableDef unlockableDef)
+        internal static void RegisterNewSurvivor(GameObject bodyPrefab, GameObject displayPrefab, string namePrefix, UnlockableDef unlockableDef, float sortPosition)
         {
             string fullNameString = namePrefix + "_NAME";
             string fullDescString = namePrefix + "_DESCRIPTION";
@@ -19,12 +19,12 @@ namespace EnforcerPlugin.Modules
             survivorDef.descriptionToken = fullDescString;
             survivorDef.outroFlavorToken = fullOutroString;
             survivorDef.mainEndingEscapeFailureFlavorToken = fullFailureString;
-            survivorDef.desiredSortPosition = 100f;
+            survivorDef.desiredSortPosition = sortPosition;
             survivorDef.unlockableDef = unlockableDef;
 
             EnforcerPlugin.survivorDefs.Add(survivorDef);
         }
 
-        internal static void RegisterNewSurvivor(GameObject bodyPrefab, GameObject displayPrefab, string namePrefix) { RegisterNewSurvivor(bodyPrefab, displayPrefab, namePrefix, null); }
+        internal static void RegisterNewSurvivor(GameObject bodyPrefab, GameObject displayPrefab, string namePrefix) { RegisterNewSurvivor(bodyPrefab, displayPrefab, namePrefix, null, 4f); }
     }
 }

@@ -13,7 +13,6 @@ using EntityStates.Nemforcer;
 using EntityStates.Enforcer;
 using RoR2.Projectile;
 using RoR2.CharacterAI;
-using RoR2.Navigation;
 
 namespace EnforcerPlugin
 {
@@ -23,7 +22,7 @@ namespace EnforcerPlugin
         public const string characterSubtitle = "Incorruptible Shadow";
         public const string bossSubtitle = "End of the Line";
         public const string characterOutro = "..and so he left, with newfound might to honor.";
-        public const string characterOutroFailure = "..and so he returned, infallible bastion truly immortalized";
+        public const string characterOutroFailure = "..and so he returned, infallible bastion truly immortalized.";
         public const string characterLore = "\nheavy tf2\n\n";
 
         public static GameObject characterPrefab;
@@ -534,7 +533,7 @@ namespace EnforcerPlugin
 
             characterDisplay.AddComponent<NetworkIdentity>();
 
-            Modules.Survivors.RegisterNewSurvivor(characterPrefab, characterDisplay, "NEMFORCER");
+            Modules.Survivors.RegisterNewSurvivor(characterPrefab, characterDisplay, "NEMFORCER", Unlockables.nemesisUnlockableDef, 4.01f);
 
             SkillSetup();
 

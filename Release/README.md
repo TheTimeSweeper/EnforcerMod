@@ -3,12 +3,12 @@
 - Includes a bunch of unlockable alternate skills and skins
 - Includes support for Ancient Scepter and most modded items
 
-[![](https://cdn.discordapp.com/attachments/469291841859092488/782484337379246110/unknown.png)]()
+[![](https://cdn.discordapp.com/attachments/469291841859092488/830928468367114281/unknown.png)]()
 
 [![](https://cdn.discordapp.com/attachments/739704939671978024/787500376793677844/screen1.png)]()
 [![](https://cdn.discordapp.com/attachments/739704939671978024/787500388198514728/screen2.png)]()
 
-[![](https://cdn.discordapp.com/attachments/469291841859092488/782568907009425418/texEnforcerIcon.png)]()
+[![](https://cdn.discordapp.com/attachments/739696016755785859/828394816986808360/EnfuckerIcon.png)]()
 
 Join the discord server to share any feedback/bugs/suggestions- https://discord.gg/HpQB9fC
 
@@ -22,9 +22,10 @@ Jot - Animations
 DarkLordLui - Animations
 Violet Chaolan - Sounds
 LucidInceptor - Modeling
-bruh - Modeling, swag
+bruh - Modeling, swag, animation
 SalvadorBunny - Heavy TF2 Minecraft skin
-Destructor - Mod icon
+Destructor - Original mod icon
+Reithierion - New mod icon
 Draymarc - Concepts
 Lethan - Screenshots
 Moffein - Idea Guy™
@@ -56,14 +57,28 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 
 ## Known Issues
 - Cancelling shield with sprint does not work properly in multiplayer
-- Pending an R2API update, some achievements can't be unlocked in multiplayer (they only work for host or single player)
-- RyanSkinAPI causes the model to be invisible sometimes
 - Life Savings may not work
+- Item displays currently not implemented
+
 
 ## Future Plans
 - More alternate skills
 
 ## Changelog
+`3.0.1`
+- Updated mod icon and fixed manifest version
+
+`3.0.0`
+- Fixed to work on the anniversary update
+- Rebuilt entire model + animations from the ground up, courtesy of bruh- not 100% finished yet
+- All skins removed for now
+- All skill unlocks removed for now
+- Alternate gun models + animations removed for now
+- Item displays removed for now
+- Skateboard removed for now
+- Various config options removed
+- Fortnite dances removed
+
 `2.2.6`
 - King Dedede's bonus health regen is now disabled upon taking damage, and bleed now cuts ALL regen by 100% (only applies to Starstorm 2 invasion variant)
 

@@ -135,7 +135,7 @@ namespace EnforcerPlugin
             classicSkinDefInfo.NameToken = "NEMFORCERBODY_CLASSIC_SKIN_NAME";
             classicSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             classicSkinDefInfo.RootObject = model;
-            classicSkinDefInfo.UnlockableDef = null;
+            classicSkinDefInfo.UnlockableDef = Unlockables.nemMasteryUnlockableDef;
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];

@@ -61,7 +61,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
         {
             if (this.charBody.master.inventory)
             {
-                if (EnforcerPlugin.EnforcerPlugin.sillyHammer.Value)
+                /*if (EnforcerPlugin.EnforcerPlugin.sillyHammer.Value)
                 {
                     var characterModel = charBody.modelLocator.modelTransform.GetComponentInChildren<CharacterModel>();
                     if (characterModel)
@@ -69,7 +69,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
                         //characterModel.baseRendererInfos[0].defaultMaterial = characterModel.gameObject.GetComponent<ModelSkinController>().skins[charBody.skinIndex].rendererInfos[0].defaultMaterial;
                         //if (charBody.master.inventory.GetItemCount(ItemIndex.ArmorReductionOnHit) > 0) characterModel.baseRendererInfos[0].defaultMaterial = null;
                     }
-                }
+                }*/
                 /*else
                 {
                     var characterModel = charBody.modelLocator.modelTransform;
@@ -144,8 +144,8 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
         if (this.charBody)
         {
-            if (this.charBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) shield = 1;
-            if (this.charBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex) shield = 2;
+            //if (this.charBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) shield = 1;
+            //if (this.charBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex) shield = 2;
         }
 
         return shield;
@@ -349,7 +349,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
         for (int i = 0; i < EnforcerWeaponComponent.maxShellCount; i++)
         {
             this.shellObjects[i] = GameObject.Instantiate(desiredShell, this.childLocator.FindChild("Gun"), false);
-            this.shellObjects[i].transform.localScale *= 0.075f;
+            this.shellObjects[i].transform.localScale = Vector3.one * 1.1f;
             this.shellObjects[i].SetActive(false);
             this.shellObjects[i].GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.Continuous;
         }

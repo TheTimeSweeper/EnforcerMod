@@ -25,8 +25,6 @@ namespace EntityStates.Enforcer
         private float lastFired;
         private Animator animator;
         private string muzzleString;
-        private bool isStormtrooper;
-        private bool isEngi;
 
         public override void OnEnter()
         {
@@ -36,19 +34,8 @@ namespace EntityStates.Enforcer
             this.fireDuration = 0.05f * this.duration;
             base.characterBody.SetAimTimer(2f);
             this.animator = base.GetModelAnimator();
-            this.muzzleString = "RifleMuzzle";
-            this.isStormtrooper = false;
-            this.isEngi = false;
-            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value)
-            {
-                this.muzzleString = "BlasterRifleMuzzle";
-                this.isStormtrooper = true;
-            }
-            if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value)
-            {
-                this.muzzleString = "GrenadeMuzzle";
-                this.isEngi = true;
-            }
+            this.muzzleString = "Muzzle";
+
             this.hasFired = 0;
 
             if (base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff))
@@ -87,8 +74,8 @@ namespace EntityStates.Enforcer
                 }
 
                 string soundString = EnforcerPlugin.Sounds.FireAssaultRifleSlow;
-                if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterRifle;
-                if (this.isEngi) soundString = EnforcerPlugin.Sounds.FireBungusRifle;
+                //if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterRifle;
+                //if (this.isEngi) soundString = EnforcerPlugin.Sounds.FireBungusRifle;
 
                 Util.PlayAttackSpeedSound(soundString, base.gameObject, this.attackSpeedStat);
 
@@ -102,8 +89,8 @@ namespace EntityStates.Enforcer
                     Ray aimRay = base.GetAimRay();
 
                     GameObject tracerEffect = FireBurstRifle.bulletTracer;
-                    if (this.isStormtrooper) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
-                    if (this.isEngi) tracerEffect = EnforcerPlugin.EnforcerPlugin.bungusTracer;
+                    //if (this.isStormtrooper) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
+                    //if (this.isEngi) tracerEffect = EnforcerPlugin.EnforcerPlugin.bungusTracer;
 
                     new BulletAttack
                     {

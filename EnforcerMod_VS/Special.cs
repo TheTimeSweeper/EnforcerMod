@@ -25,9 +25,9 @@ namespace EntityStates.Enforcer
             this.childLocator = base.GetModelChildLocator();
             this.weaponComponent = base.GetComponent<EnforcerWeaponComponent>();
 
-            bool isEngi = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value;
-            if (EnforcerPlugin.EnforcerPlugin.oldEngiShield.Value) isEngi = false;
-            bool isDoom = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex;
+            //bool isEngi = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value;
+            //if (EnforcerPlugin.EnforcerPlugin.oldEngiShield.Value) isEngi = false;
+            //bool isDoom = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex;
 
             if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff))
             {
@@ -42,7 +42,7 @@ namespace EntityStates.Enforcer
 
                 this.childLocator.FindChild("ShieldHurtbox").gameObject.SetActive(false);
 
-                if (isEngi)
+                /*if (isEngi)
                 {
                     this.childLocator.FindChild("BungusShield").gameObject.SetActive(false);
                 }
@@ -50,7 +50,7 @@ namespace EntityStates.Enforcer
                 if (isDoom)
                 {
                     this.childLocator.FindChild("MarauderShield").gameObject.SetActive(false);
-                }
+                }*/
 
                 if (base.skillLocator)
                 {
@@ -65,7 +65,7 @@ namespace EntityStates.Enforcer
                 }
 
                 string soundString = EnforcerPlugin.Sounds.ShieldDown;
-                if (isEngi || isDoom) soundString = EnforcerPlugin.Sounds.EnergyShieldDown;
+                //if (isEngi || isDoom) soundString = EnforcerPlugin.Sounds.EnergyShieldDown;
 
                 Util.PlaySound(soundString, base.gameObject);
 
@@ -90,7 +90,7 @@ namespace EntityStates.Enforcer
 
                 this.childLocator.FindChild("ShieldHurtbox").gameObject.SetActive(true);
 
-                if (isEngi)
+                /*if (isEngi)
                 {
                     this.childLocator.FindChild("BungusShield").gameObject.SetActive(true);
                 }
@@ -98,7 +98,7 @@ namespace EntityStates.Enforcer
                 if (isDoom)
                 {
                     this.childLocator.FindChild("MarauderShield").gameObject.SetActive(true);
-                }
+                }*/
 
                 if (base.skillLocator)
                 {
@@ -113,7 +113,7 @@ namespace EntityStates.Enforcer
                 }
 
                 string soundString = EnforcerPlugin.Sounds.ShieldUp;
-                if (isEngi || isDoom) soundString = EnforcerPlugin.Sounds.EnergyShieldUp;
+                //if (isEngi || isDoom) soundString = EnforcerPlugin.Sounds.EnergyShieldUp;
 
                 Util.PlaySound(soundString, base.gameObject); 
 

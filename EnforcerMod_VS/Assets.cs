@@ -285,15 +285,15 @@ namespace EnforcerPlugin
 
             mainMat = MainAssetBundle.LoadAsset<Material>("matEnforcerAlt");
 
-            gmMesh = MainAssetBundle.LoadAsset<Mesh>("meshEnforcerGM");
-            stormtrooperMesh = MainAssetBundle.LoadAsset<Mesh>("StormtrooperMesh");
-            engiMesh = MainAssetBundle.LoadAsset<Mesh>("EngiforcerMesh");
-            desperadoMesh = MainAssetBundle.LoadAsset<Mesh>("EnforcerMesh");
-            zeroSuitMesh = MainAssetBundle.LoadAsset<Mesh>("ZeroSuitMesh");
-            classicMesh = MainAssetBundle.LoadAsset<Mesh>("EnforcerMesh");
-            sexMesh = MainAssetBundle.LoadAsset<Mesh>("SexforcerMesh");
-            femMesh = MainAssetBundle.LoadAsset<Mesh>("FemforcerMesh");
-            fuckingSteveMesh = MainAssetBundle.LoadAsset<Mesh>("FuckingSteveMesh");
+            //gmMesh = MainAssetBundle.LoadAsset<Mesh>("meshEnforcerGM");
+            //stormtrooperMesh = MainAssetBundle.LoadAsset<Mesh>("StormtrooperMesh");
+            //engiMesh = MainAssetBundle.LoadAsset<Mesh>("EngiforcerMesh");
+            //desperadoMesh = MainAssetBundle.LoadAsset<Mesh>("EnforcerMesh");
+            //zeroSuitMesh = MainAssetBundle.LoadAsset<Mesh>("ZeroSuitMesh");
+            //classicMesh = MainAssetBundle.LoadAsset<Mesh>("EnforcerMesh");
+            //sexMesh = MainAssetBundle.LoadAsset<Mesh>("SexforcerMesh");
+            //femMesh = MainAssetBundle.LoadAsset<Mesh>("FemforcerMesh");
+            //fuckingSteveMesh = MainAssetBundle.LoadAsset<Mesh>("FuckingSteveMesh");
 
             nemClassicMesh = MainAssetBundle.LoadAsset<Mesh>("meshNemforcerClassic");
             nemClassicHammerMesh = MainAssetBundle.LoadAsset<Mesh>("MeshClassicHammer");

@@ -25,10 +25,9 @@ namespace EnforcerPlugin
     [BepInDependency("com.KomradeSpectre.Aetherium", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.Sivelos.SivsItems", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.K1454.SupplyDrop", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency("com.KingEnderBrine.ScrollableLobbyUI", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.TeamMoonstorm.Starstorm2", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.0.0")]
+    [BepInPlugin(MODUID, "Enforcer", "3.0.1")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -107,13 +106,12 @@ namespace EnforcerPlugin
         public static bool aetheriumInstalled = false;
         public static bool sivsItemsInstalled = false;
         public static bool supplyDropInstalled = false;
-        public static bool scrollableLobbyInstalled = false;
         public static bool starstormInstalled = false;
 
-        public static uint doomGuyIndex = 2;
-        public static uint engiIndex = 3;
-        public static uint stormtrooperIndex = 4;
-        public static uint frogIndex = 7;
+        //public static uint doomGuyIndex = 2;
+        //public static uint engiIndex = 3;
+        //public static uint stormtrooperIndex = 4;
+        //public static uint frogIndex = 7;
 
         public static ConfigEntry<bool> forceUnlock;
         public static ConfigEntry<bool> classicShotgun;
@@ -122,11 +120,11 @@ namespace EnforcerPlugin
         public static ConfigEntry<bool> sprintShieldCancel;
         public static ConfigEntry<bool> sirenOnDeflect;
         public static ConfigEntry<bool> useNeedlerCrosshair;
-        public static ConfigEntry<bool> sillyHammer;
+        //public static ConfigEntry<bool> sillyHammer;
         public static ConfigEntry<bool> cursed;
-        public static ConfigEntry<bool> femSkin;
-        public static ConfigEntry<bool> oldEngiShield;
-        public static ConfigEntry<bool> pig;
+        //public static ConfigEntry<bool> femSkin;
+        //public static ConfigEntry<bool> oldEngiShield;
+        //public static ConfigEntry<bool> pig;
         public static ConfigEntry<bool> shellSounds;
         public static ConfigEntry<bool> globalInvasion;
         public static ConfigEntry<bool> multipleInvasions;
@@ -227,11 +225,6 @@ namespace EnforcerPlugin
                 ScepterSkillSetup();
                 ScepterSetup();
             }
-            //pog
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ScrollableLobbyUI"))
-            {
-                scrollableLobbyInstalled = true;
-            }
             //shartstorm 2 xDDDD
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TeamMoonstorm.Starstorm2"))
             {
@@ -256,6 +249,10 @@ namespace EnforcerPlugin
 
         private void EnforcerPlugin_LoadStart()
         {
+            /*foreach(SurvivorDef i in SurvivorCatalog.survivorDefs)
+            {
+                Debug.Log(Language.GetString((i.displayNameToken), "EN_US") + " sort position: " + i.desiredSortPosition);
+            }*/
         }
 
         private void ConfigShit()
@@ -267,11 +264,11 @@ namespace EnforcerPlugin
             sprintShieldCancel = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Sprint Cancels Shield"), true, new ConfigDescription("Allows Protect and Serve to be cancelled by pressing sprint rather than special again", null, Array.Empty<object>()));
             sirenOnDeflect = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Siren on Deflect"), true, new ConfigDescription("Play siren sound upon deflecting a projectile", null, Array.Empty<object>()));
             useNeedlerCrosshair = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Visions Crosshair"), true, new ConfigDescription("Gives every survivor the custom crosshair for Visions of Heresy", null, Array.Empty<object>()));
-            sillyHammer = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Silly Hammer"), false, new ConfigDescription("Replaces Enforcer with a skeleton made out of hammers when Shattering Justice is obtained", null, Array.Empty<object>()));
+            //sillyHammer = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Silly Hammer"), false, new ConfigDescription("Replaces Enforcer with a skeleton made out of hammers when Shattering Justice is obtained", null, Array.Empty<object>()));
             cursed = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Cursed"), false, new ConfigDescription("Enables extra/unfinished content. Enable at own risk.", null, Array.Empty<object>()));
-            femSkin = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Femforcer"), false, new ConfigDescription("Enables femforcer skin. Not for good boys and girls.", null, Array.Empty<object>()));
-            oldEngiShield = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Old Engi Shield"), false, new ConfigDescription("Reverts the look of the Engi shield.", null, Array.Empty<object>()));
-            pig = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Pig"), false, new ConfigDescription("Pig", null, Array.Empty<object>()));
+            //femSkin = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Femforcer"), false, new ConfigDescription("Enables femforcer skin. Not for good boys and girls.", null, Array.Empty<object>()));
+            //oldEngiShield = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Old Engi Shield"), false, new ConfigDescription("Reverts the look of the Engi shield.", null, Array.Empty<object>()));
+            //pig = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Pig"), false, new ConfigDescription("Pig", null, Array.Empty<object>()));
             shellSounds = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Shell Sounds"), true, new ConfigDescription("Play a sound when ejected shotgun shells hit the ground", null, Array.Empty<object>()));
             globalInvasion = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Global Invasion"), false, new ConfigDescription("Allows invasions when playing any character, not just Enforcer. Purely for fun.", null, Array.Empty<object>()));
             multipleInvasions = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Multiple Invasion Bosses"), false, new ConfigDescription("Allows multiple bosses to spawn from an invasion.", null, Array.Empty<object>()));
@@ -356,7 +353,7 @@ namespace EnforcerPlugin
             On.RoR2.EscapeSequenceController.BeginEscapeSequence += EscapeSequenceController_BeginEscapeSequence;
             //On.RoR2.UI.MainMenu.BaseMainMenuScreen.OnEnter += BaseMainMenuScreen_OnEnter;
             //On.RoR2.CharacterSelectBarController.ShouldDisplaySurvivor += CharacterSelectBarController_ShouldDisplaySurvivor;
-            On.RoR2.CharacterSelectBarController.Start += CharacterSelectBarController_Start;
+            On.RoR2.PreGameController.Awake += PreGameController_Start;
             On.RoR2.MapZone.TryZoneStart += MapZone_TryZoneStart;
             On.RoR2.HealthComponent.Suicide += HealthComponent_Suicide;
             On.RoR2.TeleportOutController.OnStartClient += TeleportOutController_OnStartClient;
@@ -906,7 +903,7 @@ namespace EnforcerPlugin
 
         private bool CharacterSelectBarController_ShouldDisplaySurvivor(On.RoR2.CharacterSelectBarController.orig_ShouldDisplaySurvivor orig, CharacterSelectBarController self, SurvivorDef survivorDef)
         {
-            if (survivorDef.bodyPrefab.name == "NemforcerBody")
+            if (survivorDef.bodyPrefab.name == NemforcerPlugin.characterPrefab.name)
             {
                 if (!SurvivorCatalog.SurvivorIsUnlockedOnThisClient(survivorDef.survivorIndex))
                 {
@@ -916,20 +913,19 @@ namespace EnforcerPlugin
             return orig(self, survivorDef);
         }
 
-        private void CharacterSelectBarController_Start(On.RoR2.CharacterSelectBarController.orig_Start orig, CharacterSelectBarController self)
+        private void PreGameController_Start(On.RoR2.PreGameController.orig_Awake orig, PreGameController self)
         {
             string bodyName = NemforcerPlugin.characterPrefab.GetComponent<CharacterBody>().baseNameToken;
-            bool unlocked = SurvivorCatalog.SurvivorIsUnlockedOnThisClient(SurvivorCatalog.FindSurvivorIndex(bodyName));
+            //bool unlocked = SurvivorCatalog.SurvivorIsUnlockedOnThisClient(SurvivorCatalog.FindSurvivorIndex(bodyName));
+            bool unlocked = LocalUserManager.readOnlyLocalUsersList.Any((LocalUser localUser) => localUser.userProfile.HasUnlockable(Unlockables.nemesisUnlockableDef));
             if (unlocked)
             {
-                SurvivorCatalog.FindSurvivorDefFromBody(characterPrefab).hidden = true;
+                SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).hidden = false;
             }
             else
             {
-                SurvivorCatalog.FindSurvivorDefFromBody(characterPrefab).hidden = false;
+                SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).hidden = true;
             }
-
-            orig(self);
 
             orig(self);
         }
@@ -937,11 +933,11 @@ namespace EnforcerPlugin
         private void HealthComponent_Suicide(On.RoR2.HealthComponent.orig_Suicide orig, HealthComponent self, GameObject killerOverride, GameObject inflictorOverride, DamageType damageType) {
 
             if (damageType == DamageType.VoidDeath) {
-                Debug.LogWarning("voidDeath");
+                //Debug.LogWarning("voidDeath");
                 if (self.body.baseNameToken == "NEMFORCER_NAME") {
-                    Debug.LogWarning("nemmememme");
+                    //Debug.LogWarning("nemmememme");
                     if (self.body.teamComponent.teamIndex != TeamIndex.Player) {
-                        Debug.LogWarning("spookyscary");
+                        //Debug.LogWarning("spookyscary");
                         return;
                     }
                 }
@@ -1267,6 +1263,8 @@ namespace EnforcerPlugin
 
             characterModel.mainSkinnedMeshRenderer = childLocator.FindChild("Model").gameObject.GetComponent<SkinnedMeshRenderer>();
 
+            childLocator.FindChild("Chair").GetComponent<MeshRenderer>().material = Assets.CreateMaterial("matChair", 0f, Color.black, 0f);
+
             //fuck man
             childLocator.FindChild("Head").transform.localScale = Vector3.one * headSize.Value;
 
@@ -1484,7 +1482,7 @@ namespace EnforcerPlugin
             //string unlockString = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
             //if (forceUnlock.Value) unlockString = "";
 
-            Modules.Survivors.RegisterNewSurvivor(characterPrefab, characterDisplay, "ENFORCER");
+            Modules.Survivors.RegisterNewSurvivor(characterPrefab, characterDisplay, "ENFORCER", null, 4.005f);
 
             SkillSetup();
 
@@ -1829,8 +1827,8 @@ namespace EnforcerPlugin
             Modules.Effects.AddEffect(bulletTracerSSG);
             Modules.Effects.AddEffect(laserTracer);
             Modules.Effects.AddEffect(minigunTracer);
-            Modules.Effects.AddEffect(blockEffectPrefab);
-            Modules.Effects.AddEffect(heavyBlockEffectPrefab);
+            Modules.Effects.AddEffect(blockEffectPrefab, Sounds.ShieldBlockLight);
+            Modules.Effects.AddEffect(heavyBlockEffectPrefab, Sounds.ShieldBlockHeavy);
             Modules.Effects.AddEffect(hammerSlamEffect);
         }
 

@@ -160,6 +160,7 @@ ModelImporter:
     2100000: matEnforcer
     2100002: matShield
     2100004: matShotgun
+    2100006: Material.003
     4300000: meshEnforcer
     4300002: meshShield
     4300004: meshGun
@@ -179,6 +180,7 @@ ModelImporter:
     7400024: Armature|ShieldWalkL
     7400026: Armature|ShieldWalkR
     7400028: Armature|t
+    7400030: Armature|ShieldFireShotgunOld
     9500000: //RootNode
     10800000: Light
     13700000: meshEnforcer
@@ -237,7 +239,7 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 0
-    previousCalculatedGlobalScale: 0.01
+    previousCalculatedGlobalScale: 1
     hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60

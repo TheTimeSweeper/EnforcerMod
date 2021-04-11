@@ -23,8 +23,8 @@ namespace EntityStates.Enforcer
         public float attackStopDuration;   
         public float duration;
         public float fireDuration;
-        public bool isStormtrooper;
-        public bool isEngi;
+        //public bool isStormtrooper;
+        //public bool isEngi;
         public bool hasFired;
         private Animator animator;
         public string muzzleString;
@@ -35,7 +35,7 @@ namespace EntityStates.Enforcer
             base.characterBody.SetAimTimer(2f);
             this.animator = base.GetModelAnimator();
             this.muzzleString = "Muzzle";
-            this.isStormtrooper = false;
+            /*this.isStormtrooper = false;
             this.isEngi = false;
             if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value)
             {
@@ -44,7 +44,7 @@ namespace EntityStates.Enforcer
             if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value)
             {
                 this.isEngi = true;
-            }
+            }*/
             this.hasFired = false;
 
             if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
@@ -52,14 +52,7 @@ namespace EntityStates.Enforcer
                 this.duration = this.baseShieldDuration / this.attackSpeedStat;
                 this.attackStopDuration = RiotShotgun.beefDurationShield / this.attackSpeedStat;
 
-                if (base.characterMotor.isGrounded)
-                {
-                    base.PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", 0.5f * this.duration);
-                }
-                else
-                {
-                    base.PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", this.duration);
-                }
+                base.PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", 0.5f * this.duration);
             }
             else
             {
@@ -91,8 +84,8 @@ namespace EntityStates.Enforcer
 
                 if (EnforcerPlugin.EnforcerPlugin.classicShotgun.Value) soundString = EnforcerPlugin.Sounds.FireClassicShotgun;
 
-                if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
-                if (this.isEngi) soundString = EnforcerPlugin.Sounds.FireBungusShotgun;
+                //if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
+                //if (this.isEngi) soundString = EnforcerPlugin.Sounds.FireBungusShotgun;
 
                 Util.PlayAttackSpeedSound(soundString, base.gameObject, this.attackSpeedStat);
 
@@ -104,17 +97,17 @@ namespace EntityStates.Enforcer
                 base.characterBody.AddSpreadBloom(0.33f * recoil);
                 EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, base.gameObject, this.muzzleString, false);
 
-                if (!this.isStormtrooper && !this.isEngi) base.GetComponent<EnforcerWeaponComponent>().DropShell(-base.GetModelBaseTransform().transform.right * -Random.Range(4, 12));
+                //if (!this.isStormtrooper && !this.isEngi)
+                base.GetComponent<EnforcerWeaponComponent>().DropShell(-base.GetModelBaseTransform().transform.right * -Random.Range(4, 12));
 
                 if (base.isAuthority)
                 {
                     float damage = RiotShotgun.damageCoefficient * this.damageStat;
 
-                    //unique tracer for stormtrooper skin because this is oddly high effort
                     GameObject tracerEffect = EnforcerPlugin.EnforcerPlugin.bulletTracer;
 
-                    if (this.isStormtrooper) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
-                    if (this.isEngi) tracerEffect = EnforcerPlugin.EnforcerPlugin.bungusTracer;
+                    //if (this.isStormtrooper) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
+                    //if (this.isEngi) tracerEffect = EnforcerPlugin.EnforcerPlugin.bungusTracer;
 
                     Ray aimRay = base.GetAimRay();
 
@@ -223,14 +216,14 @@ namespace EntityStates.Enforcer
                 this.duration = SuperShotgun.baseShieldDuration / this.attackSpeedStat;
                 this.attackStopDuration = RiotShotgun.beefDurationShield / this.attackSpeedStat;
 
-                base.PlayAnimation("RightArm, Override", "FireSSGShielded", "FireShotgun.playbackRate", this.duration);
+                base.PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", this.duration);
             }
             else
             {
                 this.duration = SuperShotgun.baseDuration / this.attackSpeedStat;
                 this.attackStopDuration = RiotShotgun.beefDurationNoShield / this.attackSpeedStat;
 
-                base.PlayAnimation("RightArm, Override", "FireSSG", "FireShotgun.playbackRate", this.duration);
+                base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
             }
 
             this.fireDuration = 0.1f * this.duration;
@@ -242,12 +235,10 @@ namespace EntityStates.Enforcer
             {
                 this.droppedShell = true;
 
-                if (!this.isStormtrooper && !this.isEngi)
-                {
-                    var poopy = base.GetComponent<EnforcerWeaponComponent>();
-                    poopy.DropShell(-base.GetModelBaseTransform().transform.right * -Random.Range(6, 16));
-                    poopy.DropShell(-base.GetModelBaseTransform().transform.right * -Random.Range(6, 16));
-                }
+                var poopy = base.GetComponent<EnforcerWeaponComponent>();
+                poopy.DropShell(-base.GetModelBaseTransform().transform.right * -Random.Range(6, 16));
+                poopy.DropShell(-base.GetModelBaseTransform().transform.right * -Random.Range(6, 16));
+                //if (!this.isStormtrooper && !this.isEngi)
             }
 
             base.FixedUpdate();
@@ -269,9 +260,9 @@ namespace EntityStates.Enforcer
 
                 if (EnforcerPlugin.EnforcerPlugin.classicShotgun.Value) soundString = EnforcerPlugin.Sounds.FireClassicShotgun;
 
-                if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) soundString = EnforcerPlugin.Sounds.FireSuperShotgunDOOM;
-                if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
-                if (this.isEngi) soundString = EnforcerPlugin.Sounds.FireBungusSSG;
+                //if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) soundString = EnforcerPlugin.Sounds.FireSuperShotgunDOOM;
+                //if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
+                //if (this.isEngi) soundString = EnforcerPlugin.Sounds.FireBungusSSG;
 
                 Util.PlayAttackSpeedSound(soundString, base.gameObject, this.attackSpeedStat);
 
@@ -289,8 +280,8 @@ namespace EntityStates.Enforcer
 
                     GameObject tracerEffect = EnforcerPlugin.EnforcerPlugin.bulletTracerSSG;
 
-                    if (this.isStormtrooper) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
-                    if (this.isEngi) tracerEffect = EnforcerPlugin.EnforcerPlugin.bungusTracer;
+                    //if (this.isStormtrooper) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
+                    //if (this.isEngi) tracerEffect = EnforcerPlugin.EnforcerPlugin.bungusTracer;
 
                     Ray aimRay = base.GetAimRay();
 
@@ -327,7 +318,7 @@ namespace EntityStates.Enforcer
                     }.Fire();
                 }
 
-                this.PlayGunAnim("Reload");
+                //this.PlayGunAnim("Reload");
             }
         }
 

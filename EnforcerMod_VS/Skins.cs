@@ -47,7 +47,7 @@ namespace EnforcerPlugin
 
             #region LanguageTokens
             LanguageAPI.Add("ENFORCERBODY_DEFAULT_SKIN_NAME", "Default");
-            LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Peacekeeper");
+            LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "N-4CR");//Peacekeeper
             LanguageAPI.Add("ENFORCERBODY_TYPHOON_SKIN_NAME", "Lawbringer");
             LanguageAPI.Add("ENFORCERBODY_SPACE_SKIN_NAME", "Rainstormtrooper");
             LanguageAPI.Add("ENFORCERBODY_ENGI_SKIN_NAME", "Engineer?");
@@ -72,8 +72,23 @@ namespace EnforcerPlugin
             {
                 new SkinDef.MeshReplacement
                 {
-                    renderer = mainRenderer,
-                    mesh = mainRenderer.sharedMesh
+                    renderer = characterModel.baseRendererInfos[0].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshShield")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[1].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshGun")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[2].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshPauldron")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[3].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshEnforcer")
                 }
             };
             skinDefInfo.Name = "ENFORCERBODY_DEFAULT_SKIN_NAME";
@@ -88,6 +103,57 @@ namespace EnforcerPlugin
 
             SkinDef defaultSkin = CreateSkinDef(skinDefInfo);
             skinDefs.Add(defaultSkin);
+
+            #region Mastery
+            SkinDefInfo masterySkinDefInfo = new SkinDefInfo();
+            masterySkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            masterySkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            masterySkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+            masterySkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+
+            masterySkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerEnforcer");
+            //skinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.31f, 0.49f, 0.69f), new Color(0.86f, 0.83f, 0.63f), new Color(0.1f, 0.07f, 0.06f), new Color(0.21f, 0.29f, 0.38f));
+            masterySkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[0].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshShieldBot")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[1].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshGunBot")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[2].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshPauldronBot")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[3].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshEnforcerBot")
+                }
+            };
+            masterySkinDefInfo.Name = "ENFORCERBODY_MASTERY_SKIN_NAME";
+            masterySkinDefInfo.NameToken = "ENFORCERBODY_MASTERY_SKIN_NAME";
+            masterySkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            masterySkinDefInfo.RootObject = model;
+            masterySkinDefInfo.UnlockableDef = Unlockables.masteryUnlockableDef;
+
+            CharacterModel.RendererInfo[] rendererInfos = new CharacterModel.RendererInfo[defaultSkin.rendererInfos.Length];
+            defaultSkin.rendererInfos.CopyTo(rendererInfos, 0);
+
+            masterySkinDefInfo.RendererInfos = rendererInfos;
+            masterySkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 0f, Color.black, 1f);
+            masterySkinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 0f, Color.black, 0);
+            masterySkinDefInfo.RendererInfos[2].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 1f, Color.white, 0f);
+            masterySkinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 1f, Color.white, 0f);
+
+            SkinDef masterySkin = CreateSkinDef(masterySkinDefInfo);
+            skinDefs.Add(masterySkin);
+            #endregion
 
             // what are we gonna do about all this...........
             #region FUCK

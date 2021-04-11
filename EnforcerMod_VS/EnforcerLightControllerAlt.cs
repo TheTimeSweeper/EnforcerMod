@@ -48,10 +48,10 @@ class EnforcerLightControllerAlt : MonoBehaviour
                 };
             }
 
-            if (this.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value)
-            {
-                this.minEmission = 0f;
-            }
+            //if (this.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value)
+            //{
+            //    this.minEmission = 0f;
+            //}
         }
         else
         {
@@ -144,7 +144,7 @@ class EnforcerLightControllerAlt : MonoBehaviour
 
             if (this.characterBody && EnforcerPlugin.EnforcerPlugin.cursed.Value)
             {
-                if (this.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.frogIndex) sound = EnforcerPlugin.Sounds.Croak;
+                //if (this.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.frogIndex) sound = EnforcerPlugin.Sounds.Croak;
             }
 
             this.flashStopwatch = 0;
