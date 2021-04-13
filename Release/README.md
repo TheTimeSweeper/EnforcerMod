@@ -1,7 +1,7 @@
 # Enforcer
 - Adds the Enforcer from Risk of Rain 1
-- Includes a bunch of unlockable alternate skills and skins
-- Includes support for Ancient Scepter and most modded items
+- ~~Includes a bunch of unlockable alternate skills and skins~~
+- ~~Includes support for Ancient Scepter and most modded items~~
 
 [![](https://cdn.discordapp.com/attachments/469291841859092488/830928468367114281/unknown.png)]()
 
@@ -65,6 +65,9 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - More alternate skills
 
 ## Changelog
+`3.0.2`
+- Hotfix update for the hotfix update
+
 `3.0.1`
 - Updated mod icon and fixed manifest version
 
