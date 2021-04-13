@@ -25,7 +25,7 @@ namespace EnforcerPlugin.Modules
 
         internal static void RegisterBuffs()
         {
-            IL.RoR2.BuffCatalog.Init += FixBuffCatalog;
+            //IL.RoR2.BuffCatalog.Init += FixBuffCatalog;
 
             protectAndServeBuff = AddNewBuff("Heavyweight", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffProtectAndServe"), EnforcerPlugin.characterColor, false, false);
             energyShieldBuff = AddNewBuff("EnergyShield", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffProtectAndServe"), EnforcerPlugin.characterColor, false, false);
@@ -38,18 +38,18 @@ namespace EnforcerPlugin.Modules
             nemImpairedBuff = AddNewBuff("NemImpaired", Resources.Load<Sprite>("Textures/BuffIcons/texBuffSlow50Icon"), Color.red, false, true);
         }
 
-        internal static void FixBuffCatalog(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
+        //internal static void FixBuffCatalog(ILContext il)
+        //{
+        //    ILCursor c = new ILCursor(il);
 
-            if (!c.Next.MatchLdsfld(typeof(RoR2Content.Buffs), nameof(RoR2Content.Buffs.buffDefs)))
-            {
-                return;
-            }
+        //    if (!c.Next.MatchLdsfld(typeof(RoR2Content.Buffs), nameof(RoR2Content.Buffs.buffDefs)))
+        //    {
+        //        return;
+        //    }
 
-            c.Remove();
-            c.Emit(OpCodes.Ldsfld, typeof(ContentManager).GetField(nameof(ContentManager.buffDefs)));
-        }
+        //    c.Remove();
+        //    c.Emit(OpCodes.Ldsfld, typeof(ContentManager).GetField(nameof(ContentManager.buffDefs)));
+        //}
 
         // simple helper method
         internal static BuffDef AddNewBuff(string buffName, Sprite buffIcon, Color buffColor, bool canStack, bool isDebuff)

@@ -244,7 +244,12 @@ namespace EnforcerPlugin
 
             Hook();
 
-            new Modules.ContentPacks().CreateContentPack();
+            //new Modules.ContentPacks().CreateContentPack();
+            RoR2.ContentManagement.ContentManager.collectContentPackProviders += ContentManager_collectContentPackProviders;
+        }
+
+        private void ContentManager_collectContentPackProviders(RoR2.ContentManagement.ContentManager.AddContentPackProviderDelegate addContentPackProvider) {
+            addContentPackProvider(new Modules.ContentPacks());
         }
 
         private void EnforcerPlugin_LoadStart()
