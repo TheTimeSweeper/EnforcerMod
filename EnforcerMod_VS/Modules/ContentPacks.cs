@@ -7,11 +7,11 @@ using UnityEngine;
 namespace EnforcerPlugin.Modules
 {
     //quick and dirty adadptaion of this module to the new interface
-    internal class ContentPacks : IContentPackProvider
+    public class ContentPacks : IContentPackProvider
     {
         private static ContentPack contentPack = new ContentPack();
 
-        public string identifier => throw new System.NotImplementedException();
+        public string identifier => "Enforcer.EnforcerContent";
 
         public IEnumerator FinalizeAsync(FinalizeAsyncArgs args) {
             args.ReportProgress(1f);
