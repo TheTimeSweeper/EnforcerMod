@@ -5,7 +5,7 @@
     "description": "Adds the Enforcer from Risk of Rain 1 as a fully fleshed out playable survivor. Now fixed for the anniversary update, and with a new model rebuilt from the ground up!",
     "dependencies": [
         "bbepis-BepInExPack-5.4.9",
-		"tristanmcpherson-R2API-3.0.11",
+		"tristanmcpherson-R2API-3.0.13",
 			"KingEnderBrine-ScrollableLobbyUI-1.6.1"
     ]
 }
