@@ -3,6 +3,7 @@ using UnityEngine;
 using RoR2;
 using Enforcer.Modules;
 using R2API;
+using ModdedUnlockable = Enforcer.Modules.ModdedUnlockable;
 
 namespace EnforcerPlugin
 {

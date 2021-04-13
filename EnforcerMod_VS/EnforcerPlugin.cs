@@ -27,7 +27,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.K1454.SupplyDrop", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.TeamMoonstorm.Starstorm2", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.0.1")]
+    [BepInPlugin(MODUID, "Enforcer", "3.0.2")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
