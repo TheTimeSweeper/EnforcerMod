@@ -592,7 +592,11 @@ namespace EnforcerPlugin
             dotZone.impactEffect = null;
             dotZone.lifetime = 18f;
             dotZone.overlapProcCoefficient = 0.05f;
-            dotZone.transform.localScale *= 2.5f;
+            dotZone.transform.localScale = Vector3.one * 32;
+
+            HitBoxGroup gasHitboxGroup = nemGas.GetComponent<HitBoxGroup>();
+
+            gasHitboxGroup.hitBoxes = new HitBox[] { gasHitboxGroup.gameObject.AddComponent<HitBox>() };
 
             nemGasDamage.damageType = DamageType.BlightOnHit;
 
@@ -652,8 +656,9 @@ namespace EnforcerPlugin
             nemGasDamage.force = -10;
 
             EnforcerPlugin.Destroy(nemGas.transform.GetChild(0).gameObject);
-            GameObject gasFX = Assets.nemGasEffectPrefab.InstantiateClone("FX", true);
-            gasFX.AddComponent<NetworkIdentity>();
+            GameObject gasFX = Assets.nemGasEffectPrefab.InstantiateClone("nemGasFX", false);
+            //nemgas already has a NetworkIdentity so the game's yelling at us that we can't more than one and it should be on the root
+            //gasFX.AddComponent<NetworkIdentity>();
             gasFX.AddComponent<TearGasComponent>();
             gasFX.AddComponent<DestroyOnTimer>().duration = 18f;
             gasFX.transform.parent = nemGas.transform;
@@ -2245,7 +2250,7 @@ namespace EnforcerPlugin
             //};
             #endregion
 
-            //make hitboxes for hammer (old)
+            //make hitboxes for hammer (not old)
             GameObject hammerHitbox1 = childLocator.FindChild("HammerHitboxFront").gameObject;
             hammerHitbox1.layer = LayerIndex.projectile.intVal;
 
@@ -2268,13 +2273,14 @@ namespace EnforcerPlugin
 
             GameObject uppercutHitbox = childLocator.FindChild("UppercutHitbox").gameObject;
             uppercutHitbox.transform.localScale = Vector3.one * 10f;
+            uppercutHitbox.transform.localPosition = new Vector3(0, 2.2f, 2.32f);
 
             HitBox hitBox2 = uppercutHitbox.AddComponent<HitBox>();
             uppercutHitbox.layer = LayerIndex.projectile.intVal;
 
             hitBoxGroup2.hitBoxes = new HitBox[]
             {
-                hitBox2
+                hitBox2,
             };
 
             hitBoxGroup2.groupName = "Uppercut";

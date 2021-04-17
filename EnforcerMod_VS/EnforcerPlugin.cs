@@ -1630,8 +1630,9 @@ namespace EnforcerPlugin
             //this is weird but it works
 
             Destroy(tearGasPrefab.transform.GetChild(0).gameObject);
-            GameObject gasFX = Assets.tearGasEffectPrefab.InstantiateClone("FX", true);
-            gasFX.AddComponent<NetworkIdentity>();
+            GameObject gasFX = Assets.tearGasEffectPrefab.InstantiateClone("tearGasFX", false);
+            //tearGasPrefab already has a NetworkIdentity so the game's yelling at us that we can't more than one and it should be on the root
+            //gasFX.AddComponent<NetworkIdentity>();
             gasFX.AddComponent<TearGasComponent>();
             gasFX.AddComponent<DestroyOnTimer>().duration = 18f;
             gasFX.transform.parent = tearGasPrefab.transform;
@@ -1660,7 +1661,10 @@ namespace EnforcerPlugin
             dotZone.impactEffect = null;
             dotZone.lifetime = 18f;
             dotZone.overlapProcCoefficient = 0.05f;
-            dotZone.transform.localScale *= 2.5f;
+            dotZone.transform.localScale = Vector3.one * 28;
+
+            HitBoxGroup gasHitboxGroup = dotZone.GetComponent<HitBoxGroup>();
+            gasHitboxGroup.hitBoxes = new HitBox[] { gasHitboxGroup.gameObject.AddComponent<HitBox>() };
 
             GameObject scepterGrenadeModel = Assets.tearGasGrenadeModelAlt.InstantiateClone("TearGasScepterGhost", true);
             scepterGrenadeModel.AddComponent<NetworkIdentity>();
@@ -1705,8 +1709,9 @@ namespace EnforcerPlugin
             scepterTearGasDamage.force = -10;
 
             Destroy(damageGasEffect.transform.GetChild(0).gameObject);
-            GameObject scepterGasFX = Assets.tearGasEffectPrefabAlt.InstantiateClone("FX", true);
-            scepterGasFX.AddComponent<NetworkIdentity>();
+            GameObject scepterGasFX = Assets.tearGasEffectPrefabAlt.InstantiateClone("scepterGasFX", false);
+            //damageGasEffect already has a NetworkIdentity so the game's yelling at us that we can't more than one and it should be on the root
+            //scepterGasFX.AddComponent<NetworkIdentity>();
             scepterGasFX.AddComponent<TearGasComponent>();
             scepterGasFX.AddComponent<DestroyOnTimer>().duration = 18f;
             scepterGasFX.transform.parent = damageGasEffect.transform;
