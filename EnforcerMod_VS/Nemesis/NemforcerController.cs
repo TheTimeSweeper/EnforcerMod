@@ -243,6 +243,12 @@ public class NemforcerController : MonoBehaviour
     }
 
     public void pseudoAimMode(float angle) {
+
+        Vector3 aimDirection = mainStateMachine.commonComponents.inputBank.aimDirection;
+        pseudoAimMode(angle, aimDirection);
+    }
+
+    public void pseudoAimMode(float angle, Vector3 aimDirection) {
         //rotationResetTimer = 1;
 
         if (!mainStateMachine)
@@ -250,7 +256,7 @@ public class NemforcerController : MonoBehaviour
 
         //angle = Mathf.Lerp(previousAngle, angle, 0.1f);
 
-        Vector3 aimDirection = mainStateMachine.commonComponents.inputBank.aimDirection;
+        aimDirection = aimDirection.normalized;
         aimDirection.y = 0;
 
         //direction perpendicular to the aiming
@@ -260,7 +266,7 @@ public class NemforcerController : MonoBehaviour
 
         Vector3 turnedDirection = Vector3.RotateTowards(aimDirection, turningDirection, -rot * Mathf.Deg2Rad, 1);
 
-        turnedDirection = Vector3.Lerp(previousDirection, turnedDirection, 0.2f);
+        turnedDirection = Vector3.Lerp(previousDirection, turnedDirection, 0.5f);
 
         pseudoAimMode(turnedDirection);
         previousAngle = angle;

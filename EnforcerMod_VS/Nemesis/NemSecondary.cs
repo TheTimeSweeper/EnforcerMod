@@ -22,6 +22,8 @@ namespace EntityStates.Nemforcer
         private NemforcerController nemController;
         private float fallTime;
         private bool slamming;
+        private Vector3 forwardDirection;
+        private bool moving;
 
         public override void OnEnter()
         {
@@ -32,7 +34,13 @@ namespace EntityStates.Nemforcer
             this.animator = base.GetModelAnimator();
             this.nemController = base.GetComponent<NemforcerController>();
 
+            bool grounded = base.characterMotor.isGrounded;
+            this.moving = this.animator.GetBool("isMoving");
+
             base.PlayAnimation("Gesture, Override", "HammerCharge", "HammerCharge.playbackRate", this.chargeDuration);
+            if (grounded && !moving) {
+                base.PlayAnimation("Legs, Override", "HammerCharge", "HammerCharge.playbackRate", this.chargeDuration);
+            }
 
             this.chargePlayID = Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.NemesisStartCharge, base.gameObject, this.attackSpeedStat);
             this.flameLoopPlayID = Util.PlaySound(EnforcerPlugin.Sounds.NemesisFlameLoop, base.gameObject);
@@ -54,6 +62,27 @@ namespace EntityStates.Nemforcer
             float charge = this.CalcCharge();
 
             AkSoundEngine.SetRTPCValue("M2_Charge", 100f * charge);
+
+            //implemented body rotating thing for charging the hammer, but pending better strafing animations it really does not look good
+            //except when you're standing still that looks gucci
+                //so it'll hang in this ugly if block for now
+            if (!this.moving) {
+
+                this.moving = this.animator.GetBool("isMoving");
+
+                float rot = this.animator.GetFloat("baseRotate") * 0.8f;
+                Vector3 forwardInput;
+                if (base.isAuthority && base.inputBank && base.characterDirection) {
+
+                    forwardInput = ((base.inputBank.moveVector == Vector3.zero) ? base.GetAimRay().direction : base.inputBank.moveVector);
+
+                    this.forwardDirection = Vector3.Lerp(this.forwardDirection, forwardInput, 0.1f);
+                    this.nemController.pseudoAimMode(rot, this.forwardDirection);
+                } else {
+
+                    this.nemController.pseudoAimMode(rot);
+                } 
+            }
 
             if (charge >= 1f && !this.finishedCharge)
             {
@@ -176,8 +205,10 @@ namespace EntityStates.Nemforcer
         private bool inHitPause;
         private Animator animator;
         private BaseState.HitStopCachedState hitStopCachedState;
+        private int hitPauseAmounts;
         private Transform modelBaseTransform;
         private Vector3 storedVelocity;
+        private NemforcerController nemController;
 
         public override void OnEnter()
         {
@@ -198,10 +229,11 @@ namespace EntityStates.Nemforcer
             this.childLocator = base.GetModelChildLocator();
             this.modelBaseTransform = base.GetModelBaseTransform();
             this.animator = base.GetModelAnimator();
+            this.nemController = base.GetComponent<NemforcerController>();
 
             if (base.isAuthority && base.inputBank && base.characterDirection)
             {
-                this.forwardDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.characterDirection.forward : base.inputBank.moveVector).normalized;
+                this.forwardDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.GetAimRay().direction : base.inputBank.moveVector).normalized;
             }
 
             if (this.charge >= 0.6f) Util.PlaySound(EnforcerPlugin.Sounds.NemesisFlameBurst, base.gameObject);
@@ -218,8 +250,9 @@ namespace EntityStates.Nemforcer
             this.previousPosition = base.transform.position - b;
 
             HitBoxGroup hitBoxGroup = Array.Find<HitBoxGroup>(base.GetModelTransform().GetComponents<HitBoxGroup>(), (HitBoxGroup element) => element.groupName == "Uppercut");
-
-            base.PlayAnimation("FullBody, Override", "DashForward", "DashForward.playbackRate", HammerUppercut.dashDuration * this.duration);
+                                                                                                                                      
+            base.PlayCrossfade("FullBody, Override", "DashForward", "DashForward.playbackRate", HammerUppercut.dashDuration * this.duration, 0.1f * this.duration);
+            base.PlayAnimation("Gesture, Override", "BufferEmpty");
             this.animator.SetFloat("charge", this.charge);
 
             //ill optimize this effect later maybe
@@ -268,6 +301,9 @@ namespace EntityStates.Nemforcer
             base.FixedUpdate();
             base.characterBody.isSprinting = true;
 
+            float rot = animator.GetFloat("baseRotate");
+            this.nemController.pseudoAimMode(rot);
+
             if (!this.inHitPause) this.stopwatch += Time.fixedDeltaTime;
 
             if (this.stopwatch >= this.duration)
@@ -286,8 +322,8 @@ namespace EntityStates.Nemforcer
             if (this.stopwatch >= (HammerUppercut.dashDuration * this.duration) && !this.hasPlayedUppercutAnim)
             {
                 this.hasPlayedUppercutAnim = true;
-                base.PlayAnimation("FullBody, Override", "Uppercut", "Uppercut.playbackRate", this.duration - (this.duration * HammerUppercut.dashDuration));
-
+                base.PlayCrossfade("FullBody, Override", "Uppercut", "Uppercut.playbackRate", (this.duration - (this.duration * HammerUppercut.dashDuration)) * 1.5f, this.duration * 0.1f);
+                base.PlayAnimation("Legs, Override", "BufferEmpty");
                 if (this.charge >= 0.75f) Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwingSecondary, base.gameObject);
                 else Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwingL, base.gameObject);
             }
@@ -336,7 +372,12 @@ namespace EntityStates.Nemforcer
                             if (base.characterMotor.velocity != Vector3.zero) this.storedVelocity = base.characterMotor.velocity;
                             this.hitStopCachedState = base.CreateHitStopCachedState(base.characterMotor, this.animator, "Uppercut.playbackRate");
                             this.inHitPause = true;
-                            this.hitPauseTimer = (4f * EntityStates.Merc.GroundLight.hitPauseDuration) / this.attackSpeedStat;
+
+                            float pauseTimeScaling =  4f - (0.005f * hitPauseAmounts * hitPauseAmounts * hitPauseAmounts);
+                            pauseTimeScaling = pauseTimeScaling > 0.69f ? pauseTimeScaling : 0.69f;
+                            Debug.LogWarning(pauseTimeScaling);
+                            this.hitPauseTimer = pauseTimeScaling * EntityStates.Merc.GroundLight.hitPauseDuration / this.attackSpeedStat;
+                            this.hitPauseAmounts++;
                         }
                     }
                     else

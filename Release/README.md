@@ -1,7 +1,7 @@
 # Enforcer
 - Adds the Enforcer from Risk of Rain 1
-- ~~Includes a bunch of unlockable alternate skills and skins~~
-- ~~Includes support for Ancient Scepter and most modded items~~
+- Includes a bunch of ~~unlockable~~ alternate skills and skins
+- Includes support for Ancient Scepter ~~and most modded items~~
 
 [![](https://cdn.discordapp.com/attachments/469291841859092488/830928468367114281/unknown.png)]()
 
@@ -56,15 +56,31 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 [![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)]()
 
 ## Known Issues
+- following CUM, secret void fields achievement may be bugged
+- if you play with a lot of other mods, there maybe other bugs as well
+- Item displays not currently implemented or buggy
+- new enfucker animations unfinished
 - Cancelling shield with sprint does not work properly in multiplayer
 - Life Savings may not work
-- Item displays currently not implemented
 
 
 ## Future Plans
 - More alternate skills
+- other things 100% decided on pure whimsy
 
 ## Changelog
+
+`3.0.3`
+- fixed damage bug on Heavy TF2 gas and Medium TF1 scepter gas
+- added to known issues
+- properly timed explosion on secondary(minigun) to when the hammer slams down
+- bunch of polish on heavy tf2 secondary out of absolutely fuckin nowhere:
+- lowered hitpause with more enemies hit (so you don't get stuck in grovetenders anymore)
+- added standing still animation for legs
+- made his hands properly hold the hammer on charging animations (finally)
+- new dashing animation
+- tweaks to uppercut animations
+
 `3.0.2`
 - Hotfix update for the hotfix update
 

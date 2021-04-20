@@ -41,12 +41,13 @@ namespace EntityStates.Nemforcer
             this.earlyExitDuration = this.duration * earlyExitTime;
             this.hasFired = false;
             base.characterBody.isSprinting = false;
-            this.nemController = base.GetComponent<NemforcerController>();
             base.characterBody.outOfCombatStopwatch = 0f;
 
             this.childLocator = base.GetModelChildLocator();
             this.modelBaseTransform = base.GetModelBaseTransform();
             this.animator = base.GetModelAnimator();
+            this.nemController = base.GetComponent<NemforcerController>();
+
             bool grounded = base.characterMotor.isGrounded;
             bool moving = this.animator.GetBool("isMoving");
 

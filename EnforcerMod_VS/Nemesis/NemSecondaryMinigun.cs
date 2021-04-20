@@ -45,7 +45,7 @@ namespace EntityStates.Nemforcer
             base.OnEnter();
 
             this.duration = baseDuration / this.attackSpeedStat;
-            this.fireDuration = this.duration * 0.5f;
+            this.fireDuration = this.duration * 0.456f;
             this.aimRay = base.GetAimRay();
             this.hasFired = false;
             this.hasSwung = false;
@@ -72,6 +72,35 @@ namespace EntityStates.Nemforcer
             blastEffectData = new EffectData();
             blastEffectData.scale = 6f;
             blastEffectData.color = new Color32(234, 200, 127, 100);
+        }
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+
+            if (base.fixedAge < this.attackStopDuration)
+            {
+                if (base.characterMotor)
+                {
+                    base.characterMotor.moveDirection = Vector3.zero;
+                }
+            }
+
+            if (base.fixedAge >= 0.35f * this.duration)
+            {
+                this.SwingEffect();
+            }
+
+            if (base.fixedAge >= this.fireDuration)
+            {
+                this.FireBlast();
+            }
+
+            if (base.fixedAge >= this.duration && base.isAuthority)
+            {
+                this.outer.SetNextStateToMain();
+                return;
+            }
         }
 
         private void FireBlast()
@@ -250,35 +279,6 @@ namespace EntityStates.Nemforcer
                 {
                     EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemSlamSwingFX, base.gameObject, "SwingUppercut", true);
                 }
-            }
-        }
-
-        public override void FixedUpdate()
-        {
-            base.FixedUpdate();
-
-            if (base.fixedAge < this.attackStopDuration)
-            {
-                if (base.characterMotor)
-                {
-                    base.characterMotor.moveDirection = Vector3.zero;
-                }
-            }
-
-            if (base.fixedAge >= 0.35f * this.duration)
-            {
-                this.SwingEffect();
-            }
-
-            if (base.fixedAge >= this.fireDuration)
-            {
-                this.FireBlast();
-            }
-
-            if (base.fixedAge >= this.duration && base.isAuthority)
-            {
-                this.outer.SetNextStateToMain();
-                return;
             }
         }
 
