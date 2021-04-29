@@ -64,13 +64,13 @@ namespace EntityStates.Enforcer
                 base.characterBody.AddSpreadBloom(0.33f * this.bulletRecoil);
                 EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, base.gameObject, this.muzzleString, false);
 
-                if (base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff))
+                if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
                 {
-                    base.PlayAnimation("RightArm, Override", "FireShotgunShielded", "FireShotgun.playbackRate", this.duration);
+                    base.PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", 0.5f * this.duration);
                 }
                 else
                 {
-                    base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
+                    base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", 1.75f * this.duration);
                 }
 
                 string soundString = EnforcerPlugin.Sounds.FireAssaultRifleSlow;
