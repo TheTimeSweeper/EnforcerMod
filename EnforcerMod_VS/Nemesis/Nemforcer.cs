@@ -13,6 +13,7 @@ using EntityStates.Nemforcer;
 using EntityStates.Enforcer;
 using RoR2.Projectile;
 using RoR2.CharacterAI;
+using RoR2.Navigation;
 
 namespace EnforcerPlugin
 {
@@ -74,11 +75,12 @@ namespace EnforcerPlugin
 
         private static void StarstormCompat()
         {
-            /*Starstorm2.Cores.VoidCore.nemesisSpawns.Add(new Starstorm2.Cores.VoidCore.NemesisSpawnData
+            Starstorm2.Cores.VoidCore.nemesisSpawns.Add(new Starstorm2.Cores.VoidCore.NemesisSpawnData
             {
                 masterPrefab = NemforcerPlugin.minibossMaster,
-                itemDrop = ItemIndex.NovaOnLowHealth
-            });*/
+                itemDrop = RoR2Content.Items.Knurl,
+                musicString = ""
+            });
         }
 
         private static GameObject CreateModel(GameObject main, int index)
@@ -656,9 +658,7 @@ namespace EnforcerPlugin
             nemGasDamage.force = -10;
 
             EnforcerPlugin.Destroy(nemGas.transform.GetChild(0).gameObject);
-            GameObject gasFX = Assets.nemGasEffectPrefab.InstantiateClone("nemGasFX", false);
-            //nemgas already has a NetworkIdentity so the game's yelling at us that we can't more than one and it should be on the root
-            //gasFX.AddComponent<NetworkIdentity>();
+            GameObject gasFX = Assets.nemGasEffectPrefab.InstantiateClone("FX", false);
             gasFX.AddComponent<TearGasComponent>();
             gasFX.AddComponent<DestroyOnTimer>().duration = 18f;
             gasFX.transform.parent = nemGas.transform;
@@ -796,7 +796,7 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Any;
-            mySkillDef.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef.resetCooldownTimerOnUse = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = false;
             mySkillDef.cancelSprintingOnActivation = true;
@@ -829,7 +829,7 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Any;
-            mySkillDef.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef.resetCooldownTimerOnUse = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = false;
             mySkillDef.cancelSprintingOnActivation = true;
@@ -860,7 +860,7 @@ namespace EnforcerPlugin
             mySkillDef2.canceledFromSprinting = false;
             mySkillDef2.fullRestockOnAssign = true;
             mySkillDef2.interruptPriority = InterruptPriority.Any;
-            mySkillDef2.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef2.resetCooldownTimerOnUse = false;
             mySkillDef2.isCombatSkill = true;
             mySkillDef2.mustKeyPress = false;
             mySkillDef2.cancelSprintingOnActivation = true;
@@ -892,7 +892,7 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Skill;
-            mySkillDef.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef.resetCooldownTimerOnUse = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = false;
             mySkillDef.cancelSprintingOnActivation = false;
@@ -926,7 +926,7 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Skill;
-            mySkillDef.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef.resetCooldownTimerOnUse = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = false;
             mySkillDef.cancelSprintingOnActivation = false;
@@ -959,7 +959,7 @@ namespace EnforcerPlugin
             utilityDef1.canceledFromSprinting = false;
             utilityDef1.fullRestockOnAssign = true;
             utilityDef1.interruptPriority = InterruptPriority.Skill;
-            utilityDef1.beginSkillCooldownOnSkillEnd = false;
+            utilityDef1.resetCooldownTimerOnUse = false;
             utilityDef1.isCombatSkill = true;
             utilityDef1.mustKeyPress = false;
             utilityDef1.cancelSprintingOnActivation = true;
@@ -991,7 +991,7 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Skill;
-            mySkillDef.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef.resetCooldownTimerOnUse = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = true;
             mySkillDef.cancelSprintingOnActivation = true;
@@ -1020,7 +1020,7 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Skill;
-            mySkillDef.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef.resetCooldownTimerOnUse = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = true;
             mySkillDef.cancelSprintingOnActivation = true;
@@ -1053,7 +1053,7 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Skill;
-            mySkillDef.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef.resetCooldownTimerOnUse = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = false;
             mySkillDef.cancelSprintingOnActivation = false;
@@ -1086,7 +1086,7 @@ namespace EnforcerPlugin
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;
             mySkillDef.interruptPriority = InterruptPriority.Skill;
-            mySkillDef.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef.resetCooldownTimerOnUse = false;
             mySkillDef.isCombatSkill = true;
             mySkillDef.mustKeyPress = true;
             mySkillDef.cancelSprintingOnActivation = true;
@@ -1114,7 +1114,7 @@ namespace EnforcerPlugin
             mySkillDef2.canceledFromSprinting = false;
             mySkillDef2.fullRestockOnAssign = true;
             mySkillDef2.interruptPriority = InterruptPriority.Skill;
-            mySkillDef2.beginSkillCooldownOnSkillEnd = false;
+            mySkillDef2.resetCooldownTimerOnUse = false;
             mySkillDef2.isCombatSkill = true;
             mySkillDef2.mustKeyPress = true;
             mySkillDef2.cancelSprintingOnActivation = false;
@@ -2250,7 +2250,7 @@ namespace EnforcerPlugin
             //};
             #endregion
 
-            //make hitboxes for hammer (not old)
+            //make hitboxes for hammer (old)
             GameObject hammerHitbox1 = childLocator.FindChild("HammerHitboxFront").gameObject;
             hammerHitbox1.layer = LayerIndex.projectile.intVal;
 
@@ -2280,7 +2280,7 @@ namespace EnforcerPlugin
 
             hitBoxGroup2.hitBoxes = new HitBox[]
             {
-                hitBox2,
+                hitBox2
             };
 
             hitBoxGroup2.groupName = "Uppercut";
@@ -2428,7 +2428,7 @@ namespace EnforcerPlugin
 
         private void CreateDededeSpawnCard()
         {
-            /*CharacterSpawnCard characterSpawnCard = ScriptableObject.CreateInstance<CharacterSpawnCard>();
+            CharacterSpawnCard characterSpawnCard = ScriptableObject.CreateInstance<CharacterSpawnCard>();
             characterSpawnCard.name = "cscDedede";
             characterSpawnCard.prefab = dededeMaster;
             characterSpawnCard.sendOverNetwork = true;
@@ -2468,7 +2468,7 @@ namespace EnforcerPlugin
                         list.Add(dededeCard);
                     }
                 }
-            };*/
+            };
         }
 
         private void CreateDededeAI()
