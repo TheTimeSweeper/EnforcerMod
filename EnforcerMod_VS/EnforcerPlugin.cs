@@ -717,7 +717,11 @@ namespace EnforcerPlugin
 
                     self.regen += regen;
 
-                    if (self.teamComponent.teamIndex == TeamIndex.Monster && (self.HasBuff(RoR2Content.Buffs.SuperBleed) || self.HasBuff(RoR2Content.Buffs.Bleeding))) self.regen = 0f;
+                    if (self.teamComponent.teamIndex == TeamIndex.Monster)
+                    {
+                        self.regen *= 0.8f;
+                        if (self.HasBuff(RoR2Content.Buffs.SuperBleed) || self.HasBuff(RoR2Content.Buffs.Bleeding)) self.regen = 0f;
+                    }
                 }
             }
         }
@@ -945,7 +949,7 @@ namespace EnforcerPlugin
 
             if (damageType == DamageType.VoidDeath) {
                 //Debug.LogWarning("voidDeath");
-                if (self.body.baseNameToken == "NEMFORCER_NAME") {
+                if (self.body.baseNameToken == "NEMFORCER_NAME" || self.body.baseNameToken == "NEMFORCER_BOSS_NAME") {
                     //Debug.LogWarning("nemmememme");
                     if (self.body.teamComponent.teamIndex != TeamIndex.Player) {
                         //Debug.LogWarning("spookyscary");
