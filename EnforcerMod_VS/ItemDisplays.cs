@@ -48,5 +48,40 @@ namespace EnforcerPlugin
 
             return null;
         }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public static GameObject LoadAetheriumDisplay(string name)
+        {
+            switch (name)
+            {
+                case "AccursedPotion":
+                    return Aetherium.Items.AccursedPotion.ItemBodyModelPrefab;
+                case "AlienMagnet":
+                    return Aetherium.Items.AlienMagnet.ItemFollowerPrefab;
+                case "BlasterSword":
+                    return Aetherium.Items.BlasterSword.ItemBodyModelPrefab;
+                case "BloodSoakedShield":
+                    return Aetherium.Items.BloodSoakedShield.ItemBodyModelPrefab;
+                case "FeatheredPlume":
+                    return Aetherium.Items.FeatheredPlume.ItemBodyModelPrefab;
+                case "InspiringDrone":
+                    return Aetherium.Items.InspiringDrone.ItemFollowerPrefab;
+                case "SharkTeeth":
+                    return Aetherium.Items.SharkTeeth.ItemBodyModelPrefab;
+                case "ShieldingCore":
+                    return Aetherium.Items.ShieldingCore.ItemBodyModelPrefab;
+                case "UnstableDesign":
+                    return Aetherium.Items.UnstableDesign.ItemBodyModelPrefab;
+                case "VoidHeart":
+                    return Aetherium.Items.Voidheart.ItemBodyModelPrefab;
+                case "WeightedAnklet":
+                    return Aetherium.Items.WeightedAnklet.ItemBodyModelPrefab;
+                case "WitchesRing":
+                    return Aetherium.Items.WitchesRing.ItemBodyModelPrefab;
+                case "JarOfReshaping":
+                    return Aetherium.Equipment.JarOfReshaping.ItemBodyModelPrefab;
+            }
+            return null;
+        }
     }
 }

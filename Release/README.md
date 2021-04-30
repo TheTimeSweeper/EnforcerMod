@@ -56,30 +56,29 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 [![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)]()
 
 ## Known Issues
-- following CUM, secret void fields achievement may be bugged
-- if you play with a lot of other mods, there maybe other bugs as well
+- Following CUM, secret Void Fields achievement may be bugged
 - Item displays not currently implemented or buggy
-- new enfucker animations unfinished
 - Cancelling shield with sprint does not work properly in multiplayer
-- Life Savings may not work
-
 
 ## Future Plans
 - More alternate skills
-- other things 100% decided on pure whimsy
+- Other things 100% decided on pure whimsy
 
 ## Changelog
-
 `3.0.3`
-- fixed damage bug on Heavy TF2 gas and Medium TF1 scepter gas
-- added to known issues
-- properly timed explosion on secondary(minigun) to when the hammer slams down
-- bunch of polish on heavy tf2 secondary out of absolutely fuckin nowhere:
-- lowered hitpause with more enemies hit (so you don't get stuck in grovetenders anymore)
-- added standing still animation for legs
-- made his hands properly hold the hammer on charging animations (finally)
-- new dashing animation
-- tweaks to uppercut animations
+- Properly timed explosion on Dominance(Minigun) to when the hammer slams down
+- Lowered hitpause with more enemies hit (so you don't get stuck in Grovetenders anymore)
+- Added standing still animation for legs
+- Made Heavy TF2's hands properly hold the hammer on charging animations (finally)
+- Tweaks to uppercut animations
+- Made Heat Crash the default utility
+- Lowered Heavy TF2 boss total regen by 20%
+- Fixed Heavy TF2's item displays
+- Fixed Heavy TF2's weird unintended cooldown quirks
+- Fixed damaging gas grenades not dealing damage
+- Fixed Ultra Heavy TF2 boss not working, moved spawn position to somewhere reasonable
+- Fixed King Dedede boss not spawning
+- Fixed Starstorm 2 compatibility- now drops a Titanic Knurl rather than a Genesis Loop(it just makes sense)
 
 `3.0.2`
 - Hotfix update for the hotfix update

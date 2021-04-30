@@ -30,10 +30,10 @@ namespace EnforcerPlugin
                 }
             }
 
-            if (!targetMaster.GetBody()) return;
-
-            Transform spawnOnTarget = targetMaster.GetBody().coreTransform;
-            DirectorCore.MonsterSpawnDistance input = DirectorCore.MonsterSpawnDistance.Far;
+            GameObject fakeMaster = new GameObject();
+            Transform spawnOnTarget = fakeMaster.transform;
+            spawnOnTarget.position = new Vector3(206f, -175f, 284f);
+            DirectorCore.MonsterSpawnDistance input = DirectorCore.MonsterSpawnDistance.Close;
 
             DirectorPlacementRule directorPlacementRule = new DirectorPlacementRule
             {

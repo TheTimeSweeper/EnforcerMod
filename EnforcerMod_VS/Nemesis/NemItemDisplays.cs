@@ -9,8 +9,7 @@ namespace EnforcerPlugin
 {
     public static class NemItemDisplays
     {
-        public static List<ItemDisplayRuleSet.NamedRuleGroup> itemRules;
-        public static List<ItemDisplayRuleSet.NamedRuleGroup> equipmentRules;
+        public static List<ItemDisplayRuleSet.KeyAssetRuleGroup> itemRules;
 
         public static void RegisterDisplays()
         {
@@ -21,8 +20,7 @@ namespace EnforcerPlugin
 
             ItemDisplayRuleSet itemDisplayRuleSet = ScriptableObject.CreateInstance<ItemDisplayRuleSet>();
 
-            itemRules = new List<ItemDisplayRuleSet.NamedRuleGroup>();
-            equipmentRules = new List<ItemDisplayRuleSet.NamedRuleGroup>();
+            itemRules = new List<ItemDisplayRuleSet.KeyAssetRuleGroup>();
 
             #region Display Rules
 
@@ -111,44 +109,44 @@ namespace EnforcerPlugin
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("MonstersOnShrineUse", "DisplayMonstersOnShrineUse", "LegL", new Vector3(-0.005f, 0.005f, 0.002f), new Vector3(90, 0, 0), new Vector3(0.002f, 0.002f, 0.002f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("RandomDamageZone", "DisplayRandomDamageZone", "HandL", new Vector3(0.002f, 0.005f, 0.001f), new Vector3(0, 270, 270), new Vector3(0.002f, 0.002f, 0.002f)));
 
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("Jetpack", "DisplayBugWings", "Chest", new Vector3(0.008f, 0.008f, 0), new Vector3(0, 270, 0), new Vector3(0.005f, 0.005f, 0.005f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("GoldGat", "DisplayGoldGat", "Chest", new Vector3(0.003f, 0.007f, 0), new Vector3(0, 0, 0), new Vector3(0.002f, 0.002f, 0.002f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("BFG", "DisplayBFG", "Chest", new Vector3(0, 0.012f, -0.006f), new Vector3(15, 270, 25), new Vector3(0.01f, 0.01f, 0.01f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("QuestVolatileBattery", "DisplayBatteryArray", "Chest", new Vector3(0.012f, 0.012f, 0), new Vector3(315, 90, 0), new Vector3(0.01f, 0.01f, 0.01f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("CommandMissile", "DisplayMissileRack", "Chest", new Vector3(0.01f, 0.01f, 0), new Vector3(90, 90, 0), new Vector3(0.02f, 0.02f, 0.02f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("Fruit", "DisplayFruit", "Chest", new Vector3(0, 0, 0), new Vector3(0, 150, 0), new Vector3(0.01f, 0.01f, 0.01f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("AffixWhite", "DisplayEliteIceCrown", "Head", new Vector3(0, 0.012f, 0), new Vector3(270, 270, 0), new Vector3(0.001f, 0.001f, 0.001f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("AffixPoison", "DisplayEliteUrchinCrown", "Head", new Vector3(0, 0.008f, 0), new Vector3(270, 0, 0), new Vector3(0.002f, 0.002f, 0.002f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("AffixHaunted", "DisplayEliteStealthCrown", "Head", new Vector3(0, 0.008f, 0), new Vector3(270, 0, 0), new Vector3(0.002f, 0.002f, 0.002f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("CritOnUse", "DisplayNeuralImplant", "Head", new Vector3(-0.008f, 0.006f, 0), new Vector3(0, 90, 0), new Vector3(0.01f, 0.01f, 0.01f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("DroneBackup", "DisplayRadio", "Pelvis", new Vector3(0, 0, 0.008f), new Vector3(0, 0, 180), new Vector3(0.01f, 0.01f, 0.01f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("Lightning", "DisplayLightning", "ClavicleL", new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0.04f, 0.04f, 0.04f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("BurnNearby", "DisplayPotion", "Pelvis", new Vector3(0, 0, 0.008f), new Vector3(0, 0, 180), new Vector3(0.002f, 0.002f, 0.002f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("CrippleWard", "DisplayEffigy", "Pelvis", new Vector3(0, 0.008f, 0.009f), new Vector3(0, 180, 180), new Vector3(0.02f, 0.02f, 0.02f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("GainArmor", "DisplayElephantFigure", "KneeR", new Vector3(0.004f, 0.012f, 0), new Vector3(90, 90, 0), new Vector3(0.02f, 0.02f, 0.02f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("Recycle", "DisplayRecycler", "Chest", new Vector3(0.012f, 0.012f, 0), new Vector3(0, 0, 0), new Vector3(0.005f, 0.005f, 0.005f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("FireBallDash", "DisplayEgg", "Pelvis", new Vector3(0, 0, 0.008f), new Vector3(90, 0, 0), new Vector3(0.01f, 0.01f, 0.01f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("Cleanse", "DisplayWaterPack", "Chest", new Vector3(0.012f, 0.01f, 0), new Vector3(315, 90, 0), new Vector3(0.005f, 0.005f, 0.005f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("Tonic", "DisplayTonic", "Pelvis", new Vector3(0, 0, 0.008f), new Vector3(0, 0, 180), new Vector3(0.01f, 0.01f, 0.01f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("Gateway", "DisplayVase", "Pelvis", new Vector3(0, 0, 0.009f), new Vector3(0, 0, 180), new Vector3(0.01f, 0.01f, 0.01f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("Scanner", "DisplayScanner", "Pelvis", new Vector3(0, 0.005f, 0.008f), new Vector3(90, 270, 0), new Vector3(0.005f, 0.005f, 0.005f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("DeathProjectile", "DisplayDeathProjectile", "Pelvis", new Vector3(-0.0012f, 0.005f, 0), new Vector3(0, 270, 180), new Vector3(0.005f, 0.005f, 0.005f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("LifestealOnHit", "DisplayLifestealOnHit", "Head", new Vector3(0.002f, 0.015f, 0.0075f), new Vector3(45, 180, 0), new Vector3(0.005f, 0.005f, 0.005f)));
-            equipmentRules.Add(NemItemDisplays.CreateGenericDisplayRule("TeamWarCry", "DisplayTeamWarCry", "Pelvis", new Vector3(0.01f, 0.003f, 0), new Vector3(10, 90, 0), new Vector3(0.0035f, 0.0035f, 0.0035f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("Jetpack", "DisplayBugWings", "Chest", new Vector3(0.008f, 0.008f, 0), new Vector3(0, 270, 0), new Vector3(0.005f, 0.005f, 0.005f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("GoldGat", "DisplayGoldGat", "Chest", new Vector3(0.003f, 0.007f, 0), new Vector3(0, 0, 0), new Vector3(0.002f, 0.002f, 0.002f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("BFG", "DisplayBFG", "Chest", new Vector3(0, 0.012f, -0.006f), new Vector3(15, 270, 25), new Vector3(0.01f, 0.01f, 0.01f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("QuestVolatileBattery", "DisplayBatteryArray", "Chest", new Vector3(0.012f, 0.012f, 0), new Vector3(315, 90, 0), new Vector3(0.01f, 0.01f, 0.01f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("CommandMissile", "DisplayMissileRack", "Chest", new Vector3(0.01f, 0.01f, 0), new Vector3(90, 90, 0), new Vector3(0.02f, 0.02f, 0.02f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("Fruit", "DisplayFruit", "Chest", new Vector3(0, 0, 0), new Vector3(0, 150, 0), new Vector3(0.01f, 0.01f, 0.01f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("AffixWhite", "DisplayEliteIceCrown", "Head", new Vector3(0, 0.012f, 0), new Vector3(270, 270, 0), new Vector3(0.001f, 0.001f, 0.001f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("AffixPoison", "DisplayEliteUrchinCrown", "Head", new Vector3(0, 0.008f, 0), new Vector3(270, 0, 0), new Vector3(0.002f, 0.002f, 0.002f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("AffixHaunted", "DisplayEliteStealthCrown", "Head", new Vector3(0, 0.008f, 0), new Vector3(270, 0, 0), new Vector3(0.002f, 0.002f, 0.002f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("CritOnUse", "DisplayNeuralImplant", "Head", new Vector3(-0.008f, 0.006f, 0), new Vector3(0, 90, 0), new Vector3(0.01f, 0.01f, 0.01f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("DroneBackup", "DisplayRadio", "Pelvis", new Vector3(0, 0, 0.008f), new Vector3(0, 0, 180), new Vector3(0.01f, 0.01f, 0.01f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("Lightning", "DisplayLightning", "ClavicleL", new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0.04f, 0.04f, 0.04f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("BurnNearby", "DisplayPotion", "Pelvis", new Vector3(0, 0, 0.008f), new Vector3(0, 0, 180), new Vector3(0.002f, 0.002f, 0.002f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("CrippleWard", "DisplayEffigy", "Pelvis", new Vector3(0, 0.008f, 0.009f), new Vector3(0, 180, 180), new Vector3(0.02f, 0.02f, 0.02f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("GainArmor", "DisplayElephantFigure", "KneeR", new Vector3(0.004f, 0.012f, 0), new Vector3(90, 90, 0), new Vector3(0.02f, 0.02f, 0.02f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("Recycle", "DisplayRecycler", "Chest", new Vector3(0.012f, 0.012f, 0), new Vector3(0, 0, 0), new Vector3(0.005f, 0.005f, 0.005f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("FireBallDash", "DisplayEgg", "Pelvis", new Vector3(0, 0, 0.008f), new Vector3(90, 0, 0), new Vector3(0.01f, 0.01f, 0.01f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("Cleanse", "DisplayWaterPack", "Chest", new Vector3(0.012f, 0.01f, 0), new Vector3(315, 90, 0), new Vector3(0.005f, 0.005f, 0.005f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("Tonic", "DisplayTonic", "Pelvis", new Vector3(0, 0, 0.008f), new Vector3(0, 0, 180), new Vector3(0.01f, 0.01f, 0.01f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("Gateway", "DisplayVase", "Pelvis", new Vector3(0, 0, 0.009f), new Vector3(0, 0, 180), new Vector3(0.01f, 0.01f, 0.01f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("Scanner", "DisplayScanner", "Pelvis", new Vector3(0, 0.005f, 0.008f), new Vector3(90, 270, 0), new Vector3(0.005f, 0.005f, 0.005f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("DeathProjectile", "DisplayDeathProjectile", "Pelvis", new Vector3(-0.0012f, 0.005f, 0), new Vector3(0, 270, 180), new Vector3(0.005f, 0.005f, 0.005f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("LifestealOnHit", "DisplayLifestealOnHit", "Head", new Vector3(0.002f, 0.015f, 0.0075f), new Vector3(45, 180, 0), new Vector3(0.005f, 0.005f, 0.005f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("TeamWarCry", "DisplayTeamWarCry", "Pelvis", new Vector3(0.01f, 0.003f, 0), new Vector3(10, 90, 0), new Vector3(0.0035f, 0.0035f, 0.0035f)));
 
-            itemRules.Add(NemItemDisplays.CreateFollowerDisplayRule("Icicle", "DisplayFrostRelic", new Vector3(0.035f, 0.03f, 0.04f), new Vector3(0, 0, 90), new Vector3(2, 2, 2)));
-            itemRules.Add(NemItemDisplays.CreateFollowerDisplayRule("Talisman", "DisplayTalisman", new Vector3(-0.015f, 0.03f, 0.05f), new Vector3(0, 270, 0), new Vector3(1, 1, 1)));
-            itemRules.Add(NemItemDisplays.CreateFollowerDisplayRule("FocusConvergence", "DisplayFocusedConvergence", new Vector3(0.035f, 0.01f, 0.03f), new Vector3(0, 0, 0), new Vector3(0.2f, 0.2f, 0.2f)));
+            itemRules.Add(NemItemDisplays.CreateFollowerDisplayRuleE("Icicle", "DisplayFrostRelic", new Vector3(0.035f, 0.03f, 0.04f), new Vector3(0, 0, 90), new Vector3(2, 2, 2)));
+            itemRules.Add(NemItemDisplays.CreateFollowerDisplayRuleE("Talisman", "DisplayTalisman", new Vector3(-0.015f, 0.03f, 0.05f), new Vector3(0, 270, 0), new Vector3(1, 1, 1)));
+            itemRules.Add(NemItemDisplays.CreateFollowerDisplayRuleE("FocusConvergence", "DisplayFocusedConvergence", new Vector3(0.035f, 0.01f, 0.03f), new Vector3(0, 0, 0), new Vector3(0.2f, 0.2f, 0.2f)));
 
-            equipmentRules.Add(NemItemDisplays.CreateFollowerDisplayRule("Saw", "DisplaySawmerang", new Vector3(0.06f, 0.02f, 0), new Vector3(90, 0, 0), new Vector3(0.25f, 0.25f, 0.25f)));
-            equipmentRules.Add(NemItemDisplays.CreateFollowerDisplayRule("Meteor", "DisplayMeteor", new Vector3(0.05f, 0.02f, 0), new Vector3(90, 0, 0), new Vector3(1, 1, 1)));
-            equipmentRules.Add(NemItemDisplays.CreateFollowerDisplayRule("Blackhole", "DisplayGravCube", new Vector3(0.05f, 0.02f, 0), new Vector3(90, 0, 0), new Vector3(1, 1, 1)));
+            itemRules.Add(NemItemDisplays.CreateFollowerDisplayRuleE("Saw", "DisplaySawmerang", new Vector3(0.06f, 0.02f, 0), new Vector3(90, 0, 0), new Vector3(0.25f, 0.25f, 0.25f)));
+            itemRules.Add(NemItemDisplays.CreateFollowerDisplayRuleE("Meteor", "DisplayMeteor", new Vector3(0.05f, 0.02f, 0), new Vector3(90, 0, 0), new Vector3(1, 1, 1)));
+            itemRules.Add(NemItemDisplays.CreateFollowerDisplayRuleE("Blackhole", "DisplayGravCube", new Vector3(0.05f, 0.02f, 0), new Vector3(90, 0, 0), new Vector3(1, 1, 1)));
 
             //weird rules here
             #region weirdshit
-            itemRules.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            itemRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                name = "IncreaseHealing",
+                keyAsset = Resources.Load<ItemDef>("ItemDefs/IncreaseHealing"),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -177,9 +175,9 @@ namespace EnforcerPlugin
                 }
             });
 
-            equipmentRules.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            itemRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                name = "AffixRed",
+                keyAsset = Resources.Load<EquipmentDef>("EquipmentDefs/AffixRed"),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -208,9 +206,9 @@ namespace EnforcerPlugin
                 }
             });
 
-            equipmentRules.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            itemRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                name = "AffixBlue",
+                keyAsset = Resources.Load<EquipmentDef>("EquipmentDefs/AffixBlue"),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -239,9 +237,9 @@ namespace EnforcerPlugin
                 }
             });
 
-            itemRules.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            itemRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                name = "ShieldOnly",
+                keyAsset = Resources.Load<ItemDef>("ItemDefs/ShieldOnly"),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -271,9 +269,9 @@ namespace EnforcerPlugin
             });
 
 
-            itemRules.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            itemRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                name = "FallBoots",
+                keyAsset = Resources.Load<ItemDef>("ItemDefs/FallBoots"),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -302,9 +300,9 @@ namespace EnforcerPlugin
                 }
             });
 
-            itemRules.Add(new ItemDisplayRuleSet.NamedRuleGroup
+            itemRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                name = "NovaOnHeal",
+                keyAsset = Resources.Load<ItemDef>("ItemDefs/NovaOnHeal"),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -333,7 +331,7 @@ namespace EnforcerPlugin
                 }
             });
             #endregion
-            /*
+            
             #region Aetherium
             if (EnforcerPlugin.aetheriumInstalled)
             {
@@ -351,10 +349,10 @@ namespace EnforcerPlugin
                 itemRules.Add(NemItemDisplays.CreateFollowerDisplayRule("ITEM_ALIEN_MAGNET", ItemDisplays.LoadAetheriumDisplay("AlienMagnet"), new Vector3(0.04f, 0.01f, -0.02f), new Vector3(0, 0, 0), new Vector3(0.005f, 0.005f, 0.005f)));
                 itemRules.Add(NemItemDisplays.CreateFollowerDisplayRule("ITEM_INSPIRING_DRONE", ItemDisplays.LoadAetheriumDisplay("InspiringDrone"), new Vector3(-0.07f, 0.03f, -0.07f), new Vector3(0, 90, 0), new Vector3(0.005f, 0.005f, 0.005f)));
 
-                equipmentRules.Add(NemItemDisplays.CreateFollowerDisplayRule("EQUIPMENT_JAR_OF_RESHAPING", ItemDisplays.LoadAetheriumDisplay("JarOfReshaping"), new Vector3(0.04f, 0.04f, 0), new Vector3(0, 270, 270), new Vector3(0.003f, 0.003f, 0.003f)));
+                itemRules.Add(NemItemDisplays.CreateFollowerDisplayRule("EQUIPMENT_JAR_OF_RESHAPING", ItemDisplays.LoadAetheriumDisplay("JarOfReshaping"), new Vector3(0.04f, 0.04f, 0), new Vector3(0, 270, 270), new Vector3(0.003f, 0.003f, 0.003f)));
             }
             #endregion
-            #region SivsItems
+            /*#region SivsItems
             if (EnforcerPlugin.sivsItemsInstalled)
             {
                 itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("BeetlePlush", ItemDisplays.LoadSivDisplay("BeetlePlush"), "Chest", new Vector3(0.01f, 0.016f, 0), new Vector3(0, 270, 0), new Vector3(0.02f, 0.02f, 0.02f)));
@@ -384,19 +382,17 @@ namespace EnforcerPlugin
             #endregion*/
             #endregion
 
-            ItemDisplayRuleSet.NamedRuleGroup[] item = itemRules.ToArray();
-            ItemDisplayRuleSet.NamedRuleGroup[] equip = equipmentRules.ToArray();
-            itemDisplayRuleSet.namedItemRuleGroups = item;
-            itemDisplayRuleSet.namedEquipmentRuleGroups = equip;
+            ItemDisplayRuleSet.KeyAssetRuleGroup[] item = itemRules.ToArray();
+            itemDisplayRuleSet.keyAssetRuleGroups = item;
 
             characterModel.itemDisplayRuleSet = itemDisplayRuleSet;
         }
 
-        public static ItemDisplayRuleSet.NamedRuleGroup CreateGenericDisplayRule(string itemName, string prefabName, string childName, Vector3 position, Vector3 rotation, Vector3 scale)
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRule(string itemName, string prefabName, string childName, Vector3 position, Vector3 rotation, Vector3 scale)
         {
-            ItemDisplayRuleSet.NamedRuleGroup displayRule = new ItemDisplayRuleSet.NamedRuleGroup
+            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                name = itemName,
+                keyAsset = Resources.Load<ItemDef>("ItemDefs/" + itemName),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -417,11 +413,38 @@ namespace EnforcerPlugin
 
             return displayRule;
         }
-        public static ItemDisplayRuleSet.NamedRuleGroup CreateGenericDisplayRule(string itemName, GameObject itemPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale)
+
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRuleE(string itemName, string prefabName, string childName, Vector3 position, Vector3 rotation, Vector3 scale)
         {
-            ItemDisplayRuleSet.NamedRuleGroup displayRule = new ItemDisplayRuleSet.NamedRuleGroup
+            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                name = itemName,
+                keyAsset = Resources.Load<EquipmentDef>("EquipmentDefs/" + itemName),
+                displayRuleGroup = new DisplayRuleGroup
+                {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            childName = childName,
+                            followerPrefab = ItemDisplays.LoadDisplay(prefabName),
+                            limbMask = LimbFlags.None,
+                            localPos = position,
+                            localAngles = rotation,
+                            localScale = scale
+                        }
+                    }
+                }
+            };
+
+            return displayRule;
+        }
+
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRule(string itemName, GameObject itemPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale)
+        {
+            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
+            {
+                keyAsset = Resources.Load<ItemDef>("ItemDefs/" + itemName),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -443,11 +466,11 @@ namespace EnforcerPlugin
             return displayRule;
         }
 
-        public static ItemDisplayRuleSet.NamedRuleGroup CreateFollowerDisplayRule(string itemName, string prefabName, Vector3 position, Vector3 rotation, Vector3 scale)
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateFollowerDisplayRule(string itemName, string prefabName, Vector3 position, Vector3 rotation, Vector3 scale)
         {
-            ItemDisplayRuleSet.NamedRuleGroup displayRule = new ItemDisplayRuleSet.NamedRuleGroup
+            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                name = itemName,
+                keyAsset = Resources.Load<ItemDef>("ItemDefs/" + itemName),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -468,11 +491,64 @@ namespace EnforcerPlugin
 
             return displayRule;
         }
-        public static ItemDisplayRuleSet.NamedRuleGroup CreateFollowerDisplayRule(string itemName, GameObject itemPrefab, Vector3 position, Vector3 rotation, Vector3 scale)
+
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateFollowerDisplayRuleE(string itemName, string prefabName, Vector3 position, Vector3 rotation, Vector3 scale)
         {
-            ItemDisplayRuleSet.NamedRuleGroup displayRule = new ItemDisplayRuleSet.NamedRuleGroup
+            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                name = itemName,
+                keyAsset = Resources.Load<EquipmentDef>("EquipmentDefs/" + itemName),
+                displayRuleGroup = new DisplayRuleGroup
+                {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            childName = "Base",
+                            followerPrefab = ItemDisplays.LoadDisplay(prefabName),
+                            limbMask = LimbFlags.None,
+                            localPos = position,
+                            localAngles = rotation,
+                            localScale = scale
+                        }
+                    }
+                }
+            };
+
+            return displayRule;
+        }
+
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateFollowerDisplayRule(string itemName, GameObject itemPrefab, Vector3 position, Vector3 rotation, Vector3 scale)
+        {
+            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
+            {
+                keyAsset = Resources.Load<ItemDef>("ItemDefs/" + itemName),
+                displayRuleGroup = new DisplayRuleGroup
+                {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            childName = "Base",
+                            followerPrefab = itemPrefab,
+                            limbMask = LimbFlags.None,
+                            localPos = position,
+                            localAngles = rotation,
+                            localScale = scale
+                        }
+                    }
+                }
+            };
+
+            return displayRule;
+        }
+
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateFollowerDisplayRuleE(string itemName, GameObject itemPrefab, Vector3 position, Vector3 rotation, Vector3 scale)
+        {
+            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
+            {
+                keyAsset = Resources.Load<EquipmentDef>("EquipmentDefs/" + itemName),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]

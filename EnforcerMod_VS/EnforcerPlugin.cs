@@ -246,6 +246,12 @@ namespace EnforcerPlugin
 
             //new Modules.ContentPacks().CreateContentPack();
             RoR2.ContentManagement.ContentManager.collectContentPackProviders += ContentManager_collectContentPackProviders;
+            RoR2.ContentManagement.ContentManager.onContentPacksAssigned += ContentManager_onContentPacksAssigned;
+        }
+
+        private void ContentManager_onContentPacksAssigned(HG.ReadOnlyArray<RoR2.ContentManagement.ReadOnlyContentPack> obj)
+        {
+            if (nemesisEnabled) NemItemDisplays.RegisterDisplays();
         }
 
         private void ContentManager_collectContentPackProviders(RoR2.ContentManagement.ContentManager.AddContentPackProviderDelegate addContentPackProvider) {
@@ -711,7 +717,11 @@ namespace EnforcerPlugin
 
                     self.regen += regen;
 
-                    if (self.teamComponent.teamIndex == TeamIndex.Monster && (self.HasBuff(RoR2Content.Buffs.SuperBleed) || self.HasBuff(RoR2Content.Buffs.Bleeding))) self.regen = 0f;
+                    if (self.teamComponent.teamIndex == TeamIndex.Monster)
+                    {
+                        self.regen *= 0.8f;
+                        if (self.HasBuff(RoR2Content.Buffs.SuperBleed) || self.HasBuff(RoR2Content.Buffs.Bleeding)) self.regen = 0f;
+                    }
                 }
             }
         }
@@ -939,7 +949,7 @@ namespace EnforcerPlugin
 
             if (damageType == DamageType.VoidDeath) {
                 //Debug.LogWarning("voidDeath");
-                if (self.body.baseNameToken == "NEMFORCER_NAME") {
+                if (self.body.baseNameToken == "NEMFORCER_NAME" || self.body.baseNameToken == "NEMFORCER_BOSS_NAME") {
                     //Debug.LogWarning("nemmememme");
                     if (self.body.teamComponent.teamIndex != TeamIndex.Player) {
                         //Debug.LogWarning("spookyscary");
@@ -1630,9 +1640,7 @@ namespace EnforcerPlugin
             //this is weird but it works
 
             Destroy(tearGasPrefab.transform.GetChild(0).gameObject);
-            GameObject gasFX = Assets.tearGasEffectPrefab.InstantiateClone("tearGasFX", false);
-            //tearGasPrefab already has a NetworkIdentity so the game's yelling at us that we can't more than one and it should be on the root
-            //gasFX.AddComponent<NetworkIdentity>();
+            GameObject gasFX = Assets.tearGasEffectPrefab.InstantiateClone("FX", false);
             gasFX.AddComponent<TearGasComponent>();
             gasFX.AddComponent<DestroyOnTimer>().duration = 18f;
             gasFX.transform.parent = tearGasPrefab.transform;
@@ -1709,9 +1717,7 @@ namespace EnforcerPlugin
             scepterTearGasDamage.force = -10;
 
             Destroy(damageGasEffect.transform.GetChild(0).gameObject);
-            GameObject scepterGasFX = Assets.tearGasEffectPrefabAlt.InstantiateClone("scepterGasFX", false);
-            //damageGasEffect already has a NetworkIdentity so the game's yelling at us that we can't more than one and it should be on the root
-            //scepterGasFX.AddComponent<NetworkIdentity>();
+            GameObject scepterGasFX = Assets.tearGasEffectPrefabAlt.InstantiateClone("FX", false);
             scepterGasFX.AddComponent<TearGasComponent>();
             scepterGasFX.AddComponent<DestroyOnTimer>().duration = 18f;
             scepterGasFX.transform.parent = damageGasEffect.transform;
