@@ -759,9 +759,9 @@ namespace EnforcerPlugin
             PluginUtils.RegisterSkillDef(utilityDef4, typeof(HeatCrash));
             SkillFamily.Variant utilityVariant4 = PluginUtils.SetupSkillVariant(utilityDef4);
 
-            skillLocator.utility = PluginUtils.RegisterSkillsToFamily(characterPrefab, utilityVariant1, utilityVariant2);
+            skillLocator.utility = PluginUtils.RegisterSkillsToFamily(characterPrefab, utilityVariant4, utilityVariant1, utilityVariant2);
 
-            if (EnforcerPlugin.cursed.Value) PluginUtils.RegisterAdditionalSkills(skillLocator.utility, utilityVariant4, utilityVariant3);
+            if (EnforcerPlugin.cursed.Value) PluginUtils.RegisterAdditionalSkills(skillLocator.utility, utilityVariant3);
         }
 
         private void SpecialSetup()

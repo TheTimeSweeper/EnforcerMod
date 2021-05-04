@@ -1,6 +1,6 @@
 # Enforcer
 - Adds the Enforcer from Risk of Rain 1
-- Includes a bunch of ~~unlockable~~ alternate skills and skins
+- Includes a bunch of unlockable alternate skills and skins
 - Includes support for Ancient Scepter ~~and most modded items~~
 
 [![](https://cdn.discordapp.com/attachments/469291841859092488/830928468367114281/unknown.png)]()
@@ -18,11 +18,11 @@ rob - Cooding
 TheTimesweeper - Coooding
 Enigma - Cooooding
 PapaZach - Skill icons
+bruh - Modeling, swag, animation
 Jot - Animations
 DarkLordLui - Animations
 Violet Chaolan - Sounds
 LucidInceptor - Modeling
-bruh - Modeling, swag, animation
 SalvadorBunny - Heavy TF2 Minecraft skin
 Destructor - Original mod icon
 Reithierion - New mod icon
@@ -65,6 +65,9 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - Other things 100% decided on pure whimsy
 
 ## Changelog
+`3.0.4`
+- Uploaded the proper dll this time
+
 `3.0.3`
 - Properly timed explosion on Dominance(Minigun) to when the hammer slams down
 - Lowered hitpause with more enemies hit (so you don't get stuck in Grovetenders anymore)
