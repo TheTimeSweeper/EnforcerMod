@@ -82,9 +82,9 @@ public class NemforcerController : MonoBehaviour
         if (charBody.baseNameToken == "DEDEDE_NAME") return;
         if (passiveLightning == null || passiveMoons == null) return;
 
-        float value = charHealth.combinedHealth / charHealth.fullCombinedHealth;
+        float healthRemaining = charHealth.combinedHealth / charHealth.fullCombinedHealth;
 
-        if (value <= 0.5f)
+        if (healthRemaining <= 0.5f)
         {
             if (!passiveIsPlaying)
             {
@@ -93,8 +93,10 @@ public class NemforcerController : MonoBehaviour
                 passiveMoons.Play();
             }
 
-            passiveLightningEm.rateOverTime = Mathf.SmoothStep(maxLightningIntensity, 0, value);
-            passiveMoonsEm.rateOverTime = Mathf.SmoothStep(maxMoonIntensity, 0, value);
+            float lerp = Mathf.InverseLerp(0.2f, 0.6f, healthRemaining);
+
+            passiveLightningEm.rateOverTime = Mathf.SmoothStep(maxLightningIntensity, 0, lerp);
+            passiveMoonsEm.rateOverTime = Mathf.SmoothStep(maxMoonIntensity, 0, lerp);
         }
         else
         {

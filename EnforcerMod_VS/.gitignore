@@ -6,7 +6,8 @@
 .vs/
 bin/
 obj/
-*.csproj
+#*.csproj we're finally not retarded anymore
+#and by we i mean me it was completely me
 
 # this was when .gitignore was in root folder, but now it is in the EnforcerMod_VS
 # EnforcerMod_VS/bin/
