@@ -127,7 +127,7 @@
   </Target>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="copy /Y &quot;$(ProjectDir)\..\EnforcerMod_Unity\Enforcer\AssetBundles\enforcer&quot; &quot;$(ProjectDir)&quot;" />
+    <Exec Command="if &quot;$(Username)&quot; == &quot;Erikbir&quot; copy /Y &quot;$(ProjectDir)\..\EnforcerMod_Unity\Enforcer\AssetBundles\enforcer&quot; &quot;$(ProjectDir)&quot;" />
   </Target>
 
 </Project>
