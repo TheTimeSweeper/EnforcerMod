@@ -909,7 +909,6 @@ namespace EnforcerPlugin
 
             return mySkillDef;
         }
-
         private static SkillDef SecondarySkillDef_HammerSlam()
         {
             string desc = $"<style=cIsDamage>Stunning.</style> While in minigun stance, violently <style=cIsHealth>slam</style> down your hammer, dealing <style=cIsDamage>{100f * HammerSlam.damageCoefficient}% damage</style> and <style=cIsDamage>knocking back</style> enemies hit. <style=cIsUtility>Explodes projectiles.</style>";

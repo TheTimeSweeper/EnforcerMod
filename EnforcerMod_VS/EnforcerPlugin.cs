@@ -27,7 +27,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.K1454.SupplyDrop", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.TeamMoonstorm.Starstorm2", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.0.4")]
+    [BepInPlugin(MODUID, "Enforcer", "3.0.6")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -83,9 +83,6 @@ namespace EnforcerPlugin
         public static GameObject hammerSlamEffect;
 
         public GameObject doppelganger;
-
-        public static event Action awake;
-        public static event Action start;
 
         public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
@@ -160,6 +157,10 @@ namespace EnforcerPlugin
         public static ConfigEntry<float> rifleSpread;
 
         public static ConfigEntry<float> superDamage;
+        public static ConfigEntry<float> superDuration;
+        public static ConfigEntry<float> superShieldDuration;
+        public static ConfigEntry<float> superBeef;
+        public static ConfigEntry<float> superSpread;
 
         public static ConfigEntry<bool> balancedShieldBash;
         public static ConfigEntry<bool> stupidShieldBash;
@@ -189,11 +190,13 @@ namespace EnforcerPlugin
             // what does all this even do anyway?
             //its our plugin constructor
 
-            awake += EnforcerPlugin_Load;
-            start += EnforcerPlugin_LoadStart;
+            //fuck you i'm touching this
+
+            //awake += EnforcerPlugin_Load;
+            //start += EnforcerPlugin_LoadStart;
         }
 
-        private void EnforcerPlugin_Load()
+        private void Awake()
         {
             //touch this all you want tho
             ConfigShit();
@@ -258,7 +261,7 @@ namespace EnforcerPlugin
             addContentPackProvider(new Modules.ContentPacks());
         }
 
-        private void EnforcerPlugin_LoadStart()
+        private void Start()
         {
             /*foreach(SurvivorDef i in SurvivorCatalog.survivorDefs)
             {
@@ -266,8 +269,7 @@ namespace EnforcerPlugin
             }*/
         }
 
-        private void ConfigShit()
-        {
+        private void ConfigShit() {
             forceUnlock = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Force Unlock"), false, new ConfigDescription("Makes Enforcer unlocked by default", null, Array.Empty<object>()));
             classicShotgun = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Classic Shotgun"), false, new ConfigDescription("Use RoR1 shotgun sound", null, Array.Empty<object>()));
             classicIcons = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Classic Icons"), false, new ConfigDescription("Use RoR1 skill icons", null, Array.Empty<object>()));
@@ -302,7 +304,7 @@ namespace EnforcerPlugin
             baseMovementSpeed = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Movement Speed"), 7f, new ConfigDescription("", null, Array.Empty<object>()));
             baseCrit = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Crit"), 1f, new ConfigDescription("", null, Array.Empty<object>()));
 
-            shotgunDamage = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Damage Coefficient"), 0.45f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>())); 
+            shotgunDamage = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Damage Coefficient"), 0.45f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
             shotgunProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Proc Coefficient"), 0.5f, new ConfigDescription("Proc Coefficient of each pellet", null, Array.Empty<object>()));
             shotgunBulletCount = base.Config.Bind<int>(new ConfigDefinition("04 - Riot Shotgun", "Bullet Count"), 8, new ConfigDescription("Amount of pellets fired", null, Array.Empty<object>()));
             shotgunRange = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Range"), 64f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
@@ -314,29 +316,15 @@ namespace EnforcerPlugin
             rifleRange = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Range"), 256f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
             rifleSpread = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Spread"), 5f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
 
-            superDamage = base.Config.Bind<float>(new ConfigDefinition("06 - Super Shotgun", "Damage Coefficient"), 0.8f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
-
+            //superDamage = base.Config.Bind<float>(new ConfigDefinition("06 - Super Shotgun", "Damage Coefficient 3.0.6"), 1f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
+            superDamage = base.Config.Bind<float>("06 - enjoy it while it lasts", "Damage Coefficient", 1f, "Damage of each pellet");
+            superDuration = base.Config.Bind<float>("06 - enjoy it while it lasts", "Unshield Duration", 2f, "duration of attack (i.e. attack speed)\nsuper shotgun should/will be stronger but slower");
+            superShieldDuration = base.Config.Bind<float>("06 - enjoy it while it lasts", "Shield Duration", 1.5f, "duration of attack in shield\nonly make this longer or you're a pussy");
+            superBeef = base.Config.Bind<float>("06 - enjoy it while it lasts", "beef", 0.4f, "movement stop while shooting in shield. don't be a bitch and lower this too much");
+            superSpread = base.Config.Bind<float>("06 - enjoy it while it lasts", "spread", 22f, "your cheeks");
+        
             balancedShieldBash = base.Config.Bind<bool>(new ConfigDefinition("07 - Shield Bash", "Balanced Knockback"), false, new ConfigDescription("Applies a cap to knockback so bosses can no longer be thrown around.", null, Array.Empty<object>()));
             stupidShieldBash = base.Config.Bind<bool>(new ConfigDefinition("07 - Shield Bash", "Ally Knockback"), true, new ConfigDescription("Applies knockback to allies.", null, Array.Empty<object>()));
-        }
-
-        public void Awake()
-        {
-            Action awake = EnforcerPlugin.awake;
-            if (awake == null)
-            {
-                return;
-            }
-            awake();
-        }
-        public void Start()
-        {
-            Action start = EnforcerPlugin.start;
-            if (start == null)
-            {
-                return;
-            }
-            start();
         }
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
@@ -368,7 +356,6 @@ namespace EnforcerPlugin
             On.RoR2.MapZone.TryZoneStart += MapZone_TryZoneStart;
             On.RoR2.HealthComponent.Suicide += HealthComponent_Suicide;
             On.RoR2.TeleportOutController.OnStartClient += TeleportOutController_OnStartClient;
-
             //On.EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
         }
 

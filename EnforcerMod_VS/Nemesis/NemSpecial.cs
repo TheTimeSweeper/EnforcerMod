@@ -40,6 +40,7 @@ namespace EntityStates.Nemforcer
 
                     base.skillLocator.primary.UnsetSkillOverride(base.skillLocator.primary, EnforcerPlugin.NemforcerPlugin.minigunFireDef, GenericSkill.SkillOverridePriority.Replacement);
 
+                    //nemforcer switching to main stance
                     float cooldown = base.skillLocator.secondary.rechargeStopwatch;
                     int stock = base.skillLocator.secondary.stock;
 
@@ -83,9 +84,9 @@ namespace EntityStates.Nemforcer
 
                     base.skillLocator.primary.SetSkillOverride(base.skillLocator.primary, EnforcerPlugin.NemforcerPlugin.minigunFireDef, GenericSkill.SkillOverridePriority.Replacement);
 
+                    //nemforcer switching to to minigun stance
                     float cooldown = base.skillLocator.secondary.rechargeStopwatch;
                     int stock = base.skillLocator.secondary.stock;
-
 
                     //base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerSlamDef);
                     originalSecondary = base.skillLocator.secondary;

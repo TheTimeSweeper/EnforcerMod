@@ -1,6 +1,6 @@
 # Enforcer
 - Adds the Enforcer from Risk of Rain 1
-- Includes a bunch of unlockable alternate skills and skins
+- Includes ~~a bunch of~~ ~~unlockable~~ alternate skills and skins
 - Includes support for Ancient Scepter ~~and most modded items~~
 
 [![](https://cdn.discordapp.com/attachments/469291841859092488/830928468367114281/unknown.png)]()
@@ -13,24 +13,25 @@
 Join the discord server to share any feedback/bugs/suggestions- https://discord.gg/HpQB9fC
 
 ## Credits
-Gnome - Coding
-rob - Cooding
-TheTimesweeper - Coooding
-Enigma - Cooooding
-PapaZach - Skill icons
-bruh - Modeling, swag, animation
-Jot - Animations
-DarkLordLui - Animations
-Violet Chaolan - Sounds
-LucidInceptor - Modeling
-SalvadorBunny - Heavy TF2 Minecraft skin
-Destructor - Original mod icon
-Reithierion - New mod icon
-Draymarc - Concepts
-Lethan - Screenshots
-Moffein - Idea Guy™
-Ruxbieno - Idea Guy™
-Swuff - Idea Guy™
+Gnome - Coding  
+rob - Cooding  
+TheTimesweeper - Coooding  
+Enigma - Cooooding  
+PapaZach - Skill icons  
+bruh - Modeling, swag, animation  
+Jot - Animations  
+DarkLordLui - Animations 
+Paysus - Animations  
+Violet Chaolan - Sounds  
+LucidInceptor - Modeling  
+SalvadorBunny - Heavy TF2 Minecraft skin  
+Destructor - Original mod icon  
+Reithierion - New mod icon  
+Draymarc - Concepts  
+Lethan - Screenshots  
+Moffein - Idea Guy™  
+Ruxbieno - Idea Guy™  
+Swuff - Idea Guy™  
 
 And big thanks to everyone testing and giving their feedback, the mod wouldn't be the same without it
 
@@ -61,10 +62,18 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - Cancelling shield with sprint does not work properly in multiplayer
 
 ## Future Plans
-- More alternate skills
+- More alternate skill(s)
 - Other things 100% decided on pure whimsy
+- Fixing this fucker
+- Help
 
 ## Changelog
+`3.0.5`
+- Hotfix update so it doesn't destroy the world with the new aetherium update
+- Enjoy incredibly WIP probably broken animations (run, shoot, shoulder bash, css), by Paysus (THE Paysus)
+- AR bug fixed
+- Shock grenade fixed
+
 `3.0.4`
 - Uploaded the proper dll this time
 

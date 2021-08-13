@@ -331,9 +331,9 @@ namespace EnforcerPlugin
                 }
             });
             #endregion
-            
+            /*
             #region Aetherium
-            if (EnforcerPlugin.aetheriumInstalled)
+            if (EnforcerPlugin.aetheriumInstalled) 
             {
                 itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ITEM_ACCURSED_POTION", ItemDisplays.LoadAetheriumDisplay("AccursedPotion"), "Pelvis", new Vector3(0.002f, 0, 0.008f), new Vector3(0, 0, 180), new Vector3(0.02f, 0.02f, 0.02f)));
                 itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ITEM_VOID_HEART", ItemDisplays.LoadAetheriumDisplay("VoidHeart"), "Chest", new Vector3(0, 0.005f, 0), new Vector3(0, 0, 0), new Vector3(0.004f, 0.004f, 0.004f)));
@@ -352,7 +352,7 @@ namespace EnforcerPlugin
                 itemRules.Add(NemItemDisplays.CreateFollowerDisplayRule("EQUIPMENT_JAR_OF_RESHAPING", ItemDisplays.LoadAetheriumDisplay("JarOfReshaping"), new Vector3(0.04f, 0.04f, 0), new Vector3(0, 270, 270), new Vector3(0.003f, 0.003f, 0.003f)));
             }
             #endregion
-            /*#region SivsItems
+            #region SivsItems
             if (EnforcerPlugin.sivsItemsInstalled)
             {
                 itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("BeetlePlush", ItemDisplays.LoadSivDisplay("BeetlePlush"), "Chest", new Vector3(0.01f, 0.016f, 0), new Vector3(0, 270, 0), new Vector3(0.02f, 0.02f, 0.02f)));

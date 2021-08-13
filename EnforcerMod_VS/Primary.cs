@@ -5,12 +5,13 @@ namespace EntityStates.Enforcer
 {
     public class RiotShotgun : BaseSkillState 
     {
-        const float RAD2 = 1.414f;//for area calculation
+        public const float RAD2 = 1.414f;//for area calculation
+        //public const float RAD3 = 1.732f;//for area calculation
 
         public static float damageCoefficient = EnforcerPlugin.EnforcerPlugin.shotgunDamage.Value;
         public static float procCoefficient = EnforcerPlugin.EnforcerPlugin.shotgunProcCoefficient.Value;
         public static float bulletForce = 35f;
-        public float baseDuration = 0.9f; // the base skill duration
+        public float baseDuration = 0.9f; // the base skill duration. i.e. attack speed
         public float baseShieldDuration = 0.6f; // the duration used while shield is active
         public static int projectileCount = EnforcerPlugin.EnforcerPlugin.shotgunBulletCount.Value;
         public static float bulletSpread = EnforcerPlugin.EnforcerPlugin.shotgunSpread.Value;
@@ -93,7 +94,7 @@ namespace EntityStates.Enforcer
 
                 if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) recoil = RiotShotgun.shieldedBulletRecoil;
 
-                base.AddRecoil(-2f * recoil, -3f * recoil, -1f * recoil, 1f * recoil);
+                //base.AddRecoil(-2f * recoil, -3f * recoil, -1f * recoil, 1f * recoil);
                 base.characterBody.AddSpreadBloom(0.33f * recoil);
                 EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, base.gameObject, this.muzzleString, false);
 
@@ -112,7 +113,7 @@ namespace EntityStates.Enforcer
                     Ray aimRay = base.GetAimRay();
 
                     float spread = RiotShotgun.bulletSpread;
-                    if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff)) spread *= 0.5f;
+                    if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff)) spread *= 0.69f;
 
                     BulletAttack bulletAttack = new BulletAttack {
                         aimVector = aimRay.direction,
@@ -144,20 +145,13 @@ namespace EntityStates.Enforcer
 
                     bulletAttack.minSpread = 0;
                     bulletAttack.maxSpread = spread / RAD2;
-                    bulletAttack.bulletCount = (uint)Mathf.FloorToInt((float)projectileCount / 2);
-
-                    if (projectileCount == 1)
-                    {
-                        bulletAttack.bulletCount = 1;
-                        bulletAttack.Fire();
-                        return;
-                    }
+                    bulletAttack.bulletCount = (uint)Mathf.CeilToInt(projectileCount / 2f);
 
                     bulletAttack.Fire();
 
                     bulletAttack.minSpread = spread / RAD2;
                     bulletAttack.maxSpread = spread;
-                    bulletAttack.bulletCount = (uint)Mathf.FloorToInt((float)projectileCount / 2);
+                    bulletAttack.bulletCount = (uint)Mathf.FloorToInt(projectileCount / 2f);
 
                     bulletAttack.Fire();
                 }
@@ -169,7 +163,7 @@ namespace EntityStates.Enforcer
             base.FixedUpdate();
 
             animator.speed = 1;
-            if (base.fixedAge < this.attackStopDuration)
+            if (base.fixedAge > this.fireDuration && base.fixedAge < this.attackStopDuration + this.fireDuration)
             {
                 if (base.characterMotor)
                 {
@@ -197,13 +191,16 @@ namespace EntityStates.Enforcer
 
     public class SuperShotgun : RiotShotgun
     {
+
+        new public static float beefDurationNoShield = 0.1f;
+        new public static float beefDurationShield = EnforcerPlugin.EnforcerPlugin.superBeef.Value;//0.4f;
         public new float damageCoefficient = EnforcerPlugin.EnforcerPlugin.superDamage.Value;
         public new float procCoefficient = 0.75f;
         public new float bulletForce = 25f;
-        public new float projectileCount = 16;
-        public new float bulletSpread = 18f;
-        public new static float baseDuration = 1.5f;
-        public new static float baseShieldDuration = 1.3f;
+        public new float bulletCount = 16;
+        public new float bulletSpread = EnforcerPlugin.EnforcerPlugin.superSpread.Value;//22f;
+        public new static float baseDuration = EnforcerPlugin.EnforcerPlugin.superDuration.Value;//2f;
+        public new static float baseShieldDuration = EnforcerPlugin.EnforcerPlugin.superShieldDuration.Value;//1.5f;
         private bool droppedShell;
 
         public override void OnEnter()
@@ -214,19 +211,19 @@ namespace EntityStates.Enforcer
             if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
             {
                 this.duration = SuperShotgun.baseShieldDuration / this.attackSpeedStat;
-                this.attackStopDuration = RiotShotgun.beefDurationShield / this.attackSpeedStat;
+                this.attackStopDuration = SuperShotgun.beefDurationShield / this.attackSpeedStat;
 
                 base.PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", this.duration);
             }
             else
             {
                 this.duration = SuperShotgun.baseDuration / this.attackSpeedStat;
-                this.attackStopDuration = RiotShotgun.beefDurationNoShield / this.attackSpeedStat;
+                this.attackStopDuration = SuperShotgun.beefDurationNoShield / this.attackSpeedStat;
 
                 base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
             }
 
-            this.fireDuration = 0.1f * this.duration;
+            this.fireDuration = 0.05f * this.duration;
         }
 
         public override void FixedUpdate()
@@ -270,7 +267,7 @@ namespace EntityStates.Enforcer
 
                 if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) recoil = RiotShotgun.shieldedBulletRecoil;
 
-                base.AddRecoil(-2f * recoil, -3f * recoil, -1f * recoil, 1f * recoil);
+                //base.AddRecoil(-2f * recoil, -3f * recoil, -1f * recoil, 1f * recoil);
                 base.characterBody.AddSpreadBloom(0.33f * recoil);
                 EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, base.gameObject, this.muzzleString, false);
 
@@ -285,20 +282,19 @@ namespace EntityStates.Enforcer
 
                     Ray aimRay = base.GetAimRay();
 
-                    new BulletAttack
-                    {
-                        bulletCount = (uint)this.projectileCount,
+                    BulletAttack bulletAttack = new BulletAttack {
                         aimVector = aimRay.direction,
                         origin = aimRay.origin,
                         damage = damage,
                         damageColorIndex = DamageColorIndex.Default,
                         damageType = DamageType.Generic,
-                        falloffModel = BulletAttack.FalloffModel.Buckshot,
+                        falloffModel = BulletAttack.FalloffModel.DefaultBullet,
                         maxDistance = 156,
                         force = this.bulletForce,
                         hitMask = LayerIndex.CommonMasks.bullet,
-                        minSpread = 0,
-                        maxSpread = this.bulletSpread,
+                        //minSpread = 0,
+                        //maxSpread = this.bulletSpread,
+                        //bulletCount = (uint)this.projectileCount,
                         isCrit = isCrit,
                         owner = base.gameObject,
                         muzzleName = muzzleString,
@@ -313,12 +309,25 @@ namespace EntityStates.Enforcer
                         spreadPitchScale = 0.3f,
                         spreadYawScale = 0.7f,
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
-                        hitEffectPrefab = ClayBruiser.Weapon.MinigunFire.bulletHitEffectPrefab,
+                        hitEffectPrefab = Commando.CommandoWeapon.FireShotgun.hitEffectPrefab,//ClayBruiser.Weapon.MinigunFire.bulletHitEffectPrefab,
                         HitEffectNormal = ClayBruiser.Weapon.MinigunFire.bulletHitEffectNormal
-                    }.Fire();
+                    };
+
+                    float spread = this.bulletSpread;
+
+                    bulletAttack.minSpread = 0;
+                    bulletAttack.maxSpread = spread / RAD2;
+                    bulletAttack.bulletCount = (uint)Mathf.CeilToInt((float)bulletCount / 2f);
+
+                    bulletAttack.Fire();
+
+                    bulletAttack.minSpread = spread / RAD2;
+                    bulletAttack.maxSpread = spread;
+                    bulletAttack.bulletCount = (uint)Mathf.FloorToInt((float)bulletCount / 2f);
+
+                    bulletAttack.Fire();
                 }
 
-                //this.PlayGunAnim("Reload");
             }
         }
 

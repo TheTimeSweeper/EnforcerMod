@@ -78,7 +78,8 @@ namespace EntityStates.Enforcer
         public static float bulletRecoil = 2.5f;
         public static float projectileSpeed = 90f;
 
-        public static string muzzleString = "GrenadeMuzzle";
+        //TODO: why did fucking "grenademuzzle" break here but not in the others?
+        public static string muzzleString = "Muzzle";
 
         public static GameObject effectPrefab = Resources.Load<GameObject>("Prefabs/Effects/MuzzleFlashes/MuzzleflashMageLightning");
 
@@ -95,11 +96,11 @@ namespace EntityStates.Enforcer
 
             if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
             {
-                base.PlayAnimation("RightArm, Override", "FireShotgunShielded", "FireShotgun.playbackRate", this.duration);
+                base.PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", this.duration);
             }
             else
             {
-                base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
+                base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
             }
 
             Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.LaunchStunGrenade, base.gameObject, 2.5f);
@@ -108,8 +109,11 @@ namespace EntityStates.Enforcer
             base.characterBody.AddSpreadBloom(0.33f * ShockGrenade.bulletRecoil);
             EffectManager.SimpleMuzzleFlash(ShockGrenade.effectPrefab, base.gameObject, ShockGrenade.muzzleString, false);
 
-            if (base.isAuthority)
-            {
+            if (base.isAuthority) {
+
+                Debug.LogWarning(childLocator);
+
+                Debug.LogWarning(childLocator.FindChild(ShockGrenade.muzzleString));
                 Ray aimRay = base.GetAimRay();
                 FireProjectileInfo info = new FireProjectileInfo()
                 {
