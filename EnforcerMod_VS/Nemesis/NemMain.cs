@@ -40,12 +40,12 @@ namespace EntityStates.Nemforcer
             //emotes
             if (base.isAuthority && base.characterMotor.isGrounded && !minigunUp)
             {
-                if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.defaultDanceKey.Value))
+                if (Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.defaultDanceKey.Value))
                 {
                     this.outer.SetInterruptState(new NemesisRest(), InterruptPriority.Any);
                     return;
                 }
-                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.flossKey.Value))
+                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.flossKey.Value))
                 {
                     this.outer.SetInterruptState(new Salute(), InterruptPriority.Any);
                     return;

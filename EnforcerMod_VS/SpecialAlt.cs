@@ -34,7 +34,7 @@ namespace EntityStates.Enforcer
 
                 if (base.skillLocator)
                 {
-                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerPlugin.shieldOffDef);
+                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.shieldOffDef);
                 }
 
                 if (base.characterMotor) base.characterMotor.mass = 200f;
@@ -55,7 +55,7 @@ namespace EntityStates.Enforcer
 
                 if (base.skillLocator)
                 {
-                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerPlugin.shieldOnDef);
+                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.shieldOnDef);
                 }
 
                 if (base.characterMotor) base.characterMotor.mass = EnergyShield.bonusMass;

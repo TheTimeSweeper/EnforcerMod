@@ -142,7 +142,7 @@ class EnforcerLightControllerAlt : MonoBehaviour
         {
             string sound = EnforcerPlugin.Sounds.SirenButton;
 
-            if (this.characterBody && EnforcerPlugin.EnforcerPlugin.cursed.Value)
+            if (this.characterBody && EnforcerPlugin.EnforcerModPlugin.cursed.Value)
             {
                 //if (this.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.frogIndex) sound = EnforcerPlugin.Sounds.Croak;
             }

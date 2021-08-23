@@ -32,10 +32,11 @@ namespace EnforcerPlugin
     {
         "PrefabAPI",
         "LanguageAPI",
-        "SoundAPI"
+        "SoundAPI",
+        "UnlockableAPI"
     })]
 
-    public class EnforcerPlugin : BaseUnityPlugin
+    public class EnforcerModPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.EnforcerGang.Enforcer";
 
@@ -45,7 +46,7 @@ namespace EnforcerPlugin
         public const string characterOutroFailure = "..and so he vanished, the planet's minorities finally at peace.";
         public const string characterLore = "\n<style=cMono>\"You don't have to do this.\"</style>\r\n\r\nThe words echoed in his head, yet he pushed forward. The pod was only a few steps away — he had a chance to leave — but something in his core kept him moving. He didn't know what it was, but he didn't question it. It was a natural force: the same force that always drove him to follow orders.\n\nThis time, however, it didn't seem so natural. There were no orders. The heavy trigger and its rhythmic thunder were his — and his alone.";
 
-        public static EnforcerPlugin instance;
+        public static EnforcerModPlugin instance;
 
         public static bool nemesisEnabled = true;
 
@@ -157,10 +158,9 @@ namespace EnforcerPlugin
         public static ConfigEntry<float> rifleSpread;
 
         public static ConfigEntry<float> superDamage;
-        public static ConfigEntry<float> superDuration;
-        public static ConfigEntry<float> superShieldDuration;
-        public static ConfigEntry<float> superBeef;
         public static ConfigEntry<float> superSpread;
+        public static ConfigEntry<float> superDuration;
+        public static ConfigEntry<float> superBeef;
 
         public static ConfigEntry<bool> balancedShieldBash;
         public static ConfigEntry<bool> stupidShieldBash;
@@ -184,20 +184,41 @@ namespace EnforcerPlugin
         private List<SkillDef> primarySkillChangeDefs = new List<SkillDef>();
         private List<SkillDef> specialSkillChangeDefs = new List<SkillDef>();
 
-        public EnforcerPlugin()
-        {
-            //don't touch this
-            // what does all this even do anyway?
-            //its our plugin constructor
+        //i'm touching this. fuck you
+        //public EnforcerPlugin()
+        //{
+        //    //don't touch this
+        //    // what does all this even do anyway?
+        //    //its our plugin constructor
 
-            //fuck you i'm touching this
+        //    //awake += EnforcerPlugin_Load;
+        //    //start += EnforcerPlugin_LoadStart;
+        //}
 
-            //awake += EnforcerPlugin_Load;
-            //start += EnforcerPlugin_LoadStart;
-        }
+        private void Awake() {
 
-        private void Awake()
-        {
+            //aetherium item displays- dll won't compile without a reference to aetherium
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KomradeSpectre.Aetherium")) {
+                aetheriumInstalled = true;
+            }
+            //sivs item displays- dll won't compile without a reference
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Sivelos.SivsItems")) {
+                sivsItemsInstalled = true;
+            }
+            //supply drop item displays- dll won't compile without a reference
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.K1454.SupplyDrop")) {
+                supplyDropInstalled = true;
+            }
+            //scepter stuff
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter")) {
+                ScepterSkillSetup();
+                ScepterSetup();
+            }
+            //shartstorm 2 xDDDD
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TeamMoonstorm.Starstorm2")) {
+                starstormInstalled = true;
+            }
+
             //touch this all you want tho
             ConfigShit();
             Modules.States.FixStates();
@@ -205,38 +226,12 @@ namespace EnforcerPlugin
             MemeSetup();
             CreatePrefab();
             CreateDisplayPrefab();
-            RegisterCharacter();
 
-            //aetherium item displays- dll won't compile without a reference to aetherium
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KomradeSpectre.Aetherium"))
-            {
-                aetheriumInstalled = true;
-            }
-            //sivs item displays- dll won't compile without a reference
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Sivelos.SivsItems"))
-            {
-                sivsItemsInstalled = true;
-            }
-            //supply drop item displays- dll won't compile without a reference
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.K1454.SupplyDrop"))
-            {
-                supplyDropInstalled = true;
-            }
-            //scepter stuff
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter"))
-            {
-                ScepterSkillSetup();
-                ScepterSetup();
-            }
-            //shartstorm 2 xDDDD
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TeamMoonstorm.Starstorm2"))
-            {
-                starstormInstalled = true;
-            }
+            EnforcerUnlockables.RegisterUnlockables();
+            RegisterCharacter();
 
             ItemDisplays.PopulateDisplays();
             Skins.RegisterSkins();
-            Unlockables.RegisterUnlockables();
 
             Modules.Buffs.RegisterBuffs();
             RegisterProjectile();
@@ -246,7 +241,6 @@ namespace EnforcerPlugin
             if (nemesisEnabled) new NemforcerPlugin().Init();
 
             Hook();
-
             //new Modules.ContentPacks().CreateContentPack();
             RoR2.ContentManagement.ContentManager.collectContentPackProviders += ContentManager_collectContentPackProviders;
             RoR2.ContentManagement.ContentManager.onContentPacksAssigned += ContentManager_onContentPacksAssigned;
@@ -316,13 +310,11 @@ namespace EnforcerPlugin
             rifleRange = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Range"), 256f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
             rifleSpread = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Spread"), 5f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
 
-            //superDamage = base.Config.Bind<float>(new ConfigDefinition("06 - Super Shotgun", "Damage Coefficient 3.0.6"), 1f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
-            superDamage = base.Config.Bind<float>("06 - enjoy it while it lasts", "Damage Coefficient", 1f, "Damage of each pellet");
-            superDuration = base.Config.Bind<float>("06 - enjoy it while it lasts", "Unshield Duration", 2f, "duration of attack (i.e. attack speed)\nsuper shotgun should/will be stronger but slower");
-            superShieldDuration = base.Config.Bind<float>("06 - enjoy it while it lasts", "Shield Duration", 1.5f, "duration of attack in shield\nonly make this longer or you're a pussy");
-            superBeef = base.Config.Bind<float>("06 - enjoy it while it lasts", "beef", 0.4f, "movement stop while shooting in shield. don't be a bitch and lower this too much");
-            superSpread = base.Config.Bind<float>("06 - enjoy it while it lasts", "spread", 22f, "your cheeks");
-        
+            superDamage = base.Config.Bind<float>(new ConfigDefinition("06 - Super Shotgun 3.0.6", "Damage Coefficient"), 1f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
+            superSpread = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "spread", 21f, "your cheeks");
+            superDuration = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Duration", 2f, "duration of attack (i.e. attack speed)\nnote, shielded attack duration is 0.75f times this");
+            superBeef = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "beef", 0.4f, "movement stop while shooting in shield. cannot go lower than 0.2 because I say so");
+            
             balancedShieldBash = base.Config.Bind<bool>(new ConfigDefinition("07 - Shield Bash", "Balanced Knockback"), false, new ConfigDescription("Applies a cap to knockback so bosses can no longer be thrown around.", null, Array.Empty<object>()));
             stupidShieldBash = base.Config.Bind<bool>(new ConfigDefinition("07 - Shield Bash", "Ally Knockback"), true, new ConfigDescription("Applies knockback to allies.", null, Array.Empty<object>()));
         }
@@ -378,7 +370,7 @@ namespace EnforcerPlugin
                 CharacterBody targetBody = self.target.GetComponent<CharacterBody>();
                 if (targetBody)
                 {
-                    if (EnforcerPlugin.tpParticleBlacklist.Contains(targetBody.baseNameToken))
+                    if (EnforcerModPlugin.tpParticleBlacklist.Contains(targetBody.baseNameToken))
                     {
                         self.bodyGlowParticles.Play();
                         return;
@@ -803,8 +795,8 @@ namespace EnforcerPlugin
 
             if (blocked)
             {
-                GameObject blockEffect = EnforcerPlugin.blockEffectPrefab;
-                if (info.procCoefficient >= 1) blockEffect = EnforcerPlugin.heavyBlockEffectPrefab;
+                GameObject blockEffect = EnforcerModPlugin.blockEffectPrefab;
+                if (info.procCoefficient >= 1) blockEffect = EnforcerModPlugin.heavyBlockEffectPrefab;
 
                 EffectData effectData = new EffectData
                 {
@@ -919,7 +911,7 @@ namespace EnforcerPlugin
         {
             string bodyName = NemforcerPlugin.characterPrefab.GetComponent<CharacterBody>().baseNameToken;
             //bool unlocked = SurvivorCatalog.SurvivorIsUnlockedOnThisClient(SurvivorCatalog.FindSurvivorIndex(bodyName));
-            bool unlocked = LocalUserManager.readOnlyLocalUsersList.Any((LocalUser localUser) => localUser.userProfile.HasUnlockable(Unlockables.nemesisUnlockableDef));
+            bool unlocked = LocalUserManager.readOnlyLocalUsersList.Any((LocalUser localUser) => localUser.userProfile.HasUnlockable(EnforcerUnlockables.nemesisUnlockableDef));
             if (unlocked)
             {
                 SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).hidden = false;
@@ -1481,10 +1473,10 @@ namespace EnforcerPlugin
 
             characterDisplay.AddComponent<NetworkIdentity>();
 
-            //string unlockString = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
-            //if (forceUnlock.Value) unlockString = "";
+            string unlockString = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
+            if (forceUnlock.Value) unlockString = "";
 
-            Modules.Survivors.RegisterNewSurvivor(characterPrefab, characterDisplay, "ENFORCER", null, 4.005f);
+            Modules.Survivors.RegisterNewSurvivor(characterPrefab, characterDisplay, "ENFORCER", EnforcerUnlockables.enforcerUnlockableDef, 4.005f);
 
             SkillSetup();
 

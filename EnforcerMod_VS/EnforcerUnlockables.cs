@@ -3,21 +3,23 @@ using UnityEngine;
 using RoR2;
 using Enforcer.Modules;
 using R2API;
+using EnforcerPlugin.Achievements;
 using ModdedUnlockable = Enforcer.Modules.ModdedUnlockable;
 
 namespace EnforcerPlugin
 {
-    public static class Unlockables
-    {
-        public static UnlockableDef masteryUnlockableDef;
+    public static class EnforcerUnlockables {
+
+        public static UnlockableDef enforcerUnlockableDef;
+        public static UnlockableDef enforcerMasteryUnlockableDef;
         public static UnlockableDef nemesisUnlockableDef;
         public static UnlockableDef nemMasteryUnlockableDef;
 
         public static void RegisterUnlockables()
         {
-            //LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME", "Riot");
-            //LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC", "Kill a Magma Worm, a Wandering Vagrant and a Stone Titan in a single run. <color=#c11>Host only</color>");
-            //LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_UNLOCKABLE_NAME", "Riot");
+            LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME", "Riot");
+            LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC", "Kill a Magma Worm, a Wandering Vagrant and a Stone Titan in a single run. \n<color=#c11><size=120%><b>Not fuckin host only anymore motherfucker</b></size></color>");
+            LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_UNLOCKABLE_NAME", "Riot");
 
             //LanguageAPI.Add("ENFORCER_SHOTGUNUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Schmoovin'");
             //LanguageAPI.Add("ENFORCER_SHOTGUNUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, show off your dance moves.");
@@ -80,21 +82,23 @@ namespace EnforcerPlugin
             //LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, stabilize the Cell in the Void Fields.");
             //LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Clearance");
 
-            /////this is the version that works with the altered AddUnlockable I changed in R2API.
-            /////look at #r2api in the discord to see what I mean. I went into more detail in #development as well
-            /////if the pull requests gets accepted I'll add the other needed ones to this
-            ////UnlockablesAPI.AddUnlockable<Achievements.EnforcerUnlockAchievement>(true, typeof(EnforcerUnlockAchievement.EnforcerUnlockAchievementServer));
+            //this is the version that works with the altered AddUnlockable I changed in R2API.
+            //look at #r2api in the discord to see what I mean. I went into more detail in #development as well
+            //      lol fucking that was a year ago you have to search from:timesweeper i was retarded for saying this
+            //if the pull requests gets accepted I'll add the other needed ones to this
+            //      fucking it was never merged in i'm reeing so hard right now
+            enforcerUnlockableDef = Enforcer.Modules.Unlockables.AddUnlockable<EnforcerUnlockAchievement>(typeof(Achievements.EnforcerUnlockAchievement.EnforcerUnlockAchievementServer));
 
             //UnlockablesAPI.AddUnlockable<Achievements.UnlockAchievement>(true);
             //UnlockablesAPI.AddUnlockable<Achievements.SuperShotgunAchievement>(true);
             //UnlockablesAPI.AddUnlockable<Achievements.AssaultRifleAchievement>(true);
             //UnlockablesAPI.AddUnlockable<Achievements.StunGrenadeAchievement>(true);
-            masteryUnlockableDef = Enforcer.Modules.Unlockables.AddUnlockable<Achievements.MasteryAchievement>(true);
+            enforcerMasteryUnlockableDef = Enforcer.Modules.Unlockables.AddUnlockable<MasteryAchievement>();
             //UnlockablesAPI.AddUnlockable<Achievements.DoomAchievement>(true);
             //UnlockablesAPI.AddUnlockable<Achievements.DesperadoAchievement>(true);
             //UnlockablesAPI.AddUnlockable<Achievements.NemesisSkinAchievement>(true);
 
-            if (EnforcerPlugin.nemesisEnabled)
+            if (EnforcerModPlugin.nemesisEnabled)
             {
                 LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_NAME", "???");
                 LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC", "Defeat Enforcer's Vestige.");
@@ -108,8 +112,8 @@ namespace EnforcerPlugin
                 //    LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, destroy 5 projectiles at once with Dominance.");
                 //    LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Demolition");
 
-                nemesisUnlockableDef = Enforcer.Modules.Unlockables.AddUnlockable<Achievements.NemesisAchievement>(true);
-                nemMasteryUnlockableDef = Enforcer.Modules.Unlockables.AddUnlockable<Achievements.NemMasteryAchievement>(true);
+                nemesisUnlockableDef = Enforcer.Modules.Unlockables.AddUnlockable<NemesisAchievement>();
+                nemMasteryUnlockableDef = Enforcer.Modules.Unlockables.AddUnlockable<NemMasteryAchievement>();
             //    UnlockablesAPI.AddUnlockable<Achievements.NemDominanceAchievement>(true);
 
             //    if (EnforcerPlugin.starstormInstalled)
@@ -132,168 +136,109 @@ namespace EnforcerPlugin
 
 namespace EnforcerPlugin.Achievements
 {
-    //[R2APISubmoduleDependency(nameof(UnlockablesAPI))]
-
-    //public class UnlockAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
-    //{
-    //    public override String AchievementIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
-    //    public override String UnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
-    //    public override String PrerequisiteUnlockableIdentifier { get; } = "";
-    //    public override String AchievementNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME";
-    //    public override String AchievementDescToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC";
-    //    public override String UnlockableNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_UNLOCKABLE_NAME";
-    //    protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texEnforcerUnlockAchievement.png");
-
-    //    public bool magmaWormKilled;
-    //    public bool wanderingVagrantKilled;
-    //    public bool stoneTitanKilled;
-    //    //need to network this, only gives it to the host rn
-
-    //    private void CheckDeath(DamageReport report)
-    //    {
-    //        if (report is null) return;
-    //        if (report.victimBody is null) return;
-    //        if (report.attackerBody is null) return;
-
-    //        if (report.victimTeamIndex != TeamIndex.Player)
-    //        {
-    //            if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("MagmaWormBody")) this.magmaWormKilled = true;
-    //            if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("VagrantBody")) this.wanderingVagrantKilled = true;
-    //            if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("TitanBody")) this.stoneTitanKilled = true;
-
-    //            if (this.magmaWormKilled && this.wanderingVagrantKilled && this.stoneTitanKilled)
-    //            {
-    //                base.Grant();
-    //            }
-    //        }
-    //    }
-
-    //    private void ResetOnRunStart(Run run)
-    //    {
-    //        this.ResetKills();
-
-    //        //throwing this in here because lazy
-    //        EnforcerPlugin.cum = false;
-    //    }
-
-    //    private void ResetKills()
-    //    {
-    //        this.magmaWormKilled = false;
-    //        this.wanderingVagrantKilled = false;
-    //        this.stoneTitanKilled = false;
-    //    }
-
-    //    public override void OnInstall()
-    //    {
-    //        base.OnInstall();
-
-    //        this.ResetKills();
-    //        GlobalEventManager.onCharacterDeathGlobal += this.CheckDeath;
-    //        Run.onRunStartGlobal += ResetOnRunStart;
-    //    }
-
-    //    public override void OnUninstall()
-    //    {
-    //        base.OnUninstall();
-
-    //        GlobalEventManager.onCharacterDeathGlobal -= this.CheckDeath;
-    //        Run.onRunStartGlobal -= ResetOnRunStart;
-    //    }
-    //}
-
     #region networked when R2API updates
-    ////networked
-    //public class EnforcerUnlockAchievement : ModdedUnlockableAndAchievement<VanillaSpriteProvider>
-    //{
-    //    public override String AchievementIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
-    //    public override String UnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
-    //    public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_PREREQ_ID";
-    //    public override String AchievementNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME";
-    //    public override String AchievementDescToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC";
-    //    public override String UnlockableNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_UNLOCKABLE_NAME";
-    //    protected override VanillaSpriteProvider SpriteProvider { get; } = new VanillaSpriteProvider("");
-    //    //need to network this, only gives it to the host rn
-    //    public override void OnInstall() {
-    //        base.OnInstall();
-    //        base.SetServerTracked(true);
-    //    }
+    //networked
+    //fuck you for never updating
+    public class EnforcerUnlockAchievement : ModdedUnlockable {
+        public override String AchievementIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
+        public override String UnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
+        public override String AchievementNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME";
+        public override String PrerequisiteUnlockableIdentifier { get; } = "";
+        public override String UnlockableNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_UNLOCKABLE_NAME";
+        public override String AchievementDescToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC";
+        public override Sprite Sprite { get; } = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerUnlockAchievement");
 
-    //    // Token: 0x0600310D RID: 12557 RVA: 0x000CD6EC File Offset: 0x000CB8EC
-    //    public override void OnUninstall() {
-    //        base.OnUninstall();
-    //    }
+        public override Func<string> GetHowToUnlock { get; } = (() => Language.GetStringFormatted("UNLOCK_VIA_ACHIEVEMENT_FORMAT", new object[]
+                            {
+                                Language.GetString("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME"),
+                                Language.GetString("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC")
+                            }));
+        public override Func<string> GetUnlocked { get; } = (() => Language.GetStringFormatted("UNLOCKED_FORMAT", new object[]
+                            {
+                                Language.GetString("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME"),
+                                Language.GetString("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC")
+                            }));
+        //need to network this, only gives it to the host rn
+        //      fine, i'll do it myself
+        public override void OnInstall() {
+            base.OnInstall();
+            base.SetServerTracked(true);
+        }
 
+        public override void OnUninstall() {
+            base.OnUninstall();
+        }
 
+        public class EnforcerUnlockAchievementServer : RoR2.Achievements.BaseServerAchievement {
 
-    //    public class EnforcerUnlockAchievementServer : RoR2.Achievements.BaseServerAchievement {
+            public bool magmaWormKilled;
+            public bool wanderingVagrantKilled;
+            public bool stoneTitanKilled;
 
-    //        public bool magmaWormKilled;
-    //        public bool wanderingVagrantKilled;
-    //        public bool stoneTitanKilled;
+            private void CheckDeath(DamageReport report) {
+                if (report is null) return;
+                if (report.victimBody is null) return;
+                if (report.attackerBody is null) return;
 
-    //        private void CheckDeath(DamageReport report) {
-    //            if (report is null) return;
-    //            if (report.victimBody is null) return;
-    //            if (report.attackerBody is null) return;
+                if (report.victimTeamIndex != TeamIndex.Player) {
+                    if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("MagmaWormBody")) {
+                        this.magmaWormKilled = true;
 
-    //            if (report.victimTeamIndex != TeamIndex.Player) {
-    //                if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("MagmaWormBody")) {
-    //                    this.magmaWormKilled = true;
+                        //Debug.LogWarning("killed worm");
+                        //Debug.LogWarning($"wom: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
+                    }
+                    if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("VagrantBody")) {
+                        this.wanderingVagrantKilled = true;
 
-    //                    Debug.LogWarning("killed worm");
-    //                    Debug.LogWarning($"worm: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
-    //                }
-    //                if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("VagrantBody")) {
-    //                    this.wanderingVagrantKilled = true;
+                        //Debug.LogWarning("killed vag");
+                        //Debug.LogWarning($"wom: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
+                    }
+                    if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("TitanBody")) {
+                        this.stoneTitanKilled = true;
 
-    //                    Debug.LogWarning("killed vag");
-    //                    Debug.LogWarning($"worm: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
-    //                }
-    //                if (report.victimBodyIndex == BodyCatalog.FindBodyIndex("TitanBody")) {
-    //                    this.stoneTitanKilled = true;
+                        //Debug.LogWarning("killed tit");
+                        //Debug.LogWarning($"wom: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
+                    }
 
-    //                    Debug.LogWarning("killed tit");
-    //                    Debug.LogWarning($"worm: {magmaWormKilled}, vag: {wanderingVagrantKilled}, tit: {stoneTitanKilled}");
-    //                }
+                    if (this.magmaWormKilled && this.wanderingVagrantKilled && this.stoneTitanKilled) {
+                        //Debug.LogWarning($"ya fuckin");
+                        base.Grant();
+                        //Debug.LogWarning($"did it");
+                    }
+                }
+            }
 
-    //                if (this.magmaWormKilled && this.wanderingVagrantKilled && this.stoneTitanKilled) {
-    //                    Debug.LogWarning($"ya fuckin");
-    //                    base.Grant();
-    //                    Debug.LogWarning($"did it");
-    //                }
-    //            }
-    //        }
+            private void ResetOnRunStart(Run run) {
+                this.ResetKills();
 
-    //        private void ResetOnRunStart(Run run) {
-    //            this.ResetKills();
+                //throwing this in here because lazy
+                EnforcerModPlugin.cum = false;
+                //it's fucking for doom music
+            }
 
-    //            //throwing this in here because lazy
-    //            EnforcerPlugin.cum = false;
-    //        }
+            private void ResetKills() {
+                this.magmaWormKilled = false;
+                this.wanderingVagrantKilled = false;
+                this.stoneTitanKilled = false;
+            }
 
-    //        private void ResetKills() {
-    //            this.magmaWormKilled = false;
-    //            this.wanderingVagrantKilled = false;
-    //            this.stoneTitanKilled = false;
-    //        }
+            public override void OnInstall() {
+                base.OnInstall();
 
-    //        public override void OnInstall() {
-    //            base.OnInstall();
+                this.ResetKills();
+                GlobalEventManager.onCharacterDeathGlobal += this.CheckDeath;
+                Run.onRunStartGlobal += ResetOnRunStart;
+            }
 
-    //            this.ResetKills();
-    //            GlobalEventManager.onCharacterDeathGlobal += this.CheckDeath;
-    //            Run.onRunStartGlobal += ResetOnRunStart;
-    //        }
+            public override void OnUninstall() {
+                base.OnUninstall();
 
-    //        public override void OnUninstall() {
-    //            base.OnUninstall();
+                GlobalEventManager.onCharacterDeathGlobal -= this.CheckDeath;
+                Run.onRunStartGlobal -= ResetOnRunStart;
+            }
 
-    //            GlobalEventManager.onCharacterDeathGlobal -= this.CheckDeath;
-    //            Run.onRunStartGlobal -= ResetOnRunStart;
-    //        }
-
-    //    }
-    //}
+        }
+    }
 
     #endregion
 

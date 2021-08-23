@@ -22,7 +22,7 @@ namespace EnforcerPlugin.Modules
             survivorDef.desiredSortPosition = sortPosition;
             survivorDef.unlockableDef = unlockableDef;
 
-            EnforcerPlugin.survivorDefs.Add(survivorDef);
+            EnforcerModPlugin.survivorDefs.Add(survivorDef);
         }
 
         internal static void RegisterNewSurvivor(GameObject bodyPrefab, GameObject displayPrefab, string namePrefix) { RegisterNewSurvivor(bodyPrefab, displayPrefab, namePrefix, null, 4f); }

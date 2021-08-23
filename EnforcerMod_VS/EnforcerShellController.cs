@@ -23,7 +23,7 @@ namespace Enforcer
 
         private void OnCollisionEnter()
         {
-            if (EnforcerPlugin.EnforcerPlugin.shellSounds.Value)
+            if (EnforcerPlugin.EnforcerModPlugin.shellSounds.Value)
             {
                 if (!this.triggered)
                 {

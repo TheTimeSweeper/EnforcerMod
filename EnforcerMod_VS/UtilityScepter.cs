@@ -16,7 +16,7 @@ namespace EntityStates.Enforcer
             maxDistance = 48;
             rayRadius = 2f;
             arcVisualizerPrefab = goodState.arcVisualizerPrefab;
-            projectilePrefab = EnforcerPlugin.EnforcerPlugin.damageGasProjectile;
+            projectilePrefab = EnforcerPlugin.EnforcerModPlugin.damageGasProjectile;
             endpointVisualizerPrefab = goodState.endpointVisualizerPrefab;
             endpointVisualizerRadiusScale = 4f;
             setFuse = false;
@@ -125,7 +125,7 @@ namespace EntityStates.Enforcer
                     owner = base.gameObject,
                     position = childLocator.FindChild(ShockGrenade.muzzleString).position,
                     procChainMask = default(ProcChainMask),
-                    projectilePrefab = EnforcerPlugin.EnforcerPlugin.shockGrenade,
+                    projectilePrefab = EnforcerPlugin.EnforcerModPlugin.shockGrenade,
                     rotation = Quaternion.LookRotation(base.GetAimRay().direction),
                     useFuseOverride = false,
                     useSpeedOverride = true,

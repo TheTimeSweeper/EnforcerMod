@@ -135,7 +135,7 @@ namespace EnforcerPlugin
             classicSkinDefInfo.NameToken = "NEMFORCERBODY_CLASSIC_SKIN_NAME";
             classicSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             classicSkinDefInfo.RootObject = model;
-            classicSkinDefInfo.UnlockableDef = Unlockables.nemMasteryUnlockableDef;
+            classicSkinDefInfo.UnlockableDef = EnforcerUnlockables.nemMasteryUnlockableDef;
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];
@@ -392,14 +392,14 @@ namespace EnforcerPlugin
                 classicSkin
             };
 
-            if (EnforcerPlugin.starstormInstalled)
+            if (EnforcerModPlugin.starstormInstalled)
             {
                 skinDefs.Add(typhoonSkin);
             }
 
             skinDefs.Add(altSkin);
 
-            if (EnforcerPlugin.cursed.Value)
+            if (EnforcerModPlugin.cursed.Value)
             {
                 skinDefs.Add(dripSkin);
                 skinDefs.Add(minecraftSkin);

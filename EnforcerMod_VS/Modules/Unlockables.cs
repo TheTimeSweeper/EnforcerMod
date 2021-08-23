@@ -9,17 +9,17 @@ using UnityEngine;
 
 namespace Enforcer.Modules
 {
-    internal static class Unlockables
+    public static class Unlockables
     {
         private static readonly HashSet<string> usedRewardIds = new HashSet<string>();
-        internal static List<AchievementDef> achievementDefs = new List<AchievementDef>();
-        internal static List<UnlockableDef> unlockableDefs = new List<UnlockableDef>();
+        public static List<AchievementDef> achievementDefs = new List<AchievementDef>();
+        public static List<UnlockableDef> unlockableDefs = new List<UnlockableDef>();
         private static readonly List<(AchievementDef achDef, UnlockableDef unlockableDef, String unlockableName)> moddedUnlocks = new List<(AchievementDef achDef, UnlockableDef unlockableDef, string unlockableName)>();
 
         private static bool addingUnlockables;
         public static bool ableToAdd { get; private set; } = false;
 
-        internal static UnlockableDef CreateNewUnlockable(UnlockableInfo unlockableInfo)
+        public static UnlockableDef CreateNewUnlockable(UnlockableInfo unlockableInfo)
         {
             UnlockableDef newUnlockableDef = ScriptableObject.CreateInstance<UnlockableDef>();
 
@@ -32,7 +32,11 @@ namespace Enforcer.Modules
             return newUnlockableDef;
         }
 
-        public static UnlockableDef AddUnlockable<TUnlockable>(bool serverTracked) where TUnlockable : BaseAchievement, IModdedUnlockableDataProvider, new()
+        [Obsolete("The bool parameter serverTracked is redundant. Instead, pass in a BaseServerAchievement type if it is server tracked, or nothing if it's not")]
+        public static UnlockableDef AddUnlockable<TUnlockable>(bool serverTracked) where TUnlockable : BaseAchievement, IModdedUnlockableDataProvider, new() {
+            return AddUnlockable<TUnlockable>(null);
+        }
+        public static UnlockableDef AddUnlockable<TUnlockable>(Type serverTrackerType = null) where TUnlockable : BaseAchievement, IModdedUnlockableDataProvider, new()
         {
             TUnlockable instance = new TUnlockable();
 
@@ -49,7 +53,7 @@ namespace Enforcer.Modules
                 descriptionToken = instance.AchievementDescToken,
                 achievedIcon = instance.Sprite,
                 type = instance.GetType(),
-                serverTrackerType = (serverTracked ? instance.GetType() : null),
+                serverTrackerType = serverTrackerType,
             };
 
             UnlockableDef unlockableDef = CreateNewUnlockable(new UnlockableInfo
@@ -117,16 +121,16 @@ where TDelegate : Delegate
             _ = cursor.Emit(OpCodes.Ldloc_1);
         }
 
-        internal struct UnlockableInfo
+        public struct UnlockableInfo
         {
-            internal string Name;
-            internal Func<string> HowToUnlockString;
-            internal Func<string> UnlockedString;
-            internal int SortScore;
+            public string Name;
+            public Func<string> HowToUnlockString;
+            public Func<string> UnlockedString;
+            public int SortScore;
         }
     }
 
-    internal interface IModdedUnlockableDataProvider
+    public interface IModdedUnlockableDataProvider
     {
         string AchievementIdentifier { get; }
         string UnlockableIdentifier { get; }
@@ -139,7 +143,8 @@ where TDelegate : Delegate
         Func<string> GetUnlocked { get; }
     }
 
-    internal abstract class ModdedUnlockable : BaseAchievement, IModdedUnlockableDataProvider
+    //fuck your internal i'm a slut
+    public abstract class ModdedUnlockable : BaseAchievement, IModdedUnlockableDataProvider
     {
         #region Implementation
         public void Revoke()
@@ -186,7 +191,7 @@ where TDelegate : Delegate
         #endregion
     }
 
-    internal static class ArrayHelper
+    public static class ArrayHelper
     {
         public static T[] Append<T>(ref T[] array, List<T> list)
         {

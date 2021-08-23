@@ -75,11 +75,11 @@ namespace EntityStates.Enforcer
                 this.shieldComponent.drOctagonapus = drOctagonapus;
             }
 
-            /*if (!EnforcerPlugin.EnforcerPlugin.cum && base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex)
-            {
-                EnforcerPlugin.EnforcerPlugin.cum = true;
-                Util.PlaySound(EnforcerPlugin.Sounds.DOOM, base.gameObject);
-            }*/
+            //if (!EnforcerPlugin.EnforcerPlugin.cum && base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex)
+            //{
+            //    EnforcerPlugin.EnforcerPlugin.cum = true;
+            //    Util.PlaySound(EnforcerPlugin.Sounds.DOOM, base.gameObject);
+            //}
 
             //disable the shield when energy shield is selected
             if (base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDON_NAME" || base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDOFF_NAME")
@@ -101,7 +101,7 @@ namespace EntityStates.Enforcer
                 
             onDance(false);
 
-            this.sprintCancelEnabled = EnforcerPlugin.EnforcerPlugin.sprintShieldCancel.Value;
+            this.sprintCancelEnabled = EnforcerPlugin.EnforcerModPlugin.sprintShieldCancel.Value;
         }
 
         public override void Update()
@@ -113,19 +113,19 @@ namespace EntityStates.Enforcer
             //emotes
             if (base.isAuthority && base.characterMotor.isGrounded && !shieldIsUp)
             {
-                if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.defaultDanceKey.Value))
+                if (Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.defaultDanceKey.Value))
                 {
                     onDance(true);
                     this.outer.SetInterruptState(new NemesisRest(), InterruptPriority.Any);
                     return;
                 }
-                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.flossKey.Value))
+                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.flossKey.Value))
                 {
                     onDance(true);
                     this.outer.SetInterruptState(new EnforcerSalute(), InterruptPriority.Any);
                     return;
                 }
-                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.earlKey.Value))
+                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.earlKey.Value))
                 {
                     //onDance(true);
                     //this.outer.SetInterruptState(new FLINTLOCKWOOD(), InterruptPriority.Any);
@@ -134,7 +134,7 @@ namespace EntityStates.Enforcer
             }
 
             //sirens
-            if (base.isAuthority && Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.sirensKey.Value))
+            if (base.isAuthority && Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.sirensKey.Value))
             {
                 this.sirenStateMachine.SetInterruptState(new SirenToggle(), InterruptPriority.Any);
                 return;

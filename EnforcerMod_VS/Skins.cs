@@ -37,7 +37,7 @@ namespace EnforcerPlugin
 
         public static void RegisterSkins()
         {
-            GameObject bodyPrefab = EnforcerPlugin.characterPrefab;
+            GameObject bodyPrefab = EnforcerModPlugin.characterPrefab;
             GameObject model = bodyPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
             CharacterModel characterModel = model.GetComponent<CharacterModel>();
             ModelSkinController skinController = model.AddComponent<ModelSkinController>();
@@ -140,7 +140,7 @@ namespace EnforcerPlugin
             masterySkinDefInfo.NameToken = "ENFORCERBODY_MASTERY_SKIN_NAME";
             masterySkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             masterySkinDefInfo.RootObject = model;
-            masterySkinDefInfo.UnlockableDef = Unlockables.masteryUnlockableDef;
+            masterySkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerMasteryUnlockableDef;
 
             CharacterModel.RendererInfo[] rendererInfos = new CharacterModel.RendererInfo[defaultSkin.rendererInfos.Length];
             defaultSkin.rendererInfos.CopyTo(rendererInfos, 0);

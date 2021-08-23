@@ -21,7 +21,7 @@ namespace EntityStates.Nemforcer
 
             if (NetworkServer.active) base.characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
 
-            if (EnforcerPlugin.EnforcerPlugin.nemesisSpawnEffect)
+            if (EnforcerPlugin.EnforcerModPlugin.nemesisSpawnEffect)
             {
                 EffectManager.SimpleMuzzleFlash(EntityStates.NullifierMonster.SpawnState.spawnEffectPrefab, base.gameObject, "SpawnOrigin", false);
             }

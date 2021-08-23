@@ -153,7 +153,7 @@ namespace EnforcerPlugin
             nemCharPortrait = MainAssetBundle.LoadAsset<Sprite>("nemIconBlu").texture;
             nemBossPortrait = MainAssetBundle.LoadAsset<Sprite>("nemIconRed").texture;
 
-            if (EnforcerPlugin.classicIcons.Value)
+            if (EnforcerModPlugin.classicIcons.Value)
             {
                 iconP = MainAssetBundle.LoadAsset<Sprite>("TestIcon");
                 icon1 = MainAssetBundle.LoadAsset<Sprite>("Skill1Icon");

@@ -143,7 +143,7 @@ namespace EntityStates.Nemforcer
                 sniper = false,
                 stopperMask = LayerIndex.CommonMasks.bullet,
                 weapon = null,
-                tracerEffectPrefab = EnforcerPlugin.EnforcerPlugin.minigunTracer,
+                tracerEffectPrefab = EnforcerPlugin.EnforcerModPlugin.minigunTracer,
                 spreadPitchScale = 1f,
                 spreadYawScale = 1f,
                 queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,

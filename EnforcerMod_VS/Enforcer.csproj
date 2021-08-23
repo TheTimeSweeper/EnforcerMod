@@ -73,7 +73,7 @@
       <HintPath>libs\MonoMod.Utils.dll</HintPath>
     </Reference>
     <Reference Include="R2API">
-      <HintPath>libs\R2API.dll</HintPath>
+      <HintPath>..\..\_sln References\R2API.dll</HintPath>
     </Reference>
     <Reference Include="Starstorm2">
       <HintPath>libs\Starstorm2.dll</HintPath>

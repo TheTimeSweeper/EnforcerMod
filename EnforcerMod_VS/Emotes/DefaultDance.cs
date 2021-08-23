@@ -118,19 +118,19 @@ namespace EntityStates.Enforcer
             {
                 if (base.characterBody.baseNameToken == "ENFORCER_NAME")
                 {
-                    if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.defaultDanceKey.Value))
+                    if (Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.defaultDanceKey.Value))
                     {
                         flag = false;
                         this.outer.SetInterruptState(new NemesisRest(), InterruptPriority.Any);
                         return;
                     }
-                    else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.flossKey.Value))
+                    else if (Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.flossKey.Value))
                     {
                         flag = false;
                         this.outer.SetInterruptState(new EnforcerSalute(), InterruptPriority.Any);
                         return;
                     }
-                    else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.earlKey.Value))
+                    else if (Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.earlKey.Value))
                     {
                         //flag = false;
                         //this.outer.SetInterruptState(new FLINTLOCKWOOD(), InterruptPriority.Any);
@@ -139,13 +139,13 @@ namespace EntityStates.Enforcer
                 }
                 else
                 {
-                    if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.defaultDanceKey.Value))
+                    if (Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.defaultDanceKey.Value))
                     {
                         flag = false;
                         this.outer.SetInterruptState(new NemesisRest(), InterruptPriority.Any);
                         return;
                     }
-                    else if (Input.GetKeyDown(EnforcerPlugin.EnforcerPlugin.flossKey.Value))
+                    else if (Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.flossKey.Value))
                     {
                         flag = false;
                         this.outer.SetInterruptState(new Salute(), InterruptPriority.Any);

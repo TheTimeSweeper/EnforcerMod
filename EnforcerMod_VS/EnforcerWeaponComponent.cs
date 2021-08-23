@@ -307,7 +307,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
                     this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
                     break;
                 case 4:
-                    this.charBody.crosshairPrefab = EnforcerPlugin.EnforcerPlugin.needlerCrosshair;
+                    this.charBody.crosshairPrefab = EnforcerPlugin.EnforcerModPlugin.needlerCrosshair;
                     break;
             }
         }

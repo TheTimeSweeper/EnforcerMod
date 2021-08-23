@@ -27,9 +27,9 @@ namespace EnforcerPlugin.Modules
         {
             //IL.RoR2.BuffCatalog.Init += FixBuffCatalog;
 
-            protectAndServeBuff = AddNewBuff("Heavyweight", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffProtectAndServe"), EnforcerPlugin.characterColor, false, false);
-            energyShieldBuff = AddNewBuff("EnergyShield", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffProtectAndServe"), EnforcerPlugin.characterColor, false, false);
-            skateboardBuff = AddNewBuff("Heavyweight", Resources.Load<Sprite>("Textures/BuffIcons/texMovespeedBuffIcon"), EnforcerPlugin.characterColor, false, false);
+            protectAndServeBuff = AddNewBuff("Heavyweight", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffProtectAndServe"), EnforcerModPlugin.characterColor, false, false);
+            energyShieldBuff = AddNewBuff("EnergyShield", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffProtectAndServe"), EnforcerModPlugin.characterColor, false, false);
+            skateboardBuff = AddNewBuff("Heavyweight", Resources.Load<Sprite>("Textures/BuffIcons/texMovespeedBuffIcon"), EnforcerModPlugin.characterColor, false, false);
             minigunBuff = AddNewBuff("MinigunStance", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffMinigun"), new Color(1, 0.7176f, 0.1725f), false, false);
 
             smallSlowBuff = AddNewBuff("NemSmallSelfSlow", Resources.Load<Sprite>("Textures/BuffIcons/texBuffSlow50Icon"), new Color(0.647f, 0.168f, 0.184f), false, true);

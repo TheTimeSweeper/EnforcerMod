@@ -59,7 +59,7 @@ namespace EntityStates.Enforcer
                     owner = base.gameObject,
                     position = aimRay.origin,
                     procChainMask = default(ProcChainMask),
-                    projectilePrefab = EnforcerPlugin.EnforcerPlugin.stunGrenade,
+                    projectilePrefab = EnforcerPlugin.EnforcerModPlugin.stunGrenade,
                     rotation = RoR2.Util.QuaternionSafeLookRotation(aimRay.direction + aimTweak * 0.08f),
                     useFuseOverride = false,
                     useSpeedOverride = true,

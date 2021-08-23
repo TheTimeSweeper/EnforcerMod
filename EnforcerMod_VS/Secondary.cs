@@ -133,7 +133,7 @@ namespace EntityStates.Enforcer
                             TeamComponent component2 = healthComponent.GetComponent<TeamComponent>();
 
                             bool enemyTeam = component2.teamIndex != base.teamComponent.teamIndex;
-                            bool configKnockbackAllies = EnforcerPlugin.EnforcerPlugin.stupidShieldBash.Value && healthComponent != base.healthComponent;
+                            bool configKnockbackAllies = EnforcerPlugin.EnforcerModPlugin.stupidShieldBash.Value && healthComponent != base.healthComponent;
 
                             bool redirecting = false;
 
@@ -179,7 +179,7 @@ namespace EntityStates.Enforcer
                                     }
 
                                     if (mass <= 100f) mass = 100f;
-                                    if (EnforcerPlugin.EnforcerPlugin.balancedShieldBash.Value && mass > 500f) mass = 500f; 
+                                    if (EnforcerPlugin.EnforcerModPlugin.balancedShieldBash.Value && mass > 500f) mass = 500f; 
 
                                     force *= mass;
 
@@ -298,7 +298,7 @@ namespace EntityStates.Enforcer
                         {
                             this.hasDeflected = true;
 
-                            if (EnforcerPlugin.EnforcerPlugin.sirenOnDeflect.Value) Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
+                            if (EnforcerPlugin.EnforcerModPlugin.sirenOnDeflect.Value) Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
 
                             base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
                             base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(8);
@@ -330,7 +330,7 @@ namespace EntityStates.Enforcer
             {
                 this.hasDeflected = true;
 
-                if (EnforcerPlugin.EnforcerPlugin.sirenOnDeflect.Value) 
+                if (EnforcerPlugin.EnforcerModPlugin.sirenOnDeflect.Value) 
                     Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
 
                 base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);

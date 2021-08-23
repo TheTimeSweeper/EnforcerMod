@@ -175,7 +175,7 @@ namespace EntityStates.Nemforcer
                                     else if (rb) mass = rb.mass;
 
                                     if (mass <= 100f) mass = 100f;
-                                    if (EnforcerPlugin.EnforcerPlugin.balancedShieldBash.Value && mass > 500f) mass = 500f;
+                                    if (EnforcerPlugin.EnforcerModPlugin.balancedShieldBash.Value && mass > 500f) mass = 500f;
 
                                     force *= mass;
 

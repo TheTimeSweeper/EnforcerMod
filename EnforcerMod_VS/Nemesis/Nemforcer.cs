@@ -68,9 +68,9 @@ namespace EnforcerPlugin
             CreateBossPrefab();
             CreateMiniBossPrefab();
 
-            if (EnforcerPlugin.kingDededeBoss.Value) CreateDededeBoss();
+            if (EnforcerModPlugin.kingDededeBoss.Value) CreateDededeBoss();
 
-            if (EnforcerPlugin.starstormInstalled) StarstormCompat();
+            if (EnforcerModPlugin.starstormInstalled) StarstormCompat();
         }
 
         private static void StarstormCompat()
@@ -85,9 +85,9 @@ namespace EnforcerPlugin
 
         private static GameObject CreateModel(GameObject main, int index)
         {
-            EnforcerPlugin.Destroy(main.transform.Find("ModelBase").gameObject);
-            EnforcerPlugin.Destroy(main.transform.Find("CameraPivot").gameObject);
-            EnforcerPlugin.Destroy(main.transform.Find("AimOrigin").gameObject);
+            EnforcerModPlugin.Destroy(main.transform.Find("ModelBase").gameObject);
+            EnforcerModPlugin.Destroy(main.transform.Find("CameraPivot").gameObject);
+            EnforcerModPlugin.Destroy(main.transform.Find("AimOrigin").gameObject);
 
             GameObject model = null;
 
@@ -535,11 +535,11 @@ namespace EnforcerPlugin
 
             characterDisplay.AddComponent<NetworkIdentity>();
 
-            Modules.Survivors.RegisterNewSurvivor(characterPrefab, characterDisplay, "NEMFORCER", Unlockables.nemesisUnlockableDef, 4.01f);
+            Modules.Survivors.RegisterNewSurvivor(characterPrefab, characterDisplay, "NEMFORCER", EnforcerUnlockables.nemesisUnlockableDef, 4.01f);
 
             SkillSetup();
 
-            EnforcerPlugin.bodyPrefabs.Add(characterPrefab);
+            EnforcerModPlugin.bodyPrefabs.Add(characterPrefab);
         }
 
         private void RegisterProjectiles()
@@ -657,7 +657,7 @@ namespace EnforcerPlugin
             nemGasDamage.damageType = DamageType.Generic;
             nemGasDamage.force = -10;
 
-            EnforcerPlugin.Destroy(nemGas.transform.GetChild(0).gameObject);
+            EnforcerModPlugin.Destroy(nemGas.transform.GetChild(0).gameObject);
             GameObject gasFX = Assets.nemGasEffectPrefab.InstantiateClone("FX", false);
             gasFX.AddComponent<TearGasComponent>();
             gasFX.AddComponent<DestroyOnTimer>().duration = 18f;
@@ -667,9 +667,9 @@ namespace EnforcerPlugin
             nemGasGrenade.AddComponent<DestroyOnTimer>().duration = 32;
             nemGas.AddComponent<DestroyOnTimer>().duration = 18;
 
-            EnforcerPlugin.projectilePrefabs.Add(nemGasGrenade);
-            EnforcerPlugin.projectilePrefabs.Add(nemGas);
-            EnforcerPlugin.projectilePrefabs.Add(hammerProjectile);
+            EnforcerModPlugin.projectilePrefabs.Add(nemGasGrenade);
+            EnforcerModPlugin.projectilePrefabs.Add(nemGas);
+            EnforcerModPlugin.projectilePrefabs.Add(hammerProjectile);
         }
 
         private void SkillSetup()
@@ -711,7 +711,7 @@ namespace EnforcerPlugin
 
             skillLocator.primary = PluginUtils.RegisterSkillsToFamily(characterPrefab, primaryVariant1);
 
-            if (EnforcerPlugin.cursed.Value) PluginUtils.RegisterAdditionalSkills(skillLocator.primary, primaryVariant2);
+            if (EnforcerModPlugin.cursed.Value) PluginUtils.RegisterAdditionalSkills(skillLocator.primary, primaryVariant2);
 
             SkillDef primaryDefMinigun = PrimarySkillDef_FireMinigun();
             PluginUtils.RegisterSkillDef(primaryDefMinigun,
@@ -761,7 +761,7 @@ namespace EnforcerPlugin
 
             skillLocator.utility = PluginUtils.RegisterSkillsToFamily(characterPrefab, utilityVariant4, utilityVariant1, utilityVariant2);
 
-            if (EnforcerPlugin.cursed.Value) PluginUtils.RegisterAdditionalSkills(skillLocator.utility, utilityVariant3);
+            if (EnforcerModPlugin.cursed.Value) PluginUtils.RegisterAdditionalSkills(skillLocator.utility, utilityVariant3);
         }
 
         private void SpecialSetup()
@@ -1136,7 +1136,7 @@ namespace EnforcerPlugin
 
             CreateUmbraAI();
 
-            EnforcerPlugin.masterPrefabs.Add(doppelganger);
+            EnforcerModPlugin.masterPrefabs.Add(doppelganger);
         }
 
         private void CreateBossPrefab()
@@ -1145,9 +1145,9 @@ namespace EnforcerPlugin
 
             bossPrefab.GetComponent<ModelLocator>().modelBaseTransform.localScale *= 1.75f;
 
-            EnforcerPlugin.Destroy(bossPrefab.transform.Find("ModelBase").gameObject);
-            EnforcerPlugin.Destroy(bossPrefab.transform.Find("CameraPivot").gameObject);
-            EnforcerPlugin.Destroy(bossPrefab.transform.Find("AimOrigin").gameObject);
+            EnforcerModPlugin.Destroy(bossPrefab.transform.Find("ModelBase").gameObject);
+            EnforcerModPlugin.Destroy(bossPrefab.transform.Find("CameraPivot").gameObject);
+            EnforcerModPlugin.Destroy(bossPrefab.transform.Find("AimOrigin").gameObject);
 
             CharacterBody charBody = bossPrefab.GetComponent<CharacterBody>();
 
@@ -1156,7 +1156,7 @@ namespace EnforcerPlugin
 
             charBody.name = "NemesisEnforcerBossBody";
             charBody.baseNameToken = "NEMFORCER_NAME";
-            if (EnforcerPlugin.starstormInstalled) charBody.baseNameToken = "NEMFORCER_BOSS_NAME";
+            if (EnforcerModPlugin.starstormInstalled) charBody.baseNameToken = "NEMFORCER_BOSS_NAME";
             charBody.subtitleNameToken = "NEMFORCER_BOSS_SUBTITLE";
             charBody.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             charBody.rootMotionInMainState = false;
@@ -1188,7 +1188,7 @@ namespace EnforcerPlugin
 
             charBody.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
 
-            EnforcerPlugin.bodyPrefabs.Add(bossPrefab);
+            EnforcerModPlugin.bodyPrefabs.Add(bossPrefab);
 
             bossMaster = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/LemurianMaster"), "NemesisEnforcerBossMaster", true);
             bossMaster.GetComponent<CharacterMaster>().bodyPrefab = bossPrefab;
@@ -1197,7 +1197,7 @@ namespace EnforcerPlugin
 
             CreateNemesisAI();
 
-            EnforcerPlugin.masterPrefabs.Add(bossMaster);
+            EnforcerModPlugin.masterPrefabs.Add(bossMaster);
         }
 
         private void CreateMiniBossPrefab()
@@ -1206,9 +1206,9 @@ namespace EnforcerPlugin
 
             minibossPrefab.GetComponent<ModelLocator>().modelBaseTransform.localScale *= 1.5f;
 
-            EnforcerPlugin.Destroy(minibossPrefab.transform.Find("ModelBase").gameObject);
-            EnforcerPlugin.Destroy(minibossPrefab.transform.Find("CameraPivot").gameObject);
-            EnforcerPlugin.Destroy(minibossPrefab.transform.Find("AimOrigin").gameObject);
+            EnforcerModPlugin.Destroy(minibossPrefab.transform.Find("ModelBase").gameObject);
+            EnforcerModPlugin.Destroy(minibossPrefab.transform.Find("CameraPivot").gameObject);
+            EnforcerModPlugin.Destroy(minibossPrefab.transform.Find("AimOrigin").gameObject);
 
             CharacterBody charBody = minibossPrefab.GetComponent<CharacterBody>();
 
@@ -1245,7 +1245,7 @@ namespace EnforcerPlugin
 
             charBody.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
 
-            EnforcerPlugin.bodyPrefabs.Add(minibossPrefab);
+            EnforcerModPlugin.bodyPrefabs.Add(minibossPrefab);
 
             minibossMaster = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/LemurianMaster"), "NemesisEnforcerMiniBossMaster", true);
             minibossMaster.GetComponent<CharacterMaster>().bodyPrefab = minibossPrefab;
@@ -1254,7 +1254,7 @@ namespace EnforcerPlugin
 
             CreateMiniNemesisAI();
 
-            EnforcerPlugin.masterPrefabs.Add(minibossMaster);
+            EnforcerModPlugin.masterPrefabs.Add(minibossMaster);
         }
 
         private void CreateUmbraAI()
@@ -2329,7 +2329,7 @@ namespace EnforcerPlugin
 
             dededePrefab.GetComponent<ModelLocator>().modelBaseTransform.localScale *= 2f;
 
-            EnforcerPlugin.Destroy(dededePrefab.GetComponentInChildren<ModelSkinController>());
+            EnforcerModPlugin.Destroy(dededePrefab.GetComponentInChildren<ModelSkinController>());
 
             CharacterBody charBody = dededePrefab.GetComponent<CharacterBody>();
 
@@ -2413,14 +2413,14 @@ namespace EnforcerPlugin
                 viewableNode = new ViewablesCatalog.Node(jumpDef.skillNameToken, false, null)
             };
 
-            EnforcerPlugin.bodyPrefabs.Add(dededePrefab);
+            EnforcerModPlugin.bodyPrefabs.Add(dededePrefab);
 
             dededeMaster = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/LemurianMaster"), "KingDededeMaster", true);
             dededeMaster.GetComponent<CharacterMaster>().bodyPrefab = dededePrefab;
 
             CreateDededeAI();
 
-            EnforcerPlugin.masterPrefabs.Add(dededeMaster);
+            EnforcerModPlugin.masterPrefabs.Add(dededeMaster);
 
             CreateDededeSpawnCard();
         }
