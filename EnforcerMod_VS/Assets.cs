@@ -20,22 +20,24 @@ namespace EnforcerPlugin
         public static Texture nemCharPortrait;
         public static Texture nemBossPortrait;
 
-        public static Sprite iconP;
-        public static Sprite icon1;//shotgun
-        public static Sprite icon1B;//super shotgun
-        public static Sprite icon1C;//assault rifle
-        public static Sprite icon1D;//hammer
-        public static Sprite icon2;//shield bash
-        public static Sprite icon3;//tear gas
-        public static Sprite icon3S;//tear gas(scepter)
-        public static Sprite icon3B;//stun grenade
-        public static Sprite icon3BS;//stun grenade(scepter)
-        public static Sprite icon4;//protect and serve
-        public static Sprite icon4B;//protect and serve cancel
-        public static Sprite icon4C;//skateboard
-        public static Sprite icon4D;//skateboard cancel
+        //why the fuck were these names so cryptic
+        //fucking pleb ass baby coders
+        public static Sprite iconP; //idevenfk //oh passive
+        public static Sprite icon10Shotgun;//shotgun
+        public static Sprite icon11SuperShotgun;//super shotgun
+        public static Sprite icon12AssaultRifle;//assault rifle
+        public static Sprite icon13Hammer;//hammer
+        public static Sprite icon20ShieldBash;//shield bash
+        public static Sprite icon30TearGas;//tear gas
+        public static Sprite icon30TearGasScepter;//tear gas(scepter)
+        public static Sprite icon31StunGrenade;//stun grenade
+        public static Sprite icon31StunGrenadeScepter;//stun grenade(scepter)
+        public static Sprite icon40Shield;//protect and serve
+        public static Sprite icon40ShieldOff;//protect and serve cancel
+        public static Sprite icon42SkateBoard;//skateboard
+        public static Sprite icon42SkateBoardOff;//skateboard cancel
 
-        public static Sprite nIconP;
+        public static Sprite nemIconPassive;
         public static Sprite nIcon1;
         public static Sprite nIcon1B;
         public static Sprite nIcon1C;
@@ -149,47 +151,46 @@ namespace EnforcerPlugin
 
             Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/hgstandard");
 
-            charPortrait = MainAssetBundle.LoadAsset<Sprite>("texEnforcerIcon").texture;
+            string portraitString = Random.value > 0.1f ? "texEnforcerIcon" : "texEnforcerIconEpic";
+            charPortrait = MainAssetBundle.LoadAsset<Sprite>(portraitString).texture;
             nemCharPortrait = MainAssetBundle.LoadAsset<Sprite>("nemIconBlu").texture;
             nemBossPortrait = MainAssetBundle.LoadAsset<Sprite>("nemIconRed").texture;
 
-            if (EnforcerModPlugin.classicIcons.Value)
-            {
+            iconP = MainAssetBundle.LoadAsset<Sprite>("TestIcon");
+            icon10Shotgun = MainAssetBundle.LoadAsset<Sprite>("RiotShotgunIcon");
+            icon11SuperShotgun = MainAssetBundle.LoadAsset<Sprite>("SuperShotgunIcon");
+            icon12AssaultRifle = MainAssetBundle.LoadAsset<Sprite>("AssaultRifleIcon");
+            icon13Hammer = MainAssetBundle.LoadAsset<Sprite>("BreachingHammerIcon");
+            icon20ShieldBash = MainAssetBundle.LoadAsset<Sprite>("ShieldBashIcon");
+            icon30TearGas = MainAssetBundle.LoadAsset<Sprite>("TearGasIcon");
+            icon30TearGasScepter = MainAssetBundle.LoadAsset<Sprite>("TearGasScepterIcon");
+            icon31StunGrenade = MainAssetBundle.LoadAsset<Sprite>("StunGrenadeIcon");
+            icon31StunGrenadeScepter = MainAssetBundle.LoadAsset<Sprite>("StunGrenadeScepterIcon");
+            icon40Shield = MainAssetBundle.LoadAsset<Sprite>("ShieldUpIcon");
+            icon40ShieldOff = MainAssetBundle.LoadAsset<Sprite>("ShieldDownIcon");
+
+            if (EnforcerModPlugin.classicIcons.Value) {
+
                 iconP = MainAssetBundle.LoadAsset<Sprite>("TestIcon");
-                icon1 = MainAssetBundle.LoadAsset<Sprite>("Skill1Icon");
-                icon1B = MainAssetBundle.LoadAsset<Sprite>("Skill1Icon");
-                icon1C = MainAssetBundle.LoadAsset<Sprite>("Skill1Icon");
-                icon1D = MainAssetBundle.LoadAsset<Sprite>("Skill1Icon");
-                icon2 = MainAssetBundle.LoadAsset<Sprite>("Skill2Icon");
-                icon3 = MainAssetBundle.LoadAsset<Sprite>("Skill3Icon");
-                icon3S = MainAssetBundle.LoadAsset<Sprite>("Skill3Icon");
-                icon3B = MainAssetBundle.LoadAsset<Sprite>("Skill3BIcon");
-                icon3BS = MainAssetBundle.LoadAsset<Sprite>("Skill3BIcon");
-                icon4 = MainAssetBundle.LoadAsset<Sprite>("Skill4Icon");
-                icon4B = MainAssetBundle.LoadAsset<Sprite>("Skill4BIcon");
-            }
-            else
-            {
-                iconP = MainAssetBundle.LoadAsset<Sprite>("TestIcon");
-                icon1 = MainAssetBundle.LoadAsset<Sprite>("RiotShotgunIcon");
-                icon1B = MainAssetBundle.LoadAsset<Sprite>("SuperShotgunIcon");
-                icon1C = MainAssetBundle.LoadAsset<Sprite>("AssaultRifleIcon");
-                icon1D = MainAssetBundle.LoadAsset<Sprite>("BreachingHammerIcon");
-                icon2 = MainAssetBundle.LoadAsset<Sprite>("ShieldBashIcon");
-                icon3 = MainAssetBundle.LoadAsset<Sprite>("TearGasIcon");
-                icon3S = MainAssetBundle.LoadAsset<Sprite>("TearGasScepterIcon");
-                icon3B = MainAssetBundle.LoadAsset<Sprite>("StunGrenadeIcon");
-                icon3BS = MainAssetBundle.LoadAsset<Sprite>("StunGrenadeScepterIcon");
-                icon4 = MainAssetBundle.LoadAsset<Sprite>("ShieldUpIcon");
-                icon4B = MainAssetBundle.LoadAsset<Sprite>("ShieldDownIcon");
+                icon10Shotgun = MainAssetBundle.LoadAsset<Sprite>("Skill1Icon");
+                //icon11SuperShotgun = MainAssetBundle.LoadAsset<Sprite>("Skill1Icon");
+                //icon12AssaultRifle = MainAssetBundle.LoadAsset<Sprite>("Skill1Icon");
+                //icon13Hammer = MainAssetBundle.LoadAsset<Sprite>("Skill1Icon");
+                icon20ShieldBash = MainAssetBundle.LoadAsset<Sprite>("Skill2Icon");
+                icon30TearGas = MainAssetBundle.LoadAsset<Sprite>("Skill3Icon");
+                //icon30TearGasScepter = MainAssetBundle.LoadAsset<Sprite>("Skill3Icon");
+                icon31StunGrenade = MainAssetBundle.LoadAsset<Sprite>("Skill3BIcon");
+                //icon31StunGrenadeScepter = MainAssetBundle.LoadAsset<Sprite>("Skill3BIcon");
+                icon40Shield = MainAssetBundle.LoadAsset<Sprite>("Skill4Icon");
+                icon40ShieldOff = MainAssetBundle.LoadAsset<Sprite>("Skill4BIcon");
             }
 
-            icon4C = MainAssetBundle.LoadAsset<Sprite>("SkamteOffIcon");
-            icon4D = MainAssetBundle.LoadAsset<Sprite>("SkamteOnIcon");
+            icon42SkateBoard = MainAssetBundle.LoadAsset<Sprite>("SkamteOffIcon");
+            icon42SkateBoardOff = MainAssetBundle.LoadAsset<Sprite>("SkamteOnIcon");
 
             testIcon = MainAssetBundle.LoadAsset<Sprite>("TestIcon");
 
-            nIconP = MainAssetBundle.LoadAsset<Sprite>("PassiveIcon");
+            nemIconPassive = MainAssetBundle.LoadAsset<Sprite>("PassiveIcon");
             nIcon1 = MainAssetBundle.LoadAsset<Sprite>("HammerSwingIcon");
             nIcon1B = MainAssetBundle.LoadAsset<Sprite>("MinigunFireIcon");
             nIcon1C = MainAssetBundle.LoadAsset<Sprite>("HammerThrowIcon");

@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class EnforcerWeaponComponent : MonoBehaviour
 {
-    public static event Action<int> Imp = delegate { };
-
     public bool isMultiplayer;
 
     public static int maxShellCount = 12;
@@ -311,13 +309,6 @@ public class EnforcerWeaponComponent : MonoBehaviour
                     break;
             }
         }
-    }
-
-    public void AddImp(int asdf)
-    {
-        this.impCount += asdf;
-
-        Imp(this.impCount);
     }
 
     private void InitShells()

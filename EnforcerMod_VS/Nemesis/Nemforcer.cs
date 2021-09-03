@@ -696,25 +696,25 @@ namespace EnforcerPlugin
             skillLocator.passiveSkill.enabled = true;
             skillLocator.passiveSkill.skillNameToken = "NEMFORCER_PASSIVE_NAME";
             skillLocator.passiveSkill.skillDescriptionToken = "NEMFORCER_PASSIVE_DESCRIPTION";
-            skillLocator.passiveSkill.icon = Assets.nIconP;
+            skillLocator.passiveSkill.icon = Assets.nemIconPassive;
         }
 
         private void PrimarySetup()
         {
             SkillDef primaryDef1 = PrimarySkillDef_Hammer();
-            PluginUtils.RegisterSkillDef(primaryDef1, typeof(EntityStates.Nemforcer.HammerSwing));
-            SkillFamily.Variant primaryVariant1 = PluginUtils.SetupSkillVariant(primaryDef1);
+            Modules.Skills.RegisterSkillDef(primaryDef1, typeof(EntityStates.Nemforcer.HammerSwing));
+            SkillFamily.Variant primaryVariant1 = Modules.Skills.SetupSkillVariant(primaryDef1);
 
             SkillDef primaryDef2 = PrimarySkillDef_Throw();
-            PluginUtils.RegisterSkillDef(primaryDef2, typeof(ThrowHammer));
-            SkillFamily.Variant primaryVariant2 = PluginUtils.SetupSkillVariant(primaryDef2);
+            Modules.Skills.RegisterSkillDef(primaryDef2, typeof(ThrowHammer));
+            SkillFamily.Variant primaryVariant2 = Modules.Skills.SetupSkillVariant(primaryDef2);
 
-            skillLocator.primary = PluginUtils.RegisterSkillsToFamily(characterPrefab, primaryVariant1);
+            skillLocator.primary = Modules.Skills.RegisterSkillsToFamily(characterPrefab, primaryVariant1);
 
-            if (EnforcerModPlugin.cursed.Value) PluginUtils.RegisterAdditionalSkills(skillLocator.primary, primaryVariant2);
+            if (EnforcerModPlugin.cursed.Value) Modules.Skills.RegisterAdditionalSkills(skillLocator.primary, primaryVariant2);
 
             SkillDef primaryDefMinigun = PrimarySkillDef_FireMinigun();
-            PluginUtils.RegisterSkillDef(primaryDefMinigun,
+            Modules.Skills.RegisterSkillDef(primaryDefMinigun,
                                          typeof(NemMinigunFire),
                                          typeof(NemMinigunSpinDown),
                                          typeof(NemMinigunSpinUp),
@@ -726,16 +726,16 @@ namespace EnforcerPlugin
         private void SecondarySetup()
         {
             SkillDef secondaryDef1 = SecondarySkillDef_HammerUppercut();
-            PluginUtils.RegisterSkillDef(secondaryDef1, typeof(HammerCharge), typeof(HammerUppercut), typeof(HammerAirSlam));
-            SkillFamily.Variant secondaryVariant1 = PluginUtils.SetupSkillVariant(secondaryDef1);
+            Modules.Skills.RegisterSkillDef(secondaryDef1, typeof(HammerCharge), typeof(HammerUppercut), typeof(HammerAirSlam));
+            SkillFamily.Variant secondaryVariant1 = Modules.Skills.SetupSkillVariant(secondaryDef1);
 
             SkillDef secondaryGunDef1 = SecondarySkillDef_HammerSlam();
-            PluginUtils.RegisterSkillDef(secondaryGunDef1, typeof(HammerSlam));
-            SkillFamily.Variant secondaryGunVariant1 = PluginUtils.SetupSkillVariant(secondaryGunDef1);
+            Modules.Skills.RegisterSkillDef(secondaryGunDef1, typeof(HammerSlam));
+            SkillFamily.Variant secondaryGunVariant1 = Modules.Skills.SetupSkillVariant(secondaryGunDef1);
 
-            skillLocator.secondary = PluginUtils.RegisterSkillsToFamily(characterPrefab, "nemSecondary", secondaryVariant1);
+            skillLocator.secondary = Modules.Skills.RegisterSkillsToFamily(characterPrefab, "nemSecondary", secondaryVariant1);
 
-            GenericSkill secondaryAlt = PluginUtils.RegisterSkillsToFamily(characterPrefab, "nemSecondaryMinigun", secondaryGunVariant1);
+            GenericSkill secondaryAlt = Modules.Skills.RegisterSkillsToFamily(characterPrefab, "nemSecondaryMinigun", secondaryGunVariant1);
 
             hammerChargeDef = secondaryDef1;
             hammerSlamDef = secondaryGunDef1;
@@ -744,36 +744,36 @@ namespace EnforcerPlugin
         private void UtilitySetup()
         {
             SkillDef utilityDef1 = UtilitySkillDef_Gas();
-            PluginUtils.RegisterSkillDef(utilityDef1, typeof(AimNemGas));
-            SkillFamily.Variant utilityVariant1 = PluginUtils.SetupSkillVariant(utilityDef1);
+            Modules.Skills.RegisterSkillDef(utilityDef1, typeof(AimNemGas));
+            SkillFamily.Variant utilityVariant1 = Modules.Skills.SetupSkillVariant(utilityDef1);
 
             SkillDef utilityDef2 = UtilitySkillDef_Grenade();
-            PluginUtils.RegisterSkillDef(utilityDef2, typeof(StunGrenade));
-            SkillFamily.Variant utilityVariant2 = PluginUtils.SetupSkillVariant(utilityDef2);
+            Modules.Skills.RegisterSkillDef(utilityDef2, typeof(StunGrenade));
+            SkillFamily.Variant utilityVariant2 = Modules.Skills.SetupSkillVariant(utilityDef2);
 
             SkillDef utilityDef3 = UtilitySkillDef_Jump();
-            PluginUtils.RegisterSkillDef(utilityDef3, typeof(SuperDededeJump));
-            SkillFamily.Variant utilityVariant3 = PluginUtils.SetupSkillVariant(utilityDef3);
+            Modules.Skills.RegisterSkillDef(utilityDef3, typeof(SuperDededeJump));
+            SkillFamily.Variant utilityVariant3 = Modules.Skills.SetupSkillVariant(utilityDef3);
 
             SkillDef utilityDef4 = UtilitySkillDef_HeatCrash();
-            PluginUtils.RegisterSkillDef(utilityDef4, typeof(HeatCrash));
-            SkillFamily.Variant utilityVariant4 = PluginUtils.SetupSkillVariant(utilityDef4);
+            Modules.Skills.RegisterSkillDef(utilityDef4, typeof(HeatCrash));
+            SkillFamily.Variant utilityVariant4 = Modules.Skills.SetupSkillVariant(utilityDef4);
 
-            skillLocator.utility = PluginUtils.RegisterSkillsToFamily(characterPrefab, utilityVariant4, utilityVariant1, utilityVariant2);
+            skillLocator.utility = Modules.Skills.RegisterSkillsToFamily(characterPrefab, utilityVariant4, utilityVariant1, utilityVariant2);
 
-            if (EnforcerModPlugin.cursed.Value) PluginUtils.RegisterAdditionalSkills(skillLocator.utility, utilityVariant3);
+            if (EnforcerModPlugin.cursed.Value) Modules.Skills.RegisterAdditionalSkills(skillLocator.utility, utilityVariant3);
         }
 
         private void SpecialSetup()
         {
             SkillDef specialDef1 = SpecialSkillDef_MinigunUp();
-            PluginUtils.RegisterSkillDef(specialDef1, typeof(MinigunToggle));
-            SkillFamily.Variant specialVariant1 = PluginUtils.SetupSkillVariant(specialDef1);
+            Modules.Skills.RegisterSkillDef(specialDef1, typeof(MinigunToggle));
+            SkillFamily.Variant specialVariant1 = Modules.Skills.SetupSkillVariant(specialDef1);
 
-            skillLocator.special = PluginUtils.RegisterSkillsToFamily(characterPrefab, specialVariant1);
+            skillLocator.special = Modules.Skills.RegisterSkillsToFamily(characterPrefab, specialVariant1);
 
             SkillDef specialDef2 = SpecialSkillDef_MinigunDown();
-            PluginUtils.RegisterSkillDef(specialDef2);
+            Modules.Skills.RegisterSkillDef(specialDef2);
 
             minigunDownDef = specialDef1;
             minigunUpDef = specialDef2;

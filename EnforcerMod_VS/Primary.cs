@@ -11,7 +11,6 @@ namespace EntityStates.Enforcer
 
         public static float damageCoefficient = EnforcerModPlugin.shotgunDamage.Value;
         public static float procCoefficient = EnforcerModPlugin.shotgunProcCoefficient.Value;
-        public static float bulletForce = 35f;
         public float baseDuration = 0.9f; // the base skill duration. i.e. attack speed
         public float baseShieldDuration = 0.6f; // the duration used while shield is active
         public static int projectileCount = EnforcerModPlugin.shotgunBulletCount.Value;
@@ -114,7 +113,13 @@ namespace EntityStates.Enforcer
                     Ray aimRay = base.GetAimRay();
 
                     float spread = RiotShotgun.bulletSpread;
-                    if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff)) spread *= 0.69f;
+                    float thiccness = 0.7f;
+                    float force = 130; // EnforcerPlugin.UtilsComponent.forceUnshield;
+                    if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff)) {
+                        spread *= 0.769f;
+                        thiccness = 0.4f;
+                        force = 80; //EnforcerPlugin.UtilsComponent.forceShield; 
+                    }
 
                     BulletAttack bulletAttack = new BulletAttack {
                         aimVector = aimRay.direction,
@@ -124,7 +129,7 @@ namespace EntityStates.Enforcer
                         damageType = DamageType.Generic,
                         falloffModel = BulletAttack.FalloffModel.None,
                         maxDistance = RiotShotgun.bulletRange,
-                        force = RiotShotgun.bulletForce,
+                        force = force,// RiotShotgun.bulletForce,
                         hitMask = LayerIndex.CommonMasks.bullet,
                         isCrit = isCrit,
                         owner = base.gameObject,
@@ -132,7 +137,7 @@ namespace EntityStates.Enforcer
                         smartCollision = false,
                         procChainMask = default(ProcChainMask),
                         procCoefficient = RiotShotgun.procCoefficient,
-                        radius = 0.5f,
+                        radius = thiccness,
                         sniper = false,
                         stopperMask = LayerIndex.world.collisionMask,
                         weapon = null,

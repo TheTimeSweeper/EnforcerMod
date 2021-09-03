@@ -18,8 +18,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-namespace EnforcerPlugin
-{
+namespace EnforcerPlugin {
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.DestroyedClone.AncientScepter", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KomradeSpectre.Aetherium", BepInDependency.DependencyFlags.SoftDependency)]
@@ -36,7 +35,7 @@ namespace EnforcerPlugin
         "UnlockableAPI"
     })]
 
-    public class EnforcerModPlugin : BaseUnityPlugin
+    public partial class EnforcerModPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.EnforcerGang.Enforcer";
 
@@ -118,11 +117,8 @@ namespace EnforcerPlugin
         public static ConfigEntry<bool> sprintShieldCancel;
         public static ConfigEntry<bool> sirenOnDeflect;
         public static ConfigEntry<bool> useNeedlerCrosshair;
-        //public static ConfigEntry<bool> sillyHammer;
         public static ConfigEntry<bool> cursed;
         //public static ConfigEntry<bool> femSkin;
-        //public static ConfigEntry<bool> oldEngiShield;
-        //public static ConfigEntry<bool> pig;
         public static ConfigEntry<bool> shellSounds;
         public static ConfigEntry<bool> globalInvasion;
         public static ConfigEntry<bool> multipleInvasions;
@@ -244,6 +240,8 @@ namespace EnforcerPlugin
             //new Modules.ContentPacks().CreateContentPack();
             RoR2.ContentManagement.ContentManager.collectContentPackProviders += ContentManager_collectContentPackProviders;
             RoR2.ContentManagement.ContentManager.onContentPacksAssigned += ContentManager_onContentPacksAssigned;
+
+            gameObject.AddComponent<TestValueManager>();
         }
 
         private void ContentManager_onContentPacksAssigned(HG.ReadOnlyArray<RoR2.ContentManagement.ReadOnlyContentPack> obj)
@@ -271,11 +269,8 @@ namespace EnforcerPlugin
             sprintShieldCancel = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Sprint Cancels Shield"), true, new ConfigDescription("Allows Protect and Serve to be cancelled by pressing sprint rather than special again", null, Array.Empty<object>()));
             sirenOnDeflect = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Siren on Deflect"), true, new ConfigDescription("Play siren sound upon deflecting a projectile", null, Array.Empty<object>()));
             useNeedlerCrosshair = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Visions Crosshair"), true, new ConfigDescription("Gives every survivor the custom crosshair for Visions of Heresy", null, Array.Empty<object>()));
-            //sillyHammer = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Silly Hammer"), false, new ConfigDescription("Replaces Enforcer with a skeleton made out of hammers when Shattering Justice is obtained", null, Array.Empty<object>()));
             cursed = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Cursed"), false, new ConfigDescription("Enables extra/unfinished content. Enable at own risk.", null, Array.Empty<object>()));
             //femSkin = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Femforcer"), false, new ConfigDescription("Enables femforcer skin. Not for good boys and girls.", null, Array.Empty<object>()));
-            //oldEngiShield = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Old Engi Shield"), false, new ConfigDescription("Reverts the look of the Engi shield.", null, Array.Empty<object>()));
-            //pig = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Pig"), false, new ConfigDescription("Pig", null, Array.Empty<object>()));
             shellSounds = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Shell Sounds"), true, new ConfigDescription("Play a sound when ejected shotgun shells hit the ground", null, Array.Empty<object>()));
             globalInvasion = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Global Invasion"), false, new ConfigDescription("Allows invasions when playing any character, not just Enforcer. Purely for fun.", null, Array.Empty<object>()));
             multipleInvasions = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Multiple Invasion Bosses"), false, new ConfigDescription("Allows multiple bosses to spawn from an invasion.", null, Array.Empty<object>()));
@@ -285,8 +280,7 @@ namespace EnforcerPlugin
             flossKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Floss"), KeyCode.Alpha2, new ConfigDescription("Key used to Floss", null, Array.Empty<object>()));
             earlKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Earl Run"), KeyCode.Alpha3, new ConfigDescription("Key used to FLINT LOCKWOOD", null, Array.Empty<object>()));
             sirensKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Sirens"), KeyCode.CapsLock, new ConfigDescription("Key used to toggle sirens", null, Array.Empty<object>()));
-            //classicSkin = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Old Helmet"), true, new ConfigDescription("Adds a skin with the old helmet for the weirdos who prefer that one", null, Array.Empty<object>()));
-
+            
             baseHealth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Health"), 160f, new ConfigDescription("", null, Array.Empty<object>()));
             healthGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Health Growth"), 48f, new ConfigDescription("", null, Array.Empty<object>()));
             baseRegen = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Regen"), 0.5f, new ConfigDescription("", null, Array.Empty<object>()));
@@ -298,21 +292,21 @@ namespace EnforcerPlugin
             baseMovementSpeed = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Movement Speed"), 7f, new ConfigDescription("", null, Array.Empty<object>()));
             baseCrit = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Crit"), 1f, new ConfigDescription("", null, Array.Empty<object>()));
 
-            shotgunDamage = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Damage Coefficient"), 0.45f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
-            shotgunProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Proc Coefficient"), 0.5f, new ConfigDescription("Proc Coefficient of each pellet", null, Array.Empty<object>()));
-            shotgunBulletCount = base.Config.Bind<int>(new ConfigDefinition("04 - Riot Shotgun", "Bullet Count"), 8, new ConfigDescription("Amount of pellets fired", null, Array.Empty<object>()));
-            shotgunRange = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Range"), 64f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
-            shotgunSpread = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun", "Spread"), 12f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
+            shotgunDamage = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Damage Coefficient"), 0.55f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
+            shotgunProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Proc Coefficient"), 0.5f, new ConfigDescription("Proc Coefficient of each pellet", null, Array.Empty<object>()));
+            shotgunBulletCount = base.Config.Bind<int>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Bullet Count"), 8, new ConfigDescription("Amount of pellets fired", null, Array.Empty<object>()));
+            shotgunRange = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Range"), 64f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
+            shotgunSpread = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Spread"), 16f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
 
             rifleDamage = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Damage Coefficient"), 0.85f, new ConfigDescription("Damage of each bullet", null, Array.Empty<object>()));
             rifleProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Proc Coefficient"), 0.75f, new ConfigDescription("Proc Coefficient of each bullet", null, Array.Empty<object>()));
             rifleBaseBulletCount = base.Config.Bind<int>(new ConfigDefinition("05 - Assault Rifle", "Base Bullet Count"), 3, new ConfigDescription("Bullets fired with each shot", null, Array.Empty<object>()));
             rifleRange = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Range"), 256f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
             rifleSpread = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Spread"), 5f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
-
-            superDamage = base.Config.Bind<float>(new ConfigDefinition("06 - Super Shotgun 3.0.6", "Damage Coefficient"), 1f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
+            
+            superDamage = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Damage Coefficient", 0.9f, "Damage of each pellet");
             superSpread = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "spread", 21f, "your cheeks");
-            superDuration = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Duration", 2f, "duration of attack (i.e. attack speed)\nnote, shielded attack duration is 0.75f times this");
+            superDuration = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Duration", 2f, $"duration of attack (i.e. attack speed)\nnote, shielded attack duration is this x 0.75f");
             superBeef = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "beef", 0.4f, "movement stop while shooting in shield. cannot go lower than 0.2 because I say so");
             
             balancedShieldBash = base.Config.Bind<bool>(new ConfigDefinition("07 - Shield Bash", "Balanced Knockback"), false, new ConfigDescription("Applies a cap to knockback so bosses can no longer be thrown around.", null, Array.Empty<object>()));
@@ -336,19 +330,18 @@ namespace EnforcerPlugin
             On.RoR2.CharacterBody.OnLevelUp += CharacterBody_OnLevelChanged;
             On.RoR2.CharacterMaster.OnInventoryChanged += CharacterMaster_OnInventoryChanged;
             On.RoR2.BodyCatalog.SetBodyPrefabs += BodyCatalog_SetBodyPrefabs;
-            On.RoR2.GlobalEventManager.OnCharacterDeath += GlobalEventManager_OnCharacterDeath;
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
             On.EntityStates.BaseState.OnEnter += ParryState_OnEnter;
             On.RoR2.ArenaMissionController.BeginRound += ArenaMissionController_BeginRound;
             On.RoR2.ArenaMissionController.EndRound += ArenaMissionController_EndRound;
             On.RoR2.EscapeSequenceController.BeginEscapeSequence += EscapeSequenceController_BeginEscapeSequence;
-            //On.RoR2.UI.MainMenu.BaseMainMenuScreen.OnEnter += BaseMainMenuScreen_OnEnter;
-            //On.RoR2.CharacterSelectBarController.ShouldDisplaySurvivor += CharacterSelectBarController_ShouldDisplaySurvivor;
-            On.RoR2.PreGameController.Awake += PreGameController_Start;
+            On.RoR2.UI.MainMenu.BaseMainMenuScreen.OnEnter += BaseMainMenuScreen_OnEnter;
+            On.RoR2.CharacterSelectBarController.Start += CharacterSelectBarController_Start;
+            //On.RoR2.PreGameController.Awake += PreGameController_Start;
             On.RoR2.MapZone.TryZoneStart += MapZone_TryZoneStart;
             On.RoR2.HealthComponent.Suicide += HealthComponent_Suicide;
             On.RoR2.TeleportOutController.OnStartClient += TeleportOutController_OnStartClient;
-            //On.EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
+            //On.EntityStates.Global.Skills.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
         }
 
         #region Hooks
@@ -595,24 +588,6 @@ namespace EnforcerPlugin
             }
 
             orig(self);
-        }
-
-        private void GlobalEventManager_OnCharacterDeath(On.RoR2.GlobalEventManager.orig_OnCharacterDeath orig, GlobalEventManager self, DamageReport report)
-        {
-            if (self is null) return;
-            if (report is null) return;
-
-            if (report.victimBody && report.attacker) {
-                if (report.victimBody.baseNameToken == "IMP_BODY_NAME") {
-                    var enforcerComponent = report.attacker.GetComponent<EnforcerWeaponComponent>();
-
-                    if (enforcerComponent) {
-                        enforcerComponent.AddImp(1);
-                    }
-                }
-            }
-
-            orig(self, report);
         }
 
         private void BodyCatalog_SetBodyPrefabs(On.RoR2.BodyCatalog.orig_SetBodyPrefabs orig, GameObject[] newBodyPrefabs)
@@ -895,16 +870,20 @@ namespace EnforcerPlugin
             }
         }
 
-        private bool CharacterSelectBarController_ShouldDisplaySurvivor(On.RoR2.CharacterSelectBarController.orig_ShouldDisplaySurvivor orig, CharacterSelectBarController self, SurvivorDef survivorDef)
-        {
-            if (survivorDef.bodyPrefab.name == NemforcerPlugin.characterPrefab.name)
-            {
-                if (!SurvivorCatalog.SurvivorIsUnlockedOnThisClient(survivorDef.survivorIndex))
-                {
-                    return false;
-                }
+
+        private void CharacterSelectBarController_Start(On.RoR2.CharacterSelectBarController.orig_Start orig, CharacterSelectBarController self) {
+            orig(self);
+
+            string bodyName = NemforcerPlugin.characterPrefab.GetComponent<CharacterBody>().baseNameToken;
+
+            bool unlocked = LocalUserManager.readOnlyLocalUsersList.Any((LocalUser localUser) => localUser.userProfile.HasUnlockable(EnforcerUnlockables.nemesisUnlockableDef));
+            if (unlocked) {
+                SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).hidden = false;
+            } else {
+                SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).hidden = true;
             }
-            return orig(self, survivorDef);
+
+            orig(self);
         }
 
         private void PreGameController_Start(On.RoR2.PreGameController.orig_Awake orig, PreGameController self)
@@ -2097,18 +2076,18 @@ namespace EnforcerPlugin
         private void PrimarySetup()
         {
             SkillDef primaryDef1 = PrimarySkillDef_RiotShotgun();
-            PluginUtils.RegisterSkillDef(primaryDef1, typeof(RiotShotgun));
-            SkillFamily.Variant primaryVariant1 = PluginUtils.SetupSkillVariant(primaryDef1);
+            Modules.Skills.RegisterSkillDef(primaryDef1, typeof(RiotShotgun));
+            SkillFamily.Variant primaryVariant1 = Modules.Skills.SetupSkillVariant(primaryDef1);
 
             SkillDef primaryDef2 = PrimarySkillDef_SuperShotgun();
-            PluginUtils.RegisterSkillDef(primaryDef2, typeof(SuperShotgun));
-            SkillFamily.Variant primaryVariant2 = PluginUtils.SetupSkillVariant(primaryDef2, null);
+            Modules.Skills.RegisterSkillDef(primaryDef2, typeof(SuperShotgun));
+            SkillFamily.Variant primaryVariant2 = Modules.Skills.SetupSkillVariant(primaryDef2, EnforcerUnlockables.enforcerDoomUnlockableDef);
 
             SkillDef primaryDef3 = PrimarySkillDef_AssaultRifle();
-            PluginUtils.RegisterSkillDef(primaryDef3, typeof(FireBurstRifle));
-            SkillFamily.Variant primaryVariant3 = PluginUtils.SetupSkillVariant(primaryDef3, null);
+            Modules.Skills.RegisterSkillDef(primaryDef3, typeof(FireBurstRifle));
+            SkillFamily.Variant primaryVariant3 = Modules.Skills.SetupSkillVariant(primaryDef3, EnforcerUnlockables.enforcerARUnlockableDef);
 
-            skillLocator.primary = PluginUtils.RegisterSkillsToFamily(characterPrefab, primaryVariant1, primaryVariant2, primaryVariant3);
+            skillLocator.primary = Modules.Skills.RegisterSkillsToFamily(characterPrefab, primaryVariant1, primaryVariant2, primaryVariant3);
             primarySkillChangeDefs = new List<SkillDef> { primaryDef1};
             //primarySkillChangeDefs = new List<SkillDef> { primaryDef1, primaryDef2, primaryDef3 };
 
@@ -2126,57 +2105,57 @@ namespace EnforcerPlugin
 
         private void SecondarySetup() {
             SkillDef secondaryDef1 = SecondarySkillDef_Bash();
-            PluginUtils.RegisterSkillDef(secondaryDef1, typeof(ShieldBash), typeof(ShoulderBash), typeof(ShoulderBashImpact));
-            SkillFamily.Variant secondaryVariant1 = PluginUtils.SetupSkillVariant(secondaryDef1);
+            Modules.Skills.RegisterSkillDef(secondaryDef1, typeof(ShieldBash), typeof(ShoulderBash), typeof(ShoulderBashImpact));
+            SkillFamily.Variant secondaryVariant1 = Modules.Skills.SetupSkillVariant(secondaryDef1);
 
-            skillLocator.secondary = PluginUtils.RegisterSkillsToFamily(characterPrefab, secondaryVariant1);
+            skillLocator.secondary = Modules.Skills.RegisterSkillsToFamily(characterPrefab, secondaryVariant1);
         }
 
         private void UtilitySetup()
         {
             SkillDef utilityDef1 = UtilitySkillDef_TearGas();
-            PluginUtils.RegisterSkillDef(utilityDef1, typeof(AimTearGas), typeof(TearGas));
-            SkillFamily.Variant utilityVariant1 = PluginUtils.SetupSkillVariant(utilityDef1);
+            Modules.Skills.RegisterSkillDef(utilityDef1, typeof(AimTearGas), typeof(TearGas));
+            SkillFamily.Variant utilityVariant1 = Modules.Skills.SetupSkillVariant(utilityDef1);
 
             SkillDef utilityDef2 = UtilitySkillDef_StunGrenade();
-            PluginUtils.RegisterSkillDef(utilityDef2, typeof(StunGrenade));
-            SkillFamily.Variant utilityVariant2 = PluginUtils.SetupSkillVariant(utilityDef2, null);
+            Modules.Skills.RegisterSkillDef(utilityDef2, typeof(StunGrenade));
+            SkillFamily.Variant utilityVariant2 = Modules.Skills.SetupSkillVariant(utilityDef2, null);
 
-            skillLocator.utility = PluginUtils.RegisterSkillsToFamily(characterPrefab, utilityVariant1, utilityVariant2);
+            skillLocator.utility = Modules.Skills.RegisterSkillsToFamily(characterPrefab, utilityVariant1, utilityVariant2);
         }
 
         private void SpecialSetup()
         {
             SkillDef specialDef1 = SpecialSkillDef_ProtectAndServe();
-            PluginUtils.RegisterSkillDef(specialDef1, typeof(ProtectAndServe));
-            SkillFamily.Variant specialVariant1 = PluginUtils.SetupSkillVariant(specialDef1);
+            Modules.Skills.RegisterSkillDef(specialDef1, typeof(ProtectAndServe));
+            SkillFamily.Variant specialVariant1 = Modules.Skills.SetupSkillVariant(specialDef1);
 
             SkillDef specialDef1Down = SpecialSkillDef_ShieldDown();
-            PluginUtils.RegisterSkillDef(specialDef1Down);
+            Modules.Skills.RegisterSkillDef(specialDef1Down);
 
             shieldDownDef = specialDef1;
             shieldUpDef = specialDef1Down;
 
-            skillLocator.special = PluginUtils.RegisterSkillsToFamily(characterPrefab, specialVariant1);
+            skillLocator.special = Modules.Skills.RegisterSkillsToFamily(characterPrefab, specialVariant1);
             specialSkillChangeDefs = new List<SkillDef> { specialDef1 };
 
             //cursed
             SkillDef specialDef2 = SpecialSkillDef_EnergyShield();
-            PluginUtils.RegisterSkillDef(specialDef2, typeof(EnergyShield));
-            SkillFamily.Variant specialVariant2 = PluginUtils.SetupSkillVariant(specialDef2);
+            Modules.Skills.RegisterSkillDef(specialDef2, typeof(EnergyShield));
+            SkillFamily.Variant specialVariant2 = Modules.Skills.SetupSkillVariant(specialDef2);
 
             SkillDef specialDef2Down = SpecialSkillDef_EnergyShieldDown();
-            PluginUtils.RegisterSkillDef(specialDef2Down);
+            Modules.Skills.RegisterSkillDef(specialDef2Down);
 
             shieldOffDef = specialDef2;
             shieldOnDef = specialDef2Down;
 
             SkillDef specialDef3 = SpecialSkillDef_SkamteBord();
-            PluginUtils.RegisterSkillDef(specialDef3, typeof(Skateboard));
-            SkillFamily.Variant specialVariant3 = PluginUtils.SetupSkillVariant(specialDef3);
+            Modules.Skills.RegisterSkillDef(specialDef3, typeof(Skateboard));
+            SkillFamily.Variant specialVariant3 = Modules.Skills.SetupSkillVariant(specialDef3);
 
             SkillDef specialDef3Down = SpecialSkillDef_SkamteBordDown();
-            PluginUtils.RegisterSkillDef(specialDef3Down);
+            Modules.Skills.RegisterSkillDef(specialDef3Down);
 
             boardDownDef = specialDef3;
             boardUpDef = specialDef3Down;
@@ -2213,7 +2192,7 @@ namespace EnforcerPlugin
             skillDefRiotShotgun.rechargeStock = 1;
             skillDefRiotShotgun.requiredStock = 1;
             skillDefRiotShotgun.stockToConsume = 1;
-            skillDefRiotShotgun.icon = Assets.icon1;
+            skillDefRiotShotgun.icon = Assets.icon10Shotgun;
             skillDefRiotShotgun.skillDescriptionToken = "ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION";
             skillDefRiotShotgun.skillName = "ENFORCER_PRIMARY_SHOTGUN_NAME";
             skillDefRiotShotgun.skillNameToken = "ENFORCER_PRIMARY_SHOTGUN_NAME";
@@ -2244,7 +2223,7 @@ namespace EnforcerPlugin
             skillDefSuperShotgun.rechargeStock = 1;
             skillDefSuperShotgun.requiredStock = 1;
             skillDefSuperShotgun.stockToConsume = 1;
-            skillDefSuperShotgun.icon = Assets.icon1B;
+            skillDefSuperShotgun.icon = Assets.icon11SuperShotgun;
             skillDefSuperShotgun.skillDescriptionToken = "ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION";
             skillDefSuperShotgun.skillName = "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME";
             skillDefSuperShotgun.skillNameToken = "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME";
@@ -2276,7 +2255,7 @@ namespace EnforcerPlugin
             skillDefAssaultRifle.rechargeStock = 1;
             skillDefAssaultRifle.requiredStock = 1;
             skillDefAssaultRifle.stockToConsume = 1;
-            skillDefAssaultRifle.icon = Assets.icon1C;
+            skillDefAssaultRifle.icon = Assets.icon12AssaultRifle;
             skillDefAssaultRifle.skillDescriptionToken = "ENFORCER_PRIMARY_RIFLE_DESCRIPTION";
             skillDefAssaultRifle.skillName = "ENFORCER_PRIMARY_RIFLE_NAME";
             skillDefAssaultRifle.skillNameToken = "ENFORCER_PRIMARY_RIFLE_NAME";
@@ -2309,7 +2288,7 @@ namespace EnforcerPlugin
             skillDefHammer.rechargeStock = 1;
             skillDefHammer.requiredStock = 1;
             skillDefHammer.stockToConsume = 1;
-            skillDefHammer.icon = Assets.icon1D;
+            skillDefHammer.icon = Assets.icon13Hammer;
             skillDefHammer.skillDescriptionToken = "ENFORCER_PRIMARY_HAMMER_DESCRIPTION";
             skillDefHammer.skillName = "ENFORCER_PRIMARY_HAMMER_NAME";
             skillDefHammer.skillNameToken = "ENFORCER_PRIMARY_HAMMER_NAME";
@@ -2343,7 +2322,7 @@ namespace EnforcerPlugin
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.icon2;
+            mySkillDef.icon = Assets.icon20ShieldBash;
             mySkillDef.skillDescriptionToken = "ENFORCER_SECONDARY_BASH_DESCRIPTION";
             mySkillDef.skillName = "ENFORCER_SECONDARY_BASH_NAME";
             mySkillDef.skillNameToken = "ENFORCER_SECONDARY_BASH_NAME";
@@ -2378,7 +2357,7 @@ namespace EnforcerPlugin
             tearGasDef.rechargeStock = 1;
             tearGasDef.requiredStock = 1;
             tearGasDef.stockToConsume = 1;
-            tearGasDef.icon = Assets.icon3;
+            tearGasDef.icon = Assets.icon30TearGas;
             tearGasDef.skillDescriptionToken = "ENFORCER_UTILITY_TEARGAS_DESCRIPTION";
             tearGasDef.skillName = "ENFORCER_UTILITY_TEARGAS_NAME";
             tearGasDef.skillNameToken = "ENFORCER_UTILITY_TEARGAS_NAME";
@@ -2410,7 +2389,7 @@ namespace EnforcerPlugin
             stunGrenadeDef.rechargeStock = 1;
             stunGrenadeDef.requiredStock = 1;
             stunGrenadeDef.stockToConsume = 1;
-            stunGrenadeDef.icon = Assets.icon3B;
+            stunGrenadeDef.icon = Assets.icon31StunGrenade;
             stunGrenadeDef.skillDescriptionToken = "ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION";
             stunGrenadeDef.skillName = "ENFORCER_UTILITY_STUNGRENADE_NAME";
             stunGrenadeDef.skillNameToken = "ENFORCER_UTILITY_STUNGRENADE_NAME";
@@ -2442,7 +2421,7 @@ namespace EnforcerPlugin
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.icon4;
+            mySkillDef.icon = Assets.icon40Shield;
             mySkillDef.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION";
             mySkillDef.skillName = "ENFORCER_SPECIAL_SHIELDUP_NAME";
             mySkillDef.skillNameToken = "ENFORCER_SPECIAL_SHIELDUP_NAME";
@@ -2470,7 +2449,7 @@ namespace EnforcerPlugin
             mySkillDef2.rechargeStock = 1;
             mySkillDef2.requiredStock = 1;
             mySkillDef2.stockToConsume = 1;
-            mySkillDef2.icon = Assets.icon4B;
+            mySkillDef2.icon = Assets.icon40ShieldOff;
             mySkillDef2.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDDOWN_DESCRIPTION";
             mySkillDef2.skillName = "ENFORCER_SPECIAL_SHIELDDOWN_NAME";
             mySkillDef2.skillNameToken = "ENFORCER_SPECIAL_SHIELDDOWN_NAME";
@@ -2556,7 +2535,7 @@ namespace EnforcerPlugin
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.icon4C;
+            mySkillDef.icon = Assets.icon42SkateBoard;
             mySkillDef.skillDescriptionToken = "ENFORCER_SPECIAL_BOARDUP_DESCRIPTION";
             mySkillDef.skillName = "ENFORCER_SPECIAL_BOARDUP_NAME";
             mySkillDef.skillNameToken = "ENFORCER_SPECIAL_BOARDUP_NAME";
@@ -2584,7 +2563,7 @@ namespace EnforcerPlugin
             mySkillDef2.rechargeStock = 1;
             mySkillDef2.requiredStock = 1;
             mySkillDef2.stockToConsume = 1;
-            mySkillDef2.icon = Assets.icon4D;
+            mySkillDef2.icon = Assets.icon42SkateBoardOff;
             mySkillDef2.skillDescriptionToken = "ENFORCER_SPECIAL_BOARDDOWN_DESCRIPTION";
             mySkillDef2.skillName = "ENFORCER_SPECIAL_BOARDDOWN_NAME";
             mySkillDef2.skillNameToken = "ENFORCER_SPECIAL_BOARDDOWN_NAME";
@@ -2616,7 +2595,7 @@ namespace EnforcerPlugin
             tearGasScepterDef.rechargeStock = 1;
             tearGasScepterDef.requiredStock = 1;
             tearGasScepterDef.stockToConsume = 1;
-            tearGasScepterDef.icon = Assets.icon3S;
+            tearGasScepterDef.icon = Assets.icon30TearGasScepter;
             tearGasScepterDef.skillDescriptionToken = "ENFORCER_UTILITY_TEARGASSCEPTER_DESCRIPTION";
             tearGasScepterDef.skillName = "ENFORCER_UTILITY_TEARGASSCEPTER_NAME";
             tearGasScepterDef.skillNameToken = "ENFORCER_UTILITY_TEARGASSCEPTER_NAME";
@@ -2647,7 +2626,7 @@ namespace EnforcerPlugin
             shockGrenadeDef.rechargeStock = 1;
             shockGrenadeDef.requiredStock = 1;
             shockGrenadeDef.stockToConsume = 1;
-            shockGrenadeDef.icon = Assets.icon3BS;
+            shockGrenadeDef.icon = Assets.icon31StunGrenadeScepter;
             shockGrenadeDef.skillDescriptionToken = "ENFORCER_UTILITY_SHOCKGRENADE_DESCRIPTION";
             shockGrenadeDef.skillName = "ENFORCER_UTILITY_SHOCKGRENADE_NAME";
             shockGrenadeDef.skillNameToken = "ENFORCER_UTILITY_SHOCKGRENADE_NAME";
