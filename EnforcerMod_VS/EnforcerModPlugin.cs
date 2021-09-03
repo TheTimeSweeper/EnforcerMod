@@ -2,6 +2,7 @@
 using BepInEx.Configuration;
 using EntityStates;
 using EntityStates.Enforcer;
+using EntityStates.Enforcer.NeutralSpecial;
 using KinematicCharacterController;
 using R2API;
 using R2API.Utils;
