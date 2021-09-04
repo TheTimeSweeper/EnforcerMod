@@ -119,6 +119,7 @@ namespace EnforcerPlugin {
         public static ConfigEntry<bool> sirenOnDeflect;
         public static ConfigEntry<bool> useNeedlerCrosshair;
         public static ConfigEntry<bool> cursed;
+        public static ConfigEntry<bool> hateFun;
         //public static ConfigEntry<bool> femSkin;
         public static ConfigEntry<bool> shellSounds;
         public static ConfigEntry<bool> globalInvasion;
@@ -263,55 +264,56 @@ namespace EnforcerPlugin {
         }
 
         private void ConfigShit() {
-            forceUnlock = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Force Unlock"), false, new ConfigDescription("Makes Enforcer unlocked by default", null, Array.Empty<object>()));
-            classicShotgun = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Classic Shotgun"), false, new ConfigDescription("Use RoR1 shotgun sound", null, Array.Empty<object>()));
-            classicIcons = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Classic Icons"), false, new ConfigDescription("Use RoR1 skill icons", null, Array.Empty<object>()));
-            headSize = base.Config.Bind<float>(new ConfigDefinition("01 - General Settings", "Head Size"), 1f, new ConfigDescription("Changes the size of Enforcer's head", null, Array.Empty<object>()));
-            sprintShieldCancel = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Sprint Cancels Shield"), true, new ConfigDescription("Allows Protect and Serve to be cancelled by pressing sprint rather than special again", null, Array.Empty<object>()));
-            sirenOnDeflect = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Siren on Deflect"), true, new ConfigDescription("Play siren sound upon deflecting a projectile", null, Array.Empty<object>()));
-            useNeedlerCrosshair = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Visions Crosshair"), true, new ConfigDescription("Gives every survivor the custom crosshair for Visions of Heresy", null, Array.Empty<object>()));
-            cursed = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Cursed"), false, new ConfigDescription("Enables extra/unfinished content. Enable at own risk.", null, Array.Empty<object>()));
-            //femSkin = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Femforcer"), false, new ConfigDescription("Enables femforcer skin. Not for good boys and girls.", null, Array.Empty<object>()));
-            shellSounds = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Shell Sounds"), true, new ConfigDescription("Play a sound when ejected shotgun shells hit the ground", null, Array.Empty<object>()));
-            globalInvasion = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Global Invasion"), false, new ConfigDescription("Allows invasions when playing any character, not just Enforcer. Purely for fun.", null, Array.Empty<object>()));
-            multipleInvasions = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Multiple Invasion Bosses"), false, new ConfigDescription("Allows multiple bosses to spawn from an invasion.", null, Array.Empty<object>()));
-            kingDededeBoss = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "King Dedede Boss"), false, new ConfigDescription("Adds a King Dedede boss that spawns on Sky Meadow and post-loop Titanic Plains."));
+            forceUnlock = base.Config.Bind<bool>("01 - General Settings", "Force Unlock", false, "Makes Enforcer unlocked by default");
+            classicShotgun = base.Config.Bind<bool>("01 - General Settings", "Classic Shotgun", false, "Use RoR1 shotgun sound");
+            classicIcons = base.Config.Bind<bool>("01 - General Settings", "Classic Icons", false, "Use RoR1 skill icons");
+            headSize = base.Config.Bind<float>("01 - General Settings", "Head Size", 1f, "Changes the size of Enforcer's head");
+            sprintShieldCancel = base.Config.Bind<bool>("01 - General Settings", "Sprint Cancels Shield", true, "Allows Protect and Serve to be cancelled by pressing sprint rather than special again");
+            sirenOnDeflect = base.Config.Bind<bool>("01 - General Settings", "Siren on Deflect", true, "Play siren sound upon deflecting a projectile");
+            useNeedlerCrosshair = base.Config.Bind<bool>("01 - General Settings", "Visions Crosshair", true, "Gives every survivor the custom crosshair for Visions of Heresy");
+            cursed = base.Config.Bind<bool>("01 - General Settings", "Cursed", false, "Enables extra/unfinished content. Enable at own risk.");
+            //hateFun = base.Config.Bind<bool>("01 - General Settings", "I hate fun", false, "Overrides cursed. Further disables some extra content, namely skins and their achievements");
+            //femSkin = base.Config.Bind<bool>("01 - General Settings", "Femforcer", false, "Enables femforcer skin. Not for good boys and girls.");
+            shellSounds = base.Config.Bind<bool>("01 - General Settings", "Shell Sounds", true, "Play a sound when ejected shotgun shells hit the ground");
+            globalInvasion = base.Config.Bind<bool>("01 - General Settings", "Global Invasion", false, "Allows invasions when playing any character, not just Enforcer. Purely for fun.");
+            multipleInvasions = base.Config.Bind<bool>("01 - General Settings", "Multiple Invasion Bosses", false, "Allows multiple bosses to spawn from an invasion.");
+            kingDededeBoss = base.Config.Bind<bool>("01 - General Settings", "King Dedede Boss", false, "Adds a King Dedede boss that spawns on Sky Meadow and post-loop Titanic Plains.");
 
-            defaultDanceKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Default Dance"), KeyCode.Alpha1, new ConfigDescription("Key used to Default Dance", null, Array.Empty<object>()));
-            flossKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Floss"), KeyCode.Alpha2, new ConfigDescription("Key used to Floss", null, Array.Empty<object>()));
-            earlKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Earl Run"), KeyCode.Alpha3, new ConfigDescription("Key used to FLINT LOCKWOOD", null, Array.Empty<object>()));
-            sirensKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Sirens"), KeyCode.CapsLock, new ConfigDescription("Key used to toggle sirens", null, Array.Empty<object>()));
+            defaultDanceKey = base.Config.Bind<KeyCode>("02 - Keybinds", "Default Dance", KeyCode.Alpha1, "Key used to Chair");
+            flossKey = base.Config.Bind<KeyCode>("02 - Keybinds", "Floss", KeyCode.Alpha2, "Key used to Salute");
+            earlKey = base.Config.Bind<KeyCode>("02 - Keybinds", "Earl Run", KeyCode.Alpha3, "FLINT LOCKWOOD (when it works again)");
+            sirensKey = base.Config.Bind<KeyCode>("02 - Keybinds", "Sirens", KeyCode.CapsLock, "Key used to toggle sirens");
             
-            baseHealth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Health"), 160f, new ConfigDescription("", null, Array.Empty<object>()));
-            healthGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Health Growth"), 48f, new ConfigDescription("", null, Array.Empty<object>()));
-            baseRegen = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Regen"), 0.5f, new ConfigDescription("", null, Array.Empty<object>()));
-            regenGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Regen Growth"), 0.25f, new ConfigDescription("", null, Array.Empty<object>()));
-            baseArmor = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Armor"), 15f, new ConfigDescription("", null, Array.Empty<object>()));
-            armorGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Armor Growth"), 0f, new ConfigDescription("", null, Array.Empty<object>()));
-            baseDamage = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Damage"), 12f, new ConfigDescription("", null, Array.Empty<object>()));
-            damageGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Damage Growth"), 2.4f, new ConfigDescription("", null, Array.Empty<object>()));
-            baseMovementSpeed = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Movement Speed"), 7f, new ConfigDescription("", null, Array.Empty<object>()));
-            baseCrit = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Crit"), 1f, new ConfigDescription("", null, Array.Empty<object>()));
+            baseHealth = base.Config.Bind<float>("03 - Character Stats", "Base Health", 160f, "");
+            healthGrowth = base.Config.Bind<float>("03 - Character Stats", "Health Growth", 48f, "");
+            baseRegen = base.Config.Bind<float>("03 - Character Stats", "Base Regen", 0.5f, "");
+            regenGrowth = base.Config.Bind<float>("03 - Character Stats", "Regen Growth", 0.25f, "");
+            baseArmor = base.Config.Bind<float>("03 - Character Stats", "Base Armor", 15f, "");
+            armorGrowth = base.Config.Bind<float>("03 - Character Stats", "Armor Growth", 0f, "");
+            baseDamage = base.Config.Bind<float>("03 - Character Stats", "Base Damage", 12f, "");
+            damageGrowth = base.Config.Bind<float>("03 - Character Stats", "Damage Growth", 2.4f, "");
+            baseMovementSpeed = base.Config.Bind<float>("03 - Character Stats", "Base Movement Speed", 7f, "");
+            baseCrit = base.Config.Bind<float>("03 - Character Stats", "Base Crit", 1f, "");
 
-            shotgunDamage = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Damage Coefficient"), 0.55f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
-            shotgunProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Proc Coefficient"), 0.5f, new ConfigDescription("Proc Coefficient of each pellet", null, Array.Empty<object>()));
-            shotgunBulletCount = base.Config.Bind<int>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Bullet Count"), 8, new ConfigDescription("Amount of pellets fired", null, Array.Empty<object>()));
-            shotgunRange = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Range"), 64f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
-            shotgunSpread = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Spread"), 16f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
+            shotgunDamage = base.Config.Bind<float>("04 - Riot Shotgun", "Damage Coefficient", 0.45f, "Damage of each pellet");
+            shotgunProcCoefficient = base.Config.Bind<float>("04 - Riot Shotgun", "Proc Coefficient", 0.5f, "Proc Coefficient of each pellet");
+            shotgunBulletCount = base.Config.Bind<int>("04 - Riot Shotgun", "Bullet Count", 8, "Amount of pellets fired");
+            shotgunRange = base.Config.Bind<float>("04 - Riot Shotgun", "Range", 64f, "Maximum range");
+            shotgunSpread = base.Config.Bind<float>("04 - Riot Shotgun", "Spread", 16f, "Maximum spread");
 
-            rifleDamage = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Damage Coefficient"), 0.85f, new ConfigDescription("Damage of each bullet", null, Array.Empty<object>()));
-            rifleProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Proc Coefficient"), 0.75f, new ConfigDescription("Proc Coefficient of each bullet", null, Array.Empty<object>()));
-            rifleBaseBulletCount = base.Config.Bind<int>(new ConfigDefinition("05 - Assault Rifle", "Base Bullet Count"), 3, new ConfigDescription("Bullets fired with each shot", null, Array.Empty<object>()));
-            rifleRange = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Range"), 256f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
-            rifleSpread = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Spread"), 5f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
-            
-            superDamage = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Damage Coefficient", 0.9f, "Damage of each pellet");
-            superSpread = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "spread", 21f, "your cheeks");
-            superDuration = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Duration", 2f, $"duration of attack (i.e. attack speed)\nnote, shielded attack duration is this x 0.75f");
-            superBeef = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "beef", 0.4f, "movement stop while shooting in shield. cannot go lower than 0.2 because I say so");
-            
-            balancedShieldBash = base.Config.Bind<bool>(new ConfigDefinition("07 - Shield Bash", "Balanced Knockback"), false, new ConfigDescription("Applies a cap to knockback so bosses can no longer be thrown around.", null, Array.Empty<object>()));
-            stupidShieldBash = base.Config.Bind<bool>(new ConfigDefinition("07 - Shield Bash", "Ally Knockback"), true, new ConfigDescription("Applies knockback to allies.", null, Array.Empty<object>()));
+            superDamage = base.Config.Bind<float>("05 - Super Shotgun 3.0.6", "Damage Coefficient", 0.9f, "Damage of each pellet");
+            superSpread = base.Config.Bind<float>("05 - Super Shotgun 3.0.6", "spread", 21f, "your cheeks");
+            superDuration = base.Config.Bind<float>("05 - Super Shotgun 3.0.6", "Duration", 2f, $"duration of attack (i.e. attack speed)\nnote, shielded attack duration is this x 0.75f");
+            superBeef = base.Config.Bind<float>("05 - Super Shotgun 3.0.6", "beef", 0.4f, "movement stop while shooting in shield. cannot go lower than 0.2 because I say so");
+
+            rifleDamage = base.Config.Bind<float>("06 - Assault Rifle", "Damage Coefficient", 0.85f, "Damage of each bullet");
+            rifleProcCoefficient = base.Config.Bind<float>("06 - Assault Rifle", "Proc Coefficient", 0.75f, "Proc Coefficient of each bullet");
+            rifleBaseBulletCount = base.Config.Bind<int>("06 - Assault Rifle", "Base Bullet Count", 3, "Bullets fired with each shot");
+            rifleRange = base.Config.Bind<float>("06 - Assault Rifle", "Range", 256f, "Maximum range");
+            rifleSpread = base.Config.Bind<float>("06 - Assault Rifle", "Spread", 5f, "Maximum spread");
+
+            balancedShieldBash = base.Config.Bind<bool>("07 - Shield Bash", "Balanced Knockback", false, "Applies a cap to knockback so bosses can no longer be thrown around.");
+            stupidShieldBash = base.Config.Bind<bool>("07 - Shield Bash", "Ally Knockback", true, "Applies knockback to allies.");
         }
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
