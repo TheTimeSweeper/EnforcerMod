@@ -298,10 +298,10 @@ namespace EntityStates.Enforcer
                         {
                             this.hasDeflected = true;
 
-                            if (EnforcerPlugin.EnforcerModPlugin.sirenOnDeflect.Value) Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
+                            if (EnforcerPlugin.EnforcerModPlugin.sirenOnDeflect.Value) Util.PlaySound(EnforcerPlugin.Sounds.SirenDeflect, base.gameObject);
 
-                            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
-                            base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(8);
+                            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(3);
+                            base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(3);
                         }
                     }
                 }
@@ -331,10 +331,10 @@ namespace EntityStates.Enforcer
                 this.hasDeflected = true;
 
                 if (EnforcerPlugin.EnforcerModPlugin.sirenOnDeflect.Value) 
-                    Util.PlaySound(EnforcerPlugin.Sounds.SirenSpawn, base.gameObject);
+                    Util.PlaySound(EnforcerPlugin.Sounds.SirenDeflect, base.gameObject);
 
                 base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
-                base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(8);
+                base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(3);
             }
         }
 

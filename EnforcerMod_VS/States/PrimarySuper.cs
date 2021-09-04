@@ -82,7 +82,7 @@ namespace EntityStates.Enforcer {
 
                 bool isCrit = base.RollCrit();
 
-                soundString = isCrit ? EnforcerPlugin.Sounds.FireSuperShotgun : EnforcerPlugin.Sounds.FireSuperShotgunCrit;
+                soundString = !isCrit ? EnforcerPlugin.Sounds.FireSuperShotgun : EnforcerPlugin.Sounds.FireSuperShotgunCrit;
 
                 if (EnforcerPlugin.EnforcerModPlugin.classicShotgun.Value) soundString = EnforcerPlugin.Sounds.FireClassicShotgun;
 
@@ -130,7 +130,7 @@ namespace EntityStates.Enforcer {
                         smartCollision = false,
                         procChainMask = default(ProcChainMask),
                         procCoefficient = this.procCoefficient,
-                        radius = 0.3f,
+                        radius = 0.4f,
                         sniper = false,
                         stopperMask = LayerIndex.CommonMasks.bullet,
                         weapon = null,
@@ -156,17 +156,25 @@ namespace EntityStates.Enforcer {
                     float spread = this.bulletSpread;
 
                     bulletAttack.minSpread = 0;
-                    bulletAttack.maxSpread = spread / 1.45f;// RAD2;
-                    bulletAttack.bulletCount = (uint)Mathf.CeilToInt((float)bulletCount / 2f);
-
+                    bulletAttack.maxSpread = spread * 0.25f;// RAD2;
+                    bulletAttack.bulletCount = (uint)Mathf.CeilToInt((float)bulletCount / 4f);
                     bulletAttack.Fire();
 
-                    bulletAttack.minSpread = spread / 1.45f;// RAD2;
+                    bulletAttack.minSpread = spread * 0.25f;// RAD2;
+                    bulletAttack.maxSpread = spread  * 0.5f;
+                    bulletAttack.bulletCount = (uint)Mathf.FloorToInt((float)bulletCount / 4f);
+                    bulletAttack.Fire();
+
+                    bulletAttack.minSpread = spread * 0.5f;// RAD2;
+                    bulletAttack.maxSpread = spread * 0.75f;
+                    bulletAttack.bulletCount = (uint)Mathf.FloorToInt((float)bulletCount / 4f);
+                    bulletAttack.Fire();
+
+                    bulletAttack.minSpread = spread  * 0.75f;// RAD2;
                     bulletAttack.maxSpread = spread;
-                    bulletAttack.bulletCount = (uint)Mathf.FloorToInt((float)bulletCount / 2f);
-
+                    bulletAttack.bulletCount = (uint)Mathf.FloorToInt((float)bulletCount / 4f);
                     bulletAttack.Fire();
-                    
+
                 }
 
             }

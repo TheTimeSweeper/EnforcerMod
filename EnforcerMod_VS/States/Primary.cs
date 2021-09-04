@@ -74,7 +74,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
                 bool isCrit = RollCrit();
 
-                soundString = isCrit ? Sounds.FireShotgun : Sounds.FireShotgunCrit;
+                soundString = isCrit ? Sounds.FireShotgunCrit : Sounds.FireShotgun;
 
                 if (EnforcerModPlugin.classicShotgun.Value) soundString = Sounds.FireClassicShotgun;
 
@@ -134,8 +134,8 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                         stopperMask = LayerIndex.world.collisionMask,
                         weapon = null,
                         tracerEffectPrefab = tracerEffect,
-                        spreadPitchScale = 0.5f,
-                        spreadYawScale = 0.5f,
+                        spreadPitchScale = 1f,
+                        spreadYawScale = 1f,
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
                         hitEffectPrefab = ClayBruiser.Weapon.MinigunFire.bulletHitEffectPrefab,
                         HitEffectNormal = ClayBruiser.Weapon.MinigunFire.bulletHitEffectNormal
