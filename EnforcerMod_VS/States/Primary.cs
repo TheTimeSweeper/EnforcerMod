@@ -15,8 +15,8 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         public float baseShieldDuration = 0.6f; // the duration used while shield is active
         public static int projectileCount = EnforcerModPlugin.shotgunBulletCount.Value;
         public static float bulletSpread = EnforcerModPlugin.shotgunSpread.Value;
-        public static float bulletRecoil = 3f;
-        public static float shieldedBulletRecoil = 0.5f;
+        public static float bulletRecoil = 8f;
+        public static float shieldedBulletRecoil = 6f;
         public static float beefDurationNoShield = 0.0f;
         public static float beefDurationShield = 0.25f;
         public static float bulletRange = EnforcerModPlugin.shotgunRange.Value;
@@ -74,7 +74,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
                 bool isCrit = RollCrit();
 
-                soundString = isCrit ? Sounds.FireShotgun : Sounds.FireShotgunCrit;
+                soundString = isCrit ? Sounds.FireShotgunCrit : Sounds.FireShotgun;
 
                 if (EnforcerModPlugin.classicShotgun.Value) soundString = Sounds.FireClassicShotgun;
 
@@ -83,12 +83,12 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
                 Util.PlayAttackSpeedSound(soundString, gameObject, attackSpeedStat);
 
-                float recoil = bulletRecoil;
+                float recoilAmplitude = bulletRecoil;
 
-                if (HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) recoil = shieldedBulletRecoil;
+                if (HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) recoilAmplitude = shieldedBulletRecoil;
 
-                //base.AddRecoil(-2f * recoil, -3f * recoil, -1f * recoil, 1f * recoil);
-                characterBody.AddSpreadBloom(0.33f * recoil);
+                base.AddRecoil(-0.4f * recoilAmplitude, -0.8f * recoilAmplitude, -0.3f * recoilAmplitude, 0.3f * recoilAmplitude);
+                characterBody.AddSpreadBloom(4f);
                 EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, gameObject, muzzleString, false);
 
                 //if (!this.isStormtrooper && !this.isEngi)
@@ -106,11 +106,11 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
                     float spread = bulletSpread;
                     float thiccness = 0.7f;
-                    float force = 130; // EnforcerPlugin.UtilsComponent.forceUnshield;
+                    float force = 200; // EnforcerPlugin.UtilsComponent.forceUnshield;
                     if (HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff)) {
                         spread *= 0.769f;
                         thiccness = 0.4f;
-                        force = 80; //EnforcerPlugin.UtilsComponent.forceShield; 
+                        force = 100; //EnforcerPlugin.UtilsComponent.forceShield; 
                     }
 
                     BulletAttack bulletAttack = new BulletAttack {
@@ -134,8 +134,8 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                         stopperMask = LayerIndex.world.collisionMask,
                         weapon = null,
                         tracerEffectPrefab = tracerEffect,
-                        spreadPitchScale = 0.5f,
-                        spreadYawScale = 0.5f,
+                        spreadPitchScale = 1f,
+                        spreadYawScale = 1f,
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
                         hitEffectPrefab = ClayBruiser.Weapon.MinigunFire.bulletHitEffectPrefab,
                         HitEffectNormal = ClayBruiser.Weapon.MinigunFire.bulletHitEffectNormal

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<IncrementalBankBuild Version="6" Flags="601859981">
+	<Platform GUID="{0F191AF3-3963-4809-92B2-08928532FC8E}">
+		<Banks>
+			<Language ID="393239870">
+				<File Name="EnforcerBank" Hash="3260595984" Timestamp="1630746555"/>
+				<File Name="Enforcer_DLC_1" Hash="364314881" Timestamp="1598386758"/>
+				<File Name="Enforcer_Gang" Hash="3282081835" Timestamp="1630723774"/>
+				<File Name="Init" Hash="318997760" Timestamp="1607240832"/>
+			</Language>
+		</Banks>
+		<XMLInfo>
+			<Language ID="-1">
+				<File Name="" Hash="2436600806" Timestamp="1630746555"/>
+			</Language>
+		</XMLInfo>
+	</Platform>
+</IncrementalBankBuild>

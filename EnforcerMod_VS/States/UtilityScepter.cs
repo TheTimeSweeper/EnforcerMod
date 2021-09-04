@@ -73,8 +73,8 @@ namespace EntityStates.Enforcer
     public class ShockGrenade : BaseSkillState
     {
         public static float baseDuration = 0.75f;
-        public static float damageCoefficient = 5f;
-        public static float procCoefficient = 0.6f;
+        public static float damageCoefficient = 7f;
+        public static float procCoefficient = 1f;
         public static float bulletRecoil = 2.5f;
         public static float projectileSpeed = 90f;
 

@@ -1,4 +1,6 @@
 ﻿using Enforcer.Emotes;
+using EnforcerPlugin;
+using EntityStates.Enforcer.NeutralSpecial;
 using EntityStates.Nemforcer.Emotes;
 using RoR2;
 using System;
@@ -10,7 +12,8 @@ namespace EntityStates.Enforcer
     public class EnforcerMain : GenericCharacterMain
     {
         public static event Action<bool> onDance = delegate { };
-
+        public static Vector3 shieldCameraPosition = new Vector3(1.8f, -2.4f, -6f);
+        public static Vector3 standardCameraPosition = new Vector3(0f, -1.3f, -12f);
         public static bool shotgunToggle = false;
 
         public Transform origOrigin;
@@ -31,6 +34,8 @@ namespace EntityStates.Enforcer
         private EnforcerLightController lightController;
         private EnforcerLightControllerAlt lightControllerAlt;
         private EntityStateMachine sirenStateMachine;
+
+        private AnimationCurve primarySpreadCurve = null;
 
         public static event Action<float> Bungus = delegate { };
 
@@ -102,6 +107,61 @@ namespace EntityStates.Enforcer
             onDance(false);
 
             this.sprintCancelEnabled = EnforcerPlugin.EnforcerModPlugin.sprintShieldCancel.Value;
+
+            /*AnimationCurve commandoCurve = Resources.Load<GameObject>("prefabs/characterbodies/commandobody").GetComponent<CharacterBody>().spreadBloomCurve;
+            foreach (Keyframe k in commandoCurve.keys)
+            {
+                Debug.Log("\n time: " + k.time + ", value: " + k.value);
+            }*/
+
+            //Handle Spread
+            if (base.characterBody)
+            {
+                switch (base.skillLocator.primary.skillDef.skillNameToken)
+                {
+                    case "ENFORCER_PRIMARY_RIFLE_NAME":
+
+                        if (primarySpreadCurve == null)
+                        {
+                            primarySpreadCurve = new AnimationCurve();
+                            primarySpreadCurve.AddKey(0.3f, 0.3f);
+                            primarySpreadCurve.AddKey(1f, FireMachineGun.baseMaxSpread);
+                            base.characterBody.spreadBloomCurve = primarySpreadCurve;
+                        }
+
+                        /*float maxSpread = (isShielded ? FireMachineGun.shieldSpreadMult * FireMachineGun.baseMaxSpread : FireMachineGun.baseMaxSpread);
+                        if (base.characterBody.spreadBloomAngle > maxSpread)
+                        {
+                            base.characterBody.SetSpreadBloom(maxSpread, false);
+                            base.characterBody.spreadBloomInternal = maxSpread;
+                        }*/
+                        break;
+                    case "ENFORCER_PRIMARY_SHOTGUN_NAME":
+
+                        if (primarySpreadCurve == null)
+                        {
+                            primarySpreadCurve = new AnimationCurve();
+                            primarySpreadCurve.AddKey(0.3f, RiotShotgun.bulletSpread);
+                            primarySpreadCurve.AddKey(1f, RiotShotgun.bulletSpread * 1.5f);
+                            base.characterBody.spreadBloomCurve = primarySpreadCurve;
+                        }
+
+                        break;
+                    case "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME":
+
+                        if (primarySpreadCurve == null)
+                        {
+                            primarySpreadCurve = new AnimationCurve();
+                            primarySpreadCurve.AddKey(0.3f, EnforcerModPlugin.superSpread.Value);
+                            primarySpreadCurve.AddKey(1f, EnforcerModPlugin.superSpread.Value * 1.5f);
+                            base.characterBody.spreadBloomCurve = primarySpreadCurve;
+                        }
+
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         public override void Update()
@@ -160,7 +220,7 @@ namespace EntityStates.Enforcer
                     float denom = (1 + Time.fixedTime - this.initialTime);
                     float smoothFactor = 8 / Mathf.Pow(denom, 2);
                     Vector3 smoothVector = new Vector3(-3 / 20, 1 / 16, -1);
-                    ctp.idealLocalCameraPos = new Vector3(1.8f, -0.5f, -6f) + smoothFactor * smoothVector;
+                    ctp.idealLocalCameraPos = shieldCameraPosition + smoothFactor * smoothVector;
                 }
             }
         }
@@ -170,7 +230,9 @@ namespace EntityStates.Enforcer
             base.FixedUpdate();
             if (this.shieldComponent) this.shieldComponent.aimRay = base.GetAimRay();
 
-            if (base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff) || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff))
+            bool isShielded = base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
+
+            if (isShielded || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff))
             {
                 base.characterBody.isSprinting = false;
                 base.characterBody.SetAimTimer(0.2f);
@@ -227,7 +289,7 @@ namespace EntityStates.Enforcer
                 {
                     if (base.inputBank.skill1.down)
                     {
-                        if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
+                        if (isShielded)
                         {
                             base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.attackSpeedStat);
                         }
@@ -238,7 +300,7 @@ namespace EntityStates.Enforcer
                     }
                 }
             }
-
+                
             //skateboard
             if (base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff))
             {

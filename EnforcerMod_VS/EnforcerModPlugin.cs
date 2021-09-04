@@ -284,8 +284,8 @@ namespace EnforcerPlugin {
             
             baseHealth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Health"), 160f, new ConfigDescription("", null, Array.Empty<object>()));
             healthGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Health Growth"), 48f, new ConfigDescription("", null, Array.Empty<object>()));
-            baseRegen = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Regen"), 0.5f, new ConfigDescription("", null, Array.Empty<object>()));
-            regenGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Regen Growth"), 0.25f, new ConfigDescription("", null, Array.Empty<object>()));
+            baseRegen = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Health Regen"), 1f, new ConfigDescription("", null, Array.Empty<object>()));
+            regenGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Health Regen Growth"), 0.2f, new ConfigDescription("", null, Array.Empty<object>()));
             baseArmor = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Armor"), 15f, new ConfigDescription("", null, Array.Empty<object>()));
             armorGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Armor Growth"), 0f, new ConfigDescription("", null, Array.Empty<object>()));
             baseDamage = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Damage"), 12f, new ConfigDescription("", null, Array.Empty<object>()));
@@ -293,20 +293,20 @@ namespace EnforcerPlugin {
             baseMovementSpeed = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Movement Speed"), 7f, new ConfigDescription("", null, Array.Empty<object>()));
             baseCrit = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Crit"), 1f, new ConfigDescription("", null, Array.Empty<object>()));
 
-            shotgunDamage = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Damage Coefficient"), 0.55f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
+            shotgunDamage = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Damage Coefficient"), 0.5f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
             shotgunProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Proc Coefficient"), 0.5f, new ConfigDescription("Proc Coefficient of each pellet", null, Array.Empty<object>()));
             shotgunBulletCount = base.Config.Bind<int>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Bullet Count"), 8, new ConfigDescription("Amount of pellets fired", null, Array.Empty<object>()));
             shotgunRange = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Range"), 64f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
-            shotgunSpread = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Spread"), 16f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
+            shotgunSpread = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Max Spread"), 6f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
 
-            rifleDamage = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Damage Coefficient"), 0.85f, new ConfigDescription("Damage of each bullet", null, Array.Empty<object>()));
+            /*rifleDamage = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Damage Coefficient"), 0.85f, new ConfigDescription("Damage of each bullet", null, Array.Empty<object>()));
             rifleProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Proc Coefficient"), 0.75f, new ConfigDescription("Proc Coefficient of each bullet", null, Array.Empty<object>()));
             rifleBaseBulletCount = base.Config.Bind<int>(new ConfigDefinition("05 - Assault Rifle", "Base Bullet Count"), 3, new ConfigDescription("Bullets fired with each shot", null, Array.Empty<object>()));
             rifleRange = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Range"), 256f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
-            rifleSpread = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Spread"), 5f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
+            rifleSpread = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Spread"), 5f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));*/
             
-            superDamage = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Damage Coefficient", 0.9f, "Damage of each pellet");
-            superSpread = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "spread", 21f, "your cheeks");
+            superDamage = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Damage Coefficient", 0.8f, "Damage of each pellet");
+            superSpread = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Max Spread", 6f, "your cheeks");
             superDuration = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Duration", 2f, $"duration of attack (i.e. attack speed)\nnote, shielded attack duration is this x 0.75f");
             superBeef = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "beef", 0.4f, "movement stop while shooting in shield. cannot go lower than 0.2 because I say so");
             
@@ -1066,18 +1066,18 @@ namespace EnforcerPlugin {
             gameObject.transform.parent = characterPrefab.transform;
             gameObject.transform.localPosition = new Vector3(0f, -0.91f, 0f);
             gameObject.transform.localRotation = Quaternion.identity;
-            gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
+            gameObject.transform.localScale = Vector3.one;
 
 
             GameObject gameObject2 = new GameObject("CameraPivot");
             gameObject2.transform.parent = gameObject.transform;
-            gameObject2.transform.localPosition = new Vector3(0f, 1.6f, 0f);
+            gameObject2.transform.localPosition = new Vector3(0f, 0f, 0f);    //1.6
             gameObject2.transform.localRotation = Quaternion.identity;
             gameObject2.transform.localScale = Vector3.one;
 
             GameObject gameObject3 = new GameObject("AimOrigin");
             gameObject3.transform.parent = gameObject.transform;
-            gameObject3.transform.localPosition = new Vector3(0f, 1.8f, 0f);
+            gameObject3.transform.localPosition = new Vector3(0f, 3f, 0f);    //1.8
             gameObject3.transform.localRotation = Quaternion.identity;
             gameObject3.transform.localScale = Vector3.one;
 
@@ -1133,6 +1133,7 @@ namespace EnforcerPlugin {
             bodyComponent.currentVehicle = null;
             bodyComponent.skinIndex = 0U;
             bodyComponent.bodyColor = characterColor;
+            bodyComponent.spreadBloomDecayTime = 0.7f;
 
             Modules.States.AddSkill(typeof(EnforcerMain));
 
@@ -1154,7 +1155,7 @@ namespace EnforcerPlugin {
             cameraTargetParams.cameraParams.minPitch = -70;
             cameraTargetParams.cameraParams.wallCushion = 0.1f;
             cameraTargetParams.cameraParams.pivotVerticalOffset = 1.37f;
-            cameraTargetParams.cameraParams.standardLocalCameraPos = new Vector3(0, 0f, -12);
+            cameraTargetParams.cameraParams.standardLocalCameraPos = EnforcerMain.standardCameraPosition;
 
             cameraTargetParams.cameraPivotTransform = null;
             cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
@@ -2085,7 +2086,8 @@ namespace EnforcerPlugin {
             SkillFamily.Variant primaryVariant2 = Modules.Skills.SetupSkillVariant(primaryDef2, EnforcerUnlockables.enforcerDoomUnlockableDef);
 
             SkillDef primaryDef3 = PrimarySkillDef_AssaultRifle();
-            Modules.Skills.RegisterSkillDef(primaryDef3, typeof(FireBurstRifle));
+            //Modules.Skills.RegisterSkillDef(primaryDef3, typeof(FireBurstRifle));
+            Modules.Skills.RegisterSkillDef(primaryDef3, typeof(FireMachineGun));
             SkillFamily.Variant primaryVariant3 = Modules.Skills.SetupSkillVariant(primaryDef3, EnforcerUnlockables.enforcerARUnlockableDef);
 
             skillLocator.primary = Modules.Skills.RegisterSkillsToFamily(characterPrefab, primaryVariant1, primaryVariant2, primaryVariant3);
@@ -2203,7 +2205,7 @@ namespace EnforcerPlugin {
 
         private SkillDef PrimarySkillDef_SuperShotgun()
         {
-            string desc = "Fire a powerful short range <style=cIsUtility>blast</style> for <style=cIsDamage>" + 16 + "x" + 100f * superDamage.Value + "% damage</style>. <style=cIsHealth>Has harsh damage falloff</style>.";
+            string desc = "Fire a wall of lead at enemies for <style=cIsDamage>" + SuperShotgun.bulletCount + "x" + 100f * superDamage.Value + "% damage</style>.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_NAME", "Super Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION", desc);
@@ -2234,14 +2236,18 @@ namespace EnforcerPlugin {
 
         private SkillDef PrimarySkillDef_AssaultRifle()
         {
-            string damage = $"<style=cIsDamage>{FireBurstRifle.projectileCount}x{100f * FireBurstRifle.damageCoefficient}% damage</style>";
-            string desc = $"Fire a burst of bullets dealing {damage}. <style=cIsUtility>During Protect and Serve</style>, fires <style=cIsDamage>{2 * FireBurstRifle.projectileCount} bullets</style> instead.";
+            //string damage = $"<style=cIsDamage>{FireBurstRifle.projectileCount}x{100f * FireBurstRifle.damageCoefficient}% damage</style>";
+            //string desc = $"Fire a burst of bullets dealing {damage}. <style=cIsUtility>During Protect and Serve</style>, fires <style=cIsDamage>{2 * FireBurstRifle.projectileCount} bullets</style> instead.";
 
-            LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_NAME", "Assault Rifle");
+            string damage = $"<style=cIsDamage>{100f * FireMachineGun.damageCoefficient}% damage</style>";
+            string desc = $"<style=cIsHealth>Slow yourself down</style> and suppress enemies for {damage}.";
+
+            LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_NAME", "Heavy Machinegun");
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_DESCRIPTION", desc);
 
             SkillDef skillDefAssaultRifle = ScriptableObject.CreateInstance<SkillDef>();
-            skillDefAssaultRifle.activationState = new SerializableEntityStateType(typeof(FireBurstRifle));
+            //skillDefAssaultRifle.activationState = new SerializableEntityStateType(typeof(FireBurstRifle));
+            skillDefAssaultRifle.activationState = new SerializableEntityStateType(typeof(FireMachineGun));
             skillDefAssaultRifle.activationStateMachineName = "Weapon";
             skillDefAssaultRifle.baseMaxStock = 1;
             skillDefAssaultRifle.baseRechargeInterval = 0f;
@@ -2378,7 +2384,7 @@ namespace EnforcerPlugin {
             stunGrenadeDef.activationState = new SerializableEntityStateType(typeof(StunGrenade));
             stunGrenadeDef.activationStateMachineName = "Weapon";
             stunGrenadeDef.baseMaxStock = 3;
-            stunGrenadeDef.baseRechargeInterval = 8f;
+            stunGrenadeDef.baseRechargeInterval = 6f;
             stunGrenadeDef.beginSkillCooldownOnSkillEnd = false;
             stunGrenadeDef.canceledFromSprinting = false;
             stunGrenadeDef.fullRestockOnAssign = true;
@@ -2615,7 +2621,7 @@ namespace EnforcerPlugin {
             shockGrenadeDef.activationState = new SerializableEntityStateType(typeof(ShockGrenade));
             shockGrenadeDef.activationStateMachineName = "Weapon";
             shockGrenadeDef.baseMaxStock = 3;
-            shockGrenadeDef.baseRechargeInterval = 10f;
+            shockGrenadeDef.baseRechargeInterval = 6f;
             shockGrenadeDef.beginSkillCooldownOnSkillEnd = false;
             shockGrenadeDef.canceledFromSprinting = false;
             shockGrenadeDef.fullRestockOnAssign = true;
@@ -2749,7 +2755,7 @@ namespace EnforcerPlugin {
 
         private void OnEnable()
         {
-            this.playID = Util.PlaySound(Sounds.SirenSpawn, base.gameObject);
+            this.playID = Util.PlaySound(Sounds.CharSelect, base.gameObject);
 
             var i = GetComponentInChildren<EnforcerLightController>();
             if (i)
@@ -2841,8 +2847,10 @@ namespace EnforcerPlugin {
 
     public static class Sounds
     {
-        public static readonly string FireShotgun = "Shotgun_shot";
-        public static readonly string FireShotgunCrit = "Shotgun_shot_crit";
+        public static readonly string CharSelect = "Play_Enforcer_CharSelect";
+
+        public static readonly string FireShotgun = "Play_RiotShotgun_shoot"; //Shotgun_shot
+        public static readonly string FireShotgunCrit = "Play_RiotShotgun_Crit"; //Shotgun_shot_crit
         public static readonly string FireClassicShotgun = "Ror1_Shotgun";
 
         public static readonly string FireSuperShotgun = "Super_Shotgun";
@@ -2861,7 +2869,8 @@ namespace EnforcerPlugin {
 
         public static readonly string ShieldBash = "Bash";
         public static readonly string BashHitEnemy = "Bash_Hit_Enemy";
-        public static readonly string BashDeflect = "Bash_Deflect";
+        public static readonly string BashDeflect = "Bash_Deflect"; //"Play_Reflect_Ding"
+        public static readonly string SirenDeflect = "Play_Siren_Reflect";
 
         public static readonly string ShoulderBashHit = "Shoulder_Bash_Hit";
 
@@ -2893,7 +2902,7 @@ namespace EnforcerPlugin {
 
         public static readonly string NemesisSwingAxe = "NemforcerAxeSwing";
         public static readonly string NemesisImpactAxe = "NemforcerAxeHit";
-
+        
         public static readonly string NemesisStartCharge = "Play_chargeStart";
         public static readonly string NemesisMaxCharge = "Play_chargeMax";
         public static readonly string NemesisFlameLoop = "Play_HammerFlameLoop";
@@ -2941,5 +2950,8 @@ namespace EnforcerPlugin {
         public static readonly string DededeSwing = "Play_se_dedede_hammer_swing_m";
         public static readonly string DededeImpactS = "Play_dedede_hammer_attack_m";
         public static readonly string DededeImpactL = "Play_dedede_hammer_attack_l";
+
+        public static readonly string HMGShoot = "Play_HMG_shoot";
+        public static readonly string HMGCrit = "Play_HMG_crit";
     }
 }

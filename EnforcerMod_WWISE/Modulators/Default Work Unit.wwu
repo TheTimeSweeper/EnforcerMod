@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{06217C1C-B8F5-4A42-B350-49494484886A}" SchemaVersion="89">
+	<Modulators>
+		<WorkUnit Name="Default Work Unit" ID="{06217C1C-B8F5-4A42-B350-49494484886A}" PersistMode="Standalone">
+			<ChildrenList>
+				<ModulatorEnvelope Name="Gas Timer" ID="{40F44692-B3D0-4C16-8DDF-646555CB3578}" ShortID="433231851">
+					<PropertyList>
+						<Property Name="EnvelopeAttackTime" Type="Real64" Value="0"/>
+						<Property Name="EnvelopeAutoRelease" Type="bool" Value="True"/>
+						<Property Name="EnvelopeDecayTime" Type="Real64" Value="12"/>
+						<Property Name="EnvelopeReleaseTime" Type="Real64" Value="4"/>
+					</PropertyList>
+				</ModulatorEnvelope>
+			</ChildrenList>
+		</WorkUnit>
+	</Modulators>
+</WwiseDocument>
