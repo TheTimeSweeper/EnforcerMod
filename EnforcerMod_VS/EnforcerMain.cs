@@ -142,7 +142,7 @@ namespace EntityStates.Enforcer
                         {
                             primarySpreadCurve = new AnimationCurve();
                             primarySpreadCurve.AddKey(0.3f, RiotShotgun.bulletSpread);
-                            primarySpreadCurve.AddKey(1f, RiotShotgun.bulletSpread * 2f);
+                            primarySpreadCurve.AddKey(1f, RiotShotgun.bulletSpread * 1.5f);
                             base.characterBody.spreadBloomCurve = primarySpreadCurve;
                         }
 
@@ -152,8 +152,8 @@ namespace EntityStates.Enforcer
                         if (primarySpreadCurve == null)
                         {
                             primarySpreadCurve = new AnimationCurve();
-                            primarySpreadCurve.AddKey(0.3f, EnforcerModPlugin.superSpread.Value * 0.7f);
-                            primarySpreadCurve.AddKey(1f, EnforcerModPlugin.superSpread.Value * 0.7f * 1.25f);
+                            primarySpreadCurve.AddKey(0.3f, EnforcerModPlugin.superSpread.Value);
+                            primarySpreadCurve.AddKey(1f, EnforcerModPlugin.superSpread.Value * 1.5f);
                             base.characterBody.spreadBloomCurve = primarySpreadCurve;
                         }
 

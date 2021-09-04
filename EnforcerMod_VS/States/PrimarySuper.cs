@@ -14,8 +14,8 @@ namespace EntityStates.Enforcer {
                 return Mathf.Max(EnforcerModPlugin.superBeef.Value, 0.2f); //fuck you lol
             } 
         }
-        public float bulletForce = 25f;
-        public float bulletCount = 16;
+        public static float bulletForce = 100f;
+        public static int bulletCount = 15;
         public new float bulletSpread = EnforcerModPlugin.superSpread.Value;// 21f;
         public new float baseDuration = EnforcerModPlugin.superDuration.Value;// 2f;
         public new float baseShieldDuration;// = 1.5f;
@@ -92,12 +92,12 @@ namespace EntityStates.Enforcer {
 
                 Util.PlayAttackSpeedSound(soundString, base.gameObject, this.attackSpeedStat);
 
-                float recoil = RiotShotgun.bulletRecoil;
+                float recoilAmplitude = RiotShotgun.bulletRecoil;
 
-                if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) recoil = RiotShotgun.shieldedBulletRecoil;
+                if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) recoilAmplitude = RiotShotgun.shieldedBulletRecoil;
 
-                //base.AddRecoil(-2f * recoil, -3f * recoil, -1f * recoil, 1f * recoil);
-                base.characterBody.AddSpreadBloom(0.33f * recoil);
+                base.AddRecoil(-0.4f * recoilAmplitude, -0.8f * recoilAmplitude, -0.3f * recoilAmplitude, 0.3f * recoilAmplitude);
+                base.characterBody.AddSpreadBloom(4f);
                 EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, base.gameObject, this.muzzleString, false);
 
                 if (base.isAuthority)
@@ -119,7 +119,7 @@ namespace EntityStates.Enforcer {
                         damageType = DamageType.Generic,
                         falloffModel = BulletAttack.FalloffModel.DefaultBullet,
                         maxDistance = 156,
-                        force = this.bulletForce,
+                        force = SuperShotgun.bulletForce,
                         hitMask = LayerIndex.CommonMasks.bullet,
                         //minSpread = 0,
                         //maxSpread = this.bulletSpread,
@@ -135,8 +135,8 @@ namespace EntityStates.Enforcer {
                         stopperMask = LayerIndex.CommonMasks.bullet,
                         weapon = null,
                         tracerEffectPrefab = tracerEffect,
-                        spreadPitchScale = 0.3f,
-                        spreadYawScale = 0.7f,
+                        spreadPitchScale = 1f,  //old: 21 spread 0.3f
+                        spreadYawScale = 1f,    //old: 21 spread 0.7f
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
                         hitEffectPrefab = Commando.CommandoWeapon.FireShotgun.hitEffectPrefab,//ClayBruiser.Weapon.MinigunFire.bulletHitEffectPrefab,
                         HitEffectNormal = ClayBruiser.Weapon.MinigunFire.bulletHitEffectNormal
@@ -151,11 +151,34 @@ namespace EntityStates.Enforcer {
 
                     //    bulletAttack.Fire();
                     //    return;
-                    //} 
+                    //}
 
                     float spread = this.bulletSpread;
 
-                    bulletAttack.minSpread = 0;
+                    int bullets = SuperShotgun.bulletCount;
+
+                    bullets -= 1;
+                    bulletAttack.bulletCount = 1;
+                    bulletAttack.minSpread = 0f;
+                    bulletAttack.maxSpread = 0f;
+                    bulletAttack.Fire();
+
+                    bullets -= 7;
+                    bulletAttack.bulletCount = 7;
+                    bulletAttack.minSpread = 0f;
+                    bulletAttack.maxSpread = this.bulletSpread;
+                    bulletAttack.Fire();
+
+                    if (bullets > 0)
+                    {
+                        bulletAttack.spreadPitchScale = 1f;
+                        bulletAttack.spreadYawScale = 2.3f;
+                        bulletAttack.minSpread = this.bulletSpread / bulletAttack.spreadYawScale;
+                        bulletAttack.maxSpread = this.bulletSpread;
+                        bulletAttack.Fire();
+                    }
+
+                    /*bulletAttack.minSpread = 0;
                     bulletAttack.maxSpread = spread * 0.25f;// RAD2;
                     bulletAttack.bulletCount = (uint)Mathf.CeilToInt((float)bulletCount / 4f);
                     bulletAttack.Fire();
@@ -173,10 +196,8 @@ namespace EntityStates.Enforcer {
                     bulletAttack.minSpread = spread  * 0.75f;// RAD2;
                     bulletAttack.maxSpread = spread;
                     bulletAttack.bulletCount = (uint)Mathf.FloorToInt((float)bulletCount / 4f);
-                    bulletAttack.Fire();
-
+                    bulletAttack.Fire();*/
                 }
-
             }
         }
 

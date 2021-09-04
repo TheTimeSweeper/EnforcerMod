@@ -293,11 +293,11 @@ namespace EnforcerPlugin {
             baseMovementSpeed = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Movement Speed"), 7f, new ConfigDescription("", null, Array.Empty<object>()));
             baseCrit = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Crit"), 1f, new ConfigDescription("", null, Array.Empty<object>()));
 
-            shotgunDamage = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Damage Coefficient"), 0.55f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
+            shotgunDamage = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Damage Coefficient"), 0.5f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
             shotgunProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Proc Coefficient"), 0.5f, new ConfigDescription("Proc Coefficient of each pellet", null, Array.Empty<object>()));
             shotgunBulletCount = base.Config.Bind<int>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Bullet Count"), 8, new ConfigDescription("Amount of pellets fired", null, Array.Empty<object>()));
             shotgunRange = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Range"), 64f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
-            shotgunSpread = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Max Spread"), 8f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
+            shotgunSpread = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Max Spread"), 6f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
 
             /*rifleDamage = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Damage Coefficient"), 0.85f, new ConfigDescription("Damage of each bullet", null, Array.Empty<object>()));
             rifleProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Proc Coefficient"), 0.75f, new ConfigDescription("Proc Coefficient of each bullet", null, Array.Empty<object>()));
@@ -305,8 +305,8 @@ namespace EnforcerPlugin {
             rifleRange = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Range"), 256f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
             rifleSpread = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Spread"), 5f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));*/
             
-            superDamage = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Damage Coefficient", 0.9f, "Damage of each pellet");
-            superSpread = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "spread", 21f, "your cheeks");
+            superDamage = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Damage Coefficient", 0.8f, "Damage of each pellet");
+            superSpread = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Max Spread", 6f, "your cheeks");
             superDuration = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Duration", 2f, $"duration of attack (i.e. attack speed)\nnote, shielded attack duration is this x 0.75f");
             superBeef = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "beef", 0.4f, "movement stop while shooting in shield. cannot go lower than 0.2 because I say so");
             
@@ -2205,7 +2205,7 @@ namespace EnforcerPlugin {
 
         private SkillDef PrimarySkillDef_SuperShotgun()
         {
-            string desc = "Fire a powerful short range <style=cIsUtility>blast</style> for <style=cIsDamage>" + 16 + "x" + 100f * superDamage.Value + "% damage</style>. <style=cIsHealth>Has harsh damage falloff</style>.";
+            string desc = "Fire a wall of lead at enemies for <style=cIsDamage>" + SuperShotgun.bulletCount + "x" + 100f * superDamage.Value + "% damage</style>.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_NAME", "Super Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION", desc);

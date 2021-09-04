@@ -18,8 +18,7 @@ namespace EntityStates.Enforcer
         public static float bloom = 0.4f;
         public static float range = 300f;
         public static float force = 500f;
-        public static float recoilAmplitude = 5f;
-        public static GameObject bulletTracer = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoDefault");
+        public static float recoilAmplitude = 6f;
         public static string muzzleName = "Muzzle";
 
         private float duration;
@@ -106,11 +105,11 @@ namespace EntityStates.Enforcer
                     sniper = false,
                     stopperMask = LayerIndex.CommonMasks.bullet,
                     weapon = null,
-                    tracerEffectPrefab = bulletTracer,
+                    tracerEffectPrefab = Commando.CommandoWeapon.FireBarrage.tracerEffectPrefab,
                     spreadPitchScale = 1f,
                     spreadYawScale = 1f,
                     queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
-                    hitEffectPrefab = ClayBruiser.Weapon.MinigunFire.bulletHitEffectPrefab,
+                    hitEffectPrefab = Commando.CommandoWeapon.FireBarrage.hitEffectPrefab,
                     HitEffectNormal = false
                 }.Fire();
 
