@@ -44,7 +44,7 @@ namespace EntityStates.Enforcer
         {
             characterBody.SetAimTimer(2f);
             isShielded = HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
-            duration = FireMachineGun.baseDuration / this.attackSpeedStat * (isShielded ? 0.8f : 1f);
+            duration = FireMachineGun.baseDuration / base.characterBody.attackSpeed * (isShielded ? 0.8f : 1f);
             firingStopwatch = 0f;
 
             //Someone tweak these animation numbers later
@@ -57,7 +57,7 @@ namespace EntityStates.Enforcer
                 PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", 2f * duration);
             }
 
-            bool crit = base.RollCrit();
+            bool crit = base.characterBody.RollCrit();
             if (crit)
             {
                 Util.PlaySound(EnforcerPlugin.Sounds.HMGCrit, base.gameObject);
@@ -87,7 +87,7 @@ namespace EntityStates.Enforcer
                     bulletCount = 1,
                     aimVector = aimRay.direction,
                     origin = aimRay.origin,
-                    damage = this.damageStat * FireMachineGun.damageCoefficient,
+                    damage = base.characterBody.damage * FireMachineGun.damageCoefficient,
                     damageColorIndex = DamageColorIndex.Default,
                     damageType = DamageType.Generic,
                     falloffModel = BulletAttack.FalloffModel.None,
