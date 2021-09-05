@@ -83,7 +83,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
                 Util.PlayAttackSpeedSound(soundString, gameObject, attackSpeedStat);
 
-                float recoilAmplitude = bulletRecoil;
+                float recoilAmplitude = bulletRecoil / this.attackSpeedStat;
 
                 if (HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) recoilAmplitude = shieldedBulletRecoil;
 
@@ -131,14 +131,14 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                         procCoefficient = procCoefficient,
                         radius = thiccness,
                         sniper = false,
-                        stopperMask = LayerIndex.world.collisionMask,
+                        stopperMask = LayerIndex.world.mask,
                         weapon = null,
                         tracerEffectPrefab = tracerEffect,
                         spreadPitchScale = 1f,
                         spreadYawScale = 1f,
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
-                        hitEffectPrefab = ClayBruiser.Weapon.MinigunFire.bulletHitEffectPrefab,
-                        HitEffectNormal = ClayBruiser.Weapon.MinigunFire.bulletHitEffectNormal
+                        hitEffectPrefab = Commando.CommandoWeapon.FireBarrage.hitEffectPrefab,
+                        HitEffectNormal = false
                     };
 
                     bulletAttack.minSpread = 0;

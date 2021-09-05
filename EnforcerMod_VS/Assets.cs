@@ -151,7 +151,7 @@ namespace EnforcerPlugin
 
             Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/hgstandard");
 
-            string portraitString = Random.value > 0.1f ? "texEnforcerIcon" : "texEnforcerIconEpic";
+            string portraitString = Random.value > 0.01f ? "texEnforcerIcon" : "texEnforcerIconEpic";
             charPortrait = MainAssetBundle.LoadAsset<Sprite>(portraitString).texture;
             nemCharPortrait = MainAssetBundle.LoadAsset<Sprite>("nemIconBlu").texture;
             nemBossPortrait = MainAssetBundle.LoadAsset<Sprite>("nemIconRed").texture;

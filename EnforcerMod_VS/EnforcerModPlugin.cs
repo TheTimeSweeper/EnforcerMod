@@ -1492,9 +1492,10 @@ namespace EnforcerPlugin {
             stunGrenadeImpact.lifetimeRandomOffset = 0;
             stunGrenadeImpact.blastRadius = 8;
             stunGrenadeImpact.blastDamageCoefficient = 1;
-            stunGrenadeImpact.blastProcCoefficient = 0.6f;
+            stunGrenadeImpact.blastProcCoefficient = 1f;
             stunGrenadeImpact.fireChildren = false;
             stunGrenadeImpact.childrenCount = 0;
+            stunGrenadeImpact.bonusBlastForce = -2000f * Vector3.up;
             stunGrenadeController.procCoefficient = 1;
 
             shockGrenade = Resources.Load<GameObject>("Prefabs/Projectiles/CommandoGrenadeProjectile").InstantiateClone("EnforcerShockGrenade", true);
@@ -1519,9 +1520,10 @@ namespace EnforcerPlugin {
             shockGrenadeImpact.lifetimeRandomOffset = 0;
             shockGrenadeImpact.blastRadius = 14f;
             shockGrenadeImpact.blastDamageCoefficient = 1;
-            shockGrenadeImpact.blastProcCoefficient = 0.6f;
+            shockGrenadeImpact.blastProcCoefficient = 1f;
             shockGrenadeImpact.fireChildren = false;
             shockGrenadeImpact.childrenCount = 0;
+            shockGrenadeImpact.bonusBlastForce = -2000f * Vector3.up;
             shockGrenadeImpact.impactEffect = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/LightningStrikeImpact");
             shockGrenadeController.procCoefficient = 1;
 
@@ -2242,7 +2244,7 @@ namespace EnforcerPlugin {
             //string desc = $"Fire a burst of bullets dealing {damage}. <style=cIsUtility>During Protect and Serve</style>, fires <style=cIsDamage>{2 * FireBurstRifle.projectileCount} bullets</style> instead.";
 
             string damage = $"<style=cIsDamage>{100f * FireMachineGun.damageCoefficient}% damage</style>";
-            string desc = $"<style=cIsHealth>Slow yourself down</style> and suppress enemies for {damage}.";
+            string desc = $"Unload a barrage of bullets into enemies for {damage}. While shielded, <style=cIsHealth>slow yourself down</style>.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_NAME", "Heavy Machinegun");
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_DESCRIPTION", desc);
@@ -2412,7 +2414,7 @@ namespace EnforcerPlugin {
         private SkillDef SpecialSkillDef_ProtectAndServe()
         {
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_NAME", "Protect and Serve");
-            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsUtility>prevents sprinting and jumping</style>.");
+            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsHealth>prevents sprinting and jumping</style>.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(ProtectAndServe));
