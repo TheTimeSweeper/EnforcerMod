@@ -12,8 +12,8 @@ namespace EntityStates.Enforcer
     public class EnforcerMain : GenericCharacterMain
     {
         public static event Action<bool> onDance = delegate { };
-        public static Vector3 shieldCameraPosition = new Vector3(1.8f, -2.4f, -6f);
-        public static Vector3 standardCameraPosition = new Vector3(0f, -1.3f, -12f);
+        public static Vector3 shieldCameraPosition = new Vector3(1.8f, -2.4f, -5f);
+        public static Vector3 standardCameraPosition = new Vector3(0f, -1.3f, -10f);
         public static bool shotgunToggle = false;
 
         public Transform origOrigin;

@@ -29,9 +29,10 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
 
-            if (base.characterBody)
+            isShielded = HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
+            if (NetworkServer.active)
             {
-                if (NetworkServer.active)
+                if (isShielded && base.characterBody)
                 {
                     base.characterBody.AddBuff(RoR2Content.Buffs.Slow50);
                 }
@@ -42,7 +43,6 @@ namespace EntityStates.Enforcer
         private void FireBullet()
         {
             characterBody.SetAimTimer(2f);
-            isShielded = HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
             duration = FireMachineGun.baseDuration / base.characterBody.attackSpeed * (isShielded ? 0.8f : 1f);
             firingStopwatch = 0f;
 
@@ -101,7 +101,7 @@ namespace EntityStates.Enforcer
                     smartCollision = false,
                     procChainMask = default,
                     procCoefficient = 1f,
-                    radius = 0.5f,
+                    radius = 0.3f,
                     sniper = false,
                     stopperMask = LayerIndex.CommonMasks.bullet,
                     weapon = null,
@@ -113,8 +113,9 @@ namespace EntityStates.Enforcer
                     HitEffectNormal = false
                 }.Fire();
 
+                float scaledRecoil = recoilAmplitude / base.characterBody.attackSpeed;
                 base.characterBody.AddSpreadBloom(FireMachineGun.bloom * shieldSpreadMult);
-                base.AddRecoil(-0.4f * recoilAmplitude, -0.8f * recoilAmplitude, -0.3f * recoilAmplitude, 0.3f * recoilAmplitude);
+                base.AddRecoil(-0.4f * scaledRecoil, -0.8f * scaledRecoil, -0.3f * scaledRecoil, 0.3f * scaledRecoil);
             }
         }
 
@@ -137,7 +138,7 @@ namespace EntityStates.Enforcer
 
         public override void OnExit()
         {
-            if (base.characterBody && NetworkServer.active)
+            if (NetworkServer.active && isShielded && base.characterBody)
             {
                 base.characterBody.RemoveBuff(RoR2Content.Buffs.Slow50);
             }

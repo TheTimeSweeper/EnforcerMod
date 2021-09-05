@@ -72,11 +72,11 @@ namespace EntityStates.Enforcer
 
     public class ShockGrenade : BaseSkillState
     {
-        public static float baseDuration = 0.75f;
-        public static float damageCoefficient = 7f;
+        public static float baseDuration = 0.5f;
+        public static float damageCoefficient = 7.2f;
         public static float procCoefficient = 1f;
         public static float bulletRecoil = 2.5f;
-        public static float projectileSpeed = 90f;
+        public static float projectileSpeed = 75f;
 
         //TODO: why did fucking "grenademuzzle" break here but not in the others?
         public static string muzzleString = "Muzzle";
@@ -114,19 +114,26 @@ namespace EntityStates.Enforcer
                 Debug.LogWarning(childLocator);
 
                 Debug.LogWarning(childLocator.FindChild(ShockGrenade.muzzleString));
+
                 Ray aimRay = base.GetAimRay();
+                Vector3 aimTweak;
+
+                Vector3 aimCross = Vector3.Cross(aimRay.direction, Vector3.up).normalized;
+                Vector3 aimUpPerpendicular = Vector3.Cross(aimCross, aimRay.direction).normalized;
+                aimTweak = aimUpPerpendicular;
+
                 FireProjectileInfo info = new FireProjectileInfo()
                 {
                     crit = base.RollCrit(),
                     damage = ShockGrenade.damageCoefficient * this.damageStat,
                     damageColorIndex = DamageColorIndex.Default,
                     damageTypeOverride = DamageType.Shock5s,
-                    force = 250,
+                    force = 0f,
                     owner = base.gameObject,
-                    position = childLocator.FindChild(ShockGrenade.muzzleString).position,
+                    position = aimRay.origin,
                     procChainMask = default(ProcChainMask),
                     projectilePrefab = EnforcerPlugin.EnforcerModPlugin.shockGrenade,
-                    rotation = Quaternion.LookRotation(base.GetAimRay().direction),
+                    rotation = RoR2.Util.QuaternionSafeLookRotation(aimRay.direction + aimTweak * 0.08f),
                     useFuseOverride = false,
                     useSpeedOverride = true,
                     speedOverride = ShockGrenade.projectileSpeed,
