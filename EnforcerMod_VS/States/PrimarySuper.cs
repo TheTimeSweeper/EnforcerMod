@@ -92,7 +92,7 @@ namespace EntityStates.Enforcer {
 
                 Util.PlayAttackSpeedSound(soundString, base.gameObject, this.attackSpeedStat);
 
-                float recoilAmplitude = RiotShotgun.bulletRecoil;
+                float recoilAmplitude = RiotShotgun.bulletRecoil / this.attackSpeedStat;
 
                 if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) recoilAmplitude = RiotShotgun.shieldedBulletRecoil;
 
@@ -138,7 +138,7 @@ namespace EntityStates.Enforcer {
                         spreadPitchScale = 1f,  //old: 21 spread 0.3f
                         spreadYawScale = 1f,    //old: 21 spread 0.7f
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
-                        hitEffectPrefab = Commando.CommandoWeapon.FireShotgun.hitEffectPrefab,//ClayBruiser.Weapon.MinigunFire.bulletHitEffectPrefab,
+                        hitEffectPrefab = Commando.CommandoWeapon.FireBarrage.hitEffectPrefab,
                         HitEffectNormal = ClayBruiser.Weapon.MinigunFire.bulletHitEffectNormal
                     };
 
@@ -163,14 +163,21 @@ namespace EntityStates.Enforcer {
                     bulletAttack.maxSpread = 0f;
                     bulletAttack.Fire();
 
-                    bullets -= 7;
-                    bulletAttack.bulletCount = 7;
+                    bullets -= 3;
+                    bulletAttack.bulletCount = 3;
+                    bulletAttack.minSpread = 0f;
+                    bulletAttack.maxSpread = this.bulletSpread / 2f;
+                    bulletAttack.Fire();
+
+                    bullets -= 3;
+                    bulletAttack.bulletCount = 3;
                     bulletAttack.minSpread = 0f;
                     bulletAttack.maxSpread = this.bulletSpread;
                     bulletAttack.Fire();
 
                     if (bullets > 0)
                     {
+                        bulletAttack.bulletCount = (uint)bullets;
                         bulletAttack.spreadPitchScale = 1f;
                         bulletAttack.spreadYawScale = 2.3f;
                         bulletAttack.minSpread = this.bulletSpread / bulletAttack.spreadYawScale;

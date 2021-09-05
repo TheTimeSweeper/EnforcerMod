@@ -55,7 +55,7 @@ namespace EntityStates.Enforcer
                     damage = StunGrenade.damageCoefficient * this.damageStat,
                     damageColorIndex = DamageColorIndex.Default,
                     damageTypeOverride = DamageType.Stun1s,
-                    force = 2000,
+                    force = 0f,
                     owner = base.gameObject,
                     position = aimRay.origin,
                     procChainMask = default(ProcChainMask),
