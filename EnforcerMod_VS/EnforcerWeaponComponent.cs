@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using EntityStates.Enforcer;
+using RoR2;
 using System;
 using UnityEngine;
 
@@ -90,17 +91,17 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
         if (this.isMultiplayer)
         {
-            this.cameraShit.cameraParams.standardLocalCameraPos = new Vector3(0, 0f, -12);
+            this.cameraShit.cameraParams.standardLocalCameraPos = EnforcerMain.standardCameraPosition;
         }
         else
         {
             if (!this.shieldUp)
             {
-                this.cameraShit.cameraParams.standardLocalCameraPos = new Vector3(0, 0f, -12);
+                this.cameraShit.cameraParams.standardLocalCameraPos = EnforcerMain.standardCameraPosition;
             }
             else
             {
-                this.cameraShit.cameraParams.standardLocalCameraPos = new Vector3(1.8f, -0.5f, -6f);
+                this.cameraShit.cameraParams.standardLocalCameraPos = EnforcerMain.shieldCameraPosition;
             }
         }
     }
@@ -296,10 +297,12 @@ public class EnforcerWeaponComponent : MonoBehaviour
                     this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
                     break;
                 case 1:
-                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
+                    //this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
+                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
                     break;
                 case 2:
-                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
+                    //this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
+                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
                     break;
                 case 3:
                     this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");

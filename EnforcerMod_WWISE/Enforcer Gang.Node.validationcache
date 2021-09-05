@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ValidationCache Version="1" SchemaVersion="89">
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Actor-Mixer Hierarchy\Default Work Unit.wwu" DateLow="1614384075" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Attenuations\Default Work Unit.wwu" DateLow="1607229091" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Audio Devices\Default Work Unit.wwu" DateLow="1594108850" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Control Surface Sessions\Default Work Unit.wwu" DateLow="1594108850" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Conversion Settings\Default Work Unit.wwu" DateLow="1594114698" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Conversion Settings\Factory Conversion Settings.wwu" DateLow="1565034617" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Dynamic Dialogue\Default Work Unit.wwu" DateLow="1594108850" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Effects\Default Work Unit.wwu" DateLow="1602382112" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Effects\Factory Effects.wwu" DateLow="1565034617" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Enforcer Gang.wproj" DateLow="1594108850" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Events\Default Work Unit.wwu" DateLow="1611707021" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Game Parameters\Default Work Unit.wwu" DateLow="1607230567" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Interactive Music Hierarchy\Default Work Unit.wwu" DateLow="1606351874" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Master-Mixer Hierarchy\Default Work Unit.wwu" DateLow="1594108850" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Mixing Sessions\Default Work Unit.wwu" DateLow="1594108850" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Modulators\Default Work Unit.wwu" DateLow="1598279168" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Presets\Default Work Unit.wwu" DateLow="1594108850" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Queries\Default Work Unit.wwu" DateLow="1594108850" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Queries\Factory Queries.wwu" DateLow="1565034618" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\SoundBanks\Default Work Unit.wwu" DateLow="1606510502" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Soundcaster Sessions\Default Work Unit.wwu" DateLow="1594108850" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\States\Default Work Unit.wwu" DateLow="1606351915" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Switches\Default Work Unit.wwu" DateLow="1594108850" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Triggers\Default Work Unit.wwu" DateLow="1594108850" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\Virtual Acoustics\Default Work Unit.wwu" DateLow="1594108850" DateHigh="0"/>
+</ValidationCache>

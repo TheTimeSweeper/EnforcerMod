@@ -1,0 +1,9 @@
+Event	ID	Name			Wwise Object Path	Notes
+	3855983342	BFG_Division			\Default Work Unit\DLC1\BFG_Division	
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	3673881719	Volume_SFX			\Default Work Unit\Volume_SFX	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	960631325	Doom Eternal - BFG Division [2020 Edition] [Full Track]	C:\Users\Lucas\Documents\WwiseProjects\Enforcer Gang\.cache\Windows\SFX\DLC1\Doom Eternal - BFG Division [2020 Edition] [Full Track]_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\DLC1\Doom Eternal - BFG Division [2020 Edition] [Full Track]		7307288
+

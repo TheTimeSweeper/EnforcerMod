@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="States\PrimaryRifle.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="enforcer" />
     <None Remove="EnforcerBank.bnk" />
     <None Remove="grenadeBundle" />
@@ -18,6 +22,10 @@
     <EmbeddedResource Include="enforcer" />
     <EmbeddedResource Include="EnforcerBank.bnk" />
     <EmbeddedResource Include="NemforcerBank2.bnk" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="States\PrimaryRifle.cs" />
   </ItemGroup>
 
   <ItemGroup>
