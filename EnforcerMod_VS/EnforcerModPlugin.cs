@@ -317,7 +317,7 @@ namespace EnforcerPlugin {
             balancedShieldBash = base.Config.Bind<bool>("07 - Shield Bash", "Balanced Knockback", false, "Applies a cap to knockback so bosses can no longer be thrown around.");
             stupidShieldBash = base.Config.Bind<bool>("07 - Shield Bash", "Ally Knockback", true, "Applies knockback to allies.");
         }
-
+        
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         private void ScepterSetup()
         {
@@ -1141,7 +1141,7 @@ namespace EnforcerPlugin {
 
             Modules.States.AddSkill(typeof(EnforcerMain));
 
-            var stateMachine = bodyComponent.GetComponent<EntityStateMachine>();
+            EntityStateMachine stateMachine = bodyComponent.GetComponent<EntityStateMachine>();
             stateMachine.mainStateType = new SerializableEntityStateType(typeof(EnforcerMain));
 
             CharacterMotor characterMotor = characterPrefab.GetComponent<CharacterMotor>();
@@ -2222,7 +2222,7 @@ namespace EnforcerPlugin {
 
         private SkillDef PrimarySkillDef_SuperShotgun()
         {
-            string desc = "Fire a wall of lead at enemies for <style=cIsDamage>" + SuperShotgun.bulletCount + "x" + 100f * superDamage.Value + "% damage</style>.";
+            string desc = "Fire from a double barrel shotgun for <style=cIsDamage>" + SuperShotgun.bulletCount/2 + "x" + 100f * superDamage.Value + "% damage</style>. While shielded, <style=cIsHealth>fire both barrels at once.</style>";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_NAME", "Super Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION", desc);
@@ -2323,11 +2323,11 @@ namespace EnforcerPlugin {
         private SkillDef SecondarySkillDef_Bash()
         {
             LanguageAPI.Add("KEYWORD_BASH", "<style=cKeywordName>Bash</style><style=cSub>Applies <style=cIsDamage>stun</style> and <style=cIsUtility>heavy knockback</style>.");
-            LanguageAPI.Add("KEYWORD_SPRINTBASH", $"<style=cKeywordName>Shoulder Bash</style><style=cSub>A short charge that <style=cIsDamage>stuns</style>.\nHitting heavier enemies deals <style=cIsDamage>{ShoulderBash.knockbackDamageCoefficient * 100f}% damage</style>.</style>");
+            LanguageAPI.Add("KEYWORD_SPRINTBASH", $"<style=cKeywordName>Shoulder Bash</style><style=cSub><style=cIsUtility>Stunning.</style> A short charge that deals <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage.\nHitting heavier enemies deals <style=cIsDamage>{ShoulderBash.knockbackDamageCoefficient * 100f}% damage</style>.</style>");
 
             //string desc = $"<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style>. <style=cIsUtility>Deflects projectiles</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> for <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}-{100f * ShoulderBash.knockbackDamageCoefficient}% damage</style> instead.";
             string desc = $"<style=cIsDamage>Stunning</style>. Knock back enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style> and <style=cIsUtility>deflect projectiles</style>.";
-            desc += $" Deals <style=cIsDamage>bonus damage</style> while <style=cIsUtility>sprinting</style>.";
+            desc += $"While <style=cIsUtility>sprinting</style>, perform a <style=cIsUtility>Shoulder Bash</Style> instead.";
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", desc);
@@ -2353,7 +2353,8 @@ namespace EnforcerPlugin {
             mySkillDef.skillName = "ENFORCER_SECONDARY_BASH_NAME";
             mySkillDef.skillNameToken = "ENFORCER_SECONDARY_BASH_NAME";
             mySkillDef.keywordTokens = new string[] {
-                "KEYWORD_STUNNING"
+                "KEYWORD_STUNNING",
+                "KEYWORD_SPRINTBASH"
             };
               //"KEYWORD_BASH",
               //"KEYWORD_SPRINTBASH"
