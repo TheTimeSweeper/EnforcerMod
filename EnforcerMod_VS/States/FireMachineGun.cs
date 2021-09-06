@@ -42,6 +42,10 @@ namespace EntityStates.Enforcer
 
         private void FireBullet()
         {
+            if (characterBody.isSprinting)
+            {
+                characterBody.isSprinting = false;
+            }
             characterBody.SetAimTimer(2f);
             duration = FireMachineGun.baseDuration / base.characterBody.attackSpeed * (isShielded ? 0.8f : 1f);
             firingStopwatch = 0f;

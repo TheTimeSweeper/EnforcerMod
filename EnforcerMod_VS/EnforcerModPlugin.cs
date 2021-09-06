@@ -1,8 +1,10 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
+using EnforcerPlugin.Modules;
 using EntityStates;
 using EntityStates.Enforcer;
 using EntityStates.Enforcer.NeutralSpecial;
+using IL.RoR2.ContentManagement;
 using KinematicCharacterController;
 using R2API;
 using R2API.Utils;
@@ -1524,7 +1526,7 @@ namespace EnforcerPlugin {
             shockGrenadeImpact.fireChildren = false;
             shockGrenadeImpact.childrenCount = 0;
             shockGrenadeImpact.bonusBlastForce = -2000f * Vector3.up;
-            shockGrenadeImpact.impactEffect = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/LightningStrikeImpact");
+            shockGrenadeImpact.impactEffect = CreateShockGrenadeEffect();
             shockGrenadeController.procCoefficient = 1;
 
             tearGasProjectilePrefab = Resources.Load<GameObject>("Prefabs/Projectiles/CommandoGrenadeProjectile").InstantiateClone("EnforcerTearGasGrenade", true);
@@ -1810,6 +1812,17 @@ namespace EnforcerPlugin {
             Modules.Effects.AddEffect(blockEffectPrefab, Sounds.ShieldBlockLight);
             Modules.Effects.AddEffect(heavyBlockEffectPrefab, Sounds.ShieldBlockHeavy);
             Modules.Effects.AddEffect(hammerSlamEffect);
+        }
+
+        private GameObject CreateShockGrenadeEffect()
+        {
+            GameObject effect = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("prefabs/effects/lightningstakenova"), "EnforcerShockGrenadeExplosionEffect", false);
+            EffectComponent ec = effect.GetComponent<EffectComponent>();
+            ec.applyScale = true;
+            ec.soundName = "Play_item_use_lighningArm"; //This typo is in the game.
+            Modules.Effects.effectDefs.Add(new EffectDef(effect));
+
+            return effect;
         }
 
         private void CreateCrosshair()
@@ -2178,7 +2191,7 @@ namespace EnforcerPlugin {
         #region skilldefs
         private SkillDef PrimarySkillDef_RiotShotgun()
         {
-            string desc = "Fire a short range <style=cIsUtility>piercing blast</style> for <style=cIsDamage>" + shotgunBulletCount.Value + "x" + 100f * shotgunDamage.Value + "% damage.";
+            string desc = "Fire a short range blast that <style=cIsUtility>pierces</style> for <style=cIsDamage>" + shotgunBulletCount.Value + "x" + 100f * shotgunDamage.Value + "% damage.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_NAME", "Riot Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION", desc);
@@ -2312,7 +2325,9 @@ namespace EnforcerPlugin {
             LanguageAPI.Add("KEYWORD_BASH", "<style=cKeywordName>Bash</style><style=cSub>Applies <style=cIsDamage>stun</style> and <style=cIsUtility>heavy knockback</style>.");
             LanguageAPI.Add("KEYWORD_SPRINTBASH", $"<style=cKeywordName>Shoulder Bash</style><style=cSub>A short charge that <style=cIsDamage>stuns</style>.\nHitting heavier enemies deals <style=cIsDamage>{ShoulderBash.knockbackDamageCoefficient * 100f}% damage</style>.</style>");
 
-            string desc = $"<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style>. <style=cIsUtility>Deflects projectiles</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> for <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}-{100f * ShoulderBash.knockbackDamageCoefficient}% damage</style> instead.";
+            //string desc = $"<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style>. <style=cIsUtility>Deflects projectiles</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> for <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}-{100f * ShoulderBash.knockbackDamageCoefficient}% damage</style> instead.";
+            string desc = $"<style=cIsDamage>Stunning</style>. Knock back enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style> and <style=cIsUtility>deflect projectiles</style>.";
+            desc += $" Deals <style=cIsDamage>bonus damage</style> while <style=cIsUtility>sprinting</style>.";
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", desc);
@@ -2338,9 +2353,10 @@ namespace EnforcerPlugin {
             mySkillDef.skillName = "ENFORCER_SECONDARY_BASH_NAME";
             mySkillDef.skillNameToken = "ENFORCER_SECONDARY_BASH_NAME";
             mySkillDef.keywordTokens = new string[] {
-                "KEYWORD_BASH",
-                "KEYWORD_SPRINTBASH"
+                "KEYWORD_STUNNING"
             };
+              //"KEYWORD_BASH",
+              //"KEYWORD_SPRINTBASH"
 
             return mySkillDef;
         }
@@ -2350,7 +2366,7 @@ namespace EnforcerPlugin {
             LanguageAPI.Add("KEYWORD_BLINDED", "<style=cKeywordName>Impaired</style><style=cSub>Lowers <style=cIsDamage>movement speed</style> by <style=cIsDamage>75%</style>, <style=cIsDamage>attack speed</style> by <style=cIsDamage>25%</style> and <style=cIsHealth>armor</style> by <style=cIsDamage>20</style>.</style></style>");
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_NAME", "Tear Gas");
-            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Launch a grenade that explodes into a cloud of <style=cIsUtility>tear gas</style> that leaves enemies <style=cIsDamage>Impaired</style> and lasts for <style=cIsDamage>16 seconds</style>.");
+            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Toss a grenade that <style=cIsUtility>covers an area in gas</style> for 16 seconds, <style=cIsDamage>Impairing</style> enemies.");
 
             SkillDef tearGasDef = ScriptableObject.CreateInstance<SkillDef>();
             tearGasDef.activationState = new SerializableEntityStateType(typeof(AimTearGas));
@@ -2382,7 +2398,7 @@ namespace EnforcerPlugin {
         private SkillDef UtilitySkillDef_StunGrenade()
         {
             LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_NAME", "Stun Grenade");
-            LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION", "<style=cIsDamage>Stunning</style>. Launch a stun grenade that explodes on impact, dealing <style=cIsDamage>" + 100f * StunGrenade.damageCoefficient + "% damage</style>. <style=cIsUtility>Store up to 3 grenades</style>.");
+            LanguageAPI.Add("ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION", "<style=cIsDamage>Stunning</style>. Launch a grenade that concusses enemies for <style=cIsDamage>" + 100f * StunGrenade.damageCoefficient + "% damage</style>. Hold up to 3.");
 
             SkillDef stunGrenadeDef = ScriptableObject.CreateInstance<SkillDef>();
             stunGrenadeDef.activationState = new SerializableEntityStateType(typeof(StunGrenade));
@@ -2414,7 +2430,7 @@ namespace EnforcerPlugin {
         private SkillDef SpecialSkillDef_ProtectAndServe()
         {
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_NAME", "Protect and Serve");
-            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsHealth>prevents sprinting and jumping</style>.");
+            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases attack speed</style>, but <style=cIsHealth>prevents sprinting and jumping</style>.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(ProtectAndServe));
@@ -2442,7 +2458,7 @@ namespace EnforcerPlugin {
         private SkillDef SpecialSkillDef_ShieldDown()
         {
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDDOWN_NAME", "Protect and Serve");
-            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDDOWN_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsUtility>prevents sprinting and jumping</style>.");
+            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDDOWN_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases attack speed</style>, but <style=cIsHealth>prevents sprinting and jumping</style>.");
 
             SkillDef mySkillDef2 = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef2.activationState = new SerializableEntityStateType(typeof(ProtectAndServe));
@@ -2588,7 +2604,7 @@ namespace EnforcerPlugin {
             Modules.States.AddSkill(typeof(AimDamageGas));
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_NAME", "Mustard Gas");
-            LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_DESCRIPTION", "Launch a grenade that explodes into a cloud of <style=cIsDamage>mustard gas</style> that leaves enemies <style=cIsDamage>Impaired</style>, deals <style=cIsDamage>200% damage per second</style> and lasts for <style=cIsDamage>16 seconds</style>.");
+            LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_DESCRIPTION", "Toss a grenade that <style=cIsDamage>covers an area in gas</style> for 16 seconds, <style=cIsDamage>Impairing</style> enemies for <style=cIsDamage>200% damage per second</style>.");
 
             tearGasScepterDef = ScriptableObject.CreateInstance<SkillDef>();
             tearGasScepterDef.activationState = new SerializableEntityStateType(typeof(AimDamageGas));
@@ -2619,7 +2635,7 @@ namespace EnforcerPlugin {
             Modules.States.AddSkill(typeof(ShockGrenade));
 
             LanguageAPI.Add("ENFORCER_UTILITY_SHOCKGRENADE_NAME", "Shock Grenade");
-            LanguageAPI.Add("ENFORCER_UTILITY_SHOCKGRENADE_DESCRIPTION", "<style=cIsDamage>Shocking</style>. Launch a shock grenade that releases a pulse of electrical energy on impact, dealing <style=cIsDamage>" + 100f * ShockGrenade.damageCoefficient + "% damage</style>. <style=cIsUtility>Store up to 3 grenades</style>.");
+            LanguageAPI.Add("ENFORCER_UTILITY_SHOCKGRENADE_DESCRIPTION", "<style=cIsDamage>Shocking</style>. Launch a grenade that electrocutes enemies for <style=cIsDamage>" + 100f * ShockGrenade.damageCoefficient + "% damage</style>. Hold up to 3.");
 
             shockGrenadeDef = ScriptableObject.CreateInstance<SkillDef>();
             shockGrenadeDef.activationState = new SerializableEntityStateType(typeof(ShockGrenade));

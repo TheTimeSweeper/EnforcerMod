@@ -74,9 +74,7 @@ namespace EntityStates.Enforcer
     {
         public static float baseDuration = 0.5f;
         public static float damageCoefficient = 7.2f;
-        public static float procCoefficient = 1f;
         public static float bulletRecoil = 2.5f;
-        public static float projectileSpeed = 75f;
 
         //TODO: why did fucking "grenademuzzle" break here but not in the others?
         public static string muzzleString = "Muzzle";
@@ -130,13 +128,13 @@ namespace EntityStates.Enforcer
                     damageTypeOverride = DamageType.Shock5s,
                     force = 0f,
                     owner = base.gameObject,
-                    position = aimRay.origin,
+                    position = aimRay.origin + StunGrenade.projectileOffset,
                     procChainMask = default(ProcChainMask),
                     projectilePrefab = EnforcerPlugin.EnforcerModPlugin.shockGrenade,
                     rotation = RoR2.Util.QuaternionSafeLookRotation(aimRay.direction + aimTweak * 0.08f),
                     useFuseOverride = false,
                     useSpeedOverride = true,
-                    speedOverride = ShockGrenade.projectileSpeed,
+                    speedOverride = StunGrenade.projectileSpeed,
                     target = null
                 };
                 ProjectileManager.instance.FireProjectile(info);
