@@ -97,6 +97,7 @@ namespace EntityStates.Enforcer
 
                 if (shieldLocked && base.skillLocator.special && base.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDDOWN_NAME")
                 {
+                    shieldLocked = false;
                     base.skillLocator.special.enabled = true;
                     base.skillLocator.special.stock = 1;
                 }
@@ -137,6 +138,7 @@ namespace EntityStates.Enforcer
         {
             if (shieldLocked && base.skillLocator.special && base.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDDOWN_NAME")
             {
+                shieldLocked = false;
                 base.skillLocator.special.enabled = true;
                 base.skillLocator.special.stock = 1;
             }
