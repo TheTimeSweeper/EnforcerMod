@@ -2323,11 +2323,12 @@ namespace EnforcerPlugin {
         private SkillDef SecondarySkillDef_Bash()
         {
             LanguageAPI.Add("KEYWORD_BASH", "<style=cKeywordName>Bash</style><style=cSub>Applies <style=cIsDamage>stun</style> and <style=cIsUtility>heavy knockback</style>.");
-            LanguageAPI.Add("KEYWORD_SPRINTBASH", $"<style=cKeywordName>Shoulder Bash</style><style=cSub><style=cIsUtility>Stunning.</style> A short charge that deals <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage.\nHitting heavier enemies deals <style=cIsDamage>{ShoulderBash.knockbackDamageCoefficient * 100f}% damage</style>.</style>");
+            LanguageAPI.Add("KEYWORD_SPRINTBASH", $"<style=cKeywordName>Shoulder Bash</style><style=cSub><style=cIsDamage>Stunning.</style> A short charge that deals <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage.\nHitting heavier enemies deals <style=cIsDamage>{ShoulderBash.knockbackDamageCoefficient * 100f}% damage</style>.</style>");
 
             //string desc = $"<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style>. <style=cIsUtility>Deflects projectiles</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> for <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}-{100f * ShoulderBash.knockbackDamageCoefficient}% damage</style> instead.";
             string desc = $"<style=cIsDamage>Stunning</style>. Knock back enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style> and <style=cIsUtility>deflect projectiles</style>.";
-            desc += $" While <style=cIsUtility>sprinting</style>, perform a <style=cIsUtility>Shoulder Bash</Style> instead.";
+            //desc += $" While <style=cIsUtility>sprinting</style>, perform a <style=cIsUtility>Shoulder Bash</style> instead.";
+            desc += $" Deals <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage</style> while sprinting.";
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", desc);
@@ -2353,8 +2354,7 @@ namespace EnforcerPlugin {
             mySkillDef.skillName = "ENFORCER_SECONDARY_BASH_NAME";
             mySkillDef.skillNameToken = "ENFORCER_SECONDARY_BASH_NAME";
             mySkillDef.keywordTokens = new string[] {
-                "KEYWORD_STUNNING",
-                "KEYWORD_SPRINTBASH"
+                "KEYWORD_STUNNING"
             };
               //"KEYWORD_BASH",
               //"KEYWORD_SPRINTBASH"

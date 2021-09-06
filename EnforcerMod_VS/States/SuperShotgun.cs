@@ -34,12 +34,13 @@ namespace EntityStates.Enforcer
 
         private Animator animator;
         private string muzzleString;
+        private bool shieldLocked;
 
         public override void OnEnter()
         {
 
             base.OnEnter();
-
+            shieldLocked = false;
             this.finishedReload = false;
             buttonReleased = false;
 
@@ -93,6 +94,12 @@ namespace EntityStates.Enforcer
                 EnforcerWeaponComponent poopy = base.GetComponent<EnforcerWeaponComponent>();
                 poopy.DropShell(-base.GetModelBaseTransform().transform.right * -Random.Range(6, 16));
                 poopy.DropShell(-base.GetModelBaseTransform().transform.right * -Random.Range(6, 16));
+
+                if (shieldLocked && base.skillLocator.special && base.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDDOWN_NAME")
+                {
+                    base.skillLocator.special.enabled = true;
+                    base.skillLocator.special.stock = 1;
+                }
             }
 
             if (isAuthority)
@@ -117,8 +124,9 @@ namespace EntityStates.Enforcer
                 }
                 
                 //Lock stance change when firing while shielded
-                if (isShielded && base.skillLocator.special && base.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDDOWN_NAME")
+                if (!shieldLocked && isShielded && base.skillLocator.special && base.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDDOWN_NAME")
                 {
+                    shieldLocked = true;
                     base.skillLocator.special.enabled = false;
                     base.skillLocator.special.stock = 0;
                 }
@@ -127,7 +135,7 @@ namespace EntityStates.Enforcer
 
         public override void OnExit()
         {
-            if (isShielded && base.skillLocator.special && base.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDDOWN_NAME")
+            if (shieldLocked && base.skillLocator.special && base.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDDOWN_NAME")
             {
                 base.skillLocator.special.enabled = true;
                 base.skillLocator.special.stock = 1;
