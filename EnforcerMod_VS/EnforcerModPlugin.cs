@@ -121,6 +121,7 @@ namespace EnforcerPlugin {
         public static ConfigEntry<bool> sirenOnDeflect;
         public static ConfigEntry<bool> useNeedlerCrosshair;
         public static ConfigEntry<bool> cursed;
+        public static ConfigEntry<bool> hateFun;
         //public static ConfigEntry<bool> femSkin;
         public static ConfigEntry<bool> shellSounds;
         public static ConfigEntry<bool> globalInvasion;
@@ -265,25 +266,26 @@ namespace EnforcerPlugin {
         }
 
         private void ConfigShit() {
-            forceUnlock = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Force Unlock"), false, new ConfigDescription("Makes Enforcer unlocked by default", null, Array.Empty<object>()));
-            classicShotgun = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Classic Shotgun"), false, new ConfigDescription("Use RoR1 shotgun sound", null, Array.Empty<object>()));
-            classicIcons = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Classic Icons"), false, new ConfigDescription("Use RoR1 skill icons", null, Array.Empty<object>()));
-            headSize = base.Config.Bind<float>(new ConfigDefinition("01 - General Settings", "Head Size"), 1f, new ConfigDescription("Changes the size of Enforcer's head", null, Array.Empty<object>()));
-            sprintShieldCancel = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Sprint Cancels Shield"), true, new ConfigDescription("Allows Protect and Serve to be cancelled by pressing sprint rather than special again", null, Array.Empty<object>()));
-            sirenOnDeflect = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Siren on Deflect"), true, new ConfigDescription("Play siren sound upon deflecting a projectile", null, Array.Empty<object>()));
-            useNeedlerCrosshair = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Visions Crosshair"), true, new ConfigDescription("Gives every survivor the custom crosshair for Visions of Heresy", null, Array.Empty<object>()));
-            cursed = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Cursed"), false, new ConfigDescription("Enables extra/unfinished content. Enable at own risk.", null, Array.Empty<object>()));
-            //femSkin = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Femforcer"), false, new ConfigDescription("Enables femforcer skin. Not for good boys and girls.", null, Array.Empty<object>()));
-            shellSounds = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Shell Sounds"), true, new ConfigDescription("Play a sound when ejected shotgun shells hit the ground", null, Array.Empty<object>()));
-            globalInvasion = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Global Invasion"), false, new ConfigDescription("Allows invasions when playing any character, not just Enforcer. Purely for fun.", null, Array.Empty<object>()));
-            multipleInvasions = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "Multiple Invasion Bosses"), false, new ConfigDescription("Allows multiple bosses to spawn from an invasion.", null, Array.Empty<object>()));
-            kingDededeBoss = base.Config.Bind<bool>(new ConfigDefinition("01 - General Settings", "King Dedede Boss"), false, new ConfigDescription("Adds a King Dedede boss that spawns on Sky Meadow and post-loop Titanic Plains."));
+            forceUnlock = base.Config.Bind<bool>("01 - General Settings", "Force Unlock", false, "Makes Enforcer unlocked by default");
+            classicShotgun = base.Config.Bind<bool>("01 - General Settings", "Classic Shotgun", false, "Use RoR1 shotgun sound");
+            classicIcons = base.Config.Bind<bool>("01 - General Settings", "Classic Icons", false, "Use RoR1 skill icons");
+            headSize = base.Config.Bind<float>("01 - General Settings", "Head Size", 1f, "Changes the size of Enforcer's head");
+            sprintShieldCancel = base.Config.Bind<bool>("01 - General Settings", "Sprint Cancels Shield", true, "Allows Protect and Serve to be cancelled by pressing sprint rather than special again");
+            sirenOnDeflect = base.Config.Bind<bool>("01 - General Settings", "Siren on Deflect", true, "Play siren sound upon deflecting a projectile");
+            useNeedlerCrosshair = base.Config.Bind<bool>("01 - General Settings", "Visions Crosshair", true, "Gives every survivor the custom crosshair for Visions of Heresy");
+            cursed = base.Config.Bind<bool>("01 - General Settings", "Cursed", false, "Enables extra/unfinished content. Enable at own risk.");
+            //hateFun = base.Config.Bind<bool>("01 - General Settings", "I hate fun", false, "Overrides cursed. Further disables some extra content, namely skins and their achievements");
+            //femSkin = base.Config.Bind<bool>("01 - General Settings", "Femforcer", false, "Enables femforcer skin. Not for good boys and girls.");
+            shellSounds = base.Config.Bind<bool>("01 - General Settings", "Shell Sounds", true, "Play a sound when ejected shotgun shells hit the ground");
+            globalInvasion = base.Config.Bind<bool>("01 - General Settings", "Global Invasion", false, "Allows invasions when playing any character, not just Enforcer. Purely for fun.");
+            multipleInvasions = base.Config.Bind<bool>("01 - General Settings", "Multiple Invasion Bosses", false, "Allows multiple bosses to spawn from an invasion.");
+            kingDededeBoss = base.Config.Bind<bool>("01 - General Settings", "King Dedede Boss", false, "Adds a King Dedede boss that spawns on Sky Meadow and post-loop Titanic Plains.");
 
-            defaultDanceKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Default Dance"), KeyCode.Alpha1, new ConfigDescription("Key used to Default Dance", null, Array.Empty<object>()));
-            flossKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Floss"), KeyCode.Alpha2, new ConfigDescription("Key used to Floss", null, Array.Empty<object>()));
-            earlKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Earl Run"), KeyCode.Alpha3, new ConfigDescription("Key used to FLINT LOCKWOOD", null, Array.Empty<object>()));
-            sirensKey = base.Config.Bind<KeyCode>(new ConfigDefinition("02 - Keybinds", "Sirens"), KeyCode.CapsLock, new ConfigDescription("Key used to toggle sirens", null, Array.Empty<object>()));
-            
+            defaultDanceKey = base.Config.Bind<KeyCode>("02 - Keybinds", "Default Dance", KeyCode.Alpha1, "Key used to Chair");
+            flossKey = base.Config.Bind<KeyCode>("02 - Keybinds", "Floss", KeyCode.Alpha2, "Key used to Salute");
+            earlKey = base.Config.Bind<KeyCode>("02 - Keybinds", "Earl Run", KeyCode.Alpha3, "FLINT LOCKWOOD (when it works again)");
+            sirensKey = base.Config.Bind<KeyCode>("02 - Keybinds", "Sirens", KeyCode.CapsLock, "Key used to toggle sirens");
+
             baseHealth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Health"), 160f, new ConfigDescription("", null, Array.Empty<object>()));
             healthGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Health Growth"), 48f, new ConfigDescription("", null, Array.Empty<object>()));
             baseRegen = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Health Regen"), 1f, new ConfigDescription("", null, Array.Empty<object>()));
@@ -295,27 +297,27 @@ namespace EnforcerPlugin {
             baseMovementSpeed = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Movement Speed"), 7f, new ConfigDescription("", null, Array.Empty<object>()));
             baseCrit = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Crit"), 1f, new ConfigDescription("", null, Array.Empty<object>()));
 
-            shotgunDamage = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Damage Coefficient"), 0.5f, new ConfigDescription("Damage of each pellet", null, Array.Empty<object>()));
-            shotgunProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Proc Coefficient"), 0.5f, new ConfigDescription("Proc Coefficient of each pellet", null, Array.Empty<object>()));
-            shotgunBulletCount = base.Config.Bind<int>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Bullet Count"), 8, new ConfigDescription("Amount of pellets fired", null, Array.Empty<object>()));
-            shotgunRange = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Range"), 64f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
-            shotgunSpread = base.Config.Bind<float>(new ConfigDefinition("04 - Riot Shotgun 3.0.6", "Max Spread"), 6f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));
+            shotgunDamage = base.Config.Bind<float>("04 - Riot Shotgun", "Damage Coefficient", 0.5f, "Damage of each pellet");
+            shotgunProcCoefficient = base.Config.Bind<float>("04 - Riot Shotgun", "Proc Coefficient", 0.5f, "Proc Coefficient of each pellet");
+            shotgunBulletCount = base.Config.Bind<int>("04 - Riot Shotgun", "Bullet Count", 8, "Amount of pellets fired");
+            shotgunRange = base.Config.Bind<float>("04 - Riot Shotgun", "Range", 64f, "Maximum range");
+            shotgunSpread = base.Config.Bind<float>("04 - Riot Shotgun", "Spread", 6f, "Maximum spread");
+
+            superDamage = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Damage Coefficient", 0.8f, "Damage of each pellet");
+            superSpread = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Max Spread", 6f, "your cheeks");
+            superDuration = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Duration", 2f, $"duration of attack (i.e. attack speed)\nnote, shielded attack duration is this x 0.75f");
+            superBeef = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "beef", 0.4f, "movement stop while shooting in shield. cannot go lower than 0.2 because I say so");
 
             /*rifleDamage = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Damage Coefficient"), 0.85f, new ConfigDescription("Damage of each bullet", null, Array.Empty<object>()));
             rifleProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Proc Coefficient"), 0.75f, new ConfigDescription("Proc Coefficient of each bullet", null, Array.Empty<object>()));
             rifleBaseBulletCount = base.Config.Bind<int>(new ConfigDefinition("05 - Assault Rifle", "Base Bullet Count"), 3, new ConfigDescription("Bullets fired with each shot", null, Array.Empty<object>()));
             rifleRange = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Range"), 256f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
             rifleSpread = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Spread"), 5f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));*/
-            
-            superDamage = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Damage Coefficient", 0.8f, "Damage of each pellet");
-            superSpread = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Max Spread", 6f, "your cheeks");
-            superDuration = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Duration", 2f, $"duration of attack (i.e. attack speed)\nnote, shielded attack duration is this x 0.75f");
-            superBeef = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "beef", 0.4f, "movement stop while shooting in shield. cannot go lower than 0.2 because I say so");
-            
-            balancedShieldBash = base.Config.Bind<bool>(new ConfigDefinition("07 - Shield Bash", "Balanced Knockback"), false, new ConfigDescription("Applies a cap to knockback so bosses can no longer be thrown around.", null, Array.Empty<object>()));
-            stupidShieldBash = base.Config.Bind<bool>(new ConfigDefinition("07 - Shield Bash", "Ally Knockback"), true, new ConfigDescription("Applies knockback to allies.", null, Array.Empty<object>()));
-        }
 
+            balancedShieldBash = base.Config.Bind<bool>("07 - Shield Bash", "Balanced Knockback", false, "Applies a cap to knockback so bosses can no longer be thrown around.");
+            stupidShieldBash = base.Config.Bind<bool>("07 - Shield Bash", "Ally Knockback", true, "Applies knockback to allies.");
+        }
+        
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         private void ScepterSetup()
         {
@@ -1139,7 +1141,7 @@ namespace EnforcerPlugin {
 
             Modules.States.AddSkill(typeof(EnforcerMain));
 
-            var stateMachine = bodyComponent.GetComponent<EntityStateMachine>();
+            EntityStateMachine stateMachine = bodyComponent.GetComponent<EntityStateMachine>();
             stateMachine.mainStateType = new SerializableEntityStateType(typeof(EnforcerMain));
 
             CharacterMotor characterMotor = characterPrefab.GetComponent<CharacterMotor>();
@@ -2097,7 +2099,7 @@ namespace EnforcerPlugin {
             SkillFamily.Variant primaryVariant1 = Modules.Skills.SetupSkillVariant(primaryDef1);
 
             SkillDef primaryDef2 = PrimarySkillDef_SuperShotgun();
-            Modules.Skills.RegisterSkillDef(primaryDef2, typeof(SuperShotgun));
+            Modules.Skills.RegisterSkillDef(primaryDef2, typeof(SuperShotgun2));
             SkillFamily.Variant primaryVariant2 = Modules.Skills.SetupSkillVariant(primaryDef2, EnforcerUnlockables.enforcerDoomUnlockableDef);
 
             SkillDef primaryDef3 = PrimarySkillDef_AssaultRifle();
@@ -2220,13 +2222,13 @@ namespace EnforcerPlugin {
 
         private SkillDef PrimarySkillDef_SuperShotgun()
         {
-            string desc = "Fire a wall of lead at enemies for <style=cIsDamage>" + SuperShotgun.bulletCount + "x" + 100f * superDamage.Value + "% damage</style>.";
+            string desc = "Fire up to 2 shotgun blasts for <style=cIsDamage>" + SuperShotgun2.bulletCount/2 + "x" + 100f * superDamage.Value + "% damage</style>. Using Protect and Serve makes it fire <style=cIsDamage>both barrels</style> at once.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_NAME", "Super Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION", desc);
 
             SkillDef skillDefSuperShotgun = ScriptableObject.CreateInstance<SkillDef>();
-            skillDefSuperShotgun.activationState = new SerializableEntityStateType(typeof(SuperShotgun));
+            skillDefSuperShotgun.activationState = new SerializableEntityStateType(typeof(SuperShotgun2));
             skillDefSuperShotgun.activationStateMachineName = "Weapon";
             skillDefSuperShotgun.baseMaxStock = 1;
             skillDefSuperShotgun.baseRechargeInterval = 0f;
@@ -2255,7 +2257,7 @@ namespace EnforcerPlugin {
             //string desc = $"Fire a burst of bullets dealing {damage}. <style=cIsUtility>During Protect and Serve</style>, fires <style=cIsDamage>{2 * FireBurstRifle.projectileCount} bullets</style> instead.";
 
             string damage = $"<style=cIsDamage>{100f * FireMachineGun.damageCoefficient}% damage</style>";
-            string desc = $"Unload a barrage of bullets into enemies for {damage}. While shielded, <style=cIsHealth>slow yourself down</style>.";
+            string desc = $"Unload a barrage of bullets into enemies for {damage}. Using Protect and Serve <style=cIsDamage>increases accuracy</style> but <style=cIsHealth>slows movement speed</style>.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_NAME", "Heavy Machinegun");
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_DESCRIPTION", desc);
@@ -2321,11 +2323,11 @@ namespace EnforcerPlugin {
         private SkillDef SecondarySkillDef_Bash()
         {
             LanguageAPI.Add("KEYWORD_BASH", "<style=cKeywordName>Bash</style><style=cSub>Applies <style=cIsDamage>stun</style> and <style=cIsUtility>heavy knockback</style>.");
-            LanguageAPI.Add("KEYWORD_SPRINTBASH", $"<style=cKeywordName>Shoulder Bash</style><style=cSub>A short charge that <style=cIsDamage>stuns</style>.\nHitting heavier enemies deals <style=cIsDamage>{ShoulderBash.knockbackDamageCoefficient * 100f}% damage</style>.</style>");
+            LanguageAPI.Add("KEYWORD_SPRINTBASH", $"<style=cKeywordName>Shoulder Bash</style><style=cSub><style=cIsUtility>Stunning.</style> A short charge that deals <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage.\nHitting heavier enemies deals <style=cIsDamage>{ShoulderBash.knockbackDamageCoefficient * 100f}% damage</style>.</style>");
 
             //string desc = $"<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style>. <style=cIsUtility>Deflects projectiles</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> for <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}-{100f * ShoulderBash.knockbackDamageCoefficient}% damage</style> instead.";
             string desc = $"<style=cIsDamage>Stunning</style>. Knock back enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style> and <style=cIsUtility>deflect projectiles</style>.";
-            desc += $" Deals <style=cIsDamage>bonus damage</style> while <style=cIsUtility>sprinting</style>.";
+            desc += $" While <style=cIsUtility>sprinting</style>, perform a <style=cIsUtility>Shoulder Bash</Style> instead.";
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", desc);
@@ -2351,7 +2353,8 @@ namespace EnforcerPlugin {
             mySkillDef.skillName = "ENFORCER_SECONDARY_BASH_NAME";
             mySkillDef.skillNameToken = "ENFORCER_SECONDARY_BASH_NAME";
             mySkillDef.keywordTokens = new string[] {
-                "KEYWORD_STUNNING"
+                "KEYWORD_STUNNING",
+                "KEYWORD_SPRINTBASH"
             };
               //"KEYWORD_BASH",
               //"KEYWORD_SPRINTBASH"
@@ -2364,7 +2367,7 @@ namespace EnforcerPlugin {
             LanguageAPI.Add("KEYWORD_BLINDED", "<style=cKeywordName>Impaired</style><style=cSub>Lowers <style=cIsDamage>movement speed</style> by <style=cIsDamage>75%</style>, <style=cIsDamage>attack speed</style> by <style=cIsDamage>25%</style> and <style=cIsHealth>armor</style> by <style=cIsDamage>20</style>.</style></style>");
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_NAME", "Tear Gas");
-            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Toss a grenade that <style=cIsUtility>covers an area in gas</style> for 16 seconds, <style=cIsDamage>Impairing</style> enemies.");
+            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Toss a grenade that covers an area in <style=cIsDamage>Impairing</style> gas.");
 
             SkillDef tearGasDef = ScriptableObject.CreateInstance<SkillDef>();
             tearGasDef.activationState = new SerializableEntityStateType(typeof(AimTearGas));
@@ -2602,7 +2605,7 @@ namespace EnforcerPlugin {
             Modules.States.AddSkill(typeof(AimDamageGas));
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_NAME", "Mustard Gas");
-            LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_DESCRIPTION", "Toss a grenade that <style=cIsDamage>covers an area in gas</style> for 16 seconds, <style=cIsDamage>Impairing</style> enemies for <style=cIsDamage>200% damage per second</style>.");
+            LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_DESCRIPTION", "Toss a grenade that covers an area in <style=cIsDamage>Impairing</style> gas, choking enemies for <style=cIsDamage>200% damage per second</style>.");
 
             tearGasScepterDef = ScriptableObject.CreateInstance<SkillDef>();
             tearGasScepterDef.activationState = new SerializableEntityStateType(typeof(AimDamageGas));
@@ -2874,6 +2877,8 @@ namespace EnforcerPlugin {
         public static readonly string FireSuperShotgun = "Super_Shotgun";
         public static readonly string FireSuperShotgunCrit = "Super_Shotgun_crit";
         public static readonly string FireSuperShotgunDOOM = "Doom_2_Super_Shotgun";
+        public static readonly string FireSuperShotgunSingle = "Play_SSG_single";
+        public static readonly string FireSuperShotgunSingleCrit = "Play_SSG_single_crit";
 
         public static readonly string FireAssaultRifleSlow = "Assault_Shots_1";
         public static readonly string FireAssaultRifleFast = "Assault_Shots_2";

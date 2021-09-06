@@ -99,6 +99,8 @@
 				<Event Id="2887027346" Name="Play_RiotShotgun_shoot" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Play_RiotShotgun_shoot"/>
 				<Event Id="3555953518" Name="Play_se_dedede_hammer_swing_m" ObjectPath="\Events\Default Work Unit\Nemforcer\M1\Play_se_dedede_hammer_swing_m"/>
 				<Event Id="2650257043" Name="Play_Siren_Reflect" ObjectPath="\Events\Default Work Unit\Enforcer\Play_Siren_Reflect"/>
+				<Event Id="2241718446" Name="Play_SSG_single" ObjectPath="\Events\Default Work Unit\Enforcer\Play_SSG_single"/>
+				<Event Id="2553351909" Name="Play_SSG_single_crit" ObjectPath="\Events\Default Work Unit\Enforcer\Play_SSG_single_crit"/>
 				<Event Id="3150972076" Name="R_down" ObjectPath="\Events\Default Work Unit\Enforcer\Shield\R_down"/>
 				<Event Id="2438578215" Name="R_up" ObjectPath="\Events\Default Work Unit\Enforcer\Shield\R_up"/>
 				<Event Id="3469448243" Name="rollconcrete02" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\rollconcrete02"/>
@@ -509,6 +511,10 @@
 					<ShortName>Police Siren Spawn.wav</ShortName>
 					<Path>SFX\Police Siren Spawn_030CF4A9.wem</Path>
 				</File>
+				<File Id="948410475" Language="SFX">
+					<ShortName>double_shotgun_single_crit.wav</ShortName>
+					<Path>SFX\double_shotgun_single_crit_030CF4A9.wem</Path>
+				</File>
 				<File Id="949829171" Language="SFX">
 					<ShortName>Skateboard\HUD_specialtrickAA.wav</ShortName>
 					<Path>SFX\Skateboard\HUD_specialtrickAA_030CF4A9.wem</Path>
@@ -548,6 +554,10 @@
 				<File Id="1018300447" Language="SFX">
 					<ShortName>Stun Explosion 1.wav</ShortName>
 					<Path>SFX\Stun Explosion 1_030CF4A9.wem</Path>
+				</File>
+				<File Id="1019059826" Language="SFX">
+					<ShortName>double_shotgun_single.wav</ShortName>
+					<Path>SFX\double_shotgun_single_030CF4A9.wem</Path>
 				</File>
 				<File Id="1023427158" Language="SFX">
 					<ShortName>Skateboard\grindmetal03.wav</ShortName>

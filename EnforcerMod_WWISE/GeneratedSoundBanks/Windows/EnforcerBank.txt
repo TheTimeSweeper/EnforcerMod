@@ -36,6 +36,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	2143910239	Bungus_SSg			\Default Work Unit\Enforcer\Shotgun\Bungus_SSg	
 	2180338704	Play_minigun_wind_up			\Default Work Unit\Nemforcer\Ult\Play_minigun_wind_up	
 	2192566873	HUD_specialtrick			\Default Work Unit\Enforcer\Skateboard\Hud\HUD_specialtrick	
+	2241718446	Play_SSG_single			\Default Work Unit\Enforcer\Play_SSG_single	
 	2426906471	Blaster_Rifle			\Default Work Unit\Enforcer\Assault Rifle\Blaster_Rifle	
 	2438578215	R_up			\Default Work Unit\Enforcer\Shield\R_up	
 	2471307335	Play_minigun_wind_down			\Default Work Unit\Nemforcer\Ult\Play_minigun_wind_down	
@@ -43,6 +44,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	2548270042	Landing			\Default Work Unit\Enforcer\Skateboard\Landing	
 	2548319507	Shotgun_shot_crit			\Default Work Unit\Enforcer\Shotgun\Shotgun_shot_crit	
 	2550449408	Bash_Hit_Enemy			\Default Work Unit\Enforcer\Bash\Bash_Hit_Enemy	
+	2553351909	Play_SSG_single_crit			\Default Work Unit\Enforcer\Play_SSG_single_crit	
 	2573890018	Play_chargeStart			\Default Work Unit\Nemforcer\M2\Play_chargeStart	
 	2599124241	Play_RiotShotgun_crit			\Default Work Unit\Enforcer\Shotgun\Play_RiotShotgun_crit	
 	2610236448	Super_Shotgun_crit			\Default Work Unit\Enforcer\Shotgun\Super_Shotgun_crit	
@@ -115,7 +117,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	177245763	MinigunSheathe	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\MinigunSheathe_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Nemforcer\Ult\MinigunSheathe		11613
 	181124531	shotgun2	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\shotgun2_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Shotgun\v2\shotgun2		28526
 	202275642	police death siren	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\police death siren_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Sirens\police death siren		30278
-	212233180	Doom 2 Super Shotgun	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Doom 2 Super Shotgun_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Shotgun\Doom 2 Super Shotgun		12305
+	212233180	Doom 2 Super Shotgun	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Doom 2 Super Shotgun_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Shotgun\SSG\Doom 2 Super Shotgun		12305
 	212422922	Bash Deflect light hit 6	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 6_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Shield Blocking\Block Light\Bash Deflect light hit 6		4473
 	221782282	Default Dance	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Fortnite default dance sound_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Emotes\Default Dance		145337
 	227158378	minigun_shoot_crit	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\minigun_shoot_crit_138B9027.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Nemforcer\Ult\Minigun Shoot\minigun_shoot_crit		102312
@@ -131,7 +133,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	306254288	HUD_jumpgap	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Skateboard\HUD_jumpgap_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Skateboard\Hud\HUD_jumpgap		8515
 	309218343	Shoulder Bash 1	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Shoulder Bash\Shoulder Bash 1_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Bash\Shoulder Bash Hit\Shoulder Bash 1		7526
 	315505764	se_dedede_hammer_swing_m	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\se_dedede_hammer_swing_m_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Nemforcer\M1\se_dedede_hammer_swing_m		6853
-	322194405	Super Shotgun crit	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Super Shotgun crit_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Shotgun\Super Shotgun crit		41702
+	322194405	Super Shotgun crit	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Super Shotgun crit_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Shotgun\SSG\Super Shotgun crit		41702
 	323850625	Bungus AR	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Bungus AR_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Assault Rifle\Bungus AR		7883
 	326807822	Siren loop	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Siren loop_138B9027.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Sirens\Siren Loops\Siren loop		6914
 	331487414	HammerswingNewL2	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\HammerswingNewL2_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Nemforcer\M1\HammerswingNewL\HammerswingNewL2		15901
@@ -161,7 +163,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	515027859	Croak siren	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Croak siren_138B9027.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Sirens\Croak siren		32669
 	519303745	croak select	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\croak select_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\croak select		30288
 	522079253	Bash hit enemy	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Bash hit enemy_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Bash\Bash hit enemy		8357
-	553537820	Super Shotgun	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Super Shotgun_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Shotgun\Super Shotgun		34472
+	553537820	Super Shotgun	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Super Shotgun_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Shotgun\SSG\Super Shotgun		34472
 	573479036	Orange Justice	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Orange Justice_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Emotes\Orange Justice		431265
 	581708149	Shoulder Bash 4	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Shoulder Bash\Shoulder Bash 4_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Bash\Shoulder Bash Hit\Shoulder Bash 4		11253
 	596441432	Energy R down	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Energy R down_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Shield\Energy R down		11639
@@ -191,6 +193,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	900091441	m203 Gas	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\m203 Gas_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Grenades\m203 Gas		8023
 	929897034	dedede_hammer_attack_m	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\se_dedede_hammer_attack_m_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Nemforcer\M1\dedede_hammer_attack_m		4236
 	938658609	Police Siren Spawn	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Police Siren Spawn_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Sirens\Police Siren Spawn		16506
+	948410475	double_shotgun_single_crit	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\double_shotgun_single_crit_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Shotgun\SSG\double_shotgun_single_crit		58602
 	949829171	HUD_specialtrick	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Skateboard\HUD_specialtrickAA_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Skateboard\Hud\HUD_specialtrick		15246
 	951359654	NemSwingSecondary	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\NemSwingSecondary_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Nemforcer\M2\NemSwingSecondary		9037
 	951465725	chargeMax	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\chargeMax_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Nemforcer\M2\chargeMax		13788
@@ -201,6 +204,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	1015415358	siren loop spawn	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\siren loop spawn_138B9027.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Sirens\Siren Loops\siren loop spawn		24045
 	1016044949	HammerSlamS	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\HammerSlamS_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Nemforcer\M2\HammerSlamS		17537
 	1018300447	Stun Explosion 1	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Stun Explosion 1_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Grenades\Stun Explosion 1		12188
+	1019059826	double_shotgun_single	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\double_shotgun_single_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Shotgun\SSG\double_shotgun_single		48346
 	1023427158	grindmetal03	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Skateboard\grindmetal03_138B9027.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Skateboard\grindmetal03		22206
 	1041197163	Heavy Swing 1	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Heavy Swing\Heavy Swing 1_030CF4A9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Nemforcer\M1\Heavy Swing\Heavy Swing 1		3464
 	1041263716	Gas Sound	C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\SFX\Gas Sound_138B9027.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX Mixxer\Enforcer\Grenades\Gas Sound		42519

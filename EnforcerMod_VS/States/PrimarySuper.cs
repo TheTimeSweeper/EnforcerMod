@@ -6,51 +6,97 @@ using EntityStates.Enforcer.NeutralSpecial;
 namespace EntityStates.Enforcer {
     public class SuperShotgun : RiotShotgun
     {
+        public enum shotType {
+            NONE,
+            BARREL_1,
+            BARREL_2,
+            SHIELD_SUPER,
+        }
+
         public new float damageCoefficient = EnforcerModPlugin.superDamage.Value;
         public new float procCoefficient = 0.75f;
         public new float beefDurationNoShield = 0.15f;
-        public new float beefDurationShield { 
+        public new float beefDurationShield { // 0.4f
             get {
                 return Mathf.Max(EnforcerModPlugin.superBeef.Value, 0.2f); //fuck you lol
             } 
         }
+
         public static float bulletForce = 100f;
-        public static int bulletCount = 15;
-        public new float bulletSpread = EnforcerModPlugin.superSpread.Value;// 21f;
-        public new float baseDuration = EnforcerModPlugin.superDuration.Value;// 2f;
-        public new float baseShieldDuration;// = 1.5f;
+        public static int bulletCount = 16;
+        public new float bulletSpread = EnforcerModPlugin.superSpread.Value;// 6f
+
+        public static float durationBaseMeasure = EnforcerModPlugin.superDuration.Value / 2;
+        public new float baseShieldDuration = durationBaseMeasure * 2;// = 2
+        public new float baseDuration = durationBaseMeasure * 1.5f;
+        public float shot1InterruptibleDuration = durationBaseMeasure * 1; //fuck you config and fuck me for doing it
+
+
+        public shotType currentShot {
+            get => outer.GetComponent<ShieldComponent>().currentShot;
+            set => outer.GetComponent<ShieldComponent>().currentShot = value;
+        }
+        //do statics work in entitystates?
 
         private bool droppedShell;
 
+        //my shot differentiating code has been a mix of real proper lookups like this, but also random ifs and ternaries sprinkled th
+        public float getBaseDuration() {
+            switch (currentShot) {
+                default:
+                    return baseDuration;
+                case shotType.SHIELD_SUPER:
+                    return baseShieldDuration;
+            }
+        }
+
+        public string getCurrentAnimation() {
+            switch (currentShot) {
+                default:
+                    return "FireShotgun";
+                case shotType.SHIELD_SUPER:
+                    return "ShieldFireShotgun";
+            }
+        }
+
+        public float getShieldStop() {
+            switch (currentShot) {
+                default:
+                    return beefDurationNoShield;
+                case shotType.SHIELD_SUPER:
+                    return beefDurationShield;
+            }
+        }
+
         public override void OnEnter() {
 
-            baseShieldDuration = baseDuration * 0.75f;
-
-            //if (EnforcerModPlugin.soup) {
-            //    beefDurationNoShield = 0;
-            //    beefDurationShield = 0.25f;
-            //    damageCoefficient = 0.8f;
-            //    bulletSpread = 18f;
-            //    baseDuration = 1.5f;
-            //    baseShieldDuration = 1.3f;
-            //}
             base.OnEnter();
+
             this.droppedShell = false;
 
-            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
-            {
-                this.duration = this.baseShieldDuration / this.attackSpeedStat;
-                this.attackStopDuration = Mathf.Max(this.beefDurationShield, 0.2f) / this.attackSpeedStat;
+            bool isShielded = base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
 
-                base.PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", this.duration);
+            switch(currentShot) {
+                case shotType.NONE:
+                case shotType.SHIELD_SUPER:
+                    currentShot = shotType.BARREL_1;
+                    break;
+                case shotType.BARREL_1:
+                    currentShot = shotType.BARREL_2;
+                    break;
+                case shotType.BARREL_2:
+                    Debug.LogWarning("fucking how");
+                    break;
             }
-            else
-            {
-                this.duration = this.baseDuration / this.attackSpeedStat;
-                this.attackStopDuration = this.beefDurationNoShield / this.attackSpeedStat;
 
-                base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
-            }
+            if (isShielded)
+                currentShot = shotType.SHIELD_SUPER;
+
+            this.duration = getBaseDuration() / this.attackSpeedStat;
+            this.attackStopDuration = getShieldStop() / this.attackSpeedStat;
+
+            base.PlayAnimation("Gesture, Override", getCurrentAnimation(), "FireShotgun.playbackRate", this.duration);
+
 
             this.fireDuration = 0.05f * this.duration;
         }
@@ -61,13 +107,20 @@ namespace EntityStates.Enforcer {
             {
                 this.droppedShell = true;
 
-                var poopy = base.GetComponent<EnforcerWeaponComponent>();
+                EnforcerWeaponComponent poopy = base.GetComponent<EnforcerWeaponComponent>();
                 poopy.DropShell(-base.GetModelBaseTransform().transform.right * -Random.Range(6, 16));
+
+                if(currentShot == shotType.SHIELD_SUPER || currentShot == shotType.BARREL_2)
                 poopy.DropShell(-base.GetModelBaseTransform().transform.right * -Random.Range(6, 16));
                 //if (!this.isStormtrooper && !this.isEngi)
             }
 
             base.FixedUpdate();
+
+            if (fixedAge >= duration && isAuthority) {
+                //assumes shot was not interrupted.
+                currentShot = shotType.NONE;
+            }
         }
 
         public override void FireBullet()
@@ -100,8 +153,7 @@ namespace EntityStates.Enforcer {
                 base.characterBody.AddSpreadBloom(4f);
                 EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, base.gameObject, this.muzzleString, false);
 
-                if (base.isAuthority)
-                {
+                if (base.isAuthority) {
                     float damage = this.damageCoefficient * this.damageStat;
 
                     GameObject tracerEffect = EnforcerPlugin.EnforcerModPlugin.bulletTracerSSG;
@@ -135,27 +187,15 @@ namespace EntityStates.Enforcer {
                         stopperMask = LayerIndex.CommonMasks.bullet,
                         weapon = null,
                         tracerEffectPrefab = tracerEffect,
-                        spreadPitchScale = 1f,  //old: 21 spread 0.3f
-                        spreadYawScale = 1f,    //old: 21 spread 0.7f
+                        spreadPitchScale = 1f,
+                        spreadYawScale = 1f,
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
                         hitEffectPrefab = Commando.CommandoWeapon.FireBarrage.hitEffectPrefab,
                         HitEffectNormal = ClayBruiser.Weapon.MinigunFire.bulletHitEffectNormal
                     };
 
-                    //if (EnforcerModPlugin.soup) {
-
-                    //    bulletAttack.minSpread = 0;
-                    //    bulletAttack.maxSpread = this.bulletSpread;
-                    //    bulletAttack.bulletCount = (uint)this.bulletCount;
-                    //    bulletAttack.falloffModel = BulletAttack.FalloffModel.Buckshot;
-
-                    //    bulletAttack.Fire();
-                    //    return;
-                    //}
-
-                    float spread = this.bulletSpread;
-
                     int bullets = SuperShotgun.bulletCount;
+
 
                     bullets -= 1;
                     bulletAttack.bulletCount = 1;
@@ -163,48 +203,53 @@ namespace EntityStates.Enforcer {
                     bulletAttack.maxSpread = 0f;
                     bulletAttack.Fire();
 
-                    bullets -= 3;
-                    bulletAttack.bulletCount = 3;
-                    bulletAttack.minSpread = 0f;
-                    bulletAttack.maxSpread = this.bulletSpread / 2f;
-                    bulletAttack.Fire();
+
 
                     bullets -= 3;
                     bulletAttack.bulletCount = 3;
+                    bulletAttack.minSpread = 0f;
+                    bulletAttack.maxSpread = this.bulletSpread / 2f; // radius / 2 does not equate to area / 2
+                    bulletAttack.Fire();                             // ratio for actual equal areas come out to around 1.45, so dividing by higher than this results in proportionally tigher spread.
+                                                                     // which is good, of course. just letting ya know so ya know, ya know?
+
+                    bullets -= 4;
+                    bulletAttack.bulletCount = 4;
                     bulletAttack.minSpread = 0f;
                     bulletAttack.maxSpread = this.bulletSpread;
+                    bulletAttack.spreadPitchScale = 1f;
+                    bulletAttack.spreadYawScale = currentShot == shotType.SHIELD_SUPER ? 1 : 1.5f;
                     bulletAttack.Fire();
 
-                    if (bullets > 0)
-                    {
+
+                    //unshielded shots shoot 8 shots as above
+                    //shielded shots shoot the additional 8 shots below
+                    if (currentShot != shotType.SHIELD_SUPER)
+                        return;
+
+
+                    if (bullets > 0 && currentShot == shotType.SHIELD_SUPER) {
                         bulletAttack.bulletCount = (uint)bullets;
-                        bulletAttack.spreadPitchScale = 1f;
-                        bulletAttack.spreadYawScale = 2.3f;
                         bulletAttack.minSpread = this.bulletSpread / bulletAttack.spreadYawScale;
                         bulletAttack.maxSpread = this.bulletSpread;
+                        bulletAttack.spreadPitchScale = 1f;
+                        bulletAttack.spreadYawScale = 2.3f;
                         bulletAttack.Fire();
                     }
 
-                    /*bulletAttack.minSpread = 0;
-                    bulletAttack.maxSpread = spread * 0.25f;// RAD2;
-                    bulletAttack.bulletCount = (uint)Mathf.CeilToInt((float)bulletCount / 4f);
-                    bulletAttack.Fire();
-
-                    bulletAttack.minSpread = spread * 0.25f;// RAD2;
-                    bulletAttack.maxSpread = spread  * 0.5f;
-                    bulletAttack.bulletCount = (uint)Mathf.FloorToInt((float)bulletCount / 4f);
-                    bulletAttack.Fire();
-
-                    bulletAttack.minSpread = spread * 0.5f;// RAD2;
-                    bulletAttack.maxSpread = spread * 0.75f;
-                    bulletAttack.bulletCount = (uint)Mathf.FloorToInt((float)bulletCount / 4f);
-                    bulletAttack.Fire();
-
-                    bulletAttack.minSpread = spread  * 0.75f;// RAD2;
-                    bulletAttack.maxSpread = spread;
-                    bulletAttack.bulletCount = (uint)Mathf.FloorToInt((float)bulletCount / 4f);
-                    bulletAttack.Fire();*/
                 }
+            }
+        }
+
+        public override InterruptPriority GetMinimumInterruptPriority() {
+
+            //first shot can be intterupted after 1 second by itself
+            if(currentShot == shotType.BARREL_1 && fixedAge >= shot1InterruptibleDuration) {
+
+                return InterruptPriority.Any;
+            } else {
+
+                //second shot and shield shot cannot be interrupted by self
+                return InterruptPriority.Skill;
             }
         }
 
