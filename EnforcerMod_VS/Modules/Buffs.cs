@@ -34,7 +34,7 @@ namespace EnforcerPlugin.Modules
 
             smallSlowBuff = AddNewBuff("NemSmallSelfSlow", Resources.Load<Sprite>("Textures/BuffIcons/texBuffSlow50Icon"), new Color(0.647f, 0.168f, 0.184f), false, true);
             bigSlowBuff = AddNewBuff("NemBigSelfSlow", Resources.Load<Sprite>("Textures/BuffIcons/texBuffSlow50Icon"), new Color(0.65f, 0.078f, 0.078f), false, true);
-            impairedBuff = AddNewBuff("Impaired", Resources.Load<Sprite>("Textures/BuffIcons/texBuffCloakIcon"), Color.grey, false, true);
+            impairedBuff = AddNewBuff("Impaired", Resources.Load<Sprite>("Textures/BuffIcons/texBuffCloakIcon"), new Color(0.85f * 228f / 255f, 0.85f * 255f / 255f, 0.85f * 79f / 255f), false, true);
             nemImpairedBuff = AddNewBuff("NemImpaired", Resources.Load<Sprite>("Textures/BuffIcons/texBuffSlow50Icon"), Color.red, false, true);
         }
 

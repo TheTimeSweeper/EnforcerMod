@@ -11,6 +11,7 @@ namespace EntityStates.Enforcer
         public static float procCoefficient = 1f;
         public static float bulletRecoil = 2.5f;
         public static float projectileSpeed = 75f;
+        public static Vector3 projectileOffset = new Vector3(0f, -1.2f, 0f);
 
         public static string muzzleString = "GrenadeMuzzle";
 
@@ -27,7 +28,7 @@ namespace EntityStates.Enforcer
 
             if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
             {
-                base.PlayAnimation("Gesture, Override", "FireShotgunShielded", "FireShotgun.playbackRate", this.duration);
+                base.PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", this.duration);
             }
             else
             {
@@ -57,7 +58,7 @@ namespace EntityStates.Enforcer
                     damageTypeOverride = DamageType.Stun1s,
                     force = 0f,
                     owner = base.gameObject,
-                    position = aimRay.origin,
+                    position = aimRay.origin + projectileOffset,
                     procChainMask = default(ProcChainMask),
                     projectilePrefab = EnforcerPlugin.EnforcerModPlugin.stunGrenade,
                     rotation = RoR2.Util.QuaternionSafeLookRotation(aimRay.direction + aimTweak * 0.08f),
