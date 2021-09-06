@@ -2257,7 +2257,7 @@ namespace EnforcerPlugin {
             //string desc = $"Fire a burst of bullets dealing {damage}. <style=cIsUtility>During Protect and Serve</style>, fires <style=cIsDamage>{2 * FireBurstRifle.projectileCount} bullets</style> instead.";
 
             string damage = $"<style=cIsDamage>{100f * FireMachineGun.damageCoefficient}% damage</style>";
-            string desc = $"Unload a barrage of bullets into enemies for {damage}. While shielded, <style=cIsHealth>slow yourself down</style>.";
+            string desc = $"Unload a barrage of bullets into enemies for {damage}. While shielded, spread is more accurate, but <style=cIsHealth>slow yourself down</style>.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_NAME", "Heavy Machinegun");
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_DESCRIPTION", desc);
