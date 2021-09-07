@@ -562,218 +562,6 @@
 												</Sound>
 											</ChildrenList>
 										</Folder>
-										<Sound Name="Super Shotgun" ID="{B7F41839-2741-4946-B11A-5161B001211F}" ShortID="673206021">
-											<PropertyList>
-												<Property Name="Highpass" Type="int16">
-													<ModifierList>
-														<ModifierInfo>
-															<Modifier Name="" ID="{589D2412-5454-4E18-A6D7-D174E677470B}">
-																<PropertyList>
-																	<Property Name="Enabled" Type="bool" Value="True"/>
-																	<Property Name="Max" Type="Real64" Value="20"/>
-																</PropertyList>
-															</Modifier>
-														</ModifierInfo>
-													</ModifierList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ModifierList>
-														<ModifierInfo>
-															<Modifier Name="" ID="{4C5DF1F6-BE3A-4D1E-B606-352DD6F8307A}">
-																<PropertyList>
-																	<Property Name="Enabled" Type="bool" Value="True"/>
-																	<Property Name="Max" Type="Real64" Value="20"/>
-																</PropertyList>
-															</Modifier>
-														</ModifierInfo>
-													</ModifierList>
-												</Property>
-												<Property Name="MaxSoundPerInstance" Type="int16">
-													<ValueList>
-														<Value>3</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Pitch" Type="int32">
-													<ModifierList>
-														<ModifierInfo>
-															<Modifier Name="" ID="{949DDF81-2C93-4880-9945-E8A8C40491B0}">
-																<PropertyList>
-																	<Property Name="Enabled" Type="bool" Value="True"/>
-																	<Property Name="Max" Type="Real64" Value="100"/>
-																	<Property Name="Min" Type="Real64" Value="-100"/>
-																</PropertyList>
-															</Modifier>
-														</ModifierInfo>
-													</ModifierList>
-												</Property>
-												<Property Name="UseMaxSoundPerInstance" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-7</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{71621DCA-C33E-4EB6-A641-CA59DB723722}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="Super Shotgun" ID="{7D76C9AF-4404-4FF1-988D-D15822803A72}" ShortID="553537820">
-													<Language>SFX</Language>
-													<AudioFile>Super Shotgun.wav</AudioFile>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="Super Shotgun" ID="{7D76C9AF-4404-4FF1-988D-D15822803A72}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="Doom 2 Super Shotgun" ID="{5EE56CE5-806C-4FB0-8DAB-FB93C37E55A3}" ShortID="172549906">
-											<PropertyList>
-												<Property Name="Highpass" Type="int16">
-													<ModifierList>
-														<ModifierInfo>
-															<Modifier Name="" ID="{1927EBD4-7636-4CE9-A135-7A1FF22BE95D}">
-																<PropertyList>
-																	<Property Name="Enabled" Type="bool" Value="True"/>
-																	<Property Name="Max" Type="Real64" Value="20"/>
-																</PropertyList>
-															</Modifier>
-														</ModifierInfo>
-													</ModifierList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ModifierList>
-														<ModifierInfo>
-															<Modifier Name="" ID="{8735B620-CFFB-4162-98B2-A02A2351685C}">
-																<PropertyList>
-																	<Property Name="Enabled" Type="bool" Value="True"/>
-																	<Property Name="Max" Type="Real64" Value="20"/>
-																</PropertyList>
-															</Modifier>
-														</ModifierInfo>
-													</ModifierList>
-												</Property>
-												<Property Name="Pitch" Type="int32">
-													<ModifierList>
-														<ModifierInfo>
-															<Modifier Name="" ID="{84113760-2C82-4759-BC4F-6C8816DFBFFE}">
-																<PropertyList>
-																	<Property Name="Enabled" Type="bool" Value="True"/>
-																	<Property Name="Max" Type="Real64" Value="100"/>
-																	<Property Name="Min" Type="Real64" Value="-100"/>
-																</PropertyList>
-															</Modifier>
-														</ModifierInfo>
-													</ModifierList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-5</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{71621DCA-C33E-4EB6-A641-CA59DB723722}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="Doom 2 Super Shotgun" ID="{AF10B306-F479-42F2-80AE-F88B030F1D55}" ShortID="212233180">
-													<Language>SFX</Language>
-													<AudioFile>Doom 2 Super Shotgun.wav</AudioFile>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="Doom 2 Super Shotgun" ID="{AF10B306-F479-42F2-80AE-F88B030F1D55}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="Super Shotgun crit" ID="{575597DE-2A49-4E10-A4AA-95780EC0A482}" ShortID="871729560">
-											<PropertyList>
-												<Property Name="Highpass" Type="int16">
-													<ModifierList>
-														<ModifierInfo>
-															<Modifier Name="" ID="{586DBE21-5FEA-47BB-8860-59D7B4E0164A}">
-																<PropertyList>
-																	<Property Name="Enabled" Type="bool" Value="True"/>
-																	<Property Name="Max" Type="Real64" Value="20"/>
-																</PropertyList>
-															</Modifier>
-														</ModifierInfo>
-													</ModifierList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ModifierList>
-														<ModifierInfo>
-															<Modifier Name="" ID="{C05DB2CB-3E3D-4AC8-9A21-BB79E1781F44}">
-																<PropertyList>
-																	<Property Name="Enabled" Type="bool" Value="True"/>
-																	<Property Name="Max" Type="Real64" Value="20"/>
-																</PropertyList>
-															</Modifier>
-														</ModifierInfo>
-													</ModifierList>
-												</Property>
-												<Property Name="MaxSoundPerInstance" Type="int16">
-													<ValueList>
-														<Value>3</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Pitch" Type="int32">
-													<ValueList>
-														<Value>-100</Value>
-													</ValueList>
-													<ModifierList>
-														<ModifierInfo>
-															<Modifier Name="" ID="{05922D05-6CB7-4A67-9F93-C822D777E312}">
-																<PropertyList>
-																	<Property Name="Enabled" Type="bool" Value="True"/>
-																	<Property Name="Max" Type="Real64" Value="100"/>
-																	<Property Name="Min" Type="Real64" Value="-100"/>
-																</PropertyList>
-															</Modifier>
-														</ModifierInfo>
-													</ModifierList>
-												</Property>
-												<Property Name="UseMaxSoundPerInstance" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-7</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{71621DCA-C33E-4EB6-A641-CA59DB723722}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="Super Shotgun crit" ID="{D6317A62-2DEC-432D-AF92-1CA2C9AFF8DE}" ShortID="322194405">
-													<Language>SFX</Language>
-													<AudioFile>Super Shotgun crit.wav</AudioFile>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="Super Shotgun crit" ID="{D6317A62-2DEC-432D-AF92-1CA2C9AFF8DE}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 										<Sound Name="Bungus Riot" ID="{887FE0E0-8438-475E-BD89-2EABC5975813}" ShortID="521908955">
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -897,6 +685,286 @@
 													</ChildrenList>
 													<ActiveSourceList>
 														<ActiveSource Name="shotgun2" ID="{44434E20-B7A1-4C30-8BB8-539B97E7ED43}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</Folder>
+										<Folder Name="SSG" ID="{63D6D403-EF74-4864-A44C-7FA478F99732}" ShortID="799980480">
+											<ChildrenList>
+												<Sound Name="Doom 2 Super Shotgun" ID="{5EE56CE5-806C-4FB0-8DAB-FB93C37E55A3}" ShortID="172549906">
+													<PropertyList>
+														<Property Name="3DSpatialization" Type="int16" Value="1"/>
+														<Property Name="Highpass" Type="int16">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{1927EBD4-7636-4CE9-A135-7A1FF22BE95D}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Max" Type="Real64" Value="20"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="Lowpass" Type="int16">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{8735B620-CFFB-4162-98B2-A02A2351685C}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Max" Type="Real64" Value="20"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{84113760-2C82-4759-BC4F-6C8816DFBFFE}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Max" Type="Real64" Value="100"/>
+																			<Property Name="Min" Type="Real64" Value="-100"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-5</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Attenuation">
+															<ObjectRef Name="Shotgun" ID="{7297D247-2F3C-4FCB-A08E-EF65110DE74A}" WorkUnitID="{11DB3BA3-FF78-4AEA-AB23-759A4DFBC217}"/>
+														</Reference>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{71621DCA-C33E-4EB6-A641-CA59DB723722}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="Doom 2 Super Shotgun" ID="{AF10B306-F479-42F2-80AE-F88B030F1D55}" ShortID="212233180">
+															<Language>SFX</Language>
+															<AudioFile>Doom 2 Super Shotgun.wav</AudioFile>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Doom 2 Super Shotgun" ID="{AF10B306-F479-42F2-80AE-F88B030F1D55}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="Super Shotgun crit" ID="{575597DE-2A49-4E10-A4AA-95780EC0A482}" ShortID="871729560">
+													<PropertyList>
+														<Property Name="3DSpatialization" Type="int16" Value="1"/>
+														<Property Name="Highpass" Type="int16">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{586DBE21-5FEA-47BB-8860-59D7B4E0164A}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Max" Type="Real64" Value="20"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="Lowpass" Type="int16">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{C05DB2CB-3E3D-4AC8-9A21-BB79E1781F44}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Max" Type="Real64" Value="20"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="MaxSoundPerInstance" Type="int16">
+															<ValueList>
+																<Value>3</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>-100</Value>
+															</ValueList>
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{05922D05-6CB7-4A67-9F93-C822D777E312}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Max" Type="Real64" Value="100"/>
+																			<Property Name="Min" Type="Real64" Value="-100"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="UseMaxSoundPerInstance" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-7</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Attenuation">
+															<ObjectRef Name="Shotgun" ID="{7297D247-2F3C-4FCB-A08E-EF65110DE74A}" WorkUnitID="{11DB3BA3-FF78-4AEA-AB23-759A4DFBC217}"/>
+														</Reference>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{71621DCA-C33E-4EB6-A641-CA59DB723722}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="Super Shotgun crit" ID="{D6317A62-2DEC-432D-AF92-1CA2C9AFF8DE}" ShortID="322194405">
+															<Language>SFX</Language>
+															<AudioFile>Super Shotgun crit.wav</AudioFile>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Super Shotgun crit" ID="{D6317A62-2DEC-432D-AF92-1CA2C9AFF8DE}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="Super Shotgun" ID="{B7F41839-2741-4946-B11A-5161B001211F}" ShortID="673206021">
+													<PropertyList>
+														<Property Name="3DSpatialization" Type="int16" Value="1"/>
+														<Property Name="Highpass" Type="int16">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{589D2412-5454-4E18-A6D7-D174E677470B}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Max" Type="Real64" Value="20"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="Lowpass" Type="int16">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{4C5DF1F6-BE3A-4D1E-B606-352DD6F8307A}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Max" Type="Real64" Value="20"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="MaxSoundPerInstance" Type="int16">
+															<ValueList>
+																<Value>3</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{949DDF81-2C93-4880-9945-E8A8C40491B0}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Max" Type="Real64" Value="100"/>
+																			<Property Name="Min" Type="Real64" Value="-100"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="UseMaxSoundPerInstance" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-7</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Attenuation">
+															<ObjectRef Name="Shotgun" ID="{7297D247-2F3C-4FCB-A08E-EF65110DE74A}" WorkUnitID="{11DB3BA3-FF78-4AEA-AB23-759A4DFBC217}"/>
+														</Reference>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{71621DCA-C33E-4EB6-A641-CA59DB723722}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="Super Shotgun" ID="{7D76C9AF-4404-4FF1-988D-D15822803A72}" ShortID="553537820">
+															<Language>SFX</Language>
+															<AudioFile>Super Shotgun.wav</AudioFile>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Super Shotgun" ID="{7D76C9AF-4404-4FF1-988D-D15822803A72}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="double_shotgun_single" ID="{D50B0E61-6F20-4765-80C0-8A3B0C999BAA}" ShortID="495066636">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-2</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{71621DCA-C33E-4EB6-A641-CA59DB723722}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="double_shotgun_single" ID="{8E3E66D8-E1F9-4061-A5D0-66012B7AF82E}" ShortID="1019059826">
+															<Language>SFX</Language>
+															<AudioFile>double_shotgun_single.wav</AudioFile>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="double_shotgun_single" ID="{8E3E66D8-E1F9-4061-A5D0-66012B7AF82E}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="double_shotgun_single_crit" ID="{4DABD4A0-6E5B-40BF-B97E-8C4AA8D56D12}" ShortID="581240229">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-2.5</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{71621DCA-C33E-4EB6-A641-CA59DB723722}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="double_shotgun_single_crit" ID="{F47DC3A9-47D5-4253-8B31-1E54E1464F82}" ShortID="948410475">
+															<Language>SFX</Language>
+															<AudioFile>double_shotgun_single_crit.wav</AudioFile>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="double_shotgun_single_crit" ID="{F47DC3A9-47D5-4253-8B31-1E54E1464F82}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
 											</ChildrenList>
