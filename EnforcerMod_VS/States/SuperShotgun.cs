@@ -9,8 +9,8 @@ namespace EntityStates.Enforcer
     {
         //man I thought my logic was confusing
         //have to pull out a calculator to see how long the shield shot is wtf. 
-        public static float baseShotDuration = 0.6f; //first shot 83% dps?
-        public static float baseSecondShotDuration = 1.75f; //second shot, total shots 2.25s. 44.4%dps
+        public static float baseShotDuration = 0.7f; //first shot 62.5% dps? //TODO: base shot needs to not finish reloading until little after the shot
+        public static float baseSecondShotDuration = 1.7f; //second shot, total shots 2.4s. 41%dps
         public static float baseShieldShotDuration = 1.8f; //shield shot. 22% dps increase overall 55.5%dps
 
         public static float baseReloadDuration { get => baseSecondShotDuration - baseShotDuration; }

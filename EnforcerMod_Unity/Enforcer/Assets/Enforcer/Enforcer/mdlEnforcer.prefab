@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2394705859863581624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7864352491078510905}
+  m_Layer: 0
+  m_Name: ShieldAimOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7864352491078510905
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2394705859863581624}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.385, y: 0.319, z: -0.267}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7618142915657316695}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2746367180934421569
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,7 +661,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.000000063664686, y: -0.00000028050553, z: 0.000000040052786}
+  m_ConnectedAnchor: {x: 0.0000000719322, y: -0.00000016161442, z: 0.000000037177074}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -984,7 +1014,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.056335326, y: 0.23566723, z: -0.3373084}
+  m_ConnectedAnchor: {x: 0.056335274, y: 0.23566711, z: -0.33730838}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -1093,7 +1123,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.06652928, y: 0.245426, z: 0.35932362}
+  m_ConnectedAnchor: {x: -0.0665293, y: 0.24542588, z: 0.35932362}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -1311,7 +1341,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.022904279, y: 0.17834377, z: 0.15968612}
+  m_ConnectedAnchor: {x: -0.022904275, y: 0.17834377, z: 0.1596861}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -1862,7 +1892,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.000000030733656, y: 0.3661109, z: -0.00000008940698}
+  m_ConnectedAnchor: {x: 0.000000081956415, y: 0.36611095, z: -0.00000017881396}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -1971,7 +2001,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.000000104308164, y: 0.56302494, z: 0.00000041723257}
+  m_ConnectedAnchor: {x: -0.00000014901167, y: 0.56302494, z: 0.00000032782557}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -2080,7 +2110,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.00000017881396, y: 0.56302536, z: 0.00000008940699}
+  m_ConnectedAnchor: {x: 0.00000019371512, y: 0.56302536, z: 0.00000005960466}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -3229,7 +3259,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 9.313226e-10, y: 0.18075469, z: -0.00000003236346}
+  m_ConnectedAnchor: {x: -0.000000013969839, y: 0.18075457, z: -0.000000019324943}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -3526,6 +3556,8 @@ MonoBehaviour:
     transform: {fileID: 7618142915657316695}
   - name: Chair
     transform: {fileID: 7885948062369145407}
+  - name: ShieldAimOrigin
+    transform: {fileID: 7864352491078510905}
 --- !u!114 &7893187676861857013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4081,7 +4113,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.089, z: 0.66}
   m_LocalScale: {x: 2.576008, y: 2.2891, z: 1.387094}
-  m_Children: []
+  m_Children:
+  - {fileID: 7864352491078510905}
   m_Father: {fileID: 2746367180934513101}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

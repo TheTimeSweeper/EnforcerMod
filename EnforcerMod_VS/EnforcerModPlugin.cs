@@ -750,6 +750,7 @@ namespace EnforcerPlugin {
                 CharacterBody cb = info.attacker.GetComponent<CharacterBody>();
                 if (cb)
                 {
+                    //this is probably why this isn't networked
                     ShieldComponent enforcerShield = self.body.GetComponent<ShieldComponent>();
 
                     if (cb.baseNameToken == "GOLEM_BODY_NAME" && GetShieldBlock(self, info, enforcerShield))
@@ -762,6 +763,8 @@ namespace EnforcerPlugin {
                             {
                                 blocked = true;
                             }
+
+                            Debug.LogWarning("firin mah layzor " + NetworkServer.active);
                             enforcerShield.invokeOnLaserHitEvent();
                         }
                     }
@@ -804,6 +807,7 @@ namespace EnforcerPlugin {
             if (self.outer.customName == "EnforcerParry")
             {
                 self.damageStat = self.outer.commonComponents.characterBody.damage * 5f;
+                Debug.LogWarning("enforcer parry" + self.damageStat);
             }
         }
 
@@ -1327,6 +1331,7 @@ namespace EnforcerPlugin {
             shieldHurtbox.damageModifier = HurtBox.DamageModifier.Barrier;
             shieldHurtbox.hurtBoxGroup = hurtBoxGroup;
             shieldHurtbox.indexInGroup = 1;
+            shieldHurtbox.gameObject.SetActive(false);
 
             hurtBoxGroup.hurtBoxes = new HurtBox[]
             {

@@ -51,33 +51,13 @@ namespace EntityStates.Enforcer
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
             this.shieldComponent.origOrigin = base.characterBody.aimOriginTransform;
 
-            bool hasParryStateMachine = false;
+            //bool hasParryStateMachine = false;
 
-            foreach(EntityStateMachine i in base.gameObject.GetComponents<EntityStateMachine>())
-            {
-                if (i.customName == "EnforcerParry")
-                {
-                    hasParryStateMachine = true;
-                }
+            foreach(EntityStateMachine i in base.gameObject.GetComponents<EntityStateMachine>()) {
 
-                if (i.customName == "Slide")
-                {
+                if (i.customName == "Slide") {
                     this.sirenStateMachine = i;
                 }
-            }
-
-            if (!hasParryStateMachine)
-            {
-                EntityStateMachine drOctagonapus = characterBody.gameObject.AddComponent<EntityStateMachine>();
-                drOctagonapus.customName = "EnforcerParry";
-
-                SerializableEntityStateType idleState = new SerializableEntityStateType(typeof(Idle));
-                drOctagonapus.initialStateType = idleState;
-                drOctagonapus.mainStateType = idleState;
-
-                this.shieldComponent.drOctagonapus = drOctagonapus;
-                drOctagonapus.mainStateType = new SerializableEntityStateType(typeof(Idle));
-                this.shieldComponent.drOctagonapus = drOctagonapus;
             }
 
             //if (!EnforcerPlugin.EnforcerPlugin.cum && base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex)

@@ -117,7 +117,7 @@ namespace EntityStates.Enforcer
 
                 Util.PlaySound(soundString, base.gameObject); 
 
-                characterBody.aimOriginTransform = childLocator.FindChild("ShieldHurtbox");
+                characterBody.aimOriginTransform = childLocator.FindChild("ShieldAimOrigin");
 
                 if (this.weaponComponent)
                 {

@@ -26,6 +26,8 @@ namespace EntityStates.Enforcer
         private float duration;
         private float fireDuration;
         private float deflectDuration;
+        private float deflectLaserTime = 0.84f; //update this when animation is changed
+        private float lastDefectedLaserTIme = Time.time;
         private Ray aimRay;
         private BlastAttack blastAttack;
         private ChildLocator childLocator;
@@ -245,6 +247,9 @@ namespace EntityStates.Enforcer
             else 
             {
                 this.shieldComponent.isDeflecting = false;
+            }
+
+            if(base.fixedAge >= deflectLaserTime * duration && isAuthority) {
 
                 this.ParryLasers();
             }
@@ -320,7 +325,7 @@ namespace EntityStates.Enforcer
 
             for (int i = 0; i < _parries; i++)
             {
-
+                                                   //using drOctagonapus monobehaviour to start the coroutine, however any monobehaviour would work
                 this.shieldComponent.drOctagonapus.StartCoroutine(ShootParriedLaser(i * parryInterval));
             }
 
@@ -340,7 +345,6 @@ namespace EntityStates.Enforcer
 
         private IEnumerator ShootParriedLaser(float delay)
         {
-
             yield return new WaitForSeconds(delay);
 
             Vector3 point = GetAimRay().GetPoint(1000);

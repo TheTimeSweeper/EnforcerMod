@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using EntityStates;
+using RoR2;
 using System;
 using System.Collections.Specialized;
 using UnityEngine;
@@ -48,6 +49,26 @@ public class ShieldComponent : MonoBehaviour
         energyShieldControler = energyShield.GetComponentInChildren<EnergyShieldControler>();
         energyShield = energyShieldControler?.gameObject;
         energyShield.SetActive(false);*/
+
+
+        bool hasParryStateMachine = false;
+
+        foreach (EntityStateMachine i in base.gameObject.GetComponents<EntityStateMachine>()) {
+            if (i.customName == "EnforcerParry") {
+                hasParryStateMachine = true;
+            }
+        }
+
+        if (!hasParryStateMachine) {
+            EntityStateMachine octagonapus = gameObject.AddComponent<EntityStateMachine>();
+            octagonapus.customName = "EnforcerParry";
+
+            SerializableEntityStateType idleState = new SerializableEntityStateType(typeof(Idle));
+            octagonapus.initialStateType = idleState;
+            octagonapus.mainStateType = idleState;
+
+            this.drOctagonapus = octagonapus;
+        }
     }
 
     void FixedUpdate() {

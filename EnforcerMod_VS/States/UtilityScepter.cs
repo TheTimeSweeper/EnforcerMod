@@ -109,9 +109,8 @@ namespace EntityStates.Enforcer
 
             if (base.isAuthority) {
 
-                Debug.LogWarning(childLocator);
-
-                Debug.LogWarning(childLocator.FindChild(ShockGrenade.muzzleString));
+                //Deebug.LogWarning(childLocator);
+                //Debug.LogWarning(childLocator.FindChild(ShockGrenade.muzzleString));
 
                 Ray aimRay = base.GetAimRay();
                 Vector3 aimTweak;
