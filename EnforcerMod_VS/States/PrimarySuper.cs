@@ -26,7 +26,7 @@ namespace EntityStates.Enforcer {
         public static int bulletCount = 16;
         public new float bulletSpread = EnforcerModPlugin.superSpread.Value;// 6f
 
-        public static float durationBaseMeasure = EnforcerModPlugin.superDuration.Value / 2;
+        public static float durationBaseMeasure = EnforcerModPlugin.superDuration.Value;
         public new float baseShieldDuration = durationBaseMeasure * 2;// = 2
         public new float baseDuration = durationBaseMeasure * 1.5f;
         public float shot1InterruptibleDuration = durationBaseMeasure * 1; //fuck you config and fuck me for doing it
@@ -207,6 +207,8 @@ namespace EntityStates.Enforcer {
 
                     bullets -= 3;
                     bulletAttack.bulletCount = 3;
+                    bulletAttack.spreadPitchScale = 1f;
+                    bulletAttack.spreadYawScale = currentShot == shotType.SHIELD_SUPER ? 1 : 1.4f;
                     bulletAttack.minSpread = 0f;
                     bulletAttack.maxSpread = this.bulletSpread / 2f; // radius / 2 does not equate to area / 2
                     bulletAttack.Fire();                             // ratio for actual equal areas come out to around 1.45, so dividing by higher than this results in proportionally tigher spread.
@@ -217,7 +219,7 @@ namespace EntityStates.Enforcer {
                     bulletAttack.minSpread = 0f;
                     bulletAttack.maxSpread = this.bulletSpread;
                     bulletAttack.spreadPitchScale = 1f;
-                    bulletAttack.spreadYawScale = currentShot == shotType.SHIELD_SUPER ? 1 : 1.5f;
+                    bulletAttack.spreadYawScale = currentShot == shotType.SHIELD_SUPER ? 1 : 1.7f;
                     bulletAttack.Fire();
 
 
@@ -226,8 +228,7 @@ namespace EntityStates.Enforcer {
                     if (currentShot != shotType.SHIELD_SUPER)
                         return;
 
-
-                    if (bullets > 0 && currentShot == shotType.SHIELD_SUPER) {
+                    if (bullets > 0) {
                         bulletAttack.bulletCount = (uint)bullets;
                         bulletAttack.minSpread = this.bulletSpread / bulletAttack.spreadYawScale;
                         bulletAttack.maxSpread = this.bulletSpread;

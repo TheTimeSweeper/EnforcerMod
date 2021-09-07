@@ -7,10 +7,17 @@ namespace EntityStates.Enforcer
 {
     public class SuperShotgun2 : BaseState
     {
-        public static float baseShotDuration = 0.3f;
-        public static float baseReloadDuration = 1.7f;
-        public static float baseShieldReloadDuration = baseReloadDuration * 0.8f;
+        //man I thought my logic was confusing
+        //have to pull out a calculator to see how long the shield shot is wtf. 
+        public static float baseShotDuration = 0.6f; //first shot 83% dps?
+        public static float baseSecondShotDuration = 1.75f; //second shot, total shots 2.25s. 44.4%dps
+        public static float baseShieldShotDuration = 1.8f; //shield shot. 22% dps increase overall 55.5%dps
+
+        public static float baseReloadDuration { get => baseSecondShotDuration - baseShotDuration; }
+        public static float baseShieldReloadDuration { get => baseShieldShotDuration - baseShotDuration; }
+
         public static float reloadCompleteFraction = 0.5f;  //This should sync up with the sound. Would be beneficial to separate reload sound from firing sound later.
+        
         public static float bulletForce = 100f;
         public static int bulletCount = 16;
         public static float bulletSpread = EnforcerModPlugin.superSpread.Value;
@@ -20,17 +27,23 @@ namespace EntityStates.Enforcer
         public static float shieldedBulletRecoil = 6f;
 
         public static float beefDurationNoShield = 0.15f;
-        public static float beefDurationShield = 0.2f;
+        public static float beefDurationShield = 0.3f;
         private float attackStopDuration;
 
-        public bool secondShot = false; //Determines whether player is forced to reload
-        private bool isShielded;
-        private bool finishedReload;
-        private float totalDuration;
-        private float shotDuration;
-        private float reloadDuration;
-        private float reloadCompleteTime;
-        private bool buttonReleased;
+        private bool _secondShot = false; //Determines whether player is forced to reload
+
+        private bool _isShielded;
+        private float _shieldLockTime = 0.6f;
+        private float _shieldInputBufferableTime = 0.4f;
+        private bool _shieldBufferable = false;
+        private bool _shieldInputBuffer;
+
+        private bool _finishedReload;
+        private float _totalDuration;
+        private float _shotDuration;
+        private float _reloadDuration;
+        private float _reloadCompleteTime;
+        private bool _buttonReleased;
 
         private Animator animator;
         private string muzzleString;
@@ -41,33 +54,34 @@ namespace EntityStates.Enforcer
 
             base.OnEnter();
             shieldLocked = false;
-            this.finishedReload = false;
-            buttonReleased = false;
+            this._finishedReload = false;
+            _buttonReleased = false;
 
-            isShielded = base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
-            if (isShielded)
+            _isShielded = base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
+            if (_isShielded)
             {
-                secondShot = true;
+                _secondShot = true;
             }
 
-            shotDuration = baseShotDuration / this.attackSpeedStat;
-            reloadDuration = (isShielded ? baseShieldReloadDuration : baseReloadDuration) / this.attackSpeedStat;
-            totalDuration = shotDuration + reloadDuration;
-            reloadCompleteTime = totalDuration * reloadCompleteFraction;//If it's all handled in 2anims, change this to shotDuration + reloadDuration * reloadFraction
+            _shotDuration = baseShotDuration / this.attackSpeedStat * EnforcerModPlugin.superDuration.Value;
+            _reloadDuration = (_isShielded ? baseShieldReloadDuration : baseReloadDuration) / this.attackSpeedStat * EnforcerModPlugin.superDuration.Value;
+            _totalDuration = _shotDuration + _reloadDuration;
+            //If it's all handled in 2anims, change this to shotDuration + reloadDuration * reloadFraction
+            _reloadCompleteTime = _totalDuration * reloadCompleteFraction;
 
             characterBody.SetAimTimer(2f);
             animator = GetModelAnimator();
             muzzleString = "Muzzle";
 
-            if (isShielded)
+            if (_isShielded)
             {
                 attackStopDuration = beefDurationShield / attackSpeedStat;
-                PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", totalDuration);
+                PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", _totalDuration);
             }
             else
             {
                 attackStopDuration = beefDurationNoShield / attackSpeedStat;
-                PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", totalDuration);
+                PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", _totalDuration);
             }
 
             FireBullet();
@@ -87,13 +101,17 @@ namespace EntityStates.Enforcer
                 }
             }
 
-            if (base.fixedAge >= reloadCompleteTime && !this.finishedReload)
+            if (base.fixedAge >= _reloadCompleteTime && !this._finishedReload)
             {
-                this.finishedReload = true;
+                this._finishedReload = true;
 
                 EnforcerWeaponComponent poopy = base.GetComponent<EnforcerWeaponComponent>();
                 poopy.DropShell(-base.GetModelBaseTransform().transform.right * -Random.Range(6, 16));
-                poopy.DropShell(-base.GetModelBaseTransform().transform.right * -Random.Range(6, 16));
+
+                //if it's the first shot, you've only reloaded one shell
+                if(_isShielded || _secondShot) {
+                    poopy.DropShell(-base.GetModelBaseTransform().transform.right * -Random.Range(6, 16));
+                }
 
                 if (shieldLocked && base.skillLocator.special && base.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDDOWN_NAME")
                 {
@@ -107,43 +125,68 @@ namespace EntityStates.Enforcer
             {
                 if (base.inputBank)
                 {
-                    if (!buttonReleased && !base.inputBank.skill1.down)
+                    //are we fuckin reinventing the wheel about "requirekeypress" here?
+                    if (!_buttonReleased && !base.inputBank.skill1.down)
                     {
-                        buttonReleased = true;
+                        _buttonReleased = true;
                     }
-                    //If you've only fired 1 shot, you can cancel the reload early
-                    if ((!finishedReload || (buttonReleased && finishedReload)) && !secondShot && base.inputBank.skill1.down && fixedAge > shotDuration)
+
+                    //If you've only fired 1 shot, you can cancel the reload early               
+                    if (!_secondShot && base.inputBank.skill1.down && fixedAge > _shotDuration && (!_finishedReload || (_buttonReleased && _finishedReload)))
                     {
-                        this.outer.SetNextState(new SuperShotgun2 { secondShot = !finishedReload });
+                        this.outer.SetNextState(new SuperShotgun2 { _secondShot = !_finishedReload });
                         return;
                     }
                 }
-                if (fixedAge >= totalDuration)
+                if (fixedAge >= _totalDuration)
                 {
                     this.outer.SetNextStateToMain();
                     return;
                 }
-                
-                //Lock stance change when firing while shielded
-                if (!shieldLocked && isShielded && base.skillLocator.special && base.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDDOWN_NAME")
-                {
-                    shieldLocked = true;
-                    base.skillLocator.special.enabled = false;
-                    base.skillLocator.special.stock = 0;
+
+                                                                                             //wouldn't isShielded cover this?
+                if (base.skillLocator.special && base.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDDOWN_NAME") {
+
+                    //allow shield input buffer after we've released the key once
+                    if (_shieldBufferable && base.inputBank.skill4.down) {
+                        _shieldInputBuffer = true;
+                    }
+                    if (fixedAge > _shieldInputBufferableTime * _totalDuration && !base.inputBank.skill4.down) {
+                        _shieldBufferable = true;
+                    }
+
+                    if (fixedAge > _shieldLockTime * _totalDuration) {
+                        shieldLocked = false;
+                        base.skillLocator.special.enabled = true;
+                        base.skillLocator.special.stock = 1;
+
+                        if(_shieldInputBuffer) {
+
+                            this.outer.SetNextState(new ProtectAndServe());
+                            return;
+                        }
+
+                    } else if (!shieldLocked && _isShielded) {
+                        shieldLocked = true;
+                        base.skillLocator.special.enabled = false;
+                        base.skillLocator.special.stock = 0;
+
+                    }
                 }
             }
         }
 
-        public override void OnExit()
-        {
-            if (shieldLocked && base.skillLocator.special && base.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDDOWN_NAME")
-            {
-                shieldLocked = false;
-                base.skillLocator.special.enabled = true;
-                base.skillLocator.special.stock = 1;
-            }
-            base.OnExit();
-        }
+        //locking yourself in shield for 2 seconds what the fuck
+        //public override void OnExit()
+        //{
+        //    if (shieldLocked && base.skillLocator.special && base.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDDOWN_NAME")
+        //    {
+        //        shieldLocked = false;
+        //        base.skillLocator.special.enabled = true;
+        //        base.skillLocator.special.stock = 1;
+        //    }
+        //    base.OnExit();
+        //}
 
         public void FireBullet()
         {
@@ -153,11 +196,11 @@ namespace EntityStates.Enforcer
 
             bool isCrit = base.RollCrit();
 
-            soundString = !isCrit ? (isShielded ? Sounds.FireSuperShotgun : Sounds.FireSuperShotgunSingle) : (isShielded ? Sounds.FireSuperShotgunCrit : Sounds.FireSuperShotgunSingleCrit);
+            soundString = !isCrit ? (_isShielded ? Sounds.FireSuperShotgun : Sounds.FireSuperShotgunSingle) : (_isShielded ? Sounds.FireSuperShotgunCrit : Sounds.FireSuperShotgunSingleCrit);
 
             Util.PlayAttackSpeedSound(soundString, base.gameObject, this.attackSpeedStat);
 
-            float recoilAmplitude = isShielded ? SuperShotgun2.shieldedBulletRecoil : SuperShotgun2.bulletRecoil / this.attackSpeedStat;
+            float recoilAmplitude = _isShielded ? SuperShotgun2.shieldedBulletRecoil : SuperShotgun2.bulletRecoil / this.attackSpeedStat;
 
             base.AddRecoil(-0.4f * recoilAmplitude, -0.8f * recoilAmplitude, -0.3f * recoilAmplitude, 0.3f * recoilAmplitude);
             base.characterBody.AddSpreadBloom(4f);
@@ -215,10 +258,10 @@ namespace EntityStates.Enforcer
                 bulletAttack.maxSpread = 0f;
                 bulletAttack.Fire();
 
-
-
                 bullets -= 3;
                 bulletAttack.bulletCount = 3;
+                bulletAttack.spreadPitchScale = 1f;
+                bulletAttack.spreadYawScale = _isShielded ? 1 : 1.4f;
                 bulletAttack.minSpread = 0f;
                 bulletAttack.maxSpread = bulletSpread / 2f; // radius / 2 does not equate to area / 2
                 bulletAttack.Fire();                             // ratio for actual equal areas come out to around 1.45, so dividing by higher than this results in proportionally tigher spread.
@@ -229,13 +272,13 @@ namespace EntityStates.Enforcer
                 bulletAttack.minSpread = 0f;
                 bulletAttack.maxSpread = bulletSpread;
                 bulletAttack.spreadPitchScale = 1f;
-                bulletAttack.spreadYawScale = isShielded ? 1 : 1.5f;
+                bulletAttack.spreadYawScale = _isShielded ? 1 : 1.7f;
                 bulletAttack.Fire();
 
 
                 //unshielded shots shoot 8 shots as above
                 //shielded shots shoot the additional 8 shots below
-                if (isShielded)
+                if (_isShielded)
                 {
                     if (bullets > 0)
                     {
@@ -258,7 +301,7 @@ namespace EntityStates.Enforcer
 
         public string getCurrentAnimation()
         {
-            if (isShielded)
+            if (_isShielded)
             {
                 return "ShieldFireShotgun";
             }
