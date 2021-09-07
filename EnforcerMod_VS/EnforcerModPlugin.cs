@@ -2099,7 +2099,7 @@ namespace EnforcerPlugin {
             SkillFamily.Variant primaryVariant1 = Modules.Skills.SetupSkillVariant(primaryDef1);
 
             SkillDef primaryDef2 = PrimarySkillDef_SuperShotgun();
-            Modules.Skills.RegisterSkillDef(primaryDef2, typeof(SuperShotgun));
+            Modules.Skills.RegisterSkillDef(primaryDef2, typeof(SuperShotgun2));
             SkillFamily.Variant primaryVariant2 = Modules.Skills.SetupSkillVariant(primaryDef2, EnforcerUnlockables.enforcerDoomUnlockableDef);
 
             SkillDef primaryDef3 = PrimarySkillDef_AssaultRifle();
@@ -2222,13 +2222,13 @@ namespace EnforcerPlugin {
 
         private SkillDef PrimarySkillDef_SuperShotgun()
         {
-            string desc = "Fire from a double barrel shotgun for <style=cIsDamage>" + SuperShotgun.bulletCount/2 + "x" + 100f * superDamage.Value + "% damage</style>. While shielded, <style=cIsHealth>fire both barrels at once.</style>";
+            string desc = "Fire up to 2 shotgun blasts for <style=cIsDamage>" + SuperShotgun2.bulletCount/2 + "x" + 100f * superDamage.Value + "% damage</style>.\nWhile using Protect and Serve, fire <style=cIsDamage>both barrels at once.</style>";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_NAME", "Super Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION", desc);
 
             SkillDef skillDefSuperShotgun = ScriptableObject.CreateInstance<SkillDef>();
-            skillDefSuperShotgun.activationState = new SerializableEntityStateType(typeof(SuperShotgun));
+            skillDefSuperShotgun.activationState = new SerializableEntityStateType(typeof(SuperShotgun2));
             skillDefSuperShotgun.activationStateMachineName = "Weapon";
             skillDefSuperShotgun.baseMaxStock = 1;
             skillDefSuperShotgun.baseRechargeInterval = 0f;
@@ -2257,7 +2257,8 @@ namespace EnforcerPlugin {
             //string desc = $"Fire a burst of bullets dealing {damage}. <style=cIsUtility>During Protect and Serve</style>, fires <style=cIsDamage>{2 * FireBurstRifle.projectileCount} bullets</style> instead.";
 
             string damage = $"<style=cIsDamage>{100f * FireMachineGun.damageCoefficient}% damage</style>";
-            string desc = $"Unload a barrage of bullets into enemies for {damage}. While shielded, spread is more accurate, but <style=cIsHealth>slow yourself down</style>.";
+
+            string desc = $"Unload a barrage of bullets into enemies for {damage}.\nWhile using Protect and Serve, <style=cIsDamage>accuracy is increased</style>, but <style=cIsHealth>movement speed is slowed</style>.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_NAME", "Heavy Machinegun");
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_DESCRIPTION", desc);
@@ -2291,7 +2292,7 @@ namespace EnforcerPlugin {
         {
             string damage = $"<style=cIsDamage>{ 100f * HammerSwing.damageCoefficient}% damage</style>";
             string shieldDamage = $"<style=cIsDamage>{ 100f * HammerSwing.shieldDamageCoefficient}% damage</style>";
-            string desc = $"Swing your hammer for {damage}. <style=cIsUtility>During Protect and Serve</style>, swing in a larger area for {shieldDamage} instead.";
+            string desc = $"Swing your hammer for {damage}.\nWhile using Protect and Serve, swing in a <style=cIsUtility>larger area</style>, for {shieldDamage} instead.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_HAMMER_NAME", "Breaching Hammer");
             LanguageAPI.Add("ENFORCER_PRIMARY_HAMMER_DESCRIPTION", desc);
@@ -2323,11 +2324,13 @@ namespace EnforcerPlugin {
         private SkillDef SecondarySkillDef_Bash()
         {
             LanguageAPI.Add("KEYWORD_BASH", "<style=cKeywordName>Bash</style><style=cSub>Applies <style=cIsDamage>stun</style> and <style=cIsUtility>heavy knockback</style>.");
-            LanguageAPI.Add("KEYWORD_SPRINTBASH", $"<style=cKeywordName>Shoulder Bash</style><style=cSub><style=cIsUtility>Stunning.</style> A short charge that deals <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage.\nHitting heavier enemies deals <style=cIsDamage>{ShoulderBash.knockbackDamageCoefficient * 100f}% damage</style>.</style>");
+
+            LanguageAPI.Add("KEYWORD_SPRINTBASH", $"<style=cKeywordName>Shoulder Bash</style><style=cSub><style=cIsDamage>Stunning.</style> A short charge that deals <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage.\nHitting heavier enemies deals <style=cIsDamage>{ShoulderBash.knockbackDamageCoefficient * 100f}% damage</style>.</style>");
 
             //string desc = $"<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style>. <style=cIsUtility>Deflects projectiles</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> for <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}-{100f * ShoulderBash.knockbackDamageCoefficient}% damage</style> instead.";
             string desc = $"<style=cIsDamage>Stunning</style>. Knock back enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style> and <style=cIsUtility>deflect projectiles</style>.";
-            desc += $"While <style=cIsUtility>sprinting</style>, perform a <style=cIsUtility>Shoulder Bash</Style> instead.";
+            desc += $"\nWhile <style=cIsUtility>sprinting</style>, perform a <style=cIsUtility>Shoulder Bash</style> instead.";
+            //desc += $" Deals <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage</style> while sprinting.";
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", desc);
@@ -2367,7 +2370,7 @@ namespace EnforcerPlugin {
             LanguageAPI.Add("KEYWORD_BLINDED", "<style=cKeywordName>Impaired</style><style=cSub>Lowers <style=cIsDamage>movement speed</style> by <style=cIsDamage>75%</style>, <style=cIsDamage>attack speed</style> by <style=cIsDamage>25%</style> and <style=cIsHealth>armor</style> by <style=cIsDamage>20</style>.</style></style>");
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_NAME", "Tear Gas");
-            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Toss a grenade that <style=cIsUtility>covers an area in gas</style> for 16 seconds, <style=cIsDamage>Impairing</style> enemies.");
+            LanguageAPI.Add("ENFORCER_UTILITY_TEARGAS_DESCRIPTION", "Toss a grenade that covers an area in <style=cIsDamage>Impairing</style> gas.");
 
             SkillDef tearGasDef = ScriptableObject.CreateInstance<SkillDef>();
             tearGasDef.activationState = new SerializableEntityStateType(typeof(AimTearGas));
@@ -2431,7 +2434,7 @@ namespace EnforcerPlugin {
         private SkillDef SpecialSkillDef_ProtectAndServe()
         {
             LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_NAME", "Protect and Serve");
-            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases attack speed</style>, but <style=cIsHealth>prevents sprinting and jumping</style>.");
+            LanguageAPI.Add("ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION", "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsUtility>Enhances primary fire</style>, but <style=cIsHealth>prevents sprinting and jumping</style>.");
 
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(ProtectAndServe));
@@ -2605,7 +2608,7 @@ namespace EnforcerPlugin {
             Modules.States.AddSkill(typeof(AimDamageGas));
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_NAME", "Mustard Gas");
-            LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_DESCRIPTION", "Toss a grenade that <style=cIsDamage>covers an area in gas</style> for 16 seconds, <style=cIsDamage>Impairing</style> enemies for <style=cIsDamage>200% damage per second</style>.");
+            LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_DESCRIPTION", "Toss a grenade that covers an area in <style=cIsDamage>Impairing</style> gas, choking enemies for <style=cIsDamage>200% damage per second</style>.");
 
             tearGasScepterDef = ScriptableObject.CreateInstance<SkillDef>();
             tearGasScepterDef.activationState = new SerializableEntityStateType(typeof(AimDamageGas));
@@ -2877,6 +2880,8 @@ namespace EnforcerPlugin {
         public static readonly string FireSuperShotgun = "Super_Shotgun";
         public static readonly string FireSuperShotgunCrit = "Super_Shotgun_crit";
         public static readonly string FireSuperShotgunDOOM = "Doom_2_Super_Shotgun";
+        public static readonly string FireSuperShotgunSingle = "Play_SSG_single";
+        public static readonly string FireSuperShotgunSingleCrit = "Play_SSG_single_crit";
 
         public static readonly string FireAssaultRifleSlow = "Assault_Shots_1";
         public static readonly string FireAssaultRifleFast = "Assault_Shots_2";

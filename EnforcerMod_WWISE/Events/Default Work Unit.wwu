@@ -889,6 +889,34 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="Play_SSG_single" ID="{1E8852D4-2D4C-4E9E-A3B4-D3C4CC4D8B10}">
+							<ChildrenList>
+								<Action Name="" ID="{1F19C09C-31BB-4384-A567-DC32FBA546FF}" ShortID="590431974">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="double_shotgun_single" ID="{D50B0E61-6F20-4765-80C0-8A3B0C999BAA}" WorkUnitID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SSG_single_crit" ID="{85FB4999-E18E-4D11-B5CC-6CAF8C42A01A}">
+							<ChildrenList>
+								<Action Name="" ID="{825CC36E-6352-499B-8C93-546BA9AC72B5}" ShortID="52541371">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="double_shotgun_single_crit" ID="{4DABD4A0-6E5B-40BF-B97E-8C4AA8D56D12}" WorkUnitID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="DLC1" ID="{C8EAFCC6-3CBF-4FEC-828E-4289E58F4D5A}" ShortID="764772780">
