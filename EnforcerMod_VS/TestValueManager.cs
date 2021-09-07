@@ -6,17 +6,20 @@ namespace EnforcerPlugin {
         //how do doing attributes
         //[debugfloat("forceShield: ", KeyCode.U, KeyCode.J, 5)]
         //would be neat
-        public static float forceShield = 96.9f;
-        public static float forceUnshield = 150;
+        public static float cameraPivot = 0;
+        public static float aimorigin = 3;
 
         private float tim;
         private float holdTime = 0.5f;
 
-        void Update() {
-            return;
+        private bool testingEnabled;
 
-            manageTestValue(ref forceShield, "force Shielded: ", KeyCode.U, KeyCode.J, 5);
-            manageTestValue(ref forceUnshield, "force Unshielded: ", KeyCode.Y, KeyCode.H, 5);
+        void Update() {
+            if (!testingEnabled)
+                return; 
+
+            manageTestValue(ref cameraPivot, "cameraPivot: ", KeyCode.U, KeyCode.J, 0.05f);
+            manageTestValue(ref aimorigin, "aimorigin: ", KeyCode.Y, KeyCode.H, 0.05f);
         }
 
         //forgive my insolence declaring valuables here. i'll probably move this to utils class

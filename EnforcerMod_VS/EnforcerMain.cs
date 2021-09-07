@@ -168,6 +168,8 @@ namespace EntityStates.Enforcer
         {
             base.Update();
 
+
+
             bool shieldIsUp = (base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff) || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff));
 
             //emotes

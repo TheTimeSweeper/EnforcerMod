@@ -131,7 +131,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                         procCoefficient = procCoefficient,
                         radius = thiccness,
                         sniper = false,
-                        stopperMask = LayerIndex.world.mask,
+                        stopperMask = LayerIndex.world.collisionMask,
                         weapon = null,
                         tracerEffectPrefab = tracerEffect,
                         spreadPitchScale = 1f,
