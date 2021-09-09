@@ -13,7 +13,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         public static float procCoefficient = EnforcerModPlugin.shotgunProcCoefficient.Value;
         public float baseDuration = 0.9f; // the base skill duration. i.e. attack speed
         public float baseShieldDuration = 0.6f; // the duration used while shield is active
-        public static int projectileCount = EnforcerModPlugin.shotgunBulletCount.Value;
+        public static int bulletCount = EnforcerModPlugin.shotgunBulletCount.Value;
         public static float bulletSpread = EnforcerModPlugin.shotgunSpread.Value;
         public static float bulletRecoil = 8f;
         public static float shieldedBulletRecoil = 6f;
@@ -142,15 +142,19 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                     };
 
                     bulletAttack.minSpread = 0;
-                    bulletAttack.maxSpread = spread / RAD2;
-                    bulletAttack.bulletCount = (uint)Mathf.CeilToInt(projectileCount / 2f);
-
+                    bulletAttack.maxSpread = 0;
+                    bulletAttack.bulletCount = 1;
                     bulletAttack.Fire();
 
-                    bulletAttack.minSpread = spread / RAD2;
-                    bulletAttack.maxSpread = spread;
-                    bulletAttack.bulletCount = (uint)Mathf.FloorToInt(projectileCount / 2f);
+                    uint secondShot = (uint)Mathf.CeilToInt(bulletCount / 2f) - 1;
+                    bulletAttack.minSpread = 0;
+                    bulletAttack.maxSpread = spread / 1.45f;
+                    bulletAttack.bulletCount = secondShot;
+                    bulletAttack.Fire();
 
+                    bulletAttack.minSpread = spread / 1.45f;
+                    bulletAttack.maxSpread = spread;
+                    bulletAttack.bulletCount = (uint)Mathf.FloorToInt(bulletCount / 2f);
                     bulletAttack.Fire();
                 }
             }

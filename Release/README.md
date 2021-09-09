@@ -17,19 +17,19 @@ Gnome - Coding
 rob - Cooding  
 TheTimesweeper - Coooding  
 Enigma - Cooooding  
+Moffein - Idea Guy™, Coooooding
 PapaZach - Skill icons  
 bruh - Modeling, swag, animation  
 Jot - Animations  
 DarkLordLui - Animations 
 Paysus - Animations  
 Violet Chaolan - Sounds  
-LucidInceptor - Modeling  
+LucidInceptor (2cute2game) - Modeling  
 SalvadorBunny - Heavy TF2 Minecraft skin  
 Destructor - Original mod icon  
 Reithierion - New mod icon  
 Draymarc - Concepts  
 Lethan - Screenshots  
-Moffein - Idea Guy™  
 Ruxbieno - Idea Guy™  
 Swuff - Idea Guy™  
 
@@ -68,6 +68,28 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 - Help
 
 ## Changelog
+`3.0.6`
+- Unlockables fixed!
+  - Character unlock, mastery, alternate skills.
+  - Actually networked, finally after over a year.
+- Assault Rifle reworked. Now Heavy Machine Gun.
+  - Heavy continuous fire. Rather than burst fire.
+  - In shield, Attack speed increased slightly, spread reduced, movement speed slowed.
+  - configs removed for now
+- Super shotgun rework.
+  - Horrible falloff reduced, spread widened (snuck in last update tee hee).
+  - Unshielded now shoots two individual barrel shots, at relatively higher attack speed and lower spread.
+  - Shielded shoots both beefy barrels at once.
+  - Spread patterns adjusted so more bullets are consistently landed in the middle of the crosshair.
+  - Damage reduced, as the design of the gun is much stronger overall.
+  - Added configs, that was a pain idk why I still did it.
+- New sounds for all guns.
+- Aim origin for guns moved closer to crosshair for more consistent landing.
+- Shock grenade aim arc fixed to match stun grenade.
+- Shock grenade effect changed.
+- Fixed first-time lobby bug.
+- fixed missing scepter icons
+
 `3.0.5`
 - Hotfix update so it doesn't destroy the world with the new aetherium update
 - Enjoy incredibly WIP probably broken animations (run, shoot, shoulder bash, css), by Paysus (THE Paysus)

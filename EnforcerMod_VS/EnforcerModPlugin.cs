@@ -197,32 +197,12 @@ namespace EnforcerPlugin {
 
         private void Awake() {
 
-            //aetherium item displays- dll won't compile without a reference to aetherium
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KomradeSpectre.Aetherium")) {
-                aetheriumInstalled = true;
-            }
-            //sivs item displays- dll won't compile without a reference
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Sivelos.SivsItems")) {
-                sivsItemsInstalled = true;
-            }
-            //supply drop item displays- dll won't compile without a reference
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.K1454.SupplyDrop")) {
-                supplyDropInstalled = true;
-            }
-            //scepter stuff
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter")) {
-                ScepterSkillSetup();
-                ScepterSetup();
-            }
-            //shartstorm 2 xDDDD
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TeamMoonstorm.Starstorm2")) {
-                starstormInstalled = true;
-            }
-
             //touch this all you want tho
+            Assets.PopulateAssets();
             ConfigShit();
             Modules.States.FixStates();
-            Assets.PopulateAssets();
+            SetupModCompat();
+
             MemeSetup();
             CreatePrefab();
             CreateDisplayPrefab();
@@ -246,6 +226,31 @@ namespace EnforcerPlugin {
             RoR2.ContentManagement.ContentManager.onContentPacksAssigned += ContentManager_onContentPacksAssigned;
 
             gameObject.AddComponent<TestValueManager>();
+        }
+
+        private void SetupModCompat() {
+
+            //aetherium item displays- dll won't compile without a reference to aetherium
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KomradeSpectre.Aetherium")) {
+                aetheriumInstalled = true;
+            }
+            //sivs item displays- dll won't compile without a reference
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Sivelos.SivsItems")) {
+                sivsItemsInstalled = true;
+            }
+            //supply drop item displays- dll won't compile without a reference
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.K1454.SupplyDrop")) {
+                supplyDropInstalled = true;
+            }
+            //scepter stuff
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter")) {
+                ScepterSkillSetup();
+                ScepterSetup();
+            }
+            //shartstorm 2 xDDDD
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TeamMoonstorm.Starstorm2")) {
+                starstormInstalled = true;
+            }
         }
 
         private void ContentManager_onContentPacksAssigned(HG.ReadOnlyArray<RoR2.ContentManagement.ReadOnlyContentPack> obj)

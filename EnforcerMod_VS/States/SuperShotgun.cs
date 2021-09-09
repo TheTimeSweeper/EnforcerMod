@@ -249,16 +249,16 @@ namespace EntityStates.Enforcer
                     HitEffectNormal = ClayBruiser.Weapon.MinigunFire.bulletHitEffectNormal
                 };
 
-                int bullets = SuperShotgun.bulletCount;
+                int remainingBullets = SuperShotgun.bulletCount;
 
 
-                bullets -= 1;
+                remainingBullets -= 1;
                 bulletAttack.bulletCount = 1;
                 bulletAttack.minSpread = 0f;
                 bulletAttack.maxSpread = 0f;
                 bulletAttack.Fire();
 
-                bullets -= 3;
+                remainingBullets -= 3;
                 bulletAttack.bulletCount = 3;
                 bulletAttack.spreadPitchScale = 1f;
                 bulletAttack.spreadYawScale = _isShielded ? 1 : 1.4f;
@@ -267,22 +267,21 @@ namespace EntityStates.Enforcer
                 bulletAttack.Fire();                             // ratio for actual equal areas come out to around 1.45, so dividing by higher than this results in proportionally tigher spread.
                                                                  // which is good, of course. just letting ya know so ya know, ya know?
 
-                bullets -= 4;
+                remainingBullets -= 4;
                 bulletAttack.bulletCount = 4;
-                bulletAttack.minSpread = 0f;
+                bulletAttack.minSpread = _isShielded ? 0 : bulletSpread / 4f;
                 bulletAttack.maxSpread = bulletSpread;
                 bulletAttack.spreadPitchScale = 1f;
                 bulletAttack.spreadYawScale = _isShielded ? 1 : 1.7f;
                 bulletAttack.Fire();
 
-
                 //unshielded shots shoot 8 shots as above
                 //shielded shots shoot the additional 8 shots below
                 if (_isShielded)
                 {
-                    if (bullets > 0)
+                    if (remainingBullets > 0)
                     {
-                        bulletAttack.bulletCount = (uint)bullets;
+                        bulletAttack.bulletCount = (uint)remainingBullets;
                         bulletAttack.minSpread = bulletSpread / bulletAttack.spreadYawScale;
                         bulletAttack.maxSpread = bulletSpread;
                         bulletAttack.spreadPitchScale = 1f;
