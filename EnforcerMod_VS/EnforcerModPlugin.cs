@@ -198,9 +198,9 @@ namespace EnforcerPlugin {
         private void Awake() {
 
             //touch this all you want tho
-            Assets.PopulateAssets();
             ConfigShit();
             Modules.States.FixStates();
+            Assets.PopulateAssets();
             SetupModCompat();
 
             MemeSetup();
@@ -308,7 +308,7 @@ namespace EnforcerPlugin {
             shotgunRange = base.Config.Bind<float>("04 - Riot Shotgun", "Range", 64f, "Maximum range");
             shotgunSpread = base.Config.Bind<float>("04 - Riot Shotgun", "Spread", 6f, "Maximum spread");
 
-            superDamage = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Damage Coefficient", 0.8f, "Damage of each pellet");
+            superDamage = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Damage Coefficient", 0.7f, "Damage of each pellet");
             superSpread = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Max Spread", 6f, "your cheeks");
             superDuration = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Duration Scale", 1f, $" Scale the duration of the attack (i.e. attack speed) by this value");
             superBeef = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "beef", 0.4f, "movement stop while shooting in shield. cannot go lower than 0.2 because I say so");

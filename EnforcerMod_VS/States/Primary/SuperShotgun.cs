@@ -9,9 +9,9 @@ namespace EntityStates.Enforcer
     {
         //man I thought my logic was confusing
         //have to pull out a calculator to see how long the shield shot is wtf. 
-        public static float baseShotDuration = 0.7f; //first shot 62.5% dps? //TODO: base shot needs to not finish reloading until little after the shot
-        public static float baseSecondShotDuration = 1.7f; //second shot, total shots 2.4s. 41%dps
-        public static float baseShieldShotDuration = 1.8f; //shield shot. 22% dps increase overall 55.5%dps
+        public static float baseShotDuration = 0.8f; //first shot 62.5% dps? //TODO: base shot needs to not finish reloading until little after the shot
+        public static float baseSecondShotDuration = 1.7f; //second shot, total shots 2.5s. 40%dps
+        public static float baseShieldShotDuration = 1.6f; //shield shot. 62.5%dps, 56% dps increase overall 
 
         public static float baseReloadDuration { get => baseSecondShotDuration - baseShotDuration; }
         public static float baseShieldReloadDuration { get => baseShieldShotDuration - baseShotDuration; }
@@ -176,17 +176,16 @@ namespace EntityStates.Enforcer
             }
         }
 
-        //locking yourself in shield for 2 seconds what the fuck
-        //public override void OnExit()
-        //{
-        //    if (shieldLocked && base.skillLocator.special && base.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDDOWN_NAME")
-        //    {
-        //        shieldLocked = false;
-        //        base.skillLocator.special.enabled = true;
-        //        base.skillLocator.special.stock = 1;
-        //    }
-        //    base.OnExit();
-        //}
+        public override void OnExit()
+        {
+            if (shieldLocked && base.skillLocator.special && base.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDDOWN_NAME")
+            {
+                shieldLocked = false;
+                base.skillLocator.special.enabled = true;
+                base.skillLocator.special.stock = 1;
+            }
+            base.OnExit();
+        }
 
         public void FireBullet()
         {
@@ -249,8 +248,11 @@ namespace EntityStates.Enforcer
                     HitEffectNormal = ClayBruiser.Weapon.MinigunFire.bulletHitEffectNormal
                 };
 
-                int remainingBullets = SuperShotgun.bulletCount;
+                //shit's gotten messy
+                //shootShielded(bulletAttack);
+                //shootUnShielded(bulletAttack);
 
+                int remainingBullets = SuperShotgun.bulletCount;
 
                 remainingBullets -= 1;
                 bulletAttack.bulletCount = 1;
@@ -263,13 +265,13 @@ namespace EntityStates.Enforcer
                 bulletAttack.spreadPitchScale = 1f;
                 bulletAttack.spreadYawScale = _isShielded ? 1 : 1.4f;
                 bulletAttack.minSpread = 0f;
-                bulletAttack.maxSpread = bulletSpread / 2f; // radius / 2 does not equate to area / 2
-                bulletAttack.Fire();                             // ratio for actual equal areas come out to around 1.45, so dividing by higher than this results in proportionally tigher spread.
-                                                                 // which is good, of course. just letting ya know so ya know, ya know?
+                bulletAttack.maxSpread = bulletSpread * 0.5f;
+                bulletAttack.Fire();
+
 
                 remainingBullets -= 4;
                 bulletAttack.bulletCount = 4;
-                bulletAttack.minSpread = _isShielded ? 0 : bulletSpread / 4f;
+                bulletAttack.minSpread = _isShielded ? 0 : bulletSpread * 0.25f;
                 bulletAttack.maxSpread = bulletSpread;
                 bulletAttack.spreadPitchScale = 1f;
                 bulletAttack.spreadYawScale = _isShielded ? 1 : 1.7f;
@@ -277,10 +279,8 @@ namespace EntityStates.Enforcer
 
                 //unshielded shots shoot 8 shots as above
                 //shielded shots shoot the additional 8 shots below
-                if (_isShielded)
-                {
-                    if (remainingBullets > 0)
-                    {
+                if (_isShielded) {
+                    if (remainingBullets > 0) {
                         bulletAttack.bulletCount = (uint)remainingBullets;
                         bulletAttack.minSpread = bulletSpread / bulletAttack.spreadYawScale;
                         bulletAttack.maxSpread = bulletSpread;
@@ -292,7 +292,73 @@ namespace EntityStates.Enforcer
             }
         }
 
-        //Handle second shot in fixedupdate instead
+        private void shootUnShielded(BulletAttack bulletAttack) {
+
+            int remainingBullets = SuperShotgun.bulletCount;
+
+            remainingBullets -= 1;
+            bulletAttack.bulletCount = 1;
+            bulletAttack.minSpread = 0f;
+            bulletAttack.maxSpread = 0f;
+            bulletAttack.Fire();
+
+            remainingBullets -= 3;
+            bulletAttack.bulletCount = 3;
+            bulletAttack.spreadPitchScale = 1f;
+            bulletAttack.spreadYawScale = 1.4f;
+            bulletAttack.minSpread = 0f;
+            bulletAttack.maxSpread = bulletSpread * 0.5f;
+            bulletAttack.Fire();
+
+
+            remainingBullets -= 4;
+            bulletAttack.bulletCount = 4;
+            bulletAttack.minSpread = _isShielded ? 0 : bulletSpread * 0.25f;
+            bulletAttack.maxSpread = bulletSpread;
+            bulletAttack.spreadPitchScale = 1f;
+            bulletAttack.spreadYawScale = 1.7f;
+            bulletAttack.Fire();
+        }
+
+        private void shootShielded(BulletAttack bulletAttack) {
+
+            int remainingBullets = SuperShotgun.bulletCount;
+
+            remainingBullets -= 1;
+            bulletAttack.bulletCount = 1;
+            bulletAttack.minSpread = 0f;
+            bulletAttack.maxSpread = 0f;
+            bulletAttack.Fire();
+
+            remainingBullets -= 3;
+            bulletAttack.bulletCount = 3;
+            bulletAttack.spreadPitchScale = 1f;
+            bulletAttack.spreadYawScale = 1;
+            bulletAttack.minSpread = 0f;
+            bulletAttack.maxSpread = bulletSpread * 0.5f;
+            bulletAttack.Fire();
+
+
+            remainingBullets -= 4;
+            bulletAttack.bulletCount = 4;
+            bulletAttack.minSpread = 0;
+            bulletAttack.maxSpread = bulletSpread;
+            bulletAttack.spreadPitchScale = 1f;
+            bulletAttack.spreadYawScale = 1;
+            bulletAttack.Fire();
+
+            if (_isShielded) {
+                if (remainingBullets > 0) {
+                    bulletAttack.bulletCount = (uint)remainingBullets;
+                    bulletAttack.minSpread = bulletSpread / bulletAttack.spreadYawScale;
+                    bulletAttack.maxSpread = bulletSpread;
+                    bulletAttack.spreadPitchScale = 1f;
+                    bulletAttack.spreadYawScale = 2.3f;
+                    bulletAttack.Fire();
+                }
+            }
+        }
+
         public override InterruptPriority GetMinimumInterruptPriority()
         {
             return InterruptPriority.Skill;

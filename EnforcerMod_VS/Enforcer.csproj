@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="States\PrimaryRifle.cs" />
+    <None Include="States\Primary\PrimaryRifle.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -128,10 +128,6 @@
     <Reference Include="Zio">
       <HintPath>libs\Zio.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="States\Primary\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

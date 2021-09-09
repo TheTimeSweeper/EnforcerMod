@@ -127,11 +127,13 @@ namespace EntityStates.Enforcer
         {
             base.FixedUpdate();
             firingStopwatch += Time.fixedDeltaTime;
-            if (base.isAuthority && firingStopwatch > duration)
+            if (firingStopwatch > duration)
             {
                 if (!base.inputBank || !base.inputBank.skill1.down)
                 {
-                    base.outer.SetNextStateToMain();
+                    if (base.isAuthority) {
+                        base.outer.SetNextStateToMain();
+                    }  
                 }
                 else
                 {
