@@ -29,7 +29,6 @@ namespace EnforcerPlugin
             LanguageAPI.Add("NEMFORCERBODY_TYPHOON_SKIN_NAME", "Champion");
             LanguageAPI.Add("NEMFORCERBODY_DRIP_SKIN_NAME", "Dripforcer");
             LanguageAPI.Add("NEMFORCERBODY_DEDEDE_SKIN_NAME", "King Dedede");
-            LanguageAPI.Add("NEMFORCERBODY_SNEED_SKIN_NAME", "Sneed");
             LanguageAPI.Add("NEMFORCERBODY_MINECRAFT_SKIN_NAME", "Minecraft");
 
             #region DefaultSkin
@@ -71,45 +70,6 @@ namespace EnforcerPlugin
             SkinDef defaultSkin = Skins.CreateSkinDef(skinDefInfo);
             #endregion
 
-            #region EnforcerSkin
-            Skins.SkinDefInfo altSkinDefInfo = default(Skins.SkinDefInfo);
-            altSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
-            altSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
-            altSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
-            altSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
-            altSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerEnforcer");
-
-            altSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
-            {
-                new SkinDef.MeshReplacement
-                {
-                    renderer = mainRenderer,
-                    mesh = Assets.nemAltMesh
-                },
-                new SkinDef.MeshReplacement
-                {
-                    renderer = characterModel.baseRendererInfos[0].renderer,
-                    mesh = characterModel.baseRendererInfos[0].renderer.GetComponent<SkinnedMeshRenderer>().sharedMesh
-                }
-            };
-            altSkinDefInfo.Name = "NEMFORCERBODY_ENFORCER_SKIN_NAME";
-            altSkinDefInfo.NameToken = "NEMFORCERBODY_ENFORCER_SKIN_NAME";
-            altSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
-            altSkinDefInfo.RootObject = model;
-            altSkinDefInfo.UnlockableDef = null;
-
-            rendererInfos = skinDefInfo.RendererInfos;
-            array = new CharacterModel.RendererInfo[rendererInfos.Length];
-            rendererInfos.CopyTo(array, 0);
-
-            array[0].defaultMaterial = Assets.CreateNemMaterial("matNemforcerAlt", 5f, Color.white, 0);
-            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matNemforcerAlt", 5f, Color.white, 0);
-
-            altSkinDefInfo.RendererInfos = array;
-
-            SkinDef altSkin = Skins.CreateSkinDef(altSkinDefInfo);
-            #endregion
-
             #region ClassicSkin
             Skins.SkinDefInfo classicSkinDefInfo = default(Skins.SkinDefInfo);
             classicSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
@@ -147,6 +107,45 @@ namespace EnforcerPlugin
             classicSkinDefInfo.RendererInfos = array;
 
             SkinDef classicSkin = Skins.CreateSkinDef(classicSkinDefInfo);
+            #endregion
+
+            #region EnforcerSkin
+            Skins.SkinDefInfo altSkinDefInfo = default(Skins.SkinDefInfo);
+            altSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            altSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            altSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+            altSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+            altSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerEnforcer");
+
+            altSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                new SkinDef.MeshReplacement
+                {
+                    renderer = mainRenderer,
+                    mesh = Assets.nemAltMesh
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[0].renderer,
+                    mesh = characterModel.baseRendererInfos[0].renderer.GetComponent<SkinnedMeshRenderer>().sharedMesh
+                }
+            };
+            altSkinDefInfo.Name = "NEMFORCERBODY_ENFORCER_SKIN_NAME";
+            altSkinDefInfo.NameToken = "NEMFORCERBODY_ENFORCER_SKIN_NAME";
+            altSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            altSkinDefInfo.RootObject = model;
+            altSkinDefInfo.UnlockableDef = null;
+
+            rendererInfos = skinDefInfo.RendererInfos;
+            array = new CharacterModel.RendererInfo[rendererInfos.Length];
+            rendererInfos.CopyTo(array, 0);
+
+            array[0].defaultMaterial = Assets.CreateNemMaterial("matNemforcerAlt", 5f, Color.white, 0);
+            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matNemforcerAlt", 5f, Color.white, 0);
+
+            altSkinDefInfo.RendererInfos = array;
+
+            SkinDef altSkin = Skins.CreateSkinDef(altSkinDefInfo);
             #endregion
 
             #region TyphoonSkin
@@ -306,45 +305,6 @@ namespace EnforcerPlugin
             dededeBossSkin = Skins.CreateSkinDef(dededeBossSkinDefInfo);
             #endregion
 
-            #region SneedSkin
-            Skins.SkinDefInfo sneedSkinDefInfo = default(Skins.SkinDefInfo);
-            sneedSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
-            sneedSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
-            sneedSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
-            sneedSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
-            sneedSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texSneedSkin");
-
-            sneedSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
-            {
-                new SkinDef.MeshReplacement
-                {
-                    renderer = mainRenderer,
-                    mesh = Assets.sneedMesh
-                },
-                new SkinDef.MeshReplacement
-                {
-                    renderer = characterModel.baseRendererInfos[0].renderer,
-                    mesh = Assets.sneedHammerMesh
-                }
-            };
-            sneedSkinDefInfo.Name = "NEMFORCERBODY_SNEED_SKIN_NAME";
-            sneedSkinDefInfo.NameToken = "NEMFORCERBODY_SNEED_SKIN_NAME";
-            sneedSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
-            sneedSkinDefInfo.RootObject = model;
-            sneedSkinDefInfo.UnlockableDef = null;
-
-            rendererInfos = skinDefInfo.RendererInfos;
-            array = new CharacterModel.RendererInfo[rendererInfos.Length];
-            rendererInfos.CopyTo(array, 0);
-
-            array[0].defaultMaterial = Assets.CreateNemMaterial("matSneed");
-            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matSneed");
-
-            sneedSkinDefInfo.RendererInfos = array;
-
-            SkinDef sneedSkin = Skins.CreateSkinDef(sneedSkinDefInfo);
-            #endregion
-
             #region MinecraftSkin
             Skins.SkinDefInfo minecraftSkinDefInfo = default(Skins.SkinDefInfo);
             minecraftSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
@@ -404,7 +364,6 @@ namespace EnforcerPlugin
                 skinDefs.Add(dripSkin);
                 skinDefs.Add(minecraftSkin);
                 skinDefs.Add(dededeSkin);
-                skinDefs.Add(sneedSkin);
             }
 
             skinController.skins = skinDefs.ToArray();

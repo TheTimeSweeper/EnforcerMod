@@ -110,8 +110,6 @@ namespace EnforcerPlugin
         public static Mesh dededeMesh;
         public static Mesh dededeHammerMesh;
         public static Mesh dededeBossMesh;
-        public static Mesh sneedMesh;
-        public static Mesh sneedHammerMesh;
         public static Mesh minecraftNemMesh;
         public static Mesh minecraftHammerMesh;
 
@@ -306,8 +304,6 @@ namespace EnforcerPlugin
             dededeMesh = MainAssetBundle.LoadAsset<Mesh>("meshDedede");
             dededeHammerMesh = MainAssetBundle.LoadAsset<Mesh>("meshDededeHammer");
             dededeBossMesh = MainAssetBundle.LoadAsset<Mesh>("meshDededeBoss");
-            sneedMesh = MainAssetBundle.LoadAsset<Mesh>("meshSneed");
-            sneedHammerMesh = MainAssetBundle.LoadAsset<Mesh>("meshMallet");
             minecraftNemMesh = MainAssetBundle.LoadAsset<Mesh>("meshMinecraftNem");
             minecraftHammerMesh = MainAssetBundle.LoadAsset<Mesh>("meshMinecraftHammer");
 
