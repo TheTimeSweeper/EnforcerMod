@@ -7,8 +7,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace EntityStates.Enforcer
-{
+namespace EntityStates.Enforcer {
     public class EnforcerMain : GenericCharacterMain
     {
         public static event Action<bool> onDance = delegate { };
@@ -50,6 +49,8 @@ namespace EntityStates.Enforcer
             this.weaponComponent = base.characterBody.GetComponent<EnforcerWeaponComponent>();
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
             this.shieldComponent.origOrigin = base.characterBody.aimOriginTransform;
+
+            Debug.LogWarning("EnforcerMain.OnEnter()");
 
             //bool hasParryStateMachine = false;
 

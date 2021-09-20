@@ -33,10 +33,11 @@ namespace EntityStates.Enforcer {
 
 
         public shotType currentShot {
-            get => outer.GetComponent<ShieldComponent>().currentShot;
-            set => outer.GetComponent<ShieldComponent>().currentShot = value;
+            get; set;
+            //TODO: move currentshot from shieldcomponent to here via next states like a normal person
+            //get => outer.GetComponent<ShieldComponent>().currentShot;
+            //set => outer.GetComponent<ShieldComponent>().currentShot = value;
         }
-        //do statics work in entitystates?
 
         private bool droppedShell;
 
@@ -112,7 +113,6 @@ namespace EntityStates.Enforcer {
 
                 if(currentShot == shotType.SHIELD_SUPER || currentShot == shotType.BARREL_2)
                 poopy.DropShell(-base.GetModelBaseTransform().transform.right * -Random.Range(6, 16));
-                //if (!this.isStormtrooper && !this.isEngi)
             }
 
             base.FixedUpdate();

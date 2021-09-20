@@ -11,7 +11,6 @@ namespace EntityStates.Enforcer
         public static float procCoefficient = 1f;
         public static float bulletRecoil = 2.5f;
         public static float projectileSpeed = 75f;
-        public static Vector3 projectileOffset = new Vector3(0f, -1.2f, 0f);
 
         public static string muzzleString = "GrenadeMuzzle";
 
@@ -25,6 +24,8 @@ namespace EntityStates.Enforcer
             this.duration = StunGrenade.baseDuration / this.attackSpeedStat;
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
             this.animator = base.GetModelAnimator();
+
+            base.StartAimMode();
 
             if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
             {
@@ -41,8 +42,12 @@ namespace EntityStates.Enforcer
             base.characterBody.AddSpreadBloom(0.33f * StunGrenade.bulletRecoil);
             EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, base.gameObject, StunGrenade.muzzleString, false);
 
-            if (base.isAuthority)
-            {
+            if (base.isAuthority) {
+
+                Transform OGrigin = base.characterBody.aimOriginTransform;
+
+                base.characterBody.aimOriginTransform = childLocator.FindChild("GrenadeAimOrigin");
+
                 Ray aimRay = base.GetAimRay();
                 Vector3 aimTweak;
 
@@ -58,7 +63,7 @@ namespace EntityStates.Enforcer
                     damageTypeOverride = DamageType.Stun1s,
                     force = 0f,
                     owner = base.gameObject,
-                    position = aimRay.origin + projectileOffset,
+                    position = aimRay.origin,
                     procChainMask = default(ProcChainMask),
                     projectilePrefab = EnforcerPlugin.EnforcerModPlugin.stunGrenade,
                     rotation = RoR2.Util.QuaternionSafeLookRotation(aimRay.direction + aimTweak * 0.08f),
@@ -68,6 +73,8 @@ namespace EntityStates.Enforcer
                     target = null
                 };
                 ProjectileManager.instance.FireProjectile(info);
+
+                base.characterBody.aimOriginTransform = OGrigin;
             }
         }
 

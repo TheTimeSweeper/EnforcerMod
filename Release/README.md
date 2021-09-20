@@ -1,6 +1,6 @@
 # Enforcer
 - Adds the Enforcer from Risk of Rain 1
-- Includes ~~a bunch of~~ ~~unlockable~~ alternate skills and skins
+- Includes ~~a bunch of~~ unlockable alternate skills and skins
 - Includes support for Ancient Scepter ~~and most modded items~~
 
 [![](https://cdn.discordapp.com/attachments/469291841859092488/830928468367114281/unknown.png)]()
@@ -71,24 +71,24 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 `3.0.6`
 - Unlockables fixed!
   - Character unlock, mastery, alternate skills.
-  - Actually networked, finally after over a year.
-- Assault Rifle reworked. Now Heavy Machine Gun.
+  - Actually networked, fucking after over a year.
+- Assault Rifle reworked. Now Heavy Machine Gun, Moffein's parting gift
   - Heavy continuous fire. Rather than burst fire.
   - In shield, Attack speed increased slightly, spread reduced, movement speed slowed.
   - configs removed for now
+  - friendship ended with ar
+  - rip ar 2020-1974
 - Super shotgun rework.
-  - Horrible falloff reduced, spread widened (snuck in last update tee hee).
   - Unshielded now shoots two individual barrel shots, at relatively higher attack speed and lower spread.
   - Shielded shoots both beefy barrels at once.
+  - Horrible falloff reduced, spread widened (snuck in last update tee hee).
   - Spread patterns adjusted so more bullets are consistently landed in the middle of the crosshair.
-  - Damage reduced, as the design of the gun is much stronger overall.
+  - Damage reduced, as with the design of the gun being stronger overall, it's pumping out more damage consistently.
   - Added configs, that was a pain idk why I still did it.
 - New sounds for all guns.
 - Aim origin for guns moved closer to crosshair for more consistent landing.
-- Shock grenade aim arc fixed to match stun grenade.
 - Shock grenade effect changed.
-- Fixed first-time lobby bug.
-- fixed missing scepter icons
+- Fixed first-time css bug.
 
 `3.0.5`
 - Hotfix update so it doesn't destroy the world with the new aetherium update

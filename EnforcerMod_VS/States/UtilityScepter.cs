@@ -33,7 +33,7 @@ namespace EntityStates.Enforcer
             this.fixedAge += Time.fixedDeltaTime;
 
             bool isShielded = base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
-            if (!isShielded) base.PlayAnimation("RightArm, Override", "FireRifle");
+            //if (!isShielded) base.PlayAnimation("RightArm, Override", "FireRifle");
 
             bool flag = false;
 
@@ -92,6 +92,8 @@ namespace EntityStates.Enforcer
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
             this.animator = base.GetModelAnimator();
 
+            base.StartAimMode();
+
             if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
             {
                 base.PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", this.duration);
@@ -109,8 +111,9 @@ namespace EntityStates.Enforcer
 
             if (base.isAuthority) {
 
-                //Deebug.LogWarning(childLocator);
-                //Debug.LogWarning(childLocator.FindChild(ShockGrenade.muzzleString));
+                Transform OGrigin = base.characterBody.aimOriginTransform;
+
+                base.characterBody.aimOriginTransform = childLocator.FindChild("GrenadeAimOrigin");
 
                 Ray aimRay = base.GetAimRay();
                 Vector3 aimTweak;
@@ -127,7 +130,7 @@ namespace EntityStates.Enforcer
                     damageTypeOverride = DamageType.Shock5s,
                     force = 0f,
                     owner = base.gameObject,
-                    position = aimRay.origin + StunGrenade.projectileOffset,
+                    position = aimRay.origin,
                     procChainMask = default(ProcChainMask),
                     projectilePrefab = EnforcerPlugin.EnforcerModPlugin.shockGrenade,
                     rotation = RoR2.Util.QuaternionSafeLookRotation(aimRay.direction + aimTweak * 0.08f),
@@ -137,6 +140,8 @@ namespace EntityStates.Enforcer
                     target = null
                 };
                 ProjectileManager.instance.FireProjectile(info);
+
+                base.characterBody.aimOriginTransform = OGrigin;
             }
         }
 

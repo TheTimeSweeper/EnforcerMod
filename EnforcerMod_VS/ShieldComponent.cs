@@ -17,8 +17,6 @@ public class ShieldComponent : MonoBehaviour
 
     public Transform origOrigin { get; set; }
 
-    public EntityStates.Enforcer.SuperShotgun.shotType currentShot = EntityStates.Enforcer.SuperShotgun.shotType.NONE;
-
     public bool isShielding = false;
     public Ray aimRay;
     public Vector3 shieldDirection = new Vector3(1,0,0);
@@ -35,7 +33,7 @@ public class ShieldComponent : MonoBehaviour
     GameObject dummy;
     GameObject boyPrefab = Resources.Load<GameObject>("Prefabs/CharacterBodies/LemurianBody");
 
-   public float shieldHealth {
+    public float shieldHealth {
         get => energyShieldControler.healthComponent.health;
     }
 

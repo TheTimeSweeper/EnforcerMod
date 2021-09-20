@@ -302,13 +302,13 @@ namespace EnforcerPlugin {
             baseMovementSpeed = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Movement Speed"), 7f, new ConfigDescription("", null, Array.Empty<object>()));
             baseCrit = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Crit"), 1f, new ConfigDescription("", null, Array.Empty<object>()));
 
-            shotgunDamage = base.Config.Bind<float>("04 - Riot Shotgun", "Damage Coefficient", 0.5f, "Damage of each pellet");
-            shotgunProcCoefficient = base.Config.Bind<float>("04 - Riot Shotgun", "Proc Coefficient", 0.5f, "Proc Coefficient of each pellet");
-            shotgunBulletCount = base.Config.Bind<int>("04 - Riot Shotgun", "Bullet Count", 8, "Amount of pellets fired");
-            shotgunRange = base.Config.Bind<float>("04 - Riot Shotgun", "Range", 64f, "Maximum range");
-            shotgunSpread = base.Config.Bind<float>("04 - Riot Shotgun", "Spread", 6f, "Maximum spread");
+            shotgunDamage = base.Config.Bind<float>("04 - Riot Shotgun 3.0.6", "Damage Coefficient", 0.5f, "Damage of each pellet");
+            shotgunProcCoefficient = base.Config.Bind<float>("04 - Riot Shotgun 3.0.6", "Proc Coefficient", 0.5f, "Proc Coefficient of each pellet");
+            shotgunBulletCount = base.Config.Bind<int>("04 - Riot Shotgun 3.0.6", "Bullet Count", 8, "Amount of pellets fired");
+            shotgunRange = base.Config.Bind<float>("04 - Riot Shotgun 3.0.6", "Range", 64f, "Maximum range");
+            shotgunSpread = base.Config.Bind<float>("04 - Riot Shotgun 3.0.6", "Spread", 5f, "Maximum spread");
 
-            superDamage = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Damage Coefficient", 0.7f, "Damage of each pellet");
+            superDamage = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Damage Coefficient", 0.8f, "Damage of each pellet");
             superSpread = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Max Spread", 6f, "your cheeks");
             superDuration = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Duration Scale", 1f, $" Scale the duration of the attack (i.e. attack speed) by this value");
             superBeef = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "beef", 0.4f, "movement stop while shooting in shield. cannot go lower than 0.2 because I say so");
@@ -1075,33 +1075,33 @@ namespace EnforcerPlugin {
 
             GameObject model = CreateBodyModel(characterPrefab);
 
-            GameObject gameObject = new GameObject("ModelBase");
-            gameObject.transform.parent = characterPrefab.transform;
-            gameObject.transform.localPosition = new Vector3(0f, -0.91f, 0f);
-            gameObject.transform.localRotation = Quaternion.identity;
-            gameObject.transform.localScale = Vector3.one;
+            GameObject modelBase = new GameObject("ModelBase");
+            modelBase.transform.parent = characterPrefab.transform;
+            modelBase.transform.localPosition = new Vector3(0f, -0.91f, 0f);
+            modelBase.transform.localRotation = Quaternion.identity;
+            modelBase.transform.localScale = Vector3.one;
 
 
-            GameObject gameObject2 = new GameObject("CameraPivot");
-            gameObject2.transform.parent = gameObject.transform;
-            gameObject2.transform.localPosition = new Vector3(0f, 0f, 0f);    //1.6
-            gameObject2.transform.localRotation = Quaternion.identity;
-            gameObject2.transform.localScale = Vector3.one;
+            GameObject cameraPivot = new GameObject("CameraPivot");
+            cameraPivot.transform.parent = modelBase.transform;
+            cameraPivot.transform.localPosition = new Vector3(0f, 0f, 0f);    //1.6
+            cameraPivot.transform.localRotation = Quaternion.identity;
+            cameraPivot.transform.localScale = Vector3.one;
 
-            GameObject gameObject3 = new GameObject("AimOrigin");
-            gameObject3.transform.parent = gameObject.transform;
-            gameObject3.transform.localPosition = new Vector3(0f, 3f, 0f);    //1.8
-            gameObject3.transform.localRotation = Quaternion.identity;
-            gameObject3.transform.localScale = Vector3.one;
+            GameObject aimOirign = new GameObject("AimOrigin");
+            aimOirign.transform.parent = modelBase.transform;
+            aimOirign.transform.localPosition = new Vector3(0f, 3f, 0f);    //1.8
+            aimOirign.transform.localRotation = Quaternion.identity;
+            aimOirign.transform.localScale = Vector3.one;
 
             Transform transform = model.transform;
-            transform.parent = gameObject.transform;
+            transform.parent = modelBase.transform;
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
 
             CharacterDirection characterDirection = characterPrefab.GetComponent<CharacterDirection>();
             characterDirection.moveVector = Vector3.zero;
-            characterDirection.targetTransform = gameObject.transform;
+            characterDirection.targetTransform = modelBase.transform;
             characterDirection.overrideAnimatorForwardTransform = null;
             characterDirection.rootMotionAccumulator = null;
             characterDirection.modelAnimator = model.GetComponentInChildren<Animator>();
@@ -1139,7 +1139,7 @@ namespace EnforcerPlugin {
             bodyComponent.wasLucky = false;
             bodyComponent.hideCrosshair = false;
             bodyComponent.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
-            bodyComponent.aimOriginTransform = gameObject3.transform;
+            bodyComponent.aimOriginTransform = aimOirign.transform;
             bodyComponent.hullClassification = HullClassification.Human;
             bodyComponent.portraitIcon = Assets.charPortrait;
             bodyComponent.isChampion = false;
@@ -1178,7 +1178,7 @@ namespace EnforcerPlugin {
 
             ModelLocator modelLocator = characterPrefab.GetComponent<ModelLocator>();
             modelLocator.modelTransform = transform;
-            modelLocator.modelBaseTransform = gameObject.transform;
+            modelLocator.modelBaseTransform = modelBase.transform;
 
             ChildLocator childLocator = model.GetComponent<ChildLocator>();
 
@@ -1449,7 +1449,7 @@ namespace EnforcerPlugin {
 
         private void RegisterCharacter()
         {
-            string desc = "The Enforcer is a defensive juggernaut who can give and take a beating.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine;
+            string desc = "The Enforcer is a defensive juggernaut who can take and give a beating.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine;
             desc = desc + "< ! > Riot Shotgun can pierce through many enemies at once." + Environment.NewLine + Environment.NewLine;
             desc = desc + "< ! > Batting away enemies with Shield Bash guarantees you will keep enemies at a safe range." + Environment.NewLine + Environment.NewLine;
             desc = desc + "< ! > Use Tear Gas to weaken large crowds of enemies, then get in close and crush them." + Environment.NewLine + Environment.NewLine;
@@ -2270,7 +2270,7 @@ namespace EnforcerPlugin {
 
             string desc = $"Unload a barrage of bullets for {damage}.\nWhile using <style=cIsUtility>Protect and Serve</style>, has <style=cIsDamage>increased accuracy</style>, but <style=cIsHealth>slower movement speed</style>.";
 
-            LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_NAME", "Heavy Machinegun");
+            LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_NAME", "Heavy Machine Gun");
             LanguageAPI.Add("ENFORCER_PRIMARY_RIFLE_DESCRIPTION", desc);
 
             SkillDef skillDefAssaultRifle = ScriptableObject.CreateInstance<SkillDef>();

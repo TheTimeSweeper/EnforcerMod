@@ -69,7 +69,7 @@ namespace EntityStates.Enforcer
 
                 Util.PlaySound(soundString, base.gameObject);
 
-                characterBody.aimOriginTransform = shieldComponent.origOrigin;
+                base.characterBody.aimOriginTransform = shieldComponent.origOrigin;
 
                 if (this.weaponComponent)
                 {
