@@ -26,7 +26,7 @@ namespace EntityStates.Enforcer
         private float duration;
         private float fireDuration;
         private float deflectDuration;
-        private float deflectLaserTime = 0.84f; //update this when animation is changed
+        private float deflectLaserTime = 0.62f; //update this when animation is changed
         private float lastDefectedLaserTIme = Time.time;
         private Ray aimRay;
         private BlastAttack blastAttack;

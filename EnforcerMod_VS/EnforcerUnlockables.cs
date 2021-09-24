@@ -86,7 +86,8 @@ namespace EnforcerPlugin {
             //      lol fucking that was a year ago you have to search from:timesweeper i was retarded for saying this
             //if the pull requests gets accepted I'll add the other needed ones to this
             //      fucking it was never merged in i'm reeing so hard right now
-            enforcerUnlockableDef = Unlockables.AddUnlockable<EnforcerUnlockAchievement>(typeof(EnforcerUnlockAchievement.EnforcerUnlockAchievementServer));
+
+            enforcerUnlockableDef = EnforcerModPlugin.forceUnlock.Value? null : Unlockables.AddUnlockable<EnforcerUnlockAchievement>(typeof(EnforcerUnlockAchievement.EnforcerUnlockAchievementServer));
             enforcerMasteryUnlockableDef = Unlockables.AddUnlockable<MasteryAchievement>();
 
             enforcerDoomUnlockableDef = Unlockables.AddUnlockable<DoomAchievement>(typeof(DoomAchievement.DoomAchievementServer));
@@ -112,8 +113,8 @@ namespace EnforcerPlugin {
                 LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, destroy 5 projectiles at once with Dominance.");
                 LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Demolition");
 
-                nemesisUnlockableDef = Enforcer.Modules.Unlockables.AddUnlockable<NemesisAchievement>();
-                nemMasteryUnlockableDef = Enforcer.Modules.Unlockables.AddUnlockable<NemMasteryAchievement>();
+                nemesisUnlockableDef = Unlockables.AddUnlockable<NemesisAchievement>();
+                nemMasteryUnlockableDef = Unlockables.AddUnlockable<NemMasteryAchievement>();
             //    UnlockablesAPI.AddUnlockable<Achievements.NemDominanceAchievement>(true);
 
             //    if (EnforcerPlugin.starstormInstalled)

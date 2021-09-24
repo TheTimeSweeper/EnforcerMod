@@ -7,14 +7,14 @@ using UnityEngine.Networking;
 
 namespace EntityStates.Enforcer.NeutralSpecial {
     class FireMachineGun : BaseState {
-        public static float damageCoefficient = 1.4f;
+        public static float damageCoefficient = 1.3f;
         public static float baseDuration = 0.21f;
 
         public static float baseMaxSpread = 7f;
         public static float shieldSpreadMult = 0.3f;
         public static float bloom = 0.4f;
         public static float range = 300f;
-        public static float force = 500f;
+        public static float force = 300f;
         public static float recoilAmplitude = 6f;
         public static string muzzleName = "Muzzle";
 
@@ -61,7 +61,6 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             if (isAuthority && characterBody) {
                 float shieldSpreadMult = isShielded ? FireMachineGun.shieldSpreadMult : 1f;
                 Ray aimRay = GetAimRay();
-                //EffectManager.SpawnEffect(muzzleFlashPrefab, new EffectData { origin = aimRay.origin }, false);   //Use this to check aimorigin
 
                 float maxSpread = baseMaxSpread * shieldSpreadMult;
                 if (isShielded && characterBody.spreadBloomAngle > maxSpread) {
@@ -101,8 +100,8 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 }.Fire();
 
                 float scaledRecoil = recoilAmplitude / characterBody.attackSpeed;
-                characterBody.AddSpreadBloom(bloom * shieldSpreadMult);
-                AddRecoil(-0.4f * scaledRecoil, -0.8f * scaledRecoil, -0.3f * scaledRecoil, 0.3f * scaledRecoil);
+                characterBody.AddSpreadBloom(FireMachineGun.bloom * shieldSpreadMult);
+                AddRecoil(-0.2f * scaledRecoil, -0.69f * scaledRecoil, -0.3f * scaledRecoil, 0.3f * scaledRecoil);
             }
         }
 

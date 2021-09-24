@@ -1,6 +1,6 @@
 # Enforcer
 - Adds the Enforcer from Risk of Rain 1
-- Includes ~~a bunch of~~ unlockable alternate skills and skins
+- Includes a bunch of unlockable alternate skills ~~and skins~~
 - Includes support for Ancient Scepter ~~and most modded items~~
 
 [![](https://cdn.discordapp.com/attachments/469291841859092488/830928468367114281/unknown.png)]()
@@ -17,11 +17,11 @@ Gnome - Coding
 rob - Cooding  
 TheTimesweeper - Coooding  
 Enigma - Cooooding  
-Moffein - Idea Guy™, Coooooding
+Moffein - Idea Guy™, Coooooding  
 PapaZach - Skill icons  
 bruh - Modeling, swag, animation  
 Jot - Animations  
-DarkLordLui - Animations 
+DarkLordLui - Animations  
 Paysus - Animations  
 Violet Chaolan - Sounds  
 LucidInceptor (2cute2game) - Modeling  
@@ -36,6 +36,7 @@ Swuff - Idea Guy™
 And big thanks to everyone testing and giving their feedback, the mod wouldn't be the same without it
 
 ## Skills
+lil out of date
 
 | Skill | | Description | Stats |
 |:-|-|------|-|
@@ -43,52 +44,63 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 | Shield Bash | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468850683871232/enforcer_secondaryV2.png) | `Bash` nearby enemies away for `250%` damage. Use while sprinting to perform a `Shoulder Bash` for `450%` damage instead. `Deflects Projectiles`. | Proc: `1.0`, CD: `6 sec` |
 | Shoulder Bash |  | Short charge that stuns. Hitting heavier enemies deals up to `700%` damage. | Proc: `1.0` |
 | Tear Gas | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468892445376530/enforcer_utilityV2.png) | Throw a grenade that explodes into tear gas that leaves enemies `Impaired`. Lasts for 16 seconds. | CD: `24 sec` |
-| Blind |  | Reduces `movement speed` by `75%`, `attack speed` by `25`, and `armor` by `20`|
+| Impaired |  | Reduces `movement speed` by `75%`, `attack speed` by `25`, and `armor` by `20`|
 | Protect and Serve | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468993033306122/enforcer_shieldupV2.png) | Take a defensive stance `blocking` all damage from the front. `Increases your rate of fire` but prevents sprinting and jumping. | CD: `0 sec` |
 
 ### Unlockable Alts (spoiler alert)
 
 | Skill | | Description | Stats |
 |:-|-|------|-|
-| Super Shotgun | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468767124815902/enforcer_primary2V2.png) | Fire a powerful short range blast for `16x80%` damage. Has harsh damage falloff. | Proc: `0.75` |
-| Assault Rifle | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468797017227304/enforcer_primary3V2.png) | Fire a burst of bullets bullets dealing `3x75%` damage. Fires 6 bullets instead during Protect and Serve. | Proc: `0.75` |
-| Stun Grenade | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468931159457832/enforcer_utility2V2.png) | `Stunning`. Launch a stun grenade, dealing `400%` damage. Store up to 3 grenades. | Proc: `0.6`, CD: `8 sec` |
+| Super Shotgun | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468767124815902/enforcer_primary2V2.png) | Fire up to 2 shotgun blasts for `8x80%` damage. While using `Protect and Serve`, fire both barrels at once. | Proc: `0.75` |
+| Heavy Machine Gun | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468797017227304/enforcer_primary3V2.png) | Unload a barrage of bullets for `130%` damage. While using `Protect and Serve` has increased accuracy, but slower movement speed. | Proc: `1` |
+| Stun Grenade | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468931159457832/enforcer_utility2V2.png) | `Stunning`. Launch a stun grenade, dealing `540%` damage. Store up to 3 grenades. | Proc: `1`, CD: `6 sec` |
 
 [![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)]()
 
 ## Known Issues
-- Following CUM, secret Void Fields achievement may be bugged
-- Item displays not currently implemented or buggy
+- Item displays not currently implemented 
 - Cancelling shield with sprint does not work properly in multiplayer
 
 ## Future Plans
 - More alternate skill(s)
+- Skills++ support
 - Other things 100% decided on pure whimsy
 - Fixing this fucker
 - Help
 
 ## Changelog
-`3.0.6`
+`3.2.0`
+
+`3.1.1`
+ - fixed double lobby bug with ScrollableLobbyUI and AbyssalLobby
+
+`3.1.0`
 - Unlockables fixed!
   - Character unlock, mastery, alternate skills.
   - Actually networked, fucking after over a year.
-- Assault Rifle reworked. Now Heavy Machine Gun, Moffein's parting gift
+- Assault Rifle reworked. Now Heavy Machine Gun, Moffein's parting gift.
   - Heavy continuous fire. Rather than burst fire.
   - In shield, Attack speed increased slightly, spread reduced, movement speed slowed.
-  - configs removed for now
-  - friendship ended with ar
-  - rip ar 2020-1974
-- Super shotgun rework.
+  - configs removed for now.
+  - friendship ended with ar.
+  - rip ar 2020-1974.
+- Super Shotgun rework.
   - Unshielded now shoots two individual barrel shots, at relatively higher attack speed and lower spread.
   - Shielded shoots both beefy barrels at once.
-  - Horrible falloff reduced, spread widened (snuck in last update tee hee).
+  - Horrible falloff reduced, spread widened (snuck in last update hee hee hee).
   - Spread patterns adjusted so more bullets are consistently landed in the middle of the crosshair.
-  - Damage reduced, as with the design of the gun being stronger overall, it's pumping out more damage consistently.
-  - Added configs, that was a pain idk why I still did it.
+  - Added configs, fuck configs and fuck me for doing them.
+- Riot Shotgun's bullets as well have been tweaked for feel.
 - New sounds for all guns.
+- Stun Grenade buffed. 
+  - Apparently Tear Gas was outclassing it even in damage cause of its armor reduction.
+  - Damage increased to 540%.
+  - Cooldown reduced to 6s.
+  - Proc coefficient increased to 1. Why wasn't it 1 wtf?
 - Aim origin for guns moved closer to crosshair for more consistent landing.
 - Shock grenade effect changed.
 - Fixed first-time css bug.
+- sneed skin removed. fuck you sneed you should have never stayed
 
 `3.0.5`
 - Hotfix update so it doesn't destroy the world with the new aetherium update

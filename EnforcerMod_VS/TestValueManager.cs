@@ -5,12 +5,13 @@ public class TestValueManager : MonoBehaviour {
     //how do doing attributes
     //[debugfloat("valuename", KeyCode.U, KeyCode.J, 5)]
     //would be neat
-    public static float yaw = 1;
+    public static float testValue = 1.7f;
 
     private float tim;
     private float holdTime = 0.5f;
 
-    private bool testingEnabled = true;
+    //compiler flags when
+    private bool testingEnabled = false;
 
     void Update() {
         if (!testingEnabled)
@@ -19,8 +20,8 @@ public class TestValueManager : MonoBehaviour {
         if (!Input.GetKey(KeyCode.LeftAlt))
             return;
 
-        manageTestValue(ref yaw, "yaw", KeyCode.Y, KeyCode.H, 0.05f);
-    }
+        manageTestValue(ref EntityStates.Enforcer.NeutralSpecial.FireMachineGun.damageCoefficient, "dam son", KeyCode.Keypad7, KeyCode.Keypad4, 0.05f);
+     }
 
     private void manageTestValue(ref float value, string valueName, KeyCode upKey, KeyCode downKey, float incrementAmount) {
 

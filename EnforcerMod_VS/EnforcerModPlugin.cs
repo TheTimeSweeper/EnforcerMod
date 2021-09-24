@@ -29,7 +29,7 @@ namespace EnforcerPlugin {
     [BepInDependency("com.K1454.SupplyDrop", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.TeamMoonstorm.Starstorm2", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.0.6")]
+    [BepInPlugin(MODUID, "Enforcer", "3.1.2")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -175,8 +175,6 @@ namespace EnforcerPlugin {
             "MINER_NAME"
         };
 
-        //public static ConfigEntry<bool> classicSkin;
-
         //更新许可证 DO WHAT THE FUCK YOU WANT TO
 
         public SkillLocator skillLocator;
@@ -184,12 +182,12 @@ namespace EnforcerPlugin {
         private List<SkillDef> primarySkillChangeDefs = new List<SkillDef>();
         private List<SkillDef> specialSkillChangeDefs = new List<SkillDef>();
 
-        //i'm touching this. fuck you
         //public EnforcerPlugin()
         //{
         //    //don't touch this
         //    // what does all this even do anyway?
         //    //its our plugin constructor
+        //i'm touching this. fuck you
 
         //    //awake += EnforcerPlugin_Load;
         //    //start += EnforcerPlugin_LoadStart;
@@ -302,16 +300,16 @@ namespace EnforcerPlugin {
             baseMovementSpeed = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Movement Speed"), 7f, new ConfigDescription("", null, Array.Empty<object>()));
             baseCrit = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Crit"), 1f, new ConfigDescription("", null, Array.Empty<object>()));
 
-            shotgunDamage = base.Config.Bind<float>("04 - Riot Shotgun 3.0.6", "Damage Coefficient", 0.5f, "Damage of each pellet");
-            shotgunProcCoefficient = base.Config.Bind<float>("04 - Riot Shotgun 3.0.6", "Proc Coefficient", 0.5f, "Proc Coefficient of each pellet");
-            shotgunBulletCount = base.Config.Bind<int>("04 - Riot Shotgun 3.0.6", "Bullet Count", 8, "Amount of pellets fired");
-            shotgunRange = base.Config.Bind<float>("04 - Riot Shotgun 3.0.6", "Range", 64f, "Maximum range");
-            shotgunSpread = base.Config.Bind<float>("04 - Riot Shotgun 3.0.6", "Spread", 5f, "Maximum spread");
+            shotgunDamage = base.Config.Bind<float>("04 - Riot Shotgun 3.1.0", "Damage Coefficient", 0.45f, "Damage of each pellet");
+            shotgunProcCoefficient = base.Config.Bind<float>("04 - Riot Shotgun 3.1.0", "Proc Coefficient", 0.5f, "Proc Coefficient of each pellet");
+            shotgunBulletCount = base.Config.Bind<int>("04 - Riot Shotgun 3.1.0", "Bullet Count", 8, "Amount of pellets fired");
+            shotgunRange = base.Config.Bind<float>("04 - Riot Shotgun 3.1.0", "Range", 64f, "Maximum range");
+            shotgunSpread = base.Config.Bind<float>("04 - Riot Shotgun 3.1.0", "Spread", 5.5f, "Maximum spread");
 
-            superDamage = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Damage Coefficient", 0.8f, "Damage of each pellet");
-            superSpread = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Max Spread", 6f, "your cheeks");
-            superDuration = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "Duration Scale", 1f, $" Scale the duration of the attack (i.e. attack speed) by this value");
-            superBeef = base.Config.Bind<float>("06 - Super Shotgun 3.0.6", "beef", 0.4f, "movement stop while shooting in shield. cannot go lower than 0.2 because I say so");
+            superDamage = base.Config.Bind<float>("06 - Super Shotgun 3.1.0", "Damage Coefficient", 0.8f, "Damage of each pellet");
+            superSpread = base.Config.Bind<float>("06 - Super Shotgun 3.1.0", "Max Spread", 6f, "your cheeks");
+            superDuration = base.Config.Bind<float>("06 - Super Shotgun 3.1.0", "Duration Scale", 1f, $" Scale the duration of the attack (i.e. attack speed) by this value");
+            superBeef = base.Config.Bind<float>("06 - Super Shotgun 3.1.0", "beef", 0.4f, "movement stop while shooting in shield. cannot go lower than 0.2 because I say so");
 
             /*rifleDamage = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Damage Coefficient"), 0.85f, new ConfigDescription("Damage of each bullet", null, Array.Empty<object>()));
             rifleProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Proc Coefficient"), 0.75f, new ConfigDescription("Proc Coefficient of each bullet", null, Array.Empty<object>()));
@@ -347,10 +345,9 @@ namespace EnforcerPlugin {
             On.RoR2.EscapeSequenceController.BeginEscapeSequence += EscapeSequenceController_BeginEscapeSequence;
             On.RoR2.UI.MainMenu.BaseMainMenuScreen.OnEnter += BaseMainMenuScreen_OnEnter;
             On.RoR2.CharacterSelectBarController.Start += CharacterSelectBarController_Start;
-            //On.RoR2.PreGameController.Awake += PreGameController_Start;
             On.RoR2.MapZone.TryZoneStart += MapZone_TryZoneStart;
             On.RoR2.HealthComponent.Suicide += HealthComponent_Suicide;
-            On.RoR2.TeleportOutController.OnStartClient += TeleportOutController_OnStartClient;
+            //On.RoR2.TeleportOutController.OnStartClient += TeleportOutController_OnStartClient;
             //On.EntityStates.Global.Skills.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
         }
 
@@ -886,33 +883,12 @@ namespace EnforcerPlugin {
 
 
         private void CharacterSelectBarController_Start(On.RoR2.CharacterSelectBarController.orig_Start orig, CharacterSelectBarController self) {
-            orig(self);
-
+            
             string bodyName = NemforcerPlugin.characterPrefab.GetComponent<CharacterBody>().baseNameToken;
 
             bool unlocked = LocalUserManager.readOnlyLocalUsersList.Any((LocalUser localUser) => localUser.userProfile.HasUnlockable(EnforcerUnlockables.nemesisUnlockableDef));
-            if (unlocked) {
-                SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).hidden = false;
-            } else {
-                SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).hidden = true;
-            }
-
-            orig(self);
-        }
-
-        private void PreGameController_Start(On.RoR2.PreGameController.orig_Awake orig, PreGameController self)
-        {
-            string bodyName = NemforcerPlugin.characterPrefab.GetComponent<CharacterBody>().baseNameToken;
-            //bool unlocked = SurvivorCatalog.SurvivorIsUnlockedOnThisClient(SurvivorCatalog.FindSurvivorIndex(bodyName));
-            bool unlocked = LocalUserManager.readOnlyLocalUsersList.Any((LocalUser localUser) => localUser.userProfile.HasUnlockable(EnforcerUnlockables.nemesisUnlockableDef));
-            if (unlocked)
-            {
-                SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).hidden = false;
-            }
-            else
-            {
-                SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).hidden = true;
-            }
+            
+            SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).hidden = !unlocked;
 
             orig(self);
         }
@@ -1468,20 +1444,21 @@ namespace EnforcerPlugin {
 
             characterDisplay.AddComponent<NetworkIdentity>();
 
-            string unlockString = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
-            if (forceUnlock.Value) unlockString = "";
-
-            Modules.Survivors.RegisterNewSurvivor(characterPrefab, characterDisplay, "ENFORCER", EnforcerUnlockables.enforcerUnlockableDef, 4.005f);
+            Modules.Survivors.RegisterNewSurvivor(characterPrefab,
+                                                  characterDisplay, 
+                                                  "ENFORCER",
+                                                  EnforcerUnlockables.enforcerUnlockableDef, 
+                                                  4.005f);
 
             SkillSetup();
-
+            
             bodyPrefabs.Add(characterPrefab);
         }
 
         private void RegisterProjectile()
         {
             //i'm the treasure, baby, i'm the prize
-
+            
             stunGrenade = Resources.Load<GameObject>("Prefabs/Projectiles/CommandoGrenadeProjectile").InstantiateClone("EnforcerStunGrenade", true);
 
             ProjectileController stunGrenadeController = stunGrenade.GetComponent<ProjectileController>();

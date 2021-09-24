@@ -6,9 +6,9 @@ using UnityEngine.UI;
 namespace EntityStates.Enforcer.NeutralSpecial {
     public class SuperShotgun2 : BaseState {
 
-        public static float baseShotDuration = 0.8f; //first shot 62.5% dps? //TODO: base shot needs to not finish reloading until little after the shot
-        public static float baseSecondShotDuration = 1.7f; //second shot, total shots 2.5s. 40%dps
-        public static float baseShieldShotDuration = 1.6f; //shield shot. 62.5%dps, 56% dps increase overall 
+        public static float baseShotDuration = 0.85f; //first shot 62.5% dps? //TODO: base shot needs to not finish reloading until little after the shot
+        public static float baseSecondShotDuration = 1.8f; //second shot, total shots 2.65s. 
+        public static float baseShieldShotDuration = 1.7f; //shield shot. 
 
         public static float baseReloadDuration { get => baseSecondShotDuration - baseShotDuration; }
         public static float baseShieldReloadDuration { get => baseShieldShotDuration - baseShotDuration; }
@@ -110,7 +110,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
             if (isAuthority) {
                 if (inputBank) {
-                    //are we fuckin reinventing the wheel about "requirekeypress" here?
+                    //I feel like we're reinventing the wheel about "requirekeypress" here?
                     if (!_buttonReleased && !inputBank.skill1.down) {
                         _buttonReleased = true;
                     }
@@ -225,7 +225,6 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                     HitEffectNormal = ClayBruiser.Weapon.MinigunFire.bulletHitEffectNormal
                 };
 
-                //shit's gotten messy
                 if (_isShielded) {
                     shootShielded(bulletAttack);
                 } else {
@@ -249,15 +248,15 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             bulletAttack.bulletCount = (uint)bullets;
             bulletAttack.minSpread = 0f;
             bulletAttack.maxSpread = bulletSpread * 0.69f;
-            bulletAttack.spreadPitchScale = 1f;
-            bulletAttack.spreadYawScale = TestValueManager.yaw;// 2f;
+            bulletAttack.spreadPitchScale = 0.8f;
+            bulletAttack.spreadYawScale = 1.7f;
             bulletAttack.Fire();
 
             bulletAttack.bulletCount = (uint)remainingBullets;
             bulletAttack.minSpread = bulletSpread * 0.69f;
             bulletAttack.maxSpread = bulletSpread;
-            bulletAttack.spreadPitchScale = 1f;
-            bulletAttack.spreadYawScale = TestValueManager.yaw;// 2f;
+            bulletAttack.spreadPitchScale = 0.8f;
+            bulletAttack.spreadYawScale =  1.7f;
             bulletAttack.Fire();
         }
 

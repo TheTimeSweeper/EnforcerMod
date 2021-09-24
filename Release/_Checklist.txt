@@ -1,0 +1,6 @@
+>icon
+>manifest
+>dll
+ - tested n shit
+ - version
+>readme
