@@ -69,7 +69,9 @@ lil out of date
 - Help
 
 ## Changelog
-`3.2.0`
+`3.1.2`
+ - fixed force unlock not working for bebbys
+ - fixed multiplayer sound bug with HMG
 
 `3.1.1`
  - fixed double lobby bug with ScrollableLobbyUI and AbyssalLobby

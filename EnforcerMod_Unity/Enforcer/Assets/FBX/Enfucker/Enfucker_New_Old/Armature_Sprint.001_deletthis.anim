@@ -86045,28 +86045,28 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.1
+  - time: 0.06666667
     functionName: Footstep
     data: FootR
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.43333334
+  - time: 0.4
     functionName: Footstep
     data: FootL
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.76666665
+  - time: 0.73333335
     functionName: Footstep
     data: FootR
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.1
+  - time: 1.0666667
     functionName: Footstep
     data: FootL
     objectReferenceParameter: {fileID: 0}

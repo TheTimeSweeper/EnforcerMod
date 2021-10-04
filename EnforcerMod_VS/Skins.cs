@@ -155,7 +155,61 @@ namespace EnforcerPlugin
             skinDefs.Add(masterySkin);
             #endregion
 
+            #region If she don't play the craft
+            SkinDefInfo dontgettheshaftSkinDefInfo = new SkinDefInfo();
+            dontgettheshaftSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            dontgettheshaftSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            dontgettheshaftSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+            dontgettheshaftSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+
+            dontgettheshaftSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texSbeveAchievement");
+            //skinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.31f, 0.49f, 0.69f), new Color(0.86f, 0.83f, 0.63f), new Color(0.1f, 0.07f, 0.06f), new Color(0.21f, 0.29f, 0.38f));
+            dontgettheshaftSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                //new SkinDef.MeshReplacement
+                //{
+                //    renderer = characterModel.baseRendererInfos[0].renderer,
+                //    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshShieldBot")
+                //},
+                //new SkinDef.MeshReplacement
+                //{
+                //    renderer = characterModel.baseRendererInfos[1].renderer,
+                //    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshGunBot")
+                //},
+                //new SkinDef.MeshReplacement
+                //{
+                //    renderer = characterModel.baseRendererInfos[2].renderer,
+                //    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshPauldronBot")
+                //},
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[3].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshEnfuckerSbeve")
+                }
+            };
+            dontgettheshaftSkinDefInfo.Name = "ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME";
+            dontgettheshaftSkinDefInfo.NameToken = "ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME";
+            dontgettheshaftSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+            dontgettheshaftSkinDefInfo.RootObject = model;
+            dontgettheshaftSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerMasteryUnlockableDef;
+
+            rendererInfos = new CharacterModel.RendererInfo[defaultSkin.rendererInfos.Length];
+            defaultSkin.rendererInfos.CopyTo(rendererInfos, 0);
+
+            dontgettheshaftSkinDefInfo.RendererInfos = rendererInfos;
+            dontgettheshaftSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 0f, Color.black, 1f);
+            dontgettheshaftSkinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 0f, Color.black, 0);
+            dontgettheshaftSkinDefInfo.RendererInfos[2].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 1f, Color.white, 0f);
+            dontgettheshaftSkinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matFuckingSteve", 1f, Color.white, 0f);
+
+            SkinDef dontgettheshaftSkin = CreateSkinDef(dontgettheshaftSkinDefInfo);
+
+            if(EnforcerModPlugin.cursed.Value)
+                skinDefs.Add(dontgettheshaftSkin);
+            #endregion
+
             // what are we gonna do about all this...........
+            // fuckin nothing that's what you're going to do faggot
             #region FUCK
             /*
             #region GameObjects
