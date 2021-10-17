@@ -20,6 +20,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         public static float beefDurationNoShield = 0.0f;
         public static float beefDurationShield = 0.25f;
         public static float bulletRange = EnforcerModPlugin.shotgunRange.Value;
+        public static float bulletThiccness = 0.7f;
 
         public float attackStopDuration;
         public float duration;
@@ -105,11 +106,11 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                     Ray aimRay = GetAimRay();
 
                     float spread = bulletSpread;
-                    float thiccness = 0.7f;
+                    float thiccness = bulletThiccness;
                     float force = 100; // EnforcerPlugin.UtilsComponent.forceUnshield;
                     if (HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff)) {
                         spread *= 0.8f;
-                        thiccness = 0.5f;
+                        thiccness = 0.69f * thiccness;
                         force = 60; //EnforcerPlugin.UtilsComponent.forceShield; 
                     }
 

@@ -83,6 +83,9 @@
     <Reference Include="R2API">
       <HintPath>..\..\_sln References\R2API.dll</HintPath>
     </Reference>
+    <Reference Include="Skills">
+      <HintPath>libs\Skills.dll</HintPath>
+    </Reference>
     <Reference Include="Starstorm2">
       <HintPath>libs\Starstorm2.dll</HintPath>
     </Reference>

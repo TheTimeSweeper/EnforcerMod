@@ -22,12 +22,14 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace EnforcerPlugin {
+
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.DestroyedClone.AncientScepter", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KomradeSpectre.Aetherium", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.Sivelos.SivsItems", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.K1454.SupplyDrop", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.TeamMoonstorm.Starstorm2", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.cwmlolzlz.skills", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     [BepInPlugin(MODUID, "Enforcer", "3.1.2")]
     [R2APISubmoduleDependency(new string[]
@@ -38,7 +40,7 @@ namespace EnforcerPlugin {
         "UnlockableAPI"
     })]
 
-    public partial class EnforcerModPlugin : BaseUnityPlugin
+    public class EnforcerModPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.EnforcerGang.Enforcer";
 
@@ -107,6 +109,7 @@ namespace EnforcerPlugin {
         public static bool sivsItemsInstalled = false;
         public static bool supplyDropInstalled = false;
         public static bool starstormInstalled = false;
+        public static bool skillsPlusInstalled = false;
 
         //public static uint doomGuyIndex = 2;
         //public static uint engiIndex = 3;
@@ -187,8 +190,9 @@ namespace EnforcerPlugin {
         //    //don't touch this
         //    // what does all this even do anyway?
         //    //its our plugin constructor
+        //
         //i'm touching this. fuck you
-
+        //
         //    //awake += EnforcerPlugin_Load;
         //    //start += EnforcerPlugin_LoadStart;
         //}
@@ -248,6 +252,12 @@ namespace EnforcerPlugin {
             //shartstorm 2 xDDDD
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TeamMoonstorm.Starstorm2")) {
                 starstormInstalled = true;
+            }
+            //shartstorm 2 xDDDD
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.cwmlolzlz.skills")) {
+                skillsPlusInstalled = true;
+                SkillsPlusCompat.init();
+
             }
         }
 
@@ -887,8 +897,8 @@ namespace EnforcerPlugin {
             string bodyName = NemforcerPlugin.characterPrefab.GetComponent<CharacterBody>().baseNameToken;
 
             bool unlocked = LocalUserManager.readOnlyLocalUsersList.Any((LocalUser localUser) => localUser.userProfile.HasUnlockable(EnforcerUnlockables.nemesisUnlockableDef));
-            
-            SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).hidden = !unlocked;
+
+            SurvivorCatalog.FindSurvivorDefFromBody(NemforcerPlugin.characterPrefab).hidden = true;// !unlocked;
 
             orig(self);
         }
@@ -2094,7 +2104,7 @@ namespace EnforcerPlugin {
             Modules.Skills.RegisterSkillDef(primaryDef3, typeof(FireMachineGun));
             SkillFamily.Variant primaryVariant3 = Modules.Skills.SetupSkillVariant(primaryDef3, EnforcerUnlockables.enforcerARUnlockableDef);
 
-            skillLocator.primary = Modules.Skills.RegisterSkillsToFamily(characterPrefab, primaryVariant1, primaryVariant2, primaryVariant3);
+            skillLocator.primary = Modules.Skills.RegisterSkillsToFamily(characterPrefab, "EnforcerPrimary", primaryVariant1, primaryVariant2, primaryVariant3);
             primarySkillChangeDefs = new List<SkillDef> { primaryDef1};
             //primarySkillChangeDefs = new List<SkillDef> { primaryDef1, primaryDef2, primaryDef3 };
 
@@ -2115,7 +2125,7 @@ namespace EnforcerPlugin {
             Modules.Skills.RegisterSkillDef(secondaryDef1, typeof(ShieldBash), typeof(ShoulderBash), typeof(ShoulderBashImpact));
             SkillFamily.Variant secondaryVariant1 = Modules.Skills.SetupSkillVariant(secondaryDef1);
 
-            skillLocator.secondary = Modules.Skills.RegisterSkillsToFamily(characterPrefab, secondaryVariant1);
+            skillLocator.secondary = Modules.Skills.RegisterSkillsToFamily(characterPrefab, "EnforcerSecondary", secondaryVariant1);
         }
 
         private void UtilitySetup()
@@ -2128,7 +2138,7 @@ namespace EnforcerPlugin {
             Modules.Skills.RegisterSkillDef(utilityDef2, typeof(StunGrenade));
             SkillFamily.Variant utilityVariant2 = Modules.Skills.SetupSkillVariant(utilityDef2, null);
 
-            skillLocator.utility = Modules.Skills.RegisterSkillsToFamily(characterPrefab, utilityVariant1, utilityVariant2);
+            skillLocator.utility = Modules.Skills.RegisterSkillsToFamily(characterPrefab, "EnforcerUtility", utilityVariant1, utilityVariant2);
         }
 
         private void SpecialSetup()
@@ -2143,7 +2153,7 @@ namespace EnforcerPlugin {
             shieldDownDef = specialDef1;
             shieldUpDef = specialDef1Down;
 
-            skillLocator.special = Modules.Skills.RegisterSkillsToFamily(characterPrefab, specialVariant1);
+            skillLocator.special = Modules.Skills.RegisterSkillsToFamily(characterPrefab, "EnforcerSpecial", specialVariant1);
             specialSkillChangeDefs = new List<SkillDef> { specialDef1 };
 
             //cursed
