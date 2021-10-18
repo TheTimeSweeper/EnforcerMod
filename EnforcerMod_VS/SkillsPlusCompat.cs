@@ -39,6 +39,7 @@ namespace EnforcerPlugin {
             RiotShotgun.damageCoefficient = MultScaling(SkillsPlusCompat.riotInitialDamage, .05f, level);
             RiotShotgun.bulletThiccness = MultScaling(SkillsPlusCompat.riotInitialThiccness, .1f, level);
             RiotShotgun.bulletSpread = AdditiveScaling(SkillsPlusCompat.riotInitialSpread, .1f, level);
+            RiotShotgun.levelHasChanged = true;
         }
     }
 }

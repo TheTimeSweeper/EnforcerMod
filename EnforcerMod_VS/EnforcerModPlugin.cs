@@ -1241,7 +1241,7 @@ namespace EnforcerPlugin {
 
             //fuck man
             childLocator.FindChild("Head").transform.localScale = Vector3.one * headSize.Value;
-
+            
             HealthComponent healthComponent = characterPrefab.GetComponent<HealthComponent>();
             healthComponent.health = 160f;
             healthComponent.shield = 0f;
@@ -2776,7 +2776,7 @@ namespace EnforcerPlugin {
 
         private void OnEnable()
         {
-            this.playID = Util.PlaySound(Sounds.CharSelect, base.gameObject);
+            //this.playID = Util.PlaySound(Sounds.CharSelect, base.gameObject);
 
             var i = GetComponentInChildren<EnforcerLightController>();
             if (i)

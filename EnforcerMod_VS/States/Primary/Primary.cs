@@ -22,6 +22,10 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         public static float bulletRange = EnforcerModPlugin.shotgunRange.Value;
         public static float bulletThiccness = 0.7f;
 
+        //too much effort
+        public static bool levelHasChanged;
+        private float originalBulletThiccnes;
+
         public float attackStopDuration;
         public float duration;
         public float fireDuration;
@@ -57,10 +61,10 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 duration = baseDuration / attackSpeedStat;
                 attackStopDuration = beefDurationNoShield / attackSpeedStat;
 
-                PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", 1.75f * duration);
+                PlayCrossfade("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", 1.75f * duration, 0.06f);
             }
 
-            fireDuration = 0.1f * duration;
+            fireDuration = 0.0f * duration; //fucking windup on a shotgun you dumb cunt
         }
 
         public override void OnExit() {
@@ -100,6 +104,11 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
                     GameObject tracerEffect = EnforcerModPlugin.bulletTracer;
 
+                    if (levelHasChanged) {
+                        levelHasChanged = false;
+
+                        thiccenTracer(ref tracerEffect);
+                    }
                     //if (this.isStormtrooper) tracerEffect = EnforcerModPlugin.laserTracer;
                     //if (this.isEngi) tracerEffect = EnforcerModPlugin.bungusTracer;
 
@@ -157,6 +166,19 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                     bulletAttack.maxSpread = spread;
                     bulletAttack.bulletCount = (uint)Mathf.FloorToInt(bulletCount / 2f);
                     bulletAttack.Fire();
+                }
+            }
+        }
+
+        private void thiccenTracer(ref GameObject tracerEffect) {
+
+            // getcomponents in foreach forgive my insolence
+            foreach (LineRenderer i in tracerEffect.GetComponentsInChildren<LineRenderer>()) {
+                if (i) {
+
+                    i.startColor = new Color(0.68f, 0.58f, 0.05f);
+                    i.endColor = new Color(0.68f, 0.58f, 0.05f);
+                    i.widthMultiplier = (1 + bulletThiccness - originalBulletThiccnes) * 0.5f;
                 }
             }
         }
