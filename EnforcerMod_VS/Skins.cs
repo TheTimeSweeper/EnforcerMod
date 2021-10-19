@@ -204,12 +204,12 @@ namespace EnforcerPlugin
 
             SkinDef dontgettheshaftSkin = CreateSkinDef(dontgettheshaftSkinDefInfo);
 
-            if(EnforcerModPlugin.cursed.Value)
-                skinDefs.Add(dontgettheshaftSkin);
+            //if(EnforcerModPlugin.cursed.Value)
+            //    skinDefs.Add(dontgettheshaftSkin);
             #endregion
 
             // what are we gonna do about all this...........
-            // fuckin nothing that's what you're going to do faggot
+            // fuckin nothing that's what you're going you did faggot
             #region FUCK
             /*
             #region GameObjects

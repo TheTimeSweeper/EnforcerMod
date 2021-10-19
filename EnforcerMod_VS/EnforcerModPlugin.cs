@@ -2800,7 +2800,7 @@ namespace EnforcerPlugin {
     public class EnforcerFrogComponent : MonoBehaviour
     {
         public static event Action<bool> FrogGet = delegate { };
-
+        
         private void Awake()
         {
             InvokeRepeating("Sex", 0.5f, 0.5f);
