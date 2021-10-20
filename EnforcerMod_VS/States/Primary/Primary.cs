@@ -37,7 +37,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
         public override void OnEnter() {
             base.OnEnter();
-            characterBody.SetAimTimer(2f);
+            characterBody.SetAimTimer(5f);
             animator = GetModelAnimator();
             muzzleString = "Muzzle";
             /*this.isStormtrooper = false;
