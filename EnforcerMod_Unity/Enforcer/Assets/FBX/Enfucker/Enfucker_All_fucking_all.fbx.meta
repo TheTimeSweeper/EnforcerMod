@@ -154,6 +154,7 @@ ModelImporter:
     100296: UpperLeg.L
     100298: UpperLeg.R
     100300: meshSexforcer.001
+    100302: meshClassicGunHMG
     400000: Armature
     400002: base base
     400004: Chest
@@ -305,6 +306,7 @@ ModelImporter:
     400296: UpperLeg.L
     400298: UpperLeg.R
     400300: meshSexforcer.001
+    400302: meshClassicGunHMG
     2100000: MatEnfucker
     2100002: MatEnfuckerGun
     2100004: MatEnfuckerShield
@@ -319,6 +321,7 @@ ModelImporter:
     2100022: MatEnforcerSkamteBord
     2100024: MatEnfuckerHammer
     2100026: MatEnfuckerSkamteBord
+    2100028: MatClassicGunHMG
     4300000: meshEnforcer
     4300002: meshEnforcerPauldron
     4300004: meshEnforcerGun
@@ -338,6 +341,7 @@ ModelImporter:
     4300032: meshClassicGunSuper
     4300034: meshEnforcerSkamteBord
     4300036: meshSexforcer.001
+    4300038: meshClassicGunHMG
     7400000: Armature|AttachmentAction
     7400002: Armature|CameraAction
     7400004: Armature|CSS.001
@@ -356,6 +360,7 @@ ModelImporter:
     7400030: Armature|Sprint.001
     7400032: Armature|SuperShotgunAction
     7400034: Armature|ShootShotgun
+    7400036: Armature|ShieldHammerSwing
     9500000: //RootNode
     13700000: meshClassic
     13700002: meshClassicGun
@@ -378,6 +383,7 @@ ModelImporter:
     13700036: meshSexforcerShield
     13700038: meshSexforcerShieldGlass
     13700040: meshSexforcer.001
+    13700042: meshClassicGunHMG
     2186277476908879412: ImportLogs
   externalObjects:
   - first:
@@ -448,10 +454,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Armature|CSS.001
-      takeName: Armature|CSS.001
+      name: Armature|ShieldHammerSwing
+      takeName: Armature|ShieldHammerSwing
       firstFrame: 0
-      lastFrame: 165
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -812,10 +818,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Sprint
-      takeName: Armature|Sprint
+      name: Armature|CSS.001
+      takeName: Armature|CSS.001
       firstFrame: 0
-      lastFrame: 40
+      lastFrame: 165
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

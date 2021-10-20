@@ -30,7 +30,7 @@ AvatarMask:
   - m_Path: Armature/Knee.R
     m_Weight: 0
   - m_Path: Armature/Root
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Armature/Root/nade1
     m_Weight: 0
   - m_Path: Armature/Root/nade2
