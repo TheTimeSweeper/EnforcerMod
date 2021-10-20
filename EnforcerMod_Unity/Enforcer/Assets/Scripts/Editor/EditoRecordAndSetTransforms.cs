@@ -18,6 +18,8 @@ public class EditoRecordAndSetTransforms {
     public static ChildLocator storedChildLocator;
     public static RagdollController storedRagdollController;
 
+    private static string bigLog;
+
     [MenuItem("CONTEXT/Transform/Record All Child Transforms")]
     public static void getAllTransformPositions() {
 
@@ -50,8 +52,8 @@ public class EditoRecordAndSetTransforms {
         Transform[] children;
         for (int select = 0; select < Selection.transforms.Length; select++) {
 
-            //NEVER do GetComponentsInChildren at runtime, unless you don't care about high FPS in which case you're not a true gamer -ts
-            children = Selection.transforms[select].GetComponentsInChildren<Transform>();
+            //NEVER do GetComponentsInChildren at runtime, unless you don't care about FPS in which case you're not a true gamer -ts
+            children = Selection.transforms[select].GetComponentsInChildren<Transform>(true);
 
             //holy shit i'm doing the SRM thing kinda
             for (int i = 0; i < children.Length || i < _transforms.Count; i++) {
@@ -118,11 +120,11 @@ public class EditoRecordAndSetTransforms {
         if (storedRigidbody != null)
             copied += "Rigidbody, ";
         if (storedJoint != null)
-            copied += "\nCharacterJoint, ";
+            copied += "CharacterJoint, ";
         if (storedChildLocator != null)
-            copied += "\nChildLocator, ";
+            copied += "ChildLocator, ";
         if (storedRagdollController != null)
-            copied += "\nRagdollController, ";
+            copied += "RagdollController, ";
 
         Debug.Log(copied);
 
@@ -130,6 +132,8 @@ public class EditoRecordAndSetTransforms {
 
     [MenuItem("Edit/paste copied components #v")]
     public static void pasteComponents() {
+
+        bigLog = "Paste Components Report:";
 
         GameObject selected = Selection.activeGameObject;
 
@@ -140,7 +144,7 @@ public class EditoRecordAndSetTransforms {
         }
 
         if (storedRigidbody != null) {
-            setStoredRigidBody(selected);
+            setStoredRigidbody(selected);
         }
 
         if (storedJoint != null) {
@@ -160,36 +164,62 @@ public class EditoRecordAndSetTransforms {
         storedRigidbody = null;
         storedChildLocator = null;
         storedRagdollController = null;
+
+        Debug.Log(bigLog);
     }
 
     private static void setStoredCollider(GameObject selected) {
+
         if (storedCollider is SphereCollider) {
 
             SphereCollider col = selected.GetComponent<SphereCollider>();
             if (!col) {
                 col = selected.AddComponent<SphereCollider>();
+            } else {
+                bigLog += "\nselection already had a SphereCollider";
             }
 
             col.center = (storedCollider as SphereCollider).center;
             col.radius = (storedCollider as SphereCollider).radius;
 
-        } else {
+            return;
+        }
+        if (storedCollider is CapsuleCollider) {
             CapsuleCollider col = selected.GetComponent<CapsuleCollider>();
             if (!col) {
                 col = selected.AddComponent<CapsuleCollider>();
+            } else {
+                bigLog += "\nselection already had a CapsuleCollider";
             }
 
             col.center = (storedCollider as CapsuleCollider).center;
             col.radius = (storedCollider as CapsuleCollider).radius;
             col.height = (storedCollider as CapsuleCollider).height;
             col.direction = (storedCollider as CapsuleCollider).direction;
+            return;
         }
+        if (storedCollider is BoxCollider) {
+            BoxCollider col = selected.GetComponent<BoxCollider>();
+            if (!col) {
+                col = selected.AddComponent<BoxCollider>();
+            } else {
+                bigLog += "\nselection already had a BoxCollider";
+            }
+
+            col.center = (storedCollider as BoxCollider).center;
+            col.size = (storedCollider as BoxCollider).size;
+            return;
+        }
+
+        bigLog += "what even kind of collider was it what";
     }
 
-    private static void setStoredRigidBody(GameObject selected) {
+    private static void setStoredRigidbody(GameObject selected) {
         Rigidbody rig = selected.GetComponent<Rigidbody>();
         if (!rig) {
             rig = selected.AddComponent<Rigidbody>();
+        } else {
+            bigLog += "\nselection already had a Rigidbody";
         }
 
         rig.drag = storedRigidbody.drag;
@@ -202,6 +232,8 @@ public class EditoRecordAndSetTransforms {
         CharacterJoint joint = selected.GetComponent<CharacterJoint>();
         if (!joint) {
             joint = selected.AddComponent<CharacterJoint>();
+        } else {
+            bigLog += "\nselection already had a CharacterJoint";
         }
 
         bool found = false;
@@ -242,9 +274,11 @@ public class EditoRecordAndSetTransforms {
         ChildLocator locator = selected.GetComponent<ChildLocator>();
         if(locator == null) {
             locator = selected.AddComponent<ChildLocator>();
+        } else {
+            bigLog += "\nselection already had a ChildLocator";
         }
 
-        List<Transform> children = selected.GetComponentsInChildren<Transform>().ToList();
+        List<Transform> children = selected.GetComponentsInChildren<Transform>(true).ToList();
 
         locator.TransformPairs = new ChildLocator.NameTransformPair[storedChildLocator.TransformPairs.Length];
 
@@ -263,6 +297,10 @@ public class EditoRecordAndSetTransforms {
                 return tran.name == storedPair.transform.name; 
             });
 
+            if(pair.transform == null) {
+                bigLog += $"\ncould not find transform for {pair.name}";
+            }
+
             locator.TransformPairs[i] = pair;
         }
     }
@@ -272,9 +310,11 @@ public class EditoRecordAndSetTransforms {
         RagdollController controller = selected.GetComponent<RagdollController>();
         if (controller == null) {
             controller = selected.AddComponent<RagdollController>();
+        } else {
+            bigLog += "\nselection already had a RagdollController";
         }
 
-        List<Transform> children = selected.GetComponentsInChildren<Transform>().ToList();
+        List<Transform> children = selected.GetComponentsInChildren<Transform>(true).ToList();
 
         controller.bones = new Transform[storedRagdollController.bones.Length];
 
@@ -283,12 +323,38 @@ public class EditoRecordAndSetTransforms {
             Transform bone = controller.bones[i];
             Transform storedBone = storedRagdollController.bones[i];
 
-            if (storedBone == null) 
-                continue;
+            //if (storedBone == null) 
+            //    continue;
 
             bone = children.Find(tran => { return tran.name == storedBone.name; });
+
+            controller.bones[i] = bone;
+
+            if (bone == null) {
+                bigLog += $"\ncould not get bone for {storedBone.name}. let's try this";
+            }
+
+            if (bone != null && !bone.GetComponent<Collider>() && storedBone.GetComponent<Collider>()) {
+
+                bigLog += $"\n found collider for {bone.name}. let's try this";
+
+                storedCollider = storedBone.GetComponent<Collider>();
+                if (storedCollider != null) {
+                    setStoredCollider(bone.gameObject);
+                }
+
+                storedRigidbody = storedBone.GetComponent<Rigidbody>();
+                if (storedRigidbody != null) {
+                    setStoredRigidbody(bone.gameObject);
+                }
+
+                storedJoint = storedBone.GetComponent<CharacterJoint>();
+                if (storedJoint != null) {
+                    setStoredJoint(bone.gameObject);
+                }
+                
+                bigLog += $"\n successfully added to {bone.name}: Collider {bone.GetComponent<Collider>()}, Rigidbody {bone.GetComponent<Rigidbody>()}, CharacterJoint {bone.GetComponent<CharacterJoint>()}";
+            }
         }
     }
-
-
 }

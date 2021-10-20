@@ -311,7 +311,7 @@ namespace EnforcerPlugin
             minecraftSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             minecraftSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
             minecraftSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
-            minecraftSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texMinecraftShit");
+            minecraftSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerMinecraftShit");
 
             minecraftSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {

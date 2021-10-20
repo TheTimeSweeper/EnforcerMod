@@ -406,6 +406,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: MatClassicGunHMG
+    second: {fileID: 2100000, guid: abfdd407e1671e048af75a99e4af9b39, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: MatClassicGunSuper
     second: {fileID: 2100000, guid: ef468be80dcb4cd4a80f5f41e6340322, type: 2}
   - first:

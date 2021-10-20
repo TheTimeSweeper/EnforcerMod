@@ -1204,15 +1204,44 @@ namespace EnforcerPlugin {
             {
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = Assets.CreateMaterial("matRiotShield", 0f, Color.black, 1f),
+                    defaultMaterial = Assets.CreateMaterial("matEnforcerShield", 0f, Color.black, 1f),
                     renderer = childLocator.FindChild("ShieldModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = Assets.CreateMaterial("matShotgun", 0f, Color.black, 0f),
+                    //not hotpoo model for transparency
+                    defaultMaterial = childLocator.FindChild("ShieldGlassModel").gameObject.GetComponent<SkinnedMeshRenderer>().material, //Assets.CreateMaterial("matSexforcerShieldGlass", 0f, Color.black, 1f),
+                    renderer = childLocator.FindChild("ShieldGlassModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = true
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = Assets.CreateMaterial("matEnforcerGun", 0f, Color.black, 0f),
                     renderer = childLocator.FindChild("GunModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.black, 0f),
+                    renderer = childLocator.FindChild("SuperGunModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = Assets.CreateMaterial("matClassicGunHMG", 0f, Color.black, 0f),
+                    renderer = childLocator.FindChild("HMGModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = Assets.CreateMaterial("matEnforcerHammer", 0f, Color.black, 0f),
+                    renderer = childLocator.FindChild("HammerModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },

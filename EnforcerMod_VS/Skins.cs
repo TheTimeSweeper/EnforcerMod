@@ -12,22 +12,24 @@ namespace EnforcerPlugin
     public static class Skins
     {
 
+        private static List<GameObject> allGameObjectActivations = new List<GameObject>();
+
         /// <summary>
         /// create an array of all gameobjects that are activated/deactivated by skins, then for each skin pass in the specific objects that will be active
         /// </summary>
         /// <param name="allObjects">array of all gameobjects that are activated/deactivated by skins</param>
         /// <param name="activatedObjects">specific objects that will be active</param>
         /// <returns></returns>
-        private static SkinDef.GameObjectActivation[] getActivations(GameObject[] allObjects, params GameObject[] activatedObjects) {
+        private static SkinDef.GameObjectActivation[] getActivations(params GameObject[] activatedObjects) {
 
             List<SkinDef.GameObjectActivation> GameObjectActivations = new List<SkinDef.GameObjectActivation>();
 
-            for (int i = 0; i < allObjects.Length; i++) {
+            for (int i = 0; i < allGameObjectActivations.Count; i++) {
 
-                bool activate = activatedObjects.Contains(allObjects[i]);
+                bool activate = activatedObjects.Contains(allGameObjectActivations[i]);
 
                 GameObjectActivations.Add(new SkinDef.GameObjectActivation {
-                    gameObject = allObjects[i],
+                    gameObject = allGameObjectActivations[i],
                     shouldActivate = activate
                 });
             }
@@ -47,8 +49,10 @@ namespace EnforcerPlugin
 
             #region LanguageTokens
             LanguageAPI.Add("ENFORCERBODY_DEFAULT_SKIN_NAME", "Default");
-            LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "N-4CR");//Peacekeeper
+            LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Peacekeeper");
             LanguageAPI.Add("ENFORCERBODY_TYPHOON_SKIN_NAME", "Lawbringer");
+            LanguageAPI.Add("ENFORCERBODY_CLASSIC_SKIN_NAME", "Classic");
+            LanguageAPI.Add("ENFORCERBODY_BOT_SKIN_NAME", "N-4CR");
             LanguageAPI.Add("ENFORCERBODY_SPACE_SKIN_NAME", "Rainstormtrooper");
             LanguageAPI.Add("ENFORCERBODY_ENGI_SKIN_NAME", "Engineer?");
             LanguageAPI.Add("ENFORCERBODY_DOOM_SKIN_NAME", "Doom Slayer");
@@ -60,49 +64,73 @@ namespace EnforcerPlugin
             LanguageAPI.Add("ENFORCERBODY_NEMESIS_SKIN_NAME", "Nemesis");
             #endregion
 
-            SkinDefInfo skinDefInfo = new SkinDefInfo();
-            skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
-            skinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
-            skinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
-            skinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+            #region GameObjectActivations
 
-            skinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
+            GameObject sexforcerGlass = childLocator.FindChild("ShieldGlassModel").gameObject;
+
+            allGameObjectActivations = new List<GameObject> {
+                sexforcerGlass,
+            };
+
+            #endregion
+
+            #region default
+            SkinDefInfo defaultSkinDefInfo = new SkinDefInfo();
+            defaultSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            defaultSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            defaultSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+
+            defaultSkinDefInfo.GameObjectActivations = getActivations();
+
+            defaultSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
             //skinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.31f, 0.49f, 0.69f), new Color(0.86f, 0.83f, 0.63f), new Color(0.1f, 0.07f, 0.06f), new Color(0.21f, 0.29f, 0.38f));
-            skinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            defaultSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
                 new SkinDef.MeshReplacement
                 {
                     renderer = characterModel.baseRendererInfos[0].renderer,
-                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshShield")
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshEnforcerShield")
                 },
-                new SkinDef.MeshReplacement
-                {
-                    renderer = characterModel.baseRendererInfos[1].renderer,
-                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshGun")
-                },
+                //[1] shield glass
                 new SkinDef.MeshReplacement
                 {
                     renderer = characterModel.baseRendererInfos[2].renderer,
-                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshPauldron")
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshEnforcerGun")
                 },
                 new SkinDef.MeshReplacement
                 {
                     renderer = characterModel.baseRendererInfos[3].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshClassicGunSuper")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[4].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshClassicGunHMG")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[5].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshEnforcerHammer")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[6].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshEnforcerPauldron")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[7].renderer,
                     mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshEnforcer")
                 }
             };
-            skinDefInfo.Name = "ENFORCERBODY_DEFAULT_SKIN_NAME";
-            skinDefInfo.NameToken = "ENFORCERBODY_DEFAULT_SKIN_NAME";
-            skinDefInfo.RendererInfos = characterModel.baseRendererInfos;
-            skinDefInfo.RootObject = model;
+            defaultSkinDefInfo.Name = "ENFORCERBODY_DEFAULT_SKIN_NAME";
+            defaultSkinDefInfo.NameToken = "ENFORCERBODY_DEFAULT_SKIN_NAME";
+            defaultSkinDefInfo.RootObject = model;
+            defaultSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
 
-            skinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matRiotShield", 0f, Color.black, 1f);
-            skinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matShotgun", 0f, Color.black, 0);
-            skinDefInfo.RendererInfos[2].defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 0f);
-            skinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 0f);
-
-            SkinDef defaultSkin = CreateSkinDef(skinDefInfo);
+            SkinDef defaultSkin = CreateSkinDef(defaultSkinDefInfo);
             skinDefs.Add(defaultSkin);
+            #endregion
 
             #region Mastery
             SkinDefInfo masterySkinDefInfo = new SkinDefInfo();
@@ -111,48 +139,137 @@ namespace EnforcerPlugin
             masterySkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
             masterySkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
 
-            masterySkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerEnforcer");
-            //skinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.31f, 0.49f, 0.69f), new Color(0.86f, 0.83f, 0.63f), new Color(0.1f, 0.07f, 0.06f), new Color(0.21f, 0.29f, 0.38f));
+            masterySkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texSexforcerAchievement");
             masterySkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
                 new SkinDef.MeshReplacement
                 {
                     renderer = characterModel.baseRendererInfos[0].renderer,
-                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshShieldBot")
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshSexforcerShield")
                 },
                 new SkinDef.MeshReplacement
                 {
                     renderer = characterModel.baseRendererInfos[1].renderer,
-                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshGunBot")
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshSexforcerShieldGlass")
                 },
                 new SkinDef.MeshReplacement
                 {
                     renderer = characterModel.baseRendererInfos[2].renderer,
-                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshPauldronBot")
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshEnforcerGun")
                 },
                 new SkinDef.MeshReplacement
                 {
                     renderer = characterModel.baseRendererInfos[3].renderer,
-                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshEnforcerBot")
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshClassicGunSuper")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[4].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshClassicGunHMG")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[5].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshEnforcerHammer")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[6].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshSexforcerPauldron")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[7].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshSexforcer")
                 }
             };
             masterySkinDefInfo.Name = "ENFORCERBODY_MASTERY_SKIN_NAME";
             masterySkinDefInfo.NameToken = "ENFORCERBODY_MASTERY_SKIN_NAME";
-            masterySkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             masterySkinDefInfo.RootObject = model;
             masterySkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerMasteryUnlockableDef;
+            masterySkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
 
-            CharacterModel.RendererInfo[] rendererInfos = new CharacterModel.RendererInfo[defaultSkin.rendererInfos.Length];
-            defaultSkin.rendererInfos.CopyTo(rendererInfos, 0);
+            CharacterModel.RendererInfo[] defaultRendererInfos = new CharacterModel.RendererInfo[defaultSkin.rendererInfos.Length];
+            defaultSkin.rendererInfos.CopyTo(defaultRendererInfos, 0);
 
-            masterySkinDefInfo.RendererInfos = rendererInfos;
-            masterySkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 0f, Color.black, 1f);
-            masterySkinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 0f, Color.black, 0);
-            masterySkinDefInfo.RendererInfos[2].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 1f, Color.white, 0f);
-            masterySkinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 1f, Color.white, 0f);
+            masterySkinDefInfo.RendererInfos = defaultRendererInfos;
+            masterySkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matSexforcerShield", 0f, Color.black, 1f);
+            //take default
+            //masterySkinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matSexforcerShieldGlass", 0f, Color.black, 0);
+            masterySkinDefInfo.RendererInfos[2].defaultMaterial = Assets.CreateMaterial("matEnforcerGun", 0f, Color.white, 0f);
+            //take default
+            //masterySkinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.white, 0f);
+            //masterySkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matClassicGunHMG", 0f, Color.white, 0f);
+            //masterySkinDefInfo.RendererInfos[5].defaultMaterial = Assets.CreateMaterial("matEnforcerHammer", 0f, Color.white, 0f);
+            masterySkinDefInfo.RendererInfos[6].defaultMaterial = Assets.CreateMaterial("matSexforcerPauldron", 1f, Color.white, 0f);
+            masterySkinDefInfo.RendererInfos[7].defaultMaterial = Assets.CreateMaterial("matSexforcer", 1f, Color.white, 0f);
 
             SkinDef masterySkin = CreateSkinDef(masterySkinDefInfo);
             skinDefs.Add(masterySkin);
+            #endregion
+
+            #region robit
+            SkinDefInfo robitSkinDefInfo = new SkinDefInfo();
+            robitSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            robitSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            robitSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+            robitSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+
+            robitSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerEnforcer");
+            //skinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.31f, 0.49f, 0.69f), new Color(0.86f, 0.83f, 0.63f), new Color(0.1f, 0.07f, 0.06f), new Color(0.21f, 0.29f, 0.38f));
+            robitSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[0].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshN4CRShield")
+                },
+                //[1] sex glass
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[2].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshN4CRGun")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[3].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshN4CRGun")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[4].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshN4CRGun")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[5].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshEnforcerHammer")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[6].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshN4CRPauldron")
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[7].renderer,
+                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>("meshN4CR")
+                }
+            };
+            robitSkinDefInfo.Name = "ENFORCERBODY_MASTERY_SKIN_NAME";
+            robitSkinDefInfo.NameToken = "ENFORCERBODY_MASTERY_SKIN_NAME";
+            robitSkinDefInfo.RootObject = model;
+            //robitSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerMasteryUnlockableDef;
+            robitSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+
+            robitSkinDefInfo.RendererInfos = defaultRendererInfos;
+            robitSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 0f, Color.black, 1f);
+            robitSkinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 0f, Color.black, 0);
+            robitSkinDefInfo.RendererInfos[2].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 1f, Color.white, 0f);
+            robitSkinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 1f, Color.white, 0f);
+
+            SkinDef robitSkin = CreateSkinDef(robitSkinDefInfo);
+            skinDefs.Add(robitSkin);
             #endregion
 
             #region If she don't play the craft
@@ -193,10 +310,10 @@ namespace EnforcerPlugin
             dontgettheshaftSkinDefInfo.RootObject = model;
             dontgettheshaftSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerMasteryUnlockableDef;
 
-            rendererInfos = new CharacterModel.RendererInfo[defaultSkin.rendererInfos.Length];
-            defaultSkin.rendererInfos.CopyTo(rendererInfos, 0);
+            defaultRendererInfos = new CharacterModel.RendererInfo[defaultSkin.rendererInfos.Length];
+            defaultSkin.rendererInfos.CopyTo(defaultRendererInfos, 0);
 
-            dontgettheshaftSkinDefInfo.RendererInfos = rendererInfos;
+            dontgettheshaftSkinDefInfo.RendererInfos = defaultRendererInfos;
             dontgettheshaftSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 0f, Color.black, 1f);
             dontgettheshaftSkinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 0f, Color.black, 0);
             dontgettheshaftSkinDefInfo.RendererInfos[2].defaultMaterial = Assets.CreateMaterial("matEnforcerBot", 1f, Color.white, 0f);
@@ -209,7 +326,7 @@ namespace EnforcerPlugin
             #endregion
 
             // what are we gonna do about all this...........
-            // fuckin nothing that's what you're going you did faggot
+            // fuckin nothing that's what you did faggot
             #region FUCK
             /*
             #region GameObjects
