@@ -20,6 +20,8 @@ public class ShieldComponent : MonoBehaviour
     public bool isShielding = false;
     public Ray aimRay;
     public Vector3 shieldDirection = new Vector3(1,0,0);
+
+    public bool beefStop;
     float initialTime = 0;
 
     private GameObject energyShield;

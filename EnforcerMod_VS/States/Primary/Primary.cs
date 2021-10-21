@@ -22,24 +22,29 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         public static float bulletRange = EnforcerModPlugin.shotgunRange.Value;
         public static float bulletThiccness = 0.7f;
 
-        //too much effort
+        //too much effort being put here
         public static bool levelHasChanged;
-        private float originalBulletThiccnes;
+        private float originalBulletThiccness = 0.7f;
 
-        public float attackStopDuration;
-        public float duration;
-        public float fireDuration;
-        //public bool isStormtrooper;
-        //public bool isEngi;
-        public bool hasFired;
+        protected float duration;
+        protected float fireDuration;
+        protected float attackStopDuration;
+        //protected bool isStormtrooper;
+        //protected bool isEngi;
+        protected bool hasFired;
         private Animator animator;
-        public string muzzleString;
+        protected string muzzleString;
+
+        protected ShieldComponent shieldComponent;
 
         public override void OnEnter() {
             base.OnEnter();
             characterBody.SetAimTimer(5f);
             animator = GetModelAnimator();
+            shieldComponent = GetComponent<ShieldComponent>();
             muzzleString = "Muzzle";
+            hasFired = false;
+
             /*this.isStormtrooper = false;
             this.isEngi = false;
             if (base.characterBody.skinIndex == EnforcerModPlugin.stormtrooperIndex && EnforcerModPlugin.cursed.Value)
@@ -50,13 +55,13 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             {
                 this.isEngi = true;
             }*/
-            hasFired = false;
+
 
             if (HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) {
                 duration = baseShieldDuration / attackSpeedStat;
                 attackStopDuration = beefDurationShield / attackSpeedStat;
 
-                PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", 0.5f * duration);
+                PlayAnimation("Gesture, Additive", "ShieldFireShotgun", "FireShotgun.playbackRate", 0.5f * duration);
             } else {
                 duration = baseDuration / attackSpeedStat;
                 attackStopDuration = beefDurationNoShield / attackSpeedStat;
@@ -178,7 +183,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
                     i.startColor = new Color(0.68f, 0.58f, 0.05f);
                     i.endColor = new Color(0.68f, 0.58f, 0.05f);
-                    i.widthMultiplier = (1 + bulletThiccness - originalBulletThiccnes) * 0.5f;
+                    i.widthMultiplier = (1 + bulletThiccness - originalBulletThiccness) * 0.5f;
                 }
             }
         }
@@ -186,11 +191,19 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         public override void FixedUpdate() {
             base.FixedUpdate();
 
-            animator.speed = 1;
-            if (fixedAge > fireDuration && fixedAge < attackStopDuration + fireDuration) {
-                if (characterMotor) {
-                    animator.speed = 0;
-                    characterMotor.moveDirection = Vector3.zero;
+            
+            
+            if (isAuthority) {
+
+                shieldComponent.beefStop = false;
+                if (fixedAge > fireDuration && fixedAge < attackStopDuration + fireDuration) {
+                    if (characterMotor) {
+                        //animator.speed = 0;
+                        characterMotor.moveDirection = Vector3.zero;
+                        //characterBody.moveSpeed = 0;
+                        //animator.SetFloat(AnimationParameters.walkSpeed, 0);
+                        shieldComponent.beefStop = true;
+                    }
                 }
             }
 

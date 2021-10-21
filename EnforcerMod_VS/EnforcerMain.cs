@@ -50,7 +50,7 @@ namespace EntityStates.Enforcer {
             this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
             this.shieldComponent.origOrigin = base.characterBody.aimOriginTransform;
 
-            Debug.LogWarning("EnforcerMain.OnEnter()");
+            //Debug.LogWarning("EnforcerMain.OnEnter()");
 
             //bool hasParryStateMachine = false;
 
@@ -354,6 +354,14 @@ namespace EntityStates.Enforcer {
             {
                 bool sirensOn = this.lightController.sirenToggle;
                 this.animator.SetFloat("shitpost", sirensOn ? 1 : 0, 0.1f, Time.fixedDeltaTime);
+            }
+        }
+
+        public override void UpdateAnimationParameters() {
+            base.UpdateAnimationParameters();
+
+            if (shieldComponent.beefStop) {
+                this.modelAnimator.SetFloat(AnimationParameters.walkSpeed, 0);
             }
         }
 

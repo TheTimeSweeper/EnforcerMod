@@ -341,14 +341,29 @@ namespace EnforcerPlugin
 
             return newEffect;
         }
+        public static Material CreateMaterial(string materialName) {
 
-        public static Material CreateMaterial(string materialName, float emission, Color emissionColor, float normalStrength)
+            Material createdmaterial = createdMaterials.Find(cmat => { return cmat.name == materialName; }).createdMaterial;
+            if (createdmaterial != null)
+                return createdmaterial;
+
+            return CreateMaterial(Assets.MainAssetBundle, materialName, 0, Color.black, 0);
+        }
+
+        public static Material CreateMaterial(string materialName, float emission, Color emissionColor, float normalStrength) {
+            return CreateMaterial(Assets.MainAssetBundle, materialName, emission, emissionColor, normalStrength);
+        }
+
+        public static Material CreateMaterial(AssetBundle assetbundle, string materialName, float emission, Color emissionColor, float normalStrength)
         {
+            Material createdmaterial = createdMaterials.Find(cmat => { return cmat.checkAlreadyCreated(materialName, emission, emissionColor, normalStrength); }).createdMaterial;
+            if (createdmaterial != null)
+                return createdmaterial;
+
             if (!commandoMat) commandoMat = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial;
 
-            Material tempMat = Assets.MainAssetBundle.LoadAsset<Material>(materialName);
-            if (!tempMat)
-            {
+            Material tempMat = assetbundle.LoadAsset<Material>(materialName);
+            if (!tempMat) {
                 return commandoMat;
             }
 
@@ -361,36 +376,44 @@ namespace EnforcerPlugin
             mat.SetFloat("_EmPower", emission);
             mat.SetTexture("_EmTex", tempMat.GetTexture("_EmissionMap"));
             mat.SetFloat("_NormalStrength", normalStrength);
+
+            createdMaterials.Add(new CreatedMaterialInfo(materialName, emission, emissionColor, normalStrength, mat));
 
             return mat;
         }
 
         public static Material CreateNemMaterial(string materialName)
         {
-            return CreateNemMaterial(materialName, 0, Color.black, 0);
+            return CreateMaterial(Assets.MainAssetBundle, materialName, 0, Color.black, 0);
         }
 
-        public static Material CreateNemMaterial(string materialName, float emission, Color emissionColor, float normalStrength)
-        {
-            if (!commandoMat) commandoMat = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial;
+        public static Material CreateNemMaterial(string materialName, float emission, Color emissionColor, float normalStrength) {
 
-            Material tempMat = Assets.MainAssetBundle.LoadAsset<Material>(materialName);
-            if (!tempMat)
-            {
-                return commandoMat;
+            return CreateMaterial(Assets.MainAssetBundle, materialName, emission, emissionColor, normalStrength);
+        }
+
+        public static List<CreatedMaterialInfo> createdMaterials = new List<CreatedMaterialInfo>();
+
+        public struct CreatedMaterialInfo {
+
+            public string name;
+            public float emission;
+            public Color emissionColor;
+            public float normalStrength;
+
+            public Material createdMaterial;
+
+            public CreatedMaterialInfo(string name, float emission, Color emissionColor, float normalStrength, Material createdMaterial) {
+                this.name = name;
+                this.emission = emission;
+                this.emissionColor = emissionColor;
+                this.normalStrength = normalStrength;
+                this.createdMaterial = createdMaterial;
             }
 
-            Material mat = UnityEngine.Object.Instantiate<Material>(commandoMat);
-            mat.name = materialName;
-
-            mat.SetColor("_Color", tempMat.GetColor("_Color"));
-            mat.SetTexture("_MainTex", tempMat.GetTexture("_MainTex"));
-            mat.SetColor("_EmColor", emissionColor);
-            mat.SetFloat("_EmPower", emission);
-            mat.SetTexture("_EmTex", tempMat.GetTexture("_EmissionMap"));
-            mat.SetFloat("_NormalStrength", normalStrength);
-
-            return mat;
+            public bool checkAlreadyCreated(string materialName_, float emission_, Color emissionColor_, float normalStrength_) {
+                return materialName_ == name && emission_ == emission && emissionColor_ == emissionColor && normalStrength_ == normalStrength;
+            }
         }
     }
 }

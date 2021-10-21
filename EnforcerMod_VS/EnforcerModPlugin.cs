@@ -1016,7 +1016,7 @@ namespace EnforcerPlugin {
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 1f),
+                    defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 0f),
                     renderer = childLocator.FindChild("Model").gameObject.GetComponent<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
@@ -1254,7 +1254,7 @@ namespace EnforcerPlugin {
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 1f),
+                    defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 0f),
                     renderer = childLocator.FindChild("Model").gameObject.GetComponent<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false

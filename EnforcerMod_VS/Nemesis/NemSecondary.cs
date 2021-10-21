@@ -375,7 +375,7 @@ namespace EntityStates.Nemforcer
 
                             float pauseTimeScaling =  4f - (0.005f * hitPauseAmounts * hitPauseAmounts * hitPauseAmounts);
                             pauseTimeScaling = pauseTimeScaling > 0.69f ? pauseTimeScaling : 0.69f;
-                            Debug.LogWarning(pauseTimeScaling);
+
                             this.hitPauseTimer = pauseTimeScaling * EntityStates.Merc.GroundLight.hitPauseDuration / this.attackSpeedStat;
                             this.hitPauseAmounts++;
                         }
