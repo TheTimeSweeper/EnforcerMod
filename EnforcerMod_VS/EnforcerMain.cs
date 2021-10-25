@@ -70,19 +70,22 @@ namespace EntityStates.Enforcer {
             //disable the shield when energy shield is selected
             if (base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDON_NAME" || base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDOFF_NAME")
             {
-                if (this.childLocator.FindChild("Shield")) this.childLocator.FindChild("Shield").gameObject.SetActive(false);
+                if (this.childLocator.FindChild("ShieldModel")) 
+                    this.childLocator.FindChild("ShieldModel").gameObject.SetActive(false);
             }
 
             //skamtebord
             if (base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_BOARDUP_NAME" || base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_BOARDDOWN_NAME")
             {
-                //if (this.childLocator.FindChild("Shield")) this.childLocator.FindChild("Shield").gameObject.SetActive(false);
-                //if (this.childLocator.FindChild("Skateboard")) this.childLocator.FindChild("Skateboard").gameObject.SetActive(true);
+                if (this.childLocator.FindChild("ShieldModel")) 
+                    this.childLocator.FindChild("ShieldModel").gameObject.SetActive(false);
+                if (this.childLocator.FindChild("SkamteBordModel"))
+                    this.childLocator.FindChild("SkamteBordModel").gameObject.SetActive(true);
             }
 
             if (base.isGrounded && base.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff))
             {
-                //this.skatePlayID = Util.PlaySound(EnforcerPlugin.Sounds.SkateRoll, base.gameObject);
+                this.skatePlayID = Util.PlaySound(EnforcerPlugin.Sounds.SkateRoll, base.gameObject);
             }
                 
             onDance(false);

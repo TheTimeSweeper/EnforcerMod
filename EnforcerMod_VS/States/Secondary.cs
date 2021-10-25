@@ -401,7 +401,8 @@ namespace EntityStates.Enforcer
 
             Util.PlayAttackSpeedSound(Croco.Leap.leapSoundString, base.gameObject, 1.75f);
 
-            if (!base.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff)) base.PlayAnimation("FullBody, Override", "ShoulderBash");//, "ShoulderBash.playbackRate", this.duration
+           // if (!base.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff))
+                base.PlayAnimation("FullBody, Override", "ShoulderBash");//, "ShoulderBash.playbackRate", this.duration
 
             if (base.isAuthority && base.inputBank && base.characterDirection)
             {

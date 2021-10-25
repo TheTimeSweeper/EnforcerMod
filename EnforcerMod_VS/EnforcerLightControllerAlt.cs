@@ -23,13 +23,16 @@ class EnforcerLightControllerAlt : MonoBehaviour
     private float flashStopwatch;
     private bool sex;
 
-    private void Awake()
-    {
+    void Awake() {
         this.childLocator = this.gameObject.GetComponentInChildren<ChildLocator>();
         this.characterModel = this.gameObject.GetComponentInChildren<CharacterModel>();
 
         this.Invoke("InitLights", 0.25f);
     }
+
+    //void Start() {
+    //    InitLights();
+    //}
 
     private void InitLights()
     {
@@ -42,9 +45,11 @@ class EnforcerLightControllerAlt : MonoBehaviour
         {
             if (this.characterModel)
             {
+                //fuck me for trying to future proof this right
+                int secondToLast = Mathf.Max(0, 2 - this.characterModel.baseRendererInfos.Length);
                 this.lights = new Material[]
-                {
-                    this.characterModel.baseRendererInfos[2].defaultMaterial
+                {                                         //secondToLast should be this, no?
+                    this.characterModel.baseRendererInfos[7].defaultMaterial
                 };
             }
 
@@ -53,12 +58,14 @@ class EnforcerLightControllerAlt : MonoBehaviour
             //    this.minEmission = 0f;
             //}
         }
+
         else
         {
             var mats = new List<Material>();
             var model = base.GetComponent<CharacterModel>();
 
-            mats.Add(model.baseRendererInfos[2].defaultMaterial);
+            int secondToLast  = Mathf.Max(0, 2 - model.baseRendererInfos.Length);
+            mats.Add(model.baseRendererInfos[7].defaultMaterial);
 
             this.lights = mats.ToArray();
         }

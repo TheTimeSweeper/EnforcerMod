@@ -64,6 +64,7 @@ namespace EnforcerPlugin
             defaultSkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
                 "meshEnforcerShield",
                 null,//sex shield glass
+                "meshEnforcerSkamteBord",
                 "meshEnforcerGun",
                 "meshClassicGunSuper",
                 "meshClassicGunHMG",
@@ -95,6 +96,7 @@ namespace EnforcerPlugin
             masterySkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
                 "meshSexforcerShield",
                 "meshSexforcerShieldGlass",
+                null,//board
                 null,//"meshEnforcerGun",
                 null,//"meshClassicGunSuper",
                 null,//"meshClassicGunHMG",
@@ -109,12 +111,13 @@ namespace EnforcerPlugin
             masterySkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matSexforcerShield", 0f, Color.black, 1f);
             //take default
             //masterySkinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matSexforcerShieldGlass", 0f, Color.black, 0);
-            //masterySkinDefInfo.RendererInfos[2].defaultMaterial = Assets.CreateMaterial("matEnforcerGun", 0f, Color.white, 0f);
-            //masterySkinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.white, 0f);
-            //masterySkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matClassicGunHMG", 0f, Color.white, 0f);
-            //masterySkinDefInfo.RendererInfos[5].defaultMaterial = Assets.CreateMaterial("matEnforcerHammer", 0f, Color.white, 0f);
-            masterySkinDefInfo.RendererInfos[6].defaultMaterial = Assets.CreateMaterial("matSexforcer", 1f, Color.white, 0f);
+            masterySkinDefInfo.RendererInfos[2].defaultMaterial = Assets.CreateMaterial("matSexforcerBoard", 0f, Color.white, 0f);
+            //masterySkinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matEnforcerGun", 0f, Color.white, 0f);
+            //masterySkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.white, 0f);
+            //masterySkinDefInfo.RendererInfos[5].defaultMaterial = Assets.CreateMaterial("matClassicGunHMG", 0f, Color.white, 0f);
+            //masterySkinDefInfo.RendererInfos[6].defaultMaterial = Assets.CreateMaterial("matEnforcerHammer", 0f, Color.white, 0f);
             masterySkinDefInfo.RendererInfos[7].defaultMaterial = Assets.CreateMaterial("matSexforcer", 1f, Color.white, 0f);
+            masterySkinDefInfo.RendererInfos[8].defaultMaterial = Assets.CreateMaterial("matSexforcer", 1f, Color.white, 0f);
 
             SkinDef masterySkin = CreateSkinDef(masterySkinDefInfo);
             skinDefs.Add(masterySkin);
@@ -137,6 +140,7 @@ namespace EnforcerPlugin
             robitSkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
                 "meshN4CRShield",
                 null,//sex shield glass
+                "meshEnforcerSkamteBord",//board
                 "meshN4CRGun",
                 "meshN4CRGun",
                 "meshN4CRGun",
@@ -150,12 +154,13 @@ namespace EnforcerPlugin
 
             robitSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matN4CR", 1f, Color.white, 0f);
             //[1] take default
-            robitSkinDefInfo.RendererInfos[2].defaultMaterial = Assets.CreateMaterial("matN4CR");
-            robitSkinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matN4CR");
-            robitSkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matN4CR");
-            //[5] take default hammer
-            robitSkinDefInfo.RendererInfos[6].defaultMaterial = Assets.CreateMaterial("matN4CR");
-            robitSkinDefInfo.RendererInfos[7].defaultMaterial = Assets.CreateMaterial("matN4CR");
+            //[2] take default
+            robitSkinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matN4CR", 1f, Color.white, 0f);
+            robitSkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matN4CR", 1f, Color.white, 0f);
+            robitSkinDefInfo.RendererInfos[5].defaultMaterial = Assets.CreateMaterial("matN4CR", 1f, Color.white, 0f);
+            //[6] take default hammer
+            robitSkinDefInfo.RendererInfos[7].defaultMaterial = Assets.CreateMaterial("matN4CR", 1f, Color.white, 0f);
+            robitSkinDefInfo.RendererInfos[8].defaultMaterial = Assets.CreateMaterial("matN4CR", 1f, Color.white, 0f);
 
             SkinDef robitSkinDef = CreateSkinDef(robitSkinDefInfo);
             skinDefs.Add(robitSkinDef);
@@ -178,6 +183,7 @@ namespace EnforcerPlugin
             classicSkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
                 null,//"meshEnforcerShield",
                 null,//"meshSexforcerShieldGlass",
+                null,//board
                 "meshClassicGun",
                 "meshClassicGunSuper",
                 "meshClassicGunHMG",
@@ -191,12 +197,13 @@ namespace EnforcerPlugin
 
             //classicSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matEnforcerShield", 0f, Color.black, 1f);
             //classicSkinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matSexforcerShieldGlass", 0f, Color.black, 0);
-            classicSkinDefInfo.RendererInfos[2].defaultMaterial = Assets.CreateMaterial("matClassicGun", 0f, Color.white, 0f);
-            classicSkinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.white, 0f);
-            classicSkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matClassicGunHMG", 0f, Color.white, 0f);
-            //classicSkinDefInfo.RendererInfos[5].defaultMaterial = Assets.CreateMaterial("matEnforcerHammer", 0f, Color.white, 0f);
-            classicSkinDefInfo.RendererInfos[6].defaultMaterial = Assets.CreateMaterial("matClassic", 1f, Color.white, 0f);
+            //[2] default board
+            classicSkinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matClassicGun", 0f, Color.white, 0f);
+            classicSkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.white, 0f);
+            classicSkinDefInfo.RendererInfos[5].defaultMaterial = Assets.CreateMaterial("matClassicGunHMG", 0f, Color.white, 0f);
+            //classicSkinDefInfo.RendererInfos[6].defaultMaterial = Assets.CreateMaterial("matEnforcerHammer", 0f, Color.white, 0f);
             classicSkinDefInfo.RendererInfos[7].defaultMaterial = Assets.CreateMaterial("matClassic", 1f, Color.white, 0f);
+            classicSkinDefInfo.RendererInfos[8].defaultMaterial = Assets.CreateMaterial("matClassic", 1f, Color.white, 0f);
 
             SkinDef classicSkin = CreateSkinDef(classicSkinDefInfo);
             skinDefs.Add(classicSkin);
@@ -223,6 +230,7 @@ namespace EnforcerPlugin
             dontgettheshaftSkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
                 "meshSbeveShield",
                 null,//"meshSexforcerShieldGlass",
+                "meshSbeveBoard",
                 "meshSbeveGun",
                 "meshSbeveGunSuper",
                 "meshSbeveGunHMG",

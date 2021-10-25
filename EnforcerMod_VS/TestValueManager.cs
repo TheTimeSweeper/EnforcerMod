@@ -5,7 +5,7 @@ public class TestValueManager : MonoBehaviour {
     //how do doing attributes
     //[debugfloat("valuename", KeyCode.U, KeyCode.J, 5)]
     //would be neat
-    public static float testValue = 1.7f;
+    public static float testValue = 1f;
 
     private float tim;
     private float holdTime = 0.5f;
@@ -20,7 +20,7 @@ public class TestValueManager : MonoBehaviour {
         if (!Input.GetKey(KeyCode.LeftAlt))
             return;
 
-        manageTestValue(ref EntityStates.Enforcer.NeutralSpecial.FireMachineGun.damageCoefficient, "dam son", KeyCode.Keypad7, KeyCode.Keypad4, 0.05f);
+        manageTestValue(ref testValue, "come on and", KeyCode.Keypad7, KeyCode.Keypad4, 0.1f);
      }
 
     private void manageTestValue(ref float value, string valueName, KeyCode upKey, KeyCode downKey, float incrementAmount) {

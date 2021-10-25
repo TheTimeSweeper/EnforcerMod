@@ -14,7 +14,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         public static float basePushawayForce = 120;
         public static float shieldPushawayForce = 160;
 
-        public static GameObject slamEffectPrefab = null;// EnforcerPlugin.EnforcerPlugin.hammerSlamEffect; // Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
+        public static GameObject slamEffectPrefab = EnforcerPlugin.EnforcerModPlugin.hammerSlamEffect; // Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
         public static GameObject shieldSlamEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
 
         public static float baseEarlyExitTime = 0.78f;
@@ -60,7 +60,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 pushawayForce = shieldPushawayForce;
                 slamPrefab = shieldSlamEffectPrefab;
 
-                PlayCrossfade("RightArm, Override", "HammerSwing", "HammerSwing.playbackRate", duration, 0.05f);
+                PlayCrossfade("Gesture, Additive", "SwingHammer", "HammerSwing.playbackRate", duration, 0.05f);
 
             } else {
                 duration = baseDuration / attackSpeedStat;
@@ -70,19 +70,10 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 pushawayForce = basePushawayForce;
                 slamPrefab = slamEffectPrefab;
 
-                PlayCrossfade("Gesture, Override", "HammerSwing", "HammerSwing.playbackRate", duration, 0.05f);
+                PlayCrossfade("Gesture, Additive", "SwingHammer", "HammerSwing.playbackRate", duration, 0.05f);
             }
 
             earlyExitDuration = duration * baseEarlyExitTime;
-
-            Animator hammerAnim = null;
-            if (childLocator.FindChild("Hammer")) {
-                hammerAnim = childLocator.FindChild("Hammer").GetComponentInChildren<Animator>();
-                if (hammerAnim) {
-                    PlayAnimationOnAnimator(hammerAnim, "Base Layer", "HammerSwing", "HammerSwing.playbackRate", duration);
-                }
-            }
-
 
             HitBoxGroup hitBoxGroup = FindHitBoxGroup(hitboxString);
 
@@ -118,7 +109,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 if (animator) animator.SetFloat("HammerSwing.playbackRate", 0f);
             }
 
-            if (stopwatch >= duration * 0.48f && stopwatch <= duration * 0.7) {
+            if (stopwatch >= duration * 0.469f && stopwatch <= duration * 0.6) {
                 FireAttack();
             }
 
@@ -145,11 +136,11 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.hammerSwingFX, gameObject, muzzleString, true);
 
                 if (slamPrefab) {
-                    Vector3 sex = childLocator.FindChild("SlamEffectCenter").transform.position;
-
+                    Vector3 sex = childLocator.FindChild("HammerMuzzle").transform.position;
+                    
                     EffectData effectData = new EffectData();
                     effectData.origin = sex - Vector3.up;
-                    effectData.scale = 1;
+                    effectData.scale = TestValueManager.testValue;
 
                     EffectManager.SpawnEffect(slamPrefab, effectData, true);
                 }

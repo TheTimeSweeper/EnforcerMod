@@ -74,6 +74,8 @@ namespace EnforcerPlugin {
         public static GameObject bungusTracer = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerEngiTurret");
         public static GameObject minigunTracer;
 
+        public static Material bungusMat;
+
         public static GameObject tearGasProjectilePrefab;
         public GameObject tearGasPrefab;
 
@@ -101,8 +103,6 @@ namespace EnforcerPlugin {
 
         public static SkillDef tearGasScepterDef;
         public static SkillDef shockGrenadeDef;
-
-        public static Material bungusMat;
 
         public static bool cum; //don't ask
         public static bool aetheriumInstalled = false;
@@ -169,7 +169,7 @@ namespace EnforcerPlugin {
         public static ConfigEntry<bool> stupidShieldBash;
 
         // a blacklist for teleporter particles- the fix for it is retarded so we just disable them on certain characters.
-        public static List<string> tpParticleBlacklist = new List<string>
+        private static List<string> _tpParticleBlacklist = new List<string>
         {
             "PALADIN_NAME",
             "LUNAR_KNIGHT_BODY_NAME",
@@ -178,12 +178,11 @@ namespace EnforcerPlugin {
             "MINER_NAME"
         };
 
+
+        private SkillLocator _skillLocator;
+        private CharacterSelectSurvivorPreviewDisplayController _previewController;
+
         //更新许可证 DO WHAT THE FUCK YOU WANT TO
-
-        public SkillLocator skillLocator;
-
-        private List<SkillDef> primarySkillChangeDefs = new List<SkillDef>();
-        private List<SkillDef> specialSkillChangeDefs = new List<SkillDef>();
 
         //public EnforcerPlugin()
         //{
@@ -359,6 +358,17 @@ namespace EnforcerPlugin {
             On.RoR2.HealthComponent.Suicide += HealthComponent_Suicide;
             //On.RoR2.TeleportOutController.OnStartClient += TeleportOutController_OnStartClient;
             //On.EntityStates.Global.Skills.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
+
+            On.RoR2.EventFunctions.DisableAllChildrenExcept += EventFunctions_DisableAllChildrenExcept;
+        }
+
+        private void EventFunctions_DisableAllChildrenExcept(On.RoR2.EventFunctions.orig_DisableAllChildrenExcept orig, EventFunctions self, GameObject objectToEnable) {
+            orig(self, objectToEnable);
+
+            for (int i = base.transform.childCount - 1; i >= 0; i--) {
+                GameObject siblingObject = base.transform.GetChild(i).gameObject;
+                Debug.LogWarning($"{self.gameObject.name}: {siblingObject.name}: {siblingObject == objectToEnable}");
+            }
         }
 
         #region Hooks
@@ -380,7 +390,7 @@ namespace EnforcerPlugin {
                 CharacterBody targetBody = self.target.GetComponent<CharacterBody>();
                 if (targetBody)
                 {
-                    if (EnforcerModPlugin.tpParticleBlacklist.Contains(targetBody.baseNameToken))
+                    if (EnforcerModPlugin._tpParticleBlacklist.Contains(targetBody.baseNameToken))
                     {
                         self.bodyGlowParticles.Play();
                         return;
@@ -646,6 +656,10 @@ namespace EnforcerPlugin {
                     self.moveSpeed *= 0.65f;
                 }
 
+                if (self.HasBuff(Modules.Buffs.skateboardBuff)) {
+                    self.characterMotor.airControl = 0.1f;
+                }
+
                 if (self.HasBuff(Modules.Buffs.impairedBuff))
                 {
                     self.maxJumpCount = 0;
@@ -819,7 +833,6 @@ namespace EnforcerPlugin {
             if (self.outer.customName == "EnforcerParry")
             {
                 self.damageStat = self.outer.commonComponents.characterBody.damage * 5f;
-                Debug.LogWarning("enforcer parry" + self.damageStat);
             }
         }
 
@@ -995,15 +1008,51 @@ namespace EnforcerPlugin {
             {
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = Assets.CreateMaterial("matRiotShield", 0f, Color.black, 1f),
+                    defaultMaterial = Assets.CreateMaterial("matEnforcerShield", 0f, Color.black, 1f),
                     renderer = childLocator.FindChild("ShieldModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = Assets.CreateMaterial("matShotgun", 0f, Color.black, 0f),
+                    //not hotpoo shader for transparency
+                    defaultMaterial = childLocator.FindChild("ShieldGlassModel").gameObject.GetComponent<SkinnedMeshRenderer>().material, //Assets.CreateMaterial("matSexforcerShieldGlass", 0f, Color.black, 1f),
+                    renderer = childLocator.FindChild("ShieldGlassModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = true
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = Assets.CreateMaterial("matEnforcerBoard", 0f, Color.black, 1f),
+                    renderer = childLocator.FindChild("SkamteBordModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = Assets.CreateMaterial("matEnforcerGun", 0f, Color.black, 0f),
                     renderer = childLocator.FindChild("GunModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.black, 0f),
+                    renderer = childLocator.FindChild("SuperGunModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = Assets.CreateMaterial("matClassicGunHMG", 0f, Color.black, 0f),
+                    renderer = childLocator.FindChild("HMGModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = Assets.CreateMaterial("matEnforcerHammer", 0f, Color.black, 0f),
+                    renderer = childLocator.FindChild("HammerModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 },
@@ -1027,7 +1076,7 @@ namespace EnforcerPlugin {
             characterModel.invisibilityCount = 0;
             characterModel.temporaryOverlays = new List<TemporaryOverlay>();
 
-            characterModel.mainSkinnedMeshRenderer = characterModel.baseRendererInfos[3].renderer.gameObject.GetComponent<SkinnedMeshRenderer>();
+            characterModel.mainSkinnedMeshRenderer = characterModel.baseRendererInfos[8].renderer.gameObject.GetComponent<SkinnedMeshRenderer>();
 
             characterDisplay = PrefabAPI.InstantiateClone(model, "EnforcerDisplay", true);
 
@@ -1079,11 +1128,6 @@ namespace EnforcerPlugin {
             aimOirign.transform.localPosition = new Vector3(0f, 3f, 0f);    //1.8
             aimOirign.transform.localRotation = Quaternion.identity;
             aimOirign.transform.localScale = Vector3.one;
-
-            Transform transform = model.transform;
-            transform.parent = modelBase.transform;
-            transform.localPosition = Vector3.zero;
-            transform.localRotation = Quaternion.identity;
 
             CharacterDirection characterDirection = characterPrefab.GetComponent<CharacterDirection>();
             characterDirection.moveVector = Vector3.zero;
@@ -1139,6 +1183,16 @@ namespace EnforcerPlugin {
             EntityStateMachine stateMachine = bodyComponent.GetComponent<EntityStateMachine>();
             stateMachine.mainStateType = new SerializableEntityStateType(typeof(EnforcerMain));
 
+                                                           //why
+                                                           //in the god damn fuck
+                                                           //does AddComponent default to an extension coming from the fucking starstorm dll
+            EntityStateMachine octagonapus = bodyComponent.gameObject.AddComponent<EntityStateMachine>();
+            octagonapus.customName = "EnforcerParry";
+
+            SerializableEntityStateType idleState = new SerializableEntityStateType(typeof(Idle));
+            octagonapus.initialStateType = idleState;
+            octagonapus.mainStateType = idleState;
+
             CharacterMotor characterMotor = characterPrefab.GetComponent<CharacterMotor>();
             characterMotor.walkSpeedPenaltyCoefficient = 1f;
             characterMotor.characterDirection = characterDirection;
@@ -1162,8 +1216,12 @@ namespace EnforcerPlugin {
             cameraTargetParams.idealLocalCameraPos = Vector3.zero;
             cameraTargetParams.dontRaycastToPivot = false;
 
+            model.transform.parent = modelBase.transform;
+            model.transform.localPosition = Vector3.zero;
+            model.transform.localRotation = Quaternion.identity;
+
             ModelLocator modelLocator = characterPrefab.GetComponent<ModelLocator>();
-            modelLocator.modelTransform = transform;
+            modelLocator.modelTransform = model.transform;
             modelLocator.modelBaseTransform = modelBase.transform;
 
             ChildLocator childLocator = model.GetComponent<ChildLocator>();
@@ -1211,11 +1269,18 @@ namespace EnforcerPlugin {
                 },
                 new CharacterModel.RendererInfo
                 {
-                    //not hotpoo model for transparency
+                    //not hotpoo shader for transparency
                     defaultMaterial = childLocator.FindChild("ShieldGlassModel").gameObject.GetComponent<SkinnedMeshRenderer>().material, //Assets.CreateMaterial("matSexforcerShieldGlass", 0f, Color.black, 1f),
                     renderer = childLocator.FindChild("ShieldGlassModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = true
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = Assets.CreateMaterial("matEnforcerBoard", 0f, Color.black, 1f),
+                    renderer = childLocator.FindChild("SkamteBordModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
                 },
                 new CharacterModel.RendererInfo
                 {
@@ -1365,13 +1430,7 @@ namespace EnforcerPlugin {
             //make a hitbox for shoulder bash
             HitBoxGroup hitBoxGroup = model.AddComponent<HitBoxGroup>();
 
-            GameObject chargeHitbox = new GameObject("ChargeHitbox");
-            chargeHitbox.transform.parent = characterPrefab.transform;
-            chargeHitbox.transform.localPosition = Vector3.zero;
-            chargeHitbox.transform.localScale = Vector3.one * 8f;
-            chargeHitbox.transform.parent = model.transform;
-            chargeHitbox.transform.localRotation = Quaternion.identity;
-
+            GameObject chargeHitbox = childLocator.FindChild("ChargeHitbox").gameObject;
             HitBox hitBox = chargeHitbox.AddComponent<HitBox>();
             chargeHitbox.layer = LayerIndex.projectile.intVal;
 
@@ -1383,12 +1442,9 @@ namespace EnforcerPlugin {
             hitBoxGroup.groupName = "Charge";
 
             //hammer hitbox
-            /*HitBoxGroup hammerHitBoxGroup = model.AddComponent<HitBoxGroup>();
+            HitBoxGroup hammerHitBoxGroup = model.AddComponent<HitBoxGroup>();
 
             GameObject hammerHitbox = childLocator.FindChild("ActualHammerHitbox").gameObject;
-            hammerHitbox.transform.localPosition = new Vector3(0f, 15.35f, 13.7f);
-            hammerHitbox.transform.localRotation = Quaternion.identity;
-            hammerHitbox.transform.localScale = new Vector3(48, 45.1f, 60);
 
             HitBox hammerHitBox = hammerHitbox.AddComponent<HitBox>();
             hammerHitbox.layer = LayerIndex.projectile.intVal;
@@ -1403,11 +1459,8 @@ namespace EnforcerPlugin {
             //hammer hitbox2
             HitBoxGroup hammerHitBoxGroup2 = model.AddComponent<HitBoxGroup>();
 
-            GameObject hammerHitbox2 = childLocator.FindChild("ActualHammerHitboxBig").gameObject;
-            //hammerHitbox2.transform.localPosition = new Vector3(0f, 13.3f, 13.7f);
-            //hammerHitbox2.transform.localRotation = Quaternion.identity;
-            //hammerHitbox2.transform.localScale = new Vector3(48, 41, 60);
-
+            GameObject hammerHitbox2 = childLocator.FindChild("HammerHitboxBig").gameObject;
+            
             HitBox hammerHitBox2 = hammerHitbox2.AddComponent<HitBox>();
             hammerHitbox2.layer = LayerIndex.projectile.intVal;
 
@@ -1416,7 +1469,7 @@ namespace EnforcerPlugin {
                 hammerHitBox2
             };
 
-            hammerHitBoxGroup2.groupName = "HammerBig";*/
+            hammerHitBoxGroup2.groupName = "HammerBig";
 
             FootstepHandler footstepHandler = model.AddComponent<FootstepHandler>();
             footstepHandler.baseFootstepString = "Play_player_footstep";
@@ -1814,13 +1867,13 @@ namespace EnforcerPlugin {
 
             //hammer slam effect for enforcer m1 and nemforcer m2
             hammerSlamEffect = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect").InstantiateClone("EnforcerHammerSlamEffect");
-            //hammerSlamEffect.GetComponent<EffectComponent>().applyScale = true;
+            hammerSlamEffect.GetComponent<EffectComponent>().applyScale = true;
 
-            //Transform dust = hammerSlamEffect.transform.Find("Dust, Directional");
-            //if(dust) dust.localScale = new Vector3(1, 0.7f, 1);
+            Transform dust = hammerSlamEffect.transform.Find("Dust, Directional");
+            if(dust) dust.localScale = new Vector3(1, 0.7f, 1);
 
-            //Transform nova = hammerSlamEffect.transform.Find("Nova Sphere");
-            //if(nova) nova.localScale = new Vector3(8, 8, 8);
+            Transform nova = hammerSlamEffect.transform.Find("Nova Sphere");
+            if(nova) nova.localScale = new Vector3(8, 8, 8);
 
             if (!hammerSlamEffect.GetComponent<NetworkIdentity>()) hammerSlamEffect.AddComponent<NetworkIdentity>();
 
@@ -2106,7 +2159,8 @@ namespace EnforcerPlugin {
                 BaseUnityPlugin.DestroyImmediate(obj);
             }
 
-            skillLocator = characterPrefab.GetComponent<SkillLocator>();
+            _skillLocator = characterPrefab.GetComponent<SkillLocator>();
+            _previewController = characterDisplay.GetComponent<CharacterSelectSurvivorPreviewDisplayController>();
 
             PrimarySetup();
             SecondarySetup();
@@ -2120,97 +2174,119 @@ namespace EnforcerPlugin {
 
         private void PrimarySetup()
         {
+
             SkillDef primaryDef1 = PrimarySkillDef_RiotShotgun();
             Modules.Skills.RegisterSkillDef(primaryDef1, typeof(RiotShotgun));
-            SkillFamily.Variant primaryVariant1 = Modules.Skills.SetupSkillVariant(primaryDef1);
 
             SkillDef primaryDef2 = PrimarySkillDef_SuperShotgun();
             Modules.Skills.RegisterSkillDef(primaryDef2, typeof(SuperShotgun2));
-            SkillFamily.Variant primaryVariant2 = Modules.Skills.SetupSkillVariant(primaryDef2, EnforcerUnlockables.enforcerDoomUnlockableDef);
 
             SkillDef primaryDef3 = PrimarySkillDef_AssaultRifle();
-            //Modules.Skills.RegisterSkillDef(primaryDef3, typeof(FireBurstRifle));
             Modules.Skills.RegisterSkillDef(primaryDef3, typeof(FireMachineGun));
-            SkillFamily.Variant primaryVariant3 = Modules.Skills.SetupSkillVariant(primaryDef3, EnforcerUnlockables.enforcerARUnlockableDef);
 
-            skillLocator.primary = Modules.Skills.RegisterSkillsToFamily(characterPrefab, "EnforcerPrimary", primaryVariant1, primaryVariant2, primaryVariant3);
-            primarySkillChangeDefs = new List<SkillDef> { primaryDef1};
-            //primarySkillChangeDefs = new List<SkillDef> { primaryDef1, primaryDef2, primaryDef3 };
+            SkillDef primaryDef4 = PrimarySkillDef_Hammer();
+            Modules.Skills.RegisterSkillDef(primaryDef4, typeof(HammerSwing));
+
+            SkillFamily.Variant primaryVariant1 = Modules.Skills.SetupSkillVariant(primaryDef1);
+            SkillFamily.Variant primaryVariant2 = Modules.Skills.SetupSkillVariant(primaryDef2, EnforcerUnlockables.enforcerDoomUnlockableDef);
+            SkillFamily.Variant primaryVariant3 = Modules.Skills.SetupSkillVariant(primaryDef3, EnforcerUnlockables.enforcerARUnlockableDef);
+            SkillFamily.Variant primaryVariant4 = Modules.Skills.SetupSkillVariant(primaryDef4);
+
+            _skillLocator.primary = Modules.Skills.RegisterSkillsToFamily(characterPrefab, "EnforcerPrimary", primaryVariant1, primaryVariant2, primaryVariant3);
+
+            _previewController.skillChangeResponses[0].triggerSkillFamily = _skillLocator.primary.skillFamily;
+            _previewController.skillChangeResponses[0].triggerSkill = primaryDef1;
+            _previewController.skillChangeResponses[1].triggerSkillFamily = _skillLocator.primary.skillFamily;
+            _previewController.skillChangeResponses[1].triggerSkill = primaryDef2;
+            _previewController.skillChangeResponses[2].triggerSkillFamily = _skillLocator.primary.skillFamily;
+            _previewController.skillChangeResponses[2].triggerSkill = primaryDef3;
 
             //cursed
-            //SkillDef primaryDef4 = PrimarySkillDef_Hammer();
-            //PluginUtils.RegisterSkillDef(primaryDef4, typeof(HammerSwing));
-            //SkillFamily.Variant primaryVariant4 = PluginUtils.SetupSkillVariant(primaryDef4);
 
             if (cursed.Value)
             {
-                //PluginUtils.RegisterAdditionalSkills(skillLocator.primary, primaryVariant4);
-                //primarySkillChangeDefs.Add(primaryDef4);
+                Modules.Skills.RegisterAdditionalSkills(_skillLocator.primary, primaryVariant4);
+
+                _previewController.skillChangeResponses[3].triggerSkillFamily = _skillLocator.primary.skillFamily;
+                _previewController.skillChangeResponses[3].triggerSkill = primaryDef4;
             }
         }
 
         private void SecondarySetup() {
+
             SkillDef secondaryDef1 = SecondarySkillDef_Bash();
             Modules.Skills.RegisterSkillDef(secondaryDef1, typeof(ShieldBash), typeof(ShoulderBash), typeof(ShoulderBashImpact));
+
             SkillFamily.Variant secondaryVariant1 = Modules.Skills.SetupSkillVariant(secondaryDef1);
 
-            skillLocator.secondary = Modules.Skills.RegisterSkillsToFamily(characterPrefab, "EnforcerSecondary", secondaryVariant1);
+            _skillLocator.secondary = Modules.Skills.RegisterSkillsToFamily(characterPrefab, "EnforcerSecondary", secondaryVariant1);
         }
 
         private void UtilitySetup()
         {
             SkillDef utilityDef1 = UtilitySkillDef_TearGas();
             Modules.Skills.RegisterSkillDef(utilityDef1, typeof(AimTearGas), typeof(TearGas));
-            SkillFamily.Variant utilityVariant1 = Modules.Skills.SetupSkillVariant(utilityDef1);
 
             SkillDef utilityDef2 = UtilitySkillDef_StunGrenade();
             Modules.Skills.RegisterSkillDef(utilityDef2, typeof(StunGrenade));
+
+            SkillFamily.Variant utilityVariant1 = Modules.Skills.SetupSkillVariant(utilityDef1);
             SkillFamily.Variant utilityVariant2 = Modules.Skills.SetupSkillVariant(utilityDef2, null);
 
-            skillLocator.utility = Modules.Skills.RegisterSkillsToFamily(characterPrefab, "EnforcerUtility", utilityVariant1, utilityVariant2);
+            _skillLocator.utility = Modules.Skills.RegisterSkillsToFamily(characterPrefab, "EnforcerUtility", utilityVariant1, utilityVariant2);
         }
 
         private void SpecialSetup()
         {
+            //shield
             SkillDef specialDef1 = SpecialSkillDef_ProtectAndServe();
             Modules.Skills.RegisterSkillDef(specialDef1, typeof(ProtectAndServe));
-            SkillFamily.Variant specialVariant1 = Modules.Skills.SetupSkillVariant(specialDef1);
-
             SkillDef specialDef1Down = SpecialSkillDef_ShieldDown();
             Modules.Skills.RegisterSkillDef(specialDef1Down);
 
             shieldDownDef = specialDef1;
             shieldUpDef = specialDef1Down;
 
-            skillLocator.special = Modules.Skills.RegisterSkillsToFamily(characterPrefab, "EnforcerSpecial", specialVariant1);
-            specialSkillChangeDefs = new List<SkillDef> { specialDef1 };
-
             //cursed
+            //energy shield (lol)
             SkillDef specialDef2 = SpecialSkillDef_EnergyShield();
             Modules.Skills.RegisterSkillDef(specialDef2, typeof(EnergyShield));
-            SkillFamily.Variant specialVariant2 = Modules.Skills.SetupSkillVariant(specialDef2);
-
             SkillDef specialDef2Down = SpecialSkillDef_EnergyShieldDown();
             Modules.Skills.RegisterSkillDef(specialDef2Down);
 
             shieldOffDef = specialDef2;
             shieldOnDef = specialDef2Down;
 
+            //skateboard
             SkillDef specialDef3 = SpecialSkillDef_SkamteBord();
             Modules.Skills.RegisterSkillDef(specialDef3, typeof(Skateboard));
-            SkillFamily.Variant specialVariant3 = Modules.Skills.SetupSkillVariant(specialDef3);
-
             SkillDef specialDef3Down = SpecialSkillDef_SkamteBordDown();
             Modules.Skills.RegisterSkillDef(specialDef3Down);
 
             boardDownDef = specialDef3;
             boardUpDef = specialDef3Down;
 
+            //setup
+            SkillFamily.Variant specialVariant1 = Modules.Skills.SetupSkillVariant(specialDef1);
+            SkillFamily.Variant specialVariant2 = Modules.Skills.SetupSkillVariant(specialDef2);
+            SkillFamily.Variant specialVariant3 = Modules.Skills.SetupSkillVariant(specialDef3);
+
+            _skillLocator.special = Modules.Skills.RegisterSkillsToFamily(characterPrefab, "EnforcerSpecial", specialVariant1);
+
+            _previewController.skillChangeResponses[4].triggerSkillFamily = _skillLocator.special.skillFamily;
+            _previewController.skillChangeResponses[4].triggerSkill = specialDef1;
+
             if (cursed.Value)
             {
-                //PluginUtils.RegisterAdditionalSkills(skillLocator.special, specialVariant3);
-                //specialSkillChangeDefs.Add(specialDef2);
-                //specialSkillChangeDefs.Add(specialDef3);
+
+                Modules.Skills.RegisterAdditionalSkills(_skillLocator.special, specialVariant3);
+
+                _previewController.skillChangeResponses[5].triggerSkillFamily = _skillLocator.special.skillFamily;
+                _previewController.skillChangeResponses[5].triggerSkill = specialDef3;
+
+                ////rip energy shield lol
+                ////previewController.skillChangeResponses[6].triggerSkillFamily = skillLocator.special.skillFamily;
+                ////previewController.skillChangeResponses[6].triggerSkill = specialDef2;
             }
         }
 
@@ -2698,65 +2774,15 @@ namespace EnforcerPlugin {
         {
             //something broke here i don't really understand it
             //  that's because holy shit i wrote this like a fucking ape. do not forgive me for this
-            CharacterSelectSurvivorPreviewDisplayController previewController = characterDisplay.GetComponent<CharacterSelectSurvivorPreviewDisplayController>();
 
-            // NULLCHECK YOUR SHIT FOR FUCKS SAKE
-            if (previewController)
+            //// NULLCHECK YOUR SHIT FOR FUCKS SAKE
+            if (_previewController)
             {
-                for (int i = 0; i < previewController.skillChangeResponses.Length; i++)
-                {
-                    var skillChangeResponse = previewController.skillChangeResponses[i];
-
-                    switch (i)
-                    {
-                        case 0:
-                            skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
-                            skillChangeResponse.triggerSkill = primarySkillChangeDefs[0];
-                            break;
-                        case 1:
-                            skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
-                            skillChangeResponse.triggerSkill = primarySkillChangeDefs[1];
-                            break;
-                        case 2:
-                            skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
-                            skillChangeResponse.triggerSkill = primarySkillChangeDefs[2];
-                            break;
-                        case 3:
-                            if (cursed.Value)
-                            {
-                                skillChangeResponse.triggerSkillFamily = skillLocator.primary.skillFamily;
-                                skillChangeResponse.triggerSkill = primarySkillChangeDefs[3];
-                            }
-                            break;
-                        case 4:
-                            skillChangeResponse.triggerSkillFamily = skillLocator.special.skillFamily;
-                            skillChangeResponse.triggerSkill = specialSkillChangeDefs[0];
-                            break;
-                        case 5:
-                            if (cursed.Value)
-                            {
-                                skillChangeResponse.triggerSkillFamily = skillLocator.special.skillFamily;
-                                skillChangeResponse.triggerSkill = specialSkillChangeDefs[1];
-                            }
-                            break;
-                        case 6:
-                            if (cursed.Value)
-                            {
-                                skillChangeResponse.triggerSkillFamily = skillLocator.special.skillFamily;
-                                skillChangeResponse.triggerSkill = specialSkillChangeDefs[2];
-                            }
-                            break;
-                    }
-
-                    previewController.skillChangeResponses[i] = skillChangeResponse;
-
-                }
-
                 List<int> emptyIndices = new List<int>();
-                for (int i = 0; i < previewController.skillChangeResponses.Length; i++)
+                for (int i = 0; i < _previewController.skillChangeResponses.Length; i++)
                 {
-                    if (previewController.skillChangeResponses[i].triggerSkillFamily == null ||
-                        previewController.skillChangeResponses[i].triggerSkillFamily == null)
+                    if (_previewController.skillChangeResponses[i].triggerSkillFamily == null ||
+                        _previewController.skillChangeResponses[i].triggerSkillFamily == null)
                     {
                         emptyIndices.Add(i);
                     }
@@ -2765,16 +2791,13 @@ namespace EnforcerPlugin {
                 if (emptyIndices.Count == 0)
                     return;
 
-                var responsesList = previewController.skillChangeResponses.ToList();
-                for (int i = responsesList.Count - 1; i >= 0; i--)
+                List<CharacterSelectSurvivorPreviewDisplayController.SkillChangeResponse> responsesList = _previewController.skillChangeResponses.ToList();
+                for (int i = emptyIndices.Count - 1; i >= 0; i--)
                 {
-                    if (emptyIndices.Contains(i))
-                    {
-                        responsesList.RemoveAt(i);
-                    }
+                    responsesList.RemoveAt(emptyIndices[i]);
                 }
 
-                previewController.skillChangeResponses = responsesList.ToArray();
+                _previewController.skillChangeResponses = responsesList.ToArray();
             }
         }
 

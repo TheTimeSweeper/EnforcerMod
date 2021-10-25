@@ -3,8 +3,34 @@ using RoR2;
 using System;
 using UnityEngine;
 
-public class EnforcerWeaponComponent : MonoBehaviour
+public class EnforcerWeaponComponent : MonoBehaviour 
 {
+    public enum equippedGun {
+        GUN,
+        SUPER,
+        HMG,
+        HAMMER,
+        NEEDLER
+    }
+
+    public enum SkateBoardParent {
+        BASE,
+        HAND,
+    }
+
+    //TODO: implement like the above. works as is now
+    //public enum EquippedShield {
+    //    SHIELD,
+    //    SHIELD2, //I still believe man
+    //    SKATE
+    //}
+
+    private GameObject shotgunObject { get => this.childLocator.FindChild("GunModel").gameObject; }
+    private GameObject ssgobject { get => this.childLocator.FindChild("SuperGunModel").gameObject; }
+    private GameObject hmgObject { get => this.childLocator.FindChild("HMGModel").gameObject; }
+    private GameObject hammerObject { get => this.childLocator.FindChild("HammerModel").gameObject; }
+    private GameObject needlerObject { get => this.childLocator.FindChild("NeedlerModel").gameObject; }
+
     public bool isMultiplayer;
 
     public static int maxShellCount = 12;
@@ -29,6 +55,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
     private int impCount;
     private int currentShell;
     private GameObject[] shellObjects;
+
 
     private void Start()
     {
@@ -106,31 +133,31 @@ public class EnforcerWeaponComponent : MonoBehaviour
         }
     }
 
-
-    private int GetWeapon()
+    private equippedGun GetWeapon()
     {
-        int weapon = -1;
+        equippedGun weapon = equippedGun.GUN;
 
         if (this.charBody && this.charBody.skillLocator)
         {
             string skillString = this.charBody.skillLocator.primary.skillDef.skillNameToken;
             switch (skillString)
             {
+                default:
                 case "ENFORCER_PRIMARY_SHOTGUN_NAME":
-                    weapon = 0;
-                    break;
-                case "ENFORCER_PRIMARY_RIFLE_NAME":
-                    weapon = 1;
+                    weapon = equippedGun.GUN;
                     break;
                 case "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME":
-                    weapon = 2;
+                    weapon = equippedGun.SUPER;
+                    break;
+                case "ENFORCER_PRIMARY_RIFLE_NAME":
+                    weapon = equippedGun.HMG;
                     break;
                 case "ENFORCER_PRIMARY_HAMMER_NAME":
-                    weapon = 3;
+                    weapon = equippedGun.HAMMER;
                     break;
-                case "SKILL_LUNAR_PRIMARY_REPLACEMENT_NAME":
-                    weapon = 4;
-                    break;
+                //case "SKILL_LUNAR_PRIMARY_REPLACEMENT_NAME":
+                //    weapon = equippedGun.NEEDLER;
+                //    break;
             }
         }
 
@@ -152,23 +179,22 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
     public void InitWeapon()
     {
-        int weapon = GetWeapon();
+        equippedGun weapon = GetWeapon();
         this.EquipWeapon(weapon);
         this.SetCrosshair(weapon);
         //SetWeaponDisplays(weapon);
         this.SetShieldDisplayRules(GetShield());
     }
 
-    public void HideWeapon()
+    public void HideWeapons()
     {
-        return;
         if (this.childLocator)
         {
-            this.childLocator.FindChild("Shotgun").gameObject.SetActive(false);
-            this.childLocator.FindChild("Rifle").gameObject.SetActive(false);
-            this.childLocator.FindChild("SuperShotgun").gameObject.SetActive(false);
-            this.childLocator.FindChild("Hammer").gameObject.SetActive(false);
-            this.childLocator.FindChild("Needler").gameObject.SetActive(false);
+            shotgunObject.SetActive(false);
+            ssgobject.gameObject.SetActive(false);
+            hmgObject.SetActive(false);
+            hammerObject.SetActive(false);
+            needlerObject.SetActive(false);
         }
     }
 
@@ -179,34 +205,33 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
     public void ResetWeapon()
     {
-        int weapon = GetWeapon();
+        equippedGun weapon = GetWeapon();
         this.EquipWeapon(weapon);
         this.SetCrosshair(weapon);
     }
 
-    private void EquipWeapon(int weapon)
+    private void EquipWeapon(equippedGun weapon)
     {
-        return;
         if (this.childLocator)
         {
-            this.HideWeapon();
+            this.HideWeapons();
 
-            switch (weapon)
-            {
-                case 0:
-                    this.childLocator.FindChild("Shotgun").gameObject.SetActive(true);
+            switch (weapon) {
+                default:
+                case equippedGun.GUN:
+                    shotgunObject.SetActive(true);
                     break;
-                case 1:
-                    this.childLocator.FindChild("Rifle").gameObject.SetActive(true);
+                case equippedGun.SUPER:
+                    ssgobject.gameObject.SetActive(true);
                     break;
-                case 2:
-                    this.childLocator.FindChild("SuperShotgun").gameObject.SetActive(true);
+                case equippedGun.HMG:
+                    hmgObject.SetActive(true);
                     break;
-                case 3:
-                    this.childLocator.FindChild("Hammer").gameObject.SetActive(true);
+                case equippedGun.HAMMER:
+                    hammerObject.SetActive(true);
                     break;
-                case 4:
-                    this.childLocator.FindChild("Needler").gameObject.SetActive(true);
+                case equippedGun.NEEDLER:
+                    needlerObject.SetActive(true);
                     break;
             }
         }
@@ -272,42 +297,35 @@ public class EnforcerWeaponComponent : MonoBehaviour
         }*/
     }
 
-    private void SetWeaponDisplays(int newWeapon)
+    private void SetWeaponDisplays(equippedGun newWeapon)
     {
         return;
-        ItemDisplayRuleSet ruleset = this.GetComponentInChildren<CharacterModel>().itemDisplayRuleSet;
+        //ItemDisplayRuleSet ruleset = this.GetComponentInChildren<CharacterModel>().itemDisplayRuleSet;
 
-        if (newWeapon == 0)
-        {
-            //ruleset.FindItemDisplayRuleGroup("Behemoth").rules[0].childName = "Shotgun";
-        }
-        else if (newWeapon == 1)
-        {
+        //if (newWeapon == 0)
+        //{
+        //    //ruleset.FindItemDisplayRuleGroup("Behemoth").rules[0].childName = "Shotgun";
+        //}
+        //else if (newWeapon == 1)
+        //{
 
-        }
+        //}
     }
 
-    private void SetCrosshair(int weapon)
+    private void SetCrosshair(equippedGun weapon)
     {
         if (this.charBody)
         {
-            switch (weapon)
-            {
-                case 0:
+            switch (weapon) {
+                case equippedGun.GUN:
+                case equippedGun.SUPER:
+                case equippedGun.HMG: 
                     this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
                     break;
-                case 1:
-                    //this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
-                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
-                    break;
-                case 2:
-                    //this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
-                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
-                    break;
-                case 3:
+                case equippedGun.HAMMER:
                     this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
                     break;
-                case 4:
+                case equippedGun.NEEDLER:
                     this.charBody.crosshairPrefab = EnforcerPlugin.EnforcerModPlugin.needlerCrosshair;
                     break;
             }
@@ -338,7 +356,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
         this.shellObjects = new GameObject[EnforcerWeaponComponent.maxShellCount + 1];
 
         GameObject desiredShell = EnforcerPlugin.Assets.shotgunShell;
-        if (this.GetWeapon() == 2) desiredShell = EnforcerPlugin.Assets.superShotgunShell;
+        if (this.GetWeapon() == equippedGun.SUPER) desiredShell = EnforcerPlugin.Assets.superShotgunShell;
 
         for (int i = 0; i < EnforcerWeaponComponent.maxShellCount; i++)
         {
@@ -371,32 +389,30 @@ public class EnforcerWeaponComponent : MonoBehaviour
         this.currentShell++;
         if (this.currentShell >= EnforcerWeaponComponent.maxShellCount) this.currentShell = 0;
     }
+    
+    private void InitSkateboard() {
+        this.skateboard = this.childLocator.FindChild("Skateboard").gameObject;
+        this.skateboardBase = this.childLocator.FindChild("BoardBase");
+        this.skateboardHandBase = this.childLocator.FindChild("BoardHandBase");
 
-    private void InitSkateboard()
-    {
-        return;
-        if (this.childLocator)
-        {
-            this.skateboard = this.childLocator.FindChild("Skateboard").gameObject;
-            this.skateboardBase = this.childLocator.FindChild("BoardBase");
-            this.skateboardHandBase = this.childLocator.FindChild("BoardHandBase");
-        }
+        ReparentSkateboard(SkateBoardParent.HAND);
     }
 
-    public void ReparentSkateboard(string newParent)
+    public void ReparentSkateboard(SkateBoardParent newParent)
     {
-        return;
         if (!this.skateboard) return;
 
         switch (newParent)
         {
-            case "Base":
+            case SkateBoardParent.BASE:
                 this.skateboard.transform.parent = this.skateboardBase;
+                this.skateboard.transform.localPosition = Vector3.zero;
                 if (this.footStep) this.footStep.baseFootstepString = "";
                 if (this.sfx) this.sfx.landingSound = EnforcerPlugin.Sounds.SkateLand;
                 break;
-            case "Hand":
+            case SkateBoardParent.HAND:
                 this.skateboard.transform.parent = this.skateboardHandBase;
+                this.skateboard.transform.localPosition = Vector3.zero;
                 if (this.footStep) this.footStep.baseFootstepString = this.stepSoundString;
                 if (this.sfx) this.sfx.landingSound = this.landSoundString;
                 break;

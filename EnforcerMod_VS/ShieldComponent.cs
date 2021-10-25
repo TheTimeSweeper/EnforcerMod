@@ -50,24 +50,14 @@ public class ShieldComponent : MonoBehaviour
         energyShield = energyShieldControler?.gameObject;
         energyShield.SetActive(false);*/
 
-
-        bool hasParryStateMachine = false;
-
-        foreach (EntityStateMachine i in base.gameObject.GetComponents<EntityStateMachine>()) {
-            if (i.customName == "EnforcerParry") {
-                hasParryStateMachine = true;
+        if(drOctagonapus == null) {
+            EntityStateMachine[] machines = base.gameObject.GetComponents<EntityStateMachine>();
+            for (int i = 0; i < machines.Length; i++) {
+                if(machines[i].customName == "EnforcerParry") {
+                    drOctagonapus = machines[i];
+                    break;
+                };
             }
-        }
-
-        if (!hasParryStateMachine) {
-            EntityStateMachine octagonapus = gameObject.AddComponent<EntityStateMachine>();
-            octagonapus.customName = "EnforcerParry";
-
-            SerializableEntityStateType idleState = new SerializableEntityStateType(typeof(Idle));
-            octagonapus.initialStateType = idleState;
-            octagonapus.mainStateType = idleState;
-
-            this.drOctagonapus = octagonapus;
         }
     }
 
@@ -82,7 +72,7 @@ public class ShieldComponent : MonoBehaviour
     private void aimShield() {
 
         float time = Time.fixedTime - initialTime;
-
+        
         Vector3 cross = Vector3.Cross(aimRay.direction, shieldDirection);
         Vector3 turnDirection = Vector3.Cross(shieldDirection, cross);
 

@@ -17,7 +17,7 @@ namespace EnforcerPlugin.Modules {
                 Modules.States.AddSkill(skillTypes[i]);
             }
 
-            Modules.States.AddSkillDef(skillDef); 
+            Modules.States.AddSkillDef(skillDef);
         }
 
         /// <summary>

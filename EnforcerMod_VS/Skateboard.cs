@@ -32,7 +32,7 @@ namespace EntityStates.Enforcer
                 base.modelLocator.normalizeToFloor = false;
                 this.duration = Skateboard.exitDuration / this.attackSpeedStat;
 
-                base.PlayAnimation("FullBody, Override", "BoardDown", "BoardUp.playbackRate", this.duration);
+                base.PlayAnimation("SkateBoard, Override", "BoardDown", "BoardUp.playbackRate", this.duration);
 
                 if (base.skillLocator)
                 {
@@ -46,7 +46,7 @@ namespace EntityStates.Enforcer
 
                 string soundString = EnforcerPlugin.Sounds.ShieldDown;
 
-                if (this.weaponComponent) this.weaponComponent.ReparentSkateboard("Hand");
+                if (this.weaponComponent) this.weaponComponent.ReparentSkateboard(EnforcerWeaponComponent.SkateBoardParent.HAND);
 
                 Util.PlayAttackSpeedSound(soundString, base.gameObject, 2f);
             }
@@ -55,7 +55,7 @@ namespace EntityStates.Enforcer
                 base.modelLocator.normalizeToFloor = true;
                 this.duration = Skateboard.enterDuration / this.attackSpeedStat;
 
-                base.PlayAnimation("FullBody, Override", "BoardUp", "BoardUp.playbackRate", this.duration);
+                base.PlayAnimation("SkateBoard, Override", "BoardUp", "BoardUp.playbackRate", this.duration);
 
                 if (base.skillLocator)
                 {
@@ -77,7 +77,7 @@ namespace EntityStates.Enforcer
         {
             base.OnExit();
 
-            if (this.weaponComponent && base.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff)) this.weaponComponent.ReparentSkateboard("Base");
+            if (this.weaponComponent && base.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff)) this.weaponComponent.ReparentSkateboard(EnforcerWeaponComponent.SkateBoardParent.BASE);
         }
 
         public override void FixedUpdate()

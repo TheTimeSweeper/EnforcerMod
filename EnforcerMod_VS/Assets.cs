@@ -343,10 +343,6 @@ namespace EnforcerPlugin
         }
         public static Material CreateMaterial(string materialName) {
 
-            Material createdmaterial = createdMaterials.Find(cmat => { return cmat.name == materialName; }).createdMaterial;
-            if (createdmaterial != null)
-                return createdmaterial;
-
             return CreateMaterial(Assets.MainAssetBundle, materialName, 0, Color.black, 0);
         }
 
@@ -356,10 +352,6 @@ namespace EnforcerPlugin
 
         public static Material CreateMaterial(AssetBundle assetbundle, string materialName, float emission, Color emissionColor, float normalStrength)
         {
-            Material createdmaterial = createdMaterials.Find(cmat => { return cmat.checkAlreadyCreated(materialName, emission, emissionColor, normalStrength); }).createdMaterial;
-            if (createdmaterial != null)
-                return createdmaterial;
-
             if (!commandoMat) commandoMat = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial;
 
             Material tempMat = assetbundle.LoadAsset<Material>(materialName);
@@ -377,8 +369,6 @@ namespace EnforcerPlugin
             mat.SetTexture("_EmTex", tempMat.GetTexture("_EmissionMap"));
             mat.SetFloat("_NormalStrength", normalStrength);
 
-            createdMaterials.Add(new CreatedMaterialInfo(materialName, emission, emissionColor, normalStrength, mat));
-
             return mat;
         }
 
@@ -390,30 +380,6 @@ namespace EnforcerPlugin
         public static Material CreateNemMaterial(string materialName, float emission, Color emissionColor, float normalStrength) {
 
             return CreateMaterial(Assets.MainAssetBundle, materialName, emission, emissionColor, normalStrength);
-        }
-
-        public static List<CreatedMaterialInfo> createdMaterials = new List<CreatedMaterialInfo>();
-
-        public struct CreatedMaterialInfo {
-
-            public string name;
-            public float emission;
-            public Color emissionColor;
-            public float normalStrength;
-
-            public Material createdMaterial;
-
-            public CreatedMaterialInfo(string name, float emission, Color emissionColor, float normalStrength, Material createdMaterial) {
-                this.name = name;
-                this.emission = emission;
-                this.emissionColor = emissionColor;
-                this.normalStrength = normalStrength;
-                this.createdMaterial = createdMaterial;
-            }
-
-            public bool checkAlreadyCreated(string materialName_, float emission_, Color emissionColor_, float normalStrength_) {
-                return materialName_ == name && emission_ == emission && emissionColor_ == emissionColor && normalStrength_ == normalStrength;
-            }
         }
     }
 }

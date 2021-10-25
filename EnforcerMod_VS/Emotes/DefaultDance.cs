@@ -55,7 +55,7 @@ namespace EntityStates.Enforcer
 
             this.initialTime = Time.fixedTime;
 
-            if (base.GetComponent<EnforcerWeaponComponent>()) base.GetComponent<EnforcerWeaponComponent>().HideWeapon();
+            if (base.GetComponent<EnforcerWeaponComponent>()) base.GetComponent<EnforcerWeaponComponent>().HideWeapons();
         }
 
         public override void OnExit()
