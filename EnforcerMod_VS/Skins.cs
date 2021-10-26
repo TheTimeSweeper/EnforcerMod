@@ -541,7 +541,7 @@ namespace EnforcerPlugin
             masterySkinDefInfo.NameToken = "ENFORCERBODY_MASTERY_SKIN_NAME";
             masterySkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             masterySkinDefInfo.RootObject = model;
-            masterySkinDefInfo.UnlockableName = "ENFORCER_MONSOONUNLOCKABLE_REWARD_ID";
+            masterySkinDefInfo.UnlockableName = "ENFORCER_MASTERYUNLOCKABLE_REWARD_ID";
 
             rendererInfos = skinDefInfo.RendererInfos;
             array = new CharacterModel.RendererInfo[rendererInfos.Length];

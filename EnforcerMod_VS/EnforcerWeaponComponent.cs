@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnforcerWeaponComponent : MonoBehaviour 
 {
-    public enum equippedGun {
+    public enum EquippedGun {
         GUN,
         SUPER,
         HMG,
@@ -13,23 +13,26 @@ public class EnforcerWeaponComponent : MonoBehaviour
         NEEDLER
     }
 
+    public enum EquippedShield {
+        SHIELD,
+        SHIELD2, //I still believe man
+        BOARD
+    }
+
     public enum SkateBoardParent {
         BASE,
         HAND,
     }
-
-    //TODO: implement like the above. works as is now
-    //public enum EquippedShield {
-    //    SHIELD,
-    //    SHIELD2, //I still believe man
-    //    SKATE
-    //}
 
     private GameObject shotgunObject { get => this.childLocator.FindChild("GunModel").gameObject; }
     private GameObject ssgobject { get => this.childLocator.FindChild("SuperGunModel").gameObject; }
     private GameObject hmgObject { get => this.childLocator.FindChild("HMGModel").gameObject; }
     private GameObject hammerObject { get => this.childLocator.FindChild("HammerModel").gameObject; }
     private GameObject needlerObject { get => this.childLocator.FindChild("NeedlerModel").gameObject; }
+
+    private GameObject shieldObject { get => this.childLocator.FindChild("ShieldModel").gameObject; }
+    //private GameObject shielDevicedObject { get => this.childLocator.FindChild("ShieldDeviceModel").gameObject; }
+    private GameObject skateBoardObject { get => this.childLocator.FindChild("SkamteBordModel").gameObject; }
 
     public bool isMultiplayer;
 
@@ -79,6 +82,253 @@ public class EnforcerWeaponComponent : MonoBehaviour
         this.Invoke("ModelCheck", 0.2f);
 
         this.UpdateCamera();
+    }
+
+    public void InitWeapon()
+    {
+        this.HideWeapons();
+
+        EquippedGun weapon = GetWeapon();
+        this.EquipWeapon(weapon);
+        this.SetCrosshair(weapon);
+        //SetWeaponDisplayRules(weapon);
+
+
+        EquippedShield shield = GetShield();
+
+        this.EquipShield(shield);
+        this.SetShieldDisplayRules(shield);
+    }
+
+    public void HideWeapons()
+    {
+        if (this.childLocator)
+        {
+            shotgunObject.SetActive(false);
+            ssgobject.gameObject.SetActive(false);
+            hmgObject.SetActive(false);
+            hammerObject.SetActive(false);
+            needlerObject.SetActive(false);
+
+            shieldObject.SetActive(false);
+            skateBoardObject.SetActive(false);
+        }
+    }
+
+
+    #region weapons
+    private EquippedGun GetWeapon() {
+        EquippedGun weapon = EquippedGun.GUN;
+
+        if (this.charBody && this.charBody.skillLocator) {
+            string skillString = this.charBody.skillLocator.primary.skillDef.skillNameToken;
+            switch (skillString) {
+                default:
+                case "ENFORCER_PRIMARY_SHOTGUN_NAME":
+                    weapon = EquippedGun.GUN;
+                    break;
+                case "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME":
+                    weapon = EquippedGun.SUPER;
+                    break;
+                case "ENFORCER_PRIMARY_RIFLE_NAME":
+                    weapon = EquippedGun.HMG;
+                    break;
+                case "ENFORCER_PRIMARY_HAMMER_NAME":
+                    weapon = EquippedGun.HAMMER;
+                    break;
+                    //case "SKILL_LUNAR_PRIMARY_REPLACEMENT_NAME":
+                    //    weapon = equippedGun.NEEDLER;
+                    //    break;
+            }
+        }
+
+        return weapon;
+    }
+    
+    private void EquipWeapon(EquippedGun weapon)
+    {
+        if (this.childLocator)
+        {
+            switch (weapon) {
+                default:
+                case EquippedGun.GUN:
+                    shotgunObject.SetActive(true);
+                    break;
+                case EquippedGun.SUPER:
+                    ssgobject.SetActive(true);
+                    break;
+                case EquippedGun.HMG:
+                    hmgObject.SetActive(true);
+                    break;
+                case EquippedGun.HAMMER:
+                    hammerObject.SetActive(true);
+                    break;
+                case EquippedGun.NEEDLER:
+                    needlerObject.SetActive(true);
+                    break;
+            }
+        }
+    }
+
+    private void SetWeaponDisplayRules(EquippedGun newWeapon)
+    {
+        return;
+        //ItemDisplayRuleSet ruleset = this.GetComponentInChildren<CharacterModel>().itemDisplayRuleSet;
+
+        //if (newWeapon == 0)
+        //{
+        //    //ruleset.FindItemDisplayRuleGroup("Behemoth").rules[0].childName = "Shotgun";
+        //}
+        //else if (newWeapon == 1)
+        //{
+
+        //}
+    }
+
+    private void SetCrosshair(EquippedGun weapon)
+    {
+        if (this.charBody)
+        {
+            switch (weapon) {
+                case EquippedGun.GUN:
+                case EquippedGun.SUPER:
+                case EquippedGun.HMG: 
+                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
+                    break;
+                case EquippedGun.HAMMER:
+                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
+                    break;
+                case EquippedGun.NEEDLER:
+                    this.charBody.crosshairPrefab = EnforcerPlugin.EnforcerModPlugin.needlerCrosshair;
+                    break;
+            }
+        }
+    }
+
+    //called when checking for needler
+    public void DelayedResetWeapon() {
+        this.Invoke("ResetWeapon", 0.1f);
+    }
+
+    public void ResetWeapon() {
+        EquippedGun weapon = GetWeapon();
+        this.EquipWeapon(weapon);
+        this.SetCrosshair(weapon);
+    }
+
+    #endregion
+
+    private EquippedShield GetShield() {
+
+        EquippedShield shield = EquippedShield.SHIELD;
+
+        if (this.charBody && this.charBody.skillLocator) {
+            string skillString = this.charBody.skillLocator.special.skillDef.skillNameToken;
+            switch (skillString) {
+                default:
+
+                case "ENFORCER_SPECIAL_SHIELDUP_NAME":
+
+                    shield = EquippedShield.SHIELD;
+
+                    //if (this.charBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) 
+                    //    shield = EquippedShield.SHIELD2;
+                    //if (this.charBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex)
+                    //    shield = EquippedShield.SHIELD2;
+
+                    break;
+                    
+                case "ENFORCER_SPECIAL_SHIELDON_NAME":
+                    shield = EquippedShield.SHIELD2;
+                    break;
+
+                case "ENFORCER_SPECIAL_BOARDUP_NAME":
+                    shield = EquippedShield.BOARD;
+                    break;
+            }
+        }
+
+        return shield;
+    }
+
+    private void EquipShield(EquippedShield shield) {
+
+        if (this.childLocator) {
+            switch (shield) {
+                default:
+                case EquippedShield.SHIELD:
+                    shieldObject.SetActive(true);
+                    break;
+                case EquippedShield.SHIELD2:
+                    shieldObject.SetActive(false);
+                    break;
+                case EquippedShield.BOARD:
+                    shieldObject.SetActive(false);
+                    skateBoardObject.SetActive(true);
+                    break;
+            }
+        }
+    }
+
+    private void SetShieldDisplayRules(EquippedShield shield)
+    {
+        /*ItemDisplayRuleSet ruleset = this.GetComponentInChildren<CharacterModel>().itemDisplayRuleSet;
+        
+        switch (shield) {
+            case EquippedShield.SHIELD:
+                ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].childName = "Shield";
+                ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localPos = new Vector3(2.5f, 0.5f, -2);
+                ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localAngles = new Vector3(0, 0, 180);
+                ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localScale = new Vector3(8, 4, 8);
+
+                ruleset.FindItemDisplayRuleGroup("Bear").rules[0].childName = "Shield";
+                ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localPos = new Vector3(0, 1.28f, 0.97f);
+                ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localAngles = new Vector3(-77, 180, 0);
+                ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localScale = new Vector3(5, 5, 5);
+
+                ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].childName = "Shield";
+                ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localPos = new Vector3(0, 1.15f, -3.65f);
+                ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localAngles = new Vector3(-80, 180, 0);
+                ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localScale = new Vector3(5, 5, 5);
+
+                ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].childName = "Shield";
+                ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localPos = new Vector3(2, 0, 7.8f);
+                ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localAngles = new Vector3(-25, 0, 180);
+                ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localScale = new Vector3(2f, 2f, 2f);
+
+                ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].childName = "Shield";
+                ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localPos = new Vector3(0, 0, 7.5f);
+                ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localAngles = new Vector3(0, 0, 25);
+                ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localScale = new Vector3(1, 1, 1);
+                break;
+            case EquippedShield.SHIELD2:
+                ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].childName = "Shield";
+                ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localPos = new Vector3(1, 0, 0);
+                ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localAngles = new Vector3(0, 0, 180);
+                ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localScale = new Vector3(3, 3, 3);
+
+                ruleset.FindItemDisplayRuleGroup("Bear").rules[0].childName = "Shield";
+                ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localPos = new Vector3(0, -0.4f, 1);
+                ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localAngles = new Vector3(0, 0, 0);
+                ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localScale = new Vector3(3, 3, 3);
+
+                ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].childName = "Shield";
+                ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localPos = new Vector3(0, 0, 0);
+                ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localAngles = new Vector3(-90, 90, 0);
+                ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localScale = new Vector3(4, 4, 4);
+
+                ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].childName = "Shield";
+                ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localPos = new Vector3(1.4f, 0, 1.5f);
+                ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localAngles = new Vector3(-40, 0, 180);
+                ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localScale = new Vector3(1.5f, 1.5f, 1.5f);
+
+                ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].childName = "Shield";
+                ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localPos = new Vector3(0, 0, 0);
+                ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localAngles = new Vector3(0, 0, 0);
+                ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localScale = new Vector3(1, 1, 1);
+                break;
+            //case EquippedShield.BOARD?
+        }*/
     }
 
     public void ModelCheck()
@@ -133,205 +383,6 @@ public class EnforcerWeaponComponent : MonoBehaviour
         }
     }
 
-    private equippedGun GetWeapon()
-    {
-        equippedGun weapon = equippedGun.GUN;
-
-        if (this.charBody && this.charBody.skillLocator)
-        {
-            string skillString = this.charBody.skillLocator.primary.skillDef.skillNameToken;
-            switch (skillString)
-            {
-                default:
-                case "ENFORCER_PRIMARY_SHOTGUN_NAME":
-                    weapon = equippedGun.GUN;
-                    break;
-                case "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME":
-                    weapon = equippedGun.SUPER;
-                    break;
-                case "ENFORCER_PRIMARY_RIFLE_NAME":
-                    weapon = equippedGun.HMG;
-                    break;
-                case "ENFORCER_PRIMARY_HAMMER_NAME":
-                    weapon = equippedGun.HAMMER;
-                    break;
-                //case "SKILL_LUNAR_PRIMARY_REPLACEMENT_NAME":
-                //    weapon = equippedGun.NEEDLER;
-                //    break;
-            }
-        }
-
-        return weapon;
-    }
-
-    private int GetShield()
-    {
-        int shield = 0;
-
-        if (this.charBody)
-        {
-            //if (this.charBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) shield = 1;
-            //if (this.charBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex) shield = 2;
-        }
-
-        return shield;
-    }
-
-    public void InitWeapon()
-    {
-        equippedGun weapon = GetWeapon();
-        this.EquipWeapon(weapon);
-        this.SetCrosshair(weapon);
-        //SetWeaponDisplays(weapon);
-        this.SetShieldDisplayRules(GetShield());
-    }
-
-    public void HideWeapons()
-    {
-        if (this.childLocator)
-        {
-            shotgunObject.SetActive(false);
-            ssgobject.gameObject.SetActive(false);
-            hmgObject.SetActive(false);
-            hammerObject.SetActive(false);
-            needlerObject.SetActive(false);
-        }
-    }
-
-    public void DelayedResetWeapon()
-    {
-        this.Invoke("ResetWeapon", 0.1f);
-    }
-
-    public void ResetWeapon()
-    {
-        equippedGun weapon = GetWeapon();
-        this.EquipWeapon(weapon);
-        this.SetCrosshair(weapon);
-    }
-
-    private void EquipWeapon(equippedGun weapon)
-    {
-        if (this.childLocator)
-        {
-            this.HideWeapons();
-
-            switch (weapon) {
-                default:
-                case equippedGun.GUN:
-                    shotgunObject.SetActive(true);
-                    break;
-                case equippedGun.SUPER:
-                    ssgobject.gameObject.SetActive(true);
-                    break;
-                case equippedGun.HMG:
-                    hmgObject.SetActive(true);
-                    break;
-                case equippedGun.HAMMER:
-                    hammerObject.SetActive(true);
-                    break;
-                case equippedGun.NEEDLER:
-                    needlerObject.SetActive(true);
-                    break;
-            }
-        }
-    }
-
-    private void SetShieldDisplayRules(int newShield)
-    {
-        /*ItemDisplayRuleSet ruleset = this.GetComponentInChildren<CharacterModel>().itemDisplayRuleSet;
-
-        if (newShield == 0)
-        {
-            ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].childName = "Shield";
-            ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localPos = new Vector3(2.5f, 0.5f, -2);
-            ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localAngles = new Vector3(0, 0, 180);
-            ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localScale = new Vector3(8, 4, 8);
-
-            ruleset.FindItemDisplayRuleGroup("Bear").rules[0].childName = "Shield";
-            ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localPos = new Vector3(0, 1.28f, 0.97f);
-            ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localAngles = new Vector3(-77, 180, 0);
-            ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localScale = new Vector3(5, 5, 5);
-
-            ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].childName = "Shield";
-            ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localPos = new Vector3(0, 1.15f, -3.65f);
-            ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localAngles = new Vector3(-80, 180, 0);
-            ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localScale = new Vector3(5, 5, 5);
-
-            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].childName = "Shield";
-            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localPos = new Vector3(2, 0, 7.8f);
-            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localAngles = new Vector3(-25, 0, 180);
-            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localScale = new Vector3(2f, 2f, 2f);
-
-            ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].childName = "Shield";
-            ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localPos = new Vector3(0, 0, 7.5f);
-            ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localAngles = new Vector3(0, 0, 25);
-            ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localScale = new Vector3(1, 1, 1);
-        }
-        else if (newShield == 1 || newShield == 2)
-        {
-            ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].childName = "Shield";
-            ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localPos = new Vector3(1, 0, 0);
-            ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localAngles = new Vector3(0, 0, 180);
-            ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].localScale = new Vector3(3, 3, 3);
-
-            ruleset.FindItemDisplayRuleGroup("Bear").rules[0].childName = "Shield";
-            ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localPos = new Vector3(0, -0.4f, 1);
-            ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localAngles = new Vector3(0, 0, 0);
-            ruleset.FindItemDisplayRuleGroup("Bear").rules[0].localScale = new Vector3(3, 3, 3);
-
-            ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].childName = "Shield";
-            ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localPos = new Vector3(0, 0, 0);
-            ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localAngles = new Vector3(-90, 90, 0);
-            ruleset.FindItemDisplayRuleGroup("ExtraLife").rules[0].localScale = new Vector3(4, 4, 4);
-
-            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].childName = "Shield";
-            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localPos = new Vector3(1.4f, 0, 1.5f);
-            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localAngles = new Vector3(-40, 0, 180);
-            ruleset.FindItemDisplayRuleGroup("RegenOnKill").rules[0].localScale = new Vector3(1.5f, 1.5f, 1.5f);
-
-            ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].childName = "Shield";
-            ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localPos = new Vector3(0, 0, 0);
-            ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localAngles = new Vector3(0, 0, 0);
-            ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localScale = new Vector3(1, 1, 1);
-        }*/
-    }
-
-    private void SetWeaponDisplays(equippedGun newWeapon)
-    {
-        return;
-        //ItemDisplayRuleSet ruleset = this.GetComponentInChildren<CharacterModel>().itemDisplayRuleSet;
-
-        //if (newWeapon == 0)
-        //{
-        //    //ruleset.FindItemDisplayRuleGroup("Behemoth").rules[0].childName = "Shotgun";
-        //}
-        //else if (newWeapon == 1)
-        //{
-
-        //}
-    }
-
-    private void SetCrosshair(equippedGun weapon)
-    {
-        if (this.charBody)
-        {
-            switch (weapon) {
-                case equippedGun.GUN:
-                case equippedGun.SUPER:
-                case equippedGun.HMG: 
-                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
-                    break;
-                case equippedGun.HAMMER:
-                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
-                    break;
-                case equippedGun.NEEDLER:
-                    this.charBody.crosshairPrefab = EnforcerPlugin.EnforcerModPlugin.needlerCrosshair;
-                    break;
-            }
-        }
-    }
-
     private void InitShells()
     {
         if (this.childLocator is null) return;
@@ -356,7 +407,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
         this.shellObjects = new GameObject[EnforcerWeaponComponent.maxShellCount + 1];
 
         GameObject desiredShell = EnforcerPlugin.Assets.shotgunShell;
-        if (this.GetWeapon() == equippedGun.SUPER) desiredShell = EnforcerPlugin.Assets.superShotgunShell;
+        if (this.GetWeapon() == EquippedGun.SUPER) desiredShell = EnforcerPlugin.Assets.superShotgunShell;
 
         for (int i = 0; i < EnforcerWeaponComponent.maxShellCount; i++)
         {

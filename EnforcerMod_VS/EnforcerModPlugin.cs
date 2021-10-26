@@ -385,6 +385,7 @@ namespace EnforcerPlugin {
         private void TeleportOutController_OnStartClient(On.RoR2.TeleportOutController.orig_OnStartClient orig, TeleportOutController self)
         {
             // fuck you hopoo
+                // no. big particle funny
             if (self.target)
             {
                 CharacterBody targetBody = self.target.GetComponent<CharacterBody>();

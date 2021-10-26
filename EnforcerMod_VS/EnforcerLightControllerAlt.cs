@@ -47,6 +47,7 @@ class EnforcerLightControllerAlt : MonoBehaviour
             {
                 //fuck me for trying to future proof this right
                 int secondToLast = Mathf.Max(0, 2 - this.characterModel.baseRendererInfos.Length);
+
                 this.lights = new Material[]
                 {                                         //secondToLast should be this, no?
                     this.characterModel.baseRendererInfos[7].defaultMaterial
