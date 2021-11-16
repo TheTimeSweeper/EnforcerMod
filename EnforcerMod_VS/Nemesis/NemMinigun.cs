@@ -86,26 +86,27 @@ namespace EntityStates.Nemforcer
             base.OnExit();
         }
 
-        private void OnFireShared()
+        private void OnFireShared(uint bullets = 1)
         {
-            base.characterBody.AddSpreadBloom(0.25f);
+            base.characterBody.AddSpreadBloom(0.25f * bullets);
 
             if (base.isAuthority)
             {
-                this.OnFireAuthority();
+                this.OnFireAuthority(bullets);
             }
         }
 
-        private void OnFireAuthority()
+        private void OnFireAuthority(uint bullets = 1)
         {
             this.UpdateCrits();
             bool isCrit = !this.critEndTime.hasPassed;
 
-            base.AddRecoil(-0.6f * NemMinigunFire.recoilAmplitude, -0.8f * NemMinigunFire.recoilAmplitude, -0.3f * NemMinigunFire.recoilAmplitude, 0.3f * NemMinigunFire.recoilAmplitude);
+            float recoil = NemMinigunFire.recoilAmplitude * bullets;
+            base.AddRecoil(-0.6f * recoil, -0.8f * recoil, -0.3f * recoil, 0.3f * recoil);
 
             this.currentFireRate = Mathf.Clamp(currentFireRate + fireRateGrowth, minFireRate, maxFireRate);
 
-            this.spreadMod += 0.1f;
+            this.spreadMod += 0.1f * bullets;
             if (this.spreadMod >= 1f) this.spreadMod = 1f;
 
             float damage = NemMinigunFire.baseDamageCoefficient * this.damageStat;
@@ -116,12 +117,12 @@ namespace EntityStates.Nemforcer
 
             if (!base.characterMotor.isGrounded)
             {
-                base.characterMotor.velocity += (NemMinigunFire.selfPushForce * -aimRay.direction);
+                base.characterMotor.velocity += (NemMinigunFire.selfPushForce * bullets * -aimRay.direction);
             }
 
             new BulletAttack
             {
-                bulletCount = (uint)MinigunFire.baseBulletCount,
+                bulletCount = (uint)MinigunFire.baseBulletCount * bullets,
                 aimVector = aimRay.direction,
                 origin = aimRay.origin,
                 damage = damage,
@@ -172,14 +173,18 @@ namespace EntityStates.Nemforcer
                 base.characterMotor.moveDirection /= 1.5f;
             }
 
+            this.attackSpeedStat = this.characterBody.attackSpeed;
+
+            float fireInterval = (MinigunFire.baseFireInterval / this.attackSpeedStat) / currentFireRate;
+
             if (this.fireTimer <= 0f)
             {
-                this.attackSpeedStat = this.characterBody.attackSpeed;
-
-                float num = (MinigunFire.baseFireInterval / this.attackSpeedStat) / currentFireRate;
-                this.fireTimer += num;
-
-                this.OnFireShared();
+                uint bullets = 0;
+                while (this.fireTimer <= 0) {
+                    this.fireTimer += fireInterval;
+                    bullets++;
+                }
+                this.OnFireShared(bullets);
             }
 
             if (base.isAuthority && !base.skillButtonState.down)

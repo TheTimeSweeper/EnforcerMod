@@ -6,7 +6,7 @@ using RoR2;
 using UnityEngine.Networking;
 
 namespace EntityStates.Enforcer.NeutralSpecial {
-    class FireMachineGun : BaseState {
+    class FireMachineGun : BaseSkillState {
         public static float damageCoefficient = 1.3f;
         public static float baseDuration = 0.21f;
 
@@ -20,36 +20,40 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
         private float duration;
         private bool isShielded;
-        private float firingStopwatch;
+        private float firingStopwatch = 0;
+        private bool hasFired = false;
 
         public override void OnEnter() {
             base.OnEnter();
 
             isShielded = HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
+
+            duration = baseDuration / characterBody.attackSpeed * (isShielded ? 0.8f : 1f);
+
             if (NetworkServer.active) {
-                if (isShielded && characterBody) {
-                    characterBody.AddBuff(RoR2Content.Buffs.Slow50);
+                if (isShielded && characterBody) {                                  //this ugly?
+                    characterBody.AddTimedBuff(RoR2Content.Buffs.Slow50, duration + 0.05f);
+                    //characterBody.AddBuff(RoR2Content.Buffs.Slow50);
                 }
             }
-            FireBullet();
         }
 
-        private void FireBullet() {
+        private void FireBullet(uint bullets) {
+
+            characterBody.SetAimTimer(2f);
+
+            bool crit = characterBody.RollCrit();
+
             if (characterBody.isSprinting) {
                 characterBody.isSprinting = false;
             }
-            characterBody.SetAimTimer(2f);
-            duration = baseDuration / characterBody.attackSpeed * (isShielded ? 0.8f : 1f);
-            firingStopwatch = 0f;
 
-            //Someone tweak these animation numbers later
             if (isShielded) {
-                PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", 2f * duration);
+                PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", Mathf.Max(0.069f, duration));
             } else {
-                PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", 2f * duration);
+                PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", Mathf.Max(0.05f, 2f * duration));
             }
 
-            bool crit = characterBody.RollCrit();
             if (crit) {
                 Util.PlaySound(EnforcerPlugin.Sounds.HMGCrit, gameObject);
             } else {
@@ -69,7 +73,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 }
 
                 new BulletAttack {
-                    bulletCount = 1,
+                    bulletCount = bullets,
                     aimVector = aimRay.direction,
                     origin = aimRay.origin,
                     damage = characterBody.damage * damageCoefficient,
@@ -99,7 +103,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                     HitEffectNormal = false
                 }.Fire();
 
-                float scaledRecoil = recoilAmplitude / characterBody.attackSpeed;
+                float scaledRecoil = recoilAmplitude / characterBody.attackSpeed * bullets;
                 characterBody.AddSpreadBloom(FireMachineGun.bloom * shieldSpreadMult);
                 AddRecoil(-0.2f * scaledRecoil, -0.69f * scaledRecoil, -0.3f * scaledRecoil, 0.3f * scaledRecoil);
             }
@@ -107,22 +111,33 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
         public override void FixedUpdate() {
             base.FixedUpdate();
+
             firingStopwatch += Time.fixedDeltaTime;
-            if (firingStopwatch > duration) {
-                if (!inputBank || !inputBank.skill1.down) {
-                    if (isAuthority) {
-                        outer.SetNextStateToMain();
-                    }
-                } else {
-                    FireBullet();
+
+            if (!hasFired) {
+                hasFired = false;
+
+                // this scales attack speed past framerate >:)
+                float currentStopwatch = firingStopwatch;
+                uint bullets = 1;
+                while (currentStopwatch > duration) {
+                    currentStopwatch -= duration;
+                    bullets++;
                 }
+
+                FireBullet(bullets);
+            }
+                
+            if (firingStopwatch > duration) {
+
+                outer.SetNextStateToMain();
             }
         }
 
         public override void OnExit() {
-            if (NetworkServer.active && isShielded && characterBody) {
-                characterBody.RemoveBuff(RoR2Content.Buffs.Slow50);
-            }
+            //if (NetworkServer.active && isShielded && characterBody) {
+            //    characterBody.RemoveBuff(RoR2Content.Buffs.Slow50);
+            //}
             base.OnExit();
         }
 

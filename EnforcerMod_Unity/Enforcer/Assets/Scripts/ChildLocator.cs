@@ -11,10 +11,5 @@ public class ChildLocator : MonoBehaviour
 	}
 
 	[SerializeField]
-	private NameTransformPair[] transformPairs;
-
-	public NameTransformPair[] TransformPairs { 
-		get => transformPairs;
-		set => transformPairs = value;
-	}
+	public NameTransformPair[] transformPairs;
 }

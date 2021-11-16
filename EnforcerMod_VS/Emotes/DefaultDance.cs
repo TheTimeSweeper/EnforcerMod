@@ -55,7 +55,8 @@ namespace EntityStates.Enforcer
 
             this.initialTime = Time.fixedTime;
 
-            if (base.GetComponent<EnforcerWeaponComponent>()) base.GetComponent<EnforcerWeaponComponent>().HideWeapons();
+            if (base.GetComponent<EnforcerWeaponComponent>()) 
+                base.GetComponent<EnforcerWeaponComponent>().HideWeapons();
         }
 
         public override void OnExit()
@@ -71,7 +72,7 @@ namespace EntityStates.Enforcer
             var weaponComponent = base.GetComponent<EnforcerWeaponComponent>();
             if (weaponComponent)
             {
-                //weaponComponent.ResetWeapon();
+                weaponComponent.ResetWeapon();
                 //this.ToggleShield(true);
             }
 
@@ -79,17 +80,17 @@ namespace EntityStates.Enforcer
             if (this.activePlayID != 0) AkSoundEngine.StopPlayingID(this.activePlayID);
         }
 
-        private void ToggleShield(bool sex)
-        {
-            if (this.childLocator)
-            {
-                if (this.childLocator.FindChild("Shield"))
-                {
-                    //this.childLocator.FindChild("Shield").gameObject.SetActive(sex);
-                    //this.childLocator.FindChild("Skateboard").gameObject.SetActive(sex);
-                }
-            }
-        }
+        //private void ToggleShield(bool sex)
+        //{
+        //    if (this.childLocator)
+        //    {
+        //        if (this.childLocator.FindChild("Shield"))
+        //        {
+        //            //this.childLocator.FindChild("Shield").gameObject.SetActive(sex);
+        //            //this.childLocator.FindChild("Skateboard").gameObject.SetActive(sex);
+        //        }
+        //    }
+        //}
 
         public override void FixedUpdate()
         {

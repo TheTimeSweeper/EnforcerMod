@@ -35,13 +35,13 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         private Animator animator;
         protected string muzzleString;
 
-        protected ShieldComponent shieldComponent;
+        protected EnforcerComponent shieldComponent;
 
         public override void OnEnter() {
             base.OnEnter();
             characterBody.SetAimTimer(5f);
             animator = GetModelAnimator();
-            shieldComponent = GetComponent<ShieldComponent>();
+            shieldComponent = GetComponent<EnforcerComponent>();
             muzzleString = "Muzzle";
             hasFired = false;
 
@@ -56,20 +56,19 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 this.isEngi = true;
             }*/
 
-
             if (HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) {
                 duration = baseShieldDuration / attackSpeedStat;
                 attackStopDuration = beefDurationShield / attackSpeedStat;
 
-                PlayAnimation("Gesture, Additive", "ShieldFireShotgun", "FireShotgun.playbackRate", 0.5f * duration);
+                PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", Mathf.Max(0.069f, duration));
             } else {
                 duration = baseDuration / attackSpeedStat;
                 attackStopDuration = beefDurationNoShield / attackSpeedStat;
 
-                PlayCrossfade("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", 1.75f * duration, 0.06f);
+                PlayCrossfade("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", Mathf.Max(0.05f, 1.75f * duration), 0.06f);
             }
 
-            fireDuration = 0.0f * duration; //fucking windup on a shotgun you dumb cunt
+            fireDuration = 0;// 0.1f * duration; fucking windup on a shotgun you dumb cunt
         }
 
         public override void OnExit() {
@@ -183,7 +182,8 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
                     i.startColor = new Color(0.68f, 0.58f, 0.05f);
                     i.endColor = new Color(0.68f, 0.58f, 0.05f);
-                    i.widthMultiplier = (1 + bulletThiccness - originalBulletThiccness) * 0.5f;
+                    float addedBulletThiccness = bulletThiccness - originalBulletThiccness;
+                    i.widthMultiplier = (1 + addedBulletThiccness) * 0.5f;
                 }
             }
         }

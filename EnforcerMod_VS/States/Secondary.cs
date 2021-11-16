@@ -34,7 +34,8 @@ namespace EntityStates.Enforcer
         private bool hasFired;
         private bool usingBash;
         private bool hasDeflected;
-        private ShieldComponent shieldComponent;
+        private EnforcerComponent shieldComponent;
+        private bool sprintbash;
 
         private Transform _origOrigin;
         private int _parries = 0;
@@ -53,7 +54,7 @@ namespace EntityStates.Enforcer
             this.hasDeflected = false;
             this.usingBash = false;
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
-            this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
+            this.shieldComponent = base.characterBody.GetComponent<EnforcerComponent>();
 
             base.StartAimMode(aimRay, 2f, false);
 
@@ -65,6 +66,7 @@ namespace EntityStates.Enforcer
                 this.hasFired = true;
                 base.skillLocator.secondary.skillDef.activationStateMachineName = "Body";
                 this.outer.SetNextState(new ShoulderBash());
+                this.sprintbash = true;
                 return;
             }
 
@@ -256,7 +258,10 @@ namespace EntityStates.Enforcer
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
-                this.outer.SetNextStateToMain();
+                //this was overriding the sprint bash if your attack speed was too high
+                if (!sprintbash) {
+                    this.outer.SetNextStateToMain();
+                }
                 return;
             }
         }

@@ -262,7 +262,9 @@ namespace EnforcerPlugin {
 
         private void ContentManager_onContentPacksAssigned(HG.ReadOnlyArray<RoR2.ContentManagement.ReadOnlyContentPack> obj)
         {
+            EnforcerItemDisplays.RegisterDisplays();
             if (nemesisEnabled) NemItemDisplays.RegisterDisplays();
+
         }
 
         private void ContentManager_collectContentPackProviders(RoR2.ContentManagement.ContentManager.AddContentPackProviderDelegate addContentPackProvider) {
@@ -778,27 +780,28 @@ namespace EnforcerPlugin {
                 if (cb)
                 {
                     //this is probably why this isn't networked
-                    ShieldComponent enforcerShield = self.body.GetComponent<ShieldComponent>();
+                    EnforcerComponent enforcerComponent = self.body.GetComponent<EnforcerComponent>();
 
-                    if (cb.baseNameToken == "GOLEM_BODY_NAME" && GetShieldBlock(self, info, enforcerShield))
+                    ////ugly hack cause golems kept hitting past shield
+                    //if (cb.baseNameToken == "GOLEM_BODY_NAME" && GetShieldBlock(self, info, enforcerComponent))
+                    //{
+                    //    blocked = self.body.HasBuff(Modules.Buffs.protectAndServeBuff);
+
+                    //    if (enforcerComponent != null)
+                    //    {
+                    //        if (enforcerComponent.isDeflecting)
+                    //        {
+                    //            blocked = true;
+                    //        }
+
+                    //        Debug.LogWarning("firin mah layzor " + NetworkServer.active);
+                    //        enforcerComponent.invokeOnLaserHitEvent();
+                    //    }
+                    //}
+
+                    if (enforcerComponent)
                     {
-                        blocked = self.body.HasBuff(Modules.Buffs.protectAndServeBuff);
-
-                        if (enforcerShield != null)
-                        {
-                            if (enforcerShield.isDeflecting)
-                            {
-                                blocked = true;
-                            }
-
-                            Debug.LogWarning("firin mah layzor " + NetworkServer.active);
-                            enforcerShield.invokeOnLaserHitEvent();
-                        }
-                    }
-
-                    if (enforcerShield)
-                    {
-                        enforcerShield.AttackBlocked(blocked);
+                        enforcerComponent.AttackBlocked(blocked);
                     }
                 }
             }
@@ -932,7 +935,7 @@ namespace EnforcerPlugin {
             orig(self, killerOverride, inflictorOverride, damageType);
         }
 
-        private bool GetShieldBlock(HealthComponent self, DamageInfo info, ShieldComponent shieldComponent)
+        private bool GetShieldBlock(HealthComponent self, DamageInfo info, EnforcerComponent shieldComponent)
         {
             CharacterBody charB = self.GetComponent<CharacterBody>();
             Ray aimRay = shieldComponent.aimRay;
@@ -1188,7 +1191,9 @@ namespace EnforcerPlugin {
                                                            //in the god damn fuck
                                                            //does AddComponent default to an extension coming from the fucking starstorm dll
             EntityStateMachine octagonapus = bodyComponent.gameObject.AddComponent<EntityStateMachine>();
+
             octagonapus.customName = "EnforcerParry";
+            bodyComponent.GetComponent<NetworkStateMachine>().stateMachines.Append(octagonapus);
 
             SerializableEntityStateType idleState = new SerializableEntityStateType(typeof(Idle));
             octagonapus.initialStateType = idleState;
@@ -1508,7 +1513,7 @@ namespace EnforcerPlugin {
             aimAnimator.giveupDuration = 3f;
             aimAnimator.inputBank = characterPrefab.GetComponent<InputBankTest>();
 
-            characterPrefab.AddComponent<ShieldComponent>();
+            characterPrefab.AddComponent<EnforcerComponent>();
             characterPrefab.AddComponent<EnforcerWeaponComponent>();
             characterPrefab.AddComponent<EnforcerLightController>();
             characterPrefab.AddComponent<EnforcerLightControllerAlt>();

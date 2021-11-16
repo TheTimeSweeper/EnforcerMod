@@ -12,7 +12,7 @@ namespace EntityStates.Enforcer
         public static float bonusMass = 15000;
 
         private float duration;
-        private ShieldComponent shieldComponent;
+        private EnforcerComponent shieldComponent;
         private Animator animator;
         private ChildLocator childLocator;
 
@@ -20,7 +20,7 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
             this.animator = GetModelAnimator();
-            this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
+            this.shieldComponent = base.characterBody.GetComponent<EnforcerComponent>();
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
 
             this.shieldComponent.isShielding = !base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);

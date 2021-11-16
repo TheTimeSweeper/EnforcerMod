@@ -89,6 +89,12 @@
     <Reference Include="Starstorm2">
       <HintPath>libs\Starstorm2.dll</HintPath>
     </Reference>
+    <Reference Include="SupplyDrop">
+      <HintPath>libs\SupplyDrop.dll</HintPath>
+    </Reference>
+    <Reference Include="TILER2">
+      <HintPath>..\..\_sln References\compats\TILER2.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Postprocessing.Runtime">
       <HintPath>libs\Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>

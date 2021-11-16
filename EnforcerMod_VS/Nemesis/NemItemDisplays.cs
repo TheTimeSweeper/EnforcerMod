@@ -5,8 +5,8 @@ using System.Reflection;
 using System.Text;
 using UnityEngine;
 
-namespace EnforcerPlugin
-{
+namespace EnforcerPlugin {
+
     public static class NemItemDisplays
     {
         public static List<ItemDisplayRuleSet.KeyAssetRuleGroup> itemRules;

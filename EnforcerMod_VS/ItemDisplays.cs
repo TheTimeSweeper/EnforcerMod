@@ -1,4 +1,4 @@
-﻿using System;
+﻿//using System;
 using UnityEngine;
 using R2API;
 using RoR2;
@@ -60,8 +60,8 @@ namespace EnforcerPlugin
                     return Aetherium.Items.AlienMagnet.ItemFollowerPrefab;
                 case "BlasterSword":
                     return Aetherium.Items.BlasterSword.ItemBodyModelPrefab;
-                case "BloodSoakedShield":
-                    return Aetherium.Items.BloodSoakedShield.ItemBodyModelPrefab;
+                //case "BloodSoakedShield":
+                //    return Aetherium.Items.BloodSoakedShield.ItemBodyModelPrefab;
                 case "FeatheredPlume":
                     return Aetherium.Items.FeatheredPlume.ItemBodyModelPrefab;
                 case "InspiringDrone":
@@ -83,5 +83,269 @@ namespace EnforcerPlugin
             }
             return null;
         }
+
+
+        public static GameObject LoadSupplyDropDisplay(string name) {
+            switch (name) {
+                //would be cool if these are enums maybe
+                case "Bones":
+                    return SupplyDrop.Items.HardenedBoneFragments.ItemBodyModelPrefab;
+                case "Berries":
+                    return SupplyDrop.Items.NumbingBerries.ItemBodyModelPrefab;
+                case "UnassumingTie":
+                    return SupplyDrop.Items.UnassumingTie.ItemBodyModelPrefab;
+                case "SalvagedWires":
+                    return SupplyDrop.Items.SalvagedWires.ItemBodyModelPrefab;
+
+                case "ShellPlating":
+                    return SupplyDrop.Items.ShellPlating.ItemBodyModelPrefab;
+                case "ElectroPlankton":
+                    return SupplyDrop.Items.ElectroPlankton.ItemBodyModelPrefab;
+                case "PlagueHat":
+                    return SupplyDrop.Items.PlagueHat.ItemBodyModelPrefab;
+                case "PlagueMask":
+                    GameObject masku = R2API.PrefabAPI.InstantiateClone(SupplyDrop.Items.PlagueMask.ItemBodyModelPrefab, "PlagueMask");
+                    Material heeheehee = new Material(masku.GetComponent<ItemDisplay>().rendererInfos[0].defaultMaterial);
+                    heeheehee.color = Color.green; ;
+                    masku.GetComponent<ItemDisplay>().rendererInfos[0].defaultMaterial = heeheehee;
+                    return masku;
+
+                case "BloodBook":
+                    return SupplyDrop.Items.BloodBook.ItemBodyModelPrefab;
+                case "QSGen":
+                    return SupplyDrop.Items.QSGen.ItemBodyModelPrefab;
+            }
+            return null;
+        }
+        public static Object LoadSupplyDropKeyAsset(string name) {
+            switch (name) {
+                //would be cool if these are enums maybe
+                case "Bones":
+                    return SupplyDrop.Items.HardenedBoneFragments.instance.itemDef;
+                case "Berries":
+                    return SupplyDrop.Items.NumbingBerries.instance.itemDef;
+                case "UnassumingTie":
+                    return SupplyDrop.Items.UnassumingTie.instance.itemDef;
+                case "SalvagedWires":
+                    return SupplyDrop.Items.SalvagedWires.instance.itemDef;
+
+                case "ShellPlating":
+                    return SupplyDrop.Items.ShellPlating.instance.itemDef;
+                case "ElectroPlankton":
+                    return SupplyDrop.Items.ElectroPlankton.instance.itemDef;
+                case "PlagueHat":
+                    return SupplyDrop.Items.PlagueHat.instance.itemDef;
+                case "PlagueMask":
+                    return SupplyDrop.Items.PlagueMask.instance.itemDef;
+
+                case "BloodBook":
+                    return SupplyDrop.Items.BloodBook.instance.itemDef;
+                case "QSGen":
+                    return SupplyDrop.Items.QSGen.instance.itemDef;
+
+            }
+            return null;
+        }
+
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateSupplyDropRuleGroup(string itemName, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
+            try {
+                return CreateGenericDisplayRuleGroup(LoadSupplyDropKeyAsset(itemName), LoadSupplyDropDisplay(itemName), childName, position, rotation, scale);
+            }
+            catch (System.Exception e) {
+
+                Debug.LogWarning($"could not create item display for supply drop's {itemName}. skipping.\n(Error: {e.Message})");
+                return new ItemDisplayRuleSet.KeyAssetRuleGroup();
+            }
+        }
+
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRuleGroup(Object keyAsset_, GameObject itemPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
+
+            ItemDisplayRule singleRule = CreateDisplayRule(itemPrefab, childName, position, rotation, scale);
+            return CreateDisplayRuleGroupWithRules(keyAsset_, singleRule);
+        }
+
+        private static ItemDisplayRule CreateDisplayRule(GameObject itemPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
+            return new ItemDisplayRule {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = childName,
+                followerPrefab = itemPrefab,
+                limbMask = LimbFlags.None,
+                localPos = position,
+                localAngles = rotation,
+                localScale = scale
+            };
+        }
+
+
+        private static ItemDisplayRuleSet.KeyAssetRuleGroup CreateDisplayRuleGroupWithRules(Object keyAsset_, params ItemDisplayRule[] rules) {
+            return new ItemDisplayRuleSet.KeyAssetRuleGroup {
+                keyAsset = keyAsset_,
+                displayRuleGroup = new DisplayRuleGroup {
+                    rules = rules
+                }
+            };
+        }
+
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRule(string itemName, string prefabName, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
+            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup {
+                keyAsset = Resources.Load<ItemDef>("ItemDefs/" + itemName),
+                displayRuleGroup = new DisplayRuleGroup {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            childName = childName,
+                            followerPrefab = ItemDisplays.LoadDisplay(prefabName),
+                            limbMask = LimbFlags.None,
+                            localPos = position,
+                            localAngles = rotation,
+                            localScale = scale
+                        }
+                    }
+                }
+            };
+
+            return displayRule;
+        }
+
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRuleE(string itemName, string prefabName, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
+            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup {
+                keyAsset = Resources.Load<EquipmentDef>("EquipmentDefs/" + itemName),
+                displayRuleGroup = new DisplayRuleGroup {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            childName = childName,
+                            followerPrefab = ItemDisplays.LoadDisplay(prefabName),
+                            limbMask = LimbFlags.None,
+                            localPos = position,
+                            localAngles = rotation,
+                            localScale = scale
+                        }
+                    }
+                }
+            };
+
+            return displayRule;
+        }
+
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRule(string itemName, GameObject itemPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
+            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup {
+                keyAsset = Resources.Load<ItemDef>("ItemDefs/" + itemName),
+                displayRuleGroup = new DisplayRuleGroup {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            childName = childName,
+                            followerPrefab = itemPrefab,
+                            limbMask = LimbFlags.None,
+                            localPos = position,
+                            localAngles = rotation,
+                            localScale = scale
+                        }
+                    }
+                }
+            };
+
+            return displayRule;
+        }
+
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateFollowerDisplayRule(string itemName, string prefabName, Vector3 position, Vector3 rotation, Vector3 scale) {
+            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup {
+                keyAsset = Resources.Load<ItemDef>("ItemDefs/" + itemName),
+                displayRuleGroup = new DisplayRuleGroup {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            childName = "Base",
+                            followerPrefab = ItemDisplays.LoadDisplay(prefabName),
+                            limbMask = LimbFlags.None,
+                            localPos = position,
+                            localAngles = rotation,
+                            localScale = scale
+                        }
+                    }
+                }
+            };
+
+            return displayRule;
+        }
+
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateFollowerDisplayRuleE(string itemName, string prefabName, Vector3 position, Vector3 rotation, Vector3 scale) {
+            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup {
+                keyAsset = Resources.Load<EquipmentDef>("EquipmentDefs/" + itemName),
+                displayRuleGroup = new DisplayRuleGroup {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            childName = "Base",
+                            followerPrefab = ItemDisplays.LoadDisplay(prefabName),
+                            limbMask = LimbFlags.None,
+                            localPos = position,
+                            localAngles = rotation,
+                            localScale = scale
+                        }
+                    }
+                }
+            };
+
+            return displayRule;
+        }
+
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateFollowerDisplayRule(string itemName, GameObject itemPrefab, Vector3 position, Vector3 rotation, Vector3 scale) {
+            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup {
+                keyAsset = Resources.Load<ItemDef>("ItemDefs/" + itemName),
+                displayRuleGroup = new DisplayRuleGroup {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            childName = "Base",
+                            followerPrefab = itemPrefab,
+                            limbMask = LimbFlags.None,
+                            localPos = position,
+                            localAngles = rotation,
+                            localScale = scale
+                        }
+                    }
+                }
+            };
+
+            return displayRule;
+        }
+
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateFollowerDisplayRuleE(string itemName, GameObject itemPrefab, Vector3 position, Vector3 rotation, Vector3 scale) {
+            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup {
+                keyAsset = Resources.Load<EquipmentDef>("EquipmentDefs/" + itemName),
+                displayRuleGroup = new DisplayRuleGroup {
+                    rules = new ItemDisplayRule[]
+                    {
+                        new ItemDisplayRule
+                        {
+                            ruleType = ItemDisplayRuleType.ParentedPrefab,
+                            childName = "Base",
+                            followerPrefab = itemPrefab,
+                            limbMask = LimbFlags.None,
+                            localPos = position,
+                            localAngles = rotation,
+                            localScale = scale
+                        }
+                    }
+                }
+            };
+
+            return displayRule;
+        }
+
     }
 }

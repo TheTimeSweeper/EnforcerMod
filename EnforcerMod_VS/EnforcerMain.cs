@@ -18,7 +18,7 @@ namespace EntityStates.Enforcer {
         public Transform origOrigin;
 
         private EnforcerWeaponComponent weaponComponent;
-        private ShieldComponent shieldComponent;
+        private EnforcerComponent enforcerComponent;
 
         private bool wasShielding = false;
         private float initialTime;
@@ -34,6 +34,11 @@ namespace EntityStates.Enforcer {
         private EnforcerLightControllerAlt lightControllerAlt;
         private EntityStateMachine sirenStateMachine;
 
+        private bool skateJump { 
+            get => EnforcerComponent.skateJump; 
+            set => EnforcerComponent.skateJump = value; 
+        }
+
         private AnimationCurve primarySpreadCurve = null;
 
         public static event Action<float> Bungus = delegate { };
@@ -47,8 +52,8 @@ namespace EntityStates.Enforcer {
             this.lightController = base.characterBody.GetComponent<EnforcerLightController>();
             this.lightControllerAlt = base.characterBody.GetComponent<EnforcerLightControllerAlt>();
             this.weaponComponent = base.characterBody.GetComponent<EnforcerWeaponComponent>();
-            this.shieldComponent = base.characterBody.GetComponent<ShieldComponent>();
-            this.shieldComponent.origOrigin = base.characterBody.aimOriginTransform;
+            this.enforcerComponent = base.characterBody.GetComponent<EnforcerComponent>();
+            this.enforcerComponent.origOrigin = base.characterBody.aimOriginTransform;
 
             //Debug.LogWarning("EnforcerMain.OnEnter()");
 
@@ -214,7 +219,7 @@ namespace EntityStates.Enforcer {
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-            if (this.shieldComponent) this.shieldComponent.aimRay = base.GetAimRay();
+            if (this.enforcerComponent) this.enforcerComponent.aimRay = base.GetAimRay();
 
             bool isShielded = base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
 
@@ -296,26 +301,26 @@ namespace EntityStates.Enforcer {
 
                     this.UpdateSkateDirection();
 
+
                     if (base.characterDirection)
                     {
                         base.characterDirection.moveVector = this.idealDirection;
-                        if (base.characterMotor && !base.characterMotor.disableAirControlUntilCollision)
+                        if (base.characterMotor && !(base.characterMotor.disableAirControlUntilCollision))
                         {
-                            base.characterMotor.rootMotion += this.GetIdealVelocity() * Time.fixedDeltaTime;
+                            base.characterMotor.moveDirection += this.GetIdealVelocity() * Time.fixedDeltaTime;
                         }
                     }
-
-                    /*if (base.isGrounded)
+                    if (base.isGrounded)
                     {
                         //slope shit
-                        Vector3 dir = modelLocator.modelTransform.up;
-                        base.characterMotor.ApplyForce(dir * skateGravity);
-                    }*/
+                        //Vector3 dir = modelLocator.modelTransform.up;
+                        //base.characterMotor.ApplyForce(dir * skateGravity);
+                    }
                 }
 
                 //sound
-                if (base.isGrounded)
-                {
+                if (base.isGrounded) {
+
                     if (this.skatePlayID == 0)
                     {
                         this.skatePlayID = Util.PlaySound(EnforcerPlugin.Sounds.SkateRoll, base.gameObject);
@@ -360,10 +365,16 @@ namespace EntityStates.Enforcer {
             }
         }
 
+        public override void ProcessJump() {
+            base.ProcessJump();
+            skateJump = true;
+            //base.characterMotor.disableAirControlUntilCollision |= true;
+        }
+
         public override void UpdateAnimationParameters() {
             base.UpdateAnimationParameters();
 
-            if (shieldComponent.beefStop) {
+            if (enforcerComponent.beefStop) {
                 this.modelAnimator.SetFloat(AnimationParameters.walkSpeed, 0);
             }
         }

@@ -75,7 +75,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
 
         this.impCount = 0;
 
-        this.InitWeapon();
+        this.InitWeapons();
         this.InitShells();
         this.InitSkateboard();
 
@@ -84,7 +84,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
         this.UpdateCamera();
     }
 
-    public void InitWeapon()
+    public void InitWeapons()
     {
         this.HideWeapons();
 
@@ -93,9 +93,7 @@ public class EnforcerWeaponComponent : MonoBehaviour
         this.SetCrosshair(weapon);
         //SetWeaponDisplayRules(weapon);
 
-
         EquippedShield shield = GetShield();
-
         this.EquipShield(shield);
         this.SetShieldDisplayRules(shield);
     }
@@ -211,9 +209,10 @@ public class EnforcerWeaponComponent : MonoBehaviour
     }
 
     public void ResetWeapon() {
-        EquippedGun weapon = GetWeapon();
-        this.EquipWeapon(weapon);
-        this.SetCrosshair(weapon);
+        InitWeapons();
+        //EquippedGun weapon = GetWeapon();
+        //this.EquipWeapon(weapon);
+        //this.SetCrosshair(weapon);
     }
 
     #endregion
