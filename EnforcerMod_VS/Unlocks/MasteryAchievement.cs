@@ -31,6 +31,18 @@ namespace EnforcerPlugin.Achievements {
             return BodyCatalog.FindBodyIndex("EnforcerBody");
         }
 
+        public override void OnInstall() {
+            base.OnInstall();
+
+            Run.onClientGameOverGlobal += this.ClearCheck;
+        }
+
+        public override void OnUninstall() {
+            base.OnUninstall();
+
+            Run.onClientGameOverGlobal -= this.ClearCheck;
+        }
+
         public void ClearCheck(Run run, RunReport runReport)
         {
             if (run is null) return;
@@ -50,20 +62,6 @@ namespace EnforcerPlugin.Achievements {
                     }
                 }
             }
-        }
-
-        public override void OnInstall()
-        {
-            base.OnInstall();
-
-            Run.onClientGameOverGlobal += this.ClearCheck;
-        }
-
-        public override void OnUninstall()
-        {
-            base.OnUninstall();
-
-            Run.onClientGameOverGlobal -= this.ClearCheck;
         }
     }
 

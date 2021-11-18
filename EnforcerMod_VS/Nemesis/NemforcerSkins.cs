@@ -11,8 +11,7 @@ namespace EnforcerPlugin
         public static SkinDef dededeBossSkin;
         public static SkinDef ultraSkin;
 
-        public static void RegisterSkins()
-        {
+        public static void RegisterSkins() {
             GameObject bodyPrefab = NemforcerPlugin.characterPrefab;
 
             GameObject model = bodyPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
@@ -231,7 +230,6 @@ namespace EnforcerPlugin
             Skins.SkinDefInfo dededeSkinDefInfo = default(Skins.SkinDefInfo);
             dededeSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             dededeSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
-            dededeSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
             dededeSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
             dededeSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texDededeSkin");
 
@@ -248,6 +246,13 @@ namespace EnforcerPlugin
                     mesh = Assets.dededeHammerMesh
                 }
             };
+            dededeSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[] {
+                new SkinDef.ProjectileGhostReplacement{
+                    projectilePrefab = NemforcerPlugin.hammerProjectile,
+                    projectileGhostReplacementPrefab = NemforcerPlugin.gordoProjectileGhost
+                }
+            };
+
             dededeSkinDefInfo.Name = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
             dededeSkinDefInfo.NameToken = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
             dededeSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
@@ -270,7 +275,6 @@ namespace EnforcerPlugin
             Skins.SkinDefInfo dededeBossSkinDefInfo = default(Skins.SkinDefInfo);
             dededeBossSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             dededeBossSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
-            dededeBossSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
             dededeBossSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
             dededeBossSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texDededeSkin");
 
@@ -287,6 +291,13 @@ namespace EnforcerPlugin
                     mesh = Assets.dededeHammerMesh
                 }
             };
+            dededeBossSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[] {
+                new SkinDef.ProjectileGhostReplacement{
+                    projectilePrefab = NemforcerPlugin.hammerProjectile,
+                    projectileGhostReplacementPrefab = NemforcerPlugin.gordoProjectileGhost
+                }
+            };
+
             dededeBossSkinDefInfo.Name = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
             dededeBossSkinDefInfo.NameToken = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
             dededeBossSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;

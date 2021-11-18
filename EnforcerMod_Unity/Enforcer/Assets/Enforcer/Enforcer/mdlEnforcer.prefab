@@ -3104,7 +3104,8 @@ MonoBehaviour:
   - {fileID: 4102519779649327704}
   - {fileID: 4102519779649328036}
   - {fileID: 5524036223140406559}
-  componentsToDisableOnRagdoll: []
+  componentsToDisableOnRagdoll:
+  - {fileID: 8336829766302384156}
 --- !u!1 &2746367180934421999
 GameObject:
   m_ObjectHideFlags: 0
@@ -4111,6 +4112,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4102519779649328032}
+  - component: {fileID: 8336829766302384156}
   m_Layer: 0
   m_Name: ShieldStraps
   m_TagString: Untagged
@@ -4132,6 +4134,19 @@ Transform:
   m_Father: {fileID: 2746367180934513143}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -7.201533, y: 163.3046, z: 3.1170793}
+--- !u!114 &8336829766302384156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4102519779649425216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ed117478acec3b4288cade2d0abbcba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShieldBone: {fileID: 2746367180934513081}
 --- !u!1 &4102519779649425220
 GameObject:
   m_ObjectHideFlags: 0

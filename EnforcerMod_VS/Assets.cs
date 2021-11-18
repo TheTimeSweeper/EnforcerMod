@@ -67,6 +67,7 @@ namespace EnforcerPlugin
         public static GameObject stunGrenadeModelAlt;
 
         public static GameObject hammerProjectileModel;
+        public static GameObject gordoProjectileModel;
 
         public static GameObject shotgunShell;
         public static GameObject superShotgunShell;
@@ -248,8 +249,12 @@ namespace EnforcerPlugin
             shockGrenadeMesh.material = shockGrenadeMaterial;
 
             hammerProjectileModel = MainAssetBundle.LoadAsset<GameObject>("HammerProjectile");
-
             hammerProjectileModel.GetComponentInChildren<MeshRenderer>().material.shader = hotpoo;
+
+            gordoProjectileModel = MainAssetBundle.LoadAsset<GameObject>("HammerProjectileGordo");
+            //haven't used transform.find since i was like in college damn
+            gordoProjectileModel.transform.Find("model/Gordo/polygon0").GetComponent<MeshRenderer>().material.shader = hotpoo;
+            gordoProjectileModel.transform.Find("model/Gordo/polygon1").GetComponent<MeshRenderer>().material.shader = hotpoo;
 
             shotgunShell = MainAssetBundle.LoadAsset<GameObject>("ShotgunShell");
             superShotgunShell = MainAssetBundle.LoadAsset<GameObject>("SuperShotgunShell");

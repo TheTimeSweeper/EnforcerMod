@@ -29,7 +29,8 @@ namespace EnforcerPlugin.Achievements {
                                 Language.GetString("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC")
                             }));
         //need to network this, only gives it to the host rn
-        //      fine, i'll do it myself
+            //after a fucking year it finally happened
+
         public override void OnInstall() {
             base.OnInstall();
             base.SetServerTracked(true);
@@ -44,6 +45,21 @@ namespace EnforcerPlugin.Achievements {
             public bool magmaWormKilled;
             public bool wanderingVagrantKilled;
             public bool stoneTitanKilled;
+
+            public override void OnInstall() {
+                base.OnInstall();
+
+                this.ResetKills();
+                GlobalEventManager.onCharacterDeathGlobal += this.CheckDeath;
+                Run.onRunStartGlobal += ResetOnRunStart;
+            }
+
+            public override void OnUninstall() {
+                base.OnUninstall();
+
+                GlobalEventManager.onCharacterDeathGlobal -= this.CheckDeath;
+                Run.onRunStartGlobal -= ResetOnRunStart;
+            }
 
             private void CheckDeath(DamageReport report) {
                 if (report is null) return;
@@ -90,21 +106,6 @@ namespace EnforcerPlugin.Achievements {
                 this.magmaWormKilled = false;
                 this.wanderingVagrantKilled = false;
                 this.stoneTitanKilled = false;
-            }
-
-            public override void OnInstall() {
-                base.OnInstall();
-
-                this.ResetKills();
-                GlobalEventManager.onCharacterDeathGlobal += this.CheckDeath;
-                Run.onRunStartGlobal += ResetOnRunStart;
-            }
-
-            public override void OnUninstall() {
-                base.OnUninstall();
-
-                GlobalEventManager.onCharacterDeathGlobal -= this.CheckDeath;
-                Run.onRunStartGlobal -= ResetOnRunStart;
             }
         }
     }

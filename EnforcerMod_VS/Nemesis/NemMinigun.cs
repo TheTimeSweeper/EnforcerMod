@@ -101,7 +101,7 @@ namespace EntityStates.Nemforcer
             this.UpdateCrits();
             bool isCrit = !this.critEndTime.hasPassed;
 
-            float recoil = NemMinigunFire.recoilAmplitude * bullets;
+            float recoil = NemMinigunFire.recoilAmplitude;// * bullets;
             base.AddRecoil(-0.6f * recoil, -0.8f * recoil, -0.3f * recoil, 0.3f * recoil);
 
             this.currentFireRate = Mathf.Clamp(currentFireRate + fireRateGrowth, minFireRate, maxFireRate);
@@ -117,7 +117,7 @@ namespace EntityStates.Nemforcer
 
             if (!base.characterMotor.isGrounded)
             {
-                base.characterMotor.velocity += (NemMinigunFire.selfPushForce * bullets * -aimRay.direction);
+                base.characterMotor.velocity += (NemMinigunFire.selfPushForce * -aimRay.direction);
             }
 
             new BulletAttack

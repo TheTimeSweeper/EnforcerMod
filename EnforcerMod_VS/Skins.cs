@@ -128,7 +128,7 @@ namespace EnforcerPlugin
             robitSkinDefInfo.Name = "ENFORCERBODY_BOT_SKIN_NAME";
             robitSkinDefInfo.NameToken = "ENFORCERBODY_BOT_SKIN_NAME";
             robitSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerEnforcer");
-            //robitSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerMasteryUnlockableDef;
+            robitSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerRobitUnlockableDef;
             robitSkinDefInfo.RootObject = modelTransform;
 
             robitSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();

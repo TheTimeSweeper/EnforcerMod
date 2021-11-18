@@ -32,26 +32,24 @@ namespace EnforcerPlugin.Achievements {
             return BodyCatalog.FindBodyIndex("EnforcerBody");
         }
 
+        public override void OnInstall() {
+            base.OnInstall();
+
+            RoR2Application.onUpdate += this.CheckAttackSpeed;
+        }
+
+        public override void OnUninstall() {
+            base.OnUninstall();
+
+            RoR2Application.onUpdate -= this.CheckAttackSpeed;
+        }
+
         public void CheckAttackSpeed()
         {
             if (base.localUser != null && base.localUser.cachedBody != null && base.localUser.cachedBody.attackSpeed >= 4f && base.meetsBodyRequirement)
             {
                 base.Grant();
             }
-        }
-
-        public override void OnInstall()
-        {
-            base.OnInstall();
-
-            RoR2Application.onUpdate += this.CheckAttackSpeed;
-        }
-
-        public override void OnUninstall()
-        {
-            base.OnUninstall();
-
-            RoR2Application.onUpdate -= this.CheckAttackSpeed;
         }
     }
 }

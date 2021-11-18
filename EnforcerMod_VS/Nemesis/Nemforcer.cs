@@ -41,6 +41,7 @@ namespace EnforcerPlugin
         public static GameObject nemGas;
 
         public static GameObject hammerProjectile;
+        public static GameObject gordoProjectileGhost;
 
         public static readonly Color characterColor = new Color(1, 0.7176f, 0.1725f);
 
@@ -62,8 +63,8 @@ namespace EnforcerPlugin
             CreateDisplayPrefab();
             RegisterCharacter();
             //NemItemDisplays.RegisterDisplays();
-            NemforcerSkins.RegisterSkins();
             RegisterProjectiles();
+            NemforcerSkins.RegisterSkins();
             CreateDoppelganger();
             CreateBossPrefab();
             CreateMiniBossPrefab();
@@ -566,7 +567,7 @@ namespace EnforcerPlugin
             hammerImpact.lifetime = 18;
             hammerImpact.lifetimeAfterImpact = 0f;
             hammerImpact.lifetimeRandomOffset = 0f;
-            hammerImpact.blastRadius = 1.5f;
+            hammerImpact.blastRadius = 2.0f;
             hammerImpact.blastDamageCoefficient = 1;
             hammerImpact.blastProcCoefficient = 1;
             hammerImpact.fireChildren = false;
@@ -577,6 +578,11 @@ namespace EnforcerPlugin
 
             hammerController.startSound = "";
             hammerController.procCoefficient = 1;
+
+            GameObject gordoModel = Assets.gordoProjectileModel.InstantiateClone("HammerProjectileGhostGordo", true);
+            gordoModel.AddComponent<NetworkIdentity>();
+            gordoModel.AddComponent<ProjectileGhostController>();
+            gordoProjectileGhost = gordoModel;
 
             nemGasGrenade = Resources.Load<GameObject>("Prefabs/Projectiles/CommandoGrenadeProjectile").InstantiateClone("NemGasGrenade", true);
             nemGas = Resources.Load<GameObject>("Prefabs/Projectiles/SporeGrenadeProjectileDotZone").InstantiateClone("NemGasDotZone", true);

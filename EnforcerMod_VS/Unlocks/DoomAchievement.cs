@@ -4,7 +4,6 @@ using RoR2;
 using ModdedUnlockable = Enforcer.Modules.ModdedUnlockable;
 
 namespace EnforcerPlugin.Achievements {
-
     public class DoomAchievement : ModdedUnlockable {
         public override String AchievementIdentifier { get; } = "ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_ID";
         public override String UnlockableIdentifier { get; } = "ENFORCER_DOOMUNLOCKABLE_REWARD_ID";

@@ -16,6 +16,8 @@ namespace EnforcerPlugin {
         public static UnlockableDef enforcerDoomUnlockableDef;
         //public static UnlockableDef enforcerStunGrenadeUnlockableDef;
 
+        public static UnlockableDef enforcerRobitUnlockableDef;
+
         public static UnlockableDef nemesisUnlockableDef;
         public static UnlockableDef nemMasteryUnlockableDef;
 
@@ -44,6 +46,9 @@ namespace EnforcerPlugin {
             LanguageAPI.Add("ENFORCER_STUNGRENADEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Crowd Control");
 
             //extra shit
+            LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Dead or Alive, You're Coming With Me");
+            LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, be brought back to life.");
+            LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Dead or Alive, You're Coming With Me");
 
             //LanguageAPI.Add("ENFORCER_SHOTGUNUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Schmoovin'");
             //LanguageAPI.Add("ENFORCER_SHOTGUNUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, show off your dance moves.");
@@ -92,6 +97,8 @@ namespace EnforcerPlugin {
 
             enforcerDoomUnlockableDef = Unlockables.AddUnlockable<DoomAchievement>(typeof(DoomAchievement.DoomAchievementServer));
             enforcerARUnlockableDef = Unlockables.AddUnlockable<AssaultRifleAchievement>();
+
+            enforcerRobitUnlockableDef = Unlockables.AddUnlockable<RobitAchievement>(typeof(RobitAchievement.RobitAchievementServer));
 
             //enforcerStunGrenadeUnlockableDef = Unlockables.AddUnlockable<StunGrenadeAchievement>();
 
