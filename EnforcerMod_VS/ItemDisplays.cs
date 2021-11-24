@@ -164,7 +164,7 @@ namespace EnforcerPlugin
             return CreateDisplayRuleGroupWithRules(keyAsset_, singleRule);
         }
 
-        private static ItemDisplayRule CreateDisplayRule(GameObject itemPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
+        public static ItemDisplayRule CreateDisplayRule(GameObject itemPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
             return new ItemDisplayRule {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = childName,
@@ -176,8 +176,24 @@ namespace EnforcerPlugin
             };
         }
 
+        public static ItemDisplayRule CreateDisplayRule(string prefabName, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
+            return new ItemDisplayRule {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = childName,
+                followerPrefab = ItemDisplays.LoadDisplay(prefabName),
+                limbMask = LimbFlags.None,
+                localPos = position,
+                localAngles = rotation,
+                localScale = scale
+            };
+        }
 
-        private static ItemDisplayRuleSet.KeyAssetRuleGroup CreateDisplayRuleGroupWithRules(Object keyAsset_, params ItemDisplayRule[] rules) {
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateDisplayRuleGroupWithRules(string itemName, params ItemDisplayRule[] rules) {
+            return CreateDisplayRuleGroupWithRules(Resources.Load<ItemDef>("ItemDefs/" + itemName), rules);
+        }
+
+
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateDisplayRuleGroupWithRules(Object keyAsset_, params ItemDisplayRule[] rules) {
             return new ItemDisplayRuleSet.KeyAssetRuleGroup {
                 keyAsset = keyAsset_,
                 displayRuleGroup = new DisplayRuleGroup {

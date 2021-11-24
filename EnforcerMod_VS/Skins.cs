@@ -6,9 +6,9 @@ using R2API.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using EnforcerPlugin.Modules;
 
-namespace EnforcerPlugin
-{
+namespace EnforcerPlugin {
     public static class Skins
     {
 

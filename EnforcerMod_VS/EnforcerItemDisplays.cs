@@ -36,19 +36,58 @@ namespace EnforcerPlugin {
             characterModel.itemDisplayRuleSet = itemDisplayRuleSet;
         }
 
-/*for custom copy format in keb's tool
+/*for custom copy format in keb's helper
 {childName},
                                                                 {localPos}, 
                                                                 {localAngles},
                                                                 {localScale})
+
+{childName},
+                                               {localPos}, 
+                                               {localAngles},
+                                               {localScale})
 */
 
         private static void AddVanillaDisplays() {
             itemRules.Add(ItemDisplays.CreateGenericDisplayRule("CritGlasses", "DisplayGlasses",
                                                                 "Head",
-                                                                new Vector3(-0.17491F, 0.07314F, 0F),
+                                                                new Vector3(-0.19034F, 0.07312F, 0F),
                                                                 new Vector3(0F, 270F, 0F),
-                                                                new Vector3(0.30571F, 0.24766F, 0.31616F)));
+                                                                new Vector3(0.31811F, 0.25771F, 0.32899F)));
+
+
+            itemRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules("SecondarySkillMagazine",
+                ItemDisplays.CreateDisplayRule("DisplayDoubleMag",
+                                               "ShotgunItems",
+                                               new Vector3(0.23681F, 0.18249F, 0.02189F),
+                                               new Vector3(3.15304F, 90F, 180F),
+                                               new Vector3(0.09266F, 0.07507F, 0.09583F)),
+                ItemDisplays.CreateDisplayRule("DisplayDoubleMag",
+                                               "SSGItems",
+                                               new Vector3(0.41312F, 0.16682F, 0.06131F),
+                                               new Vector3(3.15304F, 90F, 180F),
+                                               new Vector3(0.09266F, 0.07507F, 0.09583F)),
+                ItemDisplays.CreateDisplayRule("DisplayDoubleMag",
+                                               "SSGItems",
+                                               new Vector3(0.41788F, 0.16017F, -0.045F),
+                                               new Vector3(3.15304F, 90F, 180F),
+                                               new Vector3(-0.09266F, 0.07507F, 0.09583F)),
+                ItemDisplays.CreateDisplayRule("DisplayDoubleMag",
+                                               "HMGItems",
+                                               new Vector3(0.26451F, 0.24186F, 0.03677F),
+                                               new Vector3(2.74917F, 90.11697F, 179.8363F),
+                                               new Vector3(0.09875F, 0.10525F, 0.12089F)),
+                ItemDisplays.CreateDisplayRule("DisplayDoubleMag",
+                                               "HammerShaftFront",
+                                               new Vector3(-0.05377F, 0.14861F, -0.21077F),
+                                               new Vector3(270.4614F, 331.0887F, 214.0607F),
+                                               new Vector3(0.11733F, 0.09338F, 0.11921F)),
+                ItemDisplays.CreateDisplayRule("DisplayDoubleMag",
+                                               "NeedlerItems",
+                                               new Vector3(0.25984F, 0.33422F, 0.03651F),
+                                               new Vector3(42.9152F, 89.97276F, 179.7767F),
+                                               new Vector3(0.09875F, 0.10525F, 0.12089F))
+                ));
         }
 
         #region HEE HEE HEE

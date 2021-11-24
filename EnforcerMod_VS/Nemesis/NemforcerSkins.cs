@@ -3,9 +3,9 @@ using UnityEngine;
 using R2API;
 using RoR2;
 using System.Collections.Generic;
+using EnforcerPlugin.Modules;
 
-namespace EnforcerPlugin
-{
+namespace EnforcerPlugin {
     public static class NemforcerSkins
     {
         public static SkinDef dededeBossSkin;

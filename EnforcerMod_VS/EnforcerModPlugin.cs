@@ -30,8 +30,9 @@ namespace EnforcerPlugin {
     [BepInDependency("com.K1454.SupplyDrop", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.TeamMoonstorm.Starstorm2", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.cwmlolzlz.skills", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.KingEnderBrine.ItemDisplayPlacementHelper", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.1.2")]
+    [BepInPlugin(MODUID, "Enforcer", "3.2.0")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -199,6 +200,7 @@ namespace EnforcerPlugin {
         private void Awake() {
 
             //touch this all you want tho
+            //Modules.Config.ConfigShit(this);
             ConfigShit();
             Modules.States.FixStates();
             Assets.PopulateAssets();
@@ -776,28 +778,30 @@ namespace EnforcerPlugin {
 
             if (self.body.baseNameToken == "ENFORCER_NAME" && info.attacker)
             {
-                CharacterBody cb = info.attacker.GetComponent<CharacterBody>();
-                if (cb)
+                CharacterBody body = info.attacker.GetComponent<CharacterBody>();
+                if (body)
                 {
                     //this is probably why this isn't networked
                     EnforcerComponent enforcerComponent = self.body.GetComponent<EnforcerComponent>();
 
-                    ////ugly hack cause golems kept hitting past shield
-                    //if (cb.baseNameToken == "GOLEM_BODY_NAME" && GetShieldBlock(self, info, enforcerComponent))
-                    //{
-                    //    blocked = self.body.HasBuff(Modules.Buffs.protectAndServeBuff);
+                    //ugly hack cause golems kept hitting past shield
+                    //actually they're just not anymore? probably cause proper mvc now
+                    //code stays for deflecting tho
+                    if (body.baseNameToken == "GOLEM_BODY_NAME" && GetShieldBlock(self, info, enforcerComponent))
+                    {
+                        blocked = self.body.HasBuff(Modules.Buffs.protectAndServeBuff);
 
-                    //    if (enforcerComponent != null)
-                    //    {
-                    //        if (enforcerComponent.isDeflecting)
-                    //        {
-                    //            blocked = true;
-                    //        }
+                        if (enforcerComponent != null)
+                        {
+                            if (enforcerComponent.isDeflecting)
+                            {
+                                blocked = true;
+                            }
 
-                    //        Debug.LogWarning("firin mah layzor " + NetworkServer.active);
-                    //        enforcerComponent.invokeOnLaserHitEvent();
-                    //    }
-                    //}
+                            Debug.LogWarning("firin mah layzor " + NetworkServer.active);
+                            enforcerComponent.invokeOnLaserHitEvent();
+                        }
+                    }
 
                     if (enforcerComponent)
                     {
@@ -1336,6 +1340,8 @@ namespace EnforcerPlugin {
             characterModel.temporaryOverlays = new List<TemporaryOverlay>();
 
             characterModel.mainSkinnedMeshRenderer = childLocator.FindChild("Model").gameObject.GetComponent<SkinnedMeshRenderer>();
+
+            characterModel.gameObject.AddComponent<EnforcerWeaponDisplaysComponent>();
 
             childLocator.FindChild("Chair").GetComponent<MeshRenderer>().material = Assets.CreateMaterial("matChair", 0f, Color.black, 0f);
 

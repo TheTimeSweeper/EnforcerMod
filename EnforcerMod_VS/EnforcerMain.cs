@@ -307,7 +307,7 @@ namespace EntityStates.Enforcer {
                         base.characterDirection.moveVector = this.idealDirection;
                         if (base.characterMotor && !(base.characterMotor.disableAirControlUntilCollision))
                         {
-                            base.characterMotor.moveDirection += this.GetIdealVelocity() * Time.fixedDeltaTime;
+                            base.characterMotor.rootMotion += this.GetIdealVelocity() * Time.fixedDeltaTime;
                         }
                     }
                     if (base.isGrounded)

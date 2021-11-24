@@ -14,9 +14,9 @@ using EntityStates.Enforcer;
 using RoR2.Projectile;
 using RoR2.CharacterAI;
 using RoR2.Navigation;
+using EnforcerPlugin.Modules;
 
-namespace EnforcerPlugin
-{
+namespace EnforcerPlugin {
     public class NemforcerPlugin
     {
         public const string characterName = "Nemesis Enforcer";

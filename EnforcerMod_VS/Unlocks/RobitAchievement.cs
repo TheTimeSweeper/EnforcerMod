@@ -43,6 +43,8 @@ namespace EnforcerPlugin.Achievements {
         }
         public class RobitAchievementServer : BaseServerAchievement {
 
+            private static bool _applyingSkin = false;
+
             public override void OnInstall() {
                 base.OnInstall();
                 //oh god this isn't gonna be networked is it
@@ -58,11 +60,28 @@ namespace EnforcerPlugin.Achievements {
             private void CheckRespawn(On.RoR2.CharacterMaster.orig_RespawnExtraLife orig, CharacterMaster self) {
                 orig(self);
 
-                bool fucker = self.GetBody() == base.GetCurrentBody();
+                Debug.LogWarning($"checking {self}, {base.GetCurrentBody().master}");
+
+                bool fucker = self == base.GetCurrentBody().master;
                 if (fucker) {
 
+                    _applyingSkin = true;
                     base.Grant();
+
+                    On.RoR2.ModelSkinController.ApplySkin += ModelSkinController_ApplySkin;
                 }
+            }
+
+            private void ModelSkinController_ApplySkin(On.RoR2.ModelSkinController.orig_ApplySkin orig, ModelSkinController self, int skinIndex) {
+
+                //bool fucker = base.GetCurrentBody() == self.GetComponent<CharacterModel>().body;
+                if (_applyingSkin) {
+                    skinIndex = 2;
+
+                    On.RoR2.ModelSkinController.ApplySkin -= ModelSkinController_ApplySkin;
+                }
+                orig(self, skinIndex);
+
             }
         }
     }

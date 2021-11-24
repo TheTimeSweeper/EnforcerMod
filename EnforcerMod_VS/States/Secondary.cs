@@ -42,7 +42,7 @@ namespace EntityStates.Enforcer
 
         private List<CharacterBody> victimList = new List<CharacterBody>();
 
-        public override void OnEnter()
+        public override void OnEnter() 
         {
             base.OnEnter();
 
@@ -310,8 +310,8 @@ namespace EntityStates.Enforcer
 
                             if (EnforcerPlugin.EnforcerModPlugin.sirenOnDeflect.Value) Util.PlaySound(EnforcerPlugin.Sounds.SirenDeflect, base.gameObject);
 
-                            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(3);
-                            base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(3);
+                            base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
+                            base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(2);
                         }
                     }
                 }
@@ -322,7 +322,7 @@ namespace EntityStates.Enforcer
         {
             if (this.usingBash) 
                 return;
-
+            Debug.LogWarning("parry " + _parries + "octa: " + (this.shieldComponent.drOctagonapus != null));
             if (_parries <= 0)
                 return;
 
@@ -343,7 +343,7 @@ namespace EntityStates.Enforcer
                 if (EnforcerPlugin.EnforcerModPlugin.sirenOnDeflect.Value) 
                     Util.PlaySound(EnforcerPlugin.Sounds.SirenDeflect, base.gameObject);
 
-                base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
+                base.characterBody.GetComponent<EnforcerLightController>().FlashLights(3);
                 base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(3);
             }
         }

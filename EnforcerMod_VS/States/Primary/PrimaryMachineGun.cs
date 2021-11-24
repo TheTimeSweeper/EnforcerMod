@@ -115,7 +115,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             firingStopwatch += Time.fixedDeltaTime;
 
             if (!hasFired) {
-                hasFired = false;
+                hasFired = true;
 
                 // this scales attack speed past framerate >:)
                 float currentStopwatch = firingStopwatch;

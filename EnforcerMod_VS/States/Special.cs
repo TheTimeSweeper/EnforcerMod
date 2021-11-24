@@ -17,8 +17,7 @@ namespace EntityStates.Enforcer
         private ChildLocator childLocator;
         private EnforcerWeaponComponent weaponComponent;
 
-        public override void OnEnter()
-        {
+        public override void OnEnter() {
             base.OnEnter();
             this.animator = GetModelAnimator();
             this.shieldComponent = base.characterBody.GetComponent<EnforcerComponent>();
