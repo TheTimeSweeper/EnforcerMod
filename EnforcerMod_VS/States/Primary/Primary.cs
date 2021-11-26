@@ -1,6 +1,7 @@
 ﻿using RoR2;
 using UnityEngine;
 using EnforcerPlugin;
+using EnforcerPlugin.Modules;
 
 namespace EntityStates.Enforcer.NeutralSpecial {
 
@@ -9,17 +10,17 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         public const float RAD2 = 1.414f;//for area calculation
         //public const float RAD3 = 1.732f;//for area calculation
 
-        public static float damageCoefficient = EnforcerModPlugin.shotgunDamage.Value;
-        public static float procCoefficient = EnforcerModPlugin.shotgunProcCoefficient.Value;
+        public static float damageCoefficient = Config.shotgunDamage.Value;
+        public static float procCoefficient = Config.shotgunProcCoefficient.Value;
         public float baseDuration = 0.9f; // the base skill duration. i.e. attack speed
         public float baseShieldDuration = 0.6f; // the duration used while shield is active
-        public static int bulletCount = EnforcerModPlugin.shotgunBulletCount.Value;
-        public static float bulletSpread = EnforcerModPlugin.shotgunSpread.Value;
+        public static int bulletCount = Config.shotgunBulletCount.Value;
+        public static float bulletSpread = Config.shotgunSpread.Value;
         public static float bulletRecoil = 8f;
         public static float shieldedBulletRecoil = 6f;
         public static float beefDurationNoShield = 0.0f;
         public static float beefDurationShield = 0.25f;
-        public static float bulletRange = EnforcerModPlugin.shotgunRange.Value;
+        public static float bulletRange = Config.shotgunRange.Value;
         public static float bulletThiccness = 0.7f;
 
         //too much effort being put here
@@ -47,11 +48,11 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
             /*this.isStormtrooper = false;
             this.isEngi = false;
-            if (base.characterBody.skinIndex == EnforcerModPlugin.stormtrooperIndex && EnforcerModPlugin.cursed.Value)
+            if (base.characterBody.skinIndex == Config.stormtrooperIndex && Config.cursed.Value)
             {
                 this.isStormtrooper = true;
             }
-            if (base.characterBody.skinIndex == EnforcerModPlugin.engiIndex && EnforcerModPlugin.cursed.Value)
+            if (base.characterBody.skinIndex == EnforcerModPlugin.engiIndex && Config.cursed.Value)
             {
                 this.isEngi = true;
             }*/
@@ -85,7 +86,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
                 soundString = isCrit ? Sounds.FireShotgunCrit : Sounds.FireShotgun;
 
-                if (EnforcerModPlugin.classicShotgun.Value) soundString = Sounds.FireClassicShotgun;
+                if (Config.classicShotgun.Value) soundString = Sounds.FireClassicShotgun;
 
                 //if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
                 //if (this.isEngi) soundString = EnforcerPlugin.Sounds.FireBungusShotgun;

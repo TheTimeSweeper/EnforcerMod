@@ -248,7 +248,7 @@ namespace EnforcerPlugin {
             SkinDef dontgettheshaftSkin = CreateSkinDef(dontgettheshaftSkinDefInfo);
 
             //wait more model
-            //if(EnforcerModPlugin.cursed.Value)
+            //if(Config.cursed.Value)
             //    skinDefs.Add(dontgettheshaftSkin);
             #endregion
 
@@ -802,7 +802,7 @@ namespace EnforcerPlugin {
                     nemesisSkin
             };
 
-            if (EnforcerPlugin.cursed.Value)
+            if (Config.cursed.Value)
             {
                 skinDefs = new List<SkinDef>()
                 {
@@ -819,7 +819,7 @@ namespace EnforcerPlugin {
             if (EnforcerPlugin.starstormInstalled)
             {
                 // jesus fuck this is awful LMAO
-                if (!EnforcerPlugin.cursed.Value)
+                if (!Config.cursed.Value)
                 {
                     skinDefs = new List<SkinDef>() {
                     defaultSkin,
@@ -848,7 +848,7 @@ namespace EnforcerPlugin {
                 EnforcerPlugin.stormtrooperIndex++;
             }
 
-            if (EnforcerPlugin.cursed.Value)
+            if (Config.cursed.Value)
             {
                 skinDefs.Add(frogSkin);
                 skinDefs.Add(fuckingSteveSkin);

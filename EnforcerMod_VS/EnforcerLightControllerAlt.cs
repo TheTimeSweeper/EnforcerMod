@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using RoR2;
 using System.Collections.Generic;
+using EnforcerPlugin.Modules;
 
 class EnforcerLightControllerAlt : MonoBehaviour
 {
@@ -54,7 +55,7 @@ class EnforcerLightControllerAlt : MonoBehaviour
                 };
             }
 
-            //if (this.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.stormtrooperIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value)
+            //if (this.characterBody.skinIndex == Config.stormtrooperIndex && Config.cursed.Value)
             //{
             //    this.minEmission = 0f;
             //}
@@ -150,7 +151,7 @@ class EnforcerLightControllerAlt : MonoBehaviour
         {
             string sound = EnforcerPlugin.Sounds.SirenButton;
 
-            if (this.characterBody && EnforcerPlugin.EnforcerModPlugin.cursed.Value)
+            if (this.characterBody && Config.cursed.Value)
             {
                 //if (this.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.frogIndex) sound = EnforcerPlugin.Sounds.Croak;
             }

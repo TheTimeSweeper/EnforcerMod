@@ -1,4 +1,5 @@
 ﻿using EnforcerPlugin;
+using EnforcerPlugin.Modules;
 using RoR2;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,8 +18,8 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
         public static float bulletForce = 100f;
         public static int bulletCount = 16;
-        public static float bulletSpread = EnforcerModPlugin.superSpread.Value;
-        public static float damageCoefficient = EnforcerModPlugin.superDamage.Value;
+        public static float bulletSpread = Config.superSpread.Value;
+        public static float damageCoefficient = Config.superDamage.Value;
         public static float procCoefficient = 0.75f;
         public static float bulletRecoil = 8f;
         public static float shieldedBulletRecoil = 6f;
@@ -58,8 +59,8 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 _secondShot = true;
             }
 
-            _shotDuration = baseShotDuration / attackSpeedStat * EnforcerModPlugin.superDuration.Value;
-            _reloadDuration = (_isShielded ? baseShieldReloadDuration : baseReloadDuration) / attackSpeedStat * EnforcerModPlugin.superDuration.Value;
+            _shotDuration = baseShotDuration / attackSpeedStat * Config.superDuration.Value;
+            _reloadDuration = (_isShielded ? baseShieldReloadDuration : baseReloadDuration) / attackSpeedStat * Config.superDuration.Value;
             _totalDuration = _shotDuration + _reloadDuration;
             //If it's all handled in 2anims, change this to shotDuration + reloadDuration * reloadFraction
             _reloadCompleteTime = _totalDuration * reloadCompleteFraction;

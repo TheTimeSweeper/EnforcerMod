@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using RoR2;
+using EnforcerPlugin.Modules;
 
 namespace EntityStates.Enforcer
 {
@@ -24,9 +25,9 @@ namespace EntityStates.Enforcer
             this.childLocator = base.GetModelChildLocator();
             this.weaponComponent = base.GetComponent<EnforcerWeaponComponent>();
 
-            //bool isEngi = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex && EnforcerPlugin.EnforcerPlugin.cursed.Value;
+            //bool isEngi = base.characterBody.skinIndex == EnforcerPlugin.EnforcerModPlugin.engiIndex && Config.cursed.Value;
             //if (EnforcerPlugin.EnforcerPlugin.oldEngiShield.Value) isEngi = false;
-            //bool isDoom = base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex;
+            //bool isDoom = base.characterBody.skinIndex == EnforcerPlugin.EnforcerModPlugin.doomGuyIndex;
 
             if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff))
             {

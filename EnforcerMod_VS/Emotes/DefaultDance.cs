@@ -2,9 +2,9 @@
 using EntityStates.Nemforcer.Emotes;
 using RoR2;
 using UnityEngine;
+using EnforcerPlugin.Modules;
 
-namespace EntityStates.Enforcer
-{
+namespace EntityStates.Enforcer {
     public class BaseEmote : BaseState
     {
         protected string soundString;
@@ -119,19 +119,19 @@ namespace EntityStates.Enforcer
             {
                 if (base.characterBody.baseNameToken == "ENFORCER_NAME")
                 {
-                    if (Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.defaultDanceKey.Value))
+                    if (Input.GetKeyDown(Config.defaultDanceKey.Value))
                     {
                         flag = false;
                         this.outer.SetInterruptState(new NemesisRest(), InterruptPriority.Any);
                         return;
                     }
-                    else if (Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.flossKey.Value))
+                    else if (Input.GetKeyDown(Config.flossKey.Value))
                     {
                         flag = false;
                         this.outer.SetInterruptState(new EnforcerSalute(), InterruptPriority.Any);
                         return;
                     }
-                    else if (Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.earlKey.Value))
+                    else if (Input.GetKeyDown(Config.earlKey.Value))
                     {
                         //flag = false;
                         //this.outer.SetInterruptState(new FLINTLOCKWOOD(), InterruptPriority.Any);
@@ -140,13 +140,13 @@ namespace EntityStates.Enforcer
                 }
                 else
                 {
-                    if (Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.defaultDanceKey.Value))
+                    if (Input.GetKeyDown(Config.defaultDanceKey.Value))
                     {
                         flag = false;
                         this.outer.SetInterruptState(new NemesisRest(), InterruptPriority.Any);
                         return;
                     }
-                    else if (Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.flossKey.Value))
+                    else if (Input.GetKeyDown(Config.flossKey.Value))
                     {
                         flag = false;
                         this.outer.SetInterruptState(new Salute(), InterruptPriority.Any);

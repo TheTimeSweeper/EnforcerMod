@@ -26,7 +26,7 @@ Paysus - Animations
 Violet Chaolan - Sounds  
 LucidInceptor (2cute2game) - Modeling  
 SalvadorBunny - Heavy TF2 Minecraft skin  
-Destructor - Original mod icon  
+Destructor - Original mod icon, help 
 Reithierion - New mod icon  
 Draymarc - Concepts  
 Lethan - Screenshots  
@@ -69,6 +69,10 @@ lil out of date
 - Help
 
 ## Changelog
+`3.2.0`
+ - fixed skills not being saved on exit (thanks DestroyedClone for bringing order to the chaos)
+ - 
+
 `3.1.2`
  - fixed force unlock not working for bebbys
  - fixed multiplayer sound bug with HMG

@@ -5,6 +5,7 @@ using ModdedUnlockable = Enforcer.Modules.ModdedUnlockable;
 using RoR2.Achievements;
 
 namespace EnforcerPlugin.Achievements {
+
     public class RobitAchievement : ModdedUnlockable {
         public override String AchievementIdentifier { get; } = "ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_ID";
         public override String UnlockableIdentifier { get; } = "ENFORCER_ROBITUNLOCKABLE_REWARD_ID";
@@ -33,12 +34,14 @@ namespace EnforcerPlugin.Achievements {
         // Token: 0x06003926 RID: 14630 RVA: 0x000DD289 File Offset: 0x000DB489
         public override void OnBodyRequirementMet() {
             base.OnBodyRequirementMet();
+
             base.SetServerTracked(true);
         }
 
         // Token: 0x06003927 RID: 14631 RVA: 0x000DD298 File Offset: 0x000DB498
         public override void OnBodyRequirementBroken() {
             base.SetServerTracked(false);
+
             base.OnBodyRequirementBroken();
         }
         public class RobitAchievementServer : BaseServerAchievement {
@@ -47,26 +50,26 @@ namespace EnforcerPlugin.Achievements {
 
             public override void OnInstall() {
                 base.OnInstall();
+
                 //oh god this isn't gonna be networked is it
-                On.RoR2.CharacterMaster.RespawnExtraLife += CheckRespawn;
+                On.RoR2.CharacterMaster.RespawnExtraLife += CheckRespawnExtraLife;
             }
 
             public override void OnUninstall() {
                 base.OnUninstall();
 
-                On.RoR2.CharacterMaster.RespawnExtraLife -= CheckRespawn;
+                On.RoR2.CharacterMaster.RespawnExtraLife -= CheckRespawnExtraLife;
             }
 
-            private void CheckRespawn(On.RoR2.CharacterMaster.orig_RespawnExtraLife orig, CharacterMaster self) {
+            private void CheckRespawnExtraLife(On.RoR2.CharacterMaster.orig_RespawnExtraLife orig, CharacterMaster self) {
                 orig(self);
 
-                Debug.LogWarning($"checking {self}, {base.GetCurrentBody().master}");
-
                 bool fucker = self == base.GetCurrentBody().master;
-                if (fucker) {
 
+                if (fucker) {
                     _applyingSkin = true;
                     base.Grant();
+                    //body.transform.modelskin.apply(2) please
 
                     On.RoR2.ModelSkinController.ApplySkin += ModelSkinController_ApplySkin;
                 }

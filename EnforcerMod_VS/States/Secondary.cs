@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.Networking;
 using System.Collections;
+using EnforcerPlugin.Modules;
 
 namespace EntityStates.Enforcer
 {
@@ -36,9 +37,9 @@ namespace EntityStates.Enforcer
         private bool hasDeflected;
         private EnforcerComponent shieldComponent;
         private bool sprintbash;
+        private EnforcerNetworkComponent enforcerNet;
 
         private Transform _origOrigin;
-        private int _parries = 0;
 
         private List<CharacterBody> victimList = new List<CharacterBody>();
 
@@ -55,6 +56,9 @@ namespace EntityStates.Enforcer
             this.usingBash = false;
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
             this.shieldComponent = base.characterBody.GetComponent<EnforcerComponent>();
+            enforcerNet = characterBody.GetComponent<EnforcerNetworkComponent>();
+
+            enforcerNet.parries = 0;
 
             base.StartAimMode(aimRay, 2f, false);
 
@@ -137,7 +141,7 @@ namespace EntityStates.Enforcer
                             TeamComponent component2 = healthComponent.GetComponent<TeamComponent>();
 
                             bool enemyTeam = component2.teamIndex != base.teamComponent.teamIndex;
-                            bool configKnockbackAllies = EnforcerPlugin.EnforcerModPlugin.stupidShieldBash.Value && healthComponent != base.healthComponent;
+                            bool configKnockbackAllies = Config.stupidShieldBash.Value && healthComponent != base.healthComponent;
 
                             bool redirecting = false;
 
@@ -183,7 +187,7 @@ namespace EntityStates.Enforcer
                                     }
 
                                     if (mass <= 100f) mass = 100f;
-                                    if (EnforcerPlugin.EnforcerModPlugin.balancedShieldBash.Value && mass > 500f) mass = 500f; 
+                                    if (Config.balancedShieldBash.Value && mass > 500f) mass = 500f; 
 
                                     force *= mass;
 
@@ -251,7 +255,7 @@ namespace EntityStates.Enforcer
                 this.shieldComponent.isDeflecting = false;
             }
 
-            if(base.fixedAge >= deflectLaserTime * duration && isAuthority) {
+            if(base.fixedAge >= deflectLaserTime * duration) {
 
                 this.ParryLasers();
             }
@@ -308,7 +312,7 @@ namespace EntityStates.Enforcer
                         {
                             this.hasDeflected = true;
 
-                            if (EnforcerPlugin.EnforcerModPlugin.sirenOnDeflect.Value) Util.PlaySound(EnforcerPlugin.Sounds.SirenDeflect, base.gameObject);
+                            if (Config.sirenOnDeflect.Value) Util.PlaySound(EnforcerPlugin.Sounds.SirenDeflect, base.gameObject);
 
                             base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
                             base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(2);
@@ -322,25 +326,26 @@ namespace EntityStates.Enforcer
         {
             if (this.usingBash) 
                 return;
-            Debug.LogWarning("parry " + _parries + "octa: " + (this.shieldComponent.drOctagonapus != null));
-            if (_parries <= 0)
+
+            Debug.LogWarning("parries " + enforcerNet.parries);
+            if (enforcerNet.parries <= 0)
                 return;
 
             Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
 
-            for (int i = 0; i < _parries; i++)
+            for (int i = 0; i < enforcerNet.parries; i++)
             {
                                                    //using drOctagonapus monobehaviour to start the coroutine, however any monobehaviour would work
                 this.shieldComponent.drOctagonapus.StartCoroutine(ShootParriedLaser(i * parryInterval));
             }
 
-            _parries = 0;
+            enforcerNet.parries = 0;
 
             if (!this.hasDeflected)
             {
                 this.hasDeflected = true;
 
-                if (EnforcerPlugin.EnforcerModPlugin.sirenOnDeflect.Value) 
+                if (Config.sirenOnDeflect.Value) 
                     Util.PlaySound(EnforcerPlugin.Sounds.SirenDeflect, base.gameObject);
 
                 base.characterBody.GetComponent<EnforcerLightController>().FlashLights(3);
@@ -362,7 +367,7 @@ namespace EntityStates.Enforcer
 
         private void EnforcerMain_onLaserHit()
         {
-            _parries++;
+            enforcerNet.parries++;
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

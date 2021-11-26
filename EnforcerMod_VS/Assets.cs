@@ -6,9 +6,9 @@ using UnityEngine.Networking;
 using RoR2;
 using RoR2.Audio;
 using System.Collections.Generic;
+using EnforcerPlugin.Modules;
 
-namespace EnforcerPlugin
-{
+namespace EnforcerPlugin {
     public static class Assets
     {
         public static AssetBundle MainAssetBundle = null;
@@ -168,7 +168,7 @@ namespace EnforcerPlugin
             icon40Shield = MainAssetBundle.LoadAsset<Sprite>("ShieldUpIcon");
             icon40ShieldOff = MainAssetBundle.LoadAsset<Sprite>("ShieldDownIcon");
 
-            if (EnforcerModPlugin.classicIcons.Value) {
+            if (Config.classicIcons.Value) {
 
                 iconP = MainAssetBundle.LoadAsset<Sprite>("TestIcon");
                 icon10Shotgun = MainAssetBundle.LoadAsset<Sprite>("Skill1Icon");

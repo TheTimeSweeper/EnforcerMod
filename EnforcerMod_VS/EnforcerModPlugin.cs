@@ -117,58 +117,6 @@ namespace EnforcerPlugin {
         //public static uint stormtrooperIndex = 4;
         //public static uint frogIndex = 7;
 
-        public static ConfigEntry<bool> forceUnlock;
-        public static ConfigEntry<bool> classicShotgun;
-        public static ConfigEntry<bool> classicIcons;
-        public static ConfigEntry<float> headSize;
-        public static ConfigEntry<bool> sprintShieldCancel;
-        public static ConfigEntry<bool> sirenOnDeflect;
-        public static ConfigEntry<bool> useNeedlerCrosshair;
-        public static ConfigEntry<bool> cursed;
-        public static ConfigEntry<bool> hateFun;
-        //public static ConfigEntry<bool> femSkin;
-        public static ConfigEntry<bool> shellSounds;
-        public static ConfigEntry<bool> globalInvasion;
-        public static ConfigEntry<bool> multipleInvasions;
-        public static ConfigEntry<bool> kingDededeBoss;
-
-        public static ConfigEntry<KeyCode> defaultDanceKey;
-        public static ConfigEntry<KeyCode> flossKey;
-        public static ConfigEntry<KeyCode> earlKey;
-        public static ConfigEntry<KeyCode> sirensKey;
-
-        //i don't wanna fucking buff him so i have no choice but to do this
-        public static ConfigEntry<float> baseHealth;
-        public static ConfigEntry<float> healthGrowth;
-        public static ConfigEntry<float> baseDamage;
-        public static ConfigEntry<float> damageGrowth;
-        public static ConfigEntry<float> baseArmor;
-        public static ConfigEntry<float> armorGrowth;
-        public static ConfigEntry<float> baseMovementSpeed;
-        public static ConfigEntry<float> baseCrit;
-        public static ConfigEntry<float> baseRegen;
-        public static ConfigEntry<float> regenGrowth;
-
-        public static ConfigEntry<float> shotgunDamage;
-        public static ConfigEntry<int> shotgunBulletCount;
-        public static ConfigEntry<float> shotgunProcCoefficient;
-        public static ConfigEntry<float> shotgunRange;
-        public static ConfigEntry<float> shotgunSpread;
-
-        public static ConfigEntry<float> rifleDamage;
-        public static ConfigEntry<int> rifleBaseBulletCount;
-        public static ConfigEntry<float> rifleProcCoefficient;
-        public static ConfigEntry<float> rifleRange;
-        public static ConfigEntry<float> rifleSpread;
-
-        public static ConfigEntry<float> superDamage;
-        public static ConfigEntry<float> superSpread;
-        public static ConfigEntry<float> superDuration;
-        public static ConfigEntry<float> superBeef;
-
-        public static ConfigEntry<bool> balancedShieldBash;
-        public static ConfigEntry<bool> stupidShieldBash;
-
         // a blacklist for teleporter particles- the fix for it is retarded so we just disable them on certain characters.
         private static List<string> _tpParticleBlacklist = new List<string>
         {
@@ -200,8 +148,8 @@ namespace EnforcerPlugin {
         private void Awake() {
 
             //touch this all you want tho
-            //Modules.Config.ConfigShit(this);
-            ConfigShit();
+            Modules.Config.ConfigShit(this);
+            //ConfigShit();
             Modules.States.FixStates();
             Assets.PopulateAssets();
             SetupModCompat();
@@ -281,59 +229,6 @@ namespace EnforcerPlugin {
             }*/
         }
 
-        private void ConfigShit() {
-            forceUnlock = base.Config.Bind<bool>("01 - General Settings", "Force Unlock", false, "Makes Enforcer unlocked by default");
-            classicShotgun = base.Config.Bind<bool>("01 - General Settings", "Classic Shotgun", false, "Use RoR1 shotgun sound");
-            classicIcons = base.Config.Bind<bool>("01 - General Settings", "Classic Icons", false, "Use RoR1 skill icons");
-            headSize = base.Config.Bind<float>("01 - General Settings", "Head Size", 1f, "Changes the size of Enforcer's head");
-            sprintShieldCancel = base.Config.Bind<bool>("01 - General Settings", "Sprint Cancels Shield", true, "Allows Protect and Serve to be cancelled by pressing sprint rather than special again");
-            sirenOnDeflect = base.Config.Bind<bool>("01 - General Settings", "Siren on Deflect", true, "Play siren sound upon deflecting a projectile");
-            useNeedlerCrosshair = base.Config.Bind<bool>("01 - General Settings", "Visions Crosshair", true, "Gives every survivor the custom crosshair for Visions of Heresy");
-            cursed = base.Config.Bind<bool>("01 - General Settings", "Cursed", false, "Enables extra/unfinished content. Enable at own risk.");
-            //hateFun = base.Config.Bind<bool>("01 - General Settings", "I hate fun", false, "Overrides cursed. Further disables some extra content, namely skins and their achievements");
-            //femSkin = base.Config.Bind<bool>("01 - General Settings", "Femforcer", false, "Enables femforcer skin. Not for good boys and girls.");
-            shellSounds = base.Config.Bind<bool>("01 - General Settings", "Shell Sounds", true, "Play a sound when ejected shotgun shells hit the ground");
-            globalInvasion = base.Config.Bind<bool>("01 - General Settings", "Global Invasion", false, "Allows invasions when playing any character, not just Enforcer. Purely for fun.");
-            multipleInvasions = base.Config.Bind<bool>("01 - General Settings", "Multiple Invasion Bosses", false, "Allows multiple bosses to spawn from an invasion.");
-            kingDededeBoss = base.Config.Bind<bool>("01 - General Settings", "King Dedede Boss", false, "Adds a King Dedede boss that spawns on Sky Meadow and post-loop Titanic Plains.");
-
-            defaultDanceKey = base.Config.Bind<KeyCode>("02 - Keybinds", "Default Dance", KeyCode.Alpha1, "Key used to Chair");
-            flossKey = base.Config.Bind<KeyCode>("02 - Keybinds", "Floss", KeyCode.Alpha2, "Key used to Salute");
-            earlKey = base.Config.Bind<KeyCode>("02 - Keybinds", "Earl Run", KeyCode.Alpha3, "FLINT LOCKWOOD (when it works again)");
-            sirensKey = base.Config.Bind<KeyCode>("02 - Keybinds", "Sirens", KeyCode.CapsLock, "Key used to toggle sirens");
-
-            baseHealth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Health"), 160f, new ConfigDescription("", null, Array.Empty<object>()));
-            healthGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Health Growth"), 48f, new ConfigDescription("", null, Array.Empty<object>()));
-            baseRegen = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Health Regen"), 1f, new ConfigDescription("", null, Array.Empty<object>()));
-            regenGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Health Regen Growth"), 0.2f, new ConfigDescription("", null, Array.Empty<object>()));
-            baseArmor = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Armor"), 15f, new ConfigDescription("", null, Array.Empty<object>()));
-            armorGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Armor Growth"), 0f, new ConfigDescription("", null, Array.Empty<object>()));
-            baseDamage = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Damage"), 12f, new ConfigDescription("", null, Array.Empty<object>()));
-            damageGrowth = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Damage Growth"), 2.4f, new ConfigDescription("", null, Array.Empty<object>()));
-            baseMovementSpeed = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Movement Speed"), 7f, new ConfigDescription("", null, Array.Empty<object>()));
-            baseCrit = base.Config.Bind<float>(new ConfigDefinition("03 - Character Stats", "Base Crit"), 1f, new ConfigDescription("", null, Array.Empty<object>()));
-
-            shotgunDamage = base.Config.Bind<float>("04 - Riot Shotgun 3.1.0", "Damage Coefficient", 0.45f, "Damage of each pellet");
-            shotgunProcCoefficient = base.Config.Bind<float>("04 - Riot Shotgun 3.1.0", "Proc Coefficient", 0.5f, "Proc Coefficient of each pellet");
-            shotgunBulletCount = base.Config.Bind<int>("04 - Riot Shotgun 3.1.0", "Bullet Count", 8, "Amount of pellets fired");
-            shotgunRange = base.Config.Bind<float>("04 - Riot Shotgun 3.1.0", "Range", 64f, "Maximum range");
-            shotgunSpread = base.Config.Bind<float>("04 - Riot Shotgun 3.1.0", "Spread", 5.5f, "Maximum spread");
-
-            superDamage = base.Config.Bind<float>("06 - Super Shotgun 3.1.0", "Damage Coefficient", 0.8f, "Damage of each pellet");
-            superSpread = base.Config.Bind<float>("06 - Super Shotgun 3.1.0", "Max Spread", 6f, "your cheeks");
-            superDuration = base.Config.Bind<float>("06 - Super Shotgun 3.1.0", "Duration Scale", 1f, $" Scale the duration of the attack (i.e. attack speed) by this value");
-            superBeef = base.Config.Bind<float>("06 - Super Shotgun 3.1.0", "beef", 0.4f, "movement stop while shooting in shield. cannot go lower than 0.2 because I say so");
-
-            /*rifleDamage = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Damage Coefficient"), 0.85f, new ConfigDescription("Damage of each bullet", null, Array.Empty<object>()));
-            rifleProcCoefficient = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Proc Coefficient"), 0.75f, new ConfigDescription("Proc Coefficient of each bullet", null, Array.Empty<object>()));
-            rifleBaseBulletCount = base.Config.Bind<int>(new ConfigDefinition("05 - Assault Rifle", "Base Bullet Count"), 3, new ConfigDescription("Bullets fired with each shot", null, Array.Empty<object>()));
-            rifleRange = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Range"), 256f, new ConfigDescription("Maximum range", null, Array.Empty<object>()));
-            rifleSpread = base.Config.Bind<float>(new ConfigDefinition("05 - Assault Rifle", "Spread"), 5f, new ConfigDescription("Maximum spread", null, Array.Empty<object>()));*/
-
-            balancedShieldBash = base.Config.Bind<bool>("07 - Shield Bash", "Balanced Knockback", false, "Applies a cap to knockback so bosses can no longer be thrown around.");
-            stupidShieldBash = base.Config.Bind<bool>("07 - Shield Bash", "Ally Knockback", true, "Applies knockback to allies.");
-        }
-        
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         private void ScepterSetup()
         {
@@ -345,6 +240,8 @@ namespace EnforcerPlugin {
         {
             //add hooks here
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
+            On.EntityStates.GolemMonster.FireLaser.OnEnter += FireLaser_OnEnter;
+            On.EntityStates.BaseState.OnEnter += BaseState_OnEnter;
             //On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnEnemyHit;
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
             On.RoR2.CharacterBody.Update += CharacterBody_Update;
@@ -352,7 +249,6 @@ namespace EnforcerPlugin {
             On.RoR2.CharacterMaster.OnInventoryChanged += CharacterMaster_OnInventoryChanged;
             On.RoR2.BodyCatalog.SetBodyPrefabs += BodyCatalog_SetBodyPrefabs;
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
-            On.EntityStates.BaseState.OnEnter += ParryState_OnEnter;
             On.RoR2.ArenaMissionController.BeginRound += ArenaMissionController_BeginRound;
             On.RoR2.ArenaMissionController.EndRound += ArenaMissionController_EndRound;
             On.RoR2.EscapeSequenceController.BeginEscapeSequence += EscapeSequenceController_BeginEscapeSequence;
@@ -362,17 +258,6 @@ namespace EnforcerPlugin {
             On.RoR2.HealthComponent.Suicide += HealthComponent_Suicide;
             //On.RoR2.TeleportOutController.OnStartClient += TeleportOutController_OnStartClient;
             //On.EntityStates.Global.Skills.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
-
-            On.RoR2.EventFunctions.DisableAllChildrenExcept += EventFunctions_DisableAllChildrenExcept;
-        }
-
-        private void EventFunctions_DisableAllChildrenExcept(On.RoR2.EventFunctions.orig_DisableAllChildrenExcept orig, EventFunctions self, GameObject objectToEnable) {
-            orig(self, objectToEnable);
-
-            for (int i = base.transform.childCount - 1; i >= 0; i--) {
-                GameObject siblingObject = base.transform.GetChild(i).gameObject;
-                Debug.LogWarning($"{self.gameObject.name}: {siblingObject.name}: {siblingObject == objectToEnable}");
-            }
         }
 
         #region Hooks
@@ -442,7 +327,7 @@ namespace EnforcerPlugin {
                     for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
                     {
                         CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
-                        if (!globalInvasion.Value)
+                        if (!Modules.Config.globalInvasion.Value)
                         {
                             if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
                             {
@@ -474,9 +359,9 @@ namespace EnforcerPlugin {
                     for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
                     {
                         CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
-                        if (!globalInvasion.Value)
+                        if (!Modules.Config.globalInvasion.Value)
                         {
-                            if (multipleInvasions.Value)
+                            if (Modules.Config.multipleInvasions.Value)
                             {
                                 if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody"))
                                 {
@@ -498,7 +383,7 @@ namespace EnforcerPlugin {
                         }
                         else
                         {
-                            if (multipleInvasions.Value)
+                            if (Modules.Config.multipleInvasions.Value)
                             {
                                 if (master.teamIndex == TeamIndex.Player && master.playerCharacterMasterController)
                                 {
@@ -533,7 +418,7 @@ namespace EnforcerPlugin {
                 {
                     bool pendingInvasion = false;
 
-                    if (!globalInvasion.Value)
+                    if (!Modules.Config.globalInvasion.Value)
                     {
                         for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
                         {
@@ -576,7 +461,7 @@ namespace EnforcerPlugin {
                     CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
                     bool hasInvaded = false;
 
-                    if (!globalInvasion.Value)
+                    if (!Modules.Config.globalInvasion.Value)
                     {
                         if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody") && master.GetBody())
                         {
@@ -588,7 +473,7 @@ namespace EnforcerPlugin {
                                     j.pendingInvasion = false;
                                     j.hasInvaded = true;
 
-                                    if (multipleInvasions.Value) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+                                    if (Modules.Config.multipleInvasions.Value) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
                                     else if (!hasInvaded) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
 
                                     hasInvaded = true;
@@ -608,7 +493,7 @@ namespace EnforcerPlugin {
                                     j.pendingInvasion = false;
                                     j.hasInvaded = true;
 
-                                    if (multipleInvasions.Value) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+                                    if (Modules.Config.multipleInvasions.Value) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
                                     else if (!hasInvaded) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
 
                                     hasInvaded = true;
@@ -742,7 +627,7 @@ namespace EnforcerPlugin {
                             nemComponent.ModelCheck();
                         }
                     }
-                    else if (self.inventory && useNeedlerCrosshair.Value)
+                    else if (self.inventory && Modules.Config.useNeedlerCrosshair.Value)
                     {
                         if (self.inventory.GetItemCount(RoR2Content.Items.LunarPrimaryReplacement) > 0)
                         {
@@ -778,33 +663,29 @@ namespace EnforcerPlugin {
 
             if (self.body.baseNameToken == "ENFORCER_NAME" && info.attacker)
             {
+                //uncomment this if barrier blocking isnt enough and you need to check facing direction like old days
                 CharacterBody body = info.attacker.GetComponent<CharacterBody>();
-                if (body)
-                {
+                if (body) {
                     //this is probably why this isn't networked
                     EnforcerComponent enforcerComponent = self.body.GetComponent<EnforcerComponent>();
 
                     //ugly hack cause golems kept hitting past shield
-                    //actually they're just not anymore? probably cause proper mvc now
+                    //actually they're just not anymore? probably cause shield isn't parented anymroe
                     //code stays for deflecting tho
-                    if (body.baseNameToken == "GOLEM_BODY_NAME" && GetShieldBlock(self, info, enforcerComponent))
-                    {
+                    if (body.baseNameToken == "GOLEM_BODY_NAME" && GetShieldBlock(self, info, enforcerComponent)) {
                         blocked = self.body.HasBuff(Modules.Buffs.protectAndServeBuff);
 
-                        if (enforcerComponent != null)
-                        {
-                            if (enforcerComponent.isDeflecting)
-                            {
+                        if (enforcerComponent != null) {
+                            if (enforcerComponent.isDeflecting) {
                                 blocked = true;
                             }
 
-                            Debug.LogWarning("firin mah layzor " + NetworkServer.active);
-                            enforcerComponent.invokeOnLaserHitEvent();
+                            //Debug.LogWarning("firin mah layzor " + NetworkServer.active);
+                            //enforcerComponent.invokeOnLaserHitEvent();
                         }
                     }
 
-                    if (enforcerComponent)
-                    {
+                    if (enforcerComponent) {
                         enforcerComponent.AttackBlocked(blocked);
                     }
                 }
@@ -834,13 +715,55 @@ namespace EnforcerPlugin {
             orig(self, info);
         }
 
-        private void ParryState_OnEnter(On.EntityStates.BaseState.orig_OnEnter orig, BaseState self)
-        {
+        private void FireLaser_OnEnter(On.EntityStates.GolemMonster.FireLaser.orig_OnEnter orig, EntityStates.GolemMonster.FireLaser self) {
+
             orig(self);
 
-            if (self.outer.customName == "EnforcerParry")
-            {
-                self.damageStat = self.outer.commonComponents.characterBody.damage * 5f;
+            var ray = self.modifiedAimRay;
+
+            CheckEnforcerParry(ray);
+        }
+
+        private static void CheckEnforcerParry(Ray ray) {
+            RaycastHit raycastHit;
+
+            if (Physics.Raycast(ray, out raycastHit, 1000f, LayerIndex.world.mask | LayerIndex.defaultLayer.mask | LayerIndex.entityPrecise.mask)) {
+                //do I have this power?
+                GameObject gob = raycastHit.transform.GetComponent<HurtBox>()?.healthComponent.gameObject;
+
+                if (!gob) {
+                    gob = raycastHit.transform.GetComponent<HealthComponent>()?.gameObject;
+                }
+                //I believe I do. it makes the decompiled version look mad ugly tho
+                EnforcerComponent enforcer = gob?.GetComponent<EnforcerComponent>();
+
+                Debug.LogWarning($"tran {raycastHit.transform}, " +
+                    $"hurt {raycastHit.transform.GetComponent<HurtBox>()}, " +
+                    $"health {raycastHit.transform.GetComponent<HurtBox>()?.healthComponent.gameObject}, " +
+                    $"{gob?.GetComponent<EnforcerComponent>()}");
+
+                if (enforcer) {
+                    enforcer.invokeOnLaserHitEvent();
+                }
+            }
+        }
+
+        private void BaseState_OnEnter(On.EntityStates.BaseState.orig_OnEnter orig, BaseState self) {
+            orig(self);
+
+            if (self.outer.customName == "EnforcerParry") {
+                self.damageStat *= 5f;
+            }
+
+
+            List<string> incrediblyhorriblehackynamecheck = new List<string> {
+                "NebbysWrath.VariantEntityStates.LesserWisp.FireStoneLaser",
+                "NebbysWrath.VariantEntityStates.GreaterWisp.FireDoubleStoneLaser",
+            };
+
+            if (incrediblyhorriblehackynamecheck.Contains(self.GetType().ToString())) {
+
+                CheckEnforcerParry(self.GetAimRay());
             }
         }
 
@@ -1092,8 +1015,6 @@ namespace EnforcerPlugin {
             characterDisplay.AddComponent<EnforcerLightController>();
             characterDisplay.AddComponent<EnforcerLightControllerAlt>();
 
-            childLocator.FindChild("Head").transform.localScale = Vector3.one * headSize.Value;
-
             //i really wish this was set up in code rather than in the editor so we wouldn't have to build a new assetbundle and redo the components/events every time something on the prefab changes
             //it's seriously tedious as fuck.
             // just make it not tedious 4head
@@ -1153,25 +1074,25 @@ namespace EnforcerPlugin {
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             bodyComponent.rootMotionInMainState = false;
             bodyComponent.mainRootSpeed = 0;
-            bodyComponent.baseMaxHealth = baseHealth.Value;
-            bodyComponent.levelMaxHealth = healthGrowth.Value;
-            bodyComponent.baseRegen = baseRegen.Value;
-            bodyComponent.levelRegen = regenGrowth.Value;
+            bodyComponent.baseMaxHealth = Modules.Config.baseHealth.Value;
+            bodyComponent.levelMaxHealth = Modules.Config.healthGrowth.Value;
+            bodyComponent.baseRegen = Modules.Config.baseRegen.Value;
+            bodyComponent.levelRegen = Modules.Config.regenGrowth.Value;
             bodyComponent.baseMaxShield = 0;
             bodyComponent.levelMaxShield = 0;
-            bodyComponent.baseMoveSpeed = baseMovementSpeed.Value;
+            bodyComponent.baseMoveSpeed = Modules.Config.baseMovementSpeed.Value;
             bodyComponent.levelMoveSpeed = 0;
             bodyComponent.baseAcceleration = 80;
             bodyComponent.baseJumpPower = 15;
             bodyComponent.levelJumpPower = 0;
-            bodyComponent.baseDamage = baseDamage.Value;
-            bodyComponent.levelDamage = damageGrowth.Value;
+            bodyComponent.baseDamage = Modules.Config.baseDamage.Value;
+            bodyComponent.levelDamage = Modules.Config.damageGrowth.Value;
             bodyComponent.baseAttackSpeed = 1;
             bodyComponent.levelAttackSpeed = 0;
-            bodyComponent.baseCrit = baseCrit.Value;
+            bodyComponent.baseCrit = Modules.Config.baseCrit.Value;
             bodyComponent.levelCrit = 0;
-            bodyComponent.baseArmor = baseArmor.Value;
-            bodyComponent.levelArmor = armorGrowth.Value;
+            bodyComponent.baseArmor = Modules.Config.baseArmor.Value;
+            bodyComponent.levelArmor = Modules.Config.armorGrowth.Value;
             bodyComponent.baseJumpCount = 1;
             bodyComponent.sprintingSpeedMultiplier = 1.45f;
             bodyComponent.wasLucky = false;
@@ -1197,7 +1118,9 @@ namespace EnforcerPlugin {
             EntityStateMachine octagonapus = bodyComponent.gameObject.AddComponent<EntityStateMachine>();
 
             octagonapus.customName = "EnforcerParry";
-            bodyComponent.GetComponent<NetworkStateMachine>().stateMachines.Append(octagonapus);
+
+            NetworkStateMachine networkStateMachine = bodyComponent.GetComponent<NetworkStateMachine>();
+            networkStateMachine.stateMachines = networkStateMachine.stateMachines.Append(octagonapus).ToArray();
 
             SerializableEntityStateType idleState = new SerializableEntityStateType(typeof(Idle));
             octagonapus.initialStateType = idleState;
@@ -1346,7 +1269,7 @@ namespace EnforcerPlugin {
             childLocator.FindChild("Chair").GetComponent<MeshRenderer>().material = Assets.CreateMaterial("matChair", 0f, Color.black, 0f);
 
             //fuck man
-            childLocator.FindChild("Head").transform.localScale = Vector3.one * headSize.Value;
+            childLocator.FindChild("Head").transform.localScale = Vector3.one * Modules.Config.headSize.Value;
             
             HealthComponent healthComponent = characterPrefab.GetComponent<HealthComponent>();
             healthComponent.health = 160f;
@@ -1521,6 +1444,7 @@ namespace EnforcerPlugin {
 
             characterPrefab.AddComponent<EnforcerComponent>();
             characterPrefab.AddComponent<EnforcerWeaponComponent>();
+            characterPrefab.AddComponent<EnforcerNetworkComponent>();
             characterPrefab.AddComponent<EnforcerLightController>();
             characterPrefab.AddComponent<EnforcerLightControllerAlt>();
 
@@ -1536,7 +1460,7 @@ namespace EnforcerPlugin {
             desc = desc + "< ! > When you can, use Protect and Serve against walls to prevent enemies from flanking you." + Environment.NewLine + Environment.NewLine;
 
             string outro = characterOutro;
-            if (forceUnlock.Value) outro = "..and so he left, having cheated not only the game, but himself. He didn't grow. He didn't improve. He took a shortcut and gained nothing. He experienced a hollow victory. Nothing was risked and nothing was rained.";
+            if (Modules.Config.forceUnlock.Value) outro = "..and so he left, having cheated not only the game, but himself. He didn't grow. He didn't improve. He took a shortcut and gained nothing. He experienced a hollow victory. Nothing was risked and nothing was rained.";
 
             LanguageAPI.Add("ENFORCER_NAME", characterName);
             LanguageAPI.Add("ENFORCER_DESCRIPTION", desc);
@@ -1551,7 +1475,7 @@ namespace EnforcerPlugin {
             Modules.Survivors.RegisterNewSurvivor(characterPrefab,
                                                   characterDisplay, 
                                                   "ENFORCER",
-                                                  EnforcerUnlockables.enforcerUnlockableDef, 
+                                                  Modules.Config.forceUnlock.Value? null : EnforcerUnlockables.enforcerUnlockableDef, 
                                                   4.005f);
 
             SkillSetup();
@@ -2215,7 +2139,7 @@ namespace EnforcerPlugin {
 
             //cursed
 
-            if (cursed.Value)
+            if (Modules.Config.cursed.Value)
             {
                 Modules.Skills.RegisterAdditionalSkills(_skillLocator.primary, primaryVariant4);
 
@@ -2288,7 +2212,7 @@ namespace EnforcerPlugin {
             _previewController.skillChangeResponses[4].triggerSkillFamily = _skillLocator.special.skillFamily;
             _previewController.skillChangeResponses[4].triggerSkill = specialDef1;
 
-            if (cursed.Value)
+            if (Modules.Config.cursed.Value)
             {
 
                 Modules.Skills.RegisterAdditionalSkills(_skillLocator.special, specialVariant3);
@@ -2305,7 +2229,7 @@ namespace EnforcerPlugin {
         #region skilldefs
         private SkillDef PrimarySkillDef_RiotShotgun()
         {
-            string desc = "Fire a short-range blast that <style=cIsUtility>pierces</style> for <style=cIsDamage>" + shotgunBulletCount.Value + "x" + 100f * shotgunDamage.Value + "% damage.";
+            string desc = "Fire a short-range blast that <style=cIsUtility>pierces</style> for <style=cIsDamage>" + Modules.Config.shotgunBulletCount.Value + "x" + 100f * Modules.Config.shotgunDamage.Value + "% damage.";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_NAME", "Riot Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION", desc);
@@ -2336,7 +2260,7 @@ namespace EnforcerPlugin {
 
         private SkillDef PrimarySkillDef_SuperShotgun()
         {
-            string desc = "Fire up to 2 shotgun blasts for <style=cIsDamage>" + SuperShotgun2.bulletCount/2 + "x" + 100f * superDamage.Value + "% damage</style>.\nWhile using <style=cIsUtility>Protect and Serve</style>, fire <style=cIsDamage>both barrels at once.</style>";
+            string desc = "Fire up to 2 shotgun blasts for <style=cIsDamage>" + SuperShotgun2.bulletCount/2 + "x" + 100f * Modules.Config.superDamage.Value + "% damage</style>.\nWhile using <style=cIsUtility>Protect and Serve</style>, fire <style=cIsDamage>both barrels at once.</style>";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_NAME", "Super Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION", desc);
@@ -2449,7 +2373,7 @@ namespace EnforcerPlugin {
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", desc);
 
-            SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>( );
             mySkillDef.activationState = new SerializableEntityStateType(typeof(ShieldBash));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 1;
@@ -2466,15 +2390,13 @@ namespace EnforcerPlugin {
             mySkillDef.requiredStock = 1;
             mySkillDef.stockToConsume = 1;
             mySkillDef.icon = Assets.icon20ShieldBash;
-            mySkillDef.skillDescriptionToken = "ENFORCER_SECONDARY_BASH_DESCRIPTION";
             mySkillDef.skillName = "ENFORCER_SECONDARY_BASH_NAME";
             mySkillDef.skillNameToken = "ENFORCER_SECONDARY_BASH_NAME";
+            mySkillDef.skillDescriptionToken = "ENFORCER_SECONDARY_BASH_DESCRIPTION";
             mySkillDef.keywordTokens = new string[] {
                 "KEYWORD_STUNNING",
                 "KEYWORD_SPRINTBASH"
             };
-              //"KEYWORD_BASH",
-              //"KEYWORD_SPRINTBASH"
 
             return mySkillDef;
         }
@@ -2788,13 +2710,14 @@ namespace EnforcerPlugin {
             //  that's because holy shit i wrote this like a fucking ape. do not forgive me for this
 
             //// NULLCHECK YOUR SHIT FOR FUCKS SAKE
+                //nullchecks are only for the unsure
             if (_previewController)
             {
                 List<int> emptyIndices = new List<int>();
                 for (int i = 0; i < _previewController.skillChangeResponses.Length; i++)
                 {
                     if (_previewController.skillChangeResponses[i].triggerSkillFamily == null ||
-                        _previewController.skillChangeResponses[i].triggerSkillFamily == null)
+                        _previewController.skillChangeResponses[i].triggerSkill == null)
                     {
                         emptyIndices.Add(i);
                     }

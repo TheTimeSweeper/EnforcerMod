@@ -2,6 +2,7 @@
 using UnityEngine;
 using EnforcerPlugin;
 using EntityStates.Enforcer.NeutralSpecial;
+using EnforcerPlugin.Modules;
 
 namespace EntityStates.Enforcer {
     public class SuperShotgun : RiotShotgun
@@ -13,20 +14,20 @@ namespace EntityStates.Enforcer {
             SHIELD_SUPER,
         }
 
-        public new float damageCoefficient = EnforcerModPlugin.superDamage.Value;
+        public new float damageCoefficient = Config.superDamage.Value;
         public new float procCoefficient = 0.75f;
         public new float beefDurationNoShield = 0.15f;
         public new float beefDurationShield { // 0.4f
             get {
-                return Mathf.Max(EnforcerModPlugin.superBeef.Value, 0.2f); //fuck you lol
+                return Mathf.Max(Config.superBeef.Value, 0.2f); //fuck you lol
             } 
         }
 
         public static float bulletForce = 100f;
         public static int bulletCount = 16;
-        public new float bulletSpread = EnforcerModPlugin.superSpread.Value;// 6f
+        public new float bulletSpread = Config.superSpread.Value;// 6f
 
-        public static float durationBaseMeasure = EnforcerModPlugin.superDuration.Value;
+        public static float durationBaseMeasure = Config.superDuration.Value;
         public new float baseShieldDuration = durationBaseMeasure * 2;// = 2
         public new float baseDuration = durationBaseMeasure * 1.5f;
         public float shot1InterruptibleDuration = durationBaseMeasure * 1; //fuck you config and fuck me for doing it
@@ -137,7 +138,7 @@ namespace EntityStates.Enforcer {
 
                 soundString = !isCrit ? EnforcerPlugin.Sounds.FireSuperShotgun : EnforcerPlugin.Sounds.FireSuperShotgunCrit;
 
-                if (EnforcerPlugin.EnforcerModPlugin.classicShotgun.Value) soundString = EnforcerPlugin.Sounds.FireClassicShotgun;
+                if (Config.classicShotgun.Value) soundString = EnforcerPlugin.Sounds.FireClassicShotgun;
 
                 //if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) soundString = EnforcerPlugin.Sounds.FireSuperShotgunDOOM;
                 //if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;

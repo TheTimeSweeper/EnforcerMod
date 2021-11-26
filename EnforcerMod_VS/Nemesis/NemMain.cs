@@ -2,6 +2,7 @@
 using RoR2;
 using EntityStates.Nemforcer.Emotes;
 using EntityStates.Enforcer;
+using EnforcerPlugin.Modules;
 
 namespace EntityStates.Nemforcer
 {
@@ -40,12 +41,12 @@ namespace EntityStates.Nemforcer
             //emotes
             if (base.isAuthority && base.characterMotor.isGrounded && !minigunUp)
             {
-                if (Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.defaultDanceKey.Value))
+                if (Input.GetKeyDown(Config.defaultDanceKey.Value))
                 {
                     this.outer.SetInterruptState(new NemesisRest(), InterruptPriority.Any);
                     return;
                 }
-                else if (Input.GetKeyDown(EnforcerPlugin.EnforcerModPlugin.flossKey.Value))
+                else if (Input.GetKeyDown(Config.flossKey.Value))
                 {
                     this.outer.SetInterruptState(new Salute(), InterruptPriority.Any);
                     return;

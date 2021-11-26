@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using RoR2;
+using EnforcerPlugin.Modules;
 
 class EnforcerLightController : MonoBehaviour
 {
@@ -41,7 +42,7 @@ class EnforcerLightController : MonoBehaviour
         {
             Color lightColor = Color.red;
 
-            if (EnforcerPlugin.EnforcerPlugin.cursed.Value)
+            if (cursed.Value)
             {
                 switch (charBody.skinIndex)
                 {
@@ -151,7 +152,7 @@ class EnforcerLightController : MonoBehaviour
         if (this.sirenToggle)
         {
             string sound = EnforcerPlugin.Sounds.SirenButton;
-            if (this.characterBody && EnforcerPlugin.EnforcerModPlugin.cursed.Value)
+            if (this.characterBody && Config.cursed.Value)
             {
                 //if (this.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.frogIndex ) sound = EnforcerPlugin.Sounds.Croak;
             }

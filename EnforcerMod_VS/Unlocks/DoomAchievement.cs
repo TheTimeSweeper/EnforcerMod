@@ -4,6 +4,7 @@ using RoR2;
 using ModdedUnlockable = Enforcer.Modules.ModdedUnlockable;
 
 namespace EnforcerPlugin.Achievements {
+
     public class DoomAchievement : ModdedUnlockable {
         public override String AchievementIdentifier { get; } = "ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_ID";
         public override String UnlockableIdentifier { get; } = "ENFORCER_DOOMUNLOCKABLE_REWARD_ID";
@@ -32,15 +33,16 @@ namespace EnforcerPlugin.Achievements {
         // Token: 0x06003926 RID: 14630 RVA: 0x000DD289 File Offset: 0x000DB489
         public override void OnBodyRequirementMet() {
             base.OnBodyRequirementMet();
+
             base.SetServerTracked(true);
         }
 
         // Token: 0x06003927 RID: 14631 RVA: 0x000DD298 File Offset: 0x000DB498
         public override void OnBodyRequirementBroken() {
             base.SetServerTracked(false);
+
             base.OnBodyRequirementBroken();
         }
-
         public class DoomAchievementServer : RoR2.Achievements.BaseServerAchievement {
 
             private static readonly int impRequirement = 40;
@@ -54,8 +56,7 @@ namespace EnforcerPlugin.Achievements {
                 impBodyIndex = BodyCatalog.FindBodyIndex("ImpBody");
                 GlobalEventManager.onCharacterDeathGlobal += onCharacterDeathGlobal;
                 //idk if this resets every stage.
-                //very low priority to fix if so
-
+                    //ok it does, but Idk how
             }
 
             public override void OnUninstall() {
@@ -69,9 +70,10 @@ namespace EnforcerPlugin.Achievements {
                 bool imp = damageReport.victimBody && damageReport.victimBodyIndex == impBodyIndex;
                 //uncomment this if we want kills to be tracked respective to individual players
                 //which is rad that it fuckin works networked like that, but not fun to actually do
-                //bool fucker = damageReport.attackerBody && damageReport.attackerBody == base.GetCurrentBody();
+                //imp |= damageReport.attackerBody && damageReport.attackerBody == base.GetCurrentBody();
                 if (imp) {
                     this.impProgress++;
+                    //Debug.Log("doom imps" + this.impProgress);
                     if (this.impProgress > DoomAchievementServer.impRequirement) {
                         base.Grant();
                     }

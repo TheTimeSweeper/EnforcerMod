@@ -1,8 +1,20 @@
-﻿using EntityStates;
+﻿using EnforcerPlugin.Modules;
+using EntityStates;
 using RoR2;
 using System;
 using System.Collections.Specialized;
 using UnityEngine;
+using UnityEngine.Networking;
+
+public class EnforcerNetworkComponent : NetworkBehaviour {
+
+    [SyncVar]
+    public int parries;
+
+    public void uhh() {
+        GetComponent<CharacterBody>().modelLocator.modelTransform.GetComponent<ModelSkinController>().ApplySkin(2);
+    }
+}
 
 public class EnforcerComponent : MonoBehaviour
 {
@@ -23,6 +35,8 @@ public class EnforcerComponent : MonoBehaviour
 
     public bool beefStop;
     float initialTime = 0;
+
+    private ChildLocator childLocator;
 
     private GameObject energyShield;
     private EnergyShieldControler energyShieldControler;
@@ -45,8 +59,9 @@ public class EnforcerComponent : MonoBehaviour
     void Start()
     {
         // dead.
-        /*var childLocator = GetComponentInChildren<ChildLocator>();
-        energyShield = childLocator.FindChild("EnergyShield").gameObject;
+        childLocator = GetComponentInChildren<ChildLocator>();
+
+        /*energyShield = childLocator.FindChild("EnergyShield").gameObject;
 
         energyShield.SetActive(true);// i don't know if the object has to be active to get the component but i'm playing it safe
         energyShieldControler = energyShield.GetComponentInChildren<EnergyShieldControler>();
@@ -63,7 +78,12 @@ public class EnforcerComponent : MonoBehaviour
         aimShield();
 
         if (energyShieldControler) energyShieldControler.shieldAimRayDirection = aimRay.direction;
+    }
 
+    void LateUpdate() {
+
+        if(childLocator && childLocator.FindChild("Head").transform)
+            childLocator.FindChild("Head").transform.localScale = Vector3.one * Config.headSize.Value;
     }
 
     private void aimShield() {

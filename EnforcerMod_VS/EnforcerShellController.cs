@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using RoR2;
+using EnforcerPlugin.Modules;
 
 namespace Enforcer
 {
@@ -23,7 +24,7 @@ namespace Enforcer
 
         private void OnCollisionEnter()
         {
-            if (EnforcerPlugin.EnforcerModPlugin.shellSounds.Value)
+            if (Config.shellSounds.Value)
             {
                 if (!this.triggered)
                 {

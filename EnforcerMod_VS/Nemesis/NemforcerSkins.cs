@@ -370,7 +370,7 @@ namespace EnforcerPlugin {
 
             skinDefs.Add(altSkin);
 
-            if (EnforcerModPlugin.cursed.Value)
+            if (Config.cursed.Value)
             {
                 skinDefs.Add(dripSkin);
                 skinDefs.Add(minecraftSkin);

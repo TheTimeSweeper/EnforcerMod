@@ -223,7 +223,7 @@ namespace EnforcerPlugin.Modules {
                                      0.5f,
                                      "Proc Coefficient of each pellet");
             shotgunBulletCount
-                = plugin.Config.Bind<int>("04 - Riot Shotgun 3.1.0",
+                = plugin.Config.Bind("04 - Riot Shotgun 3.1.0",
                                      "Bullet Count",
                                      8,
                                      "Amount of pellets fired");

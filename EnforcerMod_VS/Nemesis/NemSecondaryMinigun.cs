@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.Networking;
 using RoR2.Projectile;
 using System;
+using EnforcerPlugin.Modules;
 
 namespace EntityStates.Nemforcer
 {
@@ -175,7 +176,7 @@ namespace EntityStates.Nemforcer
                                     else if (rb) mass = rb.mass;
 
                                     if (mass <= 100f) mass = 100f;
-                                    if (EnforcerPlugin.EnforcerModPlugin.balancedShieldBash.Value && mass > 500f) mass = 500f;
+                                    if (Config.balancedShieldBash.Value && mass > 500f) mass = 500f;
 
                                     force *= mass;
 

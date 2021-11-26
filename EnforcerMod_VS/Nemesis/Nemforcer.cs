@@ -69,7 +69,7 @@ namespace EnforcerPlugin {
             CreateBossPrefab();
             CreateMiniBossPrefab();
 
-            if (EnforcerModPlugin.kingDededeBoss.Value) CreateDededeBoss();
+            if (Modules.Config.kingDededeBoss.Value) CreateDededeBoss();
 
             if (EnforcerModPlugin.starstormInstalled) StarstormCompat();
         }
@@ -717,7 +717,7 @@ namespace EnforcerPlugin {
 
             skillLocator.primary = Modules.Skills.RegisterSkillsToFamily(characterPrefab, primaryVariant1);
 
-            if (EnforcerModPlugin.cursed.Value) Modules.Skills.RegisterAdditionalSkills(skillLocator.primary, primaryVariant2);
+            if (Config.cursed.Value) Modules.Skills.RegisterAdditionalSkills(skillLocator.primary, primaryVariant2);
 
             SkillDef primaryDefMinigun = PrimarySkillDef_FireMinigun();
             Modules.Skills.RegisterSkillDef(primaryDefMinigun,
@@ -767,7 +767,7 @@ namespace EnforcerPlugin {
 
             skillLocator.utility = Modules.Skills.RegisterSkillsToFamily(characterPrefab, utilityVariant4, utilityVariant1, utilityVariant2);
 
-            if (EnforcerModPlugin.cursed.Value) Modules.Skills.RegisterAdditionalSkills(skillLocator.utility, utilityVariant3);
+            if (Config.cursed.Value) Modules.Skills.RegisterAdditionalSkills(skillLocator.utility, utilityVariant3);
         }
 
         private void SpecialSetup()

@@ -1,17 +1,18 @@
 ﻿using RoR2;
 using UnityEngine;
 using EntityStates.ClayBruiser.Weapon;
+using EnforcerPlugin.Modules;
 
 namespace EntityStates.Enforcer.NeutralSpecial {
     public class FireBurstRifle : BaseSkillState {
-        public static float damageCoefficient = EnforcerPlugin.EnforcerModPlugin.rifleDamage.Value;
-        public static float procCoefficient = EnforcerPlugin.EnforcerModPlugin.rifleProcCoefficient.Value;
-        public static float range = EnforcerPlugin.EnforcerModPlugin.rifleRange.Value;
+        public static float damageCoefficient = Config.rifleDamage.Value;
+        public static float procCoefficient = Config.rifleProcCoefficient.Value;
+        public static float range = Config.rifleRange.Value;
         public static float baseDuration = 1f;
         public float fireInterval = 0.07f;
-        public static int projectileCount = EnforcerPlugin.EnforcerModPlugin.rifleBaseBulletCount.Value;
+        public static int projectileCount = Config.rifleBaseBulletCount.Value;
         public static float minSpread = 0f;
-        public static float maxSpread = EnforcerPlugin.EnforcerModPlugin.rifleSpread.Value;
+        public static float maxSpread = Config.rifleSpread.Value;
         public float bulletRecoil = 0.75f;
 
         public static GameObject bulletTracer = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoDefault");
