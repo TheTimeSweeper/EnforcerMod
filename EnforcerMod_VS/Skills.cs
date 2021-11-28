@@ -16,7 +16,7 @@ namespace EnforcerPlugin.Modules {
             for (int i = 0; i < skillTypes.Length; i++) {
                 Modules.States.AddSkill(skillTypes[i]);
             }
-            (skillDef as ScriptableObject).name = skillDef.skillName;
+
             Modules.States.AddSkillDef(skillDef);
         }
 
@@ -45,9 +45,6 @@ namespace EnforcerPlugin.Modules {
             return RegisterSkillsToFamily(characterBodyObject, "", skillVariants);
             
         }
-
-        public static int skillFamilyNameTest = 0;
-
         /// <summary>
         /// Takes care of adding your character's skills. Adds a GenericSkill component to your characterBody, sets up a skillfamily, and adds all your skill variants 
         /// </summary>
@@ -59,8 +56,6 @@ namespace EnforcerPlugin.Modules {
             GenericSkill genericSkill = characterBodyObject.AddComponent<GenericSkill>();
 
             SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
-            (newFamily as ScriptableObject).name = $"EnforcerFamily{skillFamilyNameTest}";
-            skillFamilyNameTest++;
             Modules.States.AddSkillFamily(newFamily);
 
             genericSkill._skillFamily = newFamily;
