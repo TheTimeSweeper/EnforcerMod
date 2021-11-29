@@ -71,7 +71,8 @@ lil out of date
 ## Changelog
 `3.2.0`
  - fixed skills not being saved on exit (thanks DestroyedClone for bringing order to the chaos)
- - 
+ - super shotgun time fastor
+ - fixed beefstop
 
 `3.1.2`
  - fixed force unlock not working for bebbys

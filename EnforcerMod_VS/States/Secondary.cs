@@ -327,7 +327,6 @@ namespace EntityStates.Enforcer
             if (this.usingBash) 
                 return;
 
-            Debug.LogWarning("parries " + enforcerNet.parries);
             if (enforcerNet.parries <= 0)
                 return;
 

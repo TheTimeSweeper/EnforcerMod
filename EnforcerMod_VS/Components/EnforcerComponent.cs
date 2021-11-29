@@ -67,7 +67,7 @@ public class EnforcerComponent : MonoBehaviour
         energyShieldControler = energyShield.GetComponentInChildren<EnergyShieldControler>();
         energyShield = energyShieldControler?.gameObject;
         energyShield.SetActive(false);*/
-
+        
         if(drOctagonapus == null) {
             drOctagonapus = EntityStateMachine.FindByCustomName(gameObject, "EnforcerParry");
         }

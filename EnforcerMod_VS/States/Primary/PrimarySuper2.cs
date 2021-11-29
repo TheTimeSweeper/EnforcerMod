@@ -27,9 +27,10 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         public static float beefDurationNoShield = 0.15f;
         public static float beefDurationShield = 0.3f;
         private float attackStopDuration;
+        private EnforcerComponent enforcerComponent;
 
         private bool _secondShot = false; //Determines whether player is forced to reload
-
+        
         private bool _isShielded;
         private float _shieldLockTime = 0.6f;
         private float _shieldInputBufferableTime = 0.4f;
@@ -50,6 +51,8 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         public override void OnEnter() {
 
             base.OnEnter();
+            enforcerComponent = GetComponent<EnforcerComponent>();
+
             shieldLocked = false;
             _finishedReload = false;
             _buttonReleased = false;
@@ -83,11 +86,11 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         public override void FixedUpdate() {
             base.FixedUpdate();
 
-            animator.speed = 1;
+            enforcerComponent.beefStop = false;
             if (fixedAge < attackStopDuration) {
                 if (characterMotor) {
-                    animator.speed = 0;
                     characterMotor.moveDirection = Vector3.zero;
+                    enforcerComponent.beefStop = true;
                 }
             }
 
@@ -165,6 +168,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 skillLocator.special.enabled = true;
                 skillLocator.special.stock = 1;
             }
+            enforcerComponent.beefStop = false;
             base.OnExit();
         }
 
@@ -296,6 +300,8 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         public override InterruptPriority GetMinimumInterruptPriority() {
             return InterruptPriority.Skill;
         }
+
+        
 
         public string getCurrentAnimation() {
             if (_isShielded) {

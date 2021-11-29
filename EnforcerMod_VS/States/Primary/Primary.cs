@@ -36,13 +36,13 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         private Animator animator;
         protected string muzzleString;
 
-        protected EnforcerComponent shieldComponent;
+        protected EnforcerComponent enforcerComponent;
 
         public override void OnEnter() {
             base.OnEnter();
             characterBody.SetAimTimer(5f);
             animator = GetModelAnimator();
-            shieldComponent = GetComponent<EnforcerComponent>();
+            enforcerComponent = GetComponent<EnforcerComponent>();
             muzzleString = "Muzzle";
             hasFired = false;
 
@@ -70,10 +70,6 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             }
 
             fireDuration = 0;// 0.1f * duration; fucking windup on a shotgun you dumb cunt
-        }
-
-        public override void OnExit() {
-            base.OnExit();
         }
 
         public virtual void FireBullet() {
@@ -181,8 +177,6 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             foreach (LineRenderer i in tracerEffect.GetComponentsInChildren<LineRenderer>()) {
                 if (i) {
 
-                    i.startColor = new Color(0.68f, 0.58f, 0.05f);
-                    i.endColor = new Color(0.68f, 0.58f, 0.05f);
                     float addedBulletThiccness = bulletThiccness - originalBulletThiccness;
                     i.widthMultiplier = (1 + addedBulletThiccness) * 0.5f;
                 }
@@ -191,20 +185,12 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
         public override void FixedUpdate() {
             base.FixedUpdate();
-
             
-            
-            if (isAuthority) {
-
-                shieldComponent.beefStop = false;
-                if (fixedAge > fireDuration && fixedAge < attackStopDuration + fireDuration) {
-                    if (characterMotor) {
-                        //animator.speed = 0;
-                        characterMotor.moveDirection = Vector3.zero;
-                        //characterBody.moveSpeed = 0;
-                        //animator.SetFloat(AnimationParameters.walkSpeed, 0);
-                        shieldComponent.beefStop = true;
-                    }
+            enforcerComponent.beefStop = false;
+            if (fixedAge > fireDuration && fixedAge < attackStopDuration + fireDuration) {
+                if (characterMotor) {
+                    characterMotor.moveDirection = Vector3.zero;
+                    enforcerComponent.beefStop = true;
                 }
             }
 
@@ -217,8 +203,64 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             }
         }
 
+        public override void OnExit() {
+            base.OnExit();
+
+            enforcerComponent.beefStop = false;
+        }
+
         public override InterruptPriority GetMinimumInterruptPriority() {
             return InterruptPriority.Skill;
         }
     }
 }
+
+
+/*
+REM First we copy the from the output folder to the NetworkWeaver folder.
+REM second you follow the link if you want these comments back https://github.com/risk-of-thunder/R2Wiki/wiki/Networking-with-Weaver:-The-Unity-Way
+
+robocopy $(TargetDir) $(ProjectDir)\Weaver $(TargetFileName) > $(TargetDir)Robocopy
+cd $(ProjectDir)\Weaver
+Unity.UNetWeaver.exe "..\libs\UnityEngine.CoreModule.dll" "..\libs\UnityEngine.Networking.dll" "Patched/"  $(TargetFileName) "$(ProjectDir)\libs"
+
+REM make a .prepatch backup.
+IF EXIST $(TargetFileName).prepatch (
+DEL /F $(TargetFileName).prepatch
+)
+ren $(TargetFileName) $(TargetFileName).prepatch
+
+REM move from patched to projectDirectory and Robocopy.
+cd Patched
+robocopy . $(ProjectDir)  $(TargetFileName) > $(TargetDir)Robocopy
+
+del  $(TargetFileName)
+del $(TargetDir)Robocopy
+
+//
+
+REM First we copy the from the output folder to the NetworkWeaver folder.
+REM second you follow the link if you want these comments back https://github.com/risk-of-thunder/R2Wiki/wiki/Networking-with-Weaver:-The-Unity-Way
+
+robocopy "$(TargetDir)" "$(ProjectDir)\Weaver" "$(TargetFileName)" > "$(TargetDir)Robocopy"
+REM cd "$(ProjectDir)\Weaver"
+REM Unity.UNetWeaver.exe "..\libs\UnityEngine.CoreModule.dll" "..\libs\UnityEngine.Networking.dll" "Patched/"  $(TargetFileName) "$(ProjectDir)\libs"
+
+REM make a .prepatch backup.
+REM IF EXIST $(TargetFileName).prepatch (
+REM DEL /F $(TargetFileName).prepatch
+REM )
+REM ren $(TargetFileName) $(TargetFileName).prepatch
+
+REM move from patched to projectDirectory and Robocopy.
+REM cd Patched
+REM robocopy . $(ProjectDir)\..\Release  $(TargetFileName) > $(TargetDir)Robocopy
+
+REM del  $(TargetFileName)
+REM del $(TargetDir)Robocopy
+
+REM rem copy /Y "$(TargetPath)" "$(ProjectDir)\..\Release"
+
+REM if "$(Username)" == "Erikbir" copy /Y "(ProjectDir)\..\Release\Enforcer.dll" "C:\Program Files (x86)\Steam\steamapps\common\Risk of Rain 2\r2modman\BepInEx\plugins\EnforcerGang-Enforcer\"
+REM if "$(Username)" == "Erikbir" copy /Y "(ProjectDir)\..\Release\Enforcer.dll" "C:\EnforcerBuild\"
+*/

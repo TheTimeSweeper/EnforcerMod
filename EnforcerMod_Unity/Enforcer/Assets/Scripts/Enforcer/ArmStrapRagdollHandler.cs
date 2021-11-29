@@ -5,9 +5,10 @@ public class ArmStrapRagdollHandler : MonoBehaviour {
     [SerializeField]
     private Transform ShieldBone;
 
-    void OnDestroy() {
+    /*
+    void OnDisabled() {
         transform.parent = ShieldBone;
-    }
+    }*/
 
 }
  

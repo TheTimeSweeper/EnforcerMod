@@ -2444,7 +2444,7 @@ namespace EnforcerPlugin {
             stunGrenadeDef.activationState = new SerializableEntityStateType(typeof(StunGrenade));
             stunGrenadeDef.activationStateMachineName = "Weapon";
             stunGrenadeDef.baseMaxStock = 3;
-            stunGrenadeDef.baseRechargeInterval = 6f;
+            stunGrenadeDef.baseRechargeInterval = 8f;
             stunGrenadeDef.beginSkillCooldownOnSkillEnd = false;
             stunGrenadeDef.canceledFromSprinting = false;
             stunGrenadeDef.fullRestockOnAssign = true;
@@ -2641,27 +2641,12 @@ namespace EnforcerPlugin {
 
         private void ScepterSkillSetup()
         {
-            Modules.States.AddSkill(typeof(AimDamageGas));
 
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_NAME", "Mustard Gas");
             LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_DESCRIPTION", "Toss a grenade that covers an area in <style=cIsDamage>Impairing</style> gas, choking enemies for <style=cIsDamage>200% damage per second</style>.");
 
-            tearGasScepterDef = ScriptableObject.CreateInstance<SkillDef>();
+            tearGasScepterDef = UtilitySkillDef_TearGas();
             tearGasScepterDef.activationState = new SerializableEntityStateType(typeof(AimDamageGas));
-            tearGasScepterDef.activationStateMachineName = "Weapon";
-            tearGasScepterDef.baseMaxStock = 1;
-            tearGasScepterDef.baseRechargeInterval = 24;
-            tearGasScepterDef.beginSkillCooldownOnSkillEnd = true;
-            tearGasScepterDef.canceledFromSprinting = false;
-            tearGasScepterDef.fullRestockOnAssign = true;
-            tearGasScepterDef.interruptPriority = InterruptPriority.Skill;
-            tearGasScepterDef.resetCooldownTimerOnUse = false;
-            tearGasScepterDef.isCombatSkill = true;
-            tearGasScepterDef.mustKeyPress = true;
-            tearGasScepterDef.cancelSprintingOnActivation = true;
-            tearGasScepterDef.rechargeStock = 1;
-            tearGasScepterDef.requiredStock = 1;
-            tearGasScepterDef.stockToConsume = 1;
             tearGasScepterDef.icon = Assets.icon30TearGasScepter;
             tearGasScepterDef.skillDescriptionToken = "ENFORCER_UTILITY_TEARGASSCEPTER_DESCRIPTION";
             tearGasScepterDef.skillName = "ENFORCER_UTILITY_TEARGASSCEPTER_NAME";
@@ -2670,29 +2655,13 @@ namespace EnforcerPlugin {
                 "KEYWORD_BLINDED"
             };
 
-            Modules.States.AddSkillDef(tearGasScepterDef);
-
-            Modules.States.AddSkill(typeof(ShockGrenade));
+            Modules.Skills.RegisterSkillDef(tearGasScepterDef, typeof(AimDamageGas));
 
             LanguageAPI.Add("ENFORCER_UTILITY_SHOCKGRENADE_NAME", "Shock Grenade");
             LanguageAPI.Add("ENFORCER_UTILITY_SHOCKGRENADE_DESCRIPTION", "<style=cIsDamage>Shocking</style>. Launch a grenade that electrocutes enemies for <style=cIsDamage>" + 100f * ShockGrenade.damageCoefficient + "% damage</style>. Hold up to 3.");
 
-            shockGrenadeDef = ScriptableObject.CreateInstance<SkillDef>();
+            shockGrenadeDef = UtilitySkillDef_StunGrenade();
             shockGrenadeDef.activationState = new SerializableEntityStateType(typeof(ShockGrenade));
-            shockGrenadeDef.activationStateMachineName = "Weapon";
-            shockGrenadeDef.baseMaxStock = 3;
-            shockGrenadeDef.baseRechargeInterval = 6f;
-            shockGrenadeDef.beginSkillCooldownOnSkillEnd = false;
-            shockGrenadeDef.canceledFromSprinting = false;
-            shockGrenadeDef.fullRestockOnAssign = true;
-            shockGrenadeDef.interruptPriority = InterruptPriority.Skill;
-            shockGrenadeDef.resetCooldownTimerOnUse = false;
-            shockGrenadeDef.isCombatSkill = true;
-            shockGrenadeDef.mustKeyPress = false;
-            shockGrenadeDef.cancelSprintingOnActivation = true;
-            shockGrenadeDef.rechargeStock = 1;
-            shockGrenadeDef.requiredStock = 1;
-            shockGrenadeDef.stockToConsume = 1;
             shockGrenadeDef.icon = Assets.icon31StunGrenadeScepter;
             shockGrenadeDef.skillDescriptionToken = "ENFORCER_UTILITY_SHOCKGRENADE_DESCRIPTION";
             shockGrenadeDef.skillName = "ENFORCER_UTILITY_SHOCKGRENADE_NAME";
@@ -2701,7 +2670,7 @@ namespace EnforcerPlugin {
                 "KEYWORD_SHOCKING"
             };
 
-            Modules.States.AddSkillDef(shockGrenadeDef);
+            Modules.Skills.RegisterSkillDef(shockGrenadeDef, typeof(ShockGrenade));
         }
 
         private void CSSPreviewSetup()
