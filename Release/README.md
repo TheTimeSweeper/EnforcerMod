@@ -69,10 +69,37 @@ lil out of date
 - Help
 
 ## Changelog
+`3.2.1`
+   - added to previous changelog I forgot to say
+   
 `3.2.0`
- - fixed skills not being saved on exit (thanks DestroyedClone for bringing order to the chaos)
- - super shotgun time fastor
- - fixed beefstop
+ - <ins>Slowly but surely he's coming back</ins>
+   - Rig has been fixed and finalized, still a long road but we're on our way
+     - Readded true Mastery skin: ~~Sexforcer~~ Peacekeeper on new rig
+       - Mastery Achievement reset to celebrate!
+     - N4CR skin moved to its own achievement: Your Move, Creep
+     - Added classic skin on new rig
+   - Animations on new rig are a mix of 
+     - new and redone, old ones updated, old ones salvaged to work but janky
+   - Readded Gun models for each m1 weapon (using classic guns for now)
+     - Guns also appear in css when switching
+   - Readded cursed config (wip) skills: Breaching Hammer and Skateboard 
+     - (yes, rob added a fucking skateboard before and it's back)
+   - Readded a few item displays
+     - Remade framework for gun-unique item displays
+     - someone do the rest pls
+     - New Aetherium item displays have been added by Komrade on his end. Say thank you!
+ - <ins>Other stuff</ins>
+   - after a year, deflecting golem lasers is now networked
+     - redid the logic a bit, can't tell if it's more or less janky than before
+     - added absolutely disgusting hacky code to deflect lasers from stone wisps in nebby's monster variants
+   - made machine gun scale past framerate (did you know fire rate maxed at 50 syringes?)
+     - also made minigun scale past framerate (did you know fire rate maxed at 20 syringes?)
+   - after like two fuckin years, fixed the animator pausing terribly when stopping while shooting 
+ - <ins>On this episode of I had much more important shit to do but I did this instead</ins>
+   - skillsplusplus (default m1 only for now)
+   - added gordo projectile replacement to dedede skin
+   - fixed head size config
 
 `3.1.2`
  - fixed force unlock not working for bebbys

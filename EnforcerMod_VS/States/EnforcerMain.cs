@@ -280,13 +280,14 @@ namespace EntityStates.Enforcer {
                 {
                     if (base.inputBank.skill1.down)
                     {
-                        if (isShielded)
-                        {
-                            base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.attackSpeedStat);
-                        }
-                        else
-                        {
-                            base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.attackSpeedStat);
+                        float duration = GlobalSkills.LunarNeedle.FireLunarNeedle.baseDuration / this.attackSpeedStat;
+
+                        if (isShielded) {
+
+                            PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", Mathf.Max(0.069f, duration));
+                        } else {
+
+                            PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", Mathf.Max(0.05f, 1.75f * duration));
                         }
                     }
                 }

@@ -111,6 +111,7 @@ namespace EnforcerPlugin {
         public static bool supplyDropInstalled = false;
         public static bool starstormInstalled = false;
         public static bool skillsPlusInstalled = false;
+        public static bool IDPHelperInstalled = false;
 
         //public static uint doomGuyIndex = 2;
         //public static uint engiIndex = 3;
@@ -202,10 +203,14 @@ namespace EnforcerPlugin {
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TeamMoonstorm.Starstorm2")) {
                 starstormInstalled = true;
             }
-            //shartstorm 2 xDDDD
+            //skillsplus
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.cwmlolzlz.skills")) {
                 skillsPlusInstalled = true;
                 SkillsPlusCompat.init();
+            }
+            //weapon idrs
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ItemDisplayPlacementHelper")) {
+                IDPHelperInstalled = true;
 
             }
         }
@@ -1011,7 +1016,7 @@ namespace EnforcerPlugin {
 
             characterDisplay = PrefabAPI.InstantiateClone(model, "EnforcerDisplay", true);
 
-            characterDisplay.AddComponent<MenuSound>();
+            characterDisplay.AddComponent<MenuSoundComponent>();
             characterDisplay.AddComponent<EnforcerLightController>();
             characterDisplay.AddComponent<EnforcerLightControllerAlt>();
 
@@ -1264,7 +1269,9 @@ namespace EnforcerPlugin {
 
             characterModel.mainSkinnedMeshRenderer = childLocator.FindChild("Model").gameObject.GetComponent<SkinnedMeshRenderer>();
 
-            characterModel.gameObject.AddComponent<EnforcerWeaponDisplaysComponent>();
+            if (IDPHelperInstalled) {
+                characterModel.gameObject.AddComponent<EnforcerItemDisplayEditorComponent>();
+            }
 
             childLocator.FindChild("Chair").GetComponent<MeshRenderer>().material = Assets.CreateMaterial("matChair", 0f, Color.black, 0f);
 
@@ -2676,7 +2683,7 @@ namespace EnforcerPlugin {
         private void CSSPreviewSetup()
         {
             //something broke here i don't really understand it
-            //  that's because holy shit i wrote this like a fucking ape. do not forgive me for this
+            //  that's because holy shit i wrote this like a fucking ape. do not forgive me for this. I'm deleting it
 
             //// NULLCHECK YOUR SHIT FOR FUCKS SAKE
                 //nullchecks are only for the unsure
@@ -2724,213 +2731,6 @@ namespace EnforcerPlugin {
             }
         }
     }
-    #endregion
 
-    public class MenuSound : MonoBehaviour
-    {
-        private uint playID;
-
-        private void OnEnable()
-        {
-            //this.playID = Util.PlaySound(Sounds.CharSelect, base.gameObject);
-
-            var i = GetComponentInChildren<EnforcerLightController>();
-            if (i)
-            {
-                i.FlashLights(3);
-            }
-
-            var j = GetComponentInChildren<EnforcerLightControllerAlt>();
-            if (j)
-            {
-                j.ToggleSiren();
-            }
-        }
-
-        private void OnDestroy()
-        {
-            if (this.playID != 0) AkSoundEngine.StopPlayingID(this.playID);
-        }
-    }
-
-    public class EnforcerFrogComponent : MonoBehaviour
-    {
-        public static event Action<bool> FrogGet = delegate { };
-        
-        private void Awake()
-        {
-            InvokeRepeating("Sex", 0.5f, 0.5f);
-        }
-
-        private void Sex()
-        {
-            Collider[] array = Physics.OverlapSphere(transform.position, 16, LayerIndex.defaultLayer.mask);
-            for (int i = 0; i < array.Length; i++)
-            {
-                CharacterBody component = array[i].GetComponent<CharacterBody>();
-                if (component)
-                {
-                    if (component.baseNameToken == "ENFORCER_NAME") FrogGet(true);
-                }
-            }
-        }
-    }
-
-    public class ParticleFuckingShitComponent : MonoBehaviour
-    {
-        private void Start()
-        {
-            this.transform.parent = null;
-            this.gameObject.AddComponent<DestroyOnTimer>().duration = 8;
-        }
-    }
-
-    public class TearGasComponent : MonoBehaviour
-    {
-        private int count;
-        private int lastCount;
-        private uint playID;
-
-        public static event Action<int> GasCheck = delegate { };
-
-        private void Awake()
-        {
-            playID = Util.PlaySound(Sounds.GasContinuous, base.gameObject);
-
-            InvokeRepeating("Fuck", 0.25f, 0.25f);
-        }
-
-        private void Fuck()
-        {
-            //this is gross and hacky pls someone do this a different way eventually
-
-            count = 0;
-
-            foreach(CharacterBody i in GameObject.FindObjectsOfType<CharacterBody>())
-            {
-                if (i && i.HasBuff(Modules.Buffs.impairedBuff)) count++;
-            }
-
-            if (lastCount != count) GasCheck(count);
-
-            lastCount = count;
-        }
-
-        private void OnDestroy()
-        {
-            AkSoundEngine.StopPlayingID(playID);
-        }
-    }
-
-    public static class Sounds
-    {
-        public static readonly string CharSelect = "Play_Enforcer_CharSelect";
-
-        public static readonly string FireShotgun = "Play_RiotShotgun_shoot"; //Shotgun_shot
-        public static readonly string FireShotgunCrit = "Play_RiotShotgun_Crit"; //Shotgun_shot_crit
-        public static readonly string FireClassicShotgun = "Ror1_Shotgun";
-
-        public static readonly string FireSuperShotgun = "Super_Shotgun";
-        public static readonly string FireSuperShotgunCrit = "Super_Shotgun_crit";
-        public static readonly string FireSuperShotgunDOOM = "Doom_2_Super_Shotgun";
-        public static readonly string FireSuperShotgunSingle = "Play_SSG_single";
-        public static readonly string FireSuperShotgunSingleCrit = "Play_SSG_single_crit";
-
-        public static readonly string FireAssaultRifleSlow = "Assault_Shots_1";
-        public static readonly string FireAssaultRifleFast = "Assault_Shots_2";
-
-        public static readonly string FireBlasterShotgun = "Blaster_Shotgun";
-        public static readonly string FireBlasterRifle = "Blaster_Rifle";
-
-        public static readonly string FireBungusShotgun = "Bungus_Riot";
-        public static readonly string FireBungusSSG = "Bungus_SSg";
-        public static readonly string FireBungusRifle = "Bungus_AR";
-
-        public static readonly string ShieldBash = "Bash";
-        public static readonly string BashHitEnemy = "Bash_Hit_Enemy";
-        public static readonly string BashDeflect = "Bash_Deflect"; //"Play_Reflect_Ding"
-        public static readonly string SirenDeflect = "Play_Siren_Reflect";
-
-        public static readonly string ShoulderBashHit = "Shoulder_Bash_Hit";
-
-        public static readonly string LaunchStunGrenade = "Launch_Stun";
-        public static readonly string StunExplosion = "Stun_Explosion";
-
-        public static readonly string LaunchTearGas = "Launch_Gas";
-        public static readonly string GasExplosion = "Gas_Explosion";
-        public static readonly string GasContinuous = "Gas_Continous";
-
-        public static readonly string ShieldUp = "R_up";
-        public static readonly string ShieldDown = "R_down";
-
-        public static readonly string ShieldBlockLight = "Shield_Block_light";
-        public static readonly string ShieldBlockHeavy = "Shield_Block_heavy";
-
-        public static readonly string EnergyShieldUp = "Energy_R_Up";
-        public static readonly string EnergyShieldDown = "Energy_R_down";
-
-        public static readonly string ShellHittingFloor = "Shell_Hitting_floor";
-        public static readonly string ShellHittingFloorFast = "Shell_Hitting_Floor_Fast";
-        public static readonly string ShellHittingFloorSlow = "Shell_Hitting_Floor_Slow";
-
-        public static readonly string NemesisSwing = "Play_Heavy_Swing";
-        public static readonly string NemesisImpact = "Play_Heavy_Swing_Hit";
-        public static readonly string NemesisSwing2 = "Play_HammerswingNewL";
-        public static readonly string NemesisImpact2 = "Play_NemHammerImpact";
-        public static readonly string NemesisSwingSecondary = "Play_NemSwingSecondary";
-
-        public static readonly string NemesisSwingAxe = "NemforcerAxeSwing";
-        public static readonly string NemesisImpactAxe = "NemforcerAxeHit";
-        
-        public static readonly string NemesisStartCharge = "Play_chargeStart";
-        public static readonly string NemesisMaxCharge = "Play_chargeMax";
-        public static readonly string NemesisFlameLoop = "Play_HammerFlameLoop";
-        public static readonly string NemesisFlameBurst = "Play_Hammer_Slam";
-        public static readonly string NemesisSwingL = "Play_Heavy_Swing_L";
-        public static readonly string NemesisSmash = "Play_Hammer_Smash";
-
-        public static readonly string NemesisGrenadeThrow = "Play_GrenadeThrow";
-
-        public static readonly string NemesisMinigunSheathe = "Play_MinigunSheathe";
-        public static readonly string NemesisMinigunUnsheathe = "Play_MinigunUnsheathe";
-        public static readonly string NemesisMinigunWindDown = "Play_minigun_wind_down";
-        public static readonly string NemesisMinigunWindUp = "Play_minigun_wind_up";
-        public static readonly string NemesisMinigunShooting = "Play_Minigun_Shoot";
-
-        public static readonly string NemesisMinigunSpinUp = "NemforcerMinigunSpinUp";
-        public static readonly string NemesisMinigunSpinDown = "NemforcerMinigunSpinDown";
-        public static readonly string NemesisMinigunLoop = "NemforcerMinigunLoop";
-
-        public static readonly string DeathSound = "Death_Siren";
-        public static readonly string SirenButton = "Siren_Button";
-        public static readonly string SirenSpawn = "Siren_Spawn";
-        public static readonly string Croak = "Croak_siren";
-        public static readonly string HomeRun = "Play_Home_Run_Bat_Hit";
-        public static readonly string Bonk = "Play_Bonk";
-
-        public static readonly string DefaultDance = "Default_forcer";
-        public static readonly string Floss = "Flossforcer";
-        public static readonly string InfiniteDab = "Infiniforcer";
-        public static readonly string DOOM = "DOOM";
-        public static readonly string MioHonda = "Mio_Honda";
-
-        public static readonly string SkateGrind = "grindmetal03";
-        public static readonly string SkateLand = "Landing";
-        public static readonly string SkateOllie = "Ollie";
-        public static readonly string Skate180 = "Play_180";
-        public static readonly string SkateRoll = "rollconcrete02";
-        //rtcp - Skateboard_Speed
-
-        public static readonly string SkamteJumpGap = "HUD_jumpgap";
-        public static readonly string SkamteScore = "HUD_score";
-        public static readonly string SkamtePerfectTrick = "HUD_perfecttrick";
-        public static readonly string SkamteSpecialTrick = "HUD_specialtrick";
-
-        public static readonly string DededeSwing = "Play_se_dedede_hammer_swing_m";
-        public static readonly string DededeImpactS = "Play_dedede_hammer_attack_m";
-        public static readonly string DededeImpactL = "Play_dedede_hammer_attack_l";
-
-        public static readonly string HMGShoot = "Play_HMG_shoot";
-        public static readonly string HMGCrit = "Play_HMG_crit";
-    }
+#endregion
 }

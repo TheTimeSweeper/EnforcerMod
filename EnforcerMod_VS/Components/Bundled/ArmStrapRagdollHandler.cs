@@ -5,7 +5,6 @@ public class ArmStrapRagdollHandler : MonoBehaviour {
     private Transform ShieldBone;
 
     void OnDisable() {
-        transform.parent = ShieldBone;
+        transform.SetParent(ShieldBone);
     }
-
 }

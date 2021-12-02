@@ -14,8 +14,15 @@ namespace EntityStates.Enforcer
             base.OnEnter();
             this.duration = FireLunarNeedle.baseDuration / this.attackSpeedStat;
 
-            base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
+            //base.PlayAnimation("RightArm, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
 
+            if (HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) {
+                
+                PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", Mathf.Max(0.069f, duration));
+            } else {
+
+                PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", Mathf.Max(0.05f, 1.75f * duration));
+            }
             if (base.isAuthority)
             {
                 Ray aimRay = base.GetAimRay();

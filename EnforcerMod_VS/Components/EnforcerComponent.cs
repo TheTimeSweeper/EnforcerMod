@@ -50,17 +50,17 @@ public class EnforcerComponent : MonoBehaviour
     GameObject boyPrefab = Resources.Load<GameObject>("Prefabs/CharacterBodies/LemurianBody");
     public static bool skateJump;
 
+    private Transform head;
+
     public float shieldHealth {
         get => energyShieldControler.healthComponent.health;
     }
-
-
 
     void Start()
     {
         // dead.
         childLocator = GetComponentInChildren<ChildLocator>();
-
+        head = childLocator.FindChild("Head");
         /*energyShield = childLocator.FindChild("EnergyShield").gameObject;
 
         energyShield.SetActive(true);// i don't know if the object has to be active to get the component but i'm playing it safe
@@ -82,8 +82,9 @@ public class EnforcerComponent : MonoBehaviour
 
     void LateUpdate() {
 
-        if(childLocator && childLocator.FindChild("Head").transform)
-            childLocator.FindChild("Head").transform.localScale = Vector3.one * Config.headSize.Value;
+        head.transform.localScale = Vector3.one * Config.headSize.Value;
+                                                      //magic numbers based on head bone's default position
+        head.transform.localPosition = new Vector3(0, 0.0535f + 0.0450f * Config.headSize.Value, 0);  
     }
 
     private void aimShield() {

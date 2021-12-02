@@ -109,7 +109,12 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 if (animator) animator.SetFloat("HammerSwing.playbackRate", 0f);
             }
 
-            if (stopwatch >= duration * 0.469f && stopwatch <= duration * 0.6) {
+            bool fireStarted = stopwatch >= this.duration * 0.469f;
+            bool fireEnded = stopwatch >= this.duration * 0.6f;
+
+            //to guarantee attack comes out if at high attack speed the stopwatch skips past the firing duration between frames
+            if ((fireStarted && !fireEnded) || (fireStarted && fireEnded && !this.hasFired)) {
+
                 FireAttack();
             }
 
@@ -125,6 +130,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         }
 
         public void FireAttack() {
+
             if (!hasFired) {
                 hasFired = true;
 
@@ -166,8 +172,8 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         }
 
         public override void OnExit() {
-            if (!hasFired) FireAttack();
 
+            PlayCrossfade("Gesture, Additive", "BufferEmpty", 0.05f);
             base.OnExit();
         }
 
