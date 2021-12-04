@@ -65,15 +65,6 @@
     <Reference Include="Mono.Cecil">
       <HintPath>libs\Mono.Cecil.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cecil.Mdb">
-      <HintPath>libs\Mono.Cecil.Mdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Pdb">
-      <HintPath>libs\Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Rocks">
-      <HintPath>libs\Mono.Cecil.Rocks.dll</HintPath>
-    </Reference>
     <Reference Include="MonoMod.RuntimeDetour">
       <HintPath>libs\MonoMod.RuntimeDetour.dll</HintPath>
     </Reference>
