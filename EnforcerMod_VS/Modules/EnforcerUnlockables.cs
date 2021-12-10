@@ -22,6 +22,69 @@ namespace EnforcerPlugin.Modules {
         public static UnlockableDef nemMasteryUnlockableDef;
 
         public static void RegisterUnlockables() {
+            RegisterTokens();
+            //this is the version that works with the altered AddUnlockable I changed in R2API.
+            //look at #r2api in the discord to see what I mean. I went into more detail in #development as well
+            //      lol fucking that was a year ago you have to search from:timesweeper i was retarded for saying this
+            //if the pull requests gets accepted I'll add the other needed ones to this
+            //      fucking it was never merged in i'm reeing so hard right now
+            enforcerUnlockableDef = Config.forceUnlock.Value ? null : Unlockables.AddUnlockable<EnforcerUnlockAchievement>(typeof(EnforcerUnlockAchievement.EnforcerUnlockAchievementServer));
+            enforcerMasteryUnlockableDef = Unlockables.AddUnlockable<MasteryAchievementButEpic>();
+
+            enforcerDoomUnlockableDef = Unlockables.AddUnlockable<DoomAchievement>(typeof(DoomAchievement.DoomAchievementServer));
+            enforcerARUnlockableDef = Unlockables.AddUnlockable<AssaultRifleAchievement>();
+
+            enforcerRobitUnlockableDef = Unlockables.AddUnlockable<RobitAchievement>(typeof(RobitAchievement.RobitAchievementServer));
+            
+            //if (Config.cursed.Value)
+            //{
+            //    UnlockablesAPI.AddUnlockable<Achievements.BungusAchievement>(true);
+            //    UnlockablesAPI.AddUnlockable<Achievements.StormtrooperAchievement>(true);
+            //    UnlockablesAPI.AddUnlockable<Achievements.FrogAchievement>(true);
+            //    UnlockablesAPI.AddUnlockable<Achievements.SteveAchievement>(true);
+            //}
+
+            //enforcerStunGrenadeUnlockableDef = Unlockables.AddUnlockable<StunGrenadeAchievement>();
+
+            //UnlockablesAPI.AddUnlockable<Achievements.SuperShotgunAchievement>(true);
+            //UnlockablesAPI.AddUnlockable<Achievements.DesperadoAchievement>(true);
+            //UnlockablesAPI.AddUnlockable<Achievements.NemesisSkinAchievement>(true);
+
+            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_NAME", "???");
+            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC", "On monsoon, stabilize the anomaly, and defeat Enforcer's Vestige.");
+            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_UNLOCKABLE_NAME", "???");
+
+            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Mastery");
+            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Monsoon.");
+            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Mastery");
+
+            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Demolition");
+            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, destroy 5 projectiles at once with Dominance.");
+            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Demolition");
+
+            nemesisUnlockableDef = Unlockables.AddUnlockable<NemesisAchievement>();
+            nemMasteryUnlockableDef = Unlockables.AddUnlockable<NemMasteryAchievement>();
+            //    UnlockablesAPI.AddUnlockable<Achievements.NemDominanceAchievement>(true);
+
+            //    if (EnforcerPlugin.starstormInstalled)
+            //    {
+            //        LanguageAPI.Add("ENFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Grand Mastery");
+            //        LanguageAPI.Add("ENFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Typhoon.");
+            //        LanguageAPI.Add("ENFORCER_TYPHOONUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Grand Mastery");
+            //        UnlockablesAPI.AddUnlockable<Achievements.NemGrandMasteryAchievement>(true);
+
+            //        LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Grand Mastery");
+            //        LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Typhoon.");
+            //        LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Grand Mastery");
+
+            //        UnlockablesAPI.AddUnlockable<Achievements.GrandMasteryAchievement>(true);
+            //    }
+
+        }
+
+        private static void RegisterTokens()
+        {
+
             //character
             LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME", "Riot");
             LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC", "Kill a Magma Worm, a Wandering Vagrant and a Stone Titan in a single run.");
@@ -44,21 +107,19 @@ namespace EnforcerPlugin.Modules {
             LanguageAPI.Add("ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, have 20 enemies under the effects of Tear Gas at once.");
             LanguageAPI.Add("ENFORCER_STUNGRENADEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Crowd Control");
 
-            //extra shit
+            //skans
             LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Your Move, Creep");
             LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, be brought back to life.");
             LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Your Move, Creep");
-            
-            //LanguageAPI.Add("ENFORCER_SHOTGUNUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Schmoovin'");
-            //LanguageAPI.Add("ENFORCER_SHOTGUNUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, show off your dance moves.");
-            //LanguageAPI.Add("ENFORCER_SHOTGUNUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Schmoovin'");
+
+            //LanguageAPI.Add("ENFORCER_CLASSICUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Schmoovin'");
+            //LanguageAPI.Add("ENFORCER_CLASSICUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, show off your dance moves.");
+            //LanguageAPI.Add("ENFORCER_CLASSICUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Schmoovin'");
 
             //LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Rules of Nature");
             //LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, Defeat the unique guardian of Gilded Coast by pushing it off the edge of the map. <color=#c11>Host only</color>");
             //LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Rules of Nature");
 
-            //if (Config.cursed.Value)
-            //{
             //    LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Enforcing Perfection");
             //    LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, become one with the Bungus.");
             //    LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Enforcing Perfection");
@@ -75,67 +136,10 @@ namespace EnforcerPlugin.Modules {
             //    LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, block an attack with your shield.");
             //    LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Blocks");
 
-            //    UnlockablesAPI.AddUnlockable<Achievements.BungusAchievement>(true);
-            //    UnlockablesAPI.AddUnlockable<Achievements.StormtrooperAchievement>(true);
-            //    UnlockablesAPI.AddUnlockable<Achievements.FrogAchievement>(true);
-            //    UnlockablesAPI.AddUnlockable<Achievements.SteveAchievement>(true);
-            //}
-
             //LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Clearance");
             //LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, stabilize the Cell in the Void Fields.");
             //LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Clearance");
 
-            //this is the version that works with the altered AddUnlockable I changed in R2API.
-            //look at #r2api in the discord to see what I mean. I went into more detail in #development as well
-            //      lol fucking that was a year ago you have to search from:timesweeper i was retarded for saying this
-            //if the pull requests gets accepted I'll add the other needed ones to this
-            //      fucking it was never merged in i'm reeing so hard right now
-
-            enforcerUnlockableDef = Config.forceUnlock.Value ? null : Unlockables.AddUnlockable<EnforcerUnlockAchievement>(typeof(EnforcerUnlockAchievement.EnforcerUnlockAchievementServer));
-            enforcerMasteryUnlockableDef = Unlockables.AddUnlockable<MasteryAchievement>();
-
-            enforcerDoomUnlockableDef = Unlockables.AddUnlockable<DoomAchievement>(typeof(DoomAchievement.DoomAchievementServer));
-            enforcerARUnlockableDef = Unlockables.AddUnlockable<AssaultRifleAchievement>();
-
-            enforcerRobitUnlockableDef = Unlockables.AddUnlockable<RobitAchievement>(typeof(RobitAchievement.RobitAchievementServer));
-
-            //enforcerStunGrenadeUnlockableDef = Unlockables.AddUnlockable<StunGrenadeAchievement>();
-
-            //UnlockablesAPI.AddUnlockable<Achievements.SuperShotgunAchievement>(true);
-            //UnlockablesAPI.AddUnlockable<Achievements.DesperadoAchievement>(true);
-            //UnlockablesAPI.AddUnlockable<Achievements.NemesisSkinAchievement>(true);
-
-            if (EnforcerModPlugin.nemesisEnabled) {
-                LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_NAME", "???");
-                LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC", "On monsoon, stabilize the anomaly, and defeat Enforcer's Vestige.");
-                LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_UNLOCKABLE_NAME", "???");
-
-                LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Mastery");
-                LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Monsoon.");
-                LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Mastery");
-
-                LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Demolition");
-                LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, destroy 5 projectiles at once with Dominance.");
-                LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Demolition");
-
-                nemesisUnlockableDef = Unlockables.AddUnlockable<NemesisAchievement>();
-                nemMasteryUnlockableDef = Unlockables.AddUnlockable<NemMasteryAchievement>();
-                //    UnlockablesAPI.AddUnlockable<Achievements.NemDominanceAchievement>(true);
-
-                //    if (EnforcerPlugin.starstormInstalled)
-                //    {
-                //        LanguageAPI.Add("ENFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Grand Mastery");
-                //        LanguageAPI.Add("ENFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Typhoon.");
-                //        LanguageAPI.Add("ENFORCER_TYPHOONUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Grand Mastery");
-                //        UnlockablesAPI.AddUnlockable<Achievements.NemGrandMasteryAchievement>(true);
-
-                //        LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Grand Mastery");
-                //        LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Typhoon.");
-                //        LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Grand Mastery");
-
-                //        UnlockablesAPI.AddUnlockable<Achievements.GrandMasteryAchievement>(true);
-                //    }
-            }
         }
     }
 }

@@ -7,8 +7,9 @@ using RoR2.Achievements;
 namespace EnforcerPlugin.Achievements {
 
     public class RobitAchievement : ModdedUnlockable {
-        public override String AchievementIdentifier { get; } = "ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_ID";
-        public override String UnlockableIdentifier { get; } = "ENFORCER_ROBITUNLOCKABLE_REWARD_ID";
+        static string nig = "";
+        public override String AchievementIdentifier { get; } = "ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_ID" + nig;
+        public override String UnlockableIdentifier { get; } = "ENFORCER_ROBITUNLOCKABLE_REWARD_ID" + nig;
         public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
         public override String AchievementNameToken { get; } = "ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_NAME";
         public override String AchievementDescToken { get; } = "ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_DESC";
@@ -57,7 +58,7 @@ namespace EnforcerPlugin.Achievements {
 
             public override void OnUninstall() {
                 base.OnUninstall();
-
+                
                 On.RoR2.CharacterMaster.RespawnExtraLife -= CheckRespawnExtraLife;
             }
 
@@ -69,7 +70,6 @@ namespace EnforcerPlugin.Achievements {
                 if (fucker) {
                     _applyingSkin = true;
                     base.Grant();
-                    //body.transform.modelskin.apply(2) please
 
                     On.RoR2.ModelSkinController.ApplySkin += ModelSkinController_ApplySkin;
                 }
@@ -80,7 +80,7 @@ namespace EnforcerPlugin.Achievements {
                 //bool fucker = base.GetCurrentBody() == self.GetComponent<CharacterModel>().body;
                 if (_applyingSkin) {
                     skinIndex = 2;
-
+                    self.characterModel.body.GetComponent<EnforcerNetworkComponent>().RpcUhh(2);
                     On.RoR2.ModelSkinController.ApplySkin -= ModelSkinController_ApplySkin;
                 }
                 orig(self, skinIndex);

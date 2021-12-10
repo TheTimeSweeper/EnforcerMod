@@ -2,6 +2,8 @@
 using EntityStates;
 using RoR2;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,8 +13,23 @@ public class EnforcerNetworkComponent : NetworkBehaviour {
     [SyncVar]
     public int parries;
 
-    public void uhh() {
-        GetComponent<CharacterBody>().modelLocator.modelTransform.GetComponent<ModelSkinController>().ApplySkin(2);
+    [ClientRpc]
+    public void RpcUhh(int skin) {
+        //fuckin nasty i'm calling this from modelskincontroller to charmodel to getcomponent body to enforcernetworkcomponent to here just to go to modeltransform to getcomponent back to modelskincontroller fuck man
+        GetComponent<CharacterBody>().modelLocator.modelTransform.GetComponent<ModelSkinController>().ApplySkin(skin);
+        Debug.LogWarning("drawin dicks, drawin dicks, drawin dicks, who's been drawin");
+
+        StartCoroutine(fuckthis(skin));
+    }
+
+    //I refuse to let this be the solution
+    //I'd rather have the horrible hook hack in the serverachievement
+    public IEnumerator fuckthis(int skin)
+    {
+        yield return new WaitForSeconds(1);
+        GetComponent<CharacterBody>().modelLocator.modelTransform.GetComponent<ModelSkinController>().ApplySkin(skin);
+
+        Debug.LogWarning("drawin dicks, dicks dicks dicks, drawin dicks, dicks dicks dicks");
     }
 }
 
@@ -22,7 +39,7 @@ public class EnforcerComponent : MonoBehaviour
     static float coef = 1; // affects how quickly it reaches max speed
 
     public EntityStateMachine drOctagonapus { get; set; }
-
+    
     public bool isDeflecting { get; set; }
 
     public event Action onLaserHit = delegate { };

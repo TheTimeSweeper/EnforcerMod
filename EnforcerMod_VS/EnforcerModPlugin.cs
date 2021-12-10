@@ -721,36 +721,11 @@ namespace EnforcerPlugin {
         }
 
         private void FireLaser_OnEnter(On.EntityStates.GolemMonster.FireLaser.orig_OnEnter orig, EntityStates.GolemMonster.FireLaser self) {
-
             orig(self);
 
-            var ray = self.modifiedAimRay;
+            Ray ray = self.modifiedAimRay;
 
             CheckEnforcerParry(ray);
-        }
-
-        private static void CheckEnforcerParry(Ray ray) {
-            RaycastHit raycastHit;
-
-            if (Physics.Raycast(ray, out raycastHit, 1000f, LayerIndex.world.mask | LayerIndex.defaultLayer.mask | LayerIndex.entityPrecise.mask)) {
-                //do I have this power?
-                GameObject gob = raycastHit.transform.GetComponent<HurtBox>()?.healthComponent.gameObject;
-
-                if (!gob) {
-                    gob = raycastHit.transform.GetComponent<HealthComponent>()?.gameObject;
-                }
-                //I believe I do. it makes the decompiled version look mad ugly tho
-                EnforcerComponent enforcer = gob?.GetComponent<EnforcerComponent>();
-
-                Debug.LogWarning($"tran {raycastHit.transform}, " +
-                    $"hurt {raycastHit.transform.GetComponent<HurtBox>()}, " +
-                    $"health {raycastHit.transform.GetComponent<HurtBox>()?.healthComponent.gameObject}, " +
-                    $"{gob?.GetComponent<EnforcerComponent>()}");
-
-                if (enforcer) {
-                    enforcer.invokeOnLaserHitEvent();
-                }
-            }
         }
 
         private void BaseState_OnEnter(On.EntityStates.BaseState.orig_OnEnter orig, BaseState self) {
@@ -760,15 +735,39 @@ namespace EnforcerPlugin {
                 self.damageStat *= 5f;
             }
 
-
-            List<string> incrediblyhorriblehackynamecheck = new List<string> {
+            List<string> absolutelydisgustinghackynamecheck = new List<string> {
                 "NebbysWrath.VariantEntityStates.LesserWisp.FireStoneLaser",
                 "NebbysWrath.VariantEntityStates.GreaterWisp.FireDoubleStoneLaser",
             };
 
-            if (incrediblyhorriblehackynamecheck.Contains(self.GetType().ToString())) {
+            if (absolutelydisgustinghackynamecheck.Contains(self.GetType().ToString())) {
 
                 CheckEnforcerParry(self.GetAimRay());
+            }
+        }
+
+        private static void CheckEnforcerParry(Ray ray) {
+
+            RaycastHit raycastHit;
+
+            if (Physics.Raycast(ray, out raycastHit, 1000f, LayerIndex.world.mask | LayerIndex.defaultLayer.mask | LayerIndex.entityPrecise.mask)) {
+                                                                             //do I have this power?
+                GameObject gob = raycastHit.transform.GetComponent<HurtBox>()?.healthComponent.gameObject;
+
+                if (!gob) {
+                    gob = raycastHit.transform.GetComponent<HealthComponent>()?.gameObject;
+                }
+                                                //I believe I do. it makes the decompiled version look mad ugly tho
+                EnforcerComponent enforcer = gob?.GetComponent<EnforcerComponent>();
+
+                //Debug.LogWarning($"tran {raycastHit.transform}, " +
+                //    $"hurt {raycastHit.transform.GetComponent<HurtBox>()}, " +
+                //    $"health {raycastHit.transform.GetComponent<HurtBox>()?.healthComponent.gameObject}, " +
+                //    $"{gob?.GetComponent<EnforcerComponent>()}");
+
+                if (enforcer) {
+                    enforcer.invokeOnLaserHitEvent();
+                }
             }
         }
 
@@ -966,7 +965,7 @@ namespace EnforcerPlugin {
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = Assets.CreateMaterial("matEnforcerGun", 0f, Color.black, 0f),
+                    defaultMaterial = Assets.CreateMaterial("matEnforcerGun", 1f, Color.white, 0f),
                     renderer = childLocator.FindChild("GunModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
@@ -1222,7 +1221,7 @@ namespace EnforcerPlugin {
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = Assets.CreateMaterial("matEnforcerGun", 0f, Color.black, 0f),
+                    defaultMaterial = Assets.CreateMaterial("matEnforcerGun", 1f, Color.white, 0f),
                     renderer = childLocator.FindChild("GunModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false

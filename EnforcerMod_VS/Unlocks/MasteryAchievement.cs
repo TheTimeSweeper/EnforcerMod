@@ -3,8 +3,8 @@ using UnityEngine;
 using RoR2;
 using ModdedUnlockable = Enforcer.Modules.ModdedUnlockable;
 
-namespace EnforcerPlugin.Achievements {
-
+namespace EnforcerPlugin.Achievements
+{
     public class MasteryAchievement : ModdedUnlockable
     {
         public override string AchievementIdentifier { get; } = "ENFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_ID";
@@ -33,13 +33,11 @@ namespace EnforcerPlugin.Achievements {
 
         public override void OnInstall() {
             base.OnInstall();
-
             Run.onClientGameOverGlobal += this.ClearCheck;
         }
 
         public override void OnUninstall() {
             base.OnUninstall();
-
             Run.onClientGameOverGlobal -= this.ClearCheck;
         }
 

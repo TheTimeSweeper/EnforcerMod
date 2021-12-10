@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TKNemforcer\**" />
+    <EmbeddedResource Remove="TKNemforcer\**" />
+    <None Remove="TKNemforcer\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="States\PrimaryRifle.cs" />
   </ItemGroup>
 
