@@ -1,11 +1,13 @@
-﻿using RoR2;
+﻿using EnforcerPlugin.Modules;
+using RoR2;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
 
-namespace EnforcerPlugin {
+namespace EnforcerPlugin
+{
 
     public static class NemItemDisplays
     {

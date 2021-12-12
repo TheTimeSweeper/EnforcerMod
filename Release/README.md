@@ -76,8 +76,9 @@ lil out of date
    - readded stun grenade achievement. forgot that one in 3.1
    - fixed grandmasteries being implemented in the most retarded way
      - thanks neb for the prototype
-   - fixed visions of heresy model replacement
+   - spent way too much time figuring out the [visions of heresy]
    - made shield go away with essence of heresy
+   - added some footsteps
    
 `3.2.0`
  - <ins>Slowly but surely he's coming back</ins>

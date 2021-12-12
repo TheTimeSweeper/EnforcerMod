@@ -172,6 +172,32 @@ ModelImporter:
     100332: Upper Arm.R.001
     100334: UpperLeg.L
     100336: UpperLeg.R
+    100338: BackArmElbow_end
+    100340: Barrel_end
+    100342: Elbow.L_end
+    100344: Elbow.R_end
+    100346: HammerBottom_end
+    100348: HammerHeadBack3_end
+    100350: HammerHeadFront2_end
+    100352: HammerHeadTop2_end
+    100354: Head_end
+    100356: IK-Hand.L_end
+    100358: IK-Hand.R_end
+    100360: IK.BackArm_end
+    100362: Index3.L_end
+    100364: Index3.R.001_end
+    100366: Knee.L_end
+    100368: Knee.R_end
+    100370: Middle3.L_end
+    100372: Middle3.R.001_end
+    100374: Pinky3.L_end
+    100376: Pinky3.R.001_end
+    100378: Ring3.L_end
+    100380: Ring3.R.001_end
+    100382: Thumb3.L_end
+    100384: Thumb3.R.001_end
+    100386: Toe.L_end
+    100388: Toe.R_end
     400000: _01_-_TransN
     400002: _02_-_RotN
     400004: _03_-_HipN
@@ -341,6 +367,32 @@ ModelImporter:
     400332: Upper Arm.R.001
     400334: UpperLeg.L
     400336: UpperLeg.R
+    400338: BackArmElbow_end
+    400340: Barrel_end
+    400342: Elbow.L_end
+    400344: Elbow.R_end
+    400346: HammerBottom_end
+    400348: HammerHeadBack3_end
+    400350: HammerHeadFront2_end
+    400352: HammerHeadTop2_end
+    400354: Head_end
+    400356: IK-Hand.L_end
+    400358: IK-Hand.R_end
+    400360: IK.BackArm_end
+    400362: Index3.L_end
+    400364: Index3.R.001_end
+    400366: Knee.L_end
+    400368: Knee.R_end
+    400370: Middle3.L_end
+    400372: Middle3.R.001_end
+    400374: Pinky3.L_end
+    400376: Pinky3.R.001_end
+    400378: Ring3.L_end
+    400380: Ring3.R.001_end
+    400382: Thumb3.L_end
+    400384: Thumb3.R.001_end
+    400386: Toe.L_end
+    400388: Toe.R_end
     2100000: matDedede
     4300000: meshDedede
     4300002: meshDededeHammer

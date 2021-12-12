@@ -260,8 +260,8 @@ namespace EnforcerPlugin {
             shotgunShell = MainAssetBundle.LoadAsset<GameObject>("ShotgunShell");
             superShotgunShell = MainAssetBundle.LoadAsset<GameObject>("SuperShotgunShell");
 
-            shotgunShell.AddComponent<Enforcer.EnforcerShellController>();
-            superShotgunShell.AddComponent<Enforcer.EnforcerShellController>();
+            shotgunShell.AddComponent<Enforcer.ShotgunShellController>();
+            superShotgunShell.AddComponent<Enforcer.ShotgunShellController>();
 
             shieldBashFX = Assets.LoadEffect("ShieldBashFX", "", MainAssetBundle);
             shoulderBashFX = Assets.LoadEffect("ShoulderBashFX", "", MainAssetBundle);

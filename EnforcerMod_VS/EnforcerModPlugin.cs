@@ -21,7 +21,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-namespace EnforcerPlugin {
+namespace EnforcerPlugin
+{
 
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.DestroyedClone.AncientScepter", BepInDependency.DependencyFlags.SoftDependency)]
@@ -807,7 +808,7 @@ namespace EnforcerPlugin {
                 if (GameObject.Find("EscapeSequenceController")) {
                     if (GameObject.Find("EscapeSequenceController").transform.Find("EscapeSequenceObjects")) {
                         if (GameObject.Find("EscapeSequenceController").transform.Find("EscapeSequenceObjects").transform.Find("SmoothFrog")) {
-                            GameObject.Find("EscapeSequenceController").transform.Find("EscapeSequenceObjects").transform.Find("SmoothFrog").gameObject.AddComponent<EnforcerFrogComponent>();
+                            GameObject.Find("EscapeSequenceController").transform.Find("EscapeSequenceObjects").transform.Find("SmoothFrog").gameObject.AddComponent<FrogComponent>();
                         }
                     }
                 }

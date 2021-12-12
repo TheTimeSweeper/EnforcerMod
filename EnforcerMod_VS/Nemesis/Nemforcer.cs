@@ -84,16 +84,13 @@ namespace EnforcerPlugin {
             });
         }
 
-        private static GameObject CreateModel(GameObject main, int index)
+        private static GameObject CreateModel(GameObject main, string mdlName)
         {
             EnforcerModPlugin.Destroy(main.transform.Find("ModelBase").gameObject);
             EnforcerModPlugin.Destroy(main.transform.Find("CameraPivot").gameObject);
             EnforcerModPlugin.Destroy(main.transform.Find("AimOrigin").gameObject);
 
-            GameObject model = null;
-
-            if (index == 0) model = Assets.MainAssetBundle.LoadAsset<GameObject>("mdlNemforcer");
-            else if (index == 1) model = Assets.MainAssetBundle.LoadAsset<GameObject>("NemforcerDisplay");
+            GameObject model = Assets.MainAssetBundle.LoadAsset<GameObject>(mdlName);
 
             return GameObject.Instantiate(model);
         }
@@ -163,7 +160,7 @@ namespace EnforcerPlugin {
 
             characterPrefab.GetComponent<NetworkIdentity>().localPlayerAuthority = true;
 
-            GameObject model = CreateModel(characterPrefab, 0);
+            GameObject model = CreateModel(characterPrefab, "mdlNemforcer");
 
             GameObject gameObject = new GameObject("ModelBase");
             gameObject.transform.parent = characterPrefab.transform;
@@ -1994,7 +1991,7 @@ namespace EnforcerPlugin {
 
             dededePrefab.GetComponent<NetworkIdentity>().localPlayerAuthority = true;
 
-            GameObject model = CreateModel(dededePrefab, 0);
+            GameObject model = CreateModel(dededePrefab, "mdlNemforcer");
 
             GameObject gameObject = new GameObject("ModelBase");
             gameObject.transform.parent = dededePrefab.transform;
