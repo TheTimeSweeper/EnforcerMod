@@ -110,7 +110,7 @@ namespace EnforcerPlugin {
             {
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>().material,
+                    defaultMaterial = Assets.CreateNemMaterial("matNemforcer", 5f, Color.white, 0),
                     renderer = childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
@@ -131,7 +131,7 @@ namespace EnforcerPlugin {
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("GrenadeR").GetComponentInChildren<MeshRenderer>().material,
+                    defaultMaterial = Assets.CreateNemMaterial("matNemforcer", 5f, Color.white, 0),
                     renderer = childLocator.FindChild("GrenadeR").GetComponentInChildren<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = true
@@ -279,7 +279,7 @@ namespace EnforcerPlugin {
             {
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>().material,
+                    defaultMaterial = Assets.CreateNemMaterial("matNemforcer", 5f, Color.white, 0),
                     renderer = childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
@@ -308,7 +308,7 @@ namespace EnforcerPlugin {
                 //keep body last for teleporter particles
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>().material,
+                    defaultMaterial = Assets.CreateNemMaterial("matNemforcer", 5f, Color.white, 0),
                     renderer = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false

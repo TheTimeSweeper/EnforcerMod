@@ -31,13 +31,19 @@ namespace EnforcerPlugin {
             LanguageAPI.Add("NEMFORCERBODY_MINECRAFT_SKIN_NAME", "Minecraft");
 
             #region DefaultSkin
-            Skins.SkinDefInfo skinDefInfo = default(Skins.SkinDefInfo);
-            skinDefInfo.BaseSkins = Array.Empty<SkinDef>();
-            skinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
-            skinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
-            skinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
-            skinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerAchievement");
-            skinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            Skins.SkinDefInfo defaultSkinDefInfo = default(Skins.SkinDefInfo);
+            defaultSkinDefInfo.Name = "NEMFORCERBODY_DEFAULT_SKIN_NAME";
+            defaultSkinDefInfo.NameToken = "NEMFORCERBODY_DEFAULT_SKIN_NAME";
+            defaultSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerAchievement");
+            defaultSkinDefInfo.UnlockableDef = null;
+
+            defaultSkinDefInfo.RootObject = model;
+            defaultSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            defaultSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            defaultSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+
+            defaultSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+            defaultSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
                 new SkinDef.MeshReplacement
                 {
@@ -50,32 +56,25 @@ namespace EnforcerPlugin {
                     mesh = characterModel.baseRendererInfos[0].renderer.GetComponent<SkinnedMeshRenderer>().sharedMesh
                 }
             };
-            skinDefInfo.Name = "NEMFORCERBODY_DEFAULT_SKIN_NAME";
-            skinDefInfo.NameToken = "NEMFORCERBODY_DEFAULT_SKIN_NAME";
-            skinDefInfo.RendererInfos = characterModel.baseRendererInfos;
-            skinDefInfo.RootObject = model;
-            skinDefInfo.UnlockableDef = null;
+            defaultSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[characterModel.baseRendererInfos.Length];
+            characterModel.baseRendererInfos.CopyTo(defaultSkinDefInfo.RendererInfos, 0);
 
-            CharacterModel.RendererInfo[] rendererInfos = skinDefInfo.RendererInfos;
-            CharacterModel.RendererInfo[] array = new CharacterModel.RendererInfo[rendererInfos.Length];
-            rendererInfos.CopyTo(array, 0);
-
-            Material material = array[0].defaultMaterial;
-            array[0].defaultMaterial = Assets.CreateNemMaterial("matNemforcer", 5f, Color.white, 0);
-            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matNemforcer", 5f, Color.white, 0);
-
-            skinDefInfo.RendererInfos = array;
-
-            SkinDef defaultSkin = Skins.CreateSkinDef(skinDefInfo);
+            SkinDef defaultSkinDef = Skins.CreateSkinDef(defaultSkinDefInfo);
             #endregion
 
             #region ClassicSkin
             Skins.SkinDefInfo classicSkinDefInfo = default(Skins.SkinDefInfo);
+            classicSkinDefInfo.Name = "NEMFORCERBODY_CLASSIC_SKIN_NAME";
+            classicSkinDefInfo.NameToken = "NEMFORCERBODY_CLASSIC_SKIN_NAME";
+            classicSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerMastery");
+            classicSkinDefInfo.UnlockableDef = EnforcerUnlockables.nemMasteryUnlockableDef;
+            classicSkinDefInfo.RootObject = model;
+
             classicSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             classicSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             classicSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+
             classicSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
-            classicSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerMastery");
 
             classicSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
@@ -90,70 +89,28 @@ namespace EnforcerPlugin {
                     mesh = Assets.nemClassicHammerMesh
                 }
             };
-            classicSkinDefInfo.Name = "NEMFORCERBODY_CLASSIC_SKIN_NAME";
-            classicSkinDefInfo.NameToken = "NEMFORCERBODY_CLASSIC_SKIN_NAME";
-            classicSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
-            classicSkinDefInfo.RootObject = model;
-            classicSkinDefInfo.UnlockableDef = EnforcerUnlockables.nemMasteryUnlockableDef;
+            classicSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[defaultSkinDefInfo.RendererInfos.Length];
+            defaultSkinDefInfo.RendererInfos.CopyTo(classicSkinDefInfo.RendererInfos, 0);
 
-            rendererInfos = skinDefInfo.RendererInfos;
-            array = new CharacterModel.RendererInfo[rendererInfos.Length];
-            rendererInfos.CopyTo(array, 0);
-
-            array[0].defaultMaterial = Assets.CreateNemMaterial("matNemforcerClassic", 5f, Color.white, 0);
-            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matNemforcerClassic", 5f, Color.white, 0);
-
-            classicSkinDefInfo.RendererInfos = array;
+            classicSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateNemMaterial("matNemforcerClassic", 5f, Color.white, 0);
+            classicSkinDefInfo.RendererInfos[classicSkinDefInfo.RendererInfos.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matNemforcerClassic", 5f, Color.white, 0);
 
             SkinDef classicSkin = Skins.CreateSkinDef(classicSkinDefInfo);
             #endregion
 
-            #region EnforcerSkin
-            Skins.SkinDefInfo altSkinDefInfo = default(Skins.SkinDefInfo);
-            altSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
-            altSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
-            altSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
-            altSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
-            altSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerEnforcer");
-
-            altSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
-            {
-                new SkinDef.MeshReplacement
-                {
-                    renderer = mainRenderer,
-                    mesh = Assets.nemAltMesh
-                },
-                new SkinDef.MeshReplacement
-                {
-                    renderer = characterModel.baseRendererInfos[0].renderer,
-                    mesh = characterModel.baseRendererInfos[0].renderer.GetComponent<SkinnedMeshRenderer>().sharedMesh
-                }
-            };
-            altSkinDefInfo.Name = "NEMFORCERBODY_ENFORCER_SKIN_NAME";
-            altSkinDefInfo.NameToken = "NEMFORCERBODY_ENFORCER_SKIN_NAME";
-            altSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
-            altSkinDefInfo.RootObject = model;
-            altSkinDefInfo.UnlockableDef = null;
-
-            rendererInfos = skinDefInfo.RendererInfos;
-            array = new CharacterModel.RendererInfo[rendererInfos.Length];
-            rendererInfos.CopyTo(array, 0);
-
-            array[0].defaultMaterial = Assets.CreateNemMaterial("matNemforcerAlt", 5f, Color.white, 0);
-            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matNemforcerAlt", 5f, Color.white, 0);
-
-            altSkinDefInfo.RendererInfos = array;
-
-            SkinDef altSkin = Skins.CreateSkinDef(altSkinDefInfo);
-            #endregion
-
             #region TyphoonSkin
             Skins.SkinDefInfo typhoonSkinDefInfo = default(Skins.SkinDefInfo);
+            typhoonSkinDefInfo.Name = "NEMFORCERBODY_TYPHOON_SKIN_NAME";
+            typhoonSkinDefInfo.NameToken = "NEMFORCERBODY_TYPHOON_SKIN_NAME";
+            typhoonSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerGrandMastery");
+            typhoonSkinDefInfo.UnlockableDef = EnforcerUnlockables.nemGrandMasteryUnlockableDef;
+            typhoonSkinDefInfo.RootObject = model;
+
             typhoonSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             typhoonSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             typhoonSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+
             typhoonSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
-            typhoonSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerGrandMastery");
 
             typhoonSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
@@ -168,32 +125,58 @@ namespace EnforcerPlugin {
                     mesh = Assets.nemHammerMeshGM
                 }
             };
-            typhoonSkinDefInfo.Name = "NEMFORCERBODY_TYPHOON_SKIN_NAME";
-            typhoonSkinDefInfo.NameToken = "NEMFORCERBODY_TYPHOON_SKIN_NAME";
-            typhoonSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
-            typhoonSkinDefInfo.RootObject = model;
-            typhoonSkinDefInfo.UnlockableDef = null;
-
-            rendererInfos = skinDefInfo.RendererInfos;
-            array = new CharacterModel.RendererInfo[rendererInfos.Length];
-            rendererInfos.CopyTo(array, 0);
-
-            array[0].defaultMaterial = Assets.CreateNemMaterial("matNemforcer", 5f, Color.white, 0);
-            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matNemforcer", 5f, Color.white, 0);
-
-            typhoonSkinDefInfo.RendererInfos = array;
+            typhoonSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[characterModel.baseRendererInfos.Length];
+            characterModel.baseRendererInfos.CopyTo(typhoonSkinDefInfo.RendererInfos, 0);
 
             SkinDef typhoonSkin = Skins.CreateSkinDef(typhoonSkinDefInfo);
             ultraSkin = typhoonSkin;
             #endregion
 
+            #region EnforcerSkin
+            Skins.SkinDefInfo altSkinDefInfo = default(Skins.SkinDefInfo);
+            altSkinDefInfo.Name = "NEMFORCERBODY_ENFORCER_SKIN_NAME";
+            altSkinDefInfo.NameToken = "NEMFORCERBODY_ENFORCER_SKIN_NAME";
+            altSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerEnforcer");
+            altSkinDefInfo.UnlockableDef = null;
+            altSkinDefInfo.RootObject = model;
+
+            altSkinDefInfo.BaseSkins = new SkinDef[] { defaultSkinDef };
+            altSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            altSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+
+            altSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+
+            altSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                new SkinDef.MeshReplacement
+                {
+                    renderer = mainRenderer,
+                    mesh = Assets.nemAltMesh
+                },
+            };
+
+            altSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[characterModel.baseRendererInfos.Length];
+            characterModel.baseRendererInfos.CopyTo(altSkinDefInfo.RendererInfos, 0);
+
+            altSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateNemMaterial("matNemforcerAlt", 5f, Color.white, 0);
+            altSkinDefInfo.RendererInfos[altSkinDefInfo.RendererInfos.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matNemforcerAlt", 5f, Color.white, 0);
+
+            SkinDef altSkin = Skins.CreateSkinDef(altSkinDefInfo);
+            #endregion
+
             #region DripSkin
             Skins.SkinDefInfo dripSkinDefInfo = default(Skins.SkinDefInfo);
+            dripSkinDefInfo.Name = "NEMFORCERBODY_DRIP_SKIN_NAME";
+            dripSkinDefInfo.NameToken = "NEMFORCERBODY_DRIP_SKIN_NAME";
+            dripSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerDrip");
+            dripSkinDefInfo.UnlockableDef = null;
+            dripSkinDefInfo.RootObject = model;
+
             dripSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             dripSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             dripSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+
             dripSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
-            dripSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerDrip");
 
             dripSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
@@ -208,30 +191,34 @@ namespace EnforcerPlugin {
                     mesh = Assets.nemDripHammerMesh
                 }
             };
-            dripSkinDefInfo.Name = "NEMFORCERBODY_DRIP_SKIN_NAME";
-            dripSkinDefInfo.NameToken = "NEMFORCERBODY_DRIP_SKIN_NAME";
-            dripSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
-            dripSkinDefInfo.RootObject = model;
-            dripSkinDefInfo.UnlockableDef = null;
+            dripSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[characterModel.baseRendererInfos.Length];
+            characterModel.baseRendererInfos.CopyTo(dripSkinDefInfo.RendererInfos, 0);
 
-            rendererInfos = skinDefInfo.RendererInfos;
-            array = new CharacterModel.RendererInfo[rendererInfos.Length];
-            rendererInfos.CopyTo(array, 0);
-
-            array[0].defaultMaterial = Assets.CreateNemMaterial("matDripforcer", 5f, Color.white, 0);
-            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matDripforcer", 5f, Color.white, 0);
-
-            dripSkinDefInfo.RendererInfos = array;
+            dripSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateNemMaterial("matDripforcer", 5f, Color.white, 0);
+            dripSkinDefInfo.RendererInfos[dripSkinDefInfo.RendererInfos.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matDripforcer", 5f, Color.white, 0);
 
             SkinDef dripSkin = Skins.CreateSkinDef(dripSkinDefInfo);
             #endregion
 
             #region DededeSkin
             Skins.SkinDefInfo dededeSkinDefInfo = default(Skins.SkinDefInfo);
+            dededeSkinDefInfo.Name = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
+            dededeSkinDefInfo.NameToken = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
+            dededeSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texDededeSkin");
+            dededeSkinDefInfo.UnlockableDef = null;
+            dededeSkinDefInfo.RootObject = model;
+
             dededeSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             dededeSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+
+            dededeSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[] {
+                new SkinDef.ProjectileGhostReplacement{
+                    projectilePrefab = NemforcerPlugin.hammerProjectile,
+                    projectileGhostReplacementPrefab = NemforcerPlugin.gordoProjectileGhost
+                }
+            };
+
             dededeSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
-            dededeSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texDededeSkin");
 
             dededeSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
@@ -246,37 +233,31 @@ namespace EnforcerPlugin {
                     mesh = Assets.dededeHammerMesh
                 }
             };
-            dededeSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[] {
-                new SkinDef.ProjectileGhostReplacement{
-                    projectilePrefab = NemforcerPlugin.hammerProjectile,
-                    projectileGhostReplacementPrefab = NemforcerPlugin.gordoProjectileGhost
-                }
-            };
 
-            dededeSkinDefInfo.Name = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
-            dededeSkinDefInfo.NameToken = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
             dededeSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
-            dededeSkinDefInfo.RootObject = model;
-            dededeSkinDefInfo.UnlockableDef = null;
 
-            rendererInfos = skinDefInfo.RendererInfos;
-            array = new CharacterModel.RendererInfo[rendererInfos.Length];
-            rendererInfos.CopyTo(array, 0);
+            dededeSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[characterModel.baseRendererInfos.Length];
+            characterModel.baseRendererInfos.CopyTo(dededeSkinDefInfo.RendererInfos, 0);
 
-            array[0].defaultMaterial = Assets.CreateNemMaterial("matDedede");
-            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matDedede");
-
-            dededeSkinDefInfo.RendererInfos = array;
+            dededeSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateNemMaterial("matDedede");
+            dededeSkinDefInfo.RendererInfos[dededeSkinDefInfo.RendererInfos.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matDedede");
 
             SkinDef dededeSkin = Skins.CreateSkinDef(dededeSkinDefInfo);
             #endregion
 
+            //hold on
             #region DededeBossSkin
             Skins.SkinDefInfo dededeBossSkinDefInfo = default(Skins.SkinDefInfo);
-            dededeBossSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
-            dededeBossSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
-            dededeBossSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+            dededeBossSkinDefInfo.Name = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
+            dededeBossSkinDefInfo.NameToken = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
             dededeBossSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texDededeSkin");
+            dededeBossSkinDefInfo.UnlockableDef = null;
+            dededeBossSkinDefInfo.RootObject = model;
+
+            dededeBossSkinDefInfo.BaseSkins = new SkinDef[] {dededeSkin };
+            dededeBossSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            dededeBossSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+            dededeBossSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
 
             dededeBossSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
@@ -285,44 +266,26 @@ namespace EnforcerPlugin {
                     renderer = mainRenderer,
                     mesh = Assets.dededeBossMesh
                 },
-                new SkinDef.MeshReplacement
-                {
-                    renderer = characterModel.baseRendererInfos[0].renderer,
-                    mesh = Assets.dededeHammerMesh
-                }
-            };
-            dededeBossSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[] {
-                new SkinDef.ProjectileGhostReplacement{
-                    projectilePrefab = NemforcerPlugin.hammerProjectile,
-                    projectileGhostReplacementPrefab = NemforcerPlugin.gordoProjectileGhost
-                }
             };
 
-            dededeBossSkinDefInfo.Name = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
-            dededeBossSkinDefInfo.NameToken = "NEMFORCERBODY_DEDEDE_SKIN_NAME";
-            dededeBossSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
-            dededeBossSkinDefInfo.RootObject = model;
-            dededeBossSkinDefInfo.UnlockableDef = null;
-
-            rendererInfos = skinDefInfo.RendererInfos;
-            array = new CharacterModel.RendererInfo[rendererInfos.Length];
-            rendererInfos.CopyTo(array, 0);
-
-            array[0].defaultMaterial = Assets.CreateNemMaterial("matDedede");
-            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matDedede");
-
-            dededeBossSkinDefInfo.RendererInfos = array;
+            dededeBossSkinDefInfo.RendererInfos = dededeSkinDefInfo.RendererInfos;
 
             dededeBossSkin = Skins.CreateSkinDef(dededeBossSkinDefInfo);
             #endregion
 
             #region MinecraftSkin
             Skins.SkinDefInfo minecraftSkinDefInfo = default(Skins.SkinDefInfo);
+            minecraftSkinDefInfo.Name = "NEMFORCERBODY_MINECRAFT_SKIN_NAME";
+            minecraftSkinDefInfo.NameToken = "NEMFORCERBODY_MINECRAFT_SKIN_NAME";
+            minecraftSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerMinecraftShit");
+            minecraftSkinDefInfo.UnlockableDef = null;
+            minecraftSkinDefInfo.RootObject = model;
+
             minecraftSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
             minecraftSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             minecraftSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+
             minecraftSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
-            minecraftSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerMinecraftShit");
 
             minecraftSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
             {
@@ -337,38 +300,24 @@ namespace EnforcerPlugin {
                     mesh = Assets.minecraftHammerMesh
                 }
             };
-            minecraftSkinDefInfo.Name = "NEMFORCERBODY_MINECRAFT_SKIN_NAME";
-            minecraftSkinDefInfo.NameToken = "NEMFORCERBODY_MINECRAFT_SKIN_NAME";
             minecraftSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
-            minecraftSkinDefInfo.RootObject = model;
-            minecraftSkinDefInfo.UnlockableDef = null;
 
-            rendererInfos = skinDefInfo.RendererInfos;
-            array = new CharacterModel.RendererInfo[rendererInfos.Length];
-            rendererInfos.CopyTo(array, 0);
+            minecraftSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[characterModel.baseRendererInfos.Length];
+            characterModel.baseRendererInfos.CopyTo(minecraftSkinDefInfo.RendererInfos, 0);
 
-            array[0].defaultMaterial = Assets.CreateNemMaterial("matMinecraftNem", 5f, Color.white, 0);
-            array[array.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matMinecraftNem", 5f, Color.white, 0);
-
-            minecraftSkinDefInfo.RendererInfos = array;
+            minecraftSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateNemMaterial("matMinecraftNem", 5f, Color.white, 0);
+            minecraftSkinDefInfo.RendererInfos[minecraftSkinDefInfo.RendererInfos.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matMinecraftNem", 5f, Color.white, 0);
 
             SkinDef minecraftSkin = Skins.CreateSkinDef(minecraftSkinDefInfo);
             #endregion
 
-            var skinDefs = new List<SkinDef>();
-
-            skinDefs = new List<SkinDef>()
+            List<SkinDef> skinDefs = new List<SkinDef>()
             {
-                defaultSkin,
-                classicSkin
+                defaultSkinDef,
+                classicSkin,
+                typhoonSkin,
+                altSkin
             };
-
-            if (EnforcerModPlugin.starstormInstalled)
-            {
-                skinDefs.Add(typhoonSkin);
-            }
-
-            skinDefs.Add(altSkin);
 
             if (Config.cursed.Value)
             {

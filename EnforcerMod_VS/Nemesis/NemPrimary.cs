@@ -63,7 +63,7 @@ namespace EntityStates.Nemforcer
 
             NetworkSoundEventDef hitSound = EnforcerPlugin.Assets.nemHammerHitSoundEvent;
 
-            if (base.characterBody.skinIndex == 2 && EnforcerPlugin.EnforcerModPlugin.starstormInstalled) hitSound = EnforcerPlugin.Assets.nemAxeHitSoundEvent;
+            if (base.characterBody.skinIndex == 2) hitSound = EnforcerPlugin.Assets.nemAxeHitSoundEvent;
 
             float dmg = HammerSwing.damageCoefficient;
 
@@ -75,7 +75,7 @@ namespace EntityStates.Nemforcer
             this.attack.damage = dmg * this.damageStat;
             this.attack.procCoefficient = 1;
             this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemImpactFX;
-            if (base.characterBody.skinIndex == 2 && EnforcerPlugin.EnforcerModPlugin.starstormInstalled) this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemAxeImpactFX;
+            if (base.characterBody.skinIndex == 2) this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemAxeImpactFX;
             this.attack.forceVector = Vector3.zero;
             this.attack.pushAwayForce = 1800f;
             this.attack.hitBoxGroup = hitBoxGroup;
@@ -139,7 +139,7 @@ namespace EntityStates.Nemforcer
                 if (this.nemController && this.attack.isCrit) this.nemController.hammerBurst.Play();
 
                 string soundString = EnforcerPlugin.Sounds.NemesisSwing2;
-                if (base.characterBody.skinIndex == 2 && EnforcerPlugin.EnforcerModPlugin.starstormInstalled) soundString = EnforcerPlugin.Sounds.NemesisSwingAxe;
+                if (base.characterBody.skinIndex == 2) soundString = EnforcerPlugin.Sounds.NemesisSwingAxe;
                 Util.PlayAttackSpeedSound(soundString, base.gameObject, this.attackSpeedStat);
 
                 base.AddRecoil(-1f * HammerSwing.attackRecoil, -2f * HammerSwing.attackRecoil, -0.5f * HammerSwing.attackRecoil, 0.5f * HammerSwing.attackRecoil);

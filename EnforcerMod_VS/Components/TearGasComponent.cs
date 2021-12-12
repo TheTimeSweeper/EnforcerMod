@@ -9,7 +9,7 @@ namespace EnforcerPlugin {
         private int lastCount;
         private uint playID;
 
-        public static event Action<int> GasCheck = delegate { };
+        public static event Action<int> CheckImpairedCount = delegate { };
 
         private void Awake()
         {
@@ -21,6 +21,7 @@ namespace EnforcerPlugin {
         private void Fuck()
         {
             //this is gross and hacky pls someone do this a different way eventually
+                //good luck with that faget
 
             count = 0;
 
@@ -29,7 +30,8 @@ namespace EnforcerPlugin {
                 if (i && i.HasBuff(Modules.Buffs.impairedBuff)) count++;
             }
 
-            if (lastCount != count) GasCheck(count);
+            if (lastCount != count) 
+                CheckImpairedCount(count);
 
             lastCount = count;
         }

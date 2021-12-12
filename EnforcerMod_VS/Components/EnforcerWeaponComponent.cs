@@ -4,17 +4,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class fuckingChecker : MonoBehaviour {
-    void OnEnable() {
-        Debug.LogWarning("fucking enabled");
-    }
-    void OnDisable() {
-        Debug.LogWarning("fucking disabled");
-    }
-}
-
 public class EnforcerWeaponComponent : MonoBehaviour {
     public enum EquippedGun {
+        NONE = -1,
         GUN,
         SUPER,
         HMG,
@@ -23,6 +15,7 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     }
 
     public enum EquippedShield {
+        NONE = -1,
         SHIELD,
         SHIELD2, //I still believe man
         BOARD,
@@ -65,9 +58,14 @@ public class EnforcerWeaponComponent : MonoBehaviour {
 
     }
 
+    public EquippedGun currentGun = EquippedGun.NONE;
+    public EquippedShield currentShield = EquippedShield.NONE;
+
     public bool isMultiplayer;
 
     public static int maxShellCount = 12;
+    private int currentShell;
+    private GameObject[] shellObjects;
 
     public bool shieldUp;
 
@@ -86,8 +84,6 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     private HealthComponent charHealth;
     private CameraTargetParams cameraShit;
     private ChildLocator childLocator;
-    private int currentShell;
-    private GameObject[] shellObjects;
 
 
     private void Start() {
@@ -99,12 +95,11 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         this.footStep = this.GetComponentInChildren<FootstepHandler>();
         this.sfx = this.GetComponentInChildren<SfxLocator>();
 
-        shotgunObject.AddComponent<fuckingChecker>();
-
         if (this.footStep) this.stepSoundString = this.footStep.baseFootstepString;
         if (this.sfx) this.landSoundString = this.sfx.landingSound;
 
-        this.InitWeapons();
+        Debug.LogWarning("Start setWeapons");
+        this.setWeapons();
         this.InitShells();
         this.InitSkateboard();
 
@@ -113,26 +108,43 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         this.UpdateCamera();
     }
 
-    public void InitWeapons() {
-        this.HideWeapons();
+    public void setWeapons() {
+
         EquippedGun weapon = GetWeapon();
-        this.EquipWeapon(weapon);
-        this.SetCrosshair(weapon);
-        //SetWeaponDisplayRules(weapon);
+        if (weapon != currentGun) {
+            currentGun = weapon;
+
+            this.HideWeapons();
+            this.EquipWeapon(weapon);
+            this.SetCrosshair(weapon);
+            //SetWeaponDisplayRules(weapon);
+        }
 
         EquippedShield shield = GetShield();
-        this.EquipShield(shield);
-        this.SetShieldDisplayRules(shield);
+        if (shield != currentShield) {
+            currentShield = shield;
+
+            this.HideShields();
+            this.EquipShield(shield);
+            this.SetShieldDisplayRules(shield);
+        }
     }
 
     public void HideWeapons() {
         Debug.LogWarning("hidweapons");
         if (this.childLocator) {
-            shotgunObject.SetActive(false);
-            ssgobject.gameObject.SetActive(false);
-            hmgObject.SetActive(false);
-            hammerObject.SetActive(false);
-            needlerObject.SetActive(false);
+            for (int i = 0; i < allWeapons.Count; i++) {
+                allWeapons[i].SetActive(true);
+                allWeapons[i].SetActive(false);
+            }
+        }
+    }
+
+    public void HideShields()
+    {
+        Debug.LogWarning("hidshield");
+        if (this.childLocator)
+        {
             //for (int i = 0; i < allWeapons.Count; i++) {
             //    //allWeapons[i].SetActive(true);
             //    allWeapons[i].SetActive(false);
@@ -164,9 +176,9 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                 case "ENFORCER_PRIMARY_HAMMER_NAME":
                     weapon = EquippedGun.HAMMER;
                     break;
-                    //case "SKILL_LUNAR_PRIMARY_REPLACEMENT_NAME":
-                    //    weapon = EquippedGun.NEEDLER;
-                    //    break;
+                case "SKILL_LUNAR_PRIMARY_REPLACEMENT_NAME":
+                    weapon = EquippedGun.NEEDLER;
+                    break;
             }
         }
 
@@ -217,11 +229,15 @@ public class EnforcerWeaponComponent : MonoBehaviour {
 
     //called when checking for needler
     public void DelayedResetWeapon() {
+
+        Debug.LogWarning("DelayedResetWeapon");
         this.Invoke("ResetWeapon", 0.1f);
     }
 
     public void ResetWeapon() {
-        InitWeapons();
+
+        Debug.LogWarning("ResetWeapon");
+        setWeapons();
         //EquippedGun weapon = GetWeapon();
         //this.EquipWeapon(weapon);
         //this.SetCrosshair(weapon);
@@ -236,19 +252,14 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         if (this.charBody && this.charBody.skillLocator) {
             string skillString = this.charBody.skillLocator.special.skillDef.skillNameToken;
             switch (skillString) {
-                default:
-
                 case "ENFORCER_SPECIAL_SHIELDUP_NAME":
                 case "ENFORCER_SPECIAL_SHIELDDOWN_NAME":
-
                     shield = EquippedShield.SHIELD;
 
                     //if (this.charBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) 
                     //    shield = EquippedShield.SHIELD2;
-                    // skillstring = shieldon?
                     //if (this.charBody.skinIndex == EnforcerPlugin.EnforcerPlugin.engiIndex)
                     //    shield = EquippedShield.SHIELD2;
-
                     break;
 
                 case "ENFORCER_SPECIAL_SHIELDON_NAME":
@@ -259,6 +270,11 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                 case "ENFORCER_SPECIAL_BOARDUP_NAME":
                 case "ENFORCER_SPECIAL_BOARDDOWN_NAME":
                     shield = EquippedShield.BOARD;
+                    break;
+
+                default:
+                    Debug.LogWarning("noshield");
+                    shield = EquippedShield.NOTHING;
                     break;
             }
         }
@@ -278,8 +294,9 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                     shieldObject.SetActive(false);
                     break;
                 case EquippedShield.BOARD:
-                    shieldObject.SetActive(false);
                     skateBoardObject.SetActive(true);
+                    break;
+                case EquippedShield.NOTHING:
                     break;
             }
         }

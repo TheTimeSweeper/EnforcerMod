@@ -272,26 +272,6 @@ namespace EntityStates.Enforcer {
 
             //for idle anim
             //if (this.animator) this.animator.SetBool("inCombat", !base.characterBody.outOfCombat);
-
-            //visions anim
-            if (base.hasSkillLocator)
-            {
-                if (base.skillLocator.primary.skillDef.skillNameToken == "SKILL_LUNAR_PRIMARY_REPLACEMENT_NAME")
-                {
-                    if (base.inputBank.skill1.down)
-                    {
-                        float duration = GlobalSkills.LunarNeedle.FireLunarNeedle.baseDuration / this.attackSpeedStat;
-
-                        if (isShielded) {
-
-                            PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", Mathf.Max(0.069f, duration));
-                        } else {
-
-                            PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", Mathf.Max(0.05f, 1.75f * duration));
-                        }
-                    }
-                }
-            }
                 
             //skateboard
             if (base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff))

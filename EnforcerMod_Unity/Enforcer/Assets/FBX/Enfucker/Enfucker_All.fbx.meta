@@ -156,6 +156,7 @@ ModelImporter:
     100300: meshSexforcer.001
     100302: meshClassicGunHMG
     100304: Ik-Hand.R_end
+    100306: meshNemHammer
     400000: Armature
     400002: base base
     400004: Chest
@@ -309,6 +310,7 @@ ModelImporter:
     400300: meshSexforcer.001
     400302: meshClassicGunHMG
     400304: Ik-Hand.R_end
+    400306: meshNemHammer
     2100000: MatEnfucker
     2100002: MatEnfuckerGun
     2100004: MatEnfuckerShield
@@ -325,6 +327,7 @@ ModelImporter:
     2100026: MatEnfuckerSkamteBord
     2100028: MatClassicGunHMG
     2100030: MatEnfucker.001
+    2100032: MatNemHammer
     4300000: meshEnforcer
     4300002: meshEnforcerPauldron
     4300004: meshEnforcerGun
@@ -345,6 +348,7 @@ ModelImporter:
     4300034: meshEnforcerSkamteBord
     4300036: meshSexforcer.001
     4300038: meshClassicGunHMG
+    4300040: meshNemHammer
     7400000: Armature|AttachmentAction
     7400002: Armature|CameraAction
     7400004: Armature|CSS.001
@@ -394,6 +398,7 @@ ModelImporter:
     13700038: meshSexforcerShieldGlass
     13700040: meshSexforcer.001
     13700042: meshClassicGunHMG
+    13700044: meshNemHammer
     2186277476908879412: ImportLogs
   externalObjects:
   - first:

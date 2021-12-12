@@ -106,7 +106,9 @@ namespace EnforcerPlugin.Modules {
             //  = plugin.Config.Bind("01 - General Settings",
             //                       "I hate fun",
             //                       false,
-            //                       "Overrides cursed. Further disables some extra content, namely skins and their achievements");
+            //                       "Overrides cursed. Further disables extra content, namely skins and their achievements");
+            //cursed.Value |= hateFun.Value;
+
             //femSkin
             //  = plugin.Config.Bind("01 - General Settings",
             //                       "Femforcer",

@@ -4,8 +4,10 @@ public class TestValueManager : MonoBehaviour {
 
     //how do doing attributes
     //[debugfloat("valuename", KeyCode.U, KeyCode.J, 5)]
-    //would be neat
-    public static float testValue = 0.2f;
+    //would be 
+    public static float testValue = 1f;
+    public static float testValue2 = 1f;
+    public static float testValue3 = 1f;
 
     private float tim;
     private float holdTime = 0.5f;
@@ -20,8 +22,9 @@ public class TestValueManager : MonoBehaviour {
         if (!Input.GetKey(KeyCode.LeftAlt))
             return;
 
-        manageTestValue(ref testValue, "shootgun", KeyCode.Keypad7, KeyCode.Keypad4, 0.01f);
-     }
+        manageTestValue(ref testValue, "m2 slam size", KeyCode.Keypad7, KeyCode.Keypad4, 0.1f);
+        manageTestValue(ref testValue2, "m2 slam height", KeyCode.Keypad9, KeyCode.Keypad6, 0.1f);
+    }
 
     private void manageTestValue(ref float value, string valueName, KeyCode upKey, KeyCode downKey, float incrementAmount) {
 

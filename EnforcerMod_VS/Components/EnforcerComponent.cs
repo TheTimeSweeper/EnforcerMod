@@ -15,9 +15,8 @@ public class EnforcerNetworkComponent : NetworkBehaviour {
 
     [ClientRpc]
     public void RpcUhh(int skin) {
-        //fuckin nasty i'm calling this from modelskincontroller to charmodel to getcomponent body to enforcernetworkcomponent to here just to go to modeltransform to getcomponent back to modelskincontroller fuck man
+        //fuckin nasty i'm calling this from modelskincontroller > charmodel > getcomponent body > enforcernetworkcomponent > here < just to go modeltransform < getcomponent < back to modelskincontroller fuck man
         GetComponent<CharacterBody>().modelLocator.modelTransform.GetComponent<ModelSkinController>().ApplySkin(skin);
-        Debug.LogWarning("drawin dicks, drawin dicks, drawin dicks, who's been drawin");
 
         StartCoroutine(fuckthis(skin));
     }
@@ -28,8 +27,6 @@ public class EnforcerNetworkComponent : NetworkBehaviour {
     {
         yield return new WaitForSeconds(1);
         GetComponent<CharacterBody>().modelLocator.modelTransform.GetComponent<ModelSkinController>().ApplySkin(skin);
-
-        Debug.LogWarning("drawin dicks, dicks dicks dicks, drawin dicks, dicks dicks dicks");
     }
 }
 

@@ -150,7 +150,6 @@ namespace EnforcerPlugin {
 
             //touch this all you want tho
             Modules.Config.ConfigShit(this);
-            //ConfigShit();
             Modules.States.FixStates();
             Assets.PopulateAssets();
             SetupModCompat();
@@ -211,7 +210,6 @@ namespace EnforcerPlugin {
             //weapon idrs
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ItemDisplayPlacementHelper")) {
                 IDPHelperInstalled = true;
-
             }
         }
 
@@ -262,7 +260,8 @@ namespace EnforcerPlugin {
             On.RoR2.MapZone.TryZoneStart += MapZone_TryZoneStart;
             On.RoR2.HealthComponent.Suicide += HealthComponent_Suicide;
             //On.RoR2.TeleportOutController.OnStartClient += TeleportOutController_OnStartClient;
-            //On.EntityStates.Global.Skills.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
+            On.EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
+            On.RoR2.EntityStateMachine.SetState += EntityStateMachine_SetState;
         }
 
         #region Hooks
@@ -720,12 +719,15 @@ namespace EnforcerPlugin {
             orig(self, info);
         }
 
-        private void FireLaser_OnEnter(On.EntityStates.GolemMonster.FireLaser.orig_OnEnter orig, EntityStates.GolemMonster.FireLaser self) {
-            orig(self);
-
-            Ray ray = self.modifiedAimRay;
-
-            CheckEnforcerParry(ray);
+        private void EntityStateMachine_SetState(On.RoR2.EntityStateMachine.orig_SetState orig, EntityStateMachine self, EntityState newState)
+        {
+            
+            if(self.commonComponents.characterBody?.bodyIndex == BodyCatalog.FindBodyIndex("EnforcerBody"))
+            {
+                if (newState is EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle)
+                    newState = new FireNeedler();
+            }
+            orig(self, newState);
         }
 
         private void BaseState_OnEnter(On.EntityStates.BaseState.orig_OnEnter orig, BaseState self) {
@@ -744,6 +746,15 @@ namespace EnforcerPlugin {
 
                 CheckEnforcerParry(self.GetAimRay());
             }
+        }
+
+        private void FireLaser_OnEnter(On.EntityStates.GolemMonster.FireLaser.orig_OnEnter orig, EntityStates.GolemMonster.FireLaser self)
+        {
+            orig(self);
+
+            Ray ray = self.modifiedAimRay;
+
+            CheckEnforcerParry(ray);
         }
 
         private static void CheckEnforcerParry(Ray ray) {
@@ -775,15 +786,16 @@ namespace EnforcerPlugin {
         {
             // this actually didn't work, hopefully someone else can figure it out bc needler shotgun sounds badass
             // don't forget to register the state if you do :^)
-            if (self.outer.commonComponents.characterBody)
+            if (false)//self.outer.commonComponents.characterBody)
             {
-                if (self.outer.commonComponents.characterBody.baseNameToken == "ENFORCER_NAME")
+                if (self.outer.commonComponents.characterBody.bodyIndex == BodyCatalog.FindBodyIndex("EnforcerBody"))
                 {
                     self.outer.SetNextState(new FireNeedler());
+                    Debug.Log("uh");
                     return;
                 }
             }
-
+            
             orig(self);
         }
 
@@ -1110,8 +1122,9 @@ namespace EnforcerPlugin {
             bodyComponent.skinIndex = 0U;
             bodyComponent.bodyColor = characterColor;
             bodyComponent.spreadBloomDecayTime = 0.7f;
-
+            
             Modules.States.AddSkill(typeof(EnforcerMain));
+            Modules.States.AddSkill(typeof(FireNeedler));
 
             EntityStateMachine stateMachine = bodyComponent.GetComponent<EntityStateMachine>();
             stateMachine.mainStateType = new SerializableEntityStateType(typeof(EnforcerMain));
@@ -2173,7 +2186,7 @@ namespace EnforcerPlugin {
             Modules.Skills.RegisterSkillDef(utilityDef2, typeof(StunGrenade));
 
             SkillFamily.Variant utilityVariant1 = Modules.Skills.SetupSkillVariant(utilityDef1);
-            SkillFamily.Variant utilityVariant2 = Modules.Skills.SetupSkillVariant(utilityDef2, null);
+            SkillFamily.Variant utilityVariant2 = Modules.Skills.SetupSkillVariant(utilityDef2, EnforcerUnlockables.enforcerStunGrenadeUnlockableDef);
 
             _skillLocator.utility = Modules.Skills.RegisterSkillsToFamily(characterPrefab, "EnforcerUtility", utilityVariant1, utilityVariant2);
         }

@@ -11,15 +11,15 @@ namespace EnforcerPlugin.Achievements
         public abstract string AchievementSpriteName { get; }
         public abstract float RequiredDifficultyCoefficient { get;}
         public abstract string RequiredCharacterBody { get; }
-        public abstract string PrerequisiteTokenPrefix { get; }
+        public abstract string PrerequisiteIdentifier { get; }
         //public CharacterBody RequiredCharacterBody { get; }
 
-        public override string AchievementIdentifier { get => AchievementTokenPrefix + "MASTERYUNLOCKABLE_ACHIEVEMENT_ID"; }
-        public override string UnlockableIdentifier { get => AchievementTokenPrefix + "MASTERYUNLOCKABLE_REWARD_ID"; }
-        public override string PrerequisiteUnlockableIdentifier { get => PrerequisiteTokenPrefix + "CHARACTERUNLOCKABLE_ACHIEVEMENT_ID"; }
-        public override string AchievementNameToken { get => AchievementTokenPrefix + "MASTERYUNLOCKABLE_ACHIEVEMENT_NAME"; }
-        public override string AchievementDescToken { get => AchievementTokenPrefix + "MASTERYUNLOCKABLE_ACHIEVEMENT_DESC"; }
-        public override string UnlockableNameToken { get => AchievementTokenPrefix + "MASTERYUNLOCKABLE_UNLOCKABLE_NAME"; }
+        public override string AchievementIdentifier { get => AchievementTokenPrefix + "UNLOCKABLE_ACHIEVEMENT_ID"; }
+        public override string UnlockableIdentifier { get => AchievementTokenPrefix + "UNLOCKABLE_REWARD_ID"; }
+        public override string PrerequisiteUnlockableIdentifier { get => PrerequisiteIdentifier; }
+        public override string AchievementNameToken { get => AchievementTokenPrefix + "UNLOCKABLE_ACHIEVEMENT_NAME"; }
+        public override string AchievementDescToken { get => AchievementTokenPrefix + "UNLOCKABLE_ACHIEVEMENT_DESC"; }
+        public override string UnlockableNameToken { get => AchievementTokenPrefix + "UNLOCKABLE_UNLOCKABLE_NAME"; }
 
         public override Sprite Sprite { get => Assets.MainAssetBundle.LoadAsset<Sprite>(AchievementSpriteName); }
 
@@ -29,8 +29,8 @@ namespace EnforcerPlugin.Achievements
             {
                 return () => Language.GetStringFormatted("UNLOCK_VIA_ACHIEVEMENT_FORMAT", new object[]
                             {
-                                Language.GetString(AchievementTokenPrefix + "MASTERYUNLOCKABLE_ACHIEVEMENT_NAME"),
-                                Language.GetString(AchievementTokenPrefix + "MASTERYUNLOCKABLE_ACHIEVEMENT_DESC")
+                                Language.GetString(AchievementTokenPrefix + "UNLOCKABLE_ACHIEVEMENT_NAME"),
+                                Language.GetString(AchievementTokenPrefix + "UNLOCKABLE_ACHIEVEMENT_DESC")
                             });
             }
         }
@@ -40,8 +40,8 @@ namespace EnforcerPlugin.Achievements
             {
                 return () => Language.GetStringFormatted("UNLOCKED_FORMAT", new object[]
                             {
-                                Language.GetString(AchievementTokenPrefix + "MASTERYUNLOCKABLE_ACHIEVEMENT_NAME"),
-                                Language.GetString(AchievementTokenPrefix + "MASTERYUNLOCKABLE_ACHIEVEMENT_DESC")
+                                Language.GetString(AchievementTokenPrefix + "UNLOCKABLE_ACHIEVEMENT_NAME"),
+                                Language.GetString(AchievementTokenPrefix + "UNLOCKABLE_ACHIEVEMENT_DESC")
                             });
             }
         }

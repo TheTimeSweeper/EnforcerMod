@@ -1,25 +1,25 @@
-﻿using System;
-using UnityEngine;
-using RoR2;
+﻿using RoR2;
 using R2API;
 using EnforcerPlugin.Achievements;
-using ModdedUnlockable = Enforcer.Modules.ModdedUnlockable;
 using Unlockables = Enforcer.Modules.Unlockables;
 
-namespace EnforcerPlugin.Modules {
+namespace EnforcerPlugin.Modules
+{
     public static class EnforcerUnlockables {
 
         public static UnlockableDef enforcerUnlockableDef;
         public static UnlockableDef enforcerMasteryUnlockableDef;
+        public static UnlockableDef enforcerGrandMasteryUnlockableDef;
 
         public static UnlockableDef enforcerARUnlockableDef;
         public static UnlockableDef enforcerDoomUnlockableDef;
-        //public static UnlockableDef enforcerStunGrenadeUnlockableDef;
+        public static UnlockableDef enforcerStunGrenadeUnlockableDef;
 
         public static UnlockableDef enforcerRobitUnlockableDef;
 
         public static UnlockableDef nemesisUnlockableDef;
         public static UnlockableDef nemMasteryUnlockableDef;
+        public static UnlockableDef nemGrandMasteryUnlockableDef;
 
         public static void RegisterUnlockables() {
             RegisterTokens();
@@ -30,61 +30,38 @@ namespace EnforcerPlugin.Modules {
             //      fucking it was never merged in i'm reeing so hard right now
             enforcerUnlockableDef = Config.forceUnlock.Value ? null : Unlockables.AddUnlockable<EnforcerUnlockAchievement>(typeof(EnforcerUnlockAchievement.EnforcerUnlockAchievementServer));
             enforcerMasteryUnlockableDef = Unlockables.AddUnlockable<MasteryAchievementButEpic>();
-
+            enforcerGrandMasteryUnlockableDef = Unlockables.AddUnlockable<GrandMasteryAchievement>();
+            
             enforcerDoomUnlockableDef = Unlockables.AddUnlockable<DoomAchievement>(typeof(DoomAchievement.DoomAchievementServer));
             enforcerARUnlockableDef = Unlockables.AddUnlockable<AssaultRifleAchievement>();
+            enforcerStunGrenadeUnlockableDef = Unlockables.AddUnlockable<StunGrenadeAchievement>();
 
             enforcerRobitUnlockableDef = Unlockables.AddUnlockable<RobitAchievement>(typeof(RobitAchievement.RobitAchievementServer));
-            
-            //if (Config.cursed.Value)
+
+            //if (!Config.hateFun.Value)
             //{
             //    UnlockablesAPI.AddUnlockable<Achievements.BungusAchievement>(true);
             //    UnlockablesAPI.AddUnlockable<Achievements.StormtrooperAchievement>(true);
+            //}
+
+            //if (Config.cursed.Value)
+            //{
             //    UnlockablesAPI.AddUnlockable<Achievements.FrogAchievement>(true);
             //    UnlockablesAPI.AddUnlockable<Achievements.SteveAchievement>(true);
             //}
 
-            //enforcerStunGrenadeUnlockableDef = Unlockables.AddUnlockable<StunGrenadeAchievement>();
-
-            //UnlockablesAPI.AddUnlockable<Achievements.SuperShotgunAchievement>(true);
             //UnlockablesAPI.AddUnlockable<Achievements.DesperadoAchievement>(true);
             //UnlockablesAPI.AddUnlockable<Achievements.NemesisSkinAchievement>(true);
 
-            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_NAME", "???");
-            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC", "On monsoon, stabilize the anomaly, and defeat Enforcer's Vestige.");
-            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_UNLOCKABLE_NAME", "???");
-
-            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Mastery");
-            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Monsoon.");
-            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Mastery");
-
-            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Demolition");
-            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, destroy 5 projectiles at once with Dominance.");
-            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Demolition");
-
             nemesisUnlockableDef = Unlockables.AddUnlockable<NemesisAchievement>();
             nemMasteryUnlockableDef = Unlockables.AddUnlockable<NemMasteryAchievement>();
+            nemGrandMasteryUnlockableDef = Unlockables.AddUnlockable<NemGrandMasteryAchievement>();
             //    UnlockablesAPI.AddUnlockable<Achievements.NemDominanceAchievement>(true);
-
-            //    if (EnforcerPlugin.starstormInstalled)
-            //    {
-            //        LanguageAPI.Add("ENFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Grand Mastery");
-            //        LanguageAPI.Add("ENFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Typhoon.");
-            //        LanguageAPI.Add("ENFORCER_TYPHOONUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Grand Mastery");
-            //        UnlockablesAPI.AddUnlockable<Achievements.NemGrandMasteryAchievement>(true);
-
-            //        LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Grand Mastery");
-            //        LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Typhoon.");
-            //        LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Grand Mastery");
-
-            //        UnlockablesAPI.AddUnlockable<Achievements.GrandMasteryAchievement>(true);
-            //    }
-
         }
 
         private static void RegisterTokens()
         {
-
+            #region enf
             //character
             LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME", "Riot");
             LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC", "Kill a Magma Worm, a Wandering Vagrant and a Stone Titan in a single run.");
@@ -93,6 +70,10 @@ namespace EnforcerPlugin.Modules {
             LanguageAPI.Add("ENFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Mastery");
             LanguageAPI.Add("ENFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Monsoon.");
             LanguageAPI.Add("ENFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Mastery");
+
+            LanguageAPI.Add("ENFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Grand Mastery");
+            LanguageAPI.Add("ENFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Typhoon. (requires any difficulty higher than monsoon)");
+            LanguageAPI.Add("ENFORCER_TYPHOONUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Grand Mastery");
 
             //skills
             LanguageAPI.Add("ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Rip and Tear");
@@ -139,13 +120,35 @@ namespace EnforcerPlugin.Modules {
             //LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Clearance");
             //LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, stabilize the Cell in the Void Fields.");
             //LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Clearance");
+            #endregion
 
+            #region nem
+            //character
+            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_NAME", "???");
+            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC", "On monsoon, stabilize the anomaly, and defeat Enforcer's Vestige.");
+            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_UNLOCKABLE_NAME", "???");
+
+            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Mastery");
+            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Monsoon.");
+            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Mastery");
+
+            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Grand Mastery");
+            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Typhoon. (requires any difficulty higher than monsoon)");
+            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Grand Mastery");
+
+            //sken
+            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Demolition");
+            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, destroy 5 projectiles at once with Dominance.");
+            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Demolition");
+            #endregion
         }
     }
 }
 
-namespace EnforcerPlugin.Achievements {
+namespace EnforcerPlugin.Achievements
+{
 
+    #region fuck
     //public class GrandMasteryAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
     //{
     //    public override String AchievementIdentifier { get; } = "ENFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_ID";
@@ -481,41 +484,6 @@ namespace EnforcerPlugin.Achievements {
     //    }
     //}
 
-    //public class StunGrenadeAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
-    //{
-    //    public override String AchievementIdentifier { get; } = "ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_ID";
-    //    public override String UnlockableIdentifier { get; } = "ENFORCER_STUNGRENADEUNLOCKABLE_REWARD_ID";
-    //    public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_STUNGRENADEUNLOCKABLE_PREREQ_ID";
-    //    public override String AchievementNameToken { get; } = "ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_NAME";
-    //    public override String AchievementDescToken { get; } = "ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_DESC";
-    //    public override String UnlockableNameToken { get; } = "ENFORCER_STUNGRENADEUNLOCKABLE_UNLOCKABLE_NAME";
-    //    protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texStunGrenadeAchievement.png");
-
-    //    public override int LookUpRequiredBodyIndex()
-    //    {
-    //        return BodyCatalog.FindBodyIndex("EnforcerBody");
-    //    }
-
-    //    public void Check(int count)
-    //    {
-    //        if (count >= 20 && base.meetsBodyRequirement) base.Grant();
-    //    }
-
-    //    public override void OnInstall()
-    //    {
-    //        base.OnInstall();
-
-    //        TearGasComponent.GasCheck += Check;
-    //    }
-
-    //    public override void OnUninstall()
-    //    {
-    //        base.OnUninstall();
-
-    //        TearGasComponent.GasCheck -= Check;
-    //    }
-    //}
-
     //public class NemesisSkinAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
     //{
     //    public override String AchievementIdentifier { get; } = "ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_ID";
@@ -641,95 +609,6 @@ namespace EnforcerPlugin.Achievements {
     //        EntityStates.Nemforcer.HammerSlam.Bonked -= this.Bonked;
     //    }
     //}
+    #endregion
 
-    internal class NemesisAchievement : ModdedUnlockable {
-        public override string AchievementIdentifier { get; } = "ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_ID";
-        public override string UnlockableIdentifier { get; } = "ENFORCER_NEMESIS2UNLOCKABLE_REWARD_ID";
-        public override string AchievementNameToken { get; } = "ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_NAME";
-        public override string PrerequisiteUnlockableIdentifier { get; } = "";
-        public override string UnlockableNameToken { get; } = "ENFORCER_NEMESIS2UNLOCKABLE_UNLOCKABLE_NAME";
-        public override string AchievementDescToken { get; } = "ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC";
-        public override Sprite Sprite { get; } = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemesisUnlockAchievement");
-
-        public override Func<string> GetHowToUnlock { get; } = () => Language.GetStringFormatted("UNLOCK_VIA_ACHIEVEMENT_FORMAT", new object[]
-                            {
-                                Language.GetString("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_NAME"),
-                                Language.GetString("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC")
-                            });
-        public override Func<string> GetUnlocked { get; } = () => Language.GetStringFormatted("UNLOCKED_FORMAT", new object[]
-                            {
-                                Language.GetString("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_NAME"),
-                                Language.GetString("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC")
-                            });
-
-        private void CheckDeath(Run run) {
-            Grant();
-        }
-
-        public override void OnInstall() {
-            base.OnInstall();
-
-            NemesisUnlockComponent.OnDeath += CheckDeath;
-        }
-
-        public override void OnUninstall() {
-            base.OnUninstall();
-
-            NemesisUnlockComponent.OnDeath -= CheckDeath;
-        }
-    }
-
-    internal class NemMasteryAchievement : ModdedUnlockable {
-        public override string AchievementIdentifier { get; } = "NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_ID";
-        public override string UnlockableIdentifier { get; } = "NEMFORCER_MASTERYUNLOCKABLE_REWARD_ID";
-        public override string AchievementNameToken { get; } = "NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME";
-        public override string PrerequisiteUnlockableIdentifier { get; } = "";
-        public override string UnlockableNameToken { get; } = "NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME";
-        public override string AchievementDescToken { get; } = "NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC";
-        public override Sprite Sprite { get; } = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerMastery");
-
-        public override Func<string> GetHowToUnlock { get; } = () => Language.GetStringFormatted("UNLOCK_VIA_ACHIEVEMENT_FORMAT", new object[]
-                            {
-                                Language.GetString("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME"),
-                                Language.GetString("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC")
-                            });
-        public override Func<string> GetUnlocked { get; } = () => Language.GetStringFormatted("UNLOCKED_FORMAT", new object[]
-                            {
-                                Language.GetString("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME"),
-                                Language.GetString("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC")
-                            });
-
-        public override BodyIndex LookUpRequiredBodyIndex() {
-            return BodyCatalog.FindBodyIndex("NemesisEnforcerBody");
-        }
-
-        public void ClearCheck(Run run, RunReport runReport) {
-            if (run is null) return;
-            if (runReport is null) return;
-
-            if (!runReport.gameEnding) return;
-
-            if (runReport.gameEnding.isWin) {
-                DifficultyDef difficultyDef = DifficultyCatalog.GetDifficultyDef(runReport.ruleBook.FindDifficulty());
-
-                if (difficultyDef != null && difficultyDef.countsAsHardMode) {
-                    if (meetsBodyRequirement) {
-                        Grant();
-                    }
-                }
-            }
-        }
-
-        public override void OnInstall() {
-            base.OnInstall();
-
-            Run.onClientGameOverGlobal += ClearCheck;
-        }
-
-        public override void OnUninstall() {
-            base.OnUninstall();
-
-            Run.onClientGameOverGlobal -= ClearCheck;
-        }
-    }
 }

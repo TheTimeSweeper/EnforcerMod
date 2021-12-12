@@ -122,8 +122,8 @@ namespace EntityStates.Nemforcer
                     Vector3 sex = this.childLocator.FindChild("SwingCenter").transform.position;
 
                     EffectData effectData = new EffectData();
-                    effectData.origin = sex - Vector3.up * 2;
-                    effectData.scale = 2;
+                    effectData.origin = sex + Vector3.up * TestValueManager.testValue2;
+                    effectData.scale = TestValueManager.testValue;
 
                     EffectManager.SpawnEffect(slamPrefab, effectData, true); 
 
@@ -253,6 +253,7 @@ namespace EntityStates.Nemforcer
                         projectileBlastAttack.Fire();
 
                         blastEffectData.origin = pc.transform.position;
+                        blastEffectData.scale = HammerSlam.projectileBlastRadius * 1.15f;
                         EffectManager.SpawnEffect(projectileBlastPrefab, blastEffectData, true);
                     }
                 }

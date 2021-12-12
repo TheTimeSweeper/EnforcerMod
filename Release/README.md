@@ -26,7 +26,8 @@ Paysus - Animations
 Violet Chaolan - Sounds  
 LucidInceptor (2cute2game) - Modeling  
 SalvadorBunny - Heavy TF2 Minecraft skin  
-Destructor - Original mod icon, help 
+Destructor - Original mod icon, help  
+Nebby - Help  
 Reithierion - New mod icon  
 Draymarc - Concepts  
 Lethan - Screenshots  
@@ -71,6 +72,12 @@ lil out of date
 ## Changelog
 `3.2.1`
    - added to previous changelog I forgot to say
+   - fixed networking on n4cr achievement
+   - readded stun grenade achievement. forgot that one in 3.1
+   - fixed grandmasteries being implemented in the most retarded way
+     - thanks neb for the prototype
+   - fixed visions of heresy model replacement
+   - made shield go away with essence of heresy
    
 `3.2.0`
  - <ins>Slowly but surely he's coming back</ins>

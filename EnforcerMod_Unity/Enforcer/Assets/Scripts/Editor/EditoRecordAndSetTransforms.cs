@@ -72,11 +72,12 @@ public class EditoRecordAndSetTransforms {
             return;
         }
 
-        Undo.RecordObjects(_transforms.ToArray(), "setting transforms");
+        //Undo.RecordObjects(_transforms.ToArray(), "setting transforms");
 
         for (int i = 0; i < _transforms.Count; i++) {
 
             if (_transforms[i] != null) {
+                Undo.RecordObject(_transforms[i], "setting transforms");
                 _transforms[i].position = _storedPositions[i];
                 _transforms[i].rotation = _storedRotations[i];
                 _transforms[i].localScale = _storedScales[i];
