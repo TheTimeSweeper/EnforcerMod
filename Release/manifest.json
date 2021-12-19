@@ -1,8 +1,8 @@
 {
     "name": "Enforcer",
-    "version_number": "3.2.0",
+    "version_number": "3.2.3",
     "website_url": "https://github.com/GnomeModder/EnforcerMod",
-    "description": "Adds the Enforcer from Risk of Rain 1 as a fully fleshed out (cough) playable survivor. We can rebuild him, we have the technology.",
+    "description": "Adds the Enforcer from Risk of Rain 1 as a fully fleshed out (cough) playable survivor. Hopoo Feather item display fixed, sorry bout that guys.",
     "dependencies": [
         "bbepis-BepInExPack-5.4.9",
         "tristanmcpherson-R2API-3.0.25"

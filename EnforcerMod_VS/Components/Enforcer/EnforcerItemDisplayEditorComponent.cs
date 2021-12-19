@@ -35,6 +35,7 @@ public class EnforcerItemDisplayEditorComponent : MonoBehaviour {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "KingEnderBrine_IDRS_Editor") {
             this.childLocator = this.GetComponentInChildren<ChildLocator>();
             HideWeapons();
+            EquipWeapon(EquippedGun.GUN);
         }
     }
 

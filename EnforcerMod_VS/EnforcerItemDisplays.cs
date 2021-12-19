@@ -119,9 +119,9 @@ namespace EnforcerPlugin
                                                                 new Vector3(0.42477F, 0.42477F, 0.34069F)));
             itemRules.Add(ItemDisplays.CreateGenericDisplayRule("ArmorReductionOnHit", "DisplayWarhammer",
                                                                 "Head",
-                                                                new Vector3(0, 0.205f, 0),
-                                                                new Vector3(270, 90, 0),
-                                                                new Vector3(0.2175f, 0.2175f, 0.2175f)));
+                                                                new Vector3(0F, 0.86638F, 0F),
+                                                                new Vector3(270F, 90F, 0F),
+                                                                new Vector3(0.2175F, 0.2175F, 0.2175F)));
             itemRules.Add(ItemDisplays.CreateGenericDisplayRule("AttackSpeedOnCrit", "DisplayWolfPelt",
                                                                 "Head",
                                                                 new Vector3(0, 0.208f, 0),
@@ -248,7 +248,7 @@ namespace EnforcerPlugin
                                                                 "Head",
                                                                 new Vector3(0, 0.204f, 0),
                                                                 new Vector3(270, 90, 0),
-                                                                new Vector3(0.22f, 0.22f, 0.22f)));
+                                                                new Vector3(0.10f, 0.10f, 0.10f)));
 
             itemRules.Add(ItemDisplays.CreateGenericDisplayRule("EnergizedOnEquipmentUse", "DisplayWarHorn",
                                                                 "Pelvis",
@@ -275,12 +275,18 @@ namespace EnforcerPlugin
                                                                 new Vector3(0, 0.22f, 0.214f),
                                                                 new Vector3(0, 0, 0),
                                                                 new Vector3(0.22f, 0.22f, 0.22f)));
-
-            itemRules.Add(ItemDisplays.CreateGenericDisplayRule("Feather", "DisplayFeather",
-                                                                "Head",
-                                                                new Vector3(0, 0.208f, 0),
-                                                                new Vector3(0, 0, 270),
-                                                                new Vector3(0.215f, 0.215f, 0.215f)));
+            itemRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules("Feather",
+                ItemDisplays.CreateDisplayRule("DisplayFeather",
+                                               "UpperArmR",
+                                               new Vector3(-0.2118F, -0.18826F, -0.08263F),
+                                               new Vector3(0.00001F, 57.93979F, 87.21592F),
+                                               new Vector3(0.215F, 0.215F, 0.12085F)),
+                ItemDisplays.CreateDisplayRule("DisplayFeather",
+                                               "UpperArmL",
+                                               new Vector3(0.06578F, 0.40667F, -0.02965F),
+                                               new Vector3(0.00001F, 268.2579F, 276.2356F),
+                                               new Vector3(0.215F, 0.215F, 0.12085F))
+                ));
             itemRules.Add(ItemDisplays.CreateGenericDisplayRule("FireballsOnHit", "DisplayFireballsOnHit",
                                                                 "Head",
                                                                 new Vector3(0, 0.22f, 0.21f),
@@ -765,11 +771,11 @@ namespace EnforcerPlugin
             //                                               new Vector3(8.08377F, 285.087F, 164.4582F),
             //                                               new Vector3(0.11243F, 0.11243F, 0.11243F)));
 
-            //itemDisplayRules.Add(CreateSupplyDropRuleGroup("BloodBook",
-            //                                               "Root",
-            //                                               new Vector3(2.19845F, -1.51445F, 1.59871F),
-            //                                               new Vector3(303.5005F, 271.0879F, 269.2205F),
-            //                                               new Vector3(0.12F, 0.12F, 0.12F)));
+            itemRules.Add(ItemDisplays.CreateSupplyDropRuleGroup("BloodBook",
+                                                           "Root",
+                                                           new Vector3(2.19845F, -1.51445F, 1.59871F),
+                                                           new Vector3(303.5005F, 271.0879F, 269.2205F),
+                                                           new Vector3(0.12F, 0.12F, 0.12F)));
             //itemDisplayRules.Add(CreateSupplyDropRuleGroup("QSGen",
             //                                               "LowerArmL",
             //                                               new Vector3(0.06003F, 0.1038F, -0.02042F),

@@ -33,7 +33,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.cwmlolzlz.skills", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ItemDisplayPlacementHelper", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.2.0")]
+    [BepInPlugin(MODUID, "Enforcer", "3.2.3")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -45,7 +45,7 @@ namespace EnforcerPlugin
     public class EnforcerModPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.EnforcerGang.Enforcer";
-
+        
         public const string characterName = "Enforcer";
         public const string characterSubtitle = "Unwavering Bastion";
         public const string characterOutro = "..and so he left, unsure of his title as protector.";

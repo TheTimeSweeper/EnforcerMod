@@ -98,7 +98,6 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         if (this.footStep) this.stepSoundString = this.footStep.baseFootstepString;
         if (this.sfx) this.landSoundString = this.sfx.landingSound;
 
-        Debug.LogWarning("Start setWeapons");
         this.SetWeapons();
         this.InitShells();
         this.InitSkateboard();
@@ -131,7 +130,6 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     }
 
     public void HideWeapons() {
-        Debug.LogWarning("hidweapons");
         if (this.childLocator) {
             for (int i = 0; i < allWeapons.Count; i++) {
                 allWeapons[i].SetActive(true);
@@ -142,7 +140,6 @@ public class EnforcerWeaponComponent : MonoBehaviour {
 
     public void HideShields()
     {
-        Debug.LogWarning("hidshield");
         if (this.childLocator)
         {
             //for (int i = 0; i < allWeapons.Count; i++) {
@@ -191,7 +188,6 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                 default:
                 case EquippedGun.GUN:
                     shotgunObject.SetActive(true);
-                    Debug.LogWarning("equipped GUN");
                     break;
                 case EquippedGun.SUPER:
                     ssgobject.SetActive(true);
@@ -230,13 +226,11 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     //called when checking for needler
     public void DelayedResetWeapon() {
 
-        Debug.LogWarning("DelayedResetWeapon");
         this.Invoke("ResetWeapon", 0.1f);
     }
 
     public void ResetWeapon() {
 
-        Debug.LogWarning("ResetWeapon");
         SetWeapons();
         //EquippedGun weapon = GetWeapon();
         //this.EquipWeapon(weapon);
@@ -273,7 +267,6 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                     break;
 
                 default:
-                    Debug.LogWarning("noshield");
                     shield = EquippedShield.NOTHING;
                     break;
             }

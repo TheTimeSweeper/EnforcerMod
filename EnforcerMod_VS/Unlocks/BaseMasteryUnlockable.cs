@@ -8,10 +8,12 @@ namespace EnforcerPlugin.Achievements
     public abstract class BaseMasteryUnlockable : ModdedUnlockable
     {
         public abstract string AchievementTokenPrefix { get; }
-        public abstract string AchievementSpriteName { get; }
-        public abstract float RequiredDifficultyCoefficient { get;}
-        public abstract string RequiredCharacterBody { get; }
         public abstract string PrerequisiteIdentifier { get; }
+        public abstract string AchievementSpriteName { get; }
+
+        public abstract string RequiredCharacterBody { get; }
+
+        public abstract float RequiredDifficultyCoefficient { get;}
         //public CharacterBody RequiredCharacterBody { get; }
 
         public override string AchievementIdentifier { get => AchievementTokenPrefix + "UNLOCKABLE_ACHIEVEMENT_ID"; }
@@ -21,7 +23,7 @@ namespace EnforcerPlugin.Achievements
         public override string AchievementDescToken { get => AchievementTokenPrefix + "UNLOCKABLE_ACHIEVEMENT_DESC"; }
         public override string UnlockableNameToken { get => AchievementTokenPrefix + "UNLOCKABLE_UNLOCKABLE_NAME"; }
 
-        public override Sprite Sprite { get => Assets.MainAssetBundle.LoadAsset<Sprite>(AchievementSpriteName); }
+        public override Sprite Sprite => Assets.MainAssetBundle.LoadAsset<Sprite>(AchievementSpriteName);
 
         public override Func<string> GetHowToUnlock 
         {

@@ -11,6 +11,7 @@
 [![](https://cdn.discordapp.com/attachments/739696016755785859/828394816986808360/EnfuckerIcon.png)]()
 
 Join the discord server to share any feedback/bugs/suggestions- https://discord.gg/HpQB9fC
+Or ping/message me directly (TheTimesweeper#5727) with all the nastiest feedback you can think of
 
 ## Credits
 Gnome - Coding  
@@ -66,19 +67,31 @@ lil out of date
 - More alternate skill(s)
 - Skills++ support
 - Other things 100% decided on pure whimsy
+- Readding everything
 - Fixing this fucker
 - Help
 
 ## Changelog
+`3.2.3`
+   - Adjusted Hopoo Feather display. Let me know if you like it and especially if you don't.
+
+`3.2.2`
+   - woops king dedede gone
+
 `3.2.1`
    - added to previous changelog I forgot to say
    - fixed networking on n4cr achievement
    - readded stun grenade achievement. forgot that one in 3.1
-   - fixed grandmasteries being implemented in the most retarded way
+   - fixed masteries grandmasteries being implemented in the most retarded way
      - thanks neb for the prototype
-   - spent way too much time figuring out the [visions of heresy]
+     - grandmastery skin(s) no longer require starstorm after unlocked
+   - spent way too much time figuring out the [visions of heresy thing]
    - made shield go away with essence of heresy
    - added some footsteps
+   - fixed visuals on heavy tf2's minigun m2 exploding projectiles
+   - fixed king dedede boss ragdoll
+   - added placeholder item displays. They are very jank
+     - if anyone wants to do the item displays that'd be lovely
    
 `3.2.0`
  - <ins>Slowly but surely he's coming back</ins>

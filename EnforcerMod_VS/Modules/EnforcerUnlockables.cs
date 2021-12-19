@@ -30,7 +30,7 @@ namespace EnforcerPlugin.Modules
             //      fucking it was never merged in i'm reeing so hard right now
             enforcerUnlockableDef = Config.forceUnlock.Value ? null : Unlockables.AddUnlockable<EnforcerUnlockAchievement>(typeof(EnforcerUnlockAchievement.EnforcerUnlockAchievementServer));
             enforcerMasteryUnlockableDef = Unlockables.AddUnlockable<MasteryAchievementButEpic>();
-            enforcerGrandMasteryUnlockableDef = Unlockables.AddUnlockable<GrandMasteryAchievement>();
+            //enforcerGrandMasteryUnlockableDef = Unlockables.AddUnlockable<GrandMasteryAchievement>();
             
             enforcerDoomUnlockableDef = Unlockables.AddUnlockable<DoomAchievement>(typeof(DoomAchievement.DoomAchievementServer));
             enforcerARUnlockableDef = Unlockables.AddUnlockable<AssaultRifleAchievement>();
@@ -71,9 +71,11 @@ namespace EnforcerPlugin.Modules
             LanguageAPI.Add("ENFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Monsoon.");
             LanguageAPI.Add("ENFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Mastery");
 
-            LanguageAPI.Add("ENFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Grand Mastery");
-            LanguageAPI.Add("ENFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Typhoon. (requires any difficulty higher than monsoon)");
-            LanguageAPI.Add("ENFORCER_TYPHOONUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Grand Mastery");
+            string masteryFootnote = EnforcerModPlugin.starstormInstalled ? "" : "\n<color=#8888>(Typhoon difficulty requires Starstorm 2)</color>";
+
+            LanguageAPI.Add("ENFORCER_GRANDMASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Grand Mastery");
+            LanguageAPI.Add("ENFORCER_GRANDMASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Typhoon or higher." + masteryFootnote);
+            LanguageAPI.Add("ENFORCER_GRANDMASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Grand Mastery");
 
             //skills
             LanguageAPI.Add("ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Rip and Tear");
@@ -133,7 +135,7 @@ namespace EnforcerPlugin.Modules
             LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Mastery");
 
             LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Grand Mastery");
-            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Typhoon. (requires any difficulty higher than monsoon)");
+            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Typhoon or higher." + masteryFootnote);
             LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Grand Mastery");
 
             //sken
