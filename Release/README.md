@@ -72,6 +72,22 @@ lil out of date
 - Help
 
 ## Changelog
+`3.2.5`
+ - fixed some item displays, what little I had time to do
+ - featuring actually working goat hoof!
+ - last small update I promise. I had my fun
+
+`3.2.4`
+   - Ok actually made hopoo feather display smaller this time.
+   - fix bug with heat crash spending all your stacks
+   - Adjusted enforcer's shield hurtbox.
+     - it was way too big. Would basically block everything in a 180 degree radius and then some, making it very easy to back against a wall and block everything
+     - this gives room for you to get hit on the sides. you must now be more mindful of positioning and repositioning
+     - tl;dr don't be a bussy
+   - fixed all weapons showing in logbook
+   - fixed css audio
+   - removed an achievement that wasn't supposed to be there yet don't tell nobody
+
 `3.2.3`
    - Adjusted Hopoo Feather display. Let me know if you like it and especially if you don't.
 
@@ -98,7 +114,7 @@ lil out of date
    - Rig has been fixed and finalized, still a long road but we're on our way
      - Readded true Mastery skin: ~~Sexforcer~~ Peacekeeper on new rig
        - Mastery Achievement reset to celebrate!
-     - N4CR skin moved to its own achievement: Your Move, Creep
+     - N4CR skin moved to its own achievement: We Have the Technology
      - Added classic skin on new rig
    - Animations on new rig are a mix of 
      - new and redone, old ones updated, old ones salvaged to work but janky

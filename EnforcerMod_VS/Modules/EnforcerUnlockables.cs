@@ -90,10 +90,10 @@ namespace EnforcerPlugin.Modules
             LanguageAPI.Add("ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, have 20 enemies under the effects of Tear Gas at once.");
             LanguageAPI.Add("ENFORCER_STUNGRENADEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Crowd Control");
 
-            //skans
-            LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Your Move, Creep");
-            LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, be brought back to life.");
-            LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Your Move, Creep");
+            //skans                                                       //technically not robocop quote but a lot more understandable for more people
+            LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: We Have the Technology");
+            LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, fall and be brought back to life.");
+            LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: We Have the Technology");
 
             //LanguageAPI.Add("ENFORCER_CLASSICUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Schmoovin'");
             //LanguageAPI.Add("ENFORCER_CLASSICUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, show off your dance moves.");

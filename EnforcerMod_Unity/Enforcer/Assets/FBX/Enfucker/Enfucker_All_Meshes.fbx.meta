@@ -118,6 +118,15 @@ ModelImporter:
     100224: UpperArm.R
     100226: UpperLeg.L
     100228: UpperLeg.R
+    100230: meshEnforcerGunVR
+    100232: meshEnforcerHandLeft
+    100234: meshEnforcerHandRight
+    100236: meshEnforcerShieldGlass
+    100238: meshEnforcerShieldVR
+    100240: meshGM
+    100242: meshGMPauldron
+    100244: meshGMShield
+    100246: meshGMShieldGlass
     400000: Armature
     400002: base base
     400004: Chest
@@ -233,6 +242,15 @@ ModelImporter:
     400224: UpperArm.R
     400226: UpperLeg.L
     400228: UpperLeg.R
+    400230: meshEnforcerGunVR
+    400232: meshEnforcerHandLeft
+    400234: meshEnforcerHandRight
+    400236: meshEnforcerShieldGlass
+    400238: meshEnforcerShieldVR
+    400240: meshGM
+    400242: meshGMPauldron
+    400244: meshGMShield
+    400246: meshGMShieldGlass
     2100000: MatEnfucker.001
     2100002: MatEnfucker
     2100004: MatEnfuckerGun
@@ -248,6 +266,9 @@ ModelImporter:
     2100024: MatClassicGunSuper
     2100026: MatClassicGunHMG
     2100028: MatNemHammer
+    2100030: MatEnfuckerShieldGlass
+    2100032: MatGM
+    2100034: MatGMShield
     4300000: meshEnforcer
     4300002: meshEnforcerPauldron
     4300004: meshEnforcerGun
@@ -268,6 +289,15 @@ ModelImporter:
     4300034: meshClassicGunSuper
     4300036: meshClassicGunHMG
     4300038: meshNemHammer
+    4300040: meshEnforcerShieldGlass
+    4300042: meshGM
+    4300044: meshGMPauldron
+    4300046: meshGMShield
+    4300048: meshGMShieldGlass
+    4300050: meshEnforcerHandLeft
+    4300052: meshEnforcerHandRight
+    4300054: meshEnforcerGunVR
+    4300056: meshEnforcerShieldVR
     9500000: //RootNode
     13700000: meshClassic
     13700002: meshClassicGun
@@ -291,6 +321,16 @@ ModelImporter:
     13700038: meshSexforcerPauldrons
     13700040: meshSexforcerShield
     13700042: meshSexforcerShieldGlass
+    13700044: meshEnforcerGunVR
+    13700046: meshEnforcerHandLeft
+    13700048: meshEnforcerHandRight
+    13700050: meshEnforcerShieldGlass
+    13700052: meshEnforcerShieldVR
+    13700054: meshGM
+    13700056: meshGMPauldron
+    13700058: meshGMShield
+    13700060: meshGMShieldGlass
+    2186277476908879412: ImportLogs
   externalObjects:
   - first:
       type: UnityEngine:Material

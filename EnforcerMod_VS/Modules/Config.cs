@@ -213,7 +213,6 @@ namespace EnforcerPlugin.Modules {
             #endregion character stats
 
             #region riot
-
             shotgunDamage
                 = plugin.Config.Bind("04 - Riot Shotgun 3.1.0",
                                      "Damage Coefficient",

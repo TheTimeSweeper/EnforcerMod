@@ -23,7 +23,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         private int hasFired;
         private float lastFired;
         private Animator animator;
-        private string muzzleString;
+        private string muzzleString = "Muzzle";
 
         public override void OnEnter() {
             base.OnEnter();
