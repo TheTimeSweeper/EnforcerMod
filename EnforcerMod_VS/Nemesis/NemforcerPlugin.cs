@@ -533,7 +533,7 @@ namespace EnforcerPlugin {
 
             characterDisplay.AddComponent<NetworkIdentity>();
 
-            Modules.Survivors.RegisterNewSurvivor(characterPrefab, characterDisplay, "NEMFORCER", EnforcerUnlockables.nemesisUnlockableDef, 4.01f);
+            Modules.Survivors.RegisterNewSurvivor(characterPrefab, characterDisplay, "NEMFORCER", EnforcerUnlockables.nemesisUnlockableDef, 5.101f);
 
             SkillSetup();
 
@@ -554,8 +554,6 @@ namespace EnforcerPlugin {
 
             hammerController.ghostPrefab = hammerModel;
 
-            hammerImpact.lifetimeExpiredSoundString = "";
-            hammerImpact.explosionSoundString = "";
             hammerImpact.offsetForLifetimeExpiredSound = 1;
             hammerImpact.destroyOnEnemy = true;
             hammerImpact.destroyOnWorld = true;
@@ -1057,7 +1055,7 @@ namespace EnforcerPlugin {
             mySkillDef.interruptPriority = InterruptPriority.Skill;
             mySkillDef.resetCooldownTimerOnUse = false;
             mySkillDef.isCombatSkill = true;
-            mySkillDef.mustKeyPress = false;
+            mySkillDef.mustKeyPress = true;
             mySkillDef.cancelSprintingOnActivation = false;
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;

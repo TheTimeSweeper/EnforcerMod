@@ -33,7 +33,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.cwmlolzlz.skills", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ItemDisplayPlacementHelper", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.2.3")]
+    [BepInPlugin(MODUID, "Enforcer", "3.2.5")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -952,6 +952,14 @@ namespace EnforcerPlugin
             CharacterModel characterModel = model.AddComponent<CharacterModel>();
             characterModel.body = null;
 
+            //let's set up rendereinfos in editor man
+            //for (int i = 0; i < characterModel.baseRendererInfos.Length; i++)
+            //{
+            //    CharacterModel.RendererInfo rendererInfo = characterModel.baseRendererInfos[i];
+            
+            //    rendererInfo.defaultMaterial = Assets.CloneMaterial(rendererInfo.defaultMaterial);
+            //}
+
             characterModel.baseRendererInfos = new CharacterModel.RendererInfo[]
             {
                 new CharacterModel.RendererInfo
@@ -1496,7 +1504,7 @@ namespace EnforcerPlugin
                                                   characterDisplay, 
                                                   "ENFORCER",
                                                   Modules.Config.forceUnlock.Value? null : EnforcerUnlockables.enforcerUnlockableDef, 
-                                                  4.005f);
+                                                  5.1f);
 
             SkillSetup();
             
@@ -1505,7 +1513,7 @@ namespace EnforcerPlugin
 
         private void RegisterProjectile()
         {
-            //i'm the treasure, baby, i'm the prize
+            //i'm the treasure, baby, i'm the prize, i'm yours forever
             
             stunGrenade = Resources.Load<GameObject>("Prefabs/Projectiles/CommandoGrenadeProjectile").InstantiateClone("EnforcerStunGrenade", true);
 
@@ -2249,7 +2257,7 @@ namespace EnforcerPlugin
         #region skilldefs
         private SkillDef PrimarySkillDef_RiotShotgun()
         {
-            string desc = "Fire a short-range blast that <style=cIsUtility>pierces</style> for <style=cIsDamage>" + Modules.Config.shotgunBulletCount.Value + "x" + 100f * Modules.Config.shotgunDamage.Value + "% damage.";
+            string desc = "Fire a short-range blast that <style=cIsUtility>pierces</style> for <style=cIsDamage>" + Modules.Config.shotgunBulletCount.Value + "x" + 100f * Modules.Config.shotgunDamage.Value + "% damage.</style>";
 
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_NAME", "Riot Shotgun");
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION", desc);
@@ -2464,7 +2472,7 @@ namespace EnforcerPlugin
             stunGrenadeDef.activationState = new SerializableEntityStateType(typeof(StunGrenade));
             stunGrenadeDef.activationStateMachineName = "Weapon";
             stunGrenadeDef.baseMaxStock = 3;
-            stunGrenadeDef.baseRechargeInterval = 8f;
+            stunGrenadeDef.baseRechargeInterval = 7f;
             stunGrenadeDef.beginSkillCooldownOnSkillEnd = false;
             stunGrenadeDef.canceledFromSprinting = false;
             stunGrenadeDef.fullRestockOnAssign = true;

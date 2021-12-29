@@ -200,6 +200,20 @@ namespace EnforcerPlugin.Modules
             };
         }
 
+        public static ItemDisplayRule CreateLimbDisplayRule(LimbFlags limb)
+        {
+            return new ItemDisplayRule
+            {
+                ruleType = ItemDisplayRuleType.LimbMask,
+                limbMask = limb,
+                childName = "",
+                followerPrefab = null
+                //localPos = Vector3.zero,
+                //localAngles = Vector3.zero,
+                //localScale = Vector3.zero
+            };
+        }
+
         public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateDisplayRuleGroupWithRules(string itemName, params ItemDisplayRule[] rules)
         {
             return CreateDisplayRuleGroupWithRules(Resources.Load<ItemDef>("ItemDefs/" + itemName), rules);

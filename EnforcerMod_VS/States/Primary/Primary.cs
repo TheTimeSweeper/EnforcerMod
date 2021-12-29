@@ -102,7 +102,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
                 if (isAuthority) {
                     float damage = damageCoefficient * damageStat;
-
+                    
                     GameObject tracerEffect = EnforcerModPlugin.bulletTracer;
 
                     if (levelHasChanged) {

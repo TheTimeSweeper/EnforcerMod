@@ -7,6 +7,7 @@ using RoR2;
 using RoR2.Audio;
 using System.Collections.Generic;
 using EnforcerPlugin.Modules;
+using System.Linq;
 
 namespace EnforcerPlugin {
     public static class Assets
@@ -355,6 +356,23 @@ namespace EnforcerPlugin {
 
         public static Material CreateMaterial(string materialName, float emission, Color emissionColor, float normalStrength) {
             return CreateMaterial(Assets.MainAssetBundle, materialName, emission, emissionColor, normalStrength);
+        }
+
+        public static Material CloneMaterial(Material tempMat)
+        {
+            if (!commandoMat) commandoMat = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial;
+
+            Material mat = UnityEngine.Object.Instantiate<Material>(commandoMat);
+            mat.name = tempMat.name;
+
+            mat.SetColor("_Color", tempMat.GetColor("_Color"));
+            mat.SetTexture("_MainTex", tempMat.GetTexture("_MainTex"));
+            mat.SetColor("_EmColor", tempMat.GetColor("_EmissionMap"));
+            mat.SetFloat("_EmPower", tempMat.shaderKeywords.Contains("_EMISSION")? 1: 0);
+            mat.SetTexture("_EmTex", tempMat.GetTexture("_EmissionMap"));
+            mat.SetFloat("_NormalStrength", tempMat.GetFloat("_BumpScale"));
+
+            return mat;
         }
 
         public static Material CreateMaterial(AssetBundle assetbundle, string materialName, float emission, Color emissionColor, float normalStrength)
