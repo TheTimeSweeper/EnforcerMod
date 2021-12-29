@@ -142,7 +142,7 @@ namespace EnforcerPlugin {
             {
                 using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.enforcervr"))
                 {
-                    MainAssetBundle = AssetBundle.LoadFromStream(assetStream);
+                    VRAssetBundle = AssetBundle.LoadFromStream(assetStream);
                 }
             }
 
