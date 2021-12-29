@@ -13,6 +13,7 @@ namespace EnforcerPlugin {
     public static class Assets
     {
         public static AssetBundle MainAssetBundle = null;
+        public static AssetBundle VRAssetBundle = null;
 
         public static Material commandoMat;
 
@@ -91,6 +92,9 @@ namespace EnforcerPlugin {
 
         public static GameObject gatDrone;
 
+        public static GameObject vrDominantHand; //Shotgun hand
+        public static GameObject vrNonDominantHand; //Shield hand
+
         public static Material mainMat;
 
         public static Mesh gmMesh;
@@ -129,6 +133,14 @@ namespace EnforcerPlugin {
             if (MainAssetBundle == null)
             {
                 using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.enforcer"))
+                {
+                    MainAssetBundle = AssetBundle.LoadFromStream(assetStream);
+                }
+            }
+
+            if (VRAssetBundle == null)
+            {
+                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.enforcervr"))
                 {
                     MainAssetBundle = AssetBundle.LoadFromStream(assetStream);
                 }
@@ -318,6 +330,9 @@ namespace EnforcerPlugin {
             hammerHitSoundEvent = CreateNetworkSoundEventDef(Sounds.NemesisImpact);
             nemHammerHitSoundEvent = CreateNetworkSoundEventDef(Sounds.NemesisImpact2);
             nemAxeHitSoundEvent = CreateNetworkSoundEventDef(Sounds.NemesisImpactAxe);
+
+            vrDominantHand = VRAssetBundle.LoadAsset<GameObject>("EnforcerShotgunHand");
+            vrNonDominantHand = VRAssetBundle.LoadAsset<GameObject>("EnforcerShieldHand");
         }
 
         internal static NetworkSoundEventDef CreateNetworkSoundEventDef(string eventName)

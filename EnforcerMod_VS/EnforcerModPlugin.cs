@@ -25,6 +25,7 @@ namespace EnforcerPlugin
 {
 
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("com.DrBibop.VRAPI", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.DestroyedClone.AncientScepter", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KomradeSpectre.Aetherium", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.Sivelos.SivsItems", BepInDependency.DependencyFlags.SoftDependency)]
@@ -212,6 +213,10 @@ namespace EnforcerPlugin
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ItemDisplayPlacementHelper")) {
                 IDPHelperInstalled = true;
             }
+            //VR stuff
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DrBibop.VRAPI")) {
+                SetupVR();
+            }
         }
 
         private void ContentManager_onContentPacksAssigned(HG.ReadOnlyArray<RoR2.ContentManagement.ReadOnlyContentPack> obj)
@@ -238,6 +243,16 @@ namespace EnforcerPlugin
         {
             AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(tearGasScepterDef, "EnforcerBody", SkillSlot.Utility, 0);
             AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(shockGrenadeDef, "EnforcerBody", SkillSlot.Utility, 1);
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private void SetupVR()
+        {
+            if (!VRAPI.VR.enabled || !VRAPI.MotionControls.enabled) return;
+
+            VRAPI.MotionControls.AddHandPrefab(Assets.vrDominantHand);
+            VRAPI.MotionControls.AddHandPrefab(Assets.vrNonDominantHand);
+            VRAPI.MotionControls.AddSkillRemap("EnforcerBody", SkillSlot.Utility, SkillSlot.Special);
         }
 
         private void Hook()
