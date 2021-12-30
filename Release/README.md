@@ -72,6 +72,13 @@ lil out of date
 - Help
 
 ## Changelog
+`3.2.6`
+ - holy shit vr
+   - barebones initial implementation thanks to drbibop (the vr mod guy himself)
+ - tweaked shield hurtbox and added additional shield hurtbox closer to enforcer 
+   - to hopefully make blocking more consistent.
+   - still less powerful than before, but more consistent to use
+
 `3.2.5`
  - fixed some item displays, what little I had time to do
  - featuring actually working goat hoof!

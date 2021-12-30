@@ -617,7 +617,7 @@ namespace EnforcerPlugin
                     var weaponComponent = self.GetBody().GetComponent<EnforcerWeaponComponent>();
                     if (weaponComponent)
                     {
-                        weaponComponent.DelayedResetWeapon();
+                        weaponComponent.DelayedResetWeaponsAndShields();
                         weaponComponent.ModelCheck();
                     }
                 }
@@ -1363,7 +1363,7 @@ namespace EnforcerPlugin
 
             HurtBoxGroup hurtBoxGroup = model.AddComponent<HurtBoxGroup>();
 
-            HurtBox mainHurtbox = model.transform.Find("MainHurtbox").GetComponent<CapsuleCollider>().gameObject.AddComponent<HurtBox>();
+            HurtBox mainHurtbox = model.transform.Find("MainHurtbox").gameObject.AddComponent<HurtBox>();
             mainHurtbox.gameObject.layer = LayerIndex.entityPrecise.intVal;
             mainHurtbox.healthComponent = healthComponent;
             mainHurtbox.isBullseye = true;
@@ -1379,12 +1379,22 @@ namespace EnforcerPlugin
             shieldHurtbox.damageModifier = HurtBox.DamageModifier.Barrier;
             shieldHurtbox.hurtBoxGroup = hurtBoxGroup;
             shieldHurtbox.indexInGroup = 1;
-            shieldHurtbox.gameObject.SetActive(false);
+
+            HurtBox shieldHurtbox2 = childLocator.FindChild("ShieldHurtbox2").gameObject.AddComponent<HurtBox>();
+            shieldHurtbox2.gameObject.layer = LayerIndex.entityPrecise.intVal;
+            shieldHurtbox2.healthComponent = healthComponent;
+            shieldHurtbox2.isBullseye = false;
+            shieldHurtbox2.damageModifier = HurtBox.DamageModifier.Barrier;
+            shieldHurtbox2.hurtBoxGroup = hurtBoxGroup;
+            shieldHurtbox2.indexInGroup = 1;
+
+            childLocator.FindChild("ShieldHurtboxParent").gameObject.SetActive(false);
 
             hurtBoxGroup.hurtBoxes = new HurtBox[]
             {
                 mainHurtbox,
-                shieldHurtbox
+                shieldHurtbox,
+                shieldHurtbox2
             };
 
             hurtBoxGroup.mainHurtBox = mainHurtbox;
@@ -2708,6 +2718,7 @@ namespace EnforcerPlugin
 
             //// NULLCHECK YOUR SHIT FOR FUCKS SAKE
                 //nullchecks are only for the unsure
+                //also this is a not-null check. do return; n00b
             if (_previewController)
             {
                 List<int> emptyIndices = new List<int>();
@@ -2738,12 +2749,11 @@ namespace EnforcerPlugin
             Type[] memes = new Type[]
             {
                 typeof(DefaultDance),
-                typeof(Floss),
                 typeof(FLINTLOCKWOOD),
                 typeof(SirenToggle),
-                typeof(NemesisRest),
+                typeof(Rest),
+                typeof(Enforcer.Emotes.EnforcerSalute),
                 typeof(EntityStates.Nemforcer.Emotes.Salute),
-                typeof(Enforcer.Emotes.EnforcerSalute)
             };
               
             for (int i = 0; i < memes.Length; i++)

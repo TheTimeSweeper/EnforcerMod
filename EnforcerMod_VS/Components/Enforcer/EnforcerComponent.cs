@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
 using UnityEngine.Networking;
-
 public class EnforcerNetworkComponent : NetworkBehaviour {
 
     [SyncVar]

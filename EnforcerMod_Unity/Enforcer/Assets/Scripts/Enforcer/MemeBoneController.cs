@@ -2,10 +2,8 @@
 
 public class MemeBoneController : MonoBehaviour
 {
-
     [SerializeField]
     private Transform origBone;
-    public Transform OrigBone { get => origBone; set => origBone = value; }
 
     void Update()
     {
@@ -13,4 +11,8 @@ public class MemeBoneController : MonoBehaviour
         origBone.transform.rotation = transform.rotation;
         origBone.transform.position = transform.position;
     }
+
+#if UNITY_EDITOR
+    public Transform OrigBone { get => origBone; set => origBone = value; }
+#endif
 }

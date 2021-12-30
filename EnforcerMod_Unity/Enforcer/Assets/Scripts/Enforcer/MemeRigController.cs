@@ -13,40 +13,57 @@ public class MemeRigController : MonoBehaviour
 
     void Awake()
     {
-        gameObject.SetActive(false);
+        memeAnimator.gameObject.SetActive(false);
     }
 
     public void playMemeAnim(string anim)
     {
+        memeAnimator.Rebind();
         origAnimator.enabled = false;
-        gameObject.SetActive(true);
+        memeAnimator.gameObject.SetActive(true);
         memeAnimator.Play(anim);
     }
 
-    [ContextMenu("testStopAnim")]
     public void stopAnim()
     {
         memeAnimator.Play("Empty");
-        gameObject.SetActive(false);
+        memeAnimator.gameObject.SetActive(false);
         origAnimator.enabled = true;
-    }
-
-    [ContextMenu("testPlayAnim")]
-    public void test()
-    {
-        playMemeAnim("def");
-    }
-    [ContextMenu("testPlayAnim2")]
-    public void test2()
-    {
-        playMemeAnim("EnforcerOfficerEarlRun");
     }
 
 #if UNITY_EDITOR
 
     //blasphemy declaring a variable oustide of the top?
-    [SerializeField]
+    [SerializeField, Header("editor")]
     private Transform origArmature;
+    [SerializeField]
+    private GameObject shield;
+    [SerializeField]
+    private GameObject gun;
+
+
+    [ContextMenu("testStopAnim")]
+    public void testStop()
+    {
+        shield.SetActive(true);
+        gun.SetActive(true);
+        stopAnim();
+    }
+
+    [ContextMenu("testPlayAnim")]
+    public void test()
+    {
+        shield.SetActive(false);
+        gun.SetActive(false);
+        playMemeAnim("DefaultDance");
+    }
+    [ContextMenu("testPlayAnim2")]
+    public void test2()
+    {
+        shield.SetActive(false);
+        gun.SetActive(false);
+        playMemeAnim("FLINT LOCK WOOD");
+    }
 
     [ContextMenu("setBones")]
     public void SetBones()
@@ -54,7 +71,7 @@ public class MemeRigController : MonoBehaviour
         if (origAnimator == null)
             return;
 
-        List<MemeBoneController> oldMemeBones = GetComponentsInChildren<MemeBoneController>(true).ToList();
+        List<MemeBoneController> oldMemeBones = memeAnimator.GetComponentsInChildren<MemeBoneController>(true).ToList();
 
         for (int i = 0; i < oldMemeBones.Count; i++)
         {
@@ -62,7 +79,7 @@ public class MemeRigController : MonoBehaviour
             DestroyImmediate(oldMemeBones[i]);
         }
 
-        List<Transform> memeAnimBones = GetComponentsInChildren<Transform>(true).ToList();
+        List<Transform> memeAnimBones = memeAnimator.GetComponentsInChildren<Transform>(true).ToList();
         List<Transform> origBones = origArmature.GetComponentsInChildren<Transform>(true).ToList();
 
         int matchCount = 0;

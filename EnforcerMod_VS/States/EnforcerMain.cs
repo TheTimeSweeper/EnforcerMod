@@ -164,23 +164,26 @@ namespace EntityStates.Enforcer {
             //emotes
             if (base.isAuthority && base.characterMotor.isGrounded && !shieldIsUp)
             {
-                if (Input.GetKeyDown(Config.defaultDanceKey.Value))
+                if (Input.GetKeyDown(Config.restKey.Value))
                 {
-                    onDance(true);
-                    this.outer.SetInterruptState(new NemesisRest(), InterruptPriority.Any);
+                    this.outer.SetInterruptState(new Rest(), InterruptPriority.Any);
                     return;
                 }
-                else if (Input.GetKeyDown(Config.flossKey.Value))
+                else if (Input.GetKeyDown(Config.saluteKey.Value))
                 {
-                    onDance(true);
                     this.outer.SetInterruptState(new EnforcerSalute(), InterruptPriority.Any);
                     return;
                 }
-                else if (Input.GetKeyDown(Config.earlKey.Value))
+                else if (Input.GetKeyDown(Config.danceKey.Value))
                 {
-                    //onDance(true);
-                    //this.outer.SetInterruptState(new FLINTLOCKWOOD(), InterruptPriority.Any);
-                    //return;
+                    onDance(true);
+                    this.outer.SetInterruptState(new DefaultDance(), InterruptPriority.Any);
+                    return;
+                }
+                else if (Input.GetKeyDown(Config.runKey.Value))
+                {
+                    this.outer.SetInterruptState(new FLINTLOCKWOOD(), InterruptPriority.Any);
+                    return;
                 }
             }
 
