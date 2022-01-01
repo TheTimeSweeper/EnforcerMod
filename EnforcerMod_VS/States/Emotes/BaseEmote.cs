@@ -92,6 +92,56 @@ namespace EntityStates.Enforcer
             base.characterBody.hideCrosshair = !show;
         }
 
+        public override void Update()
+        {
+            base.Update();
+            
+            //dance cancels lol
+            if (base.isAuthority)
+            {
+                if (base.characterBody.baseNameToken == "ENFORCER_NAME")
+                {
+                    if (Input.GetKeyDown(Config.restKey.Value))
+                    {
+                        this.outer.SetInterruptState(new Rest(), InterruptPriority.Any);
+                        return;
+                    }
+                    else if (Input.GetKeyDown(Config.saluteKey.Value))
+                    {
+                        this.outer.SetInterruptState(new EnforcerSalute(), InterruptPriority.Any);
+                        return;
+                    }
+                    if (!EnforcerPlugin.EnforcerModPlugin.holdonasec)
+                    {
+                        if (Input.GetKeyDown(Config.danceKey.Value))
+                        {
+                            this.outer.SetInterruptState(new DefaultDance(), InterruptPriority.Any);
+                            return;
+                        }
+                        else if (Input.GetKeyDown(Config.runKey.Value))
+                        {
+
+                            this.outer.SetInterruptState(new FLINTLOCKWOOD(), InterruptPriority.Any);
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    if (Input.GetKeyDown(Config.restKey.Value))
+                    {
+                        this.outer.SetInterruptState(new Rest(), InterruptPriority.Any);
+                        return;
+                    }
+                    else if (Input.GetKeyDown(Config.saluteKey.Value))
+                    {
+                        this.outer.SetInterruptState(new Salute(), InterruptPriority.Any);
+                        return;
+                    }
+                }
+            }
+        }
+
         public override void FixedUpdate()
         {
             base.FixedUpdate();
@@ -112,54 +162,6 @@ namespace EntityStates.Enforcer
                 if (base.inputBank.skill4.down) endEmote = true;
 
                 if (base.inputBank.moveVector != Vector3.zero) endEmote = true;
-            }
-
-            //dance cancels lol
-            if (base.isAuthority)
-            {
-                if (base.characterBody.baseNameToken == "ENFORCER_NAME")
-                {
-                    if (Input.GetKeyDown(Config.restKey.Value))
-                    {
-                        endEmote = false;
-                        this.outer.SetInterruptState(new Rest(), InterruptPriority.Any);
-                        return;
-                    }
-                    else if (Input.GetKeyDown(Config.saluteKey.Value))
-                    {
-                        endEmote = false;
-                        this.outer.SetInterruptState(new EnforcerSalute(), InterruptPriority.Any);
-                        return;
-                    }
-                    else if (Input.GetKeyDown(Config.danceKey.Value))
-                    {
-                        endEmote = false;
-                        this.outer.SetInterruptState(new DefaultDance(), InterruptPriority.Any);
-                        return;
-                    }
-                    else if (Input.GetKeyDown(Config.runKey.Value))
-                    {
-
-                        endEmote = false;
-                        this.outer.SetInterruptState(new FLINTLOCKWOOD(), InterruptPriority.Any);
-                        return;
-                    }
-                }
-                else
-                {
-                    if (Input.GetKeyDown(Config.restKey.Value))
-                    {
-                        endEmote = false;
-                        this.outer.SetInterruptState(new Rest(), InterruptPriority.Any);
-                        return;
-                    }
-                    else if (Input.GetKeyDown(Config.saluteKey.Value))
-                    {
-                        endEmote = false;
-                        this.outer.SetInterruptState(new Salute(), InterruptPriority.Any);
-                        return;
-                    }
-                }
             }
 
             if (this.duration > 0 && base.fixedAge >= this.duration)

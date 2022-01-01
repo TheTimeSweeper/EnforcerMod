@@ -4,8 +4,6 @@ namespace EntityStates.Enforcer
 {
     public class DefaultDance : BaseEmote
     {
-        
-        
         public override void OnEnter()
         {
             base.OnEnter();
@@ -37,6 +35,12 @@ namespace EntityStates.Enforcer
         public override void OnEnter()
         {
             base.OnEnter();
+
+            if (Random.value < 0.015f)
+            {
+                this.outer.SetInterruptState(new DefaultDance(), InterruptPriority.Any);
+                return;
+            }
 
             PlayEmote("RestEmote", "", 1.5f);
         }

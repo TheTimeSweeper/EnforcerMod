@@ -14,6 +14,7 @@ namespace EntityStates.Enforcer {
         public static Vector3 shieldCameraPosition = new Vector3(1.8f, -2.4f, -5f);
         public static Vector3 standardCameraPosition = new Vector3(0f, -1.3f, -10f);
         public static bool shotgunToggle = false;
+        public bool dance = false;
 
         public Transform origOrigin;
 
@@ -157,8 +158,6 @@ namespace EntityStates.Enforcer {
         {
             base.Update();
 
-
-
             bool shieldIsUp = (base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff) || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff));
 
             //emotes
@@ -169,23 +168,26 @@ namespace EntityStates.Enforcer {
                     this.outer.SetInterruptState(new Rest(), InterruptPriority.Any);
                     return;
                 }
-                else if (Input.GetKeyDown(Config.saluteKey.Value))
+                else if (Input.GetKey(Config.saluteKey.Value))
                 {
                     this.outer.SetInterruptState(new EnforcerSalute(), InterruptPriority.Any);
                     return;
                 }
-                else if (Input.GetKeyDown(Config.danceKey.Value))
+                if (!EnforcerPlugin.EnforcerModPlugin.holdonasec)
                 {
-                    onDance(true);
-                    this.outer.SetInterruptState(new DefaultDance(), InterruptPriority.Any);
-                    return;
+                    if (Input.GetKey(Config.danceKey.Value))
+                    {
+                        onDance(true);
+                        this.outer.SetInterruptState(new DefaultDance(), InterruptPriority.Any);
+                        return;
+                    }
+                    else if (Input.GetKey(Config.runKey.Value))
+                    {
+                        this.outer.SetInterruptState(new FLINTLOCKWOOD(), InterruptPriority.Any);
+                        return;
+                    }
                 }
-                else if (Input.GetKeyDown(Config.runKey.Value))
-                {
-                    this.outer.SetInterruptState(new FLINTLOCKWOOD(), InterruptPriority.Any);
-                    return;
-                }
-            }
+            }            
 
             //sirens
             if (base.isAuthority && Input.GetKeyDown(Config.sirensKey.Value))
@@ -226,7 +228,7 @@ namespace EntityStates.Enforcer {
 
             bool isShielded = base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
 
-            if (isShielded || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff))
+            if (isShielded)
             {
                 base.characterBody.isSprinting = false;
                 base.characterBody.SetAimTimer(0.2f);

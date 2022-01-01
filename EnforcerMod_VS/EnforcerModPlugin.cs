@@ -54,7 +54,7 @@ namespace EnforcerPlugin
 
         public static EnforcerModPlugin instance;
 
-        public static bool nemesisEnabled = true;
+        public static bool holdonasec = true;
 
         internal static List<GameObject> bodyPrefabs = new List<GameObject>();
         internal static List<GameObject> masterPrefabs = new List<GameObject>();
@@ -170,7 +170,7 @@ namespace EnforcerPlugin
             CreateDoppelganger();
             CreateCrosshair();
 
-            if (nemesisEnabled) new NemforcerPlugin().Init();
+            new NemforcerPlugin().Init();
 
             Hook();
             //new Modules.ContentPacks().CreateContentPack();
@@ -217,7 +217,7 @@ namespace EnforcerPlugin
         private void ContentManager_onContentPacksAssigned(HG.ReadOnlyArray<RoR2.ContentManagement.ReadOnlyContentPack> obj)
         {
             EnforcerItemDisplays.RegisterDisplays();
-            if (nemesisEnabled) NemItemDisplays.RegisterDisplays();
+            NemItemDisplays.RegisterDisplays();
 
         }
 
@@ -2748,9 +2748,9 @@ namespace EnforcerPlugin
         {
             Type[] memes = new Type[]
             {
+                typeof(SirenToggle),
                 typeof(DefaultDance),
                 typeof(FLINTLOCKWOOD),
-                typeof(SirenToggle),
                 typeof(Rest),
                 typeof(Enforcer.Emotes.EnforcerSalute),
                 typeof(EntityStates.Nemforcer.Emotes.Salute),

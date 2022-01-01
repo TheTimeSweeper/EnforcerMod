@@ -1,31 +1,14 @@
-﻿using System;
-using UnityEngine;
-using RoR2;
-using ModdedUnlockable = Enforcer.Modules.ModdedUnlockable;
+﻿using RoR2;
 
-namespace EnforcerPlugin.Achievements {
+namespace EnforcerPlugin.Achievements
+{
 
-    public class AssaultRifleAchievement : ModdedUnlockable
+    public class AssaultRifleAchievement : GenericModdedUnlockable
     {
-        public override String AchievementIdentifier { get; } = "ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_ID";
-        public override String UnlockableIdentifier { get; } = "ENFORCER_RIFLEUNLOCKABLE_REWARD_ID";
-        public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
-        public override String AchievementNameToken { get; } = "ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_NAME";
-        public override String AchievementDescToken { get; } = "ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_DESC";
-        public override String UnlockableNameToken { get; }  = "ENFORCER_RIFLEUNLOCKABLE_UNLOCKABLE_NAME";
+        public override string AchievementTokenPrefix => "ENFORCER_RIFLE";
+        public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
 
-        public override Sprite Sprite { get; } = Assets.MainAssetBundle.LoadAsset<Sprite>("texAssaultRifleAchievement");
-
-        public override Func<string> GetHowToUnlock { get; } = (() => Language.GetStringFormatted("UNLOCK_VIA_ACHIEVEMENT_FORMAT", new object[]
-                            {
-                                Language.GetString("ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_NAME"),
-                                Language.GetString("ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_DESC")
-                            }));
-        public override Func<string> GetUnlocked { get; } = (() => Language.GetStringFormatted("UNLOCKED_FORMAT", new object[]
-                            {
-                                Language.GetString("ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_NAME"),
-                                Language.GetString("ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_DESC")
-                            }));
+        public override string AchievementSpriteName => "texAssaultRifleAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex()
         {

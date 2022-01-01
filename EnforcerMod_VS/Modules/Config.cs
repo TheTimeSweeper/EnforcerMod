@@ -153,16 +153,19 @@ namespace EnforcerPlugin.Modules {
                                      "Dance Moves Emote",
                                      KeyCode.Alpha3,
                                      "the Default one");
-            runKey
-                = plugin.Config.Bind("02 - Keybinds",
-                                     "Earl Run Emote",
-                                     KeyCode.Alpha4,
-                                     "FLINT LOCKWOOD (when it works again)");
-            sirensKey
-                = plugin.Config.Bind("02 - Keybinds",
-                                     "Sirens",
-                                     KeyCode.CapsLock,
-                                     "Key used to toggle sirens");
+            if (EnforcerModPlugin.holdonasec)
+            {
+                runKey
+                    = plugin.Config.Bind("02 - Keybinds",
+                                         "Earl Run Emote",
+                                         KeyCode.Alpha4,
+                                         "FLINT LOCKWOOD");
+                sirensKey
+                    = plugin.Config.Bind("02 - Keybinds",
+                                         "Sirens",
+                                         KeyCode.CapsLock,
+                                         "Key used to toggle sirens");
+            }
             #endregion keybinds
 
             #region character stats

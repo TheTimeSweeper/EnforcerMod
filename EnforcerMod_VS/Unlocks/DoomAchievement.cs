@@ -1,30 +1,13 @@
-﻿using System;
-using UnityEngine;
-using RoR2;
-using ModdedUnlockable = Enforcer.Modules.ModdedUnlockable;
+﻿using RoR2;
 
-namespace EnforcerPlugin.Achievements {
+namespace EnforcerPlugin.Achievements
+{
+    public class DoomAchievement : GenericModdedUnlockable {
 
-    public class DoomAchievement : ModdedUnlockable {
-        public override String AchievementIdentifier { get; } = "ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_ID";
-        public override String UnlockableIdentifier { get; } = "ENFORCER_DOOMUNLOCKABLE_REWARD_ID";
-        public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
-        public override String AchievementNameToken { get; } = "ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_NAME";
-        public override String AchievementDescToken { get; } = "ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_DESC";
-        public override String UnlockableNameToken { get; } = "ENFORCER_DOOMUNLOCKABLE_UNLOCKABLE_NAME";
+        public override string AchievementTokenPrefix => "ENFORCER_DOOM";
+        public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
 
-        public override Sprite Sprite { get; } = Assets.MainAssetBundle.LoadAsset<Sprite>("texSuperShotgunAchievement");
-
-        public override Func<string> GetHowToUnlock { get; } = (() => Language.GetStringFormatted("UNLOCK_VIA_ACHIEVEMENT_FORMAT", new object[]
-                            {
-                                Language.GetString("ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_NAME"),
-                                Language.GetString("ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_DESC")
-                            }));
-        public override Func<string> GetUnlocked { get; } = (() => Language.GetStringFormatted("UNLOCKED_FORMAT", new object[]
-                            {
-                                Language.GetString("ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_NAME"),
-                                Language.GetString("ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_DESC")
-                            }));
+        public override string AchievementSpriteName => "texSuperShotgunAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex() {
             return BodyCatalog.FindBodyIndex("EnforcerBody");
@@ -45,15 +28,15 @@ namespace EnforcerPlugin.Achievements {
         }
         public class DoomAchievementServer : RoR2.Achievements.BaseServerAchievement {
 
-            private static readonly int impRequirement = 40;
-            private int impProgress = 0;
+            protected virtual int impRequirement => 40;
+            protected virtual BodyIndex impBodyIndex => BodyCatalog.FindBodyIndex("ImpBody");
 
-            private BodyIndex impBodyIndex;
+            private int _impProgress = 0;
+
 
             public override void OnInstall() {
                 base.OnInstall();
 
-                impBodyIndex = BodyCatalog.FindBodyIndex("ImpBody");
                 GlobalEventManager.onCharacterDeathGlobal += onCharacterDeathGlobal;
                 //idk if this resets every stage.
                     //ok it does, but Idk how
@@ -72,9 +55,9 @@ namespace EnforcerPlugin.Achievements {
                 //which is rad that it fuckin works networked like that, but not fun to actually do
                 //imp |= damageReport.attackerBody && damageReport.attackerBody == base.GetCurrentBody();
                 if (imp) {
-                    this.impProgress++;
+                    this._impProgress++;
                     //Debug.Log("doom imps" + this.impProgress);
-                    if (this.impProgress > DoomAchievementServer.impRequirement) {
+                    if (this._impProgress > impRequirement) {
                         base.Grant();
                     }
                 }

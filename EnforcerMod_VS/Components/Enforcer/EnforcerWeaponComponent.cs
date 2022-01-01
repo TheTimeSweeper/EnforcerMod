@@ -108,7 +108,6 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     }
 
     public void SetWeaponsAndShields() {
-        Debug.LogWarning("fuckingsettingweaponsandshields");
 
         EquippedGun weapon = GetWeapon();
         if (weapon != currentGun) {
@@ -132,7 +131,6 @@ public class EnforcerWeaponComponent : MonoBehaviour {
 
     public void HideEquips()
     {
-        Debug.LogWarning("fuckingHidingweaponsandshields");
         HideWeapons();
         HideShields();
     }

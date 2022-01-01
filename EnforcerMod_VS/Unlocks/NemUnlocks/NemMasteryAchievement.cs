@@ -1,29 +1,13 @@
-﻿using System;
-using UnityEngine;
-using RoR2;
-using ModdedUnlockable = Enforcer.Modules.ModdedUnlockable;
+﻿using RoR2;
 
 namespace EnforcerPlugin.Achievements
 {
-    internal class NemMasteryAchievement : ModdedUnlockable {
-        public override string AchievementIdentifier { get; } = "NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_ID";
-        public override string UnlockableIdentifier { get; } = "NEMFORCER_MASTERYUNLOCKABLE_REWARD_ID";
-        public override string AchievementNameToken { get; } = "NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME";
-        public override string PrerequisiteUnlockableIdentifier { get; } = "";
-        public override string UnlockableNameToken { get; } = "NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME";
-        public override string AchievementDescToken { get; } = "NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC";
-        public override Sprite Sprite { get; } = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerMastery");
+    internal class NemMasteryAchievement : GenericModdedUnlockable
+    {
+        public override string AchievementTokenPrefix => "NEMFORCER_MASTERY";
+        public override string PrerequisiteUnlockableIdentifier => "ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_ID";
 
-        public override Func<string> GetHowToUnlock { get; } = () => Language.GetStringFormatted("UNLOCK_VIA_ACHIEVEMENT_FORMAT", new object[]
-                            {
-                                Language.GetString("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME"),
-                                Language.GetString("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC")
-                            });
-        public override Func<string> GetUnlocked { get; } = () => Language.GetStringFormatted("UNLOCKED_FORMAT", new object[]
-                            {
-                                Language.GetString("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME"),
-                                Language.GetString("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC")
-                            });
+        public override string AchievementSpriteName => "texNemforcerMastery";
 
         public override BodyIndex LookUpRequiredBodyIndex() {
             return BodyCatalog.FindBodyIndex("NemesisEnforcerBody");
