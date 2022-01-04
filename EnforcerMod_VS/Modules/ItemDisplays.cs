@@ -11,17 +11,32 @@ namespace EnforcerPlugin.Modules
 {
     internal static class ItemDisplays
     {
-        private static Dictionary<string, GameObject> itemDisplayPrefabs = new Dictionary<string, GameObject>();
+        public static Dictionary<string, GameObject> itemDisplayPrefabs = new Dictionary<string, GameObject>();
+        public static Dictionary<string, int> itemDisplayCheck = new Dictionary<string, int>();
+        public static Dictionary<string, string> itemDisplayCheck2 = new Dictionary<string, string>();
 
         internal static void PopulateDisplays()
         {
-            ItemDisplayRuleSet itemDisplayRuleSet = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponent<ModelLocator>().modelTransform.GetComponent<CharacterModel>().itemDisplayRuleSet;
+            PopulateDisplaysFromBody("CommandoBody");
+            PopulateDisplaysFromBody("LunarExploderBody");
+            PopulateDisplaysFromBody("CrocoBody");
 
-            ItemDisplayRuleSet.KeyAssetRuleGroup[] item = itemDisplayRuleSet.keyAssetRuleGroups;
+            //foreach (KeyValuePair<string, GameObject> pair in itemDisplayPrefabs)
+            //{
+            //    itemDisplayCheck[pair.Key] = 0;
+            //}
 
-            for (int i = 0; i < item.Length; i++)
+        }
+
+        private static void PopulateDisplaysFromBody(string body)
+        {
+            ItemDisplayRuleSet itemDisplayRuleSet = Resources.Load<GameObject>("Prefabs/CharacterBodies/" + body).GetComponent<ModelLocator>().modelTransform.GetComponent<CharacterModel>().itemDisplayRuleSet;
+
+            ItemDisplayRuleSet.KeyAssetRuleGroup[] itemGroups = itemDisplayRuleSet.keyAssetRuleGroups;
+
+            for (int i = 0; i < itemGroups.Length; i++)
             {
-                ItemDisplayRule[] rules = item[i].displayRuleGroup.rules;
+                ItemDisplayRule[] rules = itemGroups[i].displayRuleGroup.rules;
 
                 for (int j = 0; j < rules.Length; j++)
                 {
@@ -33,57 +48,50 @@ namespace EnforcerPlugin.Modules
                         if (!itemDisplayPrefabs.ContainsKey(key))
                         {
                             itemDisplayPrefabs[key] = followerPrefab;
+                            itemDisplayCheck[key] = 0;
+                            itemDisplayCheck2[key] = itemGroups[i].keyAsset.name;
                         }
                     }
                 }
             }
         }
 
+        public static void printKeys()
+        {
+
+            string yes = "used:";
+            string no = "not used:";
+
+            foreach (KeyValuePair<string, int> pair in itemDisplayCheck)
+            {
+                string thing = $"\n{itemDisplayPrefabs[pair.Key].name} | {itemDisplayPrefabs[pair.Key]} | {pair.Value}";
+
+                if (pair.Value > 0)
+                {
+                    yes += thing;
+                }
+                else
+                {
+                    no += thing;
+                }
+            }
+            Debug.Log(yes);
+            Debug.LogWarning(no);
+        }
+
         internal static GameObject LoadDisplay(string name)
         {
             if (itemDisplayPrefabs.ContainsKey(name.ToLower()))
             {
-                if (itemDisplayPrefabs[name.ToLower()]) return itemDisplayPrefabs[name.ToLower()];
+                if (itemDisplayPrefabs[name.ToLower()])
+                {
+                    itemDisplayCheck[name.ToLower()]++;
+                    return itemDisplayPrefabs[name.ToLower()];
+                }
             }
 
             return null;
         }
-
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public static GameObject LoadAetheriumDisplay(string name)
-        {
-            switch (name)
-            {
-                case "AccursedPotion":
-                    return Aetherium.Items.AccursedPotion.ItemBodyModelPrefab;
-                case "AlienMagnet":
-                    return Aetherium.Items.AlienMagnet.ItemFollowerPrefab;
-                case "BlasterSword":
-                    return Aetherium.Items.BlasterSword.ItemBodyModelPrefab;
-                //case "BloodSoakedShield":
-                //    return Aetherium.Items.BloodSoakedShield.ItemBodyModelPrefab;
-                case "FeatheredPlume":
-                    return Aetherium.Items.FeatheredPlume.ItemBodyModelPrefab;
-                case "InspiringDrone":
-                    return Aetherium.Items.InspiringDrone.ItemFollowerPrefab;
-                case "SharkTeeth":
-                    return Aetherium.Items.SharkTeeth.ItemBodyModelPrefab;
-                case "ShieldingCore":
-                    return Aetherium.Items.ShieldingCore.ItemBodyModelPrefab;
-                case "UnstableDesign":
-                    return Aetherium.Items.UnstableDesign.ItemBodyModelPrefab;
-                case "VoidHeart":
-                    return Aetherium.Items.Voidheart.ItemBodyModelPrefab;
-                case "WeightedAnklet":
-                    return Aetherium.Items.WeightedAnklet.ItemBodyModelPrefab;
-                case "WitchesRing":
-                    return Aetherium.Items.WitchesRing.ItemBodyModelPrefab;
-                case "JarOfReshaping":
-                    return Aetherium.Equipment.JarOfReshaping.ItemBodyModelPrefab;
-            }
-            return null;
-        }
-
 
         public static GameObject LoadSupplyDropDisplay(string name)
         {
@@ -200,7 +208,7 @@ namespace EnforcerPlugin.Modules
             };
         }
 
-        public static ItemDisplayRule CreateLimbDisplayRule(LimbFlags limb)
+        public static ItemDisplayRule CreateLimbMaskDisplayRule(LimbFlags limb)
         {
             return new ItemDisplayRule
             {
@@ -217,6 +225,11 @@ namespace EnforcerPlugin.Modules
         public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateDisplayRuleGroupWithRules(string itemName, params ItemDisplayRule[] rules)
         {
             return CreateDisplayRuleGroupWithRules(Resources.Load<ItemDef>("ItemDefs/" + itemName), rules);
+        }
+
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateDisplayRuleGroupWithRulesE(string itemName, params ItemDisplayRule[] rules)
+        {
+            return CreateDisplayRuleGroupWithRules(Resources.Load<EquipmentDef>("EquipmentDefs/" + itemName), rules);
         }
 
         public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateDisplayRuleGroupWithRules(Object keyAsset_, params ItemDisplayRule[] rules)
