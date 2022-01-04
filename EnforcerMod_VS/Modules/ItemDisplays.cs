@@ -75,7 +75,7 @@ namespace EnforcerPlugin.Modules
                     no += thing;
                 }
             }
-            Debug.Log(yes);
+            //Debug.Log(yes);
             Debug.LogWarning(no);
         }
 
