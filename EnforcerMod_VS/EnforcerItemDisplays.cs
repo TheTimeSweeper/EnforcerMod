@@ -456,17 +456,16 @@ namespace EnforcerPlugin
                                                new Vector3(0.12953F, 0.12351F, 0.10424F)),
                 ItemDisplays.CreateLimbMaskDisplayRule(LimbFlags.RightCalf)
                 ));
-            //uh
             itemRules.Add(ItemDisplays.CreateGenericDisplayRule("IceRing", "DisplayIceRing",
-                                                                "Chest",
-                                                                new Vector3(0, 0.202f, 0),
-                                                                new Vector3(270, 90, 0),
-                                                                new Vector3(0.22f, 0.2175f, 0.2175f)));
+                                                                "Gun",
+                                                                new Vector3(-0.1295F, 0.08429F, 0.01944F),
+                                                                new Vector3(0.35901F, 257.3686F, 175.9728F),
+                                                                new Vector3(1F, 1F, 1F)));
             itemRules.Add(ItemDisplays.CreateGenericDisplayRule("IgniteOnKill", "DisplayGasoline",
-                                                                "Pelvis",
-                                                                new Vector3(0, 0.206f, 0.21f),
-                                                                new Vector3(70, 180, 90),
-                                                                new Vector3(0.22f, 0.22f, 0.22f)));
+                                                               "ThighL",
+                                                                new Vector3(0.06183F, 0.41258F, 0.15294F),
+                                                                new Vector3(77.23817F, 252.9002F, 163.0499F),
+                                                                new Vector3(0.6F, 0.6F, 0.6F)));
             //hello
             itemRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules("IncreaseHealing",
                 ItemDisplays.CreateDisplayRule("DisplayAntler",
