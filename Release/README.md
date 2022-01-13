@@ -3,7 +3,7 @@
 - Includes a bunch of unlockable alternate skills ~~and skins~~
 - Includes support for Ancient Scepter ~~and most modded items~~
 
-[![](https://cdn.discordapp.com/attachments/469291841859092488/830928468367114281/unknown.png)]()
+[![](https://i.imgur.com/mQNrhfH.png)]()
 
 [![](https://cdn.discordapp.com/attachments/739704939671978024/787500376793677844/screen1.png)]()
 [![](https://cdn.discordapp.com/attachments/739704939671978024/787500388198514728/screen2.png)]()

@@ -842,6 +842,7 @@ namespace EnforcerPlugin
                                                                 new Vector3(0.208f, 0.208f, 0),
                                                                 new Vector3(0, 270, 0),
                                                                 new Vector3(0.25f, 0.25f, 0.25f)));
+                                                                               //todo, you know what to do
             itemRules.Add(ItemDisplays.CreateGenericDisplayRuleE("GoldGat", "DisplayGoldGat",
                                                                 "PauldronL",
                                                                 new Vector3(-0.05062F, 0.07337F, 0.17281F),

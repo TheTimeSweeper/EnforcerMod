@@ -7,6 +7,9 @@ public class MemeRigController : MonoBehaviour
     public Animator MemeAnimator { get => memeAnimator; }
 
     [SerializeField]
+    private GameObject memeScaler;
+
+    [SerializeField]
     private Animator origAnimator;
 
     public bool isPlaying;
@@ -16,19 +19,20 @@ public class MemeRigController : MonoBehaviour
         memeAnimator.gameObject.SetActive(false);
     }
     
-    public void playMemeAnim()
+    public void playMemeAnim(bool scale = false)
     {
         origAnimator.enabled = false;
         memeAnimator.Rebind();
         memeAnimator.gameObject.SetActive(true);
+        memeScaler.gameObject.SetActive(scale);
         isPlaying = true;
-        //memeAnimator.Play(anim);
     }
 
     public void stopAnim()
     {
         memeAnimator.Play("Empty");
         memeAnimator.gameObject.SetActive(false);
+        memeScaler.gameObject.SetActive(false);
         origAnimator.enabled = true;
         isPlaying = false;
     }

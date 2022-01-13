@@ -1920,6 +1920,10 @@ namespace EnforcerPlugin
                 BaseUnityPlugin.DestroyImmediate(ai);
             }
 
+            BaseAI baseAI = doppelganger.GetComponent<BaseAI>();
+            baseAI.aimVectorMaxSpeed = 60;
+            baseAI.aimVectorDampTime = 0.15f;
+
             AISkillDriver exitShieldDriver = doppelganger.AddComponent<AISkillDriver>();
             exitShieldDriver.customName = "ExitShield";
             exitShieldDriver.movementType = AISkillDriver.MovementType.Stop;

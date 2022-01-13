@@ -14,7 +14,7 @@ namespace EnforcerPlugin {
 
         public static void RegisterSkins() {
             GameObject bodyPrefab = EnforcerModPlugin.characterPrefab;
-            GameObject modelTransform = bodyPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
+            GameObject modelTransform = bodyPrefab.GetComponent<ModelLocator>().modelTransform.gameObject;
             CharacterModel characterModel = modelTransform.GetComponent<CharacterModel>();
             ModelSkinController skinController = modelTransform.AddComponent<ModelSkinController>();
             ChildLocator childLocator = modelTransform.GetComponent<ChildLocator>();

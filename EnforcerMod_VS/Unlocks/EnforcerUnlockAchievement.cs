@@ -4,7 +4,7 @@ namespace EnforcerPlugin.Achievements
 {
 
     //networked when R2API updates
-    //fuck you for never updating
+        //fuck you for never updating
     public class EnforcerUnlockAchievement : GenericModdedUnlockable {
 
         public override string AchievementTokenPrefix => "ENFORCER_CHARACTER";
@@ -82,7 +82,9 @@ namespace EnforcerPlugin.Achievements
 
                 //throwing this in here because lazy
                 EnforcerModPlugin.cum = false;
-                //it's for doom music this fucking retard
+                    //it's for doom music this fucking retard
+                        //I'm not renaming it
+                            //wait if it's here doesn't it mean it won't work?
             }
 
             private void ResetKills() {

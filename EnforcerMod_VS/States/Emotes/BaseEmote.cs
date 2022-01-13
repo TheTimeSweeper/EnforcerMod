@@ -68,7 +68,11 @@ namespace EntityStates.Enforcer
 
         protected void PlayFromMemeRig(string animString, string soundString = "", float animDuration = 0)
         {
-            memeRig.playMemeAnim();
+            PlayFromMemeRig(animString, false, soundString, animDuration);
+        }
+        protected void PlayFromMemeRig(string animString, bool scaled, string soundString = "", float animDuration = 0)
+        {
+            memeRig.playMemeAnim(scaled);
             PlayEmote(animString, soundString, memeRig.MemeAnimator, animDuration);
         }
 

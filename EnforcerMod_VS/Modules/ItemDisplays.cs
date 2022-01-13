@@ -12,20 +12,64 @@ namespace EnforcerPlugin.Modules
     internal static class ItemDisplays
     {
         public static Dictionary<string, GameObject> itemDisplayPrefabs = new Dictionary<string, GameObject>();
-        public static Dictionary<string, int> itemDisplayCheck = new Dictionary<string, int>();
-        public static Dictionary<string, string> itemDisplayCheck2 = new Dictionary<string, string>();
+        public static Dictionary<string, int> itemDisplayCheckCount = new Dictionary<string, int>();
+        public static Dictionary<string, string> itemDisplayCheckName = new Dictionary<string, string>();
+
+        public static GameObject gatDronePrefab;
 
         internal static void PopulateDisplays()
         {
             PopulateDisplaysFromBody("CommandoBody");
-            PopulateDisplaysFromBody("LunarExploderBody");
             PopulateDisplaysFromBody("CrocoBody");
+            PopulateDisplaysFromBody("LunarExploderBody");
+
+            CreateFuckingGatDrone();
 
             //foreach (KeyValuePair<string, GameObject> pair in itemDisplayPrefabs)
             //{
             //    itemDisplayCheck[pair.Key] = 0;
             //}
 
+        }
+
+        private static void CreateFuckingGatDrone()
+        {
+            ItemDisplayRuleSet itemDisplayRuleSet = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponent<ModelLocator>().modelTransform.GetComponent<CharacterModel>().itemDisplayRuleSet;
+
+            gatDronePrefab = PrefabAPI.InstantiateClone(LoadDisplay("DisplayGoldGat"), "DisplayEnforcerGatDrone", false);
+
+            GameObject gatDrone = PrefabAPI.InstantiateClone(Assets.gatDrone, "GatDrone", false);
+
+            Material gatMaterial = gatDrone.GetComponentInChildren<MeshRenderer>().material;
+            Material newMaterial = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+
+            newMaterial.SetColor("_Color", gatMaterial.GetColor("_Color"));
+            newMaterial.SetTexture("_MainTex", gatMaterial.GetTexture("_MainTex"));
+            newMaterial.SetFloat("_EmPower", 0f);
+            newMaterial.SetColor("_EmColor", Color.black);
+            newMaterial.SetFloat("_NormalStrength", 0);
+
+            gatDrone.transform.parent = gatDronePrefab.transform;
+            gatDrone.transform.localPosition = new Vector3(-0.025f, -3.1f, 0);
+            gatDrone.transform.localRotation = Quaternion.Euler(new Vector3(-90, 90, 0));
+            gatDrone.transform.localScale = new Vector3(175, 175, 175);
+
+            CharacterModel.RendererInfo[] infos = gatDronePrefab.GetComponent<ItemDisplay>().rendererInfos;
+            CharacterModel.RendererInfo[] newInfos = new CharacterModel.RendererInfo[]
+            {
+                infos[0],
+                new CharacterModel.RendererInfo
+                {
+                    renderer = gatDrone.GetComponentInChildren<MeshRenderer>(),
+                    defaultMaterial = newMaterial,
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                }
+            };
+
+            gatDronePrefab.GetComponent<ItemDisplay>().rendererInfos = newInfos;
+
+            itemDisplayPrefabs["DisplayGoldGatDrone"] = gatDronePrefab;
         }
 
         private static void PopulateDisplaysFromBody(string body)
@@ -48,8 +92,8 @@ namespace EnforcerPlugin.Modules
                         if (!itemDisplayPrefabs.ContainsKey(key))
                         {
                             itemDisplayPrefabs[key] = followerPrefab;
-                            itemDisplayCheck[key] = 0;
-                            itemDisplayCheck2[key] = itemGroups[i].keyAsset.name;
+                            itemDisplayCheckCount[key] = 0;
+                            itemDisplayCheckName[key] = itemGroups[i].keyAsset.name;
                         }
                     }
                 }
@@ -62,7 +106,7 @@ namespace EnforcerPlugin.Modules
             string yes = "used:";
             string no = "not used:";
 
-            foreach (KeyValuePair<string, int> pair in itemDisplayCheck)
+            foreach (KeyValuePair<string, int> pair in itemDisplayCheckCount)
             {
                 string thing = $"\n{itemDisplayPrefabs[pair.Key].name} | {itemDisplayPrefabs[pair.Key]} | {pair.Value}";
 
@@ -85,7 +129,7 @@ namespace EnforcerPlugin.Modules
             {
                 if (itemDisplayPrefabs[name.ToLower()])
                 {
-                    itemDisplayCheck[name.ToLower()]++;
+                    itemDisplayCheckCount[name.ToLower()]++;
                     return itemDisplayPrefabs[name.ToLower()];
                 }
             }

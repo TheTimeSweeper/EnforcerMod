@@ -9,6 +9,9 @@ public class MemeRigController : MonoBehaviour
     private Animator memeAnimator;
 
     [SerializeField]
+    private GameObject memeScaler;
+
+    [SerializeField]
     private Animator origAnimator;
 
     void Awake()
@@ -16,11 +19,12 @@ public class MemeRigController : MonoBehaviour
         memeAnimator.gameObject.SetActive(false);
     }
 
-    public void playMemeAnim(string anim)
+    public void playMemeAnim(string anim, bool scale = false)
     {
-        memeAnimator.Rebind();
         origAnimator.enabled = false;
+        memeAnimator.Rebind();
         memeAnimator.gameObject.SetActive(true);
+        memeScaler.SetActive(scale);
         memeAnimator.Play(anim);
     }
 
@@ -28,6 +32,7 @@ public class MemeRigController : MonoBehaviour
     {
         memeAnimator.Play("Empty");
         memeAnimator.gameObject.SetActive(false);
+        memeScaler.SetActive(false);
         origAnimator.enabled = true;
     }
 
@@ -50,19 +55,26 @@ public class MemeRigController : MonoBehaviour
         stopAnim();
     }
 
-    [ContextMenu("testPlayAnim")]
+    [ContextMenu("testPlayAnim Dance")]
     public void test()
     {
         shield.SetActive(false);
         gun.SetActive(false);
         playMemeAnim("DefaultDance");
     }
-    [ContextMenu("testPlayAnim2")]
+    [ContextMenu("testPlayAnim Earl")]
     public void test2()
     {
         shield.SetActive(false);
         gun.SetActive(false);
         playMemeAnim("FLINT LOCK WOOD");
+    }
+    [ContextMenu("testPlayAnim Earl2")]
+    public void test3()
+    {
+        shield.SetActive(false);
+        gun.SetActive(false);
+        playMemeAnim("FLINT LOCK WOOD", true);
     }
 
     [ContextMenu("setBones")]
