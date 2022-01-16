@@ -41,6 +41,12 @@ public class EnforcerItemDisplayEditorComponent : MonoBehaviour {
 
     public void HideWeapons() {
 
+        shotgunObject.SetActive(true);
+        ssgobject.gameObject.SetActive(true);
+        hmgObject.SetActive(true);
+        hammerObject.SetActive(true);
+        needlerObject.SetActive(true);
+
         shotgunObject.SetActive(false);
         ssgobject.gameObject.SetActive(false);
         hmgObject.SetActive(false);

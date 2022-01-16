@@ -78,13 +78,17 @@ namespace EntityStates.Enforcer
 
         public void HideShit(bool show = false)
         {
-            if (!show)
+            if (!weaponComponent)
             {
-                weaponComponent.HideEquips();
-            }
-            else
-            {
-                weaponComponent.UnHideEquips();
+
+                if (!show)
+                {
+                    weaponComponent.HideEquips();
+                }
+                else
+                {
+                    weaponComponent.UnHideEquips();
+                }
             }
 
             if (base.GetAimAnimator()) 
