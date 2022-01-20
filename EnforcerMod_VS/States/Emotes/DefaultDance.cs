@@ -36,7 +36,7 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
 
-            if (Random.value < 0.015f)
+            if (Random.value < 0.015f && base.characterBody.baseNameToken == "ENFORCER_NAME")
             {
                 this.outer.SetInterruptState(new DefaultDance(), InterruptPriority.Any);
                 return;

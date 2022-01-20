@@ -33,7 +33,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.cwmlolzlz.skills", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ItemDisplayPlacementHelper", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.2.5")]
+    [BepInPlugin(MODUID, "Enforcer", "3.2.8")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -119,17 +119,6 @@ namespace EnforcerPlugin
         //public static uint stormtrooperIndex = 4;
         //public static uint frogIndex = 7;
 
-        // a blacklist for teleporter particles- the fix for it is retarded so we just disable them on certain characters.
-        private static List<string> _tpParticleBlacklist = new List<string>
-        {
-            "PALADIN_NAME",
-            "LUNAR_KNIGHT_BODY_NAME",
-            "NEMMANDO_NAME",
-            "EXECUTIONER_NAME",
-            "MINER_NAME"
-        };
-
-
         private SkillLocator _skillLocator;
         private CharacterSelectSurvivorPreviewDisplayController _previewController;
 
@@ -149,7 +138,7 @@ namespace EnforcerPlugin
 
         private void Awake() {
 
-            //touch this all you want tho
+            
             Modules.Config.ConfigShit(this);
             Modules.States.FixStates();
             Assets.PopulateAssets();
@@ -212,6 +201,20 @@ namespace EnforcerPlugin
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ItemDisplayPlacementHelper")) {
                 IDPHelperInstalled = true;
             }
+
+            //string[] bods = new string[]
+            //{
+            //    "NemesisEnforcerBody",
+            //    "MinerBody",
+            //    "CHEF",
+            //    "ExecutionerBody",
+            //    "NemmandoBody"
+            //};
+
+            //for (int i = 0; i < bods.Length; i++)
+            //{
+            //    ItemAPI.DoNotAutoIDRSFor(bods[i]);
+            //}
         }
 
         private void ContentManager_onContentPacksAssigned(HG.ReadOnlyArray<RoR2.ContentManagement.ReadOnlyContentPack> obj)
@@ -274,26 +277,6 @@ namespace EnforcerPlugin
             if (Run.instance.selectedDifficulty == DifficultyIndex.Easy || Run.instance.selectedDifficulty == DifficultyIndex.Normal) flag = false;
 
             return flag;
-        }
-
-        private void TeleportOutController_OnStartClient(On.RoR2.TeleportOutController.orig_OnStartClient orig, TeleportOutController self)
-        {
-            // fuck you hopoo
-                // no. big particle funny
-            if (self.target)
-            {
-                CharacterBody targetBody = self.target.GetComponent<CharacterBody>();
-                if (targetBody)
-                {
-                    if (EnforcerModPlugin._tpParticleBlacklist.Contains(targetBody.baseNameToken))
-                    {
-                        self.bodyGlowParticles.Play();
-                        return;
-                    }
-                }
-            }
-
-            orig(self);
         }
 
         private void MapZone_TryZoneStart(On.RoR2.MapZone.orig_TryZoneStart orig, MapZone self, Collider other)
@@ -1140,7 +1123,7 @@ namespace EnforcerPlugin
 
                                                            //why
                                                            //in the god damn fuck
-                                                           //does AddComponent default to an extension coming from the fucking starstorm dll
+                                                           //did AddComponent default to an extension coming from the fucking starstorm dll
             EntityStateMachine octagonapus = bodyComponent.gameObject.AddComponent<EntityStateMachine>();
 
             octagonapus.customName = "EnforcerParry";

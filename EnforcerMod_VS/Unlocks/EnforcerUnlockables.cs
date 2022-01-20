@@ -23,7 +23,9 @@ namespace EnforcerPlugin.Modules
         public static UnlockableDef nemGrandMasteryUnlockableDef;
 
         public static void RegisterUnlockables() {
+
             RegisterTokens();
+
             //this is the version that works with the altered AddUnlockable I changed in R2API.
             //look at #r2api in the discord to see what I mean. I went into more detail in #development as well
             //      lol fucking that was a year ago you have to search from:timesweeper i was retarded for saying this

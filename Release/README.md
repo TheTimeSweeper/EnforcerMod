@@ -32,6 +32,7 @@ Nebby - Help
 Reithierion - New mod icon  
 Draymarc - Concepts  
 Lethan - Screenshots  
+wetpudding - item displays
 Ruxbieno - Idea Guy™  
 Swuff - Idea Guy™  
 
@@ -66,18 +67,26 @@ lil out of date
 ## Future Plans
 - More alternate skill(s)
 - Skills++ support
+- vr?
 - Other things 100% decided on pure whimsy
 - Readding everything
 - Fixing this fucker
 - Help
 
 ## Changelog
+`3.2.8`
+ - woops missed a few, how embarrassing
+ - fixed crazy ragdoll
+
+`3.2.7`
+ - touched up intrusive item displays
+   - except crowdfunder. got something special for that
+ - fixed crazy ragdoll
+
 `3.2.6`
- - holy shit vr
-   - barebones initial implementation thanks to drbibop (the vr mod guy himself)
  - tweaked shield hurtbox and added additional shield hurtbox closer to enforcer 
-   - to hopefully make blocking more consistent.
-   - still less powerful than before, but more consistent to use
+   - make blocking more consistent, but still less bullshit than before
+ - item displays holy shit! big thanks wetpudding
 
 `3.2.5`
  - fixed some item displays, what little I had time to do

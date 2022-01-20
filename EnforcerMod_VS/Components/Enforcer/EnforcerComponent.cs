@@ -95,9 +95,12 @@ public class EnforcerComponent : MonoBehaviour
 
     void LateUpdate() {
 
-        head.transform.localScale = Vector3.one * Config.headSize.Value;
-                                                      //magic numbers based on head bone's default position
-        head.transform.localPosition = new Vector3(0, 0.0535f + 0.0450f * Config.headSize.Value, 0);  
+        if (Config.headSize.Value > 2)
+        {
+            head.transform.localScale = Vector3.one * Config.headSize.Value;
+            //magic numbers based on head bone's default position
+            head.transform.localPosition = new Vector3(0, 0.0535f + 0.0450f * Config.headSize.Value, 0);
+        }
     }
 
     private void aimShield() {

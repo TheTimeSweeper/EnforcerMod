@@ -1,6 +1,6 @@
 {
     "name": "Enforcer",
-    "version_number": "3.2.5",
+    "version_number": "3.2.8",
     "website_url": "https://github.com/GnomeModder/EnforcerMod",
     "description": "Adds the Enforcer from Risk of Rain 1 as a fully fleshed out (cough) playable survivor.",
     "dependencies": [

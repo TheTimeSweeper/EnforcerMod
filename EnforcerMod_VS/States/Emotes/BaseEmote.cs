@@ -78,7 +78,7 @@ namespace EntityStates.Enforcer
 
         public void HideShit(bool show = false)
         {
-            if (!weaponComponent)
+            if (weaponComponent)
             {
 
                 if (!show)
@@ -187,8 +187,6 @@ namespace EntityStates.Enforcer
         {
             CameraTargetParams ctp = base.cameraTargetParams;
 
-            if (Vector3.Distance(ctp.idealLocalCameraPos, new Vector3(0f, -2.4f, -8f)) < 0.1f)
-                return;
             float denom = (1 + Time.fixedTime - this.cameraInitialTime);
             float smoothFactor = 8 / Mathf.Pow(denom, 2);
             Vector3 smoothVector = new Vector3(-3 / 20, 1 / 16, -1);
@@ -204,7 +202,7 @@ namespace EntityStates.Enforcer
             base.PlayAnimation("FullBody, Override", "BufferEmpty");
             if (this.activePlayID != 0) AkSoundEngine.StopPlayingID(this.activePlayID);
 
-            if (memeRig.isPlaying)
+            if (memeRig && memeRig.isPlaying)
                 memeRig.stopAnim();
         }
 
