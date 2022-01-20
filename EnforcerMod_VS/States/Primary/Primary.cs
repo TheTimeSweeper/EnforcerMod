@@ -117,11 +117,11 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
                     float spread = bulletSpread;
                     float thiccness = bulletThiccness;
-                    float force = 100; // EnforcerPlugin.UtilsComponent.forceUnshield;
+                    float force = 50; // EnforcerPlugin.UtilsComponent.forceUnshield;
                     if (HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff)) {
                         spread *= 0.8f;
                         thiccness = 0.69f * thiccness;
-                        force = 60; //EnforcerPlugin.UtilsComponent.forceShield; 
+                        force = 30; //EnforcerPlugin.UtilsComponent.forceShield; 
                     }
 
                     BulletAttack bulletAttack = new BulletAttack {

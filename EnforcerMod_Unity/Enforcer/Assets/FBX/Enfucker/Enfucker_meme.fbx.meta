@@ -135,6 +135,7 @@ ModelImporter:
     100258: UpperArm.R
     100260: UpperLeg.L
     100262: UpperLeg.R
+    100264: meshEnforcerPauldron
     400000: Armature
     400002: base base
     400004: Chest
@@ -267,10 +268,15 @@ ModelImporter:
     400258: UpperArm.R
     400260: UpperLeg.L
     400262: UpperLeg.R
+    400264: meshEnforcerPauldron
     2100000: MatEnfucker.001
+    2100002: MatEnfucker
     4300000: meshEnforcer
+    4300002: meshEnforcerPauldron
     9500000: //RootNode
     13700000: meshEnforcer
+    13700002: meshEnforcerPauldron
+    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -284,7 +290,9 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: 
+    rigImportWarnings: "Avatar Rig Configuration mis-match. Bone length in configuration
+      does not match position in animation file:\n\t'UpperLeg.L' : position error
+      = 46.840870 mm\n\t'UpperLeg.R' : position error = 32.264992 mm\n"
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 

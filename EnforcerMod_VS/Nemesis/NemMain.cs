@@ -41,12 +41,12 @@ namespace EntityStates.Nemforcer
             //emotes
             if (base.isAuthority && base.characterMotor.isGrounded && !minigunUp)
             {
-                if (Input.GetKeyDown(Config.defaultDanceKey.Value))
+                if (Input.GetKeyDown(Config.restKey.Value))
                 {
-                    this.outer.SetInterruptState(new NemesisRest(), InterruptPriority.Any);
+                    this.outer.SetInterruptState(new Rest(), InterruptPriority.Any);
                     return;
                 }
-                else if (Input.GetKeyDown(Config.flossKey.Value))
+                else if (Input.GetKeyDown(Config.saluteKey.Value))
                 {
                     this.outer.SetInterruptState(new Salute(), InterruptPriority.Any);
                     return;
@@ -55,7 +55,6 @@ namespace EntityStates.Nemforcer
 
             //invasion test
             //if (base.isAuthority && Input.GetKeyDown("z")) EnforcerPlugin.NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
-
 
             if (this.nemComponent.isMultiplayer)
             {

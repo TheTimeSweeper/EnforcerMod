@@ -11,17 +11,76 @@ namespace EnforcerPlugin.Modules
 {
     internal static class ItemDisplays
     {
-        private static Dictionary<string, GameObject> itemDisplayPrefabs = new Dictionary<string, GameObject>();
+        public static Dictionary<string, GameObject> itemDisplayPrefabs = new Dictionary<string, GameObject>();
+        public static Dictionary<string, int> itemDisplayCheckCount = new Dictionary<string, int>();
+        public static Dictionary<string, string> itemDisplayCheckName = new Dictionary<string, string>();
+
+        public static GameObject gatDronePrefab;
 
         internal static void PopulateDisplays()
         {
+            PopulateDisplaysFromBody("CommandoBody");
+            PopulateDisplaysFromBody("CrocoBody");
+            PopulateDisplaysFromBody("LunarExploderBody");
+
+            CreateFuckingGatDrone();
+
+            //foreach (KeyValuePair<string, GameObject> pair in itemDisplayPrefabs)
+            //{
+            //    itemDisplayCheck[pair.Key] = 0;
+            //}
+
+        }
+
+        private static void CreateFuckingGatDrone()
+        {
             ItemDisplayRuleSet itemDisplayRuleSet = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponent<ModelLocator>().modelTransform.GetComponent<CharacterModel>().itemDisplayRuleSet;
 
-            ItemDisplayRuleSet.KeyAssetRuleGroup[] item = itemDisplayRuleSet.keyAssetRuleGroups;
+            gatDronePrefab = PrefabAPI.InstantiateClone(LoadDisplay("DisplayGoldGat"), "DisplayEnforcerGatDrone", false);
 
-            for (int i = 0; i < item.Length; i++)
+            GameObject gatDrone = PrefabAPI.InstantiateClone(Assets.gatDrone, "GatDrone", false);
+
+            Material gatMaterial = gatDrone.GetComponentInChildren<MeshRenderer>().material;
+            Material newMaterial = UnityEngine.Object.Instantiate<Material>(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+
+            newMaterial.SetColor("_Color", gatMaterial.GetColor("_Color"));
+            newMaterial.SetTexture("_MainTex", gatMaterial.GetTexture("_MainTex"));
+            newMaterial.SetFloat("_EmPower", 0f);
+            newMaterial.SetColor("_EmColor", Color.black);
+            newMaterial.SetFloat("_NormalStrength", 0);
+
+            gatDrone.transform.parent = gatDronePrefab.transform;
+            gatDrone.transform.localPosition = new Vector3(-0.025f, -3.1f, 0);
+            gatDrone.transform.localRotation = Quaternion.Euler(new Vector3(-90, 90, 0));
+            gatDrone.transform.localScale = new Vector3(175, 175, 175);
+
+            CharacterModel.RendererInfo[] infos = gatDronePrefab.GetComponent<ItemDisplay>().rendererInfos;
+            CharacterModel.RendererInfo[] newInfos = new CharacterModel.RendererInfo[]
             {
-                ItemDisplayRule[] rules = item[i].displayRuleGroup.rules;
+                infos[0],
+                new CharacterModel.RendererInfo
+                {
+                    renderer = gatDrone.GetComponentInChildren<MeshRenderer>(),
+                    defaultMaterial = newMaterial,
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                }
+            };
+
+            gatDronePrefab.GetComponent<ItemDisplay>().rendererInfos = newInfos;
+
+            itemDisplayPrefabs["DisplayGoldGatDrone"] = gatDronePrefab;
+        }
+
+        private static void PopulateDisplaysFromBody(string body)
+        {
+            ItemDisplayRuleSet itemDisplayRuleSet = Resources.Load<GameObject>("Prefabs/CharacterBodies/" + body).GetComponent<ModelLocator>().modelTransform.GetComponent<CharacterModel>().itemDisplayRuleSet;
+
+            ItemDisplayRuleSet.KeyAssetRuleGroup[] itemGroups = itemDisplayRuleSet.keyAssetRuleGroups;
+
+            for (int i = 0; i < itemGroups.Length; i++)
+            {
+                ItemDisplayRule[] rules = itemGroups[i].displayRuleGroup.rules;
 
                 for (int j = 0; j < rules.Length; j++)
                 {
@@ -33,57 +92,50 @@ namespace EnforcerPlugin.Modules
                         if (!itemDisplayPrefabs.ContainsKey(key))
                         {
                             itemDisplayPrefabs[key] = followerPrefab;
+                            itemDisplayCheckCount[key] = 0;
+                            itemDisplayCheckName[key] = itemGroups[i].keyAsset.name;
                         }
                     }
                 }
             }
         }
 
+        public static void printKeys()
+        {
+
+            string yes = "used:";
+            string no = "not used:";
+
+            foreach (KeyValuePair<string, int> pair in itemDisplayCheckCount)
+            {
+                string thing = $"\n{itemDisplayPrefabs[pair.Key].name} | {itemDisplayPrefabs[pair.Key]} | {pair.Value}";
+
+                if (pair.Value > 0)
+                {
+                    yes += thing;
+                }
+                else
+                {
+                    no += thing;
+                }
+            }
+            //Debug.Log(yes);
+            Debug.LogWarning(no);
+        }
+
         internal static GameObject LoadDisplay(string name)
         {
             if (itemDisplayPrefabs.ContainsKey(name.ToLower()))
             {
-                if (itemDisplayPrefabs[name.ToLower()]) return itemDisplayPrefabs[name.ToLower()];
+                if (itemDisplayPrefabs[name.ToLower()])
+                {
+                    itemDisplayCheckCount[name.ToLower()]++;
+                    return itemDisplayPrefabs[name.ToLower()];
+                }
             }
 
             return null;
         }
-
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public static GameObject LoadAetheriumDisplay(string name)
-        {
-            switch (name)
-            {
-                case "AccursedPotion":
-                    return Aetherium.Items.AccursedPotion.ItemBodyModelPrefab;
-                case "AlienMagnet":
-                    return Aetherium.Items.AlienMagnet.ItemFollowerPrefab;
-                case "BlasterSword":
-                    return Aetherium.Items.BlasterSword.ItemBodyModelPrefab;
-                //case "BloodSoakedShield":
-                //    return Aetherium.Items.BloodSoakedShield.ItemBodyModelPrefab;
-                case "FeatheredPlume":
-                    return Aetherium.Items.FeatheredPlume.ItemBodyModelPrefab;
-                case "InspiringDrone":
-                    return Aetherium.Items.InspiringDrone.ItemFollowerPrefab;
-                case "SharkTeeth":
-                    return Aetherium.Items.SharkTeeth.ItemBodyModelPrefab;
-                case "ShieldingCore":
-                    return Aetherium.Items.ShieldingCore.ItemBodyModelPrefab;
-                case "UnstableDesign":
-                    return Aetherium.Items.UnstableDesign.ItemBodyModelPrefab;
-                case "VoidHeart":
-                    return Aetherium.Items.Voidheart.ItemBodyModelPrefab;
-                case "WeightedAnklet":
-                    return Aetherium.Items.WeightedAnklet.ItemBodyModelPrefab;
-                case "WitchesRing":
-                    return Aetherium.Items.WitchesRing.ItemBodyModelPrefab;
-                case "JarOfReshaping":
-                    return Aetherium.Equipment.JarOfReshaping.ItemBodyModelPrefab;
-            }
-            return null;
-        }
-
 
         public static GameObject LoadSupplyDropDisplay(string name)
         {
@@ -200,7 +252,7 @@ namespace EnforcerPlugin.Modules
             };
         }
 
-        public static ItemDisplayRule CreateLimbDisplayRule(LimbFlags limb)
+        public static ItemDisplayRule CreateLimbMaskDisplayRule(LimbFlags limb)
         {
             return new ItemDisplayRule
             {
@@ -217,6 +269,11 @@ namespace EnforcerPlugin.Modules
         public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateDisplayRuleGroupWithRules(string itemName, params ItemDisplayRule[] rules)
         {
             return CreateDisplayRuleGroupWithRules(Resources.Load<ItemDef>("ItemDefs/" + itemName), rules);
+        }
+
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateDisplayRuleGroupWithRulesE(string itemName, params ItemDisplayRule[] rules)
+        {
+            return CreateDisplayRuleGroupWithRules(Resources.Load<EquipmentDef>("EquipmentDefs/" + itemName), rules);
         }
 
         public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateDisplayRuleGroupWithRules(Object keyAsset_, params ItemDisplayRule[] rules)
@@ -308,110 +365,5 @@ namespace EnforcerPlugin.Modules
 
             return displayRule;
         }
-
-        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateFollowerDisplayRule(string itemName, string prefabName, Vector3 position, Vector3 rotation, Vector3 scale)
-        {
-            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
-            {
-                keyAsset = Resources.Load<ItemDef>("ItemDefs/" + itemName),
-                displayRuleGroup = new DisplayRuleGroup
-                {
-                    rules = new ItemDisplayRule[]
-                    {
-                        new ItemDisplayRule
-                        {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            childName = "Base",
-                            followerPrefab = LoadDisplay(prefabName),
-                            limbMask = LimbFlags.None,
-                            localPos = position,
-                            localAngles = rotation,
-                            localScale = scale
-                        }
-                    }
-                }
-            };
-
-            return displayRule;
-        }
-
-        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateFollowerDisplayRuleE(string itemName, string prefabName, Vector3 position, Vector3 rotation, Vector3 scale)
-        {
-            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
-            {
-                keyAsset = Resources.Load<EquipmentDef>("EquipmentDefs/" + itemName),
-                displayRuleGroup = new DisplayRuleGroup
-                {
-                    rules = new ItemDisplayRule[]
-                    {
-                        new ItemDisplayRule
-                        {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            childName = "Base",
-                            followerPrefab = LoadDisplay(prefabName),
-                            limbMask = LimbFlags.None,
-                            localPos = position,
-                            localAngles = rotation,
-                            localScale = scale
-                        }
-                    }
-                }
-            };
-
-            return displayRule;
-        }
-
-        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateFollowerDisplayRule(string itemName, GameObject itemPrefab, Vector3 position, Vector3 rotation, Vector3 scale)
-        {
-            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
-            {
-                keyAsset = Resources.Load<ItemDef>("ItemDefs/" + itemName),
-                displayRuleGroup = new DisplayRuleGroup
-                {
-                    rules = new ItemDisplayRule[]
-                    {
-                        new ItemDisplayRule
-                        {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            childName = "Base",
-                            followerPrefab = itemPrefab,
-                            limbMask = LimbFlags.None,
-                            localPos = position,
-                            localAngles = rotation,
-                            localScale = scale
-                        }
-                    }
-                }
-            };
-
-            return displayRule;
-        }
-
-        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateFollowerDisplayRuleE(string itemName, GameObject itemPrefab, Vector3 position, Vector3 rotation, Vector3 scale)
-        {
-            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
-            {
-                keyAsset = Resources.Load<EquipmentDef>("EquipmentDefs/" + itemName),
-                displayRuleGroup = new DisplayRuleGroup
-                {
-                    rules = new ItemDisplayRule[]
-                    {
-                        new ItemDisplayRule
-                        {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            childName = "Base",
-                            followerPrefab = itemPrefab,
-                            limbMask = LimbFlags.None,
-                            localPos = position,
-                            localAngles = rotation,
-                            localScale = scale
-                        }
-                    }
-                }
-            };
-
-            return displayRule;
-        }
-
     }
 }

@@ -8,10 +8,16 @@ AnimatorController:
   m_PrefabAsset: {fileID: 0}
   m_Name: animEnfuckerMeme
   serializedVersion: 5
-  m_AnimatorParameters: []
+  m_AnimatorParameters:
+  - m_Name: Emote.playbackRate
+    m_Type: 1
+    m_DefaultFloat: 1
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
-    m_Name: Base Layer
+    m_Name: FullBody, Override
     m_StateMachine: {fileID: 1107663585882172132}
     m_Mask: {fileID: 0}
     m_Motions: []
@@ -55,7 +61,33 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: def
+  m_Name: DefaultDance
+  m_Speed: 0.95
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 1
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 750056c6a7b14d04898f045432e6242e, type: 2}
+  m_Tag: 
+  m_SpeedParameter: Emote.playbackRate
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &1102065869897156166
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FLINT LOCK WOOD 2
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -68,7 +100,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 750056c6a7b14d04898f045432e6242e, type: 2}
+  m_Motion: {fileID: 7400000, guid: 92c2cea37e05f9f4cac32be0a10880d3, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -81,8 +113,8 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EnforcerOfficerEarlRun
-  m_Speed: 1
+  m_Name: FLINT LOCK WOOD
+  m_Speed: 1.4
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -90,13 +122,13 @@ AnimatorState:
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 3b7cbb06806a9924db7f07d8e8dd19e5, type: 2}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: Emote.playbackRate
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -107,7 +139,7 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Base Layer
+  m_Name: FullBody, Override
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102002892653533734}
@@ -118,6 +150,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 1102066344272711620}
     m_Position: {x: 564, y: -12, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102065869897156166}
+    m_Position: {x: 564, y: 84, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

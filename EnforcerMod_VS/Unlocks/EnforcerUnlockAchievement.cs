@@ -1,33 +1,16 @@
-﻿using System;
-using UnityEngine;
-using RoR2;
-using Enforcer.Modules;
-using ModdedUnlockable = Enforcer.Modules.ModdedUnlockable;
+﻿using RoR2;
 
-namespace EnforcerPlugin.Achievements {
+namespace EnforcerPlugin.Achievements
+{
 
     //networked when R2API updates
-    //fuck you for never updating
-    public class EnforcerUnlockAchievement : ModdedUnlockable {
+        //fuck you for never updating
+    public class EnforcerUnlockAchievement : GenericModdedUnlockable {
 
-        public override String AchievementIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
-        public override String UnlockableIdentifier { get; } = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
-        public override String AchievementNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME";
-        public override String PrerequisiteUnlockableIdentifier { get; } = "";
-        public override String UnlockableNameToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_UNLOCKABLE_NAME";
-        public override String AchievementDescToken { get; } = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC";
-        public override Sprite Sprite { get; } = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerUnlockAchievement");
+        public override string AchievementTokenPrefix => "ENFORCER_CHARACTER";
+        public override string PrerequisiteUnlockableIdentifier => "";
 
-        public override Func<string> GetHowToUnlock { get; } = (() => Language.GetStringFormatted("UNLOCK_VIA_ACHIEVEMENT_FORMAT", new object[]
-                            {
-                                Language.GetString("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME"),
-                                Language.GetString("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC")
-                            }));
-        public override Func<string> GetUnlocked { get; } = (() => Language.GetStringFormatted("UNLOCKED_FORMAT", new object[]
-                            {
-                                Language.GetString("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME"),
-                                Language.GetString("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC")
-                            }));
+        public override string AchievementSpriteName => "texEnforcerUnlockAchievement";
         //need to network this, only gives it to the host rn
             //after a fucking year it finally happened
 
@@ -99,7 +82,9 @@ namespace EnforcerPlugin.Achievements {
 
                 //throwing this in here because lazy
                 EnforcerModPlugin.cum = false;
-                //it's for doom music this fucking retard
+                    //it's for doom music this fucking retard
+                        //I'm not renaming it
+                            //wait if it's here doesn't it mean it won't work?
             }
 
             private void ResetKills() {

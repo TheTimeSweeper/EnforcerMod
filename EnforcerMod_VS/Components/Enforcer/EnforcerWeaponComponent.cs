@@ -98,7 +98,7 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         if (this.footStep) this.stepSoundString = this.footStep.baseFootstepString;
         if (this.sfx) this.landSoundString = this.sfx.landingSound;
 
-        this.SetWeapons();
+        this.SetWeaponsAndShields();
         this.InitShells();
         this.InitSkateboard();
 
@@ -107,7 +107,7 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         this.UpdateCamera();
     }
 
-    public void SetWeapons() {
+    public void SetWeaponsAndShields() {
 
         EquippedGun weapon = GetWeapon();
         if (weapon != currentGun) {
@@ -129,9 +129,22 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         }
     }
 
+    public void HideEquips()
+    {
+        HideWeapons();
+        HideShields();
+    }
+
+    public void UnHideEquips() {
+
+        this.EquipWeapon(currentGun);
+        this.EquipShield(currentShield);
+    }
+
     public void HideWeapons() {
         if (this.childLocator) {
             for (int i = 0; i < allWeapons.Count; i++) {
+                //bit of a hack to make sure objects hide their associated item bones
                 allWeapons[i].SetActive(true);
                 allWeapons[i].SetActive(false);
             }
@@ -142,18 +155,11 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     {
         if (this.childLocator)
         {
-            //for (int i = 0; i < allWeapons.Count; i++) {
-            //    //allWeapons[i].SetActive(true);
-            //    allWeapons[i].SetActive(false);
-            //}
-
             shieldObject.SetActive(false);
             skateBoardObject.SetActive(false);
         }
     }
 
-
-    #region weapons
     private EquippedGun GetWeapon() {
         EquippedGun weapon = EquippedGun.GUN;
 
@@ -224,20 +230,15 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     }
 
     //called when checking for needler
-    public void DelayedResetWeapon() {
+    public void DelayedResetWeaponsAndShields() {
 
-        this.Invoke("ResetWeapon", 0.1f);
+        this.Invoke("ResetWeaponsAndShields", 0.1f);
     }
 
-    public void ResetWeapon() {
+    public void ResetWeaponsAndShields() {
 
-        SetWeapons();
-        //EquippedGun weapon = GetWeapon();
-        //this.EquipWeapon(weapon);
-        //this.SetCrosshair(weapon);
+        SetWeaponsAndShields();
     }
-
-    #endregion
 
     private EquippedShield GetShield() {
 
@@ -298,6 +299,10 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     private void SetShieldDisplayRules(EquippedShield shield) {
         /*ItemDisplayRuleSet ruleset = this.GetComponentInChildren<CharacterModel>().itemDisplayRuleSet;
         
+        //should do this for shields rather than the bone thing I do for weapons
+            //weapon things are relegated to 1 thing contained together
+            //alterante shield displays will be a lot more complicated
+
         switch (shield) {
             case EquippedShield.SHIELD:
                 ruleset.FindItemDisplayRuleGroup("ArmorPlate").rules[0].childName = "Shield";
@@ -351,7 +356,8 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                 ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localAngles = new Vector3(0, 0, 0);
                 ruleset.FindItemDisplayRuleGroup("BounceNearby").rules[0].localScale = new Vector3(1, 1, 1);
                 break;
-            //case EquippedShield.BOARD?
+            case EquippedShield.BOARD:
+                break
         }*/
     }
 
@@ -482,7 +488,7 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         this.skateboard.transform.localRotation = Quaternion.identity;
     }
 
-    private void OnDestroy() {
+    void OnDestroy() {
         if (this.shellObjects != null && this.shellObjects.Length > 0) {
             for (int i = 0; i < this.shellObjects.Length; i++) {
                 if (this.shellObjects[i]) Destroy(this.shellObjects[i]);

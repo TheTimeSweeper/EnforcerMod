@@ -40,7 +40,7 @@ namespace EntityStates.Enforcer
                 base.PlayAnimation("FullBody, Override", "BufferEmpty");
                 base.PlayAnimation("Shield", "ShieldDown", "ShieldMode.playbackRate", this.duration);
 
-                this.childLocator.FindChild("ShieldHurtbox").gameObject.SetActive(false);
+                this.childLocator.FindChild("ShieldHurtboxParent").gameObject.SetActive(false);
 
                 /*if (isEngi)
                 {
@@ -88,7 +88,7 @@ namespace EntityStates.Enforcer
                 base.PlayAnimation("FullBody, Override", "BufferEmpty");
                 base.PlayAnimation("Shield", "ShieldUp", "ShieldMode.playbackRate", this.duration);
 
-                this.childLocator.FindChild("ShieldHurtbox").gameObject.SetActive(true);
+                this.childLocator.FindChild("ShieldHurtboxParent").gameObject.SetActive(true);
 
                 /*if (isEngi)
                 {

@@ -34,7 +34,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.cwmlolzlz.skills", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ItemDisplayPlacementHelper", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.2.5")]
+    [BepInPlugin(MODUID, "Enforcer", "3.2.8")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -55,7 +55,7 @@ namespace EnforcerPlugin
 
         public static EnforcerModPlugin instance;
 
-        public static bool nemesisEnabled = true;
+        public static bool holdonasec = true;
 
         internal static List<GameObject> bodyPrefabs = new List<GameObject>();
         internal static List<GameObject> masterPrefabs = new List<GameObject>();
@@ -120,17 +120,6 @@ namespace EnforcerPlugin
         //public static uint stormtrooperIndex = 4;
         //public static uint frogIndex = 7;
 
-        // a blacklist for teleporter particles- the fix for it is retarded so we just disable them on certain characters.
-        private static List<string> _tpParticleBlacklist = new List<string>
-        {
-            "PALADIN_NAME",
-            "LUNAR_KNIGHT_BODY_NAME",
-            "NEMMANDO_NAME",
-            "EXECUTIONER_NAME",
-            "MINER_NAME"
-        };
-
-
         private SkillLocator _skillLocator;
         private CharacterSelectSurvivorPreviewDisplayController _previewController;
 
@@ -150,7 +139,7 @@ namespace EnforcerPlugin
 
         private void Awake() {
 
-            //touch this all you want tho
+            
             Modules.Config.ConfigShit(this);
             Modules.States.FixStates();
             Assets.PopulateAssets();
@@ -171,7 +160,7 @@ namespace EnforcerPlugin
             CreateDoppelganger();
             CreateCrosshair();
 
-            if (nemesisEnabled) new NemforcerPlugin().Init();
+            new NemforcerPlugin().Init();
 
             Hook();
             //new Modules.ContentPacks().CreateContentPack();
@@ -217,12 +206,26 @@ namespace EnforcerPlugin
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DrBibop.VRAPI")) {
                 SetupVR();
             }
+
+            //string[] bods = new string[]
+            //{
+            //    "NemesisEnforcerBody",
+            //    "MinerBody",
+            //    "CHEF",
+            //    "ExecutionerBody",
+            //    "NemmandoBody"
+            //};
+
+            //for (int i = 0; i < bods.Length; i++)
+            //{
+            //    ItemAPI.DoNotAutoIDRSFor(bods[i]);
+            //}
         }
 
         private void ContentManager_onContentPacksAssigned(HG.ReadOnlyArray<RoR2.ContentManagement.ReadOnlyContentPack> obj)
         {
             EnforcerItemDisplays.RegisterDisplays();
-            if (nemesisEnabled) NemItemDisplays.RegisterDisplays();
+            NemItemDisplays.RegisterDisplays();
 
         }
 
@@ -289,26 +292,6 @@ namespace EnforcerPlugin
             if (Run.instance.selectedDifficulty == DifficultyIndex.Easy || Run.instance.selectedDifficulty == DifficultyIndex.Normal) flag = false;
 
             return flag;
-        }
-
-        private void TeleportOutController_OnStartClient(On.RoR2.TeleportOutController.orig_OnStartClient orig, TeleportOutController self)
-        {
-            // fuck you hopoo
-                // no. big particle funny
-            if (self.target)
-            {
-                CharacterBody targetBody = self.target.GetComponent<CharacterBody>();
-                if (targetBody)
-                {
-                    if (EnforcerModPlugin._tpParticleBlacklist.Contains(targetBody.baseNameToken))
-                    {
-                        self.bodyGlowParticles.Play();
-                        return;
-                    }
-                }
-            }
-
-            orig(self);
         }
 
         private void MapZone_TryZoneStart(On.RoR2.MapZone.orig_TryZoneStart orig, MapZone self, Collider other)
@@ -632,7 +615,7 @@ namespace EnforcerPlugin
                     var weaponComponent = self.GetBody().GetComponent<EnforcerWeaponComponent>();
                     if (weaponComponent)
                     {
-                        weaponComponent.DelayedResetWeapon();
+                        weaponComponent.DelayedResetWeaponsAndShields();
                         weaponComponent.ModelCheck();
                     }
                 }
@@ -1155,7 +1138,7 @@ namespace EnforcerPlugin
 
                                                            //why
                                                            //in the god damn fuck
-                                                           //does AddComponent default to an extension coming from the fucking starstorm dll
+                                                           //did AddComponent default to an extension coming from the fucking starstorm dll
             EntityStateMachine octagonapus = bodyComponent.gameObject.AddComponent<EntityStateMachine>();
 
             octagonapus.customName = "EnforcerParry";
@@ -1378,7 +1361,7 @@ namespace EnforcerPlugin
 
             HurtBoxGroup hurtBoxGroup = model.AddComponent<HurtBoxGroup>();
 
-            HurtBox mainHurtbox = model.transform.Find("MainHurtbox").GetComponent<CapsuleCollider>().gameObject.AddComponent<HurtBox>();
+            HurtBox mainHurtbox = model.transform.Find("MainHurtbox").gameObject.AddComponent<HurtBox>();
             mainHurtbox.gameObject.layer = LayerIndex.entityPrecise.intVal;
             mainHurtbox.healthComponent = healthComponent;
             mainHurtbox.isBullseye = true;
@@ -1394,12 +1377,22 @@ namespace EnforcerPlugin
             shieldHurtbox.damageModifier = HurtBox.DamageModifier.Barrier;
             shieldHurtbox.hurtBoxGroup = hurtBoxGroup;
             shieldHurtbox.indexInGroup = 1;
-            shieldHurtbox.gameObject.SetActive(false);
+
+            HurtBox shieldHurtbox2 = childLocator.FindChild("ShieldHurtbox2").gameObject.AddComponent<HurtBox>();
+            shieldHurtbox2.gameObject.layer = LayerIndex.entityPrecise.intVal;
+            shieldHurtbox2.healthComponent = healthComponent;
+            shieldHurtbox2.isBullseye = false;
+            shieldHurtbox2.damageModifier = HurtBox.DamageModifier.Barrier;
+            shieldHurtbox2.hurtBoxGroup = hurtBoxGroup;
+            shieldHurtbox2.indexInGroup = 1;
+
+            childLocator.FindChild("ShieldHurtboxParent").gameObject.SetActive(false);
 
             hurtBoxGroup.hurtBoxes = new HurtBox[]
             {
                 mainHurtbox,
-                shieldHurtbox
+                shieldHurtbox,
+                shieldHurtbox2
             };
 
             hurtBoxGroup.mainHurtBox = mainHurtbox;
@@ -1924,6 +1917,10 @@ namespace EnforcerPlugin
             {
                 BaseUnityPlugin.DestroyImmediate(ai);
             }
+
+            BaseAI baseAI = doppelganger.GetComponent<BaseAI>();
+            baseAI.aimVectorMaxSpeed = 60;
+            baseAI.aimVectorDampTime = 0.15f;
 
             AISkillDriver exitShieldDriver = doppelganger.AddComponent<AISkillDriver>();
             exitShieldDriver.customName = "ExitShield";
@@ -2723,6 +2720,7 @@ namespace EnforcerPlugin
 
             //// NULLCHECK YOUR SHIT FOR FUCKS SAKE
                 //nullchecks are only for the unsure
+                //also this is a not-null check. do return; n00b
             if (_previewController)
             {
                 List<int> emptyIndices = new List<int>();
@@ -2752,13 +2750,12 @@ namespace EnforcerPlugin
         {
             Type[] memes = new Type[]
             {
-                typeof(DefaultDance),
-                typeof(Floss),
-                typeof(FLINTLOCKWOOD),
                 typeof(SirenToggle),
-                typeof(NemesisRest),
+                typeof(DefaultDance),
+                typeof(FLINTLOCKWOOD),
+                typeof(Rest),
+                typeof(Enforcer.Emotes.EnforcerSalute),
                 typeof(EntityStates.Nemforcer.Emotes.Salute),
-                typeof(Enforcer.Emotes.EnforcerSalute)
             };
               
             for (int i = 0; i < memes.Length; i++)

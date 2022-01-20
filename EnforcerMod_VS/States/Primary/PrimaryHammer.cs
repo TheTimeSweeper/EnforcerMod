@@ -131,7 +131,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
         public void FireAttack() {
 
-            if (!hasFired) {
+            if (!hasFired && base.isAuthority) {
                 hasFired = true;
 
                 Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.NemesisSwing, gameObject, 0.25f + attackSpeedStat);
