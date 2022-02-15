@@ -2469,6 +2469,8 @@ namespace EnforcerPlugin {
                     }
                 }
             };
+            if(EnforcerModPlugin.RiskyArtifactsInstalled)
+                RiskyArtifactsCompat.AddDedede(characterSpawnCard);
         }
 
         private void CreateDededeAI()

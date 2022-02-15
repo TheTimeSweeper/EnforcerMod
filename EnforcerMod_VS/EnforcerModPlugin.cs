@@ -33,6 +33,7 @@ namespace EnforcerPlugin
     [BepInDependency("com.TeamMoonstorm.Starstorm2", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.cwmlolzlz.skills", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ItemDisplayPlacementHelper", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.Moffein.RiskyArtifacts", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     [BepInPlugin(MODUID, "Enforcer", "3.2.8")]
     [R2APISubmoduleDependency(new string[]
@@ -114,6 +115,8 @@ namespace EnforcerPlugin
         public static bool starstormInstalled = false;
         public static bool skillsPlusInstalled = false;
         public static bool IDPHelperInstalled = false;
+        public static bool VRInstalled = false;
+        public static bool RiskyArtifactsInstalled = false;
 
         //public static uint doomGuyIndex = 2;
         //public static uint engiIndex = 3;
@@ -202,24 +205,38 @@ namespace EnforcerPlugin
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ItemDisplayPlacementHelper")) {
                 IDPHelperInstalled = true;
             }
+
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Moffein.RiskyArtifacts")) {
+                RiskyArtifactsInstalled = true;
+            }
+
             //VR stuff
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DrBibop.VRAPI")) {
+                VRInstalled = true;
                 SetupVR();
             }
 
-            //string[] bods = new string[]
-            //{
-            //    "NemesisEnforcerBody",
-            //    "MinerBody",
-            //    "CHEF",
-            //    "ExecutionerBody",
-            //    "NemmandoBody"
-            //};
+            try {
+                //FixItemDisplays();
+            } catch {
+                Logger.LogInfo("tried to fix big item displays. Waitin gon r2api update");
+            }
+        }
 
-            //for (int i = 0; i < bods.Length; i++)
-            //{
-            //    ItemAPI.DoNotAutoIDRSFor(bods[i]);
-            //}
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private static void FixItemDisplays() {
+            string[] bods = new string[]
+            {
+                "NemesisEnforcerBody",
+                "MinerBody",
+                "CHEF",
+                "ExecutionerBody",
+                "NemmandoBody"
+            };
+
+            for (int i = 0; i < bods.Length; i++) {
+                ItemAPI.DoNotAutoIDRSFor(bods[i]);
+            }
         }
 
         private void ContentManager_onContentPacksAssigned(HG.ReadOnlyArray<RoR2.ContentManagement.ReadOnlyContentPack> obj)

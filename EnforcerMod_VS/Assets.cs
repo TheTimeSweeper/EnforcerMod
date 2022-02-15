@@ -138,14 +138,6 @@ namespace EnforcerPlugin {
                 }
             }
 
-            if (VRAssetBundle == null)
-            {
-                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.enforcervr"))
-                {
-                    VRAssetBundle = AssetBundle.LoadFromStream(assetStream);
-                }
-            }
-
             //fuck whoever wrote this code and fuck you
             // comment out the soundbank shit and then wonder why sounds aren't working you're literally fucking retarded holy hell
             using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.EnforcerBank.bnk"))
@@ -330,6 +322,14 @@ namespace EnforcerPlugin {
             hammerHitSoundEvent = CreateNetworkSoundEventDef(Sounds.NemesisImpact);
             nemHammerHitSoundEvent = CreateNetworkSoundEventDef(Sounds.NemesisImpact2);
             nemAxeHitSoundEvent = CreateNetworkSoundEventDef(Sounds.NemesisImpactAxe);
+
+            if (VRAssetBundle == null)
+            {
+                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.enforcervr"))
+                {
+                    VRAssetBundle = AssetBundle.LoadFromStream(assetStream);
+                }
+            }
 
             vrDominantHand = VRAssetBundle.LoadAsset<GameObject>("EnforcerShotgunHand");
             vrNonDominantHand = VRAssetBundle.LoadAsset<GameObject>("EnforcerShieldHand");

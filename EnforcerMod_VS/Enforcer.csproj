@@ -82,6 +82,9 @@
     <Reference Include="R2API">
       <HintPath>..\..\MinerUnearthed\MinerV2\libs\R2API.dll</HintPath>
     </Reference>
+    <Reference Include="Risky_Artifacts">
+      <HintPath>libs\Risky_Artifacts.dll</HintPath>
+    </Reference>
     <Reference Include="Skills">
       <HintPath>libs\Skills.dll</HintPath>
     </Reference>
