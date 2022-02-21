@@ -15,6 +15,7 @@ using RoR2.Projectile;
 using RoR2.CharacterAI;
 using RoR2.Navigation;
 using EnforcerPlugin.Modules;
+using System.Runtime.CompilerServices;
 
 namespace EnforcerPlugin {
     public class NemforcerPlugin
@@ -2426,8 +2427,7 @@ namespace EnforcerPlugin {
             CreateDededeSpawnCard();
         }
 
-        private void CreateDededeSpawnCard()
-        {
+        private void CreateDededeSpawnCard() {
             CharacterSpawnCard characterSpawnCard = ScriptableObject.CreateInstance<CharacterSpawnCard>();
             characterSpawnCard.name = "cscDedede";
             characterSpawnCard.prefab = dededeMaster;
@@ -2442,8 +2442,7 @@ namespace EnforcerPlugin {
             characterSpawnCard.noElites = false;
             characterSpawnCard.forbiddenAsBoss = false;
 
-            DirectorCard card = new DirectorCard
-            {
+            DirectorCard card = new DirectorCard {
                 spawnCard = characterSpawnCard,
                 selectionWeight = 1,
                 allowAmbushSpawn = false,
@@ -2452,24 +2451,26 @@ namespace EnforcerPlugin {
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Close
             };
 
-            DirectorAPI.DirectorCardHolder dededeCard = new DirectorAPI.DirectorCardHolder
-            {
+            DirectorAPI.DirectorCardHolder dededeCard = new DirectorAPI.DirectorCardHolder {
                 Card = card,
                 MonsterCategory = DirectorAPI.MonsterCategory.Champions,
                 InteractableCategory = DirectorAPI.InteractableCategory.None
             };
 
-            DirectorAPI.MonsterActions += delegate (List<DirectorAPI.DirectorCardHolder> list, DirectorAPI.StageInfo stage)
-            {
-                if (stage.stage == DirectorAPI.Stage.SkyMeadow || stage.stage == DirectorAPI.Stage.GildedCoast || stage.stage == DirectorAPI.Stage.TitanicPlains || stage.stage == DirectorAPI.Stage.VoidCell)
-                {
-                    if (!list.Contains(dededeCard))
-                    {
+            DirectorAPI.MonsterActions += delegate (List<DirectorAPI.DirectorCardHolder> list, DirectorAPI.StageInfo stage) {
+                if (stage.stage == DirectorAPI.Stage.SkyMeadow || stage.stage == DirectorAPI.Stage.GildedCoast || stage.stage == DirectorAPI.Stage.TitanicPlains || stage.stage == DirectorAPI.Stage.VoidCell) {
+                    if (!list.Contains(dededeCard)) {
                         list.Add(dededeCard);
                     }
                 }
             };
-            if(EnforcerModPlugin.RiskyArtifactsInstalled)
+
+            RiskyCompat(characterSpawnCard);
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private static void RiskyCompat(CharacterSpawnCard characterSpawnCard) {
+            if (EnforcerModPlugin.RiskyArtifactsInstalled)
                 RiskyArtifactsCompat.AddDedede(characterSpawnCard);
         }
 

@@ -21,6 +21,7 @@ namespace EnforcerPlugin.Modules
         {
             PopulateDisplaysFromBody("CommandoBody");
             PopulateDisplaysFromBody("CrocoBody");
+            PopulateDisplaysFromBody("MageBody");
             PopulateDisplaysFromBody("LunarExploderBody");
 
             CreateFuckingGatDrone();

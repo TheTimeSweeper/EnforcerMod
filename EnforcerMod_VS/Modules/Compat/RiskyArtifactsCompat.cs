@@ -7,7 +7,7 @@ namespace EnforcerPlugin
     {
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         public static void AddDedede(CharacterSpawnCard characterSpawnCard) {
-            Risky_Artifacts.Artifacts.Origin.AddSpawnCard(characterSpawnCard, Risky_Artifacts.Artifacts.Origin.BossTier.t2);
+            Risky_Artifacts.Artifacts.Origin.AddSpawnCard(characterSpawnCard, Risky_Artifacts.Artifacts.Origin.BossTier.t3);
         }
     }
 }

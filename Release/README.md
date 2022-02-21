@@ -74,6 +74,13 @@ lil out of date
 - Help
 
 ## Changelog
+`3.2.9`
+ - re-done emotes added, incomplete. enjoy default dance and earl run (3 and 4) for one week before cum2
+ - VR implementation, also incomplete. In progress, but it's not breaking anything so it can go out
+   - proper implementation not done at all. Everything's aimed with right hand, and going in shield stance messes with a few things, 
+   - huge thanks to drbibop for getting this going
+ - added cross compat with Risky Artifacts for King Dedede if he's enabled
+
 `3.2.8`
  - woops missed a few, how embarrassing
  - fixed crazy ragdoll

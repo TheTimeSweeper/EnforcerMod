@@ -174,6 +174,8 @@ namespace EntityStates.Enforcer
 
                                         mass = hitCharacterMotor.mass;
 
+                                        hitCharacterMotor.Motor.ForceUnground();
+
                                         //TODO: redirecting allies
                                         //if(hitCharacterMotor.velocity.magnitude > niggaspeed) {
                                         //    redirectBody(hitCharacterMotor);
