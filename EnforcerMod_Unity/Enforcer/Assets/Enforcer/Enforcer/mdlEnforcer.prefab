@@ -5137,6 +5137,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2746367180934513101}
   - component: {fileID: 2746367180943814177}
+  - component: {fileID: 970005009183544719}
   - component: {fileID: 2746367180934421998}
   - component: {fileID: 7893187676861857013}
   - component: {fileID: 687924019}
@@ -5196,6 +5197,56 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &970005009183544719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2746367180934421997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8ac8568bcff4ba40967bdc0d0345866, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoPopulateLightInfos: 0
+  baseRendererInfos:
+  - renderer: {fileID: 4102519779663020904}
+    defaultMaterial: {fileID: 2100000, guid: e1121d436c002f642bc9c106060b4b7c, type: 2}
+    defaultShadowCastingMode: 1
+    ignoreOverlays: 0
+  - renderer: {fileID: 4102519779663020828}
+    defaultMaterial: {fileID: 2100000, guid: 75fec93fba8cd3e4e826a8b8c3589cb0, type: 2}
+    defaultShadowCastingMode: 1
+    ignoreOverlays: 0
+  - renderer: {fileID: 4102519779663020908}
+    defaultMaterial: {fileID: 2100000, guid: 5cc8e2fe75913044780cbdc65538f565, type: 2}
+    defaultShadowCastingMode: 1
+    ignoreOverlays: 0
+  - renderer: {fileID: 4102519779663020912}
+    defaultMaterial: {fileID: 2100000, guid: dfcf75d3fe9bd1c4781bc4cefad7d558, type: 2}
+    defaultShadowCastingMode: 1
+    ignoreOverlays: 0
+  - renderer: {fileID: 4102519779663020926}
+    defaultMaterial: {fileID: 2100000, guid: ef468be80dcb4cd4a80f5f41e6340322, type: 2}
+    defaultShadowCastingMode: 1
+    ignoreOverlays: 0
+  - renderer: {fileID: 4102519779663020816}
+    defaultMaterial: {fileID: 2100000, guid: abfdd407e1671e048af75a99e4af9b39, type: 2}
+    defaultShadowCastingMode: 1
+    ignoreOverlays: 0
+  - renderer: {fileID: 4102519779663020916}
+    defaultMaterial: {fileID: 2100000, guid: 94e1a1d3ba52f5a42a8eedce382db329, type: 2}
+    defaultShadowCastingMode: 1
+    ignoreOverlays: 0
+  - renderer: {fileID: 4102519779663020906}
+    defaultMaterial: {fileID: 2100000, guid: e0c049515c41c034bbe024c1fbc977b5, type: 2}
+    defaultShadowCastingMode: 1
+    ignoreOverlays: 0
+  - renderer: {fileID: 2746367180939694305}
+    defaultMaterial: {fileID: 2100000, guid: e0c049515c41c034bbe024c1fbc977b5, type: 2}
+    defaultShadowCastingMode: 1
+    ignoreOverlays: 0
 --- !u!114 &2746367180934421998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5294,7 +5345,7 @@ MonoBehaviour:
   - name: ShieldHurtbox
     transform: {fileID: 7618142915657316695}
   - name: ShieldHurtbox2
-    transform: {fileID: 2090637579636464342}
+    transform: {fileID: 3605348447582398806}
   - name: ShieldHurtboxParent
     transform: {fileID: 3457765109960754718}
   - name: Chair
@@ -6219,6 +6270,50 @@ MonoBehaviour:
   positionAndRotation: 0
   localPosition: 1
   localScale: 1
+--- !u!1 &3328169442824963797
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3605348447582398806}
+  - component: {fileID: 826989268366078735}
+  m_Layer: 0
+  m_Name: ShieldHurtbox2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3605348447582398806
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3328169442824963797}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.0889997, z: 0.302}
+  m_LocalScale: {x: 1.8019787, y: 2.2891011, z: 0.5746552}
+  m_Children: []
+  m_Father: {fileID: 3457765109960754718}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &826989268366078735
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3328169442824963797}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3392771912158301522
 GameObject:
   m_ObjectHideFlags: 0
@@ -8929,51 +9024,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!1 &4868961649705384081
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2090637579636464342}
-  - component: {fileID: 263287509600167565}
-  m_Layer: 0
-  m_Name: ShieldHurtbox2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2090637579636464342
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4868961649705384081}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.044, z: 0.3149999}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3457765109960754718}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &263287509600167565
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4868961649705384081}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.41
-  m_Height: 1.9
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4939749858201015769
 GameObject:
   m_ObjectHideFlags: 0
@@ -9267,7 +9317,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2090637579636464342}
+  - {fileID: 3605348447582398806}
   - {fileID: 7618142915657316695}
   m_Father: {fileID: 2746367180934513101}
   m_RootOrder: 6
