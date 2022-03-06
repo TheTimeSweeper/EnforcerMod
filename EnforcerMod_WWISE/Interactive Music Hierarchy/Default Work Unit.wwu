@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{8308211E-1672-460C-9F59-BD056B906BDC}" SchemaVersion="89">
+<WwiseDocument Type="WorkUnit" ID="{8308211E-1672-460C-9F59-BD056B906BDC}" SchemaVersion="97">
 	<InteractiveMusic>
 		<WorkUnit Name="Default Work Unit" ID="{8308211E-1672-460C-9F59-BD056B906BDC}" PersistMode="Standalone">
 			<ChildrenList>
@@ -33,12 +33,12 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<AudioFileSource Name="minigun_shoot" ID="{BBE2DD1A-F119-4356-B0C9-FBF0C9FA1C3B}" ShortID="760801084">
+										<AudioFileSource Name="minigun_shoot" ID="{BBE2DD1A-F119-4356-B0C9-FBF0C9FA1C3B}">
 											<Language>SFX</Language>
 											<AudioFile>minigun_shoot.wav</AudioFile>
-											<ConvertedFileIDList>
-												<File ID="746042411"/>
-											</ConvertedFileIDList>
+											<MediaIDList>
+												<MediaID ID="746042411"/>
+											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
 									<TransitionList>
@@ -95,12 +95,12 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<AudioFileSource Name="minigun_shoot_crit" ID="{4E58E5E6-F113-4933-A45D-937AA102134C}" ShortID="957015943">
+										<AudioFileSource Name="minigun_shoot_crit" ID="{4E58E5E6-F113-4933-A45D-937AA102134C}">
 											<Language>SFX</Language>
 											<AudioFile>minigun_shoot_crit.wav</AudioFile>
-											<ConvertedFileIDList>
-												<File ID="227158378"/>
-											</ConvertedFileIDList>
+											<MediaIDList>
+												<MediaID ID="227158378"/>
+											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
 									<TransitionList>

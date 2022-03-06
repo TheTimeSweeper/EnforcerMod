@@ -1,593 +1,874 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="11" SoundbankVersion="132">
+<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="12" SoundbankVersion="135">
 	<RootPaths>
-		<ProjectRoot>C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\</ProjectRoot>
-		<SourceFilesRoot>C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\</SourceFilesRoot>
-		<SoundBanksRoot>C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\GeneratedSoundBanks\Windows\</SoundBanksRoot>
+		<ProjectRoot>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_WWISE\</ProjectRoot>
+		<SourceFilesRoot>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_WWISE\.cache\Windows\</SourceFilesRoot>
+		<SoundBanksRoot>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_WWISE\GeneratedSoundBanks\Windows\</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
-		<ExternalSourcesOutputRoot>C:\Users\Node\RoR2 Mods\EnforcerMod\EnforcerMod_WWISE\GeneratedSoundBanks\Windows</ExternalSourcesOutputRoot>
+		<ExternalSourcesOutputRoot>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_WWISE\GeneratedSoundBanks\Windows</ExternalSourcesOutputRoot>
 	</RootPaths>
 	<DialogueEvents/>
 	<StreamedFiles/>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Language="SFX">
+		<SoundBank Id="1355168291" Language="SFX" Hash="1646264102">
 			<ObjectPath>Init</ObjectPath>
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 		</SoundBank>
-		<SoundBank Id="1677555775" Language="SFX">
+		<SoundBank Id="1677555775" Language="SFX" Hash="1841898834">
 			<ObjectPath>\SoundBanks\Default Work Unit\Enforcer_DLC_1</ObjectPath>
 			<ShortName>Enforcer_DLC_1</ShortName>
 			<Path>Enforcer_DLC_1.bnk</Path>
 			<IncludedEvents>
-				<Event Id="3855983342" Name="BFG_Division" ObjectPath="\Events\Default Work Unit\DLC1\BFG_Division"/>
+				<Event Id="3855983342" Name="BFG_Division" ObjectPath="\Events\Default Work Unit\DLC1\BFG_Division">
+					<IncludedMemoryFiles>
+						<File Id="960631325" Language="SFX">
+							<ShortName>DLC1\Doom Eternal - BFG Division [2020 Edition] [Full Track].wav</ShortName>
+							<Path>SFX\DLC1\Doom Eternal - BFG Division [2020 Edition] [Full Track]_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
 			</IncludedEvents>
-			<IncludedMemoryFiles>
-				<File Id="960631325" Language="SFX">
-					<ShortName>DLC1\Doom Eternal - BFG Division [2020 Edition] [Full Track].wav</ShortName>
-					<Path>SFX\DLC1\Doom Eternal - BFG Division [2020 Edition] [Full Track]_030CF4A9.wem</Path>
-				</File>
-			</IncludedMemoryFiles>
+			<GameParameters>
+				<GameParameter Id="3673881719" Name="Volume_SFX" ObjectPath="\Game Parameters\Default Work Unit\Volume_SFX"/>
+			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="3045143027" Language="SFX">
+		<SoundBank Id="3045143027" Language="SFX" Hash="794927881">
 			<ObjectPath>\SoundBanks\Default Work Unit\EnforcerBank</ObjectPath>
 			<ShortName>EnforcerBank</ShortName>
 			<Path>EnforcerBank.bnk</Path>
 			<IncludedEvents>
-				<Event Id="2632067976" Name="Assault_Shots_1" ObjectPath="\Events\Default Work Unit\Enforcer\Assault Rifle\Assault_Shots_1"/>
-				<Event Id="2632067979" Name="Assault_Shots_2" ObjectPath="\Events\Default Work Unit\Enforcer\Assault Rifle\Assault_Shots_2"/>
-				<Event Id="1291433371" Name="Bash" ObjectPath="\Events\Default Work Unit\Enforcer\Bash\Bash"/>
-				<Event Id="2909379243" Name="Bash_Deflect" ObjectPath="\Events\Default Work Unit\Enforcer\Bash\Bash_Deflect"/>
-				<Event Id="2550449408" Name="Bash_Hit_Enemy" ObjectPath="\Events\Default Work Unit\Enforcer\Bash\Bash_Hit_Enemy"/>
-				<Event Id="2426906471" Name="Blaster_Rifle" ObjectPath="\Events\Default Work Unit\Enforcer\Assault Rifle\Blaster_Rifle"/>
-				<Event Id="1854563427" Name="Blaster_Shotgun" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Blaster_Shotgun"/>
-				<Event Id="1263480547" Name="Bungus_AR" ObjectPath="\Events\Default Work Unit\Enforcer\Assault Rifle\Bungus_AR"/>
-				<Event Id="341908768" Name="Bungus_Riot" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Bungus_Riot"/>
-				<Event Id="2143910239" Name="Bungus_SSg" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Bungus_SSg"/>
-				<Event Id="484611324" Name="Croak_select" ObjectPath="\Events\Default Work Unit\Enforcer\Croak_select"/>
-				<Event Id="2841446211" Name="Croak_siren" ObjectPath="\Events\Default Work Unit\Enforcer\Croak_siren"/>
-				<Event Id="795059531" Name="Death_Siren" ObjectPath="\Events\Default Work Unit\Enforcer\Death_Siren"/>
-				<Event Id="2031153478" Name="Default_forcer" ObjectPath="\Events\Default Work Unit\Enforcer\Emotes\Default_forcer"/>
-				<Event Id="1877847634" Name="DOOM" ObjectPath="\Events\Default Work Unit\Enforcer\DOOM"/>
-				<Event Id="4052283006" Name="Doom_2_Super_Shotgun" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Doom_2_Super_Shotgun"/>
-				<Event Id="3849736699" Name="Earlstep" ObjectPath="\Events\Default Work Unit\Enforcer\Earlstep"/>
-				<Event Id="226720089" Name="Energy_R_down" ObjectPath="\Events\Default Work Unit\Enforcer\Shield\Energy_R_down"/>
-				<Event Id="41067390" Name="Energy_R_Up" ObjectPath="\Events\Default Work Unit\Enforcer\Shield\Energy_R_Up"/>
-				<Event Id="4243750397" Name="Flossforcer" ObjectPath="\Events\Default Work Unit\Enforcer\Emotes\Flossforcer"/>
-				<Event Id="1456294137" Name="Gas_Continous" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Gas_Continous"/>
-				<Event Id="2505216944" Name="Gas_Explosion" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Gas_Explosion"/>
-				<Event Id="3811400605" Name="grindmetal03" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\grindmetal03"/>
-				<Event Id="4213113209" Name="HUD_jumpgap" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\Hud\HUD_jumpgap"/>
-				<Event Id="2749308155" Name="HUD_perfecttrick" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\Hud\HUD_perfecttrick"/>
-				<Event Id="3868259499" Name="HUD_score" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\Hud\HUD_score"/>
-				<Event Id="2192566873" Name="HUD_specialtrick" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\Hud\HUD_specialtrick"/>
-				<Event Id="1792306337" Name="Infiniforcer" ObjectPath="\Events\Default Work Unit\Enforcer\Emotes\Infiniforcer"/>
-				<Event Id="2548270042" Name="Landing" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\Landing"/>
-				<Event Id="3255243870" Name="Launch_Gas" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Launch_Gas"/>
-				<Event Id="1326061347" Name="Launch_Stun" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Launch_Stun"/>
-				<Event Id="239864081" Name="Mio_Honda" ObjectPath="\Events\Default Work Unit\Enforcer\Emotes\Mio_Honda"/>
-				<Event Id="3055978262" Name="Ollie" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\Ollie"/>
-				<Event Id="3856529783" Name="Play_180" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\Play_180"/>
-				<Event Id="1374297326" Name="Play_Bonk" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_Bonk"/>
-				<Event Id="524803080" Name="Play_chargeMax" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_chargeMax"/>
-				<Event Id="2573890018" Name="Play_chargeStart" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_chargeStart"/>
-				<Event Id="547001894" Name="Play_dedede_hammer_attack_l" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_dedede_hammer_attack_l"/>
-				<Event Id="547001895" Name="Play_dedede_hammer_attack_m" ObjectPath="\Events\Default Work Unit\Nemforcer\M1\Play_dedede_hammer_attack_m"/>
-				<Event Id="1930421173" Name="Play_Enforcer_CharSelect" ObjectPath="\Events\Default Work Unit\Enforcer\Play_Enforcer_CharSelect"/>
-				<Event Id="496299996" Name="Play_GrenadeThrow" ObjectPath="\Events\Default Work Unit\Nemforcer\Utility\Play_GrenadeThrow"/>
-				<Event Id="1306431916" Name="Play_Hammer_Slam" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_Hammer_Slam"/>
-				<Event Id="3147989757" Name="Play_Hammer_Smash" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_Hammer_Smash"/>
-				<Event Id="2685020403" Name="Play_HammerFlameLoop" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_HammerFlameLoop"/>
-				<Event Id="1679528516" Name="Play_HammerswingNewL" ObjectPath="\Events\Default Work Unit\Nemforcer\M1\Play_HammerswingNewL"/>
-				<Event Id="4209605664" Name="Play_Heavy_Swing" ObjectPath="\Events\Default Work Unit\Nemforcer\M1\Play_Heavy_Swing"/>
-				<Event Id="1074529334" Name="Play_Heavy_Swing_Hit" ObjectPath="\Events\Default Work Unit\Nemforcer\M1\Play_Heavy_Swing_Hit"/>
-				<Event Id="3324704065" Name="Play_Heavy_Swing_L" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_Heavy_Swing_L"/>
-				<Event Id="3850152609" Name="Play_HMG_crit" ObjectPath="\Events\Default Work Unit\Enforcer\HMG\Play_HMG_crit"/>
-				<Event Id="2690539202" Name="Play_HMG_shoot" ObjectPath="\Events\Default Work Unit\Enforcer\HMG\Play_HMG_shoot"/>
-				<Event Id="3468681663" Name="Play_Home_Run_Bat_Hit" ObjectPath="\Events\Default Work Unit\Nemforcer\Play_Home_Run_Bat_Hit"/>
-				<Event Id="426520867" Name="Play_Minigun_Shoot" ObjectPath="\Events\Default Work Unit\Nemforcer\Ult\Play_Minigun_Shoot"/>
-				<Event Id="2471307335" Name="Play_minigun_wind_down" ObjectPath="\Events\Default Work Unit\Nemforcer\Ult\Play_minigun_wind_down"/>
-				<Event Id="2180338704" Name="Play_minigun_wind_up" ObjectPath="\Events\Default Work Unit\Nemforcer\Ult\Play_minigun_wind_up"/>
-				<Event Id="3603363821" Name="Play_MinigunSheathe" ObjectPath="\Events\Default Work Unit\Nemforcer\Ult\Play_MinigunSheathe"/>
-				<Event Id="2694784738" Name="Play_MinigunUnsheathe" ObjectPath="\Events\Default Work Unit\Nemforcer\Ult\Play_MinigunUnsheathe"/>
-				<Event Id="864085174" Name="Play_NemHammerImpact" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_NemHammerImpact"/>
-				<Event Id="3932104958" Name="Play_NemSwingSecondary" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_NemSwingSecondary"/>
-				<Event Id="3480295470" Name="Play_Orange_Justice" ObjectPath="\Events\Default Work Unit\Enforcer\Emotes\Play_Orange_Justice"/>
-				<Event Id="3925930336" Name="Play_Reflect_Ding" ObjectPath="\Events\Default Work Unit\Enforcer\Play_Reflect_Ding"/>
-				<Event Id="2599124241" Name="Play_RiotShotgun_crit" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Play_RiotShotgun_crit"/>
-				<Event Id="2887027346" Name="Play_RiotShotgun_shoot" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Play_RiotShotgun_shoot"/>
-				<Event Id="3555953518" Name="Play_se_dedede_hammer_swing_m" ObjectPath="\Events\Default Work Unit\Nemforcer\M1\Play_se_dedede_hammer_swing_m"/>
-				<Event Id="2650257043" Name="Play_Siren_Reflect" ObjectPath="\Events\Default Work Unit\Enforcer\Play_Siren_Reflect"/>
-				<Event Id="2241718446" Name="Play_SSG_single" ObjectPath="\Events\Default Work Unit\Enforcer\Play_SSG_single"/>
-				<Event Id="2553351909" Name="Play_SSG_single_crit" ObjectPath="\Events\Default Work Unit\Enforcer\Play_SSG_single_crit"/>
-				<Event Id="3150972076" Name="R_down" ObjectPath="\Events\Default Work Unit\Enforcer\Shield\R_down"/>
-				<Event Id="2438578215" Name="R_up" ObjectPath="\Events\Default Work Unit\Enforcer\Shield\R_up"/>
-				<Event Id="3469448243" Name="rollconcrete02" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\rollconcrete02"/>
-				<Event Id="2073601620" Name="Ror1_Shotgun" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Ror1_Shotgun"/>
-				<Event Id="3800345465" Name="Shell_Hitting_Floor_Fast" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Shell_Hitting_Floor_Fast"/>
-				<Event Id="1975003716" Name="Shell_Hitting_Floor_Slow" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Shell_Hitting_Floor_Slow"/>
-				<Event Id="327427460" Name="Shield_Block_heavy" ObjectPath="\Events\Default Work Unit\Enforcer\Shield\Shield_Block_heavy"/>
-				<Event Id="1636206593" Name="Shield_Block_light" ObjectPath="\Events\Default Work Unit\Enforcer\Shield\Shield_Block_light"/>
-				<Event Id="835721748" Name="Shotgun_shot" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Shotgun_shot"/>
-				<Event Id="2548319507" Name="Shotgun_shot_crit" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Shotgun_shot_crit"/>
-				<Event Id="1700444560" Name="Shoulder_Bash_Hit" ObjectPath="\Events\Default Work Unit\Enforcer\Bash\Shoulder_Bash_Hit"/>
-				<Event Id="775161987" Name="Siren_Button" ObjectPath="\Events\Default Work Unit\Enforcer\Siren_Button"/>
-				<Event Id="823509760" Name="Siren_Spawn" ObjectPath="\Events\Default Work Unit\Enforcer\Siren_Spawn"/>
-				<Event Id="762562105" Name="Stun_Explosion" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Stun_Explosion"/>
-				<Event Id="4142479393" Name="Super_Shotgun" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Super_Shotgun"/>
-				<Event Id="2610236448" Name="Super_Shotgun_crit" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Super_Shotgun_crit"/>
+				<Event Id="2632067976" Name="Assault_Shots_1" ObjectPath="\Events\Default Work Unit\Enforcer\Assault Rifle\Assault_Shots_1">
+					<IncludedMemoryFiles>
+						<File Id="337138913" Language="SFX">
+							<ShortName>Enforcer Assault Rifle\Shots 2\Shot 3.wav</ShortName>
+							<Path>SFX\Enforcer Assault Rifle\Shots 2\Shot 3_752A8D69.wem</Path>
+						</File>
+						<File Id="342598265" Language="SFX">
+							<ShortName>Enforcer Assault Rifle\Shots 2\shot 2.wav</ShortName>
+							<Path>SFX\Enforcer Assault Rifle\Shots 2\shot 2_752A8D69.wem</Path>
+						</File>
+						<File Id="1052826638" Language="SFX">
+							<ShortName>Enforcer Assault Rifle\Shots 2\Shot 1.wav</ShortName>
+							<Path>SFX\Enforcer Assault Rifle\Shots 2\Shot 1_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2632067979" Name="Assault_Shots_2" ObjectPath="\Events\Default Work Unit\Enforcer\Assault Rifle\Assault_Shots_2">
+					<IncludedMemoryFiles>
+						<File Id="337138913" Language="SFX">
+							<ShortName>Enforcer Assault Rifle\Shots 2\Shot 3.wav</ShortName>
+							<Path>SFX\Enforcer Assault Rifle\Shots 2\Shot 3_752A8D69.wem</Path>
+						</File>
+						<File Id="342598265" Language="SFX">
+							<ShortName>Enforcer Assault Rifle\Shots 2\shot 2.wav</ShortName>
+							<Path>SFX\Enforcer Assault Rifle\Shots 2\shot 2_752A8D69.wem</Path>
+						</File>
+						<File Id="1052826638" Language="SFX">
+							<ShortName>Enforcer Assault Rifle\Shots 2\Shot 1.wav</ShortName>
+							<Path>SFX\Enforcer Assault Rifle\Shots 2\Shot 1_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1291433371" Name="Bash" ObjectPath="\Events\Default Work Unit\Enforcer\Bash\Bash">
+					<IncludedMemoryFiles>
+						<File Id="849633851" Language="SFX">
+							<ShortName>Bash.wav</ShortName>
+							<Path>SFX\Bash_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2909379243" Name="Bash_Deflect" ObjectPath="\Events\Default Work Unit\Enforcer\Bash\Bash_Deflect">
+					<IncludedMemoryFiles>
+						<File Id="272632443" Language="SFX">
+							<ShortName>Deflect\Deflect 3.wav</ShortName>
+							<Path>SFX\Deflect\Deflect 3_752A8D69.wem</Path>
+						</File>
+						<File Id="1001586314" Language="SFX">
+							<ShortName>Deflect\Deflect 2.wav</ShortName>
+							<Path>SFX\Deflect\Deflect 2_752A8D69.wem</Path>
+						</File>
+						<File Id="1002905034" Language="SFX">
+							<ShortName>Deflect\Defllect 1.wav</ShortName>
+							<Path>SFX\Deflect\Defllect 1_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2550449408" Name="Bash_Hit_Enemy" ObjectPath="\Events\Default Work Unit\Enforcer\Bash\Bash_Hit_Enemy">
+					<IncludedMemoryFiles>
+						<File Id="522079253" Language="SFX">
+							<ShortName>Bash hit enemy.wav</ShortName>
+							<Path>SFX\Bash hit enemy_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2426906471" Name="Blaster_Rifle" ObjectPath="\Events\Default Work Unit\Enforcer\Assault Rifle\Blaster_Rifle">
+					<IncludedMemoryFiles>
+						<File Id="817438832" Language="SFX">
+							<ShortName>Blaster Rifle.wav</ShortName>
+							<Path>SFX\Blaster Rifle_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1854563427" Name="Blaster_Shotgun" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Blaster_Shotgun">
+					<IncludedMemoryFiles>
+						<File Id="103969424" Language="SFX">
+							<ShortName>Blaster Shotgun.wav</ShortName>
+							<Path>SFX\Blaster Shotgun_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1263480547" Name="Bungus_AR" ObjectPath="\Events\Default Work Unit\Enforcer\Assault Rifle\Bungus_AR">
+					<IncludedMemoryFiles>
+						<File Id="323850625" Language="SFX">
+							<ShortName>Bungus AR.wav</ShortName>
+							<Path>SFX\Bungus AR_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="341908768" Name="Bungus_Riot" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Bungus_Riot">
+					<IncludedMemoryFiles>
+						<File Id="426419519" Language="SFX">
+							<ShortName>Bungus Riot.wav</ShortName>
+							<Path>SFX\Bungus Riot_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2143910239" Name="Bungus_SSg" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Bungus_SSg">
+					<IncludedMemoryFiles>
+						<File Id="870983138" Language="SFX">
+							<ShortName>Bungus SSg.wav</ShortName>
+							<Path>SFX\Bungus SSg_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="484611324" Name="Croak_select" ObjectPath="\Events\Default Work Unit\Enforcer\Croak_select">
+					<IncludedMemoryFiles>
+						<File Id="519303745" Language="SFX">
+							<ShortName>croak select.wav</ShortName>
+							<Path>SFX\croak select_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2841446211" Name="Croak_siren" ObjectPath="\Events\Default Work Unit\Enforcer\Croak_siren">
+					<IncludedMemoryFiles>
+						<File Id="515027859" Language="SFX">
+							<ShortName>Croak siren.wav</ShortName>
+							<Path>SFX\Croak siren_E4CE20E7.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="795059531" Name="Death_Siren" ObjectPath="\Events\Default Work Unit\Enforcer\Death_Siren">
+					<IncludedMemoryFiles>
+						<File Id="202275642" Language="SFX">
+							<ShortName>police death siren.wav</ShortName>
+							<Path>SFX\police death siren_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2031153478" Name="Default_forcer" ObjectPath="\Events\Default Work Unit\Enforcer\Emotes\Default_forcer">
+					<IncludedMemoryFiles>
+						<File Id="221782282" Language="SFX">
+							<ShortName>Fortnite default dance sound.wav</ShortName>
+							<Path>SFX\Fortnite default dance sound_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1877847634" Name="DOOM" ObjectPath="\Events\Default Work Unit\Enforcer\DOOM">
+					<IncludedMemoryFiles>
+						<File Id="82296412" Language="SFX">
+							<ShortName>doom1.wav</ShortName>
+							<Path>SFX\doom1_752A8D69.wem</Path>
+						</File>
+						<File Id="295939489" Language="SFX">
+							<ShortName>doom2.wav</ShortName>
+							<Path>SFX\doom2_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="4052283006" Name="Doom_2_Super_Shotgun" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Doom_2_Super_Shotgun">
+					<IncludedMemoryFiles>
+						<File Id="212233180" Language="SFX">
+							<ShortName>Doom 2 Super Shotgun.wav</ShortName>
+							<Path>SFX\Doom 2 Super Shotgun_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3849736699" Name="Earlstep" ObjectPath="\Events\Default Work Unit\Enforcer\Earlstep">
+					<IncludedMemoryFiles>
+						<File Id="80400301" Language="SFX">
+							<ShortName>Earlstep 2.wav</ShortName>
+							<Path>SFX\Earlstep 2_752A8D69.wem</Path>
+						</File>
+						<File Id="463778954" Language="SFX">
+							<ShortName>Earlstep 5.wav</ShortName>
+							<Path>SFX\Earlstep 5_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="226720089" Name="Energy_R_down" ObjectPath="\Events\Default Work Unit\Enforcer\Shield\Energy_R_down">
+					<IncludedMemoryFiles>
+						<File Id="596441432" Language="SFX">
+							<ShortName>Energy R down.wav</ShortName>
+							<Path>SFX\Energy R down_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="41067390" Name="Energy_R_Up" ObjectPath="\Events\Default Work Unit\Enforcer\Shield\Energy_R_Up">
+					<IncludedMemoryFiles>
+						<File Id="28568263" Language="SFX">
+							<ShortName>Energy R Up.wav</ShortName>
+							<Path>SFX\Energy R Up_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="4243750397" Name="Flossforcer" ObjectPath="\Events\Default Work Unit\Enforcer\Emotes\Flossforcer">
+					<IncludedMemoryFiles>
+						<File Id="286574097" Language="SFX">
+							<ShortName>Floss.wav</ShortName>
+							<Path>SFX\Floss_E4CE20E7.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1456294137" Name="Gas_Continous" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Gas_Continous">
+					<IncludedMemoryFiles>
+						<File Id="1041263716" Language="SFX">
+							<ShortName>Gas Sound.wav</ShortName>
+							<Path>SFX\Gas Sound_E4CE20E7.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2505216944" Name="Gas_Explosion" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Gas_Explosion">
+					<IncludedMemoryFiles>
+						<File Id="615230019" Language="SFX">
+							<ShortName>Gas Explosion.wav</ShortName>
+							<Path>SFX\Gas Explosion_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3811400605" Name="grindmetal03" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\grindmetal03">
+					<IncludedMemoryFiles>
+						<File Id="1023427158" Language="SFX">
+							<ShortName>Skateboard\grindmetal03.wav</ShortName>
+							<Path>SFX\Skateboard\grindmetal03_E4CE20E7.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="4213113209" Name="HUD_jumpgap" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\Hud\HUD_jumpgap">
+					<IncludedMemoryFiles>
+						<File Id="306254288" Language="SFX">
+							<ShortName>Skateboard\HUD_jumpgap.wav</ShortName>
+							<Path>SFX\Skateboard\HUD_jumpgap_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2749308155" Name="HUD_perfecttrick" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\Hud\HUD_perfecttrick">
+					<IncludedMemoryFiles>
+						<File Id="32584676" Language="SFX">
+							<ShortName>Skateboard\HUD_perfecttrickB.wav</ShortName>
+							<Path>SFX\Skateboard\HUD_perfecttrickB_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3868259499" Name="HUD_score" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\Hud\HUD_score">
+					<IncludedMemoryFiles>
+						<File Id="693056796" Language="SFX">
+							<ShortName>Skateboard\HUD_scoreE.wav</ShortName>
+							<Path>SFX\Skateboard\HUD_scoreE_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2192566873" Name="HUD_specialtrick" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\Hud\HUD_specialtrick">
+					<IncludedMemoryFiles>
+						<File Id="949829171" Language="SFX">
+							<ShortName>Skateboard\HUD_specialtrickAA.wav</ShortName>
+							<Path>SFX\Skateboard\HUD_specialtrickAA_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1792306337" Name="Infiniforcer" ObjectPath="\Events\Default Work Unit\Enforcer\Emotes\Infiniforcer">
+					<IncludedMemoryFiles>
+						<File Id="425570657" Language="SFX">
+							<ShortName>InfinidabLoop.wav</ShortName>
+							<Path>SFX\InfinidabLoop_E4CE20E7.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2548270042" Name="Landing" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\Landing">
+					<IncludedMemoryFiles>
+						<File Id="334592697" Language="SFX">
+							<ShortName>Skateboard\landconcrete1.wav</ShortName>
+							<Path>SFX\Skateboard\landconcrete1_752A8D69.wem</Path>
+						</File>
+						<File Id="1058145702" Language="SFX">
+							<ShortName>Skateboard\landdirt3.wav</ShortName>
+							<Path>SFX\Skateboard\landdirt3_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3255243870" Name="Launch_Gas" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Launch_Gas">
+					<IncludedMemoryFiles>
+						<File Id="900091441" Language="SFX">
+							<ShortName>m203 Gas.wav</ShortName>
+							<Path>SFX\m203 Gas_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1326061347" Name="Launch_Stun" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Launch_Stun">
+					<IncludedMemoryFiles>
+						<File Id="332297219" Language="SFX">
+							<ShortName>m203 stun.wav</ShortName>
+							<Path>SFX\m203 stun_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="239864081" Name="Mio_Honda" ObjectPath="\Events\Default Work Unit\Enforcer\Emotes\Mio_Honda">
+					<IncludedMemoryFiles>
+						<File Id="642987550" Language="SFX">
+							<ShortName>Mio Honda.wav</ShortName>
+							<Path>SFX\Mio Honda_E4CE20E7.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3055978262" Name="Ollie" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\Ollie">
+					<IncludedMemoryFiles>
+						<File Id="514674134" Language="SFX">
+							<ShortName>Skateboard\CollieD.wav</ShortName>
+							<Path>SFX\Skateboard\CollieD_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3856529783" Name="Play_180" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\Play_180">
+					<IncludedMemoryFiles>
+						<File Id="337103" Language="SFX">
+							<ShortName>Skateboard\180_1.wav</ShortName>
+							<Path>SFX\Skateboard\180_1_752A8D69.wem</Path>
+						</File>
+						<File Id="340850113" Language="SFX">
+							<ShortName>Skateboard\180_2.wav</ShortName>
+							<Path>SFX\Skateboard\180_2_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1374297326" Name="Play_Bonk" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_Bonk">
+					<IncludedMemoryFiles>
+						<File Id="472912323" Language="SFX">
+							<ShortName>bonk.wav</ShortName>
+							<Path>SFX\bonk_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="524803080" Name="Play_chargeMax" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_chargeMax">
+					<IncludedMemoryFiles>
+						<File Id="951465725" Language="SFX">
+							<ShortName>chargeMax.wav</ShortName>
+							<Path>SFX\chargeMax_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2573890018" Name="Play_chargeStart" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_chargeStart">
+					<IncludedMemoryFiles>
+						<File Id="71678922" Language="SFX">
+							<ShortName>chargeStart.wav</ShortName>
+							<Path>SFX\chargeStart_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="547001894" Name="Play_dedede_hammer_attack_l" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_dedede_hammer_attack_l">
+					<IncludedMemoryFiles>
+						<File Id="101912264" Language="SFX">
+							<ShortName>se_dedede_hammer_attack_l.wav</ShortName>
+							<Path>SFX\se_dedede_hammer_attack_l_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="547001895" Name="Play_dedede_hammer_attack_m" ObjectPath="\Events\Default Work Unit\Nemforcer\M1\Play_dedede_hammer_attack_m">
+					<IncludedMemoryFiles>
+						<File Id="929897034" Language="SFX">
+							<ShortName>se_dedede_hammer_attack_m.wav</ShortName>
+							<Path>SFX\se_dedede_hammer_attack_m_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1930421173" Name="Play_Enforcer_CharSelect" ObjectPath="\Events\Default Work Unit\Enforcer\Play_Enforcer_CharSelect">
+					<IncludedMemoryFiles>
+						<File Id="288847377" Language="SFX">
+							<ShortName>CharSelect.wav</ShortName>
+							<Path>SFX\CharSelect_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="496299996" Name="Play_GrenadeThrow" ObjectPath="\Events\Default Work Unit\Nemforcer\Utility\Play_GrenadeThrow">
+					<IncludedMemoryFiles>
+						<File Id="29354304" Language="SFX">
+							<ShortName>GrenadeThrow.wav</ShortName>
+							<Path>SFX\GrenadeThrow_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1306431916" Name="Play_Hammer_Slam" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_Hammer_Slam">
+					<IncludedMemoryFiles>
+						<File Id="20313979" Language="SFX">
+							<ShortName>HammerFlameBurst.wav</ShortName>
+							<Path>SFX\HammerFlameBurst_752A8D69.wem</Path>
+						</File>
+						<File Id="47938053" Language="SFX">
+							<ShortName>HammerSlamL.wav</ShortName>
+							<Path>SFX\HammerSlamL_752A8D69.wem</Path>
+						</File>
+						<File Id="478708561" Language="SFX">
+							<ShortName>HammerImpactL.wav</ShortName>
+							<Path>SFX\HammerImpactL_752A8D69.wem</Path>
+						</File>
+						<File Id="1016044949" Language="SFX">
+							<ShortName>HammerSlamS.wav</ShortName>
+							<Path>SFX\HammerSlamS_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3147989757" Name="Play_Hammer_Smash" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_Hammer_Smash">
+					<IncludedMemoryFiles>
+						<File Id="732033497" Language="SFX">
+							<ShortName>HammerSmash.wav</ShortName>
+							<Path>SFX\HammerSmash_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2685020403" Name="Play_HammerFlameLoop" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_HammerFlameLoop">
+					<IncludedMemoryFiles>
+						<File Id="769609833" Language="SFX">
+							<ShortName>HammerFlameLoop.wav</ShortName>
+							<Path>SFX\HammerFlameLoop_E4CE20E7.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1679528516" Name="Play_HammerswingNewL" ObjectPath="\Events\Default Work Unit\Nemforcer\M1\Play_HammerswingNewL">
+					<IncludedMemoryFiles>
+						<File Id="331487414" Language="SFX">
+							<ShortName>HammerswingNewL2.wav</ShortName>
+							<Path>SFX\HammerswingNewL2_752A8D69.wem</Path>
+						</File>
+						<File Id="365738532" Language="SFX">
+							<ShortName>HammerswingNewL1.wav</ShortName>
+							<Path>SFX\HammerswingNewL1_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="4209605664" Name="Play_Heavy_Swing" ObjectPath="\Events\Default Work Unit\Nemforcer\M1\Play_Heavy_Swing">
+					<IncludedMemoryFiles>
+						<File Id="419574738" Language="SFX">
+							<ShortName>Heavy Swing\Heavy Swing 3.wav</ShortName>
+							<Path>SFX\Heavy Swing\Heavy Swing 3_752A8D69.wem</Path>
+						</File>
+						<File Id="431836681" Language="SFX">
+							<ShortName>Heavy Swing\Heavy Swing 4.wav</ShortName>
+							<Path>SFX\Heavy Swing\Heavy Swing 4_752A8D69.wem</Path>
+						</File>
+						<File Id="1012025303" Language="SFX">
+							<ShortName>Heavy Swing\Heavy Swing 2.wav</ShortName>
+							<Path>SFX\Heavy Swing\Heavy Swing 2_752A8D69.wem</Path>
+						</File>
+						<File Id="1041197163" Language="SFX">
+							<ShortName>Heavy Swing\Heavy Swing 1.wav</ShortName>
+							<Path>SFX\Heavy Swing\Heavy Swing 1_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1074529334" Name="Play_Heavy_Swing_Hit" ObjectPath="\Events\Default Work Unit\Nemforcer\M1\Play_Heavy_Swing_Hit">
+					<IncludedMemoryFiles>
+						<File Id="268021578" Language="SFX">
+							<ShortName>Heavy Swing\Heavy Swing Hit.wav</ShortName>
+							<Path>SFX\Heavy Swing\Heavy Swing Hit_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3324704065" Name="Play_Heavy_Swing_L" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_Heavy_Swing_L">
+					<IncludedMemoryFiles>
+						<File Id="643828831" Language="SFX">
+							<ShortName>HammerSwingL.wav</ShortName>
+							<Path>SFX\HammerSwingL_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3850152609" Name="Play_HMG_crit" ObjectPath="\Events\Default Work Unit\Enforcer\HMG\Play_HMG_crit">
+					<IncludedMemoryFiles>
+						<File Id="827040859" Language="SFX">
+							<ShortName>sndHeavyMachinegun.wav</ShortName>
+							<Path>SFX\sndHeavyMachinegun_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2690539202" Name="Play_HMG_shoot" ObjectPath="\Events\Default Work Unit\Enforcer\HMG\Play_HMG_shoot">
+					<IncludedMemoryFiles>
+						<File Id="750725189" Language="SFX">
+							<ShortName>sndMachinegun.wav</ShortName>
+							<Path>SFX\sndMachinegun_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3468681663" Name="Play_Home_Run_Bat_Hit" ObjectPath="\Events\Default Work Unit\Nemforcer\Play_Home_Run_Bat_Hit">
+					<IncludedMemoryFiles>
+						<File Id="841133334" Language="SFX">
+							<ShortName>Home_Run_Bat_Hit.wav</ShortName>
+							<Path>SFX\Home_Run_Bat_Hit_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="426520867" Name="Play_Minigun_Shoot" ObjectPath="\Events\Default Work Unit\Nemforcer\Ult\Play_Minigun_Shoot">
+					<IncludedMemoryFiles>
+						<File Id="227158378" Language="SFX">
+							<ShortName>minigun_shoot_crit.wav</ShortName>
+							<Path>SFX\minigun_shoot_crit_E4CE20E7.wem</Path>
+						</File>
+						<File Id="746042411" Language="SFX">
+							<ShortName>minigun_shoot.wav</ShortName>
+							<Path>SFX\minigun_shoot_E4CE20E7.wem</Path>
+						</File>
+						<File Id="817933366" Language="SFX">
+							<ShortName>minigun_spin.wav</ShortName>
+							<Path>SFX\minigun_spin_E4CE20E7.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2471307335" Name="Play_minigun_wind_down" ObjectPath="\Events\Default Work Unit\Nemforcer\Ult\Play_minigun_wind_down">
+					<IncludedMemoryFiles>
+						<File Id="1050121589" Language="SFX">
+							<ShortName>minigun_wind_down.wav</ShortName>
+							<Path>SFX\minigun_wind_down_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2180338704" Name="Play_minigun_wind_up" ObjectPath="\Events\Default Work Unit\Nemforcer\Ult\Play_minigun_wind_up">
+					<IncludedMemoryFiles>
+						<File Id="237491122" Language="SFX">
+							<ShortName>minigun_wind_up.wav</ShortName>
+							<Path>SFX\minigun_wind_up_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3603363821" Name="Play_MinigunSheathe" ObjectPath="\Events\Default Work Unit\Nemforcer\Ult\Play_MinigunSheathe">
+					<IncludedMemoryFiles>
+						<File Id="177245763" Language="SFX">
+							<ShortName>MinigunSheathe.wav</ShortName>
+							<Path>SFX\MinigunSheathe_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2694784738" Name="Play_MinigunUnsheathe" ObjectPath="\Events\Default Work Unit\Nemforcer\Ult\Play_MinigunUnsheathe">
+					<IncludedMemoryFiles>
+						<File Id="619611377" Language="SFX">
+							<ShortName>MinigunUnsheathe.wav</ShortName>
+							<Path>SFX\MinigunUnsheathe_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="864085174" Name="Play_NemHammerImpact" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_NemHammerImpact">
+					<IncludedMemoryFiles>
+						<File Id="50725959" Language="SFX">
+							<ShortName>NemHammerImpact.wav</ShortName>
+							<Path>SFX\NemHammerImpact_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3932104958" Name="Play_NemSwingSecondary" ObjectPath="\Events\Default Work Unit\Nemforcer\M2\Play_NemSwingSecondary">
+					<IncludedMemoryFiles>
+						<File Id="951359654" Language="SFX">
+							<ShortName>NemSwingSecondary.wav</ShortName>
+							<Path>SFX\NemSwingSecondary_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3480295470" Name="Play_Orange_Justice" ObjectPath="\Events\Default Work Unit\Enforcer\Emotes\Play_Orange_Justice">
+					<IncludedMemoryFiles>
+						<File Id="573479036" Language="SFX">
+							<ShortName>Orange Justice.wav</ShortName>
+							<Path>SFX\Orange Justice_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3925930336" Name="Play_Reflect_Ding" ObjectPath="\Events\Default Work Unit\Enforcer\Play_Reflect_Ding">
+					<IncludedMemoryFiles>
+						<File Id="238198734" Language="SFX">
+							<ShortName>reflect.wav</ShortName>
+							<Path>SFX\reflect_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2599124241" Name="Play_RiotShotgun_crit" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Play_RiotShotgun_crit">
+					<IncludedMemoryFiles>
+						<File Id="181124531" Language="SFX">
+							<ShortName>shotgun2.wav</ShortName>
+							<Path>SFX\shotgun2_752A8D69.wem</Path>
+						</File>
+						<File Id="461747505" Language="SFX">
+							<ShortName>shotgun.wav</ShortName>
+							<Path>SFX\shotgun_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2887027346" Name="Play_RiotShotgun_shoot" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Play_RiotShotgun_shoot">
+					<IncludedMemoryFiles>
+						<File Id="461747505" Language="SFX">
+							<ShortName>shotgun.wav</ShortName>
+							<Path>SFX\shotgun_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3555953518" Name="Play_se_dedede_hammer_swing_m" ObjectPath="\Events\Default Work Unit\Nemforcer\M1\Play_se_dedede_hammer_swing_m">
+					<IncludedMemoryFiles>
+						<File Id="315505764" Language="SFX">
+							<ShortName>se_dedede_hammer_swing_m.wav</ShortName>
+							<Path>SFX\se_dedede_hammer_swing_m_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2650257043" Name="Play_Siren_Reflect" ObjectPath="\Events\Default Work Unit\Enforcer\Play_Siren_Reflect">
+					<IncludedMemoryFiles>
+						<File Id="358537542" Language="SFX">
+							<ShortName>siren_short2.wav</ShortName>
+							<Path>SFX\siren_short2_752A8D69.wem</Path>
+						</File>
+						<File Id="421134234" Language="SFX">
+							<ShortName>siren_short1.wav</ShortName>
+							<Path>SFX\siren_short1_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2241718446" Name="Play_SSG_single" ObjectPath="\Events\Default Work Unit\Enforcer\Play_SSG_single">
+					<IncludedMemoryFiles>
+						<File Id="1019059826" Language="SFX">
+							<ShortName>double_shotgun_single.wav</ShortName>
+							<Path>SFX\double_shotgun_single_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2553351909" Name="Play_SSG_single_crit" ObjectPath="\Events\Default Work Unit\Enforcer\Play_SSG_single_crit">
+					<IncludedMemoryFiles>
+						<File Id="948410475" Language="SFX">
+							<ShortName>double_shotgun_single_crit.wav</ShortName>
+							<Path>SFX\double_shotgun_single_crit_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3150972076" Name="R_down" ObjectPath="\Events\Default Work Unit\Enforcer\Shield\R_down">
+					<IncludedMemoryFiles>
+						<File Id="749379476" Language="SFX">
+							<ShortName>R down.wav</ShortName>
+							<Path>SFX\R down_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2438578215" Name="R_up" ObjectPath="\Events\Default Work Unit\Enforcer\Shield\R_up">
+					<IncludedMemoryFiles>
+						<File Id="880879728" Language="SFX">
+							<ShortName>R up.wav</ShortName>
+							<Path>SFX\R up_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3469448243" Name="rollconcrete02" ObjectPath="\Events\Default Work Unit\Enforcer\Skateboard\rollconcrete02">
+					<IncludedMemoryFiles>
+						<File Id="252525989" Language="SFX">
+							<ShortName>Skateboard\rollconcrete02.wav</ShortName>
+							<Path>SFX\Skateboard\rollconcrete02_E4CE20E7.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2073601620" Name="Ror1_Shotgun" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Ror1_Shotgun">
+					<IncludedMemoryFiles>
+						<File Id="415675420" Language="SFX">
+							<ShortName>ror1 Shotgun.wav</ShortName>
+							<Path>SFX\ror1 Shotgun_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3800345465" Name="Shell_Hitting_Floor_Fast" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Shell_Hitting_Floor_Fast">
+					<IncludedMemoryFiles>
+						<File Id="134475852" Language="SFX">
+							<ShortName>Enforcer Shells\Shell Falling 3.wav</ShortName>
+							<Path>SFX\Enforcer Shells\Shell Falling 3_752A8D69.wem</Path>
+						</File>
+						<File Id="453274341" Language="SFX">
+							<ShortName>Enforcer Shells\Shell Falling 1.wav</ShortName>
+							<Path>SFX\Enforcer Shells\Shell Falling 1_752A8D69.wem</Path>
+						</File>
+						<File Id="1049739006" Language="SFX">
+							<ShortName>Enforcer Shells\Shell Falling 2.wav</ShortName>
+							<Path>SFX\Enforcer Shells\Shell Falling 2_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1975003716" Name="Shell_Hitting_Floor_Slow" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Shell_Hitting_Floor_Slow">
+					<IncludedMemoryFiles>
+						<File Id="133622821" Language="SFX">
+							<ShortName>Enforcer Shells\Shell falling 4.wav</ShortName>
+							<Path>SFX\Enforcer Shells\Shell falling 4_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="327427460" Name="Shield_Block_heavy" ObjectPath="\Events\Default Work Unit\Enforcer\Shield\Shield_Block_heavy">
+					<IncludedMemoryFiles>
+						<File Id="486377049" Language="SFX">
+							<ShortName>Enforcer Block\Block 4.wav</ShortName>
+							<Path>SFX\Enforcer Block\Block 4_752A8D69.wem</Path>
+						</File>
+						<File Id="655619842" Language="SFX">
+							<ShortName>Enforcer Deflect Sounds\Bash Deflect heavy\Bash Deflect heavy hit 1.wav</ShortName>
+							<Path>SFX\Enforcer Deflect Sounds\Bash Deflect heavy\Bash Deflect heavy hit 1_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1636206593" Name="Shield_Block_light" ObjectPath="\Events\Default Work Unit\Enforcer\Shield\Shield_Block_light">
+					<IncludedMemoryFiles>
+						<File Id="47641269" Language="SFX">
+							<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 10.wav</ShortName>
+							<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 10_752A8D69.wem</Path>
+						</File>
+						<File Id="84913251" Language="SFX">
+							<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 7.wav</ShortName>
+							<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 7_752A8D69.wem</Path>
+						</File>
+						<File Id="173434373" Language="SFX">
+							<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 9.wav</ShortName>
+							<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 9_752A8D69.wem</Path>
+						</File>
+						<File Id="212422922" Language="SFX">
+							<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 6.wav</ShortName>
+							<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 6_752A8D69.wem</Path>
+						</File>
+						<File Id="234994547" Language="SFX">
+							<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 4.wav</ShortName>
+							<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 4_752A8D69.wem</Path>
+						</File>
+						<File Id="396410601" Language="SFX">
+							<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 5.wav</ShortName>
+							<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 5_752A8D69.wem</Path>
+						</File>
+						<File Id="485664771" Language="SFX">
+							<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 8.wav</ShortName>
+							<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 8_752A8D69.wem</Path>
+						</File>
+						<File Id="503085412" Language="SFX">
+							<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 3.wav</ShortName>
+							<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 3_752A8D69.wem</Path>
+						</File>
+						<File Id="641095720" Language="SFX">
+							<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 2.wav</ShortName>
+							<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 2_752A8D69.wem</Path>
+						</File>
+						<File Id="742533614" Language="SFX">
+							<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 1.wav</ShortName>
+							<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 1_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="835721748" Name="Shotgun_shot" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Shotgun_shot">
+					<IncludedMemoryFiles>
+						<File Id="62719793" Language="SFX">
+							<ShortName>Shotgun hit base 2.wav</ShortName>
+							<Path>SFX\Shotgun hit base 2_752A8D69.wem</Path>
+						</File>
+						<File Id="641318147" Language="SFX">
+							<ShortName>Shotgun hit base.wav</ShortName>
+							<Path>SFX\Shotgun hit base_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2548319507" Name="Shotgun_shot_crit" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Shotgun_shot_crit">
+					<IncludedMemoryFiles>
+						<File Id="62719793" Language="SFX">
+							<ShortName>Shotgun hit base 2.wav</ShortName>
+							<Path>SFX\Shotgun hit base 2_752A8D69.wem</Path>
+						</File>
+						<File Id="641318147" Language="SFX">
+							<ShortName>Shotgun hit base.wav</ShortName>
+							<Path>SFX\Shotgun hit base_752A8D69.wem</Path>
+						</File>
+						<File Id="754192387" Language="SFX">
+							<ShortName>Shotgun crit additional.wav</ShortName>
+							<Path>SFX\Shotgun crit additional_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1700444560" Name="Shoulder_Bash_Hit" ObjectPath="\Events\Default Work Unit\Enforcer\Bash\Shoulder_Bash_Hit">
+					<IncludedMemoryFiles>
+						<File Id="69430926" Language="SFX">
+							<ShortName>Shoulder Bash\Shoulder Bash 3.wav</ShortName>
+							<Path>SFX\Shoulder Bash\Shoulder Bash 3_752A8D69.wem</Path>
+						</File>
+						<File Id="309218343" Language="SFX">
+							<ShortName>Shoulder Bash\Shoulder Bash 1.wav</ShortName>
+							<Path>SFX\Shoulder Bash\Shoulder Bash 1_752A8D69.wem</Path>
+						</File>
+						<File Id="581708149" Language="SFX">
+							<ShortName>Shoulder Bash\Shoulder Bash 4.wav</ShortName>
+							<Path>SFX\Shoulder Bash\Shoulder Bash 4_752A8D69.wem</Path>
+						</File>
+						<File Id="969565441" Language="SFX">
+							<ShortName>Shoulder Bash\Shoulder Bash 2.wav</ShortName>
+							<Path>SFX\Shoulder Bash\Shoulder Bash 2_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="775161987" Name="Siren_Button" ObjectPath="\Events\Default Work Unit\Enforcer\Siren_Button">
+					<IncludedMemoryFiles>
+						<File Id="326807822" Language="SFX">
+							<ShortName>Siren loop.wav</ShortName>
+							<Path>SFX\Siren loop_E4CE20E7.wem</Path>
+						</File>
+						<File Id="640539541" Language="SFX">
+							<ShortName>piercer siren.wav</ShortName>
+							<Path>SFX\piercer siren_E4CE20E7.wem</Path>
+						</File>
+						<File Id="1015415358" Language="SFX">
+							<ShortName>siren loop spawn.wav</ShortName>
+							<Path>SFX\siren loop spawn_E4CE20E7.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="823509760" Name="Siren_Spawn" ObjectPath="\Events\Default Work Unit\Enforcer\Siren_Spawn">
+					<IncludedMemoryFiles>
+						<File Id="938658609" Language="SFX">
+							<ShortName>Police Siren Spawn.wav</ShortName>
+							<Path>SFX\Police Siren Spawn_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="762562105" Name="Stun_Explosion" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Stun_Explosion">
+					<IncludedMemoryFiles>
+						<File Id="1018300447" Language="SFX">
+							<ShortName>Stun Explosion 1.wav</ShortName>
+							<Path>SFX\Stun Explosion 1_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="4142479393" Name="Super_Shotgun" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Super_Shotgun">
+					<IncludedMemoryFiles>
+						<File Id="553537820" Language="SFX">
+							<ShortName>Super Shotgun.wav</ShortName>
+							<Path>SFX\Super Shotgun_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2610236448" Name="Super_Shotgun_crit" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Super_Shotgun_crit">
+					<IncludedMemoryFiles>
+						<File Id="322194405" Language="SFX">
+							<ShortName>Super Shotgun crit.wav</ShortName>
+							<Path>SFX\Super Shotgun crit_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
 			</IncludedEvents>
-			<IncludedMemoryFiles>
-				<File Id="337103" Language="SFX">
-					<ShortName>Skateboard\180_1.wav</ShortName>
-					<Path>SFX\Skateboard\180_1_030CF4A9.wem</Path>
-				</File>
-				<File Id="20313979" Language="SFX">
-					<ShortName>HammerFlameBurst.wav</ShortName>
-					<Path>SFX\HammerFlameBurst_030CF4A9.wem</Path>
-				</File>
-				<File Id="28568263" Language="SFX">
-					<ShortName>Energy R Up.wav</ShortName>
-					<Path>SFX\Energy R Up_030CF4A9.wem</Path>
-				</File>
-				<File Id="29354304" Language="SFX">
-					<ShortName>GrenadeThrow.wav</ShortName>
-					<Path>SFX\GrenadeThrow_030CF4A9.wem</Path>
-				</File>
-				<File Id="32584676" Language="SFX">
-					<ShortName>Skateboard\HUD_perfecttrickB.wav</ShortName>
-					<Path>SFX\Skateboard\HUD_perfecttrickB_030CF4A9.wem</Path>
-				</File>
-				<File Id="47641269" Language="SFX">
-					<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 10.wav</ShortName>
-					<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 10_030CF4A9.wem</Path>
-				</File>
-				<File Id="47938053" Language="SFX">
-					<ShortName>HammerSlamL.wav</ShortName>
-					<Path>SFX\HammerSlamL_030CF4A9.wem</Path>
-				</File>
-				<File Id="50725959" Language="SFX">
-					<ShortName>NemHammerImpact.wav</ShortName>
-					<Path>SFX\NemHammerImpact_030CF4A9.wem</Path>
-				</File>
-				<File Id="62719793" Language="SFX">
-					<ShortName>Shotgun hit base 2.wav</ShortName>
-					<Path>SFX\Shotgun hit base 2_030CF4A9.wem</Path>
-				</File>
-				<File Id="69430926" Language="SFX">
-					<ShortName>Shoulder Bash\Shoulder Bash 3.wav</ShortName>
-					<Path>SFX\Shoulder Bash\Shoulder Bash 3_030CF4A9.wem</Path>
-				</File>
-				<File Id="71678922" Language="SFX">
-					<ShortName>chargeStart.wav</ShortName>
-					<Path>SFX\chargeStart_030CF4A9.wem</Path>
-				</File>
-				<File Id="80400301" Language="SFX">
-					<ShortName>Earlstep 2.wav</ShortName>
-					<Path>SFX\Earlstep 2_030CF4A9.wem</Path>
-				</File>
-				<File Id="82296412" Language="SFX">
-					<ShortName>doom1.wav</ShortName>
-					<Path>SFX\doom1_030CF4A9.wem</Path>
-				</File>
-				<File Id="84913251" Language="SFX">
-					<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 7.wav</ShortName>
-					<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 7_030CF4A9.wem</Path>
-				</File>
-				<File Id="101912264" Language="SFX">
-					<ShortName>se_dedede_hammer_attack_l.wav</ShortName>
-					<Path>SFX\se_dedede_hammer_attack_l_030CF4A9.wem</Path>
-				</File>
-				<File Id="103969424" Language="SFX">
-					<ShortName>Blaster Shotgun.wav</ShortName>
-					<Path>SFX\Blaster Shotgun_030CF4A9.wem</Path>
-				</File>
-				<File Id="133622821" Language="SFX">
-					<ShortName>Enforcer Shells\Shell falling 4.wav</ShortName>
-					<Path>SFX\Enforcer Shells\Shell falling 4_030CF4A9.wem</Path>
-				</File>
-				<File Id="134475852" Language="SFX">
-					<ShortName>Enforcer Shells\Shell Falling 3.wav</ShortName>
-					<Path>SFX\Enforcer Shells\Shell Falling 3_030CF4A9.wem</Path>
-				</File>
-				<File Id="173434373" Language="SFX">
-					<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 9.wav</ShortName>
-					<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 9_030CF4A9.wem</Path>
-				</File>
-				<File Id="177245763" Language="SFX">
-					<ShortName>MinigunSheathe.wav</ShortName>
-					<Path>SFX\MinigunSheathe_030CF4A9.wem</Path>
-				</File>
-				<File Id="181124531" Language="SFX">
-					<ShortName>shotgun2.wav</ShortName>
-					<Path>SFX\shotgun2_030CF4A9.wem</Path>
-				</File>
-				<File Id="202275642" Language="SFX">
-					<ShortName>police death siren.wav</ShortName>
-					<Path>SFX\police death siren_030CF4A9.wem</Path>
-				</File>
-				<File Id="212233180" Language="SFX">
-					<ShortName>Doom 2 Super Shotgun.wav</ShortName>
-					<Path>SFX\Doom 2 Super Shotgun_030CF4A9.wem</Path>
-				</File>
-				<File Id="212422922" Language="SFX">
-					<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 6.wav</ShortName>
-					<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 6_030CF4A9.wem</Path>
-				</File>
-				<File Id="221782282" Language="SFX">
-					<ShortName>Fortnite default dance sound.wav</ShortName>
-					<Path>SFX\Fortnite default dance sound_030CF4A9.wem</Path>
-				</File>
-				<File Id="227158378" Language="SFX">
-					<ShortName>minigun_shoot_crit.wav</ShortName>
-					<Path>SFX\minigun_shoot_crit_138B9027.wem</Path>
-				</File>
-				<File Id="234994547" Language="SFX">
-					<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 4.wav</ShortName>
-					<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 4_030CF4A9.wem</Path>
-				</File>
-				<File Id="237491122" Language="SFX">
-					<ShortName>minigun_wind_up.wav</ShortName>
-					<Path>SFX\minigun_wind_up_030CF4A9.wem</Path>
-				</File>
-				<File Id="238198734" Language="SFX">
-					<ShortName>reflect.wav</ShortName>
-					<Path>SFX\reflect_030CF4A9.wem</Path>
-				</File>
-				<File Id="252525989" Language="SFX">
-					<ShortName>Skateboard\rollconcrete02.wav</ShortName>
-					<Path>SFX\Skateboard\rollconcrete02_138B9027.wem</Path>
-				</File>
-				<File Id="268021578" Language="SFX">
-					<ShortName>Heavy Swing\Heavy Swing Hit.wav</ShortName>
-					<Path>SFX\Heavy Swing\Heavy Swing Hit_030CF4A9.wem</Path>
-				</File>
-				<File Id="272632443" Language="SFX">
-					<ShortName>Deflect\Deflect 3.wav</ShortName>
-					<Path>SFX\Deflect\Deflect 3_030CF4A9.wem</Path>
-				</File>
-				<File Id="286574097" Language="SFX">
-					<ShortName>Floss.wav</ShortName>
-					<Path>SFX\Floss_138B9027.wem</Path>
-				</File>
-				<File Id="288847377" Language="SFX">
-					<ShortName>CharSelect.wav</ShortName>
-					<Path>SFX\CharSelect_030CF4A9.wem</Path>
-				</File>
-				<File Id="295939489" Language="SFX">
-					<ShortName>doom2.wav</ShortName>
-					<Path>SFX\doom2_030CF4A9.wem</Path>
-				</File>
-				<File Id="306254288" Language="SFX">
-					<ShortName>Skateboard\HUD_jumpgap.wav</ShortName>
-					<Path>SFX\Skateboard\HUD_jumpgap_030CF4A9.wem</Path>
-				</File>
-				<File Id="309218343" Language="SFX">
-					<ShortName>Shoulder Bash\Shoulder Bash 1.wav</ShortName>
-					<Path>SFX\Shoulder Bash\Shoulder Bash 1_030CF4A9.wem</Path>
-				</File>
-				<File Id="315505764" Language="SFX">
-					<ShortName>se_dedede_hammer_swing_m.wav</ShortName>
-					<Path>SFX\se_dedede_hammer_swing_m_030CF4A9.wem</Path>
-				</File>
-				<File Id="322194405" Language="SFX">
-					<ShortName>Super Shotgun crit.wav</ShortName>
-					<Path>SFX\Super Shotgun crit_030CF4A9.wem</Path>
-				</File>
-				<File Id="323850625" Language="SFX">
-					<ShortName>Bungus AR.wav</ShortName>
-					<Path>SFX\Bungus AR_030CF4A9.wem</Path>
-				</File>
-				<File Id="326807822" Language="SFX">
-					<ShortName>Siren loop.wav</ShortName>
-					<Path>SFX\Siren loop_138B9027.wem</Path>
-				</File>
-				<File Id="331487414" Language="SFX">
-					<ShortName>HammerswingNewL2.wav</ShortName>
-					<Path>SFX\HammerswingNewL2_030CF4A9.wem</Path>
-				</File>
-				<File Id="332297219" Language="SFX">
-					<ShortName>m203 stun.wav</ShortName>
-					<Path>SFX\m203 stun_030CF4A9.wem</Path>
-				</File>
-				<File Id="334592697" Language="SFX">
-					<ShortName>Skateboard\landconcrete1.wav</ShortName>
-					<Path>SFX\Skateboard\landconcrete1_030CF4A9.wem</Path>
-				</File>
-				<File Id="337138913" Language="SFX">
-					<ShortName>Enforcer Assault Rifle\Shots 2\Shot 3.wav</ShortName>
-					<Path>SFX\Enforcer Assault Rifle\Shots 2\Shot 3_030CF4A9.wem</Path>
-				</File>
-				<File Id="340850113" Language="SFX">
-					<ShortName>Skateboard\180_2.wav</ShortName>
-					<Path>SFX\Skateboard\180_2_030CF4A9.wem</Path>
-				</File>
-				<File Id="342598265" Language="SFX">
-					<ShortName>Enforcer Assault Rifle\Shots 2\shot 2.wav</ShortName>
-					<Path>SFX\Enforcer Assault Rifle\Shots 2\shot 2_030CF4A9.wem</Path>
-				</File>
-				<File Id="358537542" Language="SFX">
-					<ShortName>siren_short2.wav</ShortName>
-					<Path>SFX\siren_short2_030CF4A9.wem</Path>
-				</File>
-				<File Id="365738532" Language="SFX">
-					<ShortName>HammerswingNewL1.wav</ShortName>
-					<Path>SFX\HammerswingNewL1_030CF4A9.wem</Path>
-				</File>
-				<File Id="396410601" Language="SFX">
-					<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 5.wav</ShortName>
-					<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 5_030CF4A9.wem</Path>
-				</File>
-				<File Id="415675420" Language="SFX">
-					<ShortName>ror1 Shotgun.wav</ShortName>
-					<Path>SFX\ror1 Shotgun_030CF4A9.wem</Path>
-				</File>
-				<File Id="419574738" Language="SFX">
-					<ShortName>Heavy Swing\Heavy Swing 3.wav</ShortName>
-					<Path>SFX\Heavy Swing\Heavy Swing 3_030CF4A9.wem</Path>
-				</File>
-				<File Id="421134234" Language="SFX">
-					<ShortName>siren_short1.wav</ShortName>
-					<Path>SFX\siren_short1_030CF4A9.wem</Path>
-				</File>
-				<File Id="425570657" Language="SFX">
-					<ShortName>InfinidabLoop.wav</ShortName>
-					<Path>SFX\InfinidabLoop_138B9027.wem</Path>
-				</File>
-				<File Id="426419519" Language="SFX">
-					<ShortName>Bungus Riot.wav</ShortName>
-					<Path>SFX\Bungus Riot_030CF4A9.wem</Path>
-				</File>
-				<File Id="431836681" Language="SFX">
-					<ShortName>Heavy Swing\Heavy Swing 4.wav</ShortName>
-					<Path>SFX\Heavy Swing\Heavy Swing 4_030CF4A9.wem</Path>
-				</File>
-				<File Id="453274341" Language="SFX">
-					<ShortName>Enforcer Shells\Shell Falling 1.wav</ShortName>
-					<Path>SFX\Enforcer Shells\Shell Falling 1_030CF4A9.wem</Path>
-				</File>
-				<File Id="461747505" Language="SFX">
-					<ShortName>shotgun.wav</ShortName>
-					<Path>SFX\shotgun_030CF4A9.wem</Path>
-				</File>
-				<File Id="463778954" Language="SFX">
-					<ShortName>Earlstep 5.wav</ShortName>
-					<Path>SFX\Earlstep 5_030CF4A9.wem</Path>
-				</File>
-				<File Id="472912323" Language="SFX">
-					<ShortName>bonk.wav</ShortName>
-					<Path>SFX\bonk_030CF4A9.wem</Path>
-				</File>
-				<File Id="478708561" Language="SFX">
-					<ShortName>HammerImpactL.wav</ShortName>
-					<Path>SFX\HammerImpactL_030CF4A9.wem</Path>
-				</File>
-				<File Id="485664771" Language="SFX">
-					<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 8.wav</ShortName>
-					<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 8_030CF4A9.wem</Path>
-				</File>
-				<File Id="486377049" Language="SFX">
-					<ShortName>Enforcer Block\Block 4.wav</ShortName>
-					<Path>SFX\Enforcer Block\Block 4_030CF4A9.wem</Path>
-				</File>
-				<File Id="503085412" Language="SFX">
-					<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 3.wav</ShortName>
-					<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 3_030CF4A9.wem</Path>
-				</File>
-				<File Id="514674134" Language="SFX">
-					<ShortName>Skateboard\CollieD.wav</ShortName>
-					<Path>SFX\Skateboard\CollieD_030CF4A9.wem</Path>
-				</File>
-				<File Id="515027859" Language="SFX">
-					<ShortName>Croak siren.wav</ShortName>
-					<Path>SFX\Croak siren_138B9027.wem</Path>
-				</File>
-				<File Id="519303745" Language="SFX">
-					<ShortName>croak select.wav</ShortName>
-					<Path>SFX\croak select_030CF4A9.wem</Path>
-				</File>
-				<File Id="522079253" Language="SFX">
-					<ShortName>Bash hit enemy.wav</ShortName>
-					<Path>SFX\Bash hit enemy_030CF4A9.wem</Path>
-				</File>
-				<File Id="553537820" Language="SFX">
-					<ShortName>Super Shotgun.wav</ShortName>
-					<Path>SFX\Super Shotgun_030CF4A9.wem</Path>
-				</File>
-				<File Id="573479036" Language="SFX">
-					<ShortName>Orange Justice.wav</ShortName>
-					<Path>SFX\Orange Justice_030CF4A9.wem</Path>
-				</File>
-				<File Id="581708149" Language="SFX">
-					<ShortName>Shoulder Bash\Shoulder Bash 4.wav</ShortName>
-					<Path>SFX\Shoulder Bash\Shoulder Bash 4_030CF4A9.wem</Path>
-				</File>
-				<File Id="596441432" Language="SFX">
-					<ShortName>Energy R down.wav</ShortName>
-					<Path>SFX\Energy R down_030CF4A9.wem</Path>
-				</File>
-				<File Id="615230019" Language="SFX">
-					<ShortName>Gas Explosion.wav</ShortName>
-					<Path>SFX\Gas Explosion_030CF4A9.wem</Path>
-				</File>
-				<File Id="619611377" Language="SFX">
-					<ShortName>MinigunUnsheathe.wav</ShortName>
-					<Path>SFX\MinigunUnsheathe_030CF4A9.wem</Path>
-				</File>
-				<File Id="640539541" Language="SFX">
-					<ShortName>piercer siren.wav</ShortName>
-					<Path>SFX\piercer siren_138B9027.wem</Path>
-				</File>
-				<File Id="641095720" Language="SFX">
-					<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 2.wav</ShortName>
-					<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 2_030CF4A9.wem</Path>
-				</File>
-				<File Id="641318147" Language="SFX">
-					<ShortName>Shotgun hit base.wav</ShortName>
-					<Path>SFX\Shotgun hit base_030CF4A9.wem</Path>
-				</File>
-				<File Id="642987550" Language="SFX">
-					<ShortName>Mio Honda.wav</ShortName>
-					<Path>SFX\Mio Honda_138B9027.wem</Path>
-				</File>
-				<File Id="643828831" Language="SFX">
-					<ShortName>HammerSwingL.wav</ShortName>
-					<Path>SFX\HammerSwingL_030CF4A9.wem</Path>
-				</File>
-				<File Id="655619842" Language="SFX">
-					<ShortName>Enforcer Deflect Sounds\Bash Deflect heavy\Bash Deflect heavy hit 1.wav</ShortName>
-					<Path>SFX\Enforcer Deflect Sounds\Bash Deflect heavy\Bash Deflect heavy hit 1_030CF4A9.wem</Path>
-				</File>
-				<File Id="693056796" Language="SFX">
-					<ShortName>Skateboard\HUD_scoreE.wav</ShortName>
-					<Path>SFX\Skateboard\HUD_scoreE_030CF4A9.wem</Path>
-				</File>
-				<File Id="732033497" Language="SFX">
-					<ShortName>HammerSmash.wav</ShortName>
-					<Path>SFX\HammerSmash_030CF4A9.wem</Path>
-				</File>
-				<File Id="742533614" Language="SFX">
-					<ShortName>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 1.wav</ShortName>
-					<Path>SFX\Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 1_030CF4A9.wem</Path>
-				</File>
-				<File Id="746042411" Language="SFX">
-					<ShortName>minigun_shoot.wav</ShortName>
-					<Path>SFX\minigun_shoot_138B9027.wem</Path>
-				</File>
-				<File Id="749379476" Language="SFX">
-					<ShortName>R down.wav</ShortName>
-					<Path>SFX\R down_030CF4A9.wem</Path>
-				</File>
-				<File Id="750725189" Language="SFX">
-					<ShortName>sndMachinegun.wav</ShortName>
-					<Path>SFX\sndMachinegun_030CF4A9.wem</Path>
-				</File>
-				<File Id="754192387" Language="SFX">
-					<ShortName>Shotgun crit additional.wav</ShortName>
-					<Path>SFX\Shotgun crit additional_030CF4A9.wem</Path>
-				</File>
-				<File Id="769609833" Language="SFX">
-					<ShortName>HammerFlameLoop.wav</ShortName>
-					<Path>SFX\HammerFlameLoop_138B9027.wem</Path>
-				</File>
-				<File Id="817438832" Language="SFX">
-					<ShortName>Blaster Rifle.wav</ShortName>
-					<Path>SFX\Blaster Rifle_030CF4A9.wem</Path>
-				</File>
-				<File Id="817933366" Language="SFX">
-					<ShortName>minigun_spin.wav</ShortName>
-					<Path>SFX\minigun_spin_138B9027.wem</Path>
-				</File>
-				<File Id="827040859" Language="SFX">
-					<ShortName>sndHeavyMachinegun.wav</ShortName>
-					<Path>SFX\sndHeavyMachinegun_030CF4A9.wem</Path>
-				</File>
-				<File Id="841133334" Language="SFX">
-					<ShortName>Home_Run_Bat_Hit.wav</ShortName>
-					<Path>SFX\Home_Run_Bat_Hit_030CF4A9.wem</Path>
-				</File>
-				<File Id="849633851" Language="SFX">
-					<ShortName>Bash.wav</ShortName>
-					<Path>SFX\Bash_030CF4A9.wem</Path>
-				</File>
-				<File Id="870983138" Language="SFX">
-					<ShortName>Bungus SSg.wav</ShortName>
-					<Path>SFX\Bungus SSg_030CF4A9.wem</Path>
-				</File>
-				<File Id="880879728" Language="SFX">
-					<ShortName>R up.wav</ShortName>
-					<Path>SFX\R up_030CF4A9.wem</Path>
-				</File>
-				<File Id="900091441" Language="SFX">
-					<ShortName>m203 Gas.wav</ShortName>
-					<Path>SFX\m203 Gas_030CF4A9.wem</Path>
-				</File>
-				<File Id="929897034" Language="SFX">
-					<ShortName>se_dedede_hammer_attack_m.wav</ShortName>
-					<Path>SFX\se_dedede_hammer_attack_m_030CF4A9.wem</Path>
-				</File>
-				<File Id="938658609" Language="SFX">
-					<ShortName>Police Siren Spawn.wav</ShortName>
-					<Path>SFX\Police Siren Spawn_030CF4A9.wem</Path>
-				</File>
-				<File Id="948410475" Language="SFX">
-					<ShortName>double_shotgun_single_crit.wav</ShortName>
-					<Path>SFX\double_shotgun_single_crit_030CF4A9.wem</Path>
-				</File>
-				<File Id="949829171" Language="SFX">
-					<ShortName>Skateboard\HUD_specialtrickAA.wav</ShortName>
-					<Path>SFX\Skateboard\HUD_specialtrickAA_030CF4A9.wem</Path>
-				</File>
-				<File Id="951359654" Language="SFX">
-					<ShortName>NemSwingSecondary.wav</ShortName>
-					<Path>SFX\NemSwingSecondary_030CF4A9.wem</Path>
-				</File>
-				<File Id="951465725" Language="SFX">
-					<ShortName>chargeMax.wav</ShortName>
-					<Path>SFX\chargeMax_030CF4A9.wem</Path>
-				</File>
-				<File Id="969565441" Language="SFX">
-					<ShortName>Shoulder Bash\Shoulder Bash 2.wav</ShortName>
-					<Path>SFX\Shoulder Bash\Shoulder Bash 2_030CF4A9.wem</Path>
-				</File>
-				<File Id="1001586314" Language="SFX">
-					<ShortName>Deflect\Deflect 2.wav</ShortName>
-					<Path>SFX\Deflect\Deflect 2_030CF4A9.wem</Path>
-				</File>
-				<File Id="1002905034" Language="SFX">
-					<ShortName>Deflect\Defllect 1.wav</ShortName>
-					<Path>SFX\Deflect\Defllect 1_030CF4A9.wem</Path>
-				</File>
-				<File Id="1012025303" Language="SFX">
-					<ShortName>Heavy Swing\Heavy Swing 2.wav</ShortName>
-					<Path>SFX\Heavy Swing\Heavy Swing 2_030CF4A9.wem</Path>
-				</File>
-				<File Id="1015415358" Language="SFX">
-					<ShortName>siren loop spawn.wav</ShortName>
-					<Path>SFX\siren loop spawn_138B9027.wem</Path>
-				</File>
-				<File Id="1016044949" Language="SFX">
-					<ShortName>HammerSlamS.wav</ShortName>
-					<Path>SFX\HammerSlamS_030CF4A9.wem</Path>
-				</File>
-				<File Id="1018300447" Language="SFX">
-					<ShortName>Stun Explosion 1.wav</ShortName>
-					<Path>SFX\Stun Explosion 1_030CF4A9.wem</Path>
-				</File>
-				<File Id="1019059826" Language="SFX">
-					<ShortName>double_shotgun_single.wav</ShortName>
-					<Path>SFX\double_shotgun_single_030CF4A9.wem</Path>
-				</File>
-				<File Id="1023427158" Language="SFX">
-					<ShortName>Skateboard\grindmetal03.wav</ShortName>
-					<Path>SFX\Skateboard\grindmetal03_138B9027.wem</Path>
-				</File>
-				<File Id="1041197163" Language="SFX">
-					<ShortName>Heavy Swing\Heavy Swing 1.wav</ShortName>
-					<Path>SFX\Heavy Swing\Heavy Swing 1_030CF4A9.wem</Path>
-				</File>
-				<File Id="1041263716" Language="SFX">
-					<ShortName>Gas Sound.wav</ShortName>
-					<Path>SFX\Gas Sound_138B9027.wem</Path>
-				</File>
-				<File Id="1049739006" Language="SFX">
-					<ShortName>Enforcer Shells\Shell Falling 2.wav</ShortName>
-					<Path>SFX\Enforcer Shells\Shell Falling 2_030CF4A9.wem</Path>
-				</File>
-				<File Id="1050121589" Language="SFX">
-					<ShortName>minigun_wind_down.wav</ShortName>
-					<Path>SFX\minigun_wind_down_030CF4A9.wem</Path>
-				</File>
-				<File Id="1052826638" Language="SFX">
-					<ShortName>Enforcer Assault Rifle\Shots 2\Shot 1.wav</ShortName>
-					<Path>SFX\Enforcer Assault Rifle\Shots 2\Shot 1_030CF4A9.wem</Path>
-				</File>
-				<File Id="1058145702" Language="SFX">
-					<ShortName>Skateboard\landdirt3.wav</ShortName>
-					<Path>SFX\Skateboard\landdirt3_030CF4A9.wem</Path>
-				</File>
-			</IncludedMemoryFiles>
+			<GameParameters>
+				<GameParameter Id="132510055" Name="M2_Charge" ObjectPath="\Game Parameters\Default Work Unit\M2_Charge"/>
+				<GameParameter Id="1988444931" Name="Skateboard_Speed" ObjectPath="\Game Parameters\Default Work Unit\Skateboard_Speed"/>
+				<GameParameter Id="2001310149" Name="Minigun_Crit" ObjectPath="\Game Parameters\Default Work Unit\Minigun_Crit"/>
+				<GameParameter Id="2074759749" Name="Shell_Velocity" ObjectPath="\Game Parameters\Default Work Unit\Shell_Velocity"/>
+				<GameParameter Id="2221076878" Name="Minigun_Speed" ObjectPath="\Game Parameters\Default Work Unit\Minigun_Speed"/>
+				<GameParameter Id="3190209922" Name="Minigun_Shooting" ObjectPath="\Game Parameters\Default Work Unit\Minigun_Shooting"/>
+				<GameParameter Id="3673881719" Name="Volume_SFX" ObjectPath="\Game Parameters\Default Work Unit\Volume_SFX"/>
+			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
 </SoundBanksInfo>

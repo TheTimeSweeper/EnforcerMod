@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{1DB0C86D-4B92-4CB3-8783-E8909C0D748F}" SchemaVersion="89">
+	<SoundBanks>
+		<WorkUnit Name="Default Work Unit" ID="{1DB0C86D-4B92-4CB3-8783-E8909C0D748F}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundBank Name="EnforcerBank" ID="{A48FF3DE-8734-4D14-9136-8A4D30A8AF4F}">
+					<ObjectInclusionList>
+						<ObjectRef Name="Nemforcer" ID="{D425C006-DA93-44BC-8D3F-D659398DF548}" WorkUnitID="{222379DB-8D8E-40C2-9558-30A7747D1E40}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Enforcer" ID="{3D830328-194F-4C7B-8C4A-672368C37E53}" WorkUnitID="{222379DB-8D8E-40C2-9558-30A7747D1E40}" Filter="7" Origin="Manual"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+				<SoundBank Name="Enforcer_DLC_1" ID="{EE81EEAF-3A44-4216-8CF3-D440A1FDAE2C}">
+					<ObjectInclusionList>
+						<ObjectRef Name="DLC1" ID="{C8EAFCC6-3CBF-4FEC-828E-4289E58F4D5A}" WorkUnitID="{222379DB-8D8E-40C2-9558-30A7747D1E40}" Filter="7" Origin="Manual"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+			</ChildrenList>
+		</WorkUnit>
+	</SoundBanks>
+</WwiseDocument>
