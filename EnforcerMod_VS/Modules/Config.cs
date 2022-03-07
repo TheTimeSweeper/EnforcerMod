@@ -1,9 +1,10 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
-using System;
+using EnforcerPlugin;
 using UnityEngine;
 
-namespace EnforcerPlugin.Modules {
+namespace Modules {
+
     public class Config {
 
         public static ConfigEntry<bool> forceUnlock;
@@ -149,8 +150,7 @@ namespace EnforcerPlugin.Modules {
                                      KeyCode.Alpha2,
                                      "Key used to Salute");
 
-            if (!EnforcerModPlugin.holdonasec)
-            {
+            if (!EnforcerModPlugin.holdonasec) {
                 danceKey
                     = plugin.Config.Bind("02 - Keybinds",
                                          "Dance Moves Emote",

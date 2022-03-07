@@ -1,12 +1,12 @@
-﻿using RoR2;
+﻿using Modules;
+using RoR2;
 using RoR2.Projectile;
 using RoR2.Skills;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace EntityStates.Nemforcer
-{
+namespace EntityStates.Nemforcer {
     public class ThrowHammer : BaseSkillState
     {
         public static float damageCoefficient = 6.2f;
@@ -44,7 +44,7 @@ namespace EntityStates.Nemforcer
                 Ray aimRay = base.GetAimRay();
 
                 base.AddRecoil(-1f * ThrowHammer.recoil, -2f * ThrowHammer.recoil, -0.5f * ThrowHammer.recoil, 0.5f * ThrowHammer.recoil);
-                Util.PlaySound(EnforcerPlugin.Sounds.NemesisGrenadeThrow, base.gameObject);
+                Util.PlaySound(Sounds.NemesisGrenadeThrow, base.gameObject);
 
                 if (base.isAuthority)
                 {

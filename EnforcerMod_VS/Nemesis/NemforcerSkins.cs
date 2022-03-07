@@ -3,7 +3,7 @@ using UnityEngine;
 using R2API;
 using RoR2;
 using System.Collections.Generic;
-using EnforcerPlugin.Modules;
+using Modules;
 
 namespace EnforcerPlugin {
     public static class NemforcerSkins
@@ -12,7 +12,7 @@ namespace EnforcerPlugin {
         public static SkinDef ultraSkin;
 
         public static void RegisterSkins() {
-            GameObject bodyPrefab = NemforcerPlugin.characterPrefab;
+            GameObject bodyPrefab = NemforcerPlugin.characterBodyPrefab;
 
             GameObject model = bodyPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
             CharacterModel characterModel = model.GetComponent<CharacterModel>();
@@ -92,8 +92,8 @@ namespace EnforcerPlugin {
             classicSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[defaultSkinDefInfo.RendererInfos.Length];
             defaultSkinDefInfo.RendererInfos.CopyTo(classicSkinDefInfo.RendererInfos, 0);
 
-            classicSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateNemMaterial("matNemforcerClassic", 5f, Color.white, 0);
-            classicSkinDefInfo.RendererInfos[classicSkinDefInfo.RendererInfos.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matNemforcerClassic", 5f, Color.white, 0);
+            classicSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matNemforcerClassic", 5f, Color.white, 0);
+            classicSkinDefInfo.RendererInfos[classicSkinDefInfo.RendererInfos.Length - 1].defaultMaterial = Assets.CreateMaterial("matNemforcerClassic", 5f, Color.white, 0);
 
             SkinDef classicSkin = Skins.CreateSkinDef(classicSkinDefInfo);
             #endregion
@@ -158,8 +158,8 @@ namespace EnforcerPlugin {
             altSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[characterModel.baseRendererInfos.Length];
             characterModel.baseRendererInfos.CopyTo(altSkinDefInfo.RendererInfos, 0);
 
-            altSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateNemMaterial("matNemforcerAlt", 5f, Color.white, 0);
-            altSkinDefInfo.RendererInfos[altSkinDefInfo.RendererInfos.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matNemforcerAlt", 5f, Color.white, 0);
+            altSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matNemforcerAlt", 5f, Color.white, 0);
+            altSkinDefInfo.RendererInfos[altSkinDefInfo.RendererInfos.Length - 1].defaultMaterial = Assets.CreateMaterial("matNemforcerAlt", 5f, Color.white, 0);
 
             SkinDef altSkin = Skins.CreateSkinDef(altSkinDefInfo);
             #endregion
@@ -194,8 +194,8 @@ namespace EnforcerPlugin {
             dripSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[characterModel.baseRendererInfos.Length];
             characterModel.baseRendererInfos.CopyTo(dripSkinDefInfo.RendererInfos, 0);
 
-            dripSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateNemMaterial("matDripforcer", 5f, Color.white, 0);
-            dripSkinDefInfo.RendererInfos[dripSkinDefInfo.RendererInfos.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matDripforcer", 5f, Color.white, 0);
+            dripSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matDripforcer", 5f, Color.white, 0);
+            dripSkinDefInfo.RendererInfos[dripSkinDefInfo.RendererInfos.Length - 1].defaultMaterial = Assets.CreateMaterial("matDripforcer", 5f, Color.white, 0);
 
             SkinDef dripSkin = Skins.CreateSkinDef(dripSkinDefInfo);
             #endregion
@@ -239,8 +239,8 @@ namespace EnforcerPlugin {
             dededeSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[characterModel.baseRendererInfos.Length];
             characterModel.baseRendererInfos.CopyTo(dededeSkinDefInfo.RendererInfos, 0);
 
-            dededeSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateNemMaterial("matDedede");
-            dededeSkinDefInfo.RendererInfos[dededeSkinDefInfo.RendererInfos.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matDedede");
+            dededeSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matDedede");
+            dededeSkinDefInfo.RendererInfos[dededeSkinDefInfo.RendererInfos.Length - 1].defaultMaterial = Assets.CreateMaterial("matDedede");
 
             SkinDef dededeSkin = Skins.CreateSkinDef(dededeSkinDefInfo);
             #endregion
@@ -305,8 +305,8 @@ namespace EnforcerPlugin {
             minecraftSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[characterModel.baseRendererInfos.Length];
             characterModel.baseRendererInfos.CopyTo(minecraftSkinDefInfo.RendererInfos, 0);
 
-            minecraftSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateNemMaterial("matMinecraftNem", 5f, Color.white, 0);
-            minecraftSkinDefInfo.RendererInfos[minecraftSkinDefInfo.RendererInfos.Length - 1].defaultMaterial = Assets.CreateNemMaterial("matMinecraftNem", 5f, Color.white, 0);
+            minecraftSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matMinecraftNem", 5f, Color.white, 0);
+            minecraftSkinDefInfo.RendererInfos[minecraftSkinDefInfo.RendererInfos.Length - 1].defaultMaterial = Assets.CreateMaterial("matMinecraftNem", 5f, Color.white, 0);
 
             SkinDef minecraftSkin = Skins.CreateSkinDef(minecraftSkinDefInfo);
             #endregion

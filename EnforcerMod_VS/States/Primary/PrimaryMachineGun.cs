@@ -4,6 +4,7 @@ using System.Text;
 using UnityEngine;
 using RoR2;
 using UnityEngine.Networking;
+using Modules;
 
 namespace EntityStates.Enforcer.NeutralSpecial {
     class FireMachineGun : BaseSkillState {
@@ -26,7 +27,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         public override void OnEnter() {
             base.OnEnter();
 
-            isShielded = HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
+            isShielded = HasBuff(Buffs.protectAndServeBuff) || HasBuff(Buffs.energyShieldBuff);
 
             duration = baseDuration / characterBody.attackSpeed * (isShielded ? 0.8f : 1f);
 
@@ -55,9 +56,9 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             }
 
             if (crit) {
-                Util.PlaySound(EnforcerPlugin.Sounds.HMGCrit, gameObject);
+                Util.PlaySound(Sounds.HMGCrit, gameObject);
             } else {
-                Util.PlaySound(EnforcerPlugin.Sounds.HMGShoot, gameObject);
+                Util.PlaySound(Sounds.HMGShoot, gameObject);
             }
 
             EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, gameObject, muzzleName, false);

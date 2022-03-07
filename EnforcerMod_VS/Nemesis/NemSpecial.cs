@@ -2,9 +2,9 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using RoR2;
+using Modules;
 
-namespace EntityStates.Nemforcer
-{
+namespace EntityStates.Nemforcer {
     public class MinigunToggle : BaseSkillState
     {
         public static float enterDuration = 0.6f;
@@ -24,7 +24,7 @@ namespace EntityStates.Nemforcer
             this.childLocator = base.GetModelChildLocator();
             this.nemController = base.GetComponent<NemforcerController>();
 
-            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff))
+            if (base.HasBuff(Buffs.minigunBuff))
             {
                 this.duration = MinigunToggle.exitDuration / this.attackSpeedStat;
 
@@ -46,7 +46,7 @@ namespace EntityStates.Nemforcer
 
                     //base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerChargeDef);
                     originalSecondary = base.skillLocator.secondary;
-                    base.skillLocator.secondary = base.skillLocator.FindSkill("nemSecondary");
+                    base.skillLocator.secondary = base.skillLocator.FindSkill("Secondary");
 
                     base.skillLocator.secondary.stock = stock;
                     base.skillLocator.secondary.rechargeStopwatch = cooldown;
@@ -54,14 +54,14 @@ namespace EntityStates.Nemforcer
 
                 if (NetworkServer.active)
                 {
-                    base.characterBody.RemoveBuff(EnforcerPlugin.Modules.Buffs.minigunBuff);
-                    base.characterBody.AddBuff(EnforcerPlugin.Modules.Buffs.bigSlowBuff);
+                    base.characterBody.RemoveBuff(Buffs.minigunBuff);
+                    base.characterBody.AddBuff(Buffs.bigSlowBuff);
                 }
 
                 this.animator.SetFloat("Minigun.spinSpeed", 0);
                 this.animator.SetBool("minigunActive", false);
 
-                string soundString = EnforcerPlugin.Sounds.NemesisMinigunSheathe;
+                string soundString = Sounds.NemesisMinigunSheathe;
                 Util.PlaySound(soundString, base.gameObject);
                 if (this.nemController)
                 {
@@ -90,7 +90,7 @@ namespace EntityStates.Nemforcer
 
                     //base.skillLocator.secondary.SetBaseSkill(EnforcerPlugin.NemforcerPlugin.hammerSlamDef);
                     originalSecondary = base.skillLocator.secondary;
-                    base.skillLocator.secondary = base.skillLocator.FindSkill("nemSecondaryMinigun");
+                    base.skillLocator.secondary = base.skillLocator.FindSkill("SecondaryMinigun");
 
                     base.skillLocator.secondary.stock = stock;
                     base.skillLocator.secondary.rechargeStopwatch = cooldown;
@@ -98,11 +98,11 @@ namespace EntityStates.Nemforcer
 
                 if (NetworkServer.active)
                 {
-                    base.characterBody.AddBuff(EnforcerPlugin.Modules.Buffs.minigunBuff);
-                    base.characterBody.AddBuff(EnforcerPlugin.Modules.Buffs.bigSlowBuff);
+                    base.characterBody.AddBuff(Buffs.minigunBuff);
+                    base.characterBody.AddBuff(Buffs.bigSlowBuff);
                 }
 
-                string soundString = EnforcerPlugin.Sounds.NemesisMinigunUnsheathe;
+                string soundString = Sounds.NemesisMinigunUnsheathe;
                 Util.PlaySound(soundString, base.gameObject);
                 if (this.nemController)
                 {
@@ -120,7 +120,7 @@ namespace EntityStates.Nemforcer
         {
             base.OnExit();
 
-            if (NetworkServer.active && base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.bigSlowBuff)) base.characterBody.RemoveBuff(EnforcerPlugin.Modules.Buffs.bigSlowBuff);
+            if (NetworkServer.active && base.characterBody.HasBuff(Buffs.bigSlowBuff)) base.characterBody.RemoveBuff(Buffs.bigSlowBuff);
 
             if (this.ye) this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), 1);
             else this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), 0);
@@ -138,7 +138,7 @@ namespace EntityStates.Nemforcer
                 this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), 1 - progress);
             }
 
-            if (NetworkServer.active && base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.bigSlowBuff) && !base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff) && progress >= 0.5f) base.characterBody.RemoveBuff(EnforcerPlugin.Modules.Buffs.bigSlowBuff);
+            if (NetworkServer.active && base.characterBody.HasBuff(Buffs.bigSlowBuff) && !base.characterBody.HasBuff(Buffs.minigunBuff) && progress >= 0.5f) base.characterBody.RemoveBuff(Buffs.bigSlowBuff);
 
             if (base.fixedAge >= this.duration && base.isAuthority) {
 
@@ -150,7 +150,7 @@ namespace EntityStates.Nemforcer
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff)) return InterruptPriority.PrioritySkill;
+            if (base.HasBuff(Buffs.minigunBuff)) return InterruptPriority.PrioritySkill;
             else return InterruptPriority.Skill;
         }
     }

@@ -1,7 +1,7 @@
 ﻿using RoR2;
 using UnityEngine;
 using EnforcerPlugin;
-using EnforcerPlugin.Modules;
+using Modules;
 
 namespace EntityStates.Enforcer.NeutralSpecial {
 
@@ -57,7 +57,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 this.isEngi = true;
             }*/
 
-            if (HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) {
+            if (HasBuff(Buffs.protectAndServeBuff) || HasBuff(Buffs.energyShieldBuff)) {
                 duration = baseShieldDuration / attackSpeedStat;
                 attackStopDuration = beefDurationShield / attackSpeedStat;
 
@@ -91,7 +91,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
                 float recoilAmplitude = bulletRecoil / this.attackSpeedStat;
 
-                if (HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) recoilAmplitude = shieldedBulletRecoil;
+                if (HasBuff(Buffs.protectAndServeBuff) || HasBuff(Buffs.energyShieldBuff)) recoilAmplitude = shieldedBulletRecoil;
 
                 base.AddRecoil(-0.4f * recoilAmplitude, -0.8f * recoilAmplitude, -0.3f * recoilAmplitude, 0.3f * recoilAmplitude);
                 characterBody.AddSpreadBloom(4f);
@@ -118,7 +118,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                     float spread = bulletSpread;
                     float thiccness = bulletThiccness;
                     float force = 50; // EnforcerPlugin.UtilsComponent.forceUnshield;
-                    if (HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff)) {
+                    if (HasBuff(Buffs.protectAndServeBuff)) {
                         spread *= 0.8f;
                         thiccness = 0.69f * thiccness;
                         force = 30; //EnforcerPlugin.UtilsComponent.forceShield; 

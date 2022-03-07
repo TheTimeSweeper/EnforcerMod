@@ -26,10 +26,11 @@ namespace EnforcerPlugin {
         }
 
         private static void doLanguage() {
+            //"SkillDef.skillName".toupper() + "Name_UPGRADE_DESCRIPTION"
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_NAME_UPGRADE_DESCRIPTION", "<style=cIsUtility>+5%</style> damage, <style=cIsUtility>+10%</style> bullet thickness, and <style=cIsUtility>+0.1</style> bullet spread");
         }
     }
-
+                         //SkillDef.skillName
     [SkillLevelModifier("ENFORCER_PRIMARY_SHOTGUN_NAME", typeof(RiotShotgun))]
     public class EnfuckerRiotShotgunModifier : SimpleSkillModifier<RiotShotgun> {
 

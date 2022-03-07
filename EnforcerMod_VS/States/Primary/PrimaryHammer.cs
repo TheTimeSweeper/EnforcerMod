@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using Modules;
+using RoR2;
 using System;
 using UnityEngine;
 
@@ -14,8 +15,8 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         public static float basePushawayForce = 120;
         public static float shieldPushawayForce = 160;
 
-        public static GameObject slamEffectPrefab = EnforcerPlugin.EnforcerModPlugin.hammerSlamEffect; // Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
-        public static GameObject shieldSlamEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
+        public static GameObject slamEffectPrefab = EnforcerPlugin.EnforcerModPlugin.hammerSlamEffect; // RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
+        public static GameObject shieldSlamEffectPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
 
         public static float baseEarlyExitTime = 0.78f;
         public static float procCoefficient = 1f;
@@ -52,7 +53,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             animator = GetModelAnimator();
             bool grounded = characterMotor.isGrounded;
 
-            if (HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) {
+            if (HasBuff(Buffs.protectAndServeBuff) || HasBuff(Buffs.energyShieldBuff)) {
                 duration = baseShieldDuration / attackSpeedStat;
                 damage = shieldDamageCoefficient;
                 hitboxString = "HammerBig";
@@ -84,12 +85,12 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             attack.teamIndex = GetTeam();
             attack.damage = damage * damageStat;
             attack.procCoefficient = 1;
-            attack.hitEffectPrefab = EnforcerPlugin.Assets.hammerImpactFX;
+            attack.hitEffectPrefab = Assets.hammerImpactFX;
             attack.forceVector = Vector3.down * downwardForce;
             attack.pushAwayForce = pushawayForce;
             attack.hitBoxGroup = hitBoxGroup;
             attack.isCrit = RollCrit();
-            attack.impactSound = EnforcerPlugin.Assets.hammerHitSoundEvent.index;
+            attack.impactSound = Assets.hammerHitSoundEvent.index;
         }
 
         public override void FixedUpdate() {
@@ -134,12 +135,12 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             if (!hasFired && base.isAuthority) {
                 hasFired = true;
 
-                Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.NemesisSwing, gameObject, 0.25f + attackSpeedStat);
+                Util.PlayAttackSpeedSound(Sounds.NemesisSwing, gameObject, 0.25f + attackSpeedStat);
 
                 AddRecoil(-1f * attackRecoil, -2f * attackRecoil, -0.5f * attackRecoil, 0.5f * attackRecoil);
 
                 string muzzleString = "ShieldHitbox";
-                EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.hammerSwingFX, gameObject, muzzleString, true);
+                EffectManager.SimpleMuzzleFlash(Assets.hammerSwingFX, gameObject, muzzleString, true);
 
                 if (slamPrefab) {
                     Vector3 sex = childLocator.FindChild("HammerMuzzle").transform.position;

@@ -2,13 +2,26 @@
 using RoR2;
 using EntityStates.Nemforcer.Emotes;
 using EntityStates.Enforcer;
-using EnforcerPlugin.Modules;
+using Modules;
+using System;
+using static RoR2.CameraTargetParams;
 
-namespace EntityStates.Nemforcer
-{
+namespace EntityStates.Nemforcer {
     public class NemforcerMain : GenericCharacterMain
     {
-        private bool wasShielding = false;
+        protected CharacterCameraParamsData minigunCameraParams = new CharacterCameraParamsData() {
+
+            maxPitch = 70,
+            minPitch = -70,
+            pivotVerticalOffset = 1.37f,
+            idealLocalCameraPos = new Vector3(-1.2f, -0.5f, -9f),
+            wallCushion = 0.1f,
+        };
+
+        public static CameraParamsOverrideHandle camOverrideHandle;
+
+
+        private bool wasMinigunning = false;
         private float initialTime;
         private float currentHealth;
         private Animator animator;
@@ -29,13 +42,15 @@ namespace EntityStates.Nemforcer
         {
             base.Update();
 
-            //minigun mode camera stuff
-            bool minigunUp = base.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff);
+            //invasion test
+            //if (base.isAuthority && Input.GetKeyDown("z")) EnforcerPlugin.NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
 
-            if (minigunUp != this.wasShielding)
-            {
-                this.wasShielding = minigunUp;
-                this.initialTime = Time.fixedTime;
+            //minigun mode camera stuff
+            bool minigunUp = base.HasBuff(Buffs.minigunBuff);
+
+            if (wasMinigunning != minigunUp) {
+                toggleMinigunCamera(minigunUp);
+                wasMinigunning = minigunUp;
             }
 
             //emotes
@@ -52,28 +67,30 @@ namespace EntityStates.Nemforcer
                     return;
                 }
             }
+        }
 
-            //invasion test
-            //if (base.isAuthority && Input.GetKeyDown("z")) EnforcerPlugin.NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+        private void toggleMinigunCamera(bool minigunUp) {
 
-            if (this.nemComponent.isMultiplayer)
-            {
-                if (minigunUp)
-                {
-                    CameraTargetParams ctp = base.cameraTargetParams;
-                    float denom = (1 + Time.fixedTime - this.initialTime);
-                    float smoothFactor = 8 / Mathf.Pow(denom, 2);
-                    Vector3 smoothVector = new Vector3(-3 / 20, 1 / 16, -1);
-                    ctp.idealLocalCameraPos = new Vector3(-1.2f, -0.5f, -9f) + smoothFactor * smoothVector;
-                }
+            if (minigunUp) {
+
+                CameraParamsOverrideRequest request = new CameraParamsOverrideRequest {
+                    cameraParamsData = minigunCameraParams,
+                    priority = 0,
+                };
+
+                camOverrideHandle = base.cameraTargetParams.AddParamsOverride(request, 0.5f);
+            } else {
+
+                base.cameraTargetParams.RemoveParamsOverride(camOverrideHandle);
             }
+
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
             
-            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff))
+            if (base.HasBuff(Buffs.minigunBuff))
             {
                 base.characterBody.SetAimTimer(0.2f);
                 base.characterBody.isSprinting = false;

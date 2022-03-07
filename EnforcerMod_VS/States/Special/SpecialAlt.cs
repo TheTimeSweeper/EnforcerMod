@@ -2,9 +2,9 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using RoR2;
+using Modules;
 
-namespace EntityStates.Enforcer
-{
+namespace EntityStates.Enforcer {
     public class EnergyShield : BaseSkillState
     {
         public static float enterDuration = 0.7f;
@@ -23,9 +23,9 @@ namespace EntityStates.Enforcer
             this.shieldComponent = base.characterBody.GetComponent<EnforcerComponent>();
             this.childLocator = base.GetModelTransform().GetComponent<ChildLocator>();
 
-            this.shieldComponent.isShielding = !base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
+            this.shieldComponent.isShielding = !base.HasBuff(Buffs.energyShieldBuff);
 
-            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
+            if (base.HasBuff(Buffs.energyShieldBuff))
             {
                 this.duration = EnergyShield.exitDuration / this.attackSpeedStat;
                 this.EnableEnergyShield(false);
@@ -34,17 +34,17 @@ namespace EntityStates.Enforcer
 
                 if (base.skillLocator)
                 {
-                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.shieldOffDef);
+                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.energyShieldOffDef);
                 }
 
                 if (base.characterMotor) base.characterMotor.mass = 200f;
 
                 if (NetworkServer.active)
                 {
-                    base.characterBody.RemoveBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
+                    base.characterBody.RemoveBuff(Buffs.energyShieldBuff);
                 }
 
-                Util.PlaySound(EnforcerPlugin.Sounds.EnergyShieldDown, base.gameObject);
+                Util.PlaySound(Sounds.EnergyShieldDown, base.gameObject);
             }
             else
             {
@@ -55,17 +55,17 @@ namespace EntityStates.Enforcer
 
                 if (base.skillLocator)
                 {
-                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.shieldOnDef);
+                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.energyShieldOnDef);
                 }
 
                 if (base.characterMotor) base.characterMotor.mass = EnergyShield.bonusMass;
 
                 if (NetworkServer.active)
                 {
-                    base.characterBody.AddBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
+                    base.characterBody.AddBuff(Buffs.energyShieldBuff);
                 }
 
-                Util.PlaySound(EnforcerPlugin.Sounds.EnergyShieldUp, base.gameObject);
+                Util.PlaySound(Sounds.EnergyShieldUp, base.gameObject);
             }
         }
 

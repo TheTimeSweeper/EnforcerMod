@@ -1,13 +1,13 @@
 ﻿using EntityStates.Enforcer;
 using EntityStates.Toolbot;
+using Modules;
 using RoR2;
 using RoR2.Skills;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace EntityStates.Nemforcer
-{
+namespace EntityStates.Nemforcer {
     public class AimNemGas : AimThrowableBase
     {
         private AimStunDrone goodState;
@@ -27,7 +27,7 @@ namespace EntityStates.Nemforcer
             baseMinimumDuration = 0.1f;
             projectileBaseSpeed = 150;
             
-            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff))
+            if (base.HasBuff(Buffs.minigunBuff))
             {
                 base.PlayAnimation("Grenade, Override", "HoldGrenadeMinigun", "ThrowGrenade.playbackRate", 0.5f);
             }
@@ -62,7 +62,7 @@ namespace EntityStates.Nemforcer
         {
             base.OnExit();
 
-            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff))
+            if (base.HasBuff(Buffs.minigunBuff))
             {
                 base.PlayAnimation("Grenade, Override", "ThrowGrenadeMinigun", "ThrowGrenade.playbackRate", 0.5f);
             }
@@ -71,7 +71,7 @@ namespace EntityStates.Nemforcer
                 base.PlayAnimation("Grenade, Override", "ThrowGrenadeHammer", "ThrowGrenade.playbackRate", 0.5f);
             }
 
-            Util.PlaySound(EnforcerPlugin.Sounds.NemesisGrenadeThrow, base.gameObject);
+            Util.PlaySound(Sounds.NemesisGrenadeThrow, base.gameObject);
 
             base.AddRecoil(-2f * TearGas.bulletRecoil, -3f * TearGas.bulletRecoil, -1f * TearGas.bulletRecoil, 1f * TearGas.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * TearGas.bulletRecoil);

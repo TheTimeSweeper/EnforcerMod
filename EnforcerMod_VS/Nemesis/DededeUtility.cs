@@ -1,8 +1,8 @@
-﻿using RoR2;
+﻿using Modules;
+using RoR2;
 using UnityEngine;
 
-namespace EntityStates.Nemforcer
-{
+namespace EntityStates.Nemforcer {
     public class SuperDededeJump : NemforcerMain
     {
         public static float jumpDuration = 1.4f;
@@ -112,11 +112,11 @@ namespace EntityStates.Nemforcer
             blastAttack.baseForce = SuperDededeJump.slamForce;
             blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
             blastAttack.damageType = DamageType.Stun1s;
-            blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
+            blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
             blastAttack.Fire();
 
             AkSoundEngine.SetRTPCValue("M2_Charge", 100f);
-            Util.PlaySound(EnforcerPlugin.Sounds.NemesisSmash, base.gameObject);
+            Util.PlaySound(Sounds.NemesisSmash, base.gameObject);
 
             for (int i = 0; i <= 8; i += 1)
             {

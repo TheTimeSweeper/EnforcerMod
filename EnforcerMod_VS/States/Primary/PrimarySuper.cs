@@ -1,8 +1,7 @@
 ﻿using RoR2;
 using UnityEngine;
-using EnforcerPlugin;
 using EntityStates.Enforcer.NeutralSpecial;
-using EnforcerPlugin.Modules;
+using Modules;
 
 namespace EntityStates.Enforcer {
     public class SuperShotgun : RiotShotgun
@@ -76,7 +75,7 @@ namespace EntityStates.Enforcer {
 
             this.droppedShell = false;
 
-            bool isShielded = base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
+            bool isShielded = base.HasBuff(Buffs.protectAndServeBuff) || base.HasBuff(Buffs.energyShieldBuff);
 
             switch(currentShot) {
                 case shotType.NONE:
@@ -136,9 +135,9 @@ namespace EntityStates.Enforcer {
 
                 bool isCrit = base.RollCrit();
 
-                soundString = !isCrit ? EnforcerPlugin.Sounds.FireSuperShotgun : EnforcerPlugin.Sounds.FireSuperShotgunCrit;
+                soundString = !isCrit ? Sounds.FireSuperShotgun : Sounds.FireSuperShotgunCrit;
 
-                if (Config.classicShotgun.Value) soundString = EnforcerPlugin.Sounds.FireClassicShotgun;
+                if (Config.classicShotgun.Value) soundString = Sounds.FireClassicShotgun;
 
                 //if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex) soundString = EnforcerPlugin.Sounds.FireSuperShotgunDOOM;
                 //if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
@@ -148,7 +147,7 @@ namespace EntityStates.Enforcer {
 
                 float recoilAmplitude = RiotShotgun.bulletRecoil / this.attackSpeedStat;
 
-                if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) recoilAmplitude = RiotShotgun.shieldedBulletRecoil;
+                if (base.HasBuff(Buffs.protectAndServeBuff) || base.HasBuff(Buffs.energyShieldBuff)) recoilAmplitude = RiotShotgun.shieldedBulletRecoil;
 
                 base.AddRecoil(-0.4f * recoilAmplitude, -0.8f * recoilAmplitude, -0.3f * recoilAmplitude, 0.3f * recoilAmplitude);
                 base.characterBody.AddSpreadBloom(4f);

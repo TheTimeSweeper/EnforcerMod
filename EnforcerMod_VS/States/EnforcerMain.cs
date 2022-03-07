@@ -1,15 +1,28 @@
 ﻿using Enforcer.Emotes;
-using EnforcerPlugin.Modules;
 using EntityStates.Enforcer.NeutralSpecial;
 using EntityStates.Nemforcer.Emotes;
+using Modules;
+using Modules.Characters;
 using RoR2;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
+using static RoR2.CameraTargetParams;
 
 namespace EntityStates.Enforcer {
-    public class EnforcerMain : GenericCharacterMain
-    {
+    public class EnforcerMain : GenericCharacterMain {
+    
+        protected CharacterCameraParamsData shieldCameraParams = new CharacterCameraParamsData() {
+
+            maxPitch = 70,
+            minPitch = -70,
+            pivotVerticalOffset = EnforcerSurvivor.instance.bodyInfo.cameraParamsVerticalOffset,
+            idealLocalCameraPos = shieldCameraPosition,
+            wallCushion = 0.1f,
+        };
+
+        public static CameraParamsOverrideHandle camOverrideHandle;
+
         public static event Action<bool> onDance = delegate { };
         public static Vector3 shieldCameraPosition = new Vector3(2f, -2.4f, -5f);
         public static Vector3 standardCameraPosition = new Vector3(0f, -1.3f, -10f);
@@ -89,16 +102,16 @@ namespace EntityStates.Enforcer {
                     this.childLocator.FindChild("SkamteBordModel").gameObject.SetActive(true);
             }
 
-            if (base.isGrounded && base.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff))
+            if (base.isGrounded && base.HasBuff(Buffs.skateboardBuff))
             {
-                this.skatePlayID = Util.PlaySound(EnforcerPlugin.Sounds.SkateRoll, base.gameObject);
+                this.skatePlayID = Util.PlaySound(Sounds.SkateRoll, base.gameObject);
             }
                 
             onDance(false);
 
             this.sprintCancelEnabled = Config.sprintShieldCancel.Value;
 
-            /*AnimationCurve commandoCurve = Resources.Load<GameObject>("prefabs/characterbodies/commandobody").GetComponent<CharacterBody>().spreadBloomCurve;
+            /*AnimationCurve commandoCurve = RoR2.LegacyResourcesAPI.Load<GameObject>("prefabs/characterbodies/commandobody").GetComponent<CharacterBody>().spreadBloomCurve;
             foreach (Keyframe k in commandoCurve.keys)
             {
                 Debug.Log("\n time: " + k.time + ", value: " + k.value);
@@ -158,7 +171,13 @@ namespace EntityStates.Enforcer {
         {
             base.Update();
 
-            bool shieldIsUp = (base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.minigunBuff) || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff));
+            bool shieldIsUp = (base.characterBody.HasBuff(Buffs.protectAndServeBuff) || base.characterBody.HasBuff(Buffs.minigunBuff) || base.characterBody.HasBuff(Buffs.skateboardBuff));
+
+            if(wasShielding != shieldIsUp) {
+                toggleShieldCamera(shieldIsUp);
+                wasShielding = shieldIsUp;
+            }
+
 
             //emotes
             if (base.isAuthority && base.characterMotor.isGrounded && !shieldIsUp)
@@ -200,25 +219,24 @@ namespace EntityStates.Enforcer {
             {
                 EnforcerPlugin.NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
             }*/
+        }
+
+        private void toggleShieldCamera(bool shieldIsUp) {
 
             //shield mode camera stuff
-            if (this.weaponComponent.isMultiplayer)
-            {
-                if (shieldIsUp != this.wasShielding)
-                {
-                    this.wasShielding = shieldIsUp;
-                    this.initialTime = Time.fixedTime;
-                }
+            if (shieldIsUp) {
 
-                if (shieldIsUp)
-                {
-                    CameraTargetParams ctp = base.cameraTargetParams;
-                    float denom = (1 + Time.fixedTime - this.initialTime);
-                    float smoothFactor = 8 / Mathf.Pow(denom, 2);
-                    Vector3 smoothVector = new Vector3(-3 / 20, 1 / 16, -1);
-                    ctp.idealLocalCameraPos = shieldCameraPosition + smoothFactor * smoothVector;
-                }
+                CameraParamsOverrideRequest request = new CameraParamsOverrideRequest {
+                    cameraParamsData = shieldCameraParams,
+                    priority = 0,
+                };
+
+                camOverrideHandle = base.cameraTargetParams.AddParamsOverride(request, 0.5f);
+            } else {
+
+                base.cameraTargetParams.RemoveParamsOverride(camOverrideHandle);
             }
+
         }
 
         public override void FixedUpdate()
@@ -226,7 +244,7 @@ namespace EntityStates.Enforcer {
             base.FixedUpdate();
             if (this.enforcerComponent) this.enforcerComponent.aimRay = base.GetAimRay();
 
-            bool isShielded = base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
+            bool isShielded = base.characterBody.HasBuff(Buffs.protectAndServeBuff) || base.characterBody.HasBuff(Buffs.energyShieldBuff);
 
             if (isShielded)
             {
@@ -264,7 +282,7 @@ namespace EntityStates.Enforcer {
                 //sprint shield cancel
                 if (base.isAuthority && NetworkServer.active && this.sprintCancelEnabled && base.inputBank)
                 {
-                    if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) && base.inputBank.sprint.down)
+                    if (base.HasBuff(Buffs.protectAndServeBuff) && base.inputBank.sprint.down)
                     {
                         if (base.skillLocator)
                         {
@@ -279,7 +297,7 @@ namespace EntityStates.Enforcer {
             //if (this.animator) this.animator.SetBool("inCombat", !base.characterBody.outOfCombat);
                 
             //skateboard
-            if (base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff))
+            if (base.characterBody.HasBuff(Buffs.skateboardBuff))
             {
                 if (base.isAuthority)
                 {
@@ -309,7 +327,7 @@ namespace EntityStates.Enforcer {
 
                     if (this.skatePlayID == 0)
                     {
-                        this.skatePlayID = Util.PlaySound(EnforcerPlugin.Sounds.SkateRoll, base.gameObject);
+                        this.skatePlayID = Util.PlaySound(Sounds.SkateRoll, base.gameObject);
                     }
 
                     AkSoundEngine.SetRTPCValue("Skateboard_Speed", Util.Remap(base.characterMotor.velocity.magnitude, 7f, 60f, 1f, 4f));
@@ -318,7 +336,7 @@ namespace EntityStates.Enforcer {
                 {
                     if (this.skatePlayID != 0)
                     {
-                        if (base.characterMotor.velocity.y >= 0.1f) Util.PlaySound(EnforcerPlugin.Sounds.SkateOllie, base.gameObject);
+                        if (base.characterMotor.velocity.y >= 0.1f) Util.PlaySound(Sounds.SkateOllie, base.gameObject);
                         AkSoundEngine.StopPlayingID(this.skatePlayID);
                         this.skatePlayID = 0;
                     }

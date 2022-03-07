@@ -1,10 +1,8 @@
-﻿using RoR2;
+﻿using Modules;
+using RoR2;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-namespace EnforcerPlugin {
-
     public class MenuSoundComponent : MonoBehaviour
     {
         private uint playIDSiren = 0;
@@ -45,4 +43,3 @@ namespace EnforcerPlugin {
             if (this.playIDGun != 0) AkSoundEngine.StopPlayingID(this.playIDGun);
         }
     }
-}

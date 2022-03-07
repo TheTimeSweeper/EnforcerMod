@@ -61,14 +61,29 @@
     <Reference Include="BepInEx.Preloader">
       <HintPath>libs\BepInEx.Preloader.dll</HintPath>
     </Reference>
+    <Reference Include="com.unity.multiplayer-hlapi.Runtime">
+      <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Facepunch.Steamworks">
       <HintPath>libs\Facepunch.Steamworks.dll</HintPath>
+    </Reference>
+    <Reference Include="HarmonyXInterop">
+      <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\HarmonyXInterop.dll</HintPath>
     </Reference>
     <Reference Include="HGCSharpUtils">
       <HintPath>libs\HGCSharpUtils.dll</HintPath>
     </Reference>
-    <Reference Include="MMHOOK_Assembly-CSharp">
-      <HintPath>libs\MMHOOK_Assembly-CSharp.dll</HintPath>
+    <Reference Include="HGUnityUtils">
+      <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\HGUnityUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="KinematicCharacterController">
+      <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\KinematicCharacterController.dll</HintPath>
+    </Reference>
+    <Reference Include="LegacyResourcesAPI">
+      <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\LegacyResourcesAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="MMHOOK_RoR2">
+      <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\MMHOOK_RoR2.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>libs\Mono.Cecil.dll</HintPath>
@@ -82,20 +97,29 @@
     <Reference Include="R2API">
       <HintPath>..\..\MinerUnearthed\MinerV2\libs\R2API.dll</HintPath>
     </Reference>
+    <Reference Include="Rewired_Core">
+      <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\Rewired_Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Rewired_CSharp">
+      <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\Rewired_CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Risky_Artifacts">
       <HintPath>libs\Risky_Artifacts.dll</HintPath>
     </Reference>
+    <Reference Include="RoR2">
+      <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\RoR2.dll</HintPath>
+    </Reference>
     <Reference Include="Skills">
       <HintPath>libs\Skills.dll</HintPath>
-    </Reference>
-    <Reference Include="Starstorm2">
-      <HintPath>libs\Starstorm2.dll</HintPath>
     </Reference>
     <Reference Include="SupplyDrop">
       <HintPath>libs\SupplyDrop.dll</HintPath>
     </Reference>
     <Reference Include="TILER2">
       <HintPath>libs\TILER2.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Addressables">
+      <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\Unity.Addressables.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Postprocessing.Runtime">
       <HintPath>libs\Unity.Postprocessing.Runtime.dll</HintPath>
@@ -115,8 +139,11 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>libs\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>libs\UnityEngine.Networking.dll</HintPath>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputModule">
+      <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\UnityEngine.InputModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ParticleSystemModule">
       <HintPath>libs\UnityEngine.ParticleSystemModule.dll</HintPath>

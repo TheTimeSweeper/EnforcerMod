@@ -1,33 +1,10 @@
-﻿using EnforcerPlugin.Modules;
-using EntityStates;
+﻿using EntityStates;
+using Modules;
 using RoR2;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
-using UnityEngine.Networking;
-public class EnforcerNetworkComponent : NetworkBehaviour {
-
-    [SyncVar]
-    public int parries;
-
-    [ClientRpc]
-    public void RpcUhh(int skin) {
-        //fuckin nasty i'm calling this from modelskincontroller > charmodel > getcomponent body > enforcernetworkcomponent > here < just to go modeltransform < getcomponent < back to modelskincontroller fuck man
-        GetComponent<CharacterBody>().modelLocator.modelTransform.GetComponent<ModelSkinController>().ApplySkin(skin);
-
-        StartCoroutine(fuckthis(skin));
-    }
-
-    //I refuse to let this be the solution
-    //I'd rather have the horrible hook hack in the serverachievement
-    public IEnumerator fuckthis(int skin)
-    {
-        yield return new WaitForSeconds(1);
-        GetComponent<CharacterBody>().modelLocator.modelTransform.GetComponent<ModelSkinController>().ApplySkin(skin);
-    }
-}
 
 public class EnforcerComponent : MonoBehaviour
 {
@@ -60,7 +37,7 @@ public class EnforcerComponent : MonoBehaviour
     private float _shieldSizeMultiplier = 1.2f;
 
     GameObject dummy;
-    GameObject boyPrefab = Resources.Load<GameObject>("Prefabs/CharacterBodies/LemurianBody");
+    GameObject boyPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LemurianBody");
     public static bool skateJump;
 
     private Transform head;

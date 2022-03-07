@@ -1,4 +1,5 @@
 ﻿using EntityStates.Enforcer;
+using Modules;
 using RoR2;
 using System;
 using System.Collections.Generic;
@@ -217,13 +218,13 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                 case EquippedGun.GUN:
                 case EquippedGun.SUPER:
                 case EquippedGun.HMG:
-                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
+                    this.charBody._defaultCrosshairPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
                     break;
                 case EquippedGun.HAMMER:
-                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
+                    this.charBody._defaultCrosshairPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
                     break;
                 case EquippedGun.NEEDLER:
-                    this.charBody.crosshairPrefab = EnforcerPlugin.EnforcerModPlugin.needlerCrosshair;
+                    this.charBody._defaultCrosshairPrefab = EnforcerPlugin.EnforcerModPlugin.needlerCrosshair;
                     break;
             }
         }
@@ -425,8 +426,8 @@ public class EnforcerWeaponComponent : MonoBehaviour {
 
         this.shellObjects = new GameObject[EnforcerWeaponComponent.maxShellCount + 1];
 
-        GameObject desiredShell = EnforcerPlugin.Assets.shotgunShell;
-        if (this.GetWeapon() == EquippedGun.SUPER) desiredShell = EnforcerPlugin.Assets.superShotgunShell;
+        GameObject desiredShell = Assets.shotgunShell;
+        if (this.GetWeapon() == EquippedGun.SUPER) desiredShell = Assets.superShotgunShell;
 
         for (int i = 0; i < EnforcerWeaponComponent.maxShellCount; i++) {
             this.shellObjects[i] = GameObject.Instantiate(desiredShell, this.childLocator.FindChild("Gun"), false);
@@ -474,7 +475,7 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                 this.skateboard.transform.SetParent(this.skateboardBase);
                 this.skateboard.transform.localPosition = Vector3.zero;
                 if (this.footStep) this.footStep.baseFootstepString = "";
-                if (this.sfx) this.sfx.landingSound = EnforcerPlugin.Sounds.SkateLand;
+                if (this.sfx) this.sfx.landingSound = Sounds.SkateLand;
                 break;
             case SkateBoardParent.HAND:
                 this.skateboard.transform.SetParent(this.skateboardHandBase);

@@ -2,9 +2,9 @@
 using RoR2.Projectile;
 using UnityEngine;
 using EntityStates.Toolbot;
+using Modules;
 
-namespace EntityStates.Enforcer
-{
+namespace EntityStates.Enforcer {
     public class AimTearGas : AimThrowableBase
     {
         private AimStunDrone goodState;
@@ -55,7 +55,7 @@ namespace EntityStates.Enforcer
 
             base.PlayAnimation("Grenade, Override", "ThrowGrenade");
 
-            Util.PlaySound(EnforcerPlugin.Sounds.NemesisGrenadeThrow, base.gameObject);
+            Util.PlaySound(Sounds.NemesisGrenadeThrow, base.gameObject);
 
             base.AddRecoil(-2f * TearGas.bulletRecoil, -3f * TearGas.bulletRecoil, -1f * TearGas.bulletRecoil, 1f * TearGas.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * TearGas.bulletRecoil);
@@ -84,7 +84,7 @@ namespace EntityStates.Enforcer
 
             base.PlayAnimation("Grenade, Override", "ThrowGrenade");
 
-            Util.PlaySound(EnforcerPlugin.Sounds.NemesisGrenadeThrow, base.gameObject);
+            Util.PlaySound(Sounds.NemesisGrenadeThrow, base.gameObject);
 
             base.AddRecoil(-2f * TearGas.bulletRecoil, -3f * TearGas.bulletRecoil, -1f * TearGas.bulletRecoil, 1f * TearGas.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * TearGas.bulletRecoil);

@@ -1,9 +1,9 @@
-﻿using RoR2;
+﻿using Modules;
+using RoR2;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace EntityStates.Nemforcer.Emotes
-{
+namespace EntityStates.Nemforcer.Emotes {
     public class BaseMobileEmote : NemforcerMain
     {
         protected string soundString;
@@ -43,7 +43,7 @@ namespace EntityStates.Nemforcer.Emotes
                 this.activePlayID = Util.PlaySound(soundString, base.gameObject);
             }
 
-            if (NetworkServer.active) base.characterBody.AddBuff(EnforcerPlugin.Modules.Buffs.bigSlowBuff);
+            if (NetworkServer.active) base.characterBody.AddBuff(Buffs.bigSlowBuff);
 
             this.initialTime = Time.fixedTime;
         }
@@ -90,7 +90,7 @@ namespace EntityStates.Nemforcer.Emotes
 
             base.characterBody.hideCrosshair = false;
 
-            if (NetworkServer.active) base.characterBody.RemoveBuff(EnforcerPlugin.Modules.Buffs.bigSlowBuff);
+            if (NetworkServer.active) base.characterBody.RemoveBuff(Buffs.bigSlowBuff);
 
             if (base.GetAimAnimator()) base.GetAimAnimator().enabled = true;
             this.animator.SetLayerWeight(animator.GetLayerIndex("AimPitch"), 1);

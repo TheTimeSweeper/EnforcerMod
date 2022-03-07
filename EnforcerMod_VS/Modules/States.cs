@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace EnforcerPlugin.Modules
+namespace Modules
 {
     internal static class States
     {

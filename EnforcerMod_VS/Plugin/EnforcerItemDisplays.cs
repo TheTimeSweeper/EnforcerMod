@@ -1,10 +1,9 @@
-﻿using EnforcerPlugin.Modules;
+﻿using Modules;
 using RoR2;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EnforcerPlugin
-{
+namespace EnforcerPlugin {
     public static class EnforcerItemDisplays {
 
         public static List<ItemDisplayRuleSet.KeyAssetRuleGroup> itemRules;
@@ -43,8 +42,6 @@ namespace EnforcerPlugin
             itemDisplayRuleSet.keyAssetRuleGroups = item;
 
             characterModel.itemDisplayRuleSet = itemDisplayRuleSet;
-
-            //R2API.ItemAPI.letmeoutLETMEOUT("EnforcerBody");
         }
 
         private static void AddVanillaDisplays() {
@@ -1005,7 +1002,7 @@ namespace EnforcerPlugin
                                                                 new Vector3(0.225F, 0.225F, 0.225F)));
             #endregion quips
 
-            ItemDisplays.printKeys();
+            //ItemDisplays.printKeys();
         }
 
         #region HEE HEE HEE

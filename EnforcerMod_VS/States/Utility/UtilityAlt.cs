@@ -1,9 +1,9 @@
-﻿using RoR2;
+﻿using Modules;
+using RoR2;
 using RoR2.Projectile;
 using UnityEngine;
 
-namespace EntityStates.Enforcer
-{
+namespace EntityStates.Enforcer {
     public class StunGrenade : BaseSkillState
     {
         public static float baseDuration = 0.5f;
@@ -27,7 +27,7 @@ namespace EntityStates.Enforcer
 
             base.StartAimMode();
 
-            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
+            if (base.HasBuff(Buffs.protectAndServeBuff) || base.HasBuff(Buffs.energyShieldBuff))
             {
                 base.PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", this.duration);
             }
@@ -36,7 +36,7 @@ namespace EntityStates.Enforcer
                 base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
             }
 
-            Util.PlaySound(EnforcerPlugin.Sounds.LaunchStunGrenade, base.gameObject);
+            Util.PlaySound(Sounds.LaunchStunGrenade, base.gameObject);
 
             base.AddRecoil(-2f * StunGrenade.bulletRecoil, -3f * StunGrenade.bulletRecoil, -1f * StunGrenade.bulletRecoil, 1f * StunGrenade.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * StunGrenade.bulletRecoil);

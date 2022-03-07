@@ -2,12 +2,22 @@
 using EntityStates.Nemforcer.Emotes;
 using RoR2;
 using UnityEngine;
-using EnforcerPlugin.Modules;
+using Modules;
+using static RoR2.CameraTargetParams;
+using Modules.Characters;
 
-namespace EntityStates.Enforcer
-{
+namespace EntityStates.Enforcer {
     public class BaseEmote : BaseState
     {
+        private CharacterCameraParamsData emoteCameraParams = new CharacterCameraParamsData() {
+
+            maxPitch = 70,
+            minPitch = -70,
+            pivotVerticalOffset = EnforcerSurvivor.instance.bodyInfo.cameraParamsVerticalOffset - 0.5f,
+            idealLocalCameraPos = new Vector3(0, 0, 9.5f),
+            wallCushion = 0.1f,
+        };
+
         private Animator animator;
         private ChildLocator childLocator;
         private MemeRigController memeRig;
@@ -19,7 +29,8 @@ namespace EntityStates.Enforcer
         //private float animDuration;
 
         private uint activePlayID;
-        private float cameraInitialTime;
+
+        private CameraParamsOverrideHandle camOverrideHandle;
 
         public override void OnEnter()
         {
@@ -30,10 +41,15 @@ namespace EntityStates.Enforcer
             this.memeRig = base.GetModelTransform().GetComponent<MemeRigController>();
             this.weaponComponent = base.GetComponent<EnforcerWeaponComponent>();
 
-            this.cameraInitialTime = Time.fixedTime;
-
             //hide shit
             HideShit();
+
+            CameraParamsOverrideRequest request = new CameraParamsOverrideRequest {
+                cameraParamsData = emoteCameraParams,
+                priority = 0,
+            };
+
+            camOverrideHandle = base.cameraTargetParams.AddParamsOverride(request, 0.5f);
 
             //do shit
             //if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex && base.characterBody.baseNameToken == "ENFORCER_NAME")
@@ -179,18 +195,6 @@ namespace EntityStates.Enforcer
             {
                 this.outer.SetNextStateToMain();
             }
-
-            updateCamera();
-        }
-
-        private void updateCamera()
-        {
-            CameraTargetParams ctp = base.cameraTargetParams;
-
-            float denom = (1 + Time.fixedTime - this.cameraInitialTime);
-            float smoothFactor = 8 / Mathf.Pow(denom, 2);
-            Vector3 smoothVector = new Vector3(-3 / 20, 1 / 16, -1);
-            ctp.idealLocalCameraPos = new Vector3(0f, -1.8f, -8f) + smoothFactor * smoothVector;
         }
 
         public override void OnExit()
@@ -204,6 +208,8 @@ namespace EntityStates.Enforcer
 
             if (memeRig && memeRig.isPlaying)
                 memeRig.stopAnim();
+
+            base.cameraTargetParams.RemoveParamsOverride(camOverrideHandle, 0.5f);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

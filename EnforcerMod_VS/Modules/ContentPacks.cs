@@ -1,17 +1,35 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-
+using EnforcerPlugin;
+using RoR2;
 using RoR2.ContentManagement;
+using RoR2.Skills;
 using UnityEngine;
 
-namespace EnforcerPlugin.Modules
-{
+namespace Modules {
     //quick and dirty adadptaion of this module to the new interface
-    public class ContentPacks : IContentPackProvider
-    {
+    public class ContentPacks : IContentPackProvider {
         private static ContentPack contentPack = new ContentPack();
 
         public string identifier => "Enforcer.EnforcerContent";
+
+        internal static List<GameObject> bodyPrefabs = new List<GameObject>();
+        internal static List<GameObject> masterPrefabs = new List<GameObject>();
+        internal static List<GameObject> projectilePrefabs = new List<GameObject>();
+
+        internal static List<SurvivorDef> survivorDefs = new List<SurvivorDef>();
+        internal static List<UnlockableDef> unlockableDefs = new List<UnlockableDef>();
+
+        internal static List<SkillFamily> skillFamilies = new List<SkillFamily>();
+        internal static List<SkillDef> skillDefs = new List<SkillDef>();
+        internal static List<Type> entityStates = new List<Type>();
+
+        internal static List<BuffDef> buffDefs = new List<BuffDef>();
+        internal static List<EffectDef> effectDefs = new List<EffectDef>();
+
+        internal static List<NetworkSoundEventDef> networkSoundEventDefs = new List<NetworkSoundEventDef>();
+
 
         public IEnumerator FinalizeAsync(FinalizeAsyncArgs args) {
             args.ReportProgress(1f);
@@ -19,14 +37,14 @@ namespace EnforcerPlugin.Modules
         }
 
         public IEnumerator GenerateContentPackAsync(GetContentPackAsyncArgs args) {
-            ContentPack.Copy(contentPack, args.output); 
+            ContentPack.Copy(contentPack, args.output);
             yield break;
         }
 
         public IEnumerator LoadStaticContentAsync(LoadStaticContentAsyncArgs args) {
 
             contentPack.bodyPrefabs.Add(EnforcerModPlugin.bodyPrefabs.ToArray());
-            contentPack.buffDefs.Add(Modules.Buffs.buffDefs.ToArray());
+            contentPack.buffDefs.Add(Buffs.buffDefs.ToArray());
             contentPack.effectDefs.Add(Modules.Effects.effectDefs.ToArray());
             contentPack.entityStateTypes.Add(Modules.States.entityStates.ToArray());
             contentPack.masterPrefabs.Add(EnforcerModPlugin.masterPrefabs.ToArray());
@@ -40,55 +58,5 @@ namespace EnforcerPlugin.Modules
 
             yield break;
         }
-
-        //rip
-        internal void CreateContentPack()
-        {
-            //contentPack = new ContentPack()
-            //{
-            //    //artifactDefs = new ArtifactDef[0],
-            //    bodyPrefabs = EnforcerPlugin.bodyPrefabs.ToArray(),
-            //    buffDefs = Modules.Buffs.buffDefs.ToArray(),
-            //    effectDefs = Modules.Effects.effectDefs.ToArray(),
-            //    //eliteDefs = new EliteDef[0],
-            //    //entityStateConfigurations = new EntityStateConfiguration[0],
-            //    entityStateTypes = Modules.States.entityStates.ToArray(),
-            //    //equipmentDefs = new EquipmentDef[0],
-            //    //gameEndingDefs = new GameEndingDef[0],
-            //    //gameModePrefabs = new Run[0],
-            //    //itemDefs = new ItemDef[0],
-            //    masterPrefabs = EnforcerPlugin.masterPrefabs.ToArray(),
-            //    //musicTrackDefs = new MusicTrackDef[0],
-            //    //networkedObjectPrefabs = new GameObject[0],
-            //    networkSoundEventDefs = Assets.networkSoundEventDefs.ToArray(),
-            //    projectilePrefabs = EnforcerPlugin.projectilePrefabs.ToArray(),
-            //    //sceneDefs = new SceneDef[0],
-            //    skillDefs = Modules.States.skillDefs.ToArray(),
-            //    skillFamilies = Modules.States.skillFamilies.ToArray(),
-            //    //surfaceDefs = new SurfaceDef[0],
-            //    survivorDefs = EnforcerPlugin.survivorDefs.ToArray(),
-            //    //unlockableDefs = new UnlockableDef[0]
-            //};
-
-            contentPack.bodyPrefabs.Add(EnforcerModPlugin.bodyPrefabs.ToArray());
-            contentPack.buffDefs.Add(Modules.Buffs.buffDefs.ToArray());
-            contentPack.effectDefs.Add(Modules.Effects.effectDefs.ToArray());
-            contentPack.entityStateTypes.Add(Modules.States.entityStates.ToArray());
-            contentPack.masterPrefabs.Add(EnforcerModPlugin.masterPrefabs.ToArray());
-            contentPack.networkSoundEventDefs.Add(Assets.networkSoundEventDefs.ToArray());
-            contentPack.projectilePrefabs.Add(EnforcerModPlugin.projectilePrefabs.ToArray());
-            contentPack.skillDefs.Add(Modules.States.skillDefs.ToArray());
-            contentPack.skillFamilies.Add(Modules.States.skillFamilies.ToArray());
-            contentPack.survivorDefs.Add(EnforcerModPlugin.survivorDefs.ToArray());
-
-            //On.RoR2.ContentManager.SetContentPacks += AddContent;
-        }
-
-        //rip
-        //private void AddContent(On.RoR2.ContentManager.orig_SetContentPacks orig, List<ContentPack> newContentPacks)
-        //{
-        //    newContentPacks.Add(contentPack);
-        //    orig(newContentPacks);
-        //}
     }
 }

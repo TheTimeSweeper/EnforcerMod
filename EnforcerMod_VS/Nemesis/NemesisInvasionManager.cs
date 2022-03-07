@@ -53,7 +53,7 @@ namespace EnforcerPlugin
             {
                 if (!combatSquad)
                 {
-                    combatSquad = UnityEngine.Object.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/NetworkedObjects/Encounters/ShadowCloneEncounter")).GetComponent<CombatSquad>();
+                    combatSquad = UnityEngine.Object.Instantiate<GameObject>(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Encounters/ShadowCloneEncounter")).GetComponent<CombatSquad>();
                 }
 
                 CharacterMaster characterMaster = result.spawnedInstance.GetComponent<CharacterMaster>();

@@ -1,10 +1,11 @@
-﻿using RoR2;
+﻿using Modules;
+using RoR2;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
+using static RoR2.CameraTargetParams;
 
-namespace EntityStates.Nemforcer
-{
+namespace EntityStates.Nemforcer {
     public class HammerCharge : BaseSkillState
     {
         public static float baseChargeDuration = 2.25f;
@@ -25,6 +26,8 @@ namespace EntityStates.Nemforcer
         private Vector3 forwardDirection;
         private bool moving;
 
+        private AimRequest aimRequest;
+
         public override void OnEnter()
         {
             base.OnEnter();
@@ -42,17 +45,18 @@ namespace EntityStates.Nemforcer
                 base.PlayAnimation("Legs, Override", "HammerCharge", "HammerCharge.playbackRate", this.chargeDuration);
             }
 
-            this.chargePlayID = Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.NemesisStartCharge, base.gameObject, this.attackSpeedStat);
-            this.flameLoopPlayID = Util.PlaySound(EnforcerPlugin.Sounds.NemesisFlameLoop, base.gameObject);
+            this.chargePlayID = Util.PlayAttackSpeedSound(Sounds.NemesisStartCharge, base.gameObject, this.attackSpeedStat);
+            this.flameLoopPlayID = Util.PlaySound(Sounds.NemesisFlameLoop, base.gameObject);
 
             if (base.cameraTargetParams)
             {
-                base.cameraTargetParams.aimMode = CameraTargetParams.AimType.OverTheShoulder;
+                AimRequest aimRequest = base.cameraTargetParams.RequestAimType(CameraTargetParams.AimType.OverTheShoulder);
+                //base.cameraTargetParams.aimMode = CameraTargetParams.AimType.OverTheShoulder;
             }
 
             if (this.nemController) this.nemController.hammerChargeSmall.Play();
 
-            if (NetworkServer.active) base.characterBody.AddBuff(EnforcerPlugin.Modules.Buffs.smallSlowBuff);
+            if (NetworkServer.active) base.characterBody.AddBuff(Buffs.smallSlowBuff);
         }
 
         public override void FixedUpdate()
@@ -87,16 +91,17 @@ namespace EntityStates.Nemforcer
             if (charge >= 1f && !this.finishedCharge)
             {
                 this.finishedCharge = true;
-                Util.PlaySound(EnforcerPlugin.Sounds.NemesisMaxCharge, base.gameObject);
+                Util.PlaySound(Sounds.NemesisMaxCharge, base.gameObject);
 
                 if (this.nemController) this.nemController.hammerChargeLarge.Play();
 
                 if (base.cameraTargetParams)
                 {
-                    base.cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
+                    base.cameraTargetParams.RemoveRequest(aimRequest);
+                    //base.cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
                 }
 
-                if (NetworkServer.active) base.characterBody.RemoveBuff(EnforcerPlugin.Modules.Buffs.smallSlowBuff);
+                if (NetworkServer.active) base.characterBody.RemoveBuff(Buffs.smallSlowBuff);
             }
 
             if (base.characterMotor.velocity.y <= 0) this.fallTime += Time.fixedDeltaTime;
@@ -146,7 +151,8 @@ namespace EntityStates.Nemforcer
 
             if (base.cameraTargetParams)
             {
-                base.cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
+                base.cameraTargetParams.RemoveRequest(aimRequest);
+                //base.cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
             }
 
             if (this.nemController)
@@ -156,7 +162,7 @@ namespace EntityStates.Nemforcer
                 if (this.nemController.hammerBurst && this.CalcCharge() >= 0.21f) this.nemController.hammerBurst.Play();
             }
 
-            if (NetworkServer.active && base.characterBody && base.characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.smallSlowBuff)) base.characterBody.RemoveBuff(EnforcerPlugin.Modules.Buffs.smallSlowBuff);
+            if (NetworkServer.active && base.characterBody && base.characterBody.HasBuff(Buffs.smallSlowBuff)) base.characterBody.RemoveBuff(Buffs.smallSlowBuff);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -236,7 +242,7 @@ namespace EntityStates.Nemforcer
                 this.forwardDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.GetAimRay().direction : base.inputBank.moveVector).normalized;
             }
 
-            if (this.charge >= 0.6f) Util.PlaySound(EnforcerPlugin.Sounds.NemesisFlameBurst, base.gameObject);
+            if (this.charge >= 0.6f) Util.PlaySound(Sounds.NemesisFlameBurst, base.gameObject);
 
             this.RecalculateSpeed();
 
@@ -258,9 +264,9 @@ namespace EntityStates.Nemforcer
             //ill optimize this effect later maybe
             //if (base.isAuthority && this.charge >= 0.9f) EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemDashFX, base.gameObject, "MainHurtbox", true);
 
-            NetworkSoundEventDef hitSound = EnforcerPlugin.Assets.nemHammerHitSoundEvent;
+            NetworkSoundEventDef hitSound = Assets.nemHammerHitSoundEvent;
 
-            if (base.characterBody.skinIndex == 2) hitSound = EnforcerPlugin.Assets.nemAxeHitSoundEvent;
+            if (base.characterBody.skinIndex == 2) hitSound = Assets.nemAxeHitSoundEvent;
 
             this.attack = new OverlapAttack();
             this.attack.damageType = DamageType.Stun1s;
@@ -269,8 +275,8 @@ namespace EntityStates.Nemforcer
             this.attack.teamIndex = base.GetTeam();
             this.attack.damage = this.damageCoefficient * this.damageStat;
             this.attack.procCoefficient = 1;
-            this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemHeavyImpactFX;
-            if (base.characterBody.skinIndex == 2) this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemAxeImpactFXVertical;
+            this.attack.hitEffectPrefab = Assets.nemHeavyImpactFX;
+            if (base.characterBody.skinIndex == 2) this.attack.hitEffectPrefab = Assets.nemAxeImpactFXVertical;
             this.attack.forceVector = Vector3.up * this.knockupForce;
             this.attack.pushAwayForce = 500f;
             this.attack.hitBoxGroup = hitBoxGroup;
@@ -324,8 +330,8 @@ namespace EntityStates.Nemforcer
                 this.hasPlayedUppercutAnim = true;
                 base.PlayCrossfade("FullBody, Override", "Uppercut", "Uppercut.playbackRate", (this.duration - (this.duration * HammerUppercut.dashDuration)) * 1.5f, this.duration * 0.1f);
                 base.PlayAnimation("Legs, Override", "BufferEmpty");
-                if (this.charge >= 0.75f) Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwingSecondary, base.gameObject);
-                else Util.PlaySound(EnforcerPlugin.Sounds.NemesisSwingL, base.gameObject);
+                if (this.charge >= 0.75f) Util.PlaySound(Sounds.NemesisSwingSecondary, base.gameObject);
+                else Util.PlaySound(Sounds.NemesisSwingL, base.gameObject);
             }
 
             if (base.isAuthority)
@@ -359,14 +365,14 @@ namespace EntityStates.Nemforcer
                             if (this.charge > 0.21f) base.SmallHop(base.characterMotor, this.hopVelocity);
                             base.AddRecoil(-1f * this.recoil, -2f * this.recoil, -0.5f * this.recoil, 0.5f * this.recoil);
 
-                            EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemUppercutSwingFX, base.gameObject, "SwingUppercut", true);
+                            EffectManager.SimpleMuzzleFlash(Assets.nemUppercutSwingFX, base.gameObject, "SwingUppercut", true);
                         }
 
                         if (this.stopwatch <= 0.75f * this.duration && this.attack.Fire())//lazily hardcoding dont mind me
                         {
                             if (this.charge >= 1 && UnityEngine.Random.value <= 0.01f)
                             {
-                                Util.PlaySound(EnforcerPlugin.Sounds.HomeRun, healthComponent.gameObject);
+                                Util.PlaySound(Sounds.HomeRun, healthComponent.gameObject);
                             }
 
                             if (base.characterMotor.velocity != Vector3.zero) this.storedVelocity = base.characterMotor.velocity;
@@ -386,7 +392,7 @@ namespace EntityStates.Nemforcer
                         {
                             if (this.charge >= 1 && UnityEngine.Random.value <= 0.01f)
                             {
-                                Util.PlaySound(EnforcerPlugin.Sounds.HomeRun, healthComponent.gameObject);
+                                Util.PlaySound(Sounds.HomeRun, healthComponent.gameObject);
                             }
 
                             if (base.characterMotor.velocity != Vector3.zero) this.storedVelocity = base.characterMotor.velocity;
@@ -487,7 +493,7 @@ namespace EntityStates.Nemforcer
                 base.characterMotor.velocity.y -= this.fallVelocity;
             }
 
-            if (this.charge >= 0.6f) Util.PlaySound(EnforcerPlugin.Sounds.NemesisFlameBurst, base.gameObject);
+            if (this.charge >= 0.6f) Util.PlaySound(Sounds.NemesisFlameBurst, base.gameObject);
 
             HitBoxGroup hitBoxGroup = Array.Find<HitBoxGroup>(base.GetModelTransform().GetComponents<HitBoxGroup>(), (HitBoxGroup element) => element.groupName == "Uppercut");
 
@@ -495,13 +501,13 @@ namespace EntityStates.Nemforcer
 
             if (base.isAuthority)
             {
-                EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemSlamSwingFX, base.gameObject, "SwingUppercut", true);
-                if (this.charge >= 0.6f) EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemSlamDownFX, base.gameObject, "MainHurtbox", true);
+                EffectManager.SimpleMuzzleFlash(Assets.nemSlamSwingFX, base.gameObject, "SwingUppercut", true);
+                if (this.charge >= 0.6f) EffectManager.SimpleMuzzleFlash(Assets.nemSlamDownFX, base.gameObject, "MainHurtbox", true);
             }
 
-            NetworkSoundEventDef hitSound = EnforcerPlugin.Assets.nemHammerHitSoundEvent;
+            NetworkSoundEventDef hitSound = Assets.nemHammerHitSoundEvent;
 
-            if (base.characterBody.skinIndex == 2) hitSound = EnforcerPlugin.Assets.nemAxeHitSoundEvent;
+            if (base.characterBody.skinIndex == 2) hitSound = Assets.nemAxeHitSoundEvent;
 
             this.attack = new OverlapAttack();
             this.attack.damageType = DamageType.Stun1s;
@@ -510,8 +516,8 @@ namespace EntityStates.Nemforcer
             this.attack.teamIndex = base.GetTeam();
             this.attack.damage = this.damageCoefficient * this.damageStat;
             this.attack.procCoefficient = 1;
-            this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemHeavyImpactFX;
-            if (base.characterBody.skinIndex == 2) this.attack.hitEffectPrefab = EnforcerPlugin.Assets.nemAxeImpactFXVertical;
+            this.attack.hitEffectPrefab = Assets.nemHeavyImpactFX;
+            if (base.characterBody.skinIndex == 2) this.attack.hitEffectPrefab = Assets.nemAxeImpactFXVertical;
             this.attack.forceVector = Vector3.up * HammerAirSlam.knockupForce;
             this.attack.pushAwayForce = 50f;
             this.attack.hitBoxGroup = hitBoxGroup;
@@ -548,7 +554,7 @@ namespace EntityStates.Nemforcer
             base.SmallHop(base.characterMotor, this.radius * 0.3f);
 
             AkSoundEngine.SetRTPCValue("M2_Charge", 100f * this.charge);
-            Util.PlaySound(EnforcerPlugin.Sounds.NemesisSmash, base.gameObject);
+            Util.PlaySound(Sounds.NemesisSmash, base.gameObject);
 
             if (base.isAuthority)
             {
@@ -565,14 +571,14 @@ namespace EntityStates.Nemforcer
                 blastAttack.baseForce = 5000;
                 blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
                 blastAttack.damageType = DamageType.Stun1s;
-                blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
+                blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
                 BlastAttack.Result result = blastAttack.Fire();
 
                 Vector3 directionFlat = base.GetAimRay().direction;
                 directionFlat.y = 0;
                 directionFlat.Normalize();
 
-                GameObject impactEffect = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/PodGroundImpact");
+                GameObject impactEffect = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/ImpactEffects/PodGroundImpact");
 
                 for (int i = 5; i <= Mathf.RoundToInt(this.radius) + 1; i += 2)
                 {
@@ -610,8 +616,8 @@ namespace EntityStates.Nemforcer
                     {
                         this.hasFired = true;
 
-                        string soundString = EnforcerPlugin.Sounds.NemesisSwing2;
-                        if (base.characterBody.skinIndex == 2) soundString = EnforcerPlugin.Sounds.NemesisSwingAxe;
+                        string soundString = Sounds.NemesisSwing2;
+                        if (base.characterBody.skinIndex == 2) soundString = Sounds.NemesisSwingAxe;
 
                         Util.PlaySound(soundString, base.gameObject);
                     }

@@ -1,7 +1,7 @@
 ﻿using RoR2;
 using UnityEngine;
 using EntityStates.ClayBruiser.Weapon;
-using EnforcerPlugin.Modules;
+using Modules;
 
 namespace EntityStates.Enforcer.NeutralSpecial {
     public class FireBurstRifle : BaseSkillState {
@@ -15,7 +15,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         public static float maxSpread = Config.rifleSpread.Value;
         public float bulletRecoil = 0.75f;
 
-        public static GameObject bulletTracer = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoDefault");
+        public static GameObject bulletTracer = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/Tracers/TracerCommandoDefault");
 
         private int bulletCount;
         private float duration;
@@ -36,7 +36,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
             hasFired = 0;
 
-            if (characterBody.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff)) {
+            if (characterBody.HasBuff(Buffs.protectAndServeBuff)) {
                 bulletCount = 2 * projectileCount;
             } else {
                 bulletCount = projectileCount;
@@ -56,13 +56,13 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 characterBody.AddSpreadBloom(0.33f * bulletRecoil);
                 EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, gameObject, muzzleString, false);
 
-                if (HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) {
+                if (HasBuff(Buffs.protectAndServeBuff) || HasBuff(Buffs.energyShieldBuff)) {
                     PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", 0.5f * duration);
                 } else {
                     PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", 1.75f * duration);
                 }
 
-                string soundString = EnforcerPlugin.Sounds.FireAssaultRifleSlow;
+                string soundString = Sounds.FireAssaultRifleSlow;
                 //if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterRifle;
                 //if (this.isEngi) soundString = EnforcerPlugin.Sounds.FireBungusRifle;
 

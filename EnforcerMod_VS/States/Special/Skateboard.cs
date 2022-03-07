@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using RoR2;
+using Modules;
 
-namespace EntityStates.Enforcer
-{
+namespace EntityStates.Enforcer {
     public class Skateboard : BaseSkillState
     {
         public static float enterDuration = 0.5f;
@@ -27,7 +27,7 @@ namespace EntityStates.Enforcer
                 base.SmallHop(base.characterMotor, Skateboard.hopHeight);
             }
 
-            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff))
+            if (base.HasBuff(Buffs.skateboardBuff))
             {
                 base.modelLocator.normalizeToFloor = false;
                 this.duration = Skateboard.exitDuration / this.attackSpeedStat;
@@ -36,15 +36,15 @@ namespace EntityStates.Enforcer
 
                 if (base.skillLocator)
                 {
-                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.boardDownDef);
+                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.boardOnDef);
                 }
 
                 if (NetworkServer.active)
                 {
-                    base.characterBody.RemoveBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff);
+                    base.characterBody.RemoveBuff(Buffs.skateboardBuff);
                 }
 
-                string soundString = EnforcerPlugin.Sounds.ShieldDown;
+                string soundString = Sounds.ShieldDown;
 
                 if (this.weaponComponent) this.weaponComponent.ReparentSkateboard(EnforcerWeaponComponent.SkateBoardParent.HAND);
 
@@ -59,15 +59,15 @@ namespace EntityStates.Enforcer
 
                 if (base.skillLocator)
                 {
-                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.boardUpDef);
+                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.boardOffDef);
                 }
 
                 if (NetworkServer.active)
                 {
-                    base.characterBody.AddBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff);
+                    base.characterBody.AddBuff(Buffs.skateboardBuff);
                 }
 
-                string soundString = EnforcerPlugin.Sounds.ShieldUp;
+                string soundString = Sounds.ShieldUp;
 
                 Util.PlayAttackSpeedSound(soundString, base.gameObject, 2f);
             }
@@ -77,7 +77,7 @@ namespace EntityStates.Enforcer
         {
             base.OnExit();
 
-            if (this.weaponComponent && base.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff)) {
+            if (this.weaponComponent && base.HasBuff(Buffs.skateboardBuff)) {
                 this.weaponComponent.ReparentSkateboard(EnforcerWeaponComponent.SkateBoardParent.BASE);
             }
         }
@@ -95,7 +95,7 @@ namespace EntityStates.Enforcer
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff)) return InterruptPriority.PrioritySkill;
+            if (base.HasBuff(Buffs.skateboardBuff)) return InterruptPriority.PrioritySkill;
             else return InterruptPriority.Skill;
         }
     }

@@ -3,9 +3,9 @@ using UnityEngine;
 using EntityStates.GlobalSkills.LunarNeedle;
 using RoR2.Projectile;
 using EntityStates.Enforcer.NeutralSpecial;
+using Modules;
 
-namespace EntityStates.Enforcer
-{
+namespace EntityStates.Enforcer {
     public class FireNeedler : BaseSkillState
     {
         private float duration;
@@ -15,7 +15,7 @@ namespace EntityStates.Enforcer
             base.OnEnter();
             this.duration = FireLunarNeedle.baseDuration / this.attackSpeedStat;
 
-            if (HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff)) {
+            if (HasBuff(Buffs.protectAndServeBuff) || HasBuff(Buffs.energyShieldBuff)) {
                 
                 PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", Mathf.Max(0.069f, duration));
                 duration *= 0.9f;

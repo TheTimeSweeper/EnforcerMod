@@ -1,5 +1,5 @@
 ﻿using EnforcerPlugin;
-using EnforcerPlugin.Modules;
+using Modules;
 using RoR2;
 using UnityEngine;
 using UnityEngine.UI;
@@ -57,7 +57,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             _finishedReload = false;
             _buttonReleased = false;
 
-            _isShielded = HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
+            _isShielded = HasBuff(Buffs.protectAndServeBuff) || HasBuff(Buffs.energyShieldBuff);
             if (_isShielded) {
                 _secondShot = true;
             }

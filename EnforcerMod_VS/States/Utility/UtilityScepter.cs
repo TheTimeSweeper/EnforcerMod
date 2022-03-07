@@ -2,9 +2,9 @@
 using RoR2.Projectile;
 using UnityEngine;
 using EntityStates.Toolbot;
+using Modules;
 
-namespace EntityStates.Enforcer
-{
+namespace EntityStates.Enforcer {
     public class AimDamageGas : AimThrowableBase
     {
         private AimStunDrone goodState;
@@ -32,7 +32,7 @@ namespace EntityStates.Enforcer
             base.characterBody.SetAimTimer(0.25f);
             this.fixedAge += Time.fixedDeltaTime;
 
-            bool isShielded = base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff);
+            bool isShielded = base.HasBuff(Buffs.protectAndServeBuff) || base.HasBuff(Buffs.energyShieldBuff);
             //if (!isShielded) base.PlayAnimation("RightArm, Override", "FireRifle");
 
             bool flag = false;
@@ -53,9 +53,9 @@ namespace EntityStates.Enforcer
         {
             base.OnExit();
 
-            Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.LaunchTearGas, base.gameObject, 0.7f);
+            Util.PlayAttackSpeedSound(Sounds.LaunchTearGas, base.gameObject, 0.7f);
 
-            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
+            if (base.HasBuff(Buffs.protectAndServeBuff) || base.HasBuff(Buffs.energyShieldBuff))
             {
                 base.PlayAnimation("RightArm, Override", "FireShotgunShielded");
             }
@@ -79,7 +79,7 @@ namespace EntityStates.Enforcer
         //TODO: why did fucking "grenademuzzle" break here but not in the others?
         public static string muzzleString = "Muzzle";
 
-        public static GameObject effectPrefab = Resources.Load<GameObject>("Prefabs/Effects/MuzzleFlashes/MuzzleflashMageLightning");
+        public static GameObject effectPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/MuzzleFlashes/MuzzleflashMageLightning");
 
         private float duration;
         private ChildLocator childLocator;
@@ -94,7 +94,7 @@ namespace EntityStates.Enforcer
 
             base.StartAimMode();
 
-            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff) || base.HasBuff(EnforcerPlugin.Modules.Buffs.energyShieldBuff))
+            if (base.HasBuff(Buffs.protectAndServeBuff) || base.HasBuff(Buffs.energyShieldBuff))
             {
                 base.PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", this.duration);
             }
@@ -103,7 +103,7 @@ namespace EntityStates.Enforcer
                 base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
             }
 
-            Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.LaunchStunGrenade, base.gameObject, 2.5f);
+            Util.PlayAttackSpeedSound(Sounds.LaunchStunGrenade, base.gameObject, 2.5f);
 
             base.AddRecoil(-2f * ShockGrenade.bulletRecoil, -3f * ShockGrenade.bulletRecoil, -1f * ShockGrenade.bulletRecoil, 1f * ShockGrenade.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * ShockGrenade.bulletRecoil);

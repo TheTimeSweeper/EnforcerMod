@@ -4,10 +4,9 @@ using System.Collections.Generic;
 using UnityEngine.Networking;
 using RoR2.Projectile;
 using System;
-using EnforcerPlugin.Modules;
+using Modules;
 
-namespace EntityStates.Nemforcer
-{
+namespace EntityStates.Nemforcer {
     public class HammerSlam : BaseSkillState
     {
         public static string hitboxString = "SwingCenter"; //transform where the hitbox is fired
@@ -18,12 +17,12 @@ namespace EntityStates.Nemforcer
         public static float blastRadius = 12f;
         public static float beefDuration = 0.8f;
         public static float recoilAmplitude = 15f;
-        public static GameObject slamPrefab = Resources.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
+        public static GameObject slamPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect");
 
         public static float projectileBlastRadius = 7f;
         public static float blastDamageCoefficient = 1f;
         public static float blastProcCoefficient = 1f;
-        public GameObject projectileBlastPrefab = Resources.Load<GameObject>("prefabs/effects/omnieffect/OmniExplosionVFX");
+        public GameObject projectileBlastPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("prefabs/effects/omnieffect/OmniExplosionVFX");
 
         private float attackStopDuration;
         private float duration;
@@ -66,7 +65,7 @@ namespace EntityStates.Nemforcer
                 falloffModel = BlastAttack.FalloffModel.None,
                 baseForce = 1f,
                 damageType = DamageType.Generic,
-                attackerFiltering = AttackerFiltering.NeverHit,
+                attackerFiltering = AttackerFiltering.NeverHitSelf,
             };
             projectileBlastAttack.teamIndex = TeamComponent.GetObjectTeam(projectileBlastAttack.attacker);
 
@@ -114,7 +113,7 @@ namespace EntityStates.Nemforcer
                 this.Bonk();
 
                 AkSoundEngine.SetRTPCValue("M2_Charge", 100f);
-                Util.PlaySound(EnforcerPlugin.Sounds.NemesisSmash, base.gameObject);
+                Util.PlaySound(Sounds.NemesisSmash, base.gameObject);
                 //Util.PlaySound("Play_parent_attack1_slam", base.gameObject);
 
                 if (base.isAuthority)
@@ -142,7 +141,7 @@ namespace EntityStates.Nemforcer
                     blastAttack.baseForce = 0f;
                     blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
                     blastAttack.damageType = DamageType.Stun1s;
-                    blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
+                    blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
                     blastAttack.impactEffect = BeetleGuardMonster.GroundSlam.hitEffectPrefab.GetComponent<EffectComponent>().effectIndex;
 
                     blastAttack.Fire();
@@ -161,7 +160,7 @@ namespace EntityStates.Nemforcer
                             TeamComponent component2 = healthComponent.GetComponent<TeamComponent>();
                             if (component2.teamIndex != base.teamComponent.teamIndex)
                             {
-                                Util.PlaySound(EnforcerPlugin.Sounds.NemesisImpact, healthComponent.gameObject);
+                                Util.PlaySound(Sounds.NemesisImpact, healthComponent.gameObject);
 
                                 var charb = healthComponent.body;
                                 if (charb)
@@ -224,7 +223,7 @@ namespace EntityStates.Nemforcer
                                 if (!charb.modelLocator.modelTransform.gameObject.GetComponent<EnforcerPlugin.SquashedComponent>())
                                 {
                                     charb.modelLocator.modelTransform.gameObject.AddComponent<EnforcerPlugin.SquashedComponent>().speed = 5f;
-                                    Util.PlaySound(EnforcerPlugin.Sounds.Bonk, charb.gameObject);
+                                    Util.PlaySound(Sounds.Bonk, charb.gameObject);
                                 }
                             }
                         }
@@ -275,11 +274,11 @@ namespace EntityStates.Nemforcer
             if (!this.hasSwung)
             {
                 this.hasSwung = true;
-                Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.NemesisSwingL, base.gameObject, this.attackSpeedStat);
+                Util.PlayAttackSpeedSound(Sounds.NemesisSwingL, base.gameObject, this.attackSpeedStat);
 
                 if (base.isAuthority)
                 {
-                    EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemSlamSwingFX, base.gameObject, "SwingUppercut", true);
+                    EffectManager.SimpleMuzzleFlash(Assets.nemSlamSwingFX, base.gameObject, "SwingUppercut", true);
                 }
             }
         }

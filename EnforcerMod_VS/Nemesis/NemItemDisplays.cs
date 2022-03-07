@@ -1,4 +1,4 @@
-﻿using EnforcerPlugin.Modules;
+﻿using Modules;
 using RoR2;
 using System;
 using System.Collections.Generic;
@@ -6,8 +6,7 @@ using System.Reflection;
 using System.Text;
 using UnityEngine;
 
-namespace EnforcerPlugin
-{
+namespace EnforcerPlugin {
 
     public static class NemItemDisplays
     {
@@ -15,7 +14,7 @@ namespace EnforcerPlugin
 
         public static void RegisterDisplays()
         {
-            GameObject bodyPrefab = NemforcerPlugin.characterPrefab;
+            GameObject bodyPrefab = NemforcerPlugin.characterBodyPrefab;
 
             GameObject model = bodyPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
             CharacterModel characterModel = model.GetComponent<CharacterModel>();
@@ -148,7 +147,7 @@ namespace EnforcerPlugin
             #region weirdshit
             itemRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                keyAsset = Resources.Load<ItemDef>("ItemDefs/IncreaseHealing"),
+                keyAsset = RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/IncreaseHealing"),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -179,7 +178,7 @@ namespace EnforcerPlugin
 
             itemRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                keyAsset = Resources.Load<EquipmentDef>("EquipmentDefs/AffixRed"),
+                keyAsset = RoR2.LegacyResourcesAPI.Load<EquipmentDef>("EquipmentDefs/AffixRed"),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -210,7 +209,7 @@ namespace EnforcerPlugin
 
             itemRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                keyAsset = Resources.Load<EquipmentDef>("EquipmentDefs/AffixBlue"),
+                keyAsset = RoR2.LegacyResourcesAPI.Load<EquipmentDef>("EquipmentDefs/AffixBlue"),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -241,7 +240,7 @@ namespace EnforcerPlugin
 
             itemRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                keyAsset = Resources.Load<ItemDef>("ItemDefs/ShieldOnly"),
+                keyAsset = RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/ShieldOnly"),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -273,7 +272,7 @@ namespace EnforcerPlugin
 
             itemRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                keyAsset = Resources.Load<ItemDef>("ItemDefs/FallBoots"),
+                keyAsset = RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/FallBoots"),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -304,7 +303,7 @@ namespace EnforcerPlugin
 
             itemRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                keyAsset = Resources.Load<ItemDef>("ItemDefs/NovaOnHeal"),
+                keyAsset = RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/NovaOnHeal"),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -394,7 +393,7 @@ namespace EnforcerPlugin
         {
             ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                keyAsset = Resources.Load<ItemDef>("ItemDefs/" + itemName),
+                keyAsset = RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/" + itemName),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -420,7 +419,7 @@ namespace EnforcerPlugin
         {
             ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                keyAsset = Resources.Load<EquipmentDef>("EquipmentDefs/" + itemName),
+                keyAsset = RoR2.LegacyResourcesAPI.Load<EquipmentDef>("EquipmentDefs/" + itemName),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -446,7 +445,7 @@ namespace EnforcerPlugin
         {
             ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                keyAsset = Resources.Load<ItemDef>("ItemDefs/" + itemName),
+                keyAsset = RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/" + itemName),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -472,7 +471,7 @@ namespace EnforcerPlugin
         {
             ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                keyAsset = Resources.Load<ItemDef>("ItemDefs/" + itemName),
+                keyAsset = RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/" + itemName),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -498,7 +497,7 @@ namespace EnforcerPlugin
         {
             ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                keyAsset = Resources.Load<EquipmentDef>("EquipmentDefs/" + itemName),
+                keyAsset = RoR2.LegacyResourcesAPI.Load<EquipmentDef>("EquipmentDefs/" + itemName),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -524,7 +523,7 @@ namespace EnforcerPlugin
         {
             ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                keyAsset = Resources.Load<ItemDef>("ItemDefs/" + itemName),
+                keyAsset = RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/" + itemName),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]
@@ -550,7 +549,7 @@ namespace EnforcerPlugin
         {
             ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                keyAsset = Resources.Load<EquipmentDef>("EquipmentDefs/" + itemName),
+                keyAsset = RoR2.LegacyResourcesAPI.Load<EquipmentDef>("EquipmentDefs/" + itemName),
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]

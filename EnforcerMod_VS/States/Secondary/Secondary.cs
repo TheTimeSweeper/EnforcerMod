@@ -5,10 +5,9 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.Networking;
 using System.Collections;
-using EnforcerPlugin.Modules;
+using Modules;
 
-namespace EntityStates.Enforcer
-{
+namespace EntityStates.Enforcer {
     public class ShieldBash : BaseSkillState
     {
         public static string hitboxString = "ShieldHitbox"; //transform where the hitbox is fired
@@ -80,7 +79,7 @@ namespace EntityStates.Enforcer
 
             bool grounded = base.characterMotor.isGrounded;
 
-            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff))
+            if (base.HasBuff(Buffs.protectAndServeBuff))
             {
                 base.PlayAnimation("Shield", "ShieldBash", "ShieldBash.playbackRate", this.duration);
                 //if (grounded) base.PlayAnimation("FullBody, Override", "ShieldBash", "ShieldBash.playbackRate", this.duration);
@@ -95,7 +94,7 @@ namespace EntityStates.Enforcer
                 this.attackStopDuration = ShieldBash.beefDurationNoShield / this.attackSpeedStat;
             }
 
-            Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.ShieldBash, base.gameObject, this.attackSpeedStat);
+            Util.PlayAttackSpeedSound(Sounds.ShieldBash, base.gameObject, this.attackSpeedStat);
         }
 
         private void FireBlast()
@@ -106,7 +105,7 @@ namespace EntityStates.Enforcer
 
                 if (base.isAuthority)
                 {
-                    EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.shieldBashFX, base.gameObject, hitboxString, true);
+                    EffectManager.SimpleMuzzleFlash(Assets.shieldBashFX, base.gameObject, hitboxString, true);
                     base.AddRecoil(-0.5f * ShieldBash.recoilAmplitude * 3f, -0.5f * ShieldBash.recoilAmplitude * 3f, -0.5f * ShieldBash.recoilAmplitude * 8f, 0.5f * ShieldBash.recoilAmplitude * 3f);
 
                     Vector3 center = childLocator.FindChild(hitboxString).position;
@@ -122,7 +121,7 @@ namespace EntityStates.Enforcer
                     blastAttack.baseForce = 0f;
                     blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
                     blastAttack.damageType = DamageType.Stun1s;
-                    blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
+                    blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
                     blastAttack.impactEffect = BeetleGuardMonster.GroundSlam.hitEffectPrefab.GetComponent<EffectComponent>().effectIndex;
 
                     blastAttack.Fire();
@@ -147,7 +146,7 @@ namespace EntityStates.Enforcer
 
                             if (enemyTeam || configKnockbackAllies)
                             {
-                                Util.PlaySound(EnforcerPlugin.Sounds.BashHitEnemy, healthComponent.gameObject);
+                                Util.PlaySound(Sounds.BashHitEnemy, healthComponent.gameObject);
 
                                 CharacterBody hitCharacterBody = healthComponent.body;
                                 if (hitCharacterBody)
@@ -306,7 +305,7 @@ namespace EntityStates.Enforcer
                         };
                         ProjectileManager.instance.FireProjectile(info);
 
-                        Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
+                        Util.PlayAttackSpeedSound(Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
 
                         Destroy(pc.gameObject);
 
@@ -314,7 +313,7 @@ namespace EntityStates.Enforcer
                         {
                             this.hasDeflected = true;
 
-                            if (Config.sirenOnDeflect.Value) Util.PlaySound(EnforcerPlugin.Sounds.SirenDeflect, base.gameObject);
+                            if (Config.sirenOnDeflect.Value) Util.PlaySound(Sounds.SirenDeflect, base.gameObject);
 
                             base.characterBody.GetComponent<EnforcerLightController>().FlashLights(2);
                             base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(2);
@@ -332,7 +331,7 @@ namespace EntityStates.Enforcer
             if (enforcerNet.parries <= 0)
                 return;
 
-            Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
+            Util.PlayAttackSpeedSound(Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
 
             for (int i = 0; i < enforcerNet.parries; i++)
             {
@@ -347,7 +346,7 @@ namespace EntityStates.Enforcer
                 this.hasDeflected = true;
 
                 if (Config.sirenOnDeflect.Value) 
-                    Util.PlaySound(EnforcerPlugin.Sounds.SirenDeflect, base.gameObject);
+                    Util.PlaySound(Sounds.SirenDeflect, base.gameObject);
 
                 base.characterBody.GetComponent<EnforcerLightController>().FlashLights(3);
                 base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(3);
@@ -450,7 +449,7 @@ namespace EntityStates.Enforcer
             this.attack.hitBoxGroup = hitBoxGroup;
             this.attack.isCrit = base.RollCrit();
 
-            if (base.isAuthority) EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.shoulderBashFX, base.gameObject, "ShieldHitbox", true);
+            if (base.isAuthority) EffectManager.SimpleMuzzleFlash(Assets.shoulderBashFX, base.gameObject, "ShieldHitbox", true);
         }
 
         private void RecalculateSpeed()
@@ -533,7 +532,7 @@ namespace EntityStates.Enforcer
 
                     if (this.attack.Fire(this.victimsStruck))
                     {
-                        Util.PlaySound(EnforcerPlugin.Sounds.ShoulderBashHit, base.gameObject);
+                        Util.PlaySound(Sounds.ShoulderBashHit, base.gameObject);
                         this.inHitPause = true;
                         this.hitPauseTimer = Toolbot.ToolbotDash.hitPauseDuration;
                         base.AddRecoil(-0.5f * Toolbot.ToolbotDash.recoilAmplitude, -0.5f * Toolbot.ToolbotDash.recoilAmplitude, -0.5f * Toolbot.ToolbotDash.recoilAmplitude, 0.5f * Toolbot.ToolbotDash.recoilAmplitude);
@@ -616,10 +615,10 @@ namespace EntityStates.Enforcer
         {
             base.OnEnter();
             this.duration = ShoulderBashImpact.baseDuration / this.attackSpeedStat;
-            if (!base.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff)) base.PlayAnimation("FullBody, Override", "BashRecoil");
+            if (!base.HasBuff(Buffs.skateboardBuff)) base.PlayAnimation("FullBody, Override", "BashRecoil");
             base.SmallHop(base.characterMotor, ShoulderBash.smallHopVelocity);
 
-            Util.PlayAttackSpeedSound(EnforcerPlugin.Sounds.ShoulderBashHit, base.gameObject, 0.5f);
+            Util.PlayAttackSpeedSound(Sounds.ShoulderBashHit, base.gameObject, 0.5f);
 
             if (NetworkServer.active)
             {

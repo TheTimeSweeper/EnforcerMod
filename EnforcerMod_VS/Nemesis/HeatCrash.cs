@@ -3,9 +3,9 @@ using UnityEngine;
 using System.Linq;
 using Enforcer.Nemesis;
 using UnityEngine.Networking;
+using Modules;
 
-namespace EntityStates.Nemforcer
-{
+namespace EntityStates.Nemforcer {
     public class HeatCrash : BaseSkillState
     {
         public static float jumpDuration = 1.2f;
@@ -126,11 +126,11 @@ namespace EntityStates.Nemforcer
             blastAttack.baseForce = SuperDededeJump.slamForce;
             blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
             blastAttack.damageType = DamageType.Stun1s;
-            blastAttack.attackerFiltering = AttackerFiltering.NeverHit;
+            blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
             blastAttack.Fire();
 
             AkSoundEngine.SetRTPCValue("M2_Charge", 100f);
-            Util.PlaySound(EnforcerPlugin.Sounds.NemesisSmash, base.gameObject);
+            Util.PlaySound(Sounds.NemesisSmash, base.gameObject);
 
             for (int i = 0; i <= 8; i += 1)
             {

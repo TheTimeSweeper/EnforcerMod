@@ -1,14 +1,14 @@
-﻿using UnityEngine;
+﻿using Modules;
+using UnityEngine;
 
-namespace EntityStates.Enforcer
-{
+namespace EntityStates.Enforcer {
     public class DefaultDance : BaseEmote
     {
         public override void OnEnter()
         {
             base.OnEnter();
 
-            PlayFromMemeRig("DefaultDance", EnforcerPlugin.Sounds.DefaultDance);
+            PlayFromMemeRig("DefaultDance", Sounds.DefaultDance);
         }
     }
 
@@ -17,10 +17,10 @@ namespace EntityStates.Enforcer
         public override void OnEnter()
         {
             base.OnEnter();
-
+            
             PlayFromMemeRig("FLINT LOCK WOOD");
         }
-
+                 
         public override void FixedUpdate()
         {
             base.FixedUpdate();

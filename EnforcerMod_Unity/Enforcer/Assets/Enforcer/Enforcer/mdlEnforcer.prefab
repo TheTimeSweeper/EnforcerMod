@@ -234,6 +234,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -245,6 +246,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -1421,6 +1423,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1432,6 +1435,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -1873,6 +1877,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1884,6 +1889,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -4511,6 +4517,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4522,6 +4529,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -5137,7 +5145,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2746367180934513101}
   - component: {fileID: 2746367180943814177}
-  - component: {fileID: 970005009183544719}
   - component: {fileID: 2746367180934421998}
   - component: {fileID: 7893187676861857013}
   - component: {fileID: 687924019}
@@ -5197,56 +5204,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &970005009183544719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2746367180934421997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8ac8568bcff4ba40967bdc0d0345866, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  autoPopulateLightInfos: 0
-  baseRendererInfos:
-  - renderer: {fileID: 4102519779663020904}
-    defaultMaterial: {fileID: 2100000, guid: e1121d436c002f642bc9c106060b4b7c, type: 2}
-    defaultShadowCastingMode: 1
-    ignoreOverlays: 0
-  - renderer: {fileID: 4102519779663020828}
-    defaultMaterial: {fileID: 2100000, guid: 75fec93fba8cd3e4e826a8b8c3589cb0, type: 2}
-    defaultShadowCastingMode: 1
-    ignoreOverlays: 0
-  - renderer: {fileID: 4102519779663020908}
-    defaultMaterial: {fileID: 2100000, guid: 5cc8e2fe75913044780cbdc65538f565, type: 2}
-    defaultShadowCastingMode: 1
-    ignoreOverlays: 0
-  - renderer: {fileID: 4102519779663020912}
-    defaultMaterial: {fileID: 2100000, guid: dfcf75d3fe9bd1c4781bc4cefad7d558, type: 2}
-    defaultShadowCastingMode: 1
-    ignoreOverlays: 0
-  - renderer: {fileID: 4102519779663020926}
-    defaultMaterial: {fileID: 2100000, guid: ef468be80dcb4cd4a80f5f41e6340322, type: 2}
-    defaultShadowCastingMode: 1
-    ignoreOverlays: 0
-  - renderer: {fileID: 4102519779663020816}
-    defaultMaterial: {fileID: 2100000, guid: abfdd407e1671e048af75a99e4af9b39, type: 2}
-    defaultShadowCastingMode: 1
-    ignoreOverlays: 0
-  - renderer: {fileID: 4102519779663020916}
-    defaultMaterial: {fileID: 2100000, guid: 94e1a1d3ba52f5a42a8eedce382db329, type: 2}
-    defaultShadowCastingMode: 1
-    ignoreOverlays: 0
-  - renderer: {fileID: 4102519779663020906}
-    defaultMaterial: {fileID: 2100000, guid: e0c049515c41c034bbe024c1fbc977b5, type: 2}
-    defaultShadowCastingMode: 1
-    ignoreOverlays: 0
-  - renderer: {fileID: 2746367180939694305}
-    defaultMaterial: {fileID: 2100000, guid: e0c049515c41c034bbe024c1fbc977b5, type: 2}
-    defaultShadowCastingMode: 1
-    ignoreOverlays: 0
 --- !u!114 &2746367180934421998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5923,12 +5880,14 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2791135973360309555}
   m_Enabled: 1
-  serializedVersion: 8
+  serializedVersion: 10
   m_Type: 2
+  m_Shape: 0
   m_Color: {r: 0.81337345, g: 0.0990566, b: 1, a: 1}
   m_Intensity: 10
   m_Range: 0.5
   m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -5938,6 +5897,24 @@ Light:
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
@@ -5945,12 +5922,15 @@ Light:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+  m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1 &2827877986822958077
@@ -6199,6 +6179,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -6210,6 +6191,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -6884,6 +6866,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -6895,6 +6878,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -7609,6 +7593,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -7620,6 +7605,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -7795,6 +7781,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -7806,6 +7793,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -7968,6 +7956,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -7979,6 +7968,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -8152,6 +8142,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -8163,6 +8154,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -8324,6 +8316,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -8335,6 +8328,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -8509,6 +8503,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -8520,6 +8515,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -8695,6 +8691,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -8706,6 +8703,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -9001,6 +8999,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -9012,6 +9011,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -9806,6 +9806,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -9817,6 +9818,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -11495,6 +11497,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -11506,6 +11509,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -12294,11 +12298,11 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed by
-    Humanoid clips.\n\tTransform 'Pelvis'\n\tTransform 'Armature'\n\tTransform 'Root'\n\tTransform
-    'UpperArm.R'\n\tTransform 'UpperArm.L'\n\tTransform 'Collar.L'\n\tTransform 'Stomach'\n\tTransform
-    'Chest'\n\tTransform 'LowerArm.L'\n\tTransform 'UpperLeg.R'\n\tand more ...\n\tFrom
-    animation clip 'EnforcerOfficerEarlRun2'"
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Pelvis'\n\tTransform 'Armature'\n\tTransform
+    'Root'\n\tTransform 'UpperArm.R'\n\tTransform 'UpperArm.L'\n\tTransform 'Collar.L'\n\tTransform
+    'Stomach'\n\tTransform 'Chest'\n\tTransform 'LowerArm.L'\n\tTransform 'UpperLeg.R'\n\tand
+    more ...\n\tFrom animation clip 'EnforcerOfficerEarlRun2'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0

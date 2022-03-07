@@ -50,7 +50,7 @@ namespace EntityStates.Nemforcer
                 if (!this.initCamera)
                 {
                     this.initCamera = true;
-                    this.cameraController.SetPitchYawFromLookVector(-base.characterDirection.forward);
+                    ((RoR2.CameraModes.CameraModePlayerBasic.InstanceData)this.cameraController.cameraMode.camToRawInstanceData[this.cameraController]).SetPitchYawFromLookVector(-base.characterDirection.forward);
                 }
             }
 

@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using RoR2;
-using EnforcerPlugin.Modules;
+using Modules;
 
-namespace Enforcer
-{
+namespace Enforcer {
     class ShotgunShellController : MonoBehaviour
     {
         private Rigidbody rb;
@@ -31,8 +30,8 @@ namespace Enforcer
                     this.triggered = true;
                     AkSoundEngine.SetRTPCValue("Shell_Velocity", rb.velocity.magnitude);
 
-                    if (Random.value > 0.5f) Util.PlaySound(EnforcerPlugin.Sounds.ShellHittingFloorSlow, this.gameObject);
-                    else Util.PlaySound(EnforcerPlugin.Sounds.ShellHittingFloorFast, this.gameObject);
+                    if (Random.value > 0.5f) Util.PlaySound(Modules.Sounds.ShellHittingFloorSlow, this.gameObject);
+                    else Util.PlaySound(Modules.Sounds.ShellHittingFloorFast, this.gameObject);
                 }
             }
         }

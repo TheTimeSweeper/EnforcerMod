@@ -2,10 +2,9 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using RoR2;
-using EnforcerPlugin.Modules;
+using Modules;
 
-namespace EntityStates.Enforcer
-{
+namespace EntityStates.Enforcer {
     public class ProtectAndServe : BaseSkillState
     {
         public static float enterDuration = 0.5f;
@@ -29,7 +28,7 @@ namespace EntityStates.Enforcer
             //if (EnforcerPlugin.EnforcerPlugin.oldEngiShield.Value) isEngi = false;
             //bool isDoom = base.characterBody.skinIndex == EnforcerPlugin.EnforcerModPlugin.doomGuyIndex;
 
-            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff))
+            if (base.HasBuff(Buffs.protectAndServeBuff))
             {
                 this.duration = ProtectAndServe.exitDuration / this.attackSpeedStat;
 
@@ -54,17 +53,17 @@ namespace EntityStates.Enforcer
 
                 if (base.skillLocator)
                 {
-                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.shieldDownDef);
+                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.shieldInDef);
                 }
 
                 if (base.characterMotor) base.characterMotor.mass = 200f;
 
                 if (NetworkServer.active)
                 {
-                    base.characterBody.RemoveBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff);
+                    base.characterBody.RemoveBuff(Buffs.protectAndServeBuff);
                 }
 
-                string soundString = EnforcerPlugin.Sounds.ShieldDown;
+                string soundString = Sounds.ShieldDown;
                 //if (isEngi || isDoom) soundString = EnforcerPlugin.Sounds.EnergyShieldDown;
 
                 Util.PlaySound(soundString, base.gameObject);
@@ -102,17 +101,17 @@ namespace EntityStates.Enforcer
 
                 if (base.skillLocator)
                 {
-                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.shieldUpDef);
+                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.shieldOutDef);
                 }
 
                 if (base.characterMotor) base.characterMotor.mass = ProtectAndServe.bonusMass;
 
                 if (NetworkServer.active)
                 {
-                    base.characterBody.AddBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff);
+                    base.characterBody.AddBuff(Buffs.protectAndServeBuff);
                 }
 
-                string soundString = EnforcerPlugin.Sounds.ShieldUp;
+                string soundString = Sounds.ShieldUp;
                 //if (isEngi || isDoom) soundString = EnforcerPlugin.Sounds.EnergyShieldUp;
 
                 Util.PlaySound(soundString, base.gameObject); 
@@ -149,7 +148,7 @@ namespace EntityStates.Enforcer
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            if (base.HasBuff(EnforcerPlugin.Modules.Buffs.protectAndServeBuff)) return InterruptPriority.PrioritySkill;
+            if (base.HasBuff(Buffs.protectAndServeBuff)) return InterruptPriority.PrioritySkill;
             else return InterruptPriority.Skill;
         }
     }
