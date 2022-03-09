@@ -12,6 +12,7 @@ using EntityStates.Enforcer.NeutralSpecial;
 using EnforcerPlugin;
 using R2API;
 using System.Runtime.CompilerServices;
+using RoR2.CharacterAI;
 
 namespace Modules.Characters {
     public class EnforcerSurvivor : SurvivorBase {
@@ -29,7 +30,7 @@ namespace Modules.Characters {
             sortPosition = 5.1f,
 
             crosshair = Modules.Assets.LoadCrosshair("SMG"),
-            podPrefab = Assets.LoadAsset<GameObject>("Prefabs/NetworkedObjects/SurvivorPod"),
+            podPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod"),
 
             //stats
             maxHealth = Modules.Config.baseHealth.Value,
@@ -92,6 +93,16 @@ namespace Modules.Characters {
 
         public override ConfigEntry<bool> characterEnabledConfig => null;
 
+        //SOC SOC
+        public static SkillDef shieldEnterDef;
+        public static SkillDef shieldExitDef;
+
+        public static SkillDef energyShieldEnterDef;
+        public static SkillDef energyShieldExitDef;
+
+        public static SkillDef boardEnterDef;
+        public static SkillDef boardExitDef;
+
         public override void Initialize() {
             base.Initialize();
             Hooks();
@@ -113,15 +124,23 @@ namespace Modules.Characters {
 
             //childLocator.FindChild("BungusShieldFill").gameObject.AddComponent<ObjectScaleCurve>().timeMax = 0.3f;
 
-            characterBodyModel.gameObject.AddComponent<EnforcerComponent>();
-            characterBodyModel.gameObject.AddComponent<EnforcerWeaponComponent>();
-            //characterBodyModel.gameObject.AddComponent<EnforcerNetworkComponent>();
-            characterBodyModel.gameObject.AddComponent<EnforcerLightController>();
-            characterBodyModel.gameObject.AddComponent<EnforcerLightControllerAlt>();
+            bodyPrefab.gameObject.AddComponent<EnforcerComponent>();
+            bodyPrefab.gameObject.AddComponent<EnforcerWeaponComponent>();
+            bodyPrefab.gameObject.AddComponent<EnforcerNetworkComponent>();
+            bodyPrefab.gameObject.AddComponent<EnforcerLightController>();
+            bodyPrefab.gameObject.AddComponent<EnforcerLightControllerAlt>();
 
             if (EnforcerPlugin.EnforcerModPlugin.IDPHelperInstalled) {
                 characterBodyModel.gameObject.AddComponent<EnforcerItemDisplayEditorComponent>();
             }
+        }
+
+        protected override void InitializeDisplayPrefab() {
+            base.InitializeDisplayPrefab();
+
+            displayPrefab.AddComponent<MenuSoundComponent>();
+            displayPrefab.AddComponent<EnforcerLightController>();
+            displayPrefab.AddComponent<EnforcerLightControllerAlt>();
         }
 
         public override void InitializeHurtboxes(HealthComponent healthComponent) {
@@ -267,7 +286,7 @@ namespace Modules.Characters {
             };
 
             for (int i = 0; i < memes.Length; i++) {
-                Modules.States.AddSkill(memes[i]);
+                Modules.Content.AddEntityState(memes[i]);
             }
         }
 
@@ -336,22 +355,13 @@ namespace Modules.Characters {
                                                   EnforcerUnlockables.enforcerStunGrenadeUnlockableDef);
         }
 
-        public static SkillDef shielEnterDef;
-        public static SkillDef shieldExitDef;
-
-        public static SkillDef energyShieldEnterDef;
-        public static SkillDef energyShieldExitDef;
-
-        public static SkillDef boardEnterDef;
-        public static SkillDef boardExitDef;
-
         private void InitializeSpecialSkills() {
 
             Content.AddEntityState(typeof(ProtectAndServe));
             Content.AddEntityState(typeof(EnergyShield));
             Content.AddEntityState(typeof(Skateboard));
 
-            shielEnterDef = EnforcerSkillDefs.SpecialSkillDef_ProtectAndServe();
+            shieldEnterDef = EnforcerSkillDefs.SpecialSkillDef_ProtectAndServe();
             shieldExitDef = EnforcerSkillDefs.SpecialSkillDef_ShieldDown();
 
             energyShieldEnterDef = EnforcerSkillDefs.SpecialSkillDef_EnergyShield();
@@ -360,14 +370,14 @@ namespace Modules.Characters {
             boardEnterDef = EnforcerSkillDefs.SpecialSkillDef_SkamteBord();
             boardExitDef = EnforcerSkillDefs.SpecialSkillDef_SkamteBordDown();
 
-            Modules.Skills.AddSpecialSkills(bodyPrefab, shielEnterDef);
+            Modules.Skills.AddSpecialSkills(bodyPrefab, shieldEnterDef);
 
             //CSSPDC
             SkillLocator skillLocator = bodyPrefab.GetComponent<SkillLocator>();
             CharacterSelectSurvivorPreviewDisplayController previewController = displayPrefab.GetComponent<CharacterSelectSurvivorPreviewDisplayController>();
 
             previewController.skillChangeResponses[4].triggerSkillFamily = skillLocator.special.skillFamily;
-            previewController.skillChangeResponses[4].triggerSkill = shielEnterDef;
+            previewController.skillChangeResponses[4].triggerSkill = shieldEnterDef;
 
 
             if (Modules.Config.cursed.Value) {
@@ -419,15 +429,232 @@ namespace Modules.Characters {
 
         #endregion skills
 
-        #region oh god
+        #region ai
+        public override void InitializeDoppelganger() {
 
-        protected override void InitializeDisplayPrefab() {
-            base.InitializeDisplayPrefab();
+            GameObject doppelganger = PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/MercMonsterMaster"), "EnforcerMonsterMaster");
 
-            displayPrefab.AddComponent<MenuSoundComponent>();
-            displayPrefab.AddComponent<EnforcerLightController>();
-            displayPrefab.AddComponent<EnforcerLightControllerAlt>();
+            foreach (AISkillDriver ai in doppelganger.GetComponentsInChildren<AISkillDriver>()) {
+                UnityEngine.Object.DestroyImmediate(ai);
+            }
+
+            BaseAI baseAI = doppelganger.GetComponent<BaseAI>();
+            baseAI.aimVectorMaxSpeed = 40;
+            baseAI.aimVectorDampTime = 0.2f;
+
+            AISkillDriver exitShieldDriver = doppelganger.AddComponent<AISkillDriver>();
+            exitShieldDriver.customName = "ExitShield";
+            exitShieldDriver.movementType = AISkillDriver.MovementType.Stop;
+            exitShieldDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            exitShieldDriver.activationRequiresAimConfirmation = false;
+            exitShieldDriver.activationRequiresTargetLoS = false;
+            exitShieldDriver.selectionRequiresTargetLoS = false;
+            exitShieldDriver.maxDistance = 512f;
+            exitShieldDriver.minDistance = 45f;
+            exitShieldDriver.requireSkillReady = true;
+            exitShieldDriver.aimType = AISkillDriver.AimType.MoveDirection;
+            exitShieldDriver.ignoreNodeGraph = false;
+            exitShieldDriver.moveInputScale = 1f;
+            exitShieldDriver.driverUpdateTimerOverride = 0.5f;
+            exitShieldDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            exitShieldDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            exitShieldDriver.maxTargetHealthFraction = Mathf.Infinity;
+            exitShieldDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            exitShieldDriver.maxUserHealthFraction = Mathf.Infinity;
+            exitShieldDriver.skillSlot = SkillSlot.Special;
+            exitShieldDriver.requiredSkill = shieldExitDef;
+
+            /*AISkillDriver grenadeDriver = doppelganger.AddComponent<AISkillDriver>();
+            grenadeDriver.customName = "ThrowGrenade";
+            grenadeDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            grenadeDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            grenadeDriver.activationRequiresAimConfirmation = true;
+            grenadeDriver.activationRequiresTargetLoS = false;
+            grenadeDriver.selectionRequiresTargetLoS = true;
+            grenadeDriver.requireSkillReady = true;
+            grenadeDriver.maxDistance = 64f;
+            grenadeDriver.minDistance = 0f;
+            grenadeDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            grenadeDriver.ignoreNodeGraph = false;
+            grenadeDriver.moveInputScale = 1f;
+            grenadeDriver.driverUpdateTimerOverride = 0.5f;
+            grenadeDriver.buttonPressType = AISkillDriver.ButtonPressType.TapContinuous;
+            grenadeDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            grenadeDriver.maxTargetHealthFraction = Mathf.Infinity;
+            grenadeDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            grenadeDriver.maxUserHealthFraction = Mathf.Infinity;
+            grenadeDriver.skillSlot = SkillSlot.Utility;*/
+
+            AISkillDriver shoulderBashDriver = doppelganger.AddComponent<AISkillDriver>();
+            shoulderBashDriver.customName = "ShoulderBash";
+            shoulderBashDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            shoulderBashDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            shoulderBashDriver.activationRequiresAimConfirmation = true;
+            shoulderBashDriver.activationRequiresTargetLoS = false;
+            shoulderBashDriver.selectionRequiresTargetLoS = true;
+            shoulderBashDriver.maxDistance = 6f;
+            shoulderBashDriver.minDistance = 0f;
+            shoulderBashDriver.requireSkillReady = true;
+            shoulderBashDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            shoulderBashDriver.ignoreNodeGraph = true;
+            shoulderBashDriver.moveInputScale = 1f;
+            shoulderBashDriver.driverUpdateTimerOverride = 2f;
+            shoulderBashDriver.buttonPressType = AISkillDriver.ButtonPressType.TapContinuous;
+            shoulderBashDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            shoulderBashDriver.maxTargetHealthFraction = Mathf.Infinity;
+            shoulderBashDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            shoulderBashDriver.maxUserHealthFraction = Mathf.Infinity;
+            shoulderBashDriver.skillSlot = SkillSlot.Secondary;
+            //shoulderBashDriver.requiredSkill = shieldDownDef;
+            shoulderBashDriver.shouldSprint = true;
+
+            /*AISkillDriver shoulderBashPrepDriver = doppelganger.AddComponent<AISkillDriver>();
+            shoulderBashPrepDriver.customName = "ShoulderBashPrep";
+            shoulderBashPrepDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            shoulderBashPrepDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            shoulderBashPrepDriver.activationRequiresAimConfirmation = true;
+            shoulderBashPrepDriver.activationRequiresTargetLoS = false;
+            shoulderBashPrepDriver.selectionRequiresTargetLoS = false;
+            shoulderBashPrepDriver.maxDistance = 12f;
+            shoulderBashPrepDriver.minDistance = 0f;
+            shoulderBashPrepDriver.requireSkillReady = true;
+            shoulderBashPrepDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            shoulderBashPrepDriver.ignoreNodeGraph = true;
+            shoulderBashPrepDriver.moveInputScale = 1f;
+            shoulderBashPrepDriver.driverUpdateTimerOverride = -1f;
+            shoulderBashPrepDriver.buttonPressType = AISkillDriver.ButtonPressType.Abstain;
+            shoulderBashPrepDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            shoulderBashPrepDriver.maxTargetHealthFraction = Mathf.Infinity;
+            shoulderBashPrepDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            shoulderBashPrepDriver.maxUserHealthFraction = Mathf.Infinity;
+            shoulderBashPrepDriver.skillSlot = SkillSlot.Secondary;
+            //shoulderBashPrepDriver.requiredSkill = shieldDownDef;
+            shoulderBashPrepDriver.shouldSprint = true;*/
+
+            AISkillDriver swapToMinigunDriver = doppelganger.AddComponent<AISkillDriver>();
+            swapToMinigunDriver.customName = "EnterShield";
+            swapToMinigunDriver.movementType = AISkillDriver.MovementType.Stop;
+            swapToMinigunDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            swapToMinigunDriver.activationRequiresAimConfirmation = false;
+            swapToMinigunDriver.activationRequiresTargetLoS = false;
+            swapToMinigunDriver.selectionRequiresTargetLoS = false;
+            swapToMinigunDriver.maxDistance = 30f;
+            swapToMinigunDriver.minDistance = 0f;
+            swapToMinigunDriver.requireSkillReady = true;
+            swapToMinigunDriver.aimType = AISkillDriver.AimType.MoveDirection;
+            swapToMinigunDriver.ignoreNodeGraph = true;
+            swapToMinigunDriver.moveInputScale = 1f;
+            swapToMinigunDriver.driverUpdateTimerOverride = -1f;
+            swapToMinigunDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            swapToMinigunDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            swapToMinigunDriver.maxTargetHealthFraction = Mathf.Infinity;
+            swapToMinigunDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            swapToMinigunDriver.maxUserHealthFraction = Mathf.Infinity;
+            swapToMinigunDriver.skillSlot = SkillSlot.Special;
+            swapToMinigunDriver.requiredSkill = shieldEnterDef;
+
+            AISkillDriver shieldBashDriver = doppelganger.AddComponent<AISkillDriver>();
+            shieldBashDriver.customName = "ShieldBash";
+            shieldBashDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            shieldBashDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            shieldBashDriver.activationRequiresAimConfirmation = false;
+            shieldBashDriver.activationRequiresTargetLoS = false;
+            shieldBashDriver.selectionRequiresTargetLoS = false;
+            shieldBashDriver.maxDistance = 6f;
+            shieldBashDriver.minDistance = 0f;
+            shieldBashDriver.requireSkillReady = true;
+            shieldBashDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            shieldBashDriver.ignoreNodeGraph = true;
+            shieldBashDriver.moveInputScale = 1f;
+            shieldBashDriver.driverUpdateTimerOverride = -1f;
+            shieldBashDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            shieldBashDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            shieldBashDriver.maxTargetHealthFraction = Mathf.Infinity;
+            shieldBashDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            shieldBashDriver.maxUserHealthFraction = Mathf.Infinity;
+            shieldBashDriver.skillSlot = SkillSlot.Secondary;
+            //shieldBashDriver.requiredSkill = shieldUpDef;
+
+            AISkillDriver shieldFireDriver = doppelganger.AddComponent<AISkillDriver>();
+            shieldFireDriver.customName = "StandAndShoot";
+            shieldFireDriver.movementType = AISkillDriver.MovementType.Stop;
+            shieldFireDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            shieldFireDriver.activationRequiresAimConfirmation = true;
+            shieldFireDriver.activationRequiresTargetLoS = false;
+            shieldFireDriver.selectionRequiresTargetLoS = false;
+            shieldFireDriver.maxDistance = 16f;
+            shieldFireDriver.minDistance = 0f;
+            shieldFireDriver.requireSkillReady = true;
+            shieldFireDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            shieldFireDriver.ignoreNodeGraph = true;
+            shieldFireDriver.moveInputScale = 1f;
+            shieldFireDriver.driverUpdateTimerOverride = -1f;
+            shieldFireDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            shieldFireDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            shieldFireDriver.maxTargetHealthFraction = Mathf.Infinity;
+            shieldFireDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            shieldFireDriver.maxUserHealthFraction = Mathf.Infinity;
+            shieldFireDriver.skillSlot = SkillSlot.Primary;
+            //shieldFireDriver.requiredSkill = shieldUpDef;
+
+            AISkillDriver noShieldFireDriver = doppelganger.AddComponent<AISkillDriver>();
+            noShieldFireDriver.customName = "StrafeAndShoot";
+            noShieldFireDriver.movementType = AISkillDriver.MovementType.StrafeMovetarget;
+            noShieldFireDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            noShieldFireDriver.activationRequiresAimConfirmation = true;
+            noShieldFireDriver.activationRequiresTargetLoS = false;
+            noShieldFireDriver.selectionRequiresTargetLoS = false;
+            noShieldFireDriver.maxDistance = 40f;
+            noShieldFireDriver.minDistance = 8f;
+            noShieldFireDriver.requireSkillReady = true;
+            noShieldFireDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
+            noShieldFireDriver.ignoreNodeGraph = false;
+            noShieldFireDriver.moveInputScale = 1f;
+            noShieldFireDriver.driverUpdateTimerOverride = -1f;
+            noShieldFireDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            noShieldFireDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            noShieldFireDriver.maxTargetHealthFraction = Mathf.Infinity;
+            noShieldFireDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            noShieldFireDriver.maxUserHealthFraction = Mathf.Infinity;
+            noShieldFireDriver.skillSlot = SkillSlot.Primary;
+            //noShieldFireDriver.requiredSkill = shieldDownDef;
+
+            AISkillDriver followDriver = doppelganger.AddComponent<AISkillDriver>();
+            followDriver.customName = "Chase";
+            followDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            followDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            followDriver.activationRequiresAimConfirmation = false;
+            followDriver.activationRequiresTargetLoS = false;
+            followDriver.maxDistance = Mathf.Infinity;
+            followDriver.minDistance = 0f;
+            followDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
+            followDriver.ignoreNodeGraph = false;
+            followDriver.moveInputScale = 1f;
+            followDriver.driverUpdateTimerOverride = -1f;
+            followDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            followDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
+            followDriver.maxTargetHealthFraction = Mathf.Infinity;
+            followDriver.minUserHealthFraction = Mathf.NegativeInfinity;
+            followDriver.maxUserHealthFraction = Mathf.Infinity;
+            followDriver.skillSlot = SkillSlot.None;
+
+            Modules.Content.AddMasterPrefab(doppelganger);
+
+            CharacterMaster master = doppelganger.GetComponent<CharacterMaster>();
+            master.bodyPrefab = bodyPrefab;
         }
+        #endregion
+
+        #region content
+        public override void InitializeUnlockables() {
+
+            EnforcerUnlockables.RegisterUnlockables();
+        }
+
+        public override void InitializeSkins() {
+            Skins.RegisterSkins();
+        }
+
         #endregion
     }
 }

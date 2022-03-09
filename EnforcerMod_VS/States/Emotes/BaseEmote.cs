@@ -9,14 +9,17 @@ using Modules.Characters;
 namespace EntityStates.Enforcer {
     public class BaseEmote : BaseState
     {
-        private CharacterCameraParamsData emoteCameraParams = new CharacterCameraParamsData() {
-
+        private CharacterCameraParamsData emoteCameraParams =  new CharacterCameraParamsData() {
             maxPitch = 70,
             minPitch = -70,
-            pivotVerticalOffset = EnforcerSurvivor.instance.bodyInfo.cameraParamsVerticalOffset - 0.5f,
-            idealLocalCameraPos = new Vector3(0, 0, 9.5f),
+            pivotVerticalOffset = EnforcerSurvivor.instance.bodyInfo.cameraParamsVerticalOffset,
+            idealLocalCameraPos = emoteCameraPosition,
             wallCushion = 0.1f,
         };
+
+        public static Vector3 emoteCameraPosition = new Vector3(0, -1.5f, -9f);
+
+        private CameraParamsOverrideHandle camOverrideHandle;
 
         private Animator animator;
         private ChildLocator childLocator;
@@ -29,8 +32,6 @@ namespace EntityStates.Enforcer {
         //private float animDuration;
 
         private uint activePlayID;
-
-        private CameraParamsOverrideHandle camOverrideHandle;
 
         public override void OnEnter()
         {

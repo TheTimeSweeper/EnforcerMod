@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Modules {
     internal static class Effects {
-        internal static List<EffectDef> effectDefs = new List<EffectDef>();
 
         internal static void AddEffect(GameObject effectPrefab) {
             AddEffect(effectPrefab, "");
@@ -18,7 +17,7 @@ namespace Modules {
             newEffectDef.prefabVfxAttributes = effectPrefab.GetComponent<VFXAttributes>();
             newEffectDef.spawnSoundEventName = soundName;
 
-            effectDefs.Add(newEffectDef);
+            Modules.Content.AddEffectDef(newEffectDef);
         }
     }
 }

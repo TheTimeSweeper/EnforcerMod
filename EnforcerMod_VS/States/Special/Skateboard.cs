@@ -2,6 +2,7 @@
 using UnityEngine.Networking;
 using RoR2;
 using Modules;
+using Modules.Characters;
 
 namespace EntityStates.Enforcer {
     public class Skateboard : BaseSkillState
@@ -36,7 +37,7 @@ namespace EntityStates.Enforcer {
 
                 if (base.skillLocator)
                 {
-                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.boardOnDef);
+                    base.skillLocator.special.SetBaseSkill(EnforcerSurvivor.boardEnterDef);
                 }
 
                 if (NetworkServer.active)
@@ -59,7 +60,7 @@ namespace EntityStates.Enforcer {
 
                 if (base.skillLocator)
                 {
-                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.boardOffDef);
+                    base.skillLocator.special.SetBaseSkill(EnforcerSurvivor.boardExitDef);
                 }
 
                 if (NetworkServer.active)

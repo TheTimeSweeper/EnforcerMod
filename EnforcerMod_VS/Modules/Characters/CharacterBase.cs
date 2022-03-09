@@ -57,10 +57,10 @@ namespace Modules.Characters {
         protected virtual void InitializeCharacterMaster() { }
         protected virtual void InitializeEntityStateMachine() {
             bodyPrefab.GetComponent<EntityStateMachine>().mainStateType = new EntityStates.SerializableEntityStateType(characterMainState);
-            States.entityStates.Add(characterMainState);
+            Modules.Content.AddEntityState(characterMainState);
             if (characterSpawnState != null) {
                 bodyPrefab.GetComponent<EntityStateMachine>().initialStateType = new EntityStates.SerializableEntityStateType(characterSpawnState);
-                States.entityStates.Add(characterSpawnState);
+                Modules.Content.AddEntityState(characterSpawnState);
             }
         }
 
@@ -148,9 +148,9 @@ namespace Modules.Characters {
         //camera
         public Vector3 modelBasePosition = new Vector3(0f, -0.92f, 0f);
         public Vector3 cameraPivotPosition = new Vector3(0f, 1.6f, 0f);
-        public Vector3 aimOriginPosition = new Vector3(0f, 2.5f, 0f);
+        public Vector3 aimOriginPosition = new Vector3(0f, 2f, 0f);
 
-        public float cameraParamsVerticalOffset = 1f;
+        public float cameraParamsVerticalOffset = 1.5f;
         public float cameraParamsDepth = -12;
 
         private CharacterCameraParams _cameraParams;

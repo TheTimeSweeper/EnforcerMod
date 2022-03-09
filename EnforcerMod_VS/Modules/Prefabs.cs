@@ -38,19 +38,19 @@ namespace Modules
                 return null;
             }
 
-            GameObject newPrefab = PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/" + bodyInfo.bodyNameToClone + "Body"), bodyName);
+            GameObject newBodyPrefab = PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/" + bodyInfo.bodyNameToClone + "Body"), bodyName);
 
             Transform modelBaseTransform = null;
             GameObject bundleModel = Assets.LoadSurvivorModel(modelName);
             if (bundleModel == null) {
                 Debug.LogError($"could not load model from bundle {modelName}");
-                bundleModel = newPrefab.GetComponentInChildren<CharacterModel>().gameObject;
+                bundleModel = newBodyPrefab.GetComponentInChildren<CharacterModel>().gameObject;
             }
 
-            modelBaseTransform = AddCharacterModelToSurvivorBody(newPrefab, bundleModel.transform, bodyInfo);
+            modelBaseTransform = AddCharacterModelToSurvivorBody(newBodyPrefab, bundleModel.transform, bodyInfo);
 
             #region CharacterBody
-            CharacterBody bodyComponent = newPrefab.GetComponent<CharacterBody>();
+            CharacterBody bodyComponent = newBodyPrefab.GetComponent<CharacterBody>();
             //identity
             bodyComponent.name = bodyInfo.bodyName;
             bodyComponent.baseNameToken = bodyInfo.bodyNameToken;
@@ -100,29 +100,28 @@ namespace Modules
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             bodyComponent.rootMotionInMainState = false;
 
-            bodyComponent.aimOriginTransform = modelBaseTransform.Find("AimOrigin");
             bodyComponent.hullClassification = HullClassification.Human;
 
             bodyComponent.isChampion = false;
             #endregion
 
-            SetupCameraTargetParams(newPrefab, bodyInfo);
-            SetupModelLocator(newPrefab, modelBaseTransform, bundleModel.transform);
+            SetupCameraTargetParams(newBodyPrefab, bodyInfo);
+            SetupModelLocator(newBodyPrefab, modelBaseTransform, bundleModel.transform);
             //SetupRigidbody(newPrefab);
-            SetupCapsuleCollider(newPrefab);
-            SetupMainHurtbox(newPrefab, bundleModel);
+            SetupCapsuleCollider(newBodyPrefab);
+            SetupMainHurtbox(newBodyPrefab, bundleModel);
 
-            SetupAimAnimator(newPrefab, bundleModel);
+            SetupAimAnimator(newBodyPrefab, bundleModel);
 
             if (bodyInfo.bodyNameToClone != "EngiTurret") {
-                if (modelBaseTransform != null) SetupCharacterDirection(newPrefab, modelBaseTransform, bundleModel.transform);
+                if (modelBaseTransform != null) SetupCharacterDirection(newBodyPrefab, modelBaseTransform, bundleModel.transform);
                     SetupFootstepController(bundleModel);
                     SetupRagdoll(bundleModel);
             }
 
-            Modules.Content.AddCharacterBodyPrefab(newPrefab);
+            Modules.Content.AddCharacterBodyPrefab(newBodyPrefab);
 
-            return newPrefab;
+            return newBodyPrefab;
         }
 
         internal static void CreateGenericDoppelganger(GameObject bodyPrefab, string masterName, string masterToCopy)

@@ -127,8 +127,6 @@ namespace Modules {
         internal static NetworkSoundEventDef nemHammerHitSoundEvent;
         internal static NetworkSoundEventDef nemAxeHitSoundEvent;
 
-        internal static List<NetworkSoundEventDef> networkSoundEventDefs = new List<NetworkSoundEventDef>();
-
         public static void Initialize() {
 
             commandoMat = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial;
@@ -152,11 +150,11 @@ namespace Modules {
                 SoundAPI.SoundBanks.Add(array);
             }
 
-            using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.NemforcerBank2.bnk")) {
-                byte[] array = new byte[manifestResourceStream2.Length];
-                manifestResourceStream2.Read(array, 0, array.Length);
-                SoundAPI.SoundBanks.Add(array);
-            };
+            //using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.NemforcerBank2.bnk")) {
+            //    byte[] array = new byte[manifestResourceStream2.Length];
+            //    manifestResourceStream2.Read(array, 0, array.Length);
+            //    SoundAPI.SoundBanks.Add(array);
+            //};
         }
 
         private static void PopulateAssets() {
@@ -347,7 +345,7 @@ namespace Modules {
             networkSoundEventDef.akId = AkSoundEngine.GetIDFromString(eventName);
             networkSoundEventDef.eventName = eventName;
 
-            networkSoundEventDefs.Add(networkSoundEventDef);
+            Modules.Content.AddNetworkSoundEventDef(networkSoundEventDef);
 
             return networkSoundEventDef;
         }
@@ -481,13 +479,13 @@ namespace Modules {
 
         public static readonly string NemesisMinigunSheathe = "Play_MinigunSheathe";
         public static readonly string NemesisMinigunUnsheathe = "Play_MinigunUnsheathe";
-        public static readonly string NemesisMinigunWindDown = "Play_minigun_wind_down";
-        public static readonly string NemesisMinigunWindUp = "Play_minigun_wind_up";
-        public static readonly string NemesisMinigunShooting = "Play_Minigun_Shoot";
+        public static readonly string NemesisMinigunWindDown = "Play_minigun_wind_down";   //unused
+        public static readonly string NemesisMinigunWindUp = "Play_minigun_wind_up";       //unused
+        public static readonly string NemesisMinigunShooting = "Play_Minigun_Shoot";       //unused
 
         public static readonly string NemesisMinigunSpinUp = "NemforcerMinigunSpinUp";
         public static readonly string NemesisMinigunSpinDown = "NemforcerMinigunSpinDown";
-        public static readonly string NemesisMinigunLoop = "NemforcerMinigunLoop";
+        public static readonly string NemesisMinigunLoop = "Play_Minigun_Shoot";
 
         public static readonly string DeathSound = "Death_Siren";
         public static readonly string SirenButton = "Siren_Button";

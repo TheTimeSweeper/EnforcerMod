@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using RoR2;
 using Modules;
+using Modules.Characters;
 
 namespace EntityStates.Enforcer {
     public class ProtectAndServe : BaseSkillState
@@ -53,7 +54,7 @@ namespace EntityStates.Enforcer {
 
                 if (base.skillLocator)
                 {
-                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.shieldInDef);
+                    base.skillLocator.special.SetBaseSkill(EnforcerSurvivor.shieldEnterDef);
                 }
 
                 if (base.characterMotor) base.characterMotor.mass = 200f;
@@ -70,11 +71,12 @@ namespace EntityStates.Enforcer {
 
                 base.characterBody.aimOriginTransform = shieldComponent.origOrigin;
 
-                if (this.weaponComponent)
-                {
-                    this.weaponComponent.shieldUp = false;
-                    this.weaponComponent.UpdateCamera();
-                }
+                //todo CUM2 delete this
+                //if (this.weaponComponent)
+                //{
+                //    this.weaponComponent.shieldUp = false;
+                //    this.weaponComponent.UpdateCamera();
+                //}
             }
             else
             {
@@ -101,7 +103,7 @@ namespace EntityStates.Enforcer {
 
                 if (base.skillLocator)
                 {
-                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.shieldOutDef);
+                    base.skillLocator.special.SetBaseSkill(EnforcerSurvivor.shieldExitDef);
                 }
 
                 if (base.characterMotor) base.characterMotor.mass = ProtectAndServe.bonusMass;
@@ -118,11 +120,12 @@ namespace EntityStates.Enforcer {
 
                 characterBody.aimOriginTransform = childLocator.FindChild("ShieldAimOrigin");
 
-                if (this.weaponComponent)
-                {
-                    this.weaponComponent.shieldUp = true;
-                    this.weaponComponent.UpdateCamera();
-                }
+                //todo CUM2 delete this
+                //if (this.weaponComponent)
+                //{
+                //    this.weaponComponent.shieldUp = true;
+                //    this.weaponComponent.UpdateCamera();
+                //}
             }
         }
 

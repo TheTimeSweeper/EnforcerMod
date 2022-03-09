@@ -35,12 +35,14 @@ namespace EnforcerPlugin {
     [BepInDependency("com.KingEnderBrine.ItemDisplayPlacementHelper", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.Moffein.RiskyArtifacts", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.2.9")]
+    [BepInPlugin(MODUID, "Enforcer", "3.2.10")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
         "LanguageAPI",
         "SoundAPI",
+        "DamageAPI",
+
     })]
 
     public class EnforcerModPlugin : BaseUnityPlugin
@@ -51,15 +53,10 @@ namespace EnforcerPlugin {
 
         public static bool holdonasec = false;
 
-        internal static List<GameObject> bodyPrefabs = new List<GameObject>();
-        internal static List<GameObject> masterPrefabs = new List<GameObject>();
-        internal static List<GameObject> projectilePrefabs = new List<GameObject>();
-        internal static List<SurvivorDef> survivorDefs = new List<SurvivorDef>();
-
         //i didn't want this to be static considering we're using an instance now but it throws 23 errors if i remove the static modifier 
         //i'm not dealing with that
-        public static GameObject characterBodyPrefab;
-        public static GameObject characterDisplay;
+        //public static GameObject characterBodyPrefab;
+        //public static GameObject characterDisplay;
 
         public static GameObject needlerCrosshair;
 
@@ -86,20 +83,7 @@ namespace EnforcerPlugin {
         public static GameObject heavyBlockEffectPrefab;
         public static GameObject hammerSlamEffect;
 
-        public GameObject doppelganger;
-
         public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
-
-        public static SkillDef shieldInDef;//skilldef used while shield is down
-        public static SkillDef shieldOutDef;//skilldef used while shield is up
-        public static SkillDef energyShieldOffDef;//skilldef used while shield is off
-        public static SkillDef energyShieldOnDef;//skilldef used while shield is on
-
-        public static SkillDef boardOnDef;
-        public static SkillDef boardOffDef;
-
-        public static SkillDef tearGasScepterDef;
-        public static SkillDef shockGrenadeDef;
 
         public static bool cum; //don't ask
         public static bool ScepterInstalled = false;
@@ -111,6 +95,8 @@ namespace EnforcerPlugin {
         public static bool IDPHelperInstalled = false;
         public static bool VRInstalled = false;
         public static bool RiskyArtifactsInstalled = false;
+
+        public static DamageAPI.ModdedDamageType barrierDamageType;
 
         //public static uint doomGuyIndex = 2;
         //public static uint engiIndex = 3;
@@ -140,21 +126,17 @@ namespace EnforcerPlugin {
             Modules.Config.ConfigShit(this);
 
             Assets.Initialize();
+            Tokens.RegisterTokens();
             SetupModCompat();
-
-            //CreatePrefab();
-            //CreateDisplayPrefab();
 
             new EnforcerSurvivor().Initialize();
 
-            EnforcerUnlockables.RegisterUnlockables();
+            barrierDamageType = DamageAPI.ReserveDamageType();
 
             ItemDisplays.PopulateDisplays();
-            Skins.RegisterSkins();
 
             Modules.Buffs.RegisterBuffs();
             RegisterProjectile();
-            CreateDoppelganger();
             CreateCrosshair();
 
             new NemforcerPlugin().Init();
@@ -272,7 +254,8 @@ namespace EnforcerPlugin {
             On.RoR2.CharacterBody.Update += CharacterBody_Update;
             On.RoR2.CharacterBody.OnLevelUp += CharacterBody_OnLevelChanged;
             On.RoR2.CharacterMaster.OnInventoryChanged += CharacterMaster_OnInventoryChanged;
-            On.RoR2.BodyCatalog.SetBodyPrefabs += BodyCatalog_SetBodyPrefabs;
+            //On.RoR2.BodyCatalog.SetBodyPrefabs += BodyCatalog_SetBodyPrefabs;
+            On.RoR2.ContentManagement.ContentManager.SetContentPacks += ContentManager_SetContentPacks;
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
             On.RoR2.ArenaMissionController.BeginRound += ArenaMissionController_BeginRound;
             On.RoR2.ArenaMissionController.EndRound += ArenaMissionController_EndRound;
@@ -284,6 +267,14 @@ namespace EnforcerPlugin {
             //On.RoR2.TeleportOutController.OnStartClient += TeleportOutController_OnStartClient;
             On.EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
             On.RoR2.EntityStateMachine.SetState += EntityStateMachine_SetState;
+            On.RoR2.DamageInfo.ModifyDamageInfo += DamageInfo_ModifyDamageInfo;
+        }
+
+        private void DamageInfo_ModifyDamageInfo(On.RoR2.DamageInfo.orig_ModifyDamageInfo orig, DamageInfo self, HurtBox.DamageModifier damageModifier) {
+            orig(self, damageModifier);
+            if(damageModifier == HurtBox.DamageModifier.Barrier) {
+                self.AddModdedDamageType(barrierDamageType);
+            }
         }
         #region Hooks
 
@@ -516,13 +507,26 @@ namespace EnforcerPlugin {
         {
             //nicely done brother
             for (int i = 0; i < newBodyPrefabs.Length; i++)
-            {
-                if (newBodyPrefabs[i].name == "EnforcerBody" && newBodyPrefabs[i] != characterBodyPrefab)
+            {                                                                             
+                if (newBodyPrefabs[i].name == "EnforcerBody" && newBodyPrefabs[i] != EnforcerSurvivor.instance.bodyPrefab)
                 {
                     newBodyPrefabs[i].name = "OldEnforcerBody";
                 }
             }
             orig(newBodyPrefabs);
+        }
+
+        private void ContentManager_SetContentPacks(On.RoR2.ContentManagement.ContentManager.orig_SetContentPacks orig, List<RoR2.ContentManagement.ReadOnlyContentPack> newContentPacks) {
+
+            for (int i = 0; i < newContentPacks.Count; i++) {
+                var contentPack = newContentPacks[i];
+                if (contentPack.identifier == "RoR2.Junk") {
+                    
+                    GameObject body = contentPack.bodyPrefabs.Find("EnforcerBody");
+                    body.name = "OldEnforcerBody";
+                }
+            }
+            orig(newContentPacks);
         }
 
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
@@ -561,12 +565,18 @@ namespace EnforcerPlugin {
                     self.armor -= 20f;
                     self.moveSpeed *= 0.25f;
                     self.attackSpeed *= 0.75f;
+                    if (!self.characterMotor.isGrounded) {
+                        self.characterMotor.velocity.y -= 10;
+                    }
                 }
 
                 if (self.HasBuff(Modules.Buffs.nemImpairedBuff))
                 {
                     self.maxJumpCount = 0;
                     self.moveSpeed *= 0.25f;
+                    if (!self.characterMotor.isGrounded) {
+                        self.characterMotor.velocity.y -= 10;
+                    }
                 }
 
                 if (self.HasBuff(Modules.Buffs.smallSlowBuff))
@@ -663,10 +673,7 @@ namespace EnforcerPlugin {
         {
             bool blocked = false;
 
-
-            bool unblockable = ((info.damageType & DamageType.BypassBlock) != DamageType.Generic);
-            if (!unblockable && self.body.baseNameToken == "ENFORCER_NAME")
-            {
+            if(DamageAPI.HasModdedDamageType(info,barrierDamageType) && self.body.baseNameToken == "ENFORCER_NAME") { 
                 blocked = true;
             }
 
@@ -933,574 +940,8 @@ namespace EnforcerPlugin {
         }
         #endregion
 
-        //private static GameObject CreateBodyModel(GameObject main)
-        //{
-        //    Destroy(main.transform.Find("ModelBase").gameObject);
-        //    Destroy(main.transform.Find("CameraPivot").gameObject);
-        //    Destroy(main.transform.Find("AimOrigin").gameObject);
 
-        //    return Assets.MainAssetBundle.LoadAsset<GameObject>("mdlEnforcer");
-        //}
-
-        //private static GameObject CreateDisplayModel()
-        //{
-        //    return Assets.MainAssetBundle.LoadAsset<GameObject>("EnforcerDisplay");
-        //}
-
-        //private static void CreateDisplayPrefab()
-        //{
-        //    GameObject model = CreateDisplayModel();
-
-        //    ChildLocator childLocator = model.GetComponent<ChildLocator>();
-
-        //    CharacterModel characterModel = model.AddComponent<CharacterModel>();
-        //    characterModel.body = null;
-
-        //    //let's set up rendereinfos in editor man
-        //    //for (int i = 0; i < characterModel.baseRendererInfos.Length; i++)
-        //    //{
-        //    //    CharacterModel.RendererInfo rendererInfo = characterModel.baseRendererInfos[i];
-            
-        //    //    rendererInfo.defaultMaterial = Assets.CloneMaterial(rendererInfo.defaultMaterial);
-        //    //}
-
-        //    characterModel.baseRendererInfos = new CharacterModel.RendererInfo[]
-        //    {
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            defaultMaterial = Assets.CreateMaterial("matEnforcerShield", 0f, Color.black, 1f),
-        //            renderer = childLocator.FindChild("ShieldModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = false
-        //        },
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            //not hotpoo shader for transparency
-        //            defaultMaterial = childLocator.FindChild("ShieldGlassModel").gameObject.GetComponent<SkinnedMeshRenderer>().material, //Assets.CreateMaterial("matSexforcerShieldGlass", 0f, Color.black, 1f),
-        //            renderer = childLocator.FindChild("ShieldGlassModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = true
-        //        },
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            defaultMaterial = Assets.CreateMaterial("matEnforcerBoard", 0f, Color.black, 1f),
-        //            renderer = childLocator.FindChild("SkamteBordModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = false
-        //        },
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            defaultMaterial = Assets.CreateMaterial("matEnforcerGun", 1f, Color.white, 0f),
-        //            renderer = childLocator.FindChild("GunModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = false
-        //        },
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.black, 0f),
-        //            renderer = childLocator.FindChild("SuperGunModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = false
-        //        },
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            defaultMaterial = Assets.CreateMaterial("matClassicGunHMG", 0f, Color.black, 0f),
-        //            renderer = childLocator.FindChild("HMGModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = false
-        //        },
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            defaultMaterial = Assets.CreateMaterial("matEnforcerHammer", 0f, Color.black, 0f),
-        //            renderer = childLocator.FindChild("HammerModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = false
-        //        },
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 0f),
-        //            renderer = childLocator.FindChild("PauldronModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = false
-        //        },
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 0f),
-        //            renderer = childLocator.FindChild("Model").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = false
-        //        }
-        //    };
-
-        //    characterModel.autoPopulateLightInfos = true;
-        //    characterModel.invisibilityCount = 0;
-        //    characterModel.temporaryOverlays = new List<TemporaryOverlay>();
-
-        //    characterModel.mainSkinnedMeshRenderer = characterModel.baseRendererInfos[8].renderer.gameObject.GetComponent<SkinnedMeshRenderer>();
-
-        //    characterDisplay = PrefabAPI.InstantiateClone(model, "EnforcerDisplay", true);
-
-        //    characterDisplay.AddComponent<MenuSoundComponent>();
-        //    characterDisplay.AddComponent<EnforcerLightController>();
-        //    characterDisplay.AddComponent<EnforcerLightControllerAlt>();
-
-        //    //i really wish this was set up in code rather than in the editor so we wouldn't have to build a new assetbundle and redo the components/events every time something on the prefab changes
-        //    //it's seriously tedious as fuck.
-        //    // just make it not tedious 4head
-        //    //   turns out addlistener doesn't even fuckin work so I actually can't set it up in code even if when I wanted to try the inferior way
-        //    //pain.
-        //    //but yea i tried it too and gave up so understandable
-
-        //    CharacterSelectSurvivorPreviewDisplayController displayController = characterDisplay.GetComponent<CharacterSelectSurvivorPreviewDisplayController>();
-
-        //    if (displayController) displayController.bodyPrefab = characterBodyPrefab;
-        //}
-
-        ////IS IT FINALLY GONE
-        ////IS IT FINALLY OVER
-        //private static void CreatePrefab()
-        //{
-        //    //...what?
-        //    // https://youtu.be/zRXl8Ow2bUs
-
-        //    #region add all the things
-        //    characterBodyPrefab = PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), "EnforcerBody");
-
-        //    characterBodyPrefab.GetComponent<NetworkIdentity>().localPlayerAuthority = true;
-
-        //    GameObject model = CreateBodyModel(characterBodyPrefab);
-
-        //    GameObject modelBase = new GameObject("ModelBase");
-        //    modelBase.transform.parent = characterBodyPrefab.transform;
-        //    modelBase.transform.localPosition = new Vector3(0f, -0.91f, 0f);
-        //    modelBase.transform.localRotation = Quaternion.identity;
-        //    modelBase.transform.localScale = Vector3.one;
-
-
-        //    GameObject cameraPivot = new GameObject("CameraPivot");
-        //    cameraPivot.transform.parent = modelBase.transform;
-        //    cameraPivot.transform.localPosition = new Vector3(0f, 0f, 0f);    //1.6
-        //    cameraPivot.transform.localRotation = Quaternion.identity;
-        //    cameraPivot.transform.localScale = Vector3.one;
-
-        //    GameObject aimOirign = new GameObject("AimOrigin");
-        //    aimOirign.transform.parent = modelBase.transform;
-        //    aimOirign.transform.localPosition = new Vector3(0f, 3f, 0f);    //1.8
-        //    aimOirign.transform.localRotation = Quaternion.identity;
-        //    aimOirign.transform.localScale = Vector3.one;
-
-        //    CharacterDirection characterDirection = characterBodyPrefab.GetComponent<CharacterDirection>();
-        //    characterDirection.moveVector = Vector3.zero;
-        //    characterDirection.targetTransform = modelBase.transform;
-        //    characterDirection.overrideAnimatorForwardTransform = null;
-        //    characterDirection.rootMotionAccumulator = null;
-        //    characterDirection.modelAnimator = model.GetComponentInChildren<Animator>();
-        //    characterDirection.driveFromRootRotation = false;
-        //    characterDirection.turnSpeed = 720f;
-
-        //    CharacterBody bodyComponent = characterBodyPrefab.GetComponent<CharacterBody>();
-        //    bodyComponent.name = "EnforcerBody";
-        //    bodyComponent.baseNameToken = "ENFORCER_NAME";
-        //    bodyComponent.subtitleNameToken = "ENFORCER_SUBTITLE";
-        //    bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
-        //    bodyComponent.rootMotionInMainState = false;
-        //    bodyComponent.mainRootSpeed = 0;
-        //    bodyComponent.baseMaxHealth = Modules.Config.baseHealth.Value;
-        //    bodyComponent.levelMaxHealth = Modules.Config.healthGrowth.Value;
-        //    bodyComponent.baseRegen = Modules.Config.baseRegen.Value;
-        //    bodyComponent.levelRegen = Modules.Config.regenGrowth.Value;
-        //    bodyComponent.baseMaxShield = 0;
-        //    bodyComponent.levelMaxShield = 0;
-        //    bodyComponent.baseMoveSpeed = Modules.Config.baseMovementSpeed.Value;
-        //    bodyComponent.levelMoveSpeed = 0;
-        //    bodyComponent.baseAcceleration = 80;
-        //    bodyComponent.baseJumpPower = 15;
-        //    bodyComponent.levelJumpPower = 0;
-        //    bodyComponent.baseDamage = Modules.Config.baseDamage.Value;
-        //    bodyComponent.levelDamage = Modules.Config.damageGrowth.Value;
-        //    bodyComponent.baseAttackSpeed = 1;
-        //    bodyComponent.levelAttackSpeed = 0;
-        //    bodyComponent.baseCrit = Modules.Config.baseCrit.Value;
-        //    bodyComponent.levelCrit = 0;
-        //    bodyComponent.baseArmor = Modules.Config.baseArmor.Value;
-        //    bodyComponent.levelArmor = Modules.Config.armorGrowth.Value;
-        //    bodyComponent.baseJumpCount = 1;
-        //    bodyComponent.sprintingSpeedMultiplier = 1.45f;
-        //    bodyComponent.wasLucky = false;
-        //    bodyComponent.hideCrosshair = false;
-        //    bodyComponent.crosshairPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
-        //    bodyComponent.aimOriginTransform = aimOirign.transform;
-        //    bodyComponent.hullClassification = HullClassification.Human;
-        //    bodyComponent.portraitIcon = Assets.charPortrait;
-        //    bodyComponent.isChampion = false;
-        //    bodyComponent.currentVehicle = null;
-        //    bodyComponent.skinIndex = 0U;
-        //    bodyComponent.bodyColor = characterColor;
-        //    bodyComponent.spreadBloomDecayTime = 0.7f;
-            
-        //    Modules.States.AddSkill(typeof(EnforcerMain));
-        //    Modules.States.AddSkill(typeof(FireNeedler));
-
-        //    EntityStateMachine stateMachine = bodyComponent.GetComponent<EntityStateMachine>();
-        //    stateMachine.mainStateType = new SerializableEntityStateType(typeof(EnforcerMain));
-
-        //                                                   //why
-        //                                                   //in the god damn fuck
-        //                                                   //did AddComponent default to an extension coming from the fucking starstorm dll
-        //    EntityStateMachine octagonapus = bodyComponent.gameObject.AddComponent<EntityStateMachine>();
-
-        //    octagonapus.customName = "EnforcerParry";
-
-        //    NetworkStateMachine networkStateMachine = bodyComponent.GetComponent<NetworkStateMachine>();
-        //    networkStateMachine.stateMachines = networkStateMachine.stateMachines.Append(octagonapus).ToArray();
-
-        //    SerializableEntityStateType idleState = new SerializableEntityStateType(typeof(Idle));
-        //    octagonapus.initialStateType = idleState;
-        //    octagonapus.mainStateType = idleState;
-
-        //    #region say your fuckin prayers
-
-        //    CharacterMotor characterMotor = characterBodyPrefab.GetComponent<CharacterMotor>();
-        //    characterMotor.walkSpeedPenaltyCoefficient = 1f;
-        //    characterMotor.characterDirection = characterDirection;
-        //    characterMotor.muteWalkMotion = false;
-        //    characterMotor.mass = 200f;
-        //    characterMotor.airControl = 0.25f;
-        //    characterMotor.disableAirControlUntilCollision = false;
-        //    characterMotor.generateParametersOnAwake = true;
-
-        //    CameraTargetParams cameraTargetParams = characterBodyPrefab.GetComponent<CameraTargetParams>();
-        //    cameraTargetParams.cameraParams = ScriptableObject.CreateInstance<CharacterCameraParams>();
-        //    cameraTargetParams.cameraParams.maxPitch = 70;
-        //    cameraTargetParams.cameraParams.minPitch = -70;
-        //    cameraTargetParams.cameraParams.wallCushion = 0.1f;
-        //    cameraTargetParams.cameraParams.pivotVerticalOffset = 1.37f;
-        //    cameraTargetParams.cameraParams.standardLocalCameraPos = EnforcerMain.standardCameraPosition;
-
-        //    cameraTargetParams.cameraPivotTransform = null;
-        //    cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
-        //    cameraTargetParams.recoil = Vector2.zero;
-        //    cameraTargetParams.idealLocalCameraPos = Vector3.zero;
-        //    cameraTargetParams.dontRaycastToPivot = false;
-
-        //    model.transform.parent = modelBase.transform;
-        //    model.transform.localPosition = Vector3.zero;
-        //    model.transform.localRotation = Quaternion.identity;
-
-        //    ModelLocator modelLocator = characterBodyPrefab.GetComponent<ModelLocator>();
-        //    modelLocator.modelTransform = model.transform;
-        //    modelLocator.modelBaseTransform = modelBase.transform;
-
-        //    ChildLocator childLocator = model.GetComponent<ChildLocator>();
-
-        //    //bubble shield stuff
-
-        //    /*GameObject engiShieldObj = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Projectiles/EngiBubbleShield");
-
-        //    Material shieldFillMat = UnityEngine.Object.Instantiate<Material>(engiShieldObj.transform.Find("Collision").Find("ActiveVisual").GetComponent<MeshRenderer>().material);
-        //    childLocator.FindChild("BungusShieldFill").GetComponent<MeshRenderer>().material = shieldFillMat;
-
-        //    Material shieldOuterMat = UnityEngine.Object.Instantiate<Material>(engiShieldObj.transform.Find("Collision").Find("ActiveVisual").Find("Edge").GetComponent<MeshRenderer>().material);
-        //    childLocator.FindChild("BungusShieldOutline").GetComponent<MeshRenderer>().material = shieldOuterMat;*/
-
-        //    /*Material marauderShieldFillMat = UnityEngine.Object.Instantiate<Material>(shieldFillMat);
-        //    marauderShieldFillMat.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matMarauderShield").GetTexture("_MainTex"));
-        //    marauderShieldFillMat.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matMarauderShield").GetTexture("_EmissionMap"));
-        //    childLocator.FindChild("MarauderShieldFill").GetComponent<MeshRenderer>().material = marauderShieldFillMat;
-
-        //    Material marauderShieldOuterMat = UnityEngine.Object.Instantiate<Material>(shieldOuterMat);
-        //    marauderShieldOuterMat.SetTexture("_MainTex", Assets.MainAssetBundle.LoadAsset<Material>("matMarauderShield").GetTexture("_MainTex"));
-        //    marauderShieldOuterMat.SetTexture("_EmTex", Assets.MainAssetBundle.LoadAsset<Material>("matMarauderShield").GetTexture("_EmissionMap"));
-        //    childLocator.FindChild("MarauderShieldOutline").GetComponent<MeshRenderer>().material = marauderShieldOuterMat;*/
-
-        //    /*var stuff1 = childLocator.FindChild("BungusShieldFill").gameObject.AddComponent<AnimateShaderAlpha>();
-        //    var stuff2 = engiShieldObj.transform.Find("Collision").Find("ActiveVisual").GetComponent<AnimateShaderAlpha>();
-        //    stuff1.alphaCurve = stuff2.alphaCurve;
-        //    stuff1.decal = stuff2.decal;
-        //    stuff1.destroyOnEnd = false;
-        //    stuff1.disableOnEnd = false;
-        //    stuff1.time = 0;
-        //    stuff1.timeMax = 0.6f;*/
-        //    #endregion say your fuckin prayers
-
-        //    //childLocator.FindChild("BungusShieldFill").gameObject.AddComponent<ObjectScaleCurve>().timeMax = 0.3f;
-        //    CharacterModel characterModel = model.AddComponent<CharacterModel>();
-        //    characterModel.body = bodyComponent;
-        //    characterModel.baseRendererInfos = new CharacterModel.RendererInfo[]
-        //    {
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            defaultMaterial = Assets.CreateMaterial("matEnforcerShield", 0f, Color.black, 1f),
-        //            renderer = childLocator.FindChild("ShieldModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = false
-        //        },
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            //not hotpoo shader for transparency
-        //            defaultMaterial = childLocator.FindChild("ShieldGlassModel").gameObject.GetComponent<SkinnedMeshRenderer>().material, //Assets.CreateMaterial("matSexforcerShieldGlass", 0f, Color.black, 1f),
-        //            renderer = childLocator.FindChild("ShieldGlassModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = true
-        //        },
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            defaultMaterial = Assets.CreateMaterial("matEnforcerBoard", 0f, Color.black, 1f),
-        //            renderer = childLocator.FindChild("SkamteBordModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = false
-        //        },
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            defaultMaterial = Assets.CreateMaterial("matEnforcerGun", 1f, Color.white, 0f),
-        //            renderer = childLocator.FindChild("GunModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = false
-        //        },
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.black, 0f),
-        //            renderer = childLocator.FindChild("SuperGunModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = false
-        //        },
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            defaultMaterial = Assets.CreateMaterial("matClassicGunHMG", 0f, Color.black, 0f),
-        //            renderer = childLocator.FindChild("HMGModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = false
-        //        },
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            defaultMaterial = Assets.CreateMaterial("matEnforcerHammer", 0f, Color.black, 0f),
-        //            renderer = childLocator.FindChild("HammerModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = false
-        //        },
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 0f),
-        //            renderer = childLocator.FindChild("PauldronModel").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = false
-        //        },
-        //        new CharacterModel.RendererInfo
-        //        {
-        //            defaultMaterial = Assets.CreateMaterial("matEnforcer", 1f, Color.white, 0f),
-        //            renderer = childLocator.FindChild("Model").gameObject.GetComponent<SkinnedMeshRenderer>(),
-        //            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-        //            ignoreOverlays = false
-        //        }
-        //    };
-        //    characterModel.autoPopulateLightInfos = true;
-        //    characterModel.invisibilityCount = 0;
-        //    characterModel.temporaryOverlays = new List<TemporaryOverlay>();
-
-        //    characterModel.mainSkinnedMeshRenderer = childLocator.FindChild("Model").gameObject.GetComponent<SkinnedMeshRenderer>();
-
-        //    if (IDPHelperInstalled) {
-        //        characterModel.gameObject.AddComponent<EnforcerItemDisplayEditorComponent>();
-        //    }
-
-        //    childLocator.FindChild("Chair").GetComponent<MeshRenderer>().material = Assets.CreateMaterial("matChair", 0f, Color.black, 0f);
-
-        //    //fuck man
-        //    childLocator.FindChild("Head").transform.localScale = Vector3.one * Modules.Config.headSize.Value;
-
-        //    #region more prayers bitch
-        //    HealthComponent healthComponent = characterBodyPrefab.GetComponent<HealthComponent>();
-        //    healthComponent.health = 160f;
-        //    healthComponent.shield = 0f;
-        //    healthComponent.barrier = 0f;
-        //    healthComponent.magnetiCharge = 0f;
-        //    healthComponent.body = null;
-        //    healthComponent.dontShowHealthbar = false;
-        //    healthComponent.globalDeathEventChanceCoefficient = 1f;
-
-        //    CharacterDeathBehavior characterDeathBehavior = characterBodyPrefab.GetComponent<CharacterDeathBehavior>();
-        //    characterDeathBehavior.deathStateMachine = characterBodyPrefab.GetComponent<EntityStateMachine>();
-        //    //characterDeathBehavior.deathState = new SerializableEntityStateType(typeof(GenericCharacterDeath));
-
-        //    SfxLocator sfxLocator = characterBodyPrefab.GetComponent<SfxLocator>();
-        //    sfxLocator.deathSound = Sounds.DeathSound;
-        //    sfxLocator.barkSound = "";
-        //    sfxLocator.openSound = "";
-        //    sfxLocator.landingSound = "Play_char_land";
-        //    sfxLocator.fallDamageSound = "Play_char_land_fall_damage";
-        //    sfxLocator.aliveLoopStart = "";
-        //    sfxLocator.aliveLoopStop = "";
-
-        //    Rigidbody rigidbody = characterBodyPrefab.GetComponent<Rigidbody>();
-        //    rigidbody.mass = 200f;
-        //    rigidbody.drag = 0f;
-        //    rigidbody.angularDrag = 0f;
-        //    rigidbody.useGravity = false;
-        //    rigidbody.isKinematic = true;
-        //    rigidbody.interpolation = RigidbodyInterpolation.None;
-        //    rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
-        //    rigidbody.constraints = RigidbodyConstraints.None;
-
-        //    CapsuleCollider capsuleCollider = characterBodyPrefab.GetComponent<CapsuleCollider>();
-        //    capsuleCollider.isTrigger = false;
-        //    capsuleCollider.material = null;
-        //    capsuleCollider.center = new Vector3(0f, 0f, 0f);
-        //    capsuleCollider.radius = 0.9f;
-        //    capsuleCollider.height = 1.82f;
-        //    capsuleCollider.direction = 1;
-
-        //    KinematicCharacterMotor kinematicCharacterMotor = characterBodyPrefab.GetComponent<KinematicCharacterMotor>();
-        //    kinematicCharacterMotor.CharacterController = characterMotor;
-        //    kinematicCharacterMotor.Capsule = capsuleCollider;
-        //    kinematicCharacterMotor.Rigidbody = rigidbody;
-
-        //    kinematicCharacterMotor.DetectDiscreteCollisions = false;
-        //    kinematicCharacterMotor.GroundDetectionExtraDistance = 0f;
-        //    kinematicCharacterMotor.MaxStepHeight = 0.2f;
-        //    kinematicCharacterMotor.MinRequiredStepDepth = 0.1f;
-        //    kinematicCharacterMotor.MaxStableSlopeAngle = 55f;
-        //    kinematicCharacterMotor.MaxStableDistanceFromLedge = 0.5f;
-        //    kinematicCharacterMotor.PreventSnappingOnLedges = false;
-        //    kinematicCharacterMotor.MaxStableDenivelationAngle = 55f;
-        //    kinematicCharacterMotor.RigidbodyInteractionType = RigidbodyInteractionType.None;
-        //    kinematicCharacterMotor.PreserveAttachedRigidbodyMomentum = true;
-        //    kinematicCharacterMotor.HasPlanarConstraint = false;
-        //    kinematicCharacterMotor.PlanarConstraintAxis = Vector3.up;
-        //    kinematicCharacterMotor.StepHandling = StepHandlingMethod.None;
-        //    kinematicCharacterMotor.LedgeHandling = true;
-        //    kinematicCharacterMotor.InteractiveRigidbodyHandling = true;
-        //    kinematicCharacterMotor.SafeMovement = false;
-        //    #endregion more prayers bitch
-
-        //    HurtBoxGroup hurtBoxGroup = model.AddComponent<HurtBoxGroup>();
-
-        //    HurtBox mainHurtbox = model.transform.Find("MainHurtbox").gameObject.AddComponent<HurtBox>();
-        //    mainHurtbox.gameObject.layer = LayerIndex.entityPrecise.intVal;
-        //    mainHurtbox.healthComponent = healthComponent;
-        //    mainHurtbox.isBullseye = true;
-        //    mainHurtbox.damageModifier = HurtBox.DamageModifier.Normal;
-        //    mainHurtbox.hurtBoxGroup = hurtBoxGroup;
-        //    mainHurtbox.indexInGroup = 0;
-
-        //    //make a hurtbox for the shield since this works apparently !
-        //    HurtBox shieldHurtbox = childLocator.FindChild("ShieldHurtbox").gameObject.AddComponent<HurtBox>();
-        //    shieldHurtbox.gameObject.layer = LayerIndex.entityPrecise.intVal;
-        //    shieldHurtbox.healthComponent = healthComponent;
-        //    shieldHurtbox.isBullseye = false;
-        //    shieldHurtbox.damageModifier = HurtBox.DamageModifier.Barrier;
-        //    shieldHurtbox.hurtBoxGroup = hurtBoxGroup;
-        //    shieldHurtbox.indexInGroup = 1;
-
-        //    HurtBox shieldHurtbox2 = childLocator.FindChild("ShieldHurtbox2").gameObject.AddComponent<HurtBox>();
-        //    shieldHurtbox2.gameObject.layer = LayerIndex.entityPrecise.intVal;
-        //    shieldHurtbox2.healthComponent = healthComponent;
-        //    shieldHurtbox2.isBullseye = false;
-        //    shieldHurtbox2.damageModifier = HurtBox.DamageModifier.Barrier;
-        //    shieldHurtbox2.hurtBoxGroup = hurtBoxGroup;
-        //    shieldHurtbox2.indexInGroup = 1;
-
-        //    childLocator.FindChild("ShieldHurtboxParent").gameObject.SetActive(false);
-
-        //    hurtBoxGroup.hurtBoxes = new HurtBox[]
-        //    {
-        //        mainHurtbox,
-        //        shieldHurtbox,
-        //        shieldHurtbox2
-        //    };
-
-        //    hurtBoxGroup.mainHurtBox = mainHurtbox;
-        //    hurtBoxGroup.bullseyeCount = 1;
-
-        //    //make a hitbox for shoulder bash
-        //    HitBoxGroup hitBoxGroup = model.AddComponent<HitBoxGroup>();
-
-        //    GameObject chargeHitbox = childLocator.FindChild("ChargeHitbox").gameObject;
-        //    HitBox hitBox = chargeHitbox.AddComponent<HitBox>();
-        //    chargeHitbox.layer = LayerIndex.projectile.intVal;
-
-        //    hitBoxGroup.hitBoxes = new HitBox[]
-        //    {
-        //        hitBox
-        //    };
-
-        //    hitBoxGroup.groupName = "Charge";
-
-        //    //hammer hitbox
-        //    HitBoxGroup hammerHitBoxGroup = model.AddComponent<HitBoxGroup>();
-
-        //    GameObject hammerHitbox = childLocator.FindChild("ActualHammerHitbox").gameObject;
-
-        //    HitBox hammerHitBox = hammerHitbox.AddComponent<HitBox>();
-        //    hammerHitbox.layer = LayerIndex.projectile.intVal;
-
-        //    hammerHitBoxGroup.hitBoxes = new HitBox[] 
-        //    {
-        //        hammerHitBox
-        //    };
-
-        //    hammerHitBoxGroup.groupName = "Hammer";
-
-        //    //hammer hitbox2
-        //    HitBoxGroup hammerHitBoxGroup2 = model.AddComponent<HitBoxGroup>();
-
-        //    GameObject hammerHitbox2 = childLocator.FindChild("HammerHitboxBig").gameObject;
-            
-        //    HitBox hammerHitBox2 = hammerHitbox2.AddComponent<HitBox>();
-        //    hammerHitbox2.layer = LayerIndex.projectile.intVal;
-
-        //    hammerHitBoxGroup2.hitBoxes = new HitBox[]
-        //    {
-        //        hammerHitBox2
-        //    };
-
-        //    hammerHitBoxGroup2.groupName = "HammerBig";
-        //    #region man there's a lot of these huh
-        //    FootstepHandler footstepHandler = model.AddComponent<FootstepHandler>();
-        //    footstepHandler.baseFootstepString = "Play_player_footstep";
-        //    footstepHandler.sprintFootstepOverrideString = "";
-        //    footstepHandler.enableFootstepDust = true;
-        //    footstepHandler.footstepDustPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/GenericFootstepDust");
-
-        //    RagdollController ragdollController = model.GetComponent<RagdollController>();
-
-        //    PhysicMaterial physicMat = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<RagdollController>().bones[1].GetComponent<Collider>().material;
-
-        //    foreach (Transform i in ragdollController.bones)
-        //    {
-        //        if (i)
-        //        {
-        //            i.gameObject.layer = LayerIndex.ragdoll.intVal;
-
-        //            Collider j = i.GetComponent<Collider>();
-        //            if (j)
-        //            {
-        //                j.material = physicMat;
-        //                j.sharedMaterial = physicMat;
-        //            }
-        //        }
-        //    }
-
-        //    AimAnimator aimAnimator = model.AddComponent<AimAnimator>();
-        //    aimAnimator.directionComponent = characterDirection;
-        //    aimAnimator.pitchRangeMax = 60f;
-        //    aimAnimator.pitchRangeMin = -60f;
-        //    aimAnimator.yawRangeMin = -90f;
-        //    aimAnimator.yawRangeMax = 90f;
-        //    aimAnimator.pitchGiveupRange = 30f;
-        //    aimAnimator.yawGiveupRange = 10f;
-        //    aimAnimator.giveupDuration = 3f;
-        //    aimAnimator.inputBank = characterBodyPrefab.GetComponent<InputBankTest>();
-        //    #endregion
-
-        //    characterBodyPrefab.AddComponent<EnforcerComponent>();
-        //    characterBodyPrefab.AddComponent<EnforcerWeaponComponent>();
-        //    characterBodyPrefab.AddComponent<EnforcerNetworkComponent>();
-        //    characterBodyPrefab.AddComponent<EnforcerLightController>();
-        //    characterBodyPrefab.AddComponent<EnforcerLightControllerAlt>();
-
-        //    #endregion
-        //}
-
+        #region projectiles and effects
         private void RegisterProjectile()
         {
             //i'm the treasure, baby, i'm the prize, i'm yours forever
@@ -1831,12 +1272,13 @@ namespace EnforcerPlugin {
 
             if (!hammerSlamEffect.GetComponent<NetworkIdentity>()) hammerSlamEffect.AddComponent<NetworkIdentity>();
 
-            projectilePrefabs.Add(tearGasProjectilePrefab);
-            projectilePrefabs.Add(damageGasProjectile);
-            projectilePrefabs.Add(tearGasPrefab);
-            projectilePrefabs.Add(damageGasEffect);
-            projectilePrefabs.Add(stunGrenade);
-            projectilePrefabs.Add(shockGrenade);
+            Modules.Content.AddProjectilePrefab(tearGasProjectilePrefab,
+                                                damageGasProjectile,
+                                                tearGasPrefab,
+                                                damageGasEffect,
+                                                stunGrenade,
+                                                shockGrenade);
+
 
             Modules.Effects.AddEffect(bulletTracer);
             Modules.Effects.AddEffect(bulletTracerSSG);
@@ -1853,7 +1295,7 @@ namespace EnforcerPlugin {
             EffectComponent ec = effect.GetComponent<EffectComponent>();
             ec.applyScale = true;
             ec.soundName = "Play_item_use_lighningArm"; //This typo is in the game.
-            Modules.Effects.effectDefs.Add(new EffectDef(effect));
+            Modules.Content.AddEffectDef(new EffectDef(effect));
 
             return effect;
         }
@@ -1890,452 +1332,6 @@ namespace EnforcerPlugin {
             Destroy(needlerCrosshair.transform.GetChild(0).gameObject);
             Destroy(needlerCrosshair.transform.GetChild(1).gameObject);
         }
-
-        private void CreateDoppelganger()
-        {
-            doppelganger = PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/MercMonsterMaster"), "EnforcerMonsterMaster");
-
-            foreach (AISkillDriver ai in doppelganger.GetComponentsInChildren<AISkillDriver>())
-            {
-                BaseUnityPlugin.DestroyImmediate(ai);
-            }
-
-            BaseAI baseAI = doppelganger.GetComponent<BaseAI>();
-            baseAI.aimVectorMaxSpeed = 60;
-            baseAI.aimVectorDampTime = 0.15f;
-
-            AISkillDriver exitShieldDriver = doppelganger.AddComponent<AISkillDriver>();
-            exitShieldDriver.customName = "ExitShield";
-            exitShieldDriver.movementType = AISkillDriver.MovementType.Stop;
-            exitShieldDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
-            exitShieldDriver.activationRequiresAimConfirmation = false;
-            exitShieldDriver.activationRequiresTargetLoS = false;
-            exitShieldDriver.selectionRequiresTargetLoS = false;
-            exitShieldDriver.maxDistance = 512f;
-            exitShieldDriver.minDistance = 45f;
-            exitShieldDriver.requireSkillReady = true;
-            exitShieldDriver.aimType = AISkillDriver.AimType.MoveDirection;
-            exitShieldDriver.ignoreNodeGraph = false;
-            exitShieldDriver.moveInputScale = 1f;
-            exitShieldDriver.driverUpdateTimerOverride = 0.5f;
-            exitShieldDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
-            exitShieldDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
-            exitShieldDriver.maxTargetHealthFraction = Mathf.Infinity;
-            exitShieldDriver.minUserHealthFraction = Mathf.NegativeInfinity;
-            exitShieldDriver.maxUserHealthFraction = Mathf.Infinity;
-            exitShieldDriver.skillSlot = SkillSlot.Special;
-            exitShieldDriver.requiredSkill = shieldOutDef;
-
-            /*AISkillDriver grenadeDriver = doppelganger.AddComponent<AISkillDriver>();
-            grenadeDriver.customName = "ThrowGrenade";
-            grenadeDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
-            grenadeDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
-            grenadeDriver.activationRequiresAimConfirmation = true;
-            grenadeDriver.activationRequiresTargetLoS = false;
-            grenadeDriver.selectionRequiresTargetLoS = true;
-            grenadeDriver.requireSkillReady = true;
-            grenadeDriver.maxDistance = 64f;
-            grenadeDriver.minDistance = 0f;
-            grenadeDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
-            grenadeDriver.ignoreNodeGraph = false;
-            grenadeDriver.moveInputScale = 1f;
-            grenadeDriver.driverUpdateTimerOverride = 0.5f;
-            grenadeDriver.buttonPressType = AISkillDriver.ButtonPressType.TapContinuous;
-            grenadeDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
-            grenadeDriver.maxTargetHealthFraction = Mathf.Infinity;
-            grenadeDriver.minUserHealthFraction = Mathf.NegativeInfinity;
-            grenadeDriver.maxUserHealthFraction = Mathf.Infinity;
-            grenadeDriver.skillSlot = SkillSlot.Utility;*/
-
-            AISkillDriver shoulderBashDriver = doppelganger.AddComponent<AISkillDriver>();
-            shoulderBashDriver.customName = "ShoulderBash";
-            shoulderBashDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
-            shoulderBashDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
-            shoulderBashDriver.activationRequiresAimConfirmation = true;
-            shoulderBashDriver.activationRequiresTargetLoS = false;
-            shoulderBashDriver.selectionRequiresTargetLoS = true;
-            shoulderBashDriver.maxDistance = 6f;
-            shoulderBashDriver.minDistance = 0f;
-            shoulderBashDriver.requireSkillReady = true;
-            shoulderBashDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
-            shoulderBashDriver.ignoreNodeGraph = true;
-            shoulderBashDriver.moveInputScale = 1f;
-            shoulderBashDriver.driverUpdateTimerOverride = 2f;
-            shoulderBashDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
-            shoulderBashDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
-            shoulderBashDriver.maxTargetHealthFraction = Mathf.Infinity;
-            shoulderBashDriver.minUserHealthFraction = Mathf.NegativeInfinity;
-            shoulderBashDriver.maxUserHealthFraction = Mathf.Infinity;
-            shoulderBashDriver.skillSlot = SkillSlot.Secondary;
-            //shoulderBashDriver.requiredSkill = shieldDownDef;
-            shoulderBashDriver.shouldSprint = true;
-
-            /*AISkillDriver shoulderBashPrepDriver = doppelganger.AddComponent<AISkillDriver>();
-            shoulderBashPrepDriver.customName = "ShoulderBashPrep";
-            shoulderBashPrepDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
-            shoulderBashPrepDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
-            shoulderBashPrepDriver.activationRequiresAimConfirmation = true;
-            shoulderBashPrepDriver.activationRequiresTargetLoS = false;
-            shoulderBashPrepDriver.selectionRequiresTargetLoS = false;
-            shoulderBashPrepDriver.maxDistance = 12f;
-            shoulderBashPrepDriver.minDistance = 0f;
-            shoulderBashPrepDriver.requireSkillReady = true;
-            shoulderBashPrepDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
-            shoulderBashPrepDriver.ignoreNodeGraph = true;
-            shoulderBashPrepDriver.moveInputScale = 1f;
-            shoulderBashPrepDriver.driverUpdateTimerOverride = -1f;
-            shoulderBashPrepDriver.buttonPressType = AISkillDriver.ButtonPressType.Abstain;
-            shoulderBashPrepDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
-            shoulderBashPrepDriver.maxTargetHealthFraction = Mathf.Infinity;
-            shoulderBashPrepDriver.minUserHealthFraction = Mathf.NegativeInfinity;
-            shoulderBashPrepDriver.maxUserHealthFraction = Mathf.Infinity;
-            shoulderBashPrepDriver.skillSlot = SkillSlot.Secondary;
-            //shoulderBashPrepDriver.requiredSkill = shieldDownDef;
-            shoulderBashPrepDriver.shouldSprint = true;*/
-
-            AISkillDriver swapToMinigunDriver = doppelganger.AddComponent<AISkillDriver>();
-            swapToMinigunDriver.customName = "EnterShield";
-            swapToMinigunDriver.movementType = AISkillDriver.MovementType.Stop;
-            swapToMinigunDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
-            swapToMinigunDriver.activationRequiresAimConfirmation = false;
-            swapToMinigunDriver.activationRequiresTargetLoS = false;
-            swapToMinigunDriver.selectionRequiresTargetLoS = false;
-            swapToMinigunDriver.maxDistance = 30f;
-            swapToMinigunDriver.minDistance = 0f;
-            swapToMinigunDriver.requireSkillReady = true;
-            swapToMinigunDriver.aimType = AISkillDriver.AimType.MoveDirection;
-            swapToMinigunDriver.ignoreNodeGraph = true;
-            swapToMinigunDriver.moveInputScale = 1f;
-            swapToMinigunDriver.driverUpdateTimerOverride = -1f;
-            swapToMinigunDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
-            swapToMinigunDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
-            swapToMinigunDriver.maxTargetHealthFraction = Mathf.Infinity;
-            swapToMinigunDriver.minUserHealthFraction = Mathf.NegativeInfinity;
-            swapToMinigunDriver.maxUserHealthFraction = Mathf.Infinity;
-            swapToMinigunDriver.skillSlot = SkillSlot.Special;
-            swapToMinigunDriver.requiredSkill = shieldInDef;
-
-            AISkillDriver shieldBashDriver = doppelganger.AddComponent<AISkillDriver>();
-            shieldBashDriver.customName = "ShieldBash";
-            shieldBashDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
-            shieldBashDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
-            shieldBashDriver.activationRequiresAimConfirmation = false;
-            shieldBashDriver.activationRequiresTargetLoS = false;
-            shieldBashDriver.selectionRequiresTargetLoS = false;
-            shieldBashDriver.maxDistance = 6f;
-            shieldBashDriver.minDistance = 0f;
-            shieldBashDriver.requireSkillReady = true;
-            shieldBashDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
-            shieldBashDriver.ignoreNodeGraph = true;
-            shieldBashDriver.moveInputScale = 1f;
-            shieldBashDriver.driverUpdateTimerOverride = -1f;
-            shieldBashDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
-            shieldBashDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
-            shieldBashDriver.maxTargetHealthFraction = Mathf.Infinity;
-            shieldBashDriver.minUserHealthFraction = Mathf.NegativeInfinity;
-            shieldBashDriver.maxUserHealthFraction = Mathf.Infinity;
-            shieldBashDriver.skillSlot = SkillSlot.Secondary;
-            //shieldBashDriver.requiredSkill = shieldUpDef;
-
-            AISkillDriver shieldFireDriver = doppelganger.AddComponent<AISkillDriver>();
-            shieldFireDriver.customName = "StandAndShoot";
-            shieldFireDriver.movementType = AISkillDriver.MovementType.Stop;
-            shieldFireDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
-            shieldFireDriver.activationRequiresAimConfirmation = true;
-            shieldFireDriver.activationRequiresTargetLoS = false;
-            shieldFireDriver.selectionRequiresTargetLoS = false;
-            shieldFireDriver.maxDistance = 16f;
-            shieldFireDriver.minDistance = 0f;
-            shieldFireDriver.requireSkillReady = true;
-            shieldFireDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
-            shieldFireDriver.ignoreNodeGraph = true;
-            shieldFireDriver.moveInputScale = 1f;
-            shieldFireDriver.driverUpdateTimerOverride = -1f;
-            shieldFireDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
-            shieldFireDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
-            shieldFireDriver.maxTargetHealthFraction = Mathf.Infinity;
-            shieldFireDriver.minUserHealthFraction = Mathf.NegativeInfinity;
-            shieldFireDriver.maxUserHealthFraction = Mathf.Infinity;
-            shieldFireDriver.skillSlot = SkillSlot.Primary;
-            //shieldFireDriver.requiredSkill = shieldUpDef;
-
-            AISkillDriver noShieldFireDriver = doppelganger.AddComponent<AISkillDriver>();
-            noShieldFireDriver.customName = "StrafeAndShoot";
-            noShieldFireDriver.movementType = AISkillDriver.MovementType.StrafeMovetarget;
-            noShieldFireDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
-            noShieldFireDriver.activationRequiresAimConfirmation = true;
-            noShieldFireDriver.activationRequiresTargetLoS = false;
-            noShieldFireDriver.selectionRequiresTargetLoS = false;
-            noShieldFireDriver.maxDistance = 40f;
-            noShieldFireDriver.minDistance = 8f;
-            noShieldFireDriver.requireSkillReady = true;
-            noShieldFireDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
-            noShieldFireDriver.ignoreNodeGraph = false;
-            noShieldFireDriver.moveInputScale = 1f;
-            noShieldFireDriver.driverUpdateTimerOverride = -1f;
-            noShieldFireDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
-            noShieldFireDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
-            noShieldFireDriver.maxTargetHealthFraction = Mathf.Infinity;
-            noShieldFireDriver.minUserHealthFraction = Mathf.NegativeInfinity;
-            noShieldFireDriver.maxUserHealthFraction = Mathf.Infinity;
-            noShieldFireDriver.skillSlot = SkillSlot.Primary;
-            //noShieldFireDriver.requiredSkill = shieldDownDef;
-
-            AISkillDriver followDriver = doppelganger.AddComponent<AISkillDriver>();
-            followDriver.customName = "Chase";
-            followDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
-            followDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
-            followDriver.activationRequiresAimConfirmation = false;
-            followDriver.activationRequiresTargetLoS = false;
-            followDriver.maxDistance = Mathf.Infinity;
-            followDriver.minDistance = 0f;
-            followDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
-            followDriver.ignoreNodeGraph = false;
-            followDriver.moveInputScale = 1f;
-            followDriver.driverUpdateTimerOverride = -1f;
-            followDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
-            followDriver.minTargetHealthFraction = Mathf.NegativeInfinity;
-            followDriver.maxTargetHealthFraction = Mathf.Infinity;
-            followDriver.minUserHealthFraction = Mathf.NegativeInfinity;
-            followDriver.maxUserHealthFraction = Mathf.Infinity;
-            followDriver.skillSlot = SkillSlot.None;
-
-            masterPrefabs.Add(doppelganger);
-
-            CharacterMaster master = doppelganger.GetComponent<CharacterMaster>();
-            master.bodyPrefab = characterBodyPrefab;
-        }
-
-        //add modifiers to your voids please 
-        // no go fuck yourself :^)
-        // suck my dick 
-
-        //private void SkillSetup()
-        //{
-        //    foreach (GenericSkill obj in characterBodyPrefab.GetComponentsInChildren<GenericSkill>())
-        //    {
-        //        BaseUnityPlugin.DestroyImmediate(obj);
-        //    }
-
-        //    _skillLocator = characterBodyPrefab.GetComponent<SkillLocator>();
-        //    _previewController = characterDisplay.GetComponent<CharacterSelectSurvivorPreviewDisplayController>();
-
-        //    PrimarySetup();
-        //    SecondarySetup();
-        //    UtilitySetup();
-        //    SpecialSetup();
-
-        //    CSSPreviewSetup();
-        //}
-
-        #region skillSetups
-
-        //private void PrimarySetup()
-        //{
-
-        //    SkillDef primaryDef1 = PrimarySkillDef_RiotShotgun();
-        //    Modules.Skills.RegisterSkillDef(primaryDef1, typeof(RiotShotgun));
-
-        //    SkillDef primaryDef2 = PrimarySkillDef_SuperShotgun();
-        //    Modules.Skills.RegisterSkillDef(primaryDef2, typeof(SuperShotgun2));
-
-        //    SkillDef primaryDef3 = PrimarySkillDef_AssaultRifle();
-        //    Modules.Skills.RegisterSkillDef(primaryDef3, typeof(FireMachineGun));
-
-        //    SkillDef primaryDef4 = PrimarySkillDef_Hammer();
-        //    Modules.Skills.RegisterSkillDef(primaryDef4, typeof(HammerSwing));
-
-        //    SkillFamily.Variant primaryVariant1 = Modules.Skills.SetupSkillVariant(primaryDef1);
-        //    SkillFamily.Variant primaryVariant2 = Modules.Skills.SetupSkillVariant(primaryDef2, EnforcerUnlockables.enforcerDoomUnlockableDef);
-        //    SkillFamily.Variant primaryVariant3 = Modules.Skills.SetupSkillVariant(primaryDef3, EnforcerUnlockables.enforcerARUnlockableDef);
-        //    SkillFamily.Variant primaryVariant4 = Modules.Skills.SetupSkillVariant(primaryDef4);
-
-        //    _skillLocator.primary = Modules.Skills.RegisterSkillsToFamily(characterBodyPrefab, "EnforcerPrimary", primaryVariant1, primaryVariant2, primaryVariant3);
-
-        //    _previewController.skillChangeResponses[0].triggerSkillFamily = _skillLocator.primary.skillFamily;
-        //    _previewController.skillChangeResponses[0].triggerSkill = primaryDef1;
-        //    _previewController.skillChangeResponses[1].triggerSkillFamily = _skillLocator.primary.skillFamily;
-        //    _previewController.skillChangeResponses[1].triggerSkill = primaryDef2;
-        //    _previewController.skillChangeResponses[2].triggerSkillFamily = _skillLocator.primary.skillFamily;
-        //    _previewController.skillChangeResponses[2].triggerSkill = primaryDef3;
-
-        //    //cursed
-
-        //    if (Modules.Config.cursed.Value)
-        //    {
-        //        Modules.Skills.RegisterAdditionalSkills(_skillLocator.primary, primaryVariant4);
-
-        //        _previewController.skillChangeResponses[3].triggerSkillFamily = _skillLocator.primary.skillFamily;
-        //        _previewController.skillChangeResponses[3].triggerSkill = primaryDef4;
-        //    }
-        //}
-
-        //private void SecondarySetup() {
-
-        //    SkillDef secondaryDef1 = SecondarySkillDef_Bash();
-        //    Modules.Skills.RegisterSkillDef(secondaryDef1, typeof(ShieldBash), typeof(ShoulderBash), typeof(ShoulderBashImpact));
-
-        //    SkillFamily.Variant secondaryVariant1 = Modules.Skills.SetupSkillVariant(secondaryDef1);
-
-        //    _skillLocator.secondary = Modules.Skills.RegisterSkillsToFamily(characterBodyPrefab, "EnforcerSecondary", secondaryVariant1);
-        //}
-
-        //private void UtilitySetup()
-        //{
-        //    SkillDef utilityDef1 = UtilitySkillDef_TearGas();
-        //    Modules.Skills.RegisterSkillDef(utilityDef1, typeof(AimTearGas), typeof(TearGas));
-
-        //    SkillDef utilityDef2 = UtilitySkillDef_StunGrenade();
-        //    Modules.Skills.RegisterSkillDef(utilityDef2, typeof(StunGrenade));
-
-        //    SkillFamily.Variant utilityVariant1 = Modules.Skills.SetupSkillVariant(utilityDef1);
-        //    SkillFamily.Variant utilityVariant2 = Modules.Skills.SetupSkillVariant(utilityDef2, EnforcerUnlockables.enforcerStunGrenadeUnlockableDef);
-
-        //    _skillLocator.utility = Modules.Skills.RegisterSkillsToFamily(characterBodyPrefab, "EnforcerUtility", utilityVariant1, utilityVariant2);
-        //}
-
-        //private void SpecialSetup()
-        //{
-        //    //shield
-        //    SkillDef specialDef1 = SpecialSkillDef_ProtectAndServe();
-        //    Modules.Skills.RegisterSkillDef(specialDef1, typeof(ProtectAndServe));
-        //    SkillDef specialDef1Down = SpecialSkillDef_ShieldDown();
-        //    Modules.Skills.RegisterSkillDef(specialDef1Down);
-
-        //    shieldInDef = specialDef1;
-        //    shieldOutDef = specialDef1Down;
-
-        //    //cursed
-        //    //energy shield (lol)
-        //    SkillDef specialDef2 = SpecialSkillDef_EnergyShield();
-        //    Modules.Skills.RegisterSkillDef(specialDef2, typeof(EnergyShield));
-        //    SkillDef specialDef2Down = SpecialSkillDef_EnergyShieldDown();
-        //    Modules.Skills.RegisterSkillDef(specialDef2Down);
-
-        //    energyShieldOffDef = specialDef2;
-        //    energyShieldOnDef = specialDef2Down;
-
-        //    //skateboard
-        //    SkillDef specialDef3 = SpecialSkillDef_SkamteBord();
-        //    Modules.Skills.RegisterSkillDef(specialDef3, typeof(Skateboard));
-        //    SkillDef specialDef3Down = SpecialSkillDef_SkamteBordDown();
-        //    Modules.Skills.RegisterSkillDef(specialDef3Down);
-
-        //    boardOnDef = specialDef3;
-        //    boardOffDef = specialDef3Down;
-
-        //    //setup
-        //    SkillFamily.Variant specialVariant1 = Modules.Skills.SetupSkillVariant(specialDef1);
-        //    SkillFamily.Variant specialVariant2 = Modules.Skills.SetupSkillVariant(specialDef2);
-        //    SkillFamily.Variant specialVariant3 = Modules.Skills.SetupSkillVariant(specialDef3);
-
-        //    _skillLocator.special = Modules.Skills.RegisterSkillsToFamily(characterBodyPrefab, "EnforcerSpecial", specialVariant1);
-
-        //    _previewController.skillChangeResponses[4].triggerSkillFamily = _skillLocator.special.skillFamily;
-        //    _previewController.skillChangeResponses[4].triggerSkill = specialDef1;
-
-        //    if (Modules.Config.cursed.Value)
-        //    {
-
-        //        Modules.Skills.RegisterAdditionalSkills(_skillLocator.special, specialVariant3);
-
-        //        _previewController.skillChangeResponses[5].triggerSkillFamily = _skillLocator.special.skillFamily;
-        //        _previewController.skillChangeResponses[5].triggerSkill = specialDef3;
-
-        //        ////rip energy shield lol
-        //        ////previewController.skillChangeResponses[6].triggerSkillFamily = skillLocator.special.skillFamily;
-        //        ////previewController.skillChangeResponses[6].triggerSkill = specialDef2;
-        //    }
-        //}
-
-        //private void ScepterSkillSetup()
-        //{
-
-        //    LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_NAME", "Mustard Gas");
-        //    LanguageAPI.Add("ENFORCER_UTILITY_TEARGASSCEPTER_DESCRIPTION", "Toss a grenade that covers an area in <style=cIsDamage>Impairing</style> gas, choking enemies for <style=cIsDamage>200% damage per second</style>.");
-
-        //    tearGasScepterDef = UtilitySkillDef_TearGas();
-        //    tearGasScepterDef.activationState = new SerializableEntityStateType(typeof(AimDamageGas));
-        //    tearGasScepterDef.icon = Assets.icon30TearGasScepter;
-        //    tearGasScepterDef.skillDescriptionToken = "ENFORCER_UTILITY_TEARGASSCEPTER_DESCRIPTION";
-        //    tearGasScepterDef.skillName = "ENFORCER_UTILITY_TEARGASSCEPTER_NAME";
-        //    tearGasScepterDef.skillNameToken = "ENFORCER_UTILITY_TEARGASSCEPTER_NAME";
-        //    tearGasScepterDef.keywordTokens = new string[] {
-        //        "KEYWORD_BLINDED"
-        //    };
-
-        //    Modules.Skills.RegisterSkillDef(tearGasScepterDef, typeof(AimDamageGas));
-
-        //    LanguageAPI.Add("ENFORCER_UTILITY_SHOCKGRENADE_NAME", "Shock Grenade");
-        //    LanguageAPI.Add("ENFORCER_UTILITY_SHOCKGRENADE_DESCRIPTION", "<style=cIsDamage>Shocking</style>. Launch a grenade that electrocutes enemies for <style=cIsDamage>" + 100f * ShockGrenade.damageCoefficient + "% damage</style>. Hold up to 3.");
-
-        //    shockGrenadeDef = UtilitySkillDef_StunGrenade();
-        //    shockGrenadeDef.activationState = new SerializableEntityStateType(typeof(ShockGrenade));
-        //    shockGrenadeDef.icon = Assets.icon31StunGrenadeScepter;
-        //    shockGrenadeDef.skillDescriptionToken = "ENFORCER_UTILITY_SHOCKGRENADE_DESCRIPTION";
-        //    shockGrenadeDef.skillName = "ENFORCER_UTILITY_SHOCKGRENADE_NAME";
-        //    shockGrenadeDef.skillNameToken = "ENFORCER_UTILITY_SHOCKGRENADE_NAME";
-        //    shockGrenadeDef.keywordTokens = new string[] {
-        //        "KEYWORD_SHOCKING"
-        //    };
-
-        //    Modules.Skills.RegisterSkillDef(shockGrenadeDef, typeof(ShockGrenade));
-        //}
-
-        //private void CSSPreviewSetup()
-        //{
-        //    //something broke here i don't really understand it
-        //    //  that's because holy shit i wrote this like a fucking ape. do not forgive me for this. I'm deleting it
-
-        //    //// NULLCHECK YOUR SHIT FOR FUCKS SAKE
-        //        //nullchecks are only for the unsure
-        //            //also this is a not-null check. do return; n00b
-        //    if (_previewController)
-        //    {
-        //        List<int> emptyIndices = new List<int>();
-        //        for (int i = 0; i < _previewController.skillChangeResponses.Length; i++)
-        //        {
-        //            if (_previewController.skillChangeResponses[i].triggerSkillFamily == null ||
-        //                _previewController.skillChangeResponses[i].triggerSkill == null)
-        //            {
-        //                emptyIndices.Add(i);
-        //            }
-        //        }
-
-        //        if (emptyIndices.Count == 0)
-        //            return;
-
-        //        List<CharacterSelectSurvivorPreviewDisplayController.SkillChangeResponse> responsesList = _previewController.skillChangeResponses.ToList();
-        //        for (int i = emptyIndices.Count - 1; i >= 0; i--)
-        //        {
-        //            responsesList.RemoveAt(emptyIndices[i]);
-        //        }
-
-        //        _previewController.skillChangeResponses = responsesList.ToArray();
-        //    }
-        //}
-
-        //private void MemeSetup()
-        //{
-        //    Type[] memes = new Type[]
-        //    {
-        //        typeof(SirenToggle),
-        //        typeof(DefaultDance),
-        //        typeof(FLINTLOCKWOOD),
-        //        typeof(Rest),
-        //        typeof(Enforcer.Emotes.EnforcerSalute),
-        //        typeof(EntityStates.Nemforcer.Emotes.Salute),
-        //    };
-              
-        //    for (int i = 0; i < memes.Length; i++)
-        //    {
-        //        Modules.States.AddSkill(memes[i]);
-        //    }
-        //}
-
-#endregion
-
+        #endregion projectiles and effects
     }
-
-
 }

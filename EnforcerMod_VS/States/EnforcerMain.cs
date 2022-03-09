@@ -10,10 +10,10 @@ using UnityEngine.Networking;
 using static RoR2.CameraTargetParams;
 
 namespace EntityStates.Enforcer {
+
     public class EnforcerMain : GenericCharacterMain {
     
         protected CharacterCameraParamsData shieldCameraParams = new CharacterCameraParamsData() {
-
             maxPitch = 70,
             minPitch = -70,
             pivotVerticalOffset = EnforcerSurvivor.instance.bodyInfo.cameraParamsVerticalOffset,
@@ -24,8 +24,9 @@ namespace EntityStates.Enforcer {
         public static CameraParamsOverrideHandle camOverrideHandle;
 
         public static event Action<bool> onDance = delegate { };
-        public static Vector3 shieldCameraPosition = new Vector3(2f, -2.4f, -5f);
-        public static Vector3 standardCameraPosition = new Vector3(0f, -1.3f, -10f);
+
+        public static Vector3 shieldCameraPosition = new Vector3(2.3f, -1.0f, -6.5f);
+
         public static bool shotgunToggle = false;
         public bool dance = false;
 
@@ -221,6 +222,7 @@ namespace EntityStates.Enforcer {
             }*/
         }
 
+        //todo move to shield skill?
         private void toggleShieldCamera(bool shieldIsUp) {
 
             //shield mode camera stuff
@@ -231,10 +233,10 @@ namespace EntityStates.Enforcer {
                     priority = 0,
                 };
 
-                camOverrideHandle = base.cameraTargetParams.AddParamsOverride(request, 0.5f);
+                camOverrideHandle = base.cameraTargetParams.AddParamsOverride(request, 0.6f);
             } else {
 
-                base.cameraTargetParams.RemoveParamsOverride(camOverrideHandle);
+                base.cameraTargetParams.RemoveParamsOverride(camOverrideHandle, 0.3f);
             }
 
         }

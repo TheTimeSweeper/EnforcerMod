@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using RoR2;
 using Modules;
+using Modules.Characters;
 
 namespace EntityStates.Enforcer {
     public class EnergyShield : BaseSkillState
@@ -34,7 +35,7 @@ namespace EntityStates.Enforcer {
 
                 if (base.skillLocator)
                 {
-                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.energyShieldOffDef);
+                    base.skillLocator.special.SetBaseSkill(EnforcerSurvivor.energyShieldEnterDef);
                 }
 
                 if (base.characterMotor) base.characterMotor.mass = 200f;
@@ -55,7 +56,7 @@ namespace EntityStates.Enforcer {
 
                 if (base.skillLocator)
                 {
-                    base.skillLocator.special.SetBaseSkill(EnforcerPlugin.EnforcerModPlugin.energyShieldOnDef);
+                    base.skillLocator.special.SetBaseSkill(EnforcerSurvivor.energyShieldExitDef);
                 }
 
                 if (base.characterMotor) base.characterMotor.mass = EnergyShield.bonusMass;

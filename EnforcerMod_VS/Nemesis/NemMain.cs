@@ -5,21 +5,23 @@ using EntityStates.Enforcer;
 using Modules;
 using System;
 using static RoR2.CameraTargetParams;
+using HG.BlendableTypes;
 
 namespace EntityStates.Nemforcer {
     public class NemforcerMain : GenericCharacterMain
     {
-        protected CharacterCameraParamsData minigunCameraParams = new CharacterCameraParamsData() {
+        private CharacterCameraParamsData minigunCameraParams = new CharacterCameraParamsData() {
 
             maxPitch = 70,
             minPitch = -70,
             pivotVerticalOffset = 1.37f,
-            idealLocalCameraPos = new Vector3(-1.2f, -0.5f, -9f),
+            idealLocalCameraPos = minigunCameraPosition,
             wallCushion = 0.1f,
         };
 
-        public static CameraParamsOverrideHandle camOverrideHandle;
+        private static Vector3 minigunCameraPosition = new Vector3(-2.2f, 0.0f, -9f);
 
+        public static CameraParamsOverrideHandle camOverrideHandle;
 
         private bool wasMinigunning = false;
         private float initialTime;

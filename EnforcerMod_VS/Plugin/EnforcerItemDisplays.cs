@@ -1,4 +1,5 @@
 ﻿using Modules;
+using Modules.Characters;
 using RoR2;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace EnforcerPlugin {
         //public static List<ItemDisplayRuleSet.KeyAssetRuleGroup> SomeOtherSkinSpecificWeaponRules;
 
         public static void RegisterDisplays() {
-            GameObject bodyPrefab = EnforcerModPlugin.characterBodyPrefab;
+            GameObject bodyPrefab = EnforcerSurvivor.instance.bodyPrefab;
 
             GameObject model = bodyPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
             CharacterModel characterModel = model.GetComponent<CharacterModel>();

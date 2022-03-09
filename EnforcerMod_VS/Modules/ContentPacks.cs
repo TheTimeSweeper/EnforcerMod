@@ -43,16 +43,16 @@ namespace Modules {
 
         public IEnumerator LoadStaticContentAsync(LoadStaticContentAsyncArgs args) {
 
-            contentPack.bodyPrefabs.Add(EnforcerModPlugin.bodyPrefabs.ToArray());
-            contentPack.buffDefs.Add(Buffs.buffDefs.ToArray());
-            contentPack.effectDefs.Add(Modules.Effects.effectDefs.ToArray());
-            contentPack.entityStateTypes.Add(Modules.States.entityStates.ToArray());
-            contentPack.masterPrefabs.Add(EnforcerModPlugin.masterPrefabs.ToArray());
-            contentPack.networkSoundEventDefs.Add(Assets.networkSoundEventDefs.ToArray());
-            contentPack.projectilePrefabs.Add(EnforcerModPlugin.projectilePrefabs.ToArray());
-            contentPack.skillDefs.Add(Modules.States.skillDefs.ToArray());
-            contentPack.skillFamilies.Add(Modules.States.skillFamilies.ToArray());
-            contentPack.survivorDefs.Add(EnforcerModPlugin.survivorDefs.ToArray());
+            contentPack.bodyPrefabs.Add(bodyPrefabs.ToArray());
+            contentPack.buffDefs.Add(buffDefs.ToArray());
+            contentPack.effectDefs.Add(effectDefs.ToArray());
+            contentPack.entityStateTypes.Add(entityStates.ToArray());
+            contentPack.masterPrefabs.Add(masterPrefabs.ToArray());
+            contentPack.networkSoundEventDefs.Add(networkSoundEventDefs.ToArray());
+            contentPack.projectilePrefabs.Add(projectilePrefabs.ToArray());
+            contentPack.skillDefs.Add(skillDefs.ToArray());
+            contentPack.skillFamilies.Add(skillFamilies.ToArray());
+            contentPack.survivorDefs.Add(survivorDefs.ToArray());
 
             args.ReportProgress(1f);
 

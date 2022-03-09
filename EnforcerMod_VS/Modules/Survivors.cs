@@ -21,7 +21,7 @@ namespace Modules {
             survivorDef.desiredSortPosition = sortPosition;
             survivorDef.unlockableDef = unlockableDef;
 
-            EnforcerModPlugin.survivorDefs.Add(survivorDef);
+            Modules.Content.AddSurvivorDef(survivorDef);
         }
 
         [System.Obsolete("moving to survivorbase")]

@@ -238,8 +238,8 @@ namespace EnforcerPlugin {
             bodyComponent.preferredPodPrefab = null;
             bodyComponent.bodyColor = characterColor;
 
-            Modules.States.AddSkill(typeof(EntityStates.Nemforcer.NemforcerMain));
-            Modules.States.AddSkill(typeof(EntityStates.Nemforcer.SpawnState));
+            Modules.Content.AddEntityState(typeof(EntityStates.Nemforcer.NemforcerMain));
+            Modules.Content.AddEntityState(typeof(EntityStates.Nemforcer.SpawnState));
 
             var stateMachine = bodyComponent.GetComponent<EntityStateMachine>();
             stateMachine.mainStateType = new SerializableEntityStateType(typeof(EntityStates.Nemforcer.NemforcerMain));
@@ -541,7 +541,7 @@ namespace EnforcerPlugin {
 
             SkillSetup();
 
-            EnforcerModPlugin.bodyPrefabs.Add(characterBodyPrefab);
+            Modules.Content.AddCharacterBodyPrefab(characterBodyPrefab);
         }
 
         private void RegisterProjectiles()
@@ -672,24 +672,24 @@ namespace EnforcerPlugin {
             nemGasGrenade.AddComponent<DestroyOnTimer>().duration = 32;
             nemGas.AddComponent<DestroyOnTimer>().duration = 18;
 
-            EnforcerModPlugin.projectilePrefabs.Add(nemGasGrenade);
-            EnforcerModPlugin.projectilePrefabs.Add(nemGas);
-            EnforcerModPlugin.projectilePrefabs.Add(hammerProjectile);
+            Modules.Content.AddProjectilePrefab(nemGasGrenade);
+            Modules.Content.AddProjectilePrefab(nemGas);
+            Modules.Content.AddProjectilePrefab(hammerProjectile);
         }
 
         private void SkillSetup()
         {
             skillLocator = characterBodyPrefab.GetComponent<SkillLocator>();
-                                                                    //1 & 2
-            Modules.Skills.CreateSkillFamilies(characterBodyPrefab, 3);
+                                                                  //1 & 2
+            Modules.Skills.CreateSkillFamilies(characterBodyPrefab, 1 | 2);
 
             PassiveSetup();
 
             PrimarySetup();
             SecondarySetup();
             SecondaryMinigunSetup();
-                                                                    //3 & 4
-            Modules.Skills.CreateSkillFamilies(characterBodyPrefab, 12, false);
+                                                                  //3 & 4
+            Modules.Skills.CreateSkillFamilies(characterBodyPrefab, 4 | 8, false);
             UtilitySetup();
             SpecialSetup();
         }
@@ -740,7 +740,7 @@ namespace EnforcerPlugin {
             hammerSlamDef = SecondarySkillDef_HammerSlam();
 
             SkillFamily secondaryMinigunFamily = Modules.Skills.CreateGenericSkillWithSkillFamily(characterBodyPrefab, "SecondaryMinigun", true).skillFamily;
-            Modules.Skills.AddSkillsToFamily(secondaryMinigunFamily, hammerChargeDef);
+            Modules.Skills.AddSkillsToFamily(secondaryMinigunFamily, hammerSlamDef);
         }
 
         private void UtilitySetup()
@@ -752,13 +752,13 @@ namespace EnforcerPlugin {
 
             SkillDef utilityDef1 = UtilitySkillDef_Gas();
             SkillDef utilityDef2 = UtilitySkillDef_Grenade();
-            SkillDef utilityDef3 = UtilitySkillDef_Jump();
+            SkillDef utilityDef3 = UtilitySkillDef_DededeJump();
             SkillDef utilityDef4 = UtilitySkillDef_HeatCrash();
 
             Modules.Skills.AddUtilitySkills(characterBodyPrefab, utilityDef4, utilityDef1, utilityDef2);
 
             if (Config.cursed.Value)
-                Modules.Skills.AddSkillsToFamily(skillLocator.special.skillFamily, utilityDef3);
+                Modules.Skills.AddSkillsToFamily(skillLocator.utility.skillFamily, utilityDef3);
         }
 
         private void SpecialSetup() {
@@ -1005,7 +1005,7 @@ namespace EnforcerPlugin {
             return mySkillDef;
         }
 
-        private static SkillDef UtilitySkillDef_Jump()
+        private static SkillDef UtilitySkillDef_DededeJump()
         {
             LanguageAPI.Add("NEMFORCER_UTILITY_JUMP_NAME", "Super Dedede Jump");
             LanguageAPI.Add("NEMFORCER_UTILITY_JUMP_DESCRIPTION", "Jump into the air, then slam down for <style=cIsDamage>" + 100f * SuperDededeJump.slamDamageCoefficient + "% damage</style>. <style=cIsUtility>Deals reduced damage outside the center of the impact.</style>");
@@ -1136,7 +1136,7 @@ namespace EnforcerPlugin {
 
             CreateUmbraAI();
 
-            EnforcerModPlugin.masterPrefabs.Add(doppelganger);
+            Modules.Content.AddMasterPrefab(doppelganger);
         }
 
         private void CreateBossPrefab()
@@ -1188,7 +1188,7 @@ namespace EnforcerPlugin {
 
             charBody.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
 
-            EnforcerModPlugin.bodyPrefabs.Add(bossPrefab);
+            Modules.Content.AddCharacterBodyPrefab(bossPrefab);
 
             bossMaster = PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/LemurianMaster"), "NemesisEnforcerBossMaster", true);
             bossMaster.GetComponent<CharacterMaster>().bodyPrefab = bossPrefab;
@@ -1197,7 +1197,7 @@ namespace EnforcerPlugin {
 
             CreateNemesisAI();
 
-            EnforcerModPlugin.masterPrefabs.Add(bossMaster);
+            Modules.Content.AddMasterPrefab(bossMaster);
         }
 
         private void CreateMiniBossPrefab()
@@ -1245,7 +1245,7 @@ namespace EnforcerPlugin {
 
             charBody.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
 
-            EnforcerModPlugin.bodyPrefabs.Add(minibossPrefab);
+            Modules.Content.AddCharacterBodyPrefab(minibossPrefab);
 
             minibossMaster = PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/LemurianMaster"), "NemesisEnforcerMiniBossMaster", true);
             minibossMaster.GetComponent<CharacterMaster>().bodyPrefab = minibossPrefab;
@@ -1254,7 +1254,7 @@ namespace EnforcerPlugin {
 
             CreateMiniNemesisAI();
 
-            EnforcerModPlugin.masterPrefabs.Add(minibossMaster);
+            Modules.Content.AddMasterPrefab(minibossMaster);
         }
 
         private void CreateUmbraAI()
@@ -1489,7 +1489,10 @@ namespace EnforcerPlugin {
                 BaseUnityPlugin.DestroyImmediate(ai);
             }
 
-            bossMaster.GetComponent<BaseAI>().fullVision = true;
+            BaseAI baseAI = bossMaster.GetComponent<BaseAI>();
+            baseAI.fullVision = true;
+            baseAI.aimVectorMaxSpeed = 40;
+            baseAI.aimVectorDampTime = 0.2f;
 
             /*AISkillDriver grenadeDriver = bossMaster.AddComponent<AISkillDriver>();
             grenadeDriver.customName = "ThrowGrenade";
@@ -1739,7 +1742,10 @@ namespace EnforcerPlugin {
                 BaseUnityPlugin.DestroyImmediate(ai);
             }
 
-            minibossMaster.GetComponent<BaseAI>().fullVision = true;
+            BaseAI baseAI = minibossMaster.GetComponent<BaseAI>();
+            baseAI.fullVision = true;
+            baseAI.aimVectorMaxSpeed = 40;
+            baseAI.aimVectorDampTime = 0.2f;
 
             /*AISkillDriver grenadeDriver = bossMaster.AddComponent<AISkillDriver>();
             grenadeDriver.customName = "ThrowGrenade";
@@ -2377,7 +2383,7 @@ namespace EnforcerPlugin {
             skillLocator.primary = dededePrefab.AddComponent<GenericSkill>();
             SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
             newFamily.variants = new SkillFamily.Variant[1];
-            Modules.States.AddSkillFamily(newFamily);
+            Modules.Content.AddSkillFamily(newFamily);
             skillLocator.primary._skillFamily = newFamily;
             SkillFamily skillFamily = skillLocator.primary.skillFamily;
 
@@ -2390,7 +2396,7 @@ namespace EnforcerPlugin {
             skillLocator.secondary = dededePrefab.AddComponent<GenericSkill>();
             newFamily = ScriptableObject.CreateInstance<SkillFamily>();
             newFamily.variants = new SkillFamily.Variant[1];
-            Modules.States.AddSkillFamily(newFamily);
+            Modules.Content.AddSkillFamily(newFamily);
             skillLocator.secondary._skillFamily = newFamily;
             skillFamily = skillLocator.secondary.skillFamily;
 
@@ -2403,7 +2409,7 @@ namespace EnforcerPlugin {
             skillLocator.utility = dededePrefab.AddComponent<GenericSkill>();
             newFamily = ScriptableObject.CreateInstance<SkillFamily>();
             newFamily.variants = new SkillFamily.Variant[1];
-            Modules.States.AddSkillFamily(newFamily);
+            Modules.Content.AddSkillFamily(newFamily);
             skillLocator.utility._skillFamily = newFamily;
             skillFamily = skillLocator.utility.skillFamily;
 
@@ -2413,14 +2419,14 @@ namespace EnforcerPlugin {
                 viewableNode = new ViewablesCatalog.Node(jumpDef.skillNameToken, false, null)
             };
 
-            EnforcerModPlugin.bodyPrefabs.Add(dededePrefab);
+            Modules.Content.AddCharacterBodyPrefab(dededePrefab);
 
             dededeMaster = PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/LemurianMaster"), "KingDededeMaster", true);
             dededeMaster.GetComponent<CharacterMaster>().bodyPrefab = dededePrefab;
 
             CreateDededeAI();
 
-            EnforcerModPlugin.masterPrefabs.Add(dededeMaster);
+            Modules.Content.AddMasterPrefab(dededeMaster);
 
             CreateDededeSpawnCard();
         }

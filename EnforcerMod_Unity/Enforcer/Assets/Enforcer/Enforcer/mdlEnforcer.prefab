@@ -6262,7 +6262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3605348447582398806}
   - component: {fileID: 826989268366078735}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ShieldHurtbox2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9623,7 +9623,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7618142915657316695}
   - component: {fileID: 7618142915657316688}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ShieldHurtbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

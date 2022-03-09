@@ -19,9 +19,6 @@ namespace Modules {
         internal static BuffDef impairedBuff;
         internal static BuffDef nemImpairedBuff;
 
-
-        internal static List<BuffDef> buffDefs = new List<BuffDef>();
-
         internal static void RegisterBuffs() {
             protectAndServeBuff = AddNewBuff("Heavyweight", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffProtectAndServe"), EnforcerModPlugin.characterColor, false, false);
             energyShieldBuff = AddNewBuff("EnergyShield", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffProtectAndServe"), EnforcerModPlugin.characterColor, false, false);
@@ -44,7 +41,7 @@ namespace Modules {
             buffDef.eliteDef = null;
             buffDef.iconSprite = buffIcon;
 
-            buffDefs.Add(buffDef);
+            Modules.Content.AddBuffDef(buffDef);
 
             return buffDef;
         }

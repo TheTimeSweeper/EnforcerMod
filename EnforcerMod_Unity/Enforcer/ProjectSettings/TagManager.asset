@@ -13,20 +13,20 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - projectiles
-  - 
-  - debris
-  - 
-  - 
-  - 
-  - 
-  - 
+  - FakeActor
+  - NoCollision
+  - Pickups
+  - World
+  - EntityPrecise
+  - Debris
+  - Projectiles
+  - Background
+  - ManualRender
+  - Ragdoll
+  - NoDraw
+  - PrefabBrush
+  - PostProcess
+  - Ui, WorldSpace
   - 
   - 
   - 

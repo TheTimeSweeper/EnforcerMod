@@ -11,6 +11,7 @@ namespace Modules {
     {
         #region genericskills
         public static void CreateSkillFamilies(GameObject targetPrefab, int families = 15, bool destroySkills = true) {
+
             if (destroySkills) {
                 foreach (GenericSkill obj in targetPrefab.GetComponentsInChildren<GenericSkill>()) {
                     UnityEngine.Object.DestroyImmediate(obj);
@@ -40,7 +41,7 @@ namespace Modules {
             skill.hideInCharacterSelect = hidden;
 
             SkillFamily newFamily = ScriptableObject.CreateInstance<SkillFamily>();
-            (newFamily as ScriptableObject).name = targetPrefab.name + familyName + "Family";
+            (newFamily as ScriptableObject).name = targetPrefab.name + familyName + "SkillFamily";
             newFamily.variants = new SkillFamily.Variant[0];
 
             skill._skillFamily = newFamily;
@@ -57,11 +58,18 @@ namespace Modules {
 
             Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
 
+            if(string.IsNullOrEmpty((skillDef as ScriptableObject).name)) {
+                (skillDef as ScriptableObject).name = skillDef.skillName;
+            }
+
+
             skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant {
                 skillDef = skillDef,
                 unlockableDef = unlockableDef,
                 viewableNode = new ViewablesCatalog.Node(skillDef.skillNameToken, false, null)
             };
+
+            Modules.Content.AddSkillDef(skillDef);
         }
 
         public static void AddSkillsToFamily (SkillFamily skillFamily, params SkillDef[] skillDefs) {

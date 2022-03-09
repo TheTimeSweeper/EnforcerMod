@@ -104,8 +104,8 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         this.InitSkateboard();
 
         this.Invoke("ModelCheck", 0.2f);
-
-        this.UpdateCamera();
+        //todo CUM2 delete this
+        //this.UpdateCamera();
     }
 
     public void SetWeaponsAndShields() {
@@ -390,19 +390,20 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         }
     }
 
-    public void UpdateCamera() {
-        this.isMultiplayer = Run.instance.participatingPlayerCount > 1;
+    //todo CUM2 delete this
+    //public void UpdateCamera() {
+    //    this.isMultiplayer = Run.instance.participatingPlayerCount > 1;
 
-        if (this.isMultiplayer) {
-            this.cameraShit.cameraParams.standardLocalCameraPos = EnforcerMain.standardCameraPosition;
-        } else {
-            if (!this.shieldUp) {
-                this.cameraShit.cameraParams.standardLocalCameraPos = EnforcerMain.standardCameraPosition;
-            } else {
-                this.cameraShit.cameraParams.standardLocalCameraPos = EnforcerMain.shieldCameraPosition;
-            }
-        }
-    }
+    //    if (this.isMultiplayer) {
+    //        this.cameraShit.cameraParams.standardLocalCameraPos = EnforcerMain.standardCameraPosition;
+    //    } else {
+    //        if (!this.shieldUp) {
+    //            this.cameraShit.cameraParams.standardLocalCameraPos = EnforcerMain.standardCameraPosition;
+    //        } else {
+    //            this.cameraShit.cameraParams.standardLocalCameraPos = EnforcerMain.shieldCameraPosition;
+    //        }
+    //    }
+    //}
 
     private void InitShells() {
         if (this.childLocator is null) return;
