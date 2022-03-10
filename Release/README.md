@@ -74,6 +74,16 @@ lil out of date
 - Help
 
 ## Changelog
+
+`3.2.11`
+ - Fixed global hmg sound
+
+`3.2.10`
+ - GUPdate fix
+ - camera updated. no longer shaking on emotes holy shit
+ - item displays removed for now
+ - tweaks to shield model
+ 
 `3.2.9`
  - re-done emotes added, incomplete. enjoy default dance and earl run (3 and 4) for one week before cum2
  - VR implementation, also incomplete. In progress, but it's not breaking anything so it can go out

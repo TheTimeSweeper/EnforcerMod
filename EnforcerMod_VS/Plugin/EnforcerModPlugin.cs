@@ -35,7 +35,7 @@ namespace EnforcerPlugin {
     [BepInDependency("com.KingEnderBrine.ItemDisplayPlacementHelper", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.Moffein.RiskyArtifacts", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.2.10")]
+    [BepInPlugin(MODUID, "Enforcer", "3.2.11")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -121,7 +121,7 @@ namespace EnforcerPlugin {
         //}
 
         private void Start() {
-            Logger.LogInfo("Initializing Enforcer");
+            Logger.LogInfo("[Initializing Enforcer]");
 
             Modules.Config.ConfigShit(this);
 

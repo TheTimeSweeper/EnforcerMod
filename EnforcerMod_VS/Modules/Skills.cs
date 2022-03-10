@@ -10,9 +10,9 @@ namespace Modules {
     public static class Skills
     {
         #region genericskills
-        public static void CreateSkillFamilies(GameObject targetPrefab, int families = 15, bool destroySkills = true) {
+        public static void CreateSkillFamilies(GameObject targetPrefab, int families = 15, bool destroyExisting = true) {
 
-            if (destroySkills) {
+            if (destroyExisting) {
                 foreach (GenericSkill obj in targetPrefab.GetComponentsInChildren<GenericSkill>()) {
                     UnityEngine.Object.DestroyImmediate(obj);
                 }

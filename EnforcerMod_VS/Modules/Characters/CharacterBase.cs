@@ -150,7 +150,7 @@ namespace Modules.Characters {
         public Vector3 cameraPivotPosition = new Vector3(0f, 1.6f, 0f);
         public Vector3 aimOriginPosition = new Vector3(0f, 2f, 0f);
 
-        public float cameraParamsVerticalOffset = 1.5f;
+        public float cameraParamsVerticalOffset = 1.2f;
         public float cameraParamsDepth = -12;
 
         private CharacterCameraParams _cameraParams;

@@ -150,11 +150,12 @@ namespace Modules {
                 SoundAPI.SoundBanks.Add(array);
             }
 
-            //using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.NemforcerBank2.bnk")) {
-            //    byte[] array = new byte[manifestResourceStream2.Length];
-            //    manifestResourceStream2.Read(array, 0, array.Length);
-            //    SoundAPI.SoundBanks.Add(array);
-            //};
+            // it's 2022 and I just fucking did it again
+            using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.Nemforcer.bnk")) {
+                byte[] array = new byte[manifestResourceStream2.Length];
+                manifestResourceStream2.Read(array, 0, array.Length);
+                SoundAPI.SoundBanks.Add(array);
+            };
         }
 
         private static void PopulateAssets() {
@@ -485,7 +486,7 @@ namespace Modules {
 
         public static readonly string NemesisMinigunSpinUp = "NemforcerMinigunSpinUp";
         public static readonly string NemesisMinigunSpinDown = "NemforcerMinigunSpinDown";
-        public static readonly string NemesisMinigunLoop = "Play_Minigun_Shoot";
+        public static readonly string NemesisMinigunLoop = "Play_Minigun_Shoot2";
 
         public static readonly string DeathSound = "Death_Siren";
         public static readonly string SirenButton = "Siren_Button";

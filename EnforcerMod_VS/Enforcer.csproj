@@ -22,14 +22,14 @@
     <None Remove="grenadeBundle" />
     <None Remove="joe" />
     <None Remove="nemforcer" />
-    <None Remove="NemforcerBank2.bnk" />
+    <None Remove="Nemforcer.bnk" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="enforcer" />
     <EmbeddedResource Include="EnforcerBank.bnk" />
     <EmbeddedResource Include="enforcervr" />
-    <EmbeddedResource Include="NemforcerBank2.bnk" />
+    <EmbeddedResource Include="Nemforcer.bnk" />
   </ItemGroup>
 
   <ItemGroup>
