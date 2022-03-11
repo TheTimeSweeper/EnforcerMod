@@ -75,6 +75,11 @@ lil out of date
 
 ## Changelog
 
+`3.2.12`
+ - Fixed some sounds being too ear-bleeding loud. 
+ - definitely let me know if i've overcorrected and they're too quiet now
+ - man fuck sounds
+
 `3.2.11`
  - Fixed global hmg sound
 

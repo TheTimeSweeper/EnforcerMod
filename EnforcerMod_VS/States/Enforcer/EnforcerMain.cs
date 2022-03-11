@@ -407,6 +407,8 @@ namespace EntityStates.Enforcer {
         {
             base.OnExit();
 
+            toggleShieldCamera(false);
+
             AkSoundEngine.StopPlayingID(this.skatePlayID);
             this.skatePlayID = 0;
         }

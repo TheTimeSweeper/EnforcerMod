@@ -382,7 +382,7 @@
 													<PropertyList>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>22</Value>
+																<Value>4</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -410,6 +410,11 @@
 												<RandomSequenceContainer Name="Shell Fast" ID="{64EA8219-11E0-46F8-B238-531C7D72E8B7}" ShortID="928648689">
 													<PropertyList>
 														<Property Name="RandomAvoidRepeating" Type="bool" Value="False"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-10</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -659,7 +664,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-4</Value>
+																<Value>-5</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -701,7 +706,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-4</Value>
+																<Value>-13</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -935,7 +940,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-7</Value>
+																<Value>-8</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -3828,7 +3833,14 @@
 									</ChildrenList>
 								</ActorMixer>
 								<ActorMixer Name="MG" ID="{7DFFDAE4-6F50-4438-A4DF-283AB8109F90}" ShortID="162041922">
+									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="1"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+									</PropertyList>
 									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="Shotgun" ID="{7297D247-2F3C-4FCB-A08E-EF65110DE74A}" WorkUnitID="{11DB3BA3-FF78-4AEA-AB23-759A4DFBC217}"/>
+										</Reference>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
 										</Reference>
@@ -3839,13 +3851,17 @@
 									<ChildrenList>
 										<Sound Name="sndHeavyMachinegun" ID="{68C3CA5B-2CD0-4975-9220-C959CF74EFF9}" ShortID="309109934">
 											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="1"/>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>-6</Value>
+														<Value>-13</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
 											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="Shotgun" ID="{7297D247-2F3C-4FCB-A08E-EF65110DE74A}" WorkUnitID="{11DB3BA3-FF78-4AEA-AB23-759A4DFBC217}"/>
+												</Reference>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
 												</Reference>
@@ -3868,13 +3884,17 @@
 										</Sound>
 										<Sound Name="sndMachinegun" ID="{B95CC4A0-2B4F-460F-BF85-52B28B7BB22D}" ShortID="566037801">
 											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="1"/>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>-6</Value>
+														<Value>-11</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
 											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="Shotgun" ID="{7297D247-2F3C-4FCB-A08E-EF65110DE74A}" WorkUnitID="{11DB3BA3-FF78-4AEA-AB23-759A4DFBC217}"/>
+												</Reference>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
 												</Reference>

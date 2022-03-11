@@ -803,7 +803,6 @@ namespace EnforcerPlugin {
                 if (self.outer.commonComponents.characterBody.bodyIndex == BodyCatalog.FindBodyIndex("EnforcerBody"))
                 {
                     self.outer.SetNextState(new FireNeedler());
-                    Debug.Log("uh");
                     return;
                 }
             }

@@ -106,5 +106,11 @@ namespace EntityStates.Nemforcer {
 
             if (this.animator) this.animator.SetBool("inCombat", (!base.characterBody.outOfCombat || !base.characterBody.outOfDanger));
         }
+
+        public override void OnExit() {
+            base.OnExit();
+
+            toggleMinigunCamera(false);
+        }
     }
 }

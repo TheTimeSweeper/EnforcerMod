@@ -403,6 +403,16 @@ namespace EnforcerPlugin {
             mainHurtbox.hurtBoxGroup = hurtBoxGroup;
             mainHurtbox.indexInGroup = 0;
 
+            //todo see if triggers can be hurtboxes
+            //HurtBox headHurtbox = model.transform.Find("Head").GetComponent<SphereCollider>().gameObject.AddComponent<HurtBox>();
+            //headHurtbox.gameObject.layer = LayerIndex.entityPrecise.intVal;
+            //headHurtbox.healthComponent = healthComponent;
+            //headHurtbox.isBullseye = true;
+            //headHurtbox.isSniperTarget = true;
+            //headHurtbox.damageModifier = HurtBox.DamageModifier.Normal;
+            //headHurtbox.hurtBoxGroup = hurtBoxGroup;
+            //headHurtbox.indexInGroup = 0;
+
             hurtBoxGroup.hurtBoxes = new HurtBox[]
             {
                 mainHurtbox
@@ -2207,6 +2217,7 @@ namespace EnforcerPlugin {
             mainHurtbox.gameObject.layer = LayerIndex.entityPrecise.intVal;
             mainHurtbox.healthComponent = healthComponent;
             mainHurtbox.isBullseye = true;
+            mainHurtbox.isSniperTarget = true;
             mainHurtbox.damageModifier = HurtBox.DamageModifier.Normal;
             mainHurtbox.hurtBoxGroup = hurtBoxGroup;
             mainHurtbox.indexInGroup = 0;
