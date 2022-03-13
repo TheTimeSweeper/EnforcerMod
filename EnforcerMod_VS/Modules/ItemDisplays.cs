@@ -199,23 +199,14 @@ namespace Modules {
             return CreateDisplayRuleGroupWithRules(keyAsset_, singleRule);
         }
 
+        public static ItemDisplayRule CreateDisplayRule(string prefabName, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
+            return CreateDisplayRule(LoadDisplay(prefabName), childName, position, rotation, scale);
+        }
         public static ItemDisplayRule CreateDisplayRule(GameObject itemPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
             return new ItemDisplayRule {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = childName,
                 followerPrefab = itemPrefab,
-                limbMask = LimbFlags.None,
-                localPos = position,
-                localAngles = rotation,
-                localScale = scale
-            };
-        }
-
-        public static ItemDisplayRule CreateDisplayRule(string prefabName, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
-            return new ItemDisplayRule {
-                ruleType = ItemDisplayRuleType.ParentedPrefab,
-                childName = childName,
-                followerPrefab = LoadDisplay(prefabName),
                 limbMask = LimbFlags.None,
                 localPos = position,
                 localAngles = rotation,
@@ -235,14 +226,23 @@ namespace Modules {
             };
         }
 
+        private static Object GetKeyAssetFromString(string itemName) {
+            Object itemDef = RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/" + itemName);
+
+            if (itemDef == null) {
+                itemDef = RoR2.LegacyResourcesAPI.Load<EquipmentDef>("EquipmentDefs/" + itemName);
+            }
+
+            if (itemDef == null) {
+                Debug.LogError("Could not load keyasset for " + itemName);
+            }
+
+            return itemDef;
+        }
+
         public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateDisplayRuleGroupWithRules(string itemName, params ItemDisplayRule[] rules) {
-            return CreateDisplayRuleGroupWithRules(RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/" + itemName), rules);
+            return CreateDisplayRuleGroupWithRules(GetKeyAssetFromString(itemName), rules);
         }
-
-        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateDisplayRuleGroupWithRulesE(string itemName, params ItemDisplayRule[] rules) {
-            return CreateDisplayRuleGroupWithRules(RoR2.LegacyResourcesAPI.Load<EquipmentDef>("EquipmentDefs/" + itemName), rules);
-        }
-
         public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateDisplayRuleGroupWithRules(Object keyAsset_, params ItemDisplayRule[] rules) {
             return new ItemDisplayRuleSet.KeyAssetRuleGroup {
                 keyAsset = keyAsset_,
@@ -253,54 +253,20 @@ namespace Modules {
         }
 
         public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRule(string itemName, string prefabName, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
-            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup {
-                keyAsset = RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/" + itemName),
-                displayRuleGroup = new DisplayRuleGroup {
-                    rules = new ItemDisplayRule[]
-                    {
-                        new ItemDisplayRule
-                        {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            childName = childName,
-                            followerPrefab = LoadDisplay(prefabName),
-                            limbMask = LimbFlags.None,
-                            localPos = position,
-                            localAngles = rotation,
-                            localScale = scale
-                        }
-                    }
-                }
-            };
-
-            return displayRule;
+            return CreateGenericDisplayRule(GetKeyAssetFromString(itemName), prefabName, childName, position, rotation, scale);
         }
-
-        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRuleE(string itemName, string prefabName, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
-            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup {
-                keyAsset = RoR2.LegacyResourcesAPI.Load<EquipmentDef>("EquipmentDefs/" + itemName),
-                displayRuleGroup = new DisplayRuleGroup {
-                    rules = new ItemDisplayRule[]
-                    {
-                        new ItemDisplayRule
-                        {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            childName = childName,
-                            followerPrefab = LoadDisplay(prefabName),
-                            limbMask = LimbFlags.None,
-                            localPos = position,
-                            localAngles = rotation,
-                            localScale = scale
-                        }
-                    }
-                }
-            };
-
-            return displayRule;
+        private static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRule(Object itemDef, string prefabName, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
+            return CreateGenereicDisplayRule(itemDef, LoadDisplay(prefabName), childName, position, rotation, scale);
         }
+        private static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRule(string itemName, GameObject displayPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
+            return CreateGenereicDisplayRule(GetKeyAssetFromString(itemName), displayPrefab, childName, position, rotation, scale);
+        }
+        private static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenereicDisplayRule(Object itemDef, GameObject displayPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
+           
+            
+            return new ItemDisplayRuleSet.KeyAssetRuleGroup {
 
-        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRule(string itemName, GameObject itemPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
-            ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup {
-                keyAsset = RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/" + itemName),
+                keyAsset = itemDef,
                 displayRuleGroup = new DisplayRuleGroup {
                     rules = new ItemDisplayRule[]
                     {
@@ -308,7 +274,7 @@ namespace Modules {
                         {
                             ruleType = ItemDisplayRuleType.ParentedPrefab,
                             childName = childName,
-                            followerPrefab = itemPrefab,
+                            followerPrefab = displayPrefab,
                             limbMask = LimbFlags.None,
                             localPos = position,
                             localAngles = rotation,
@@ -317,8 +283,6 @@ namespace Modules {
                     }
                 }
             };
-
-            return displayRule;
         }
     }
 }

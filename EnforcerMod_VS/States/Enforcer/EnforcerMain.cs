@@ -13,19 +13,7 @@ namespace EntityStates.Enforcer {
 
     public class EnforcerMain : GenericCharacterMain {
     
-        protected CharacterCameraParamsData shieldCameraParams = new CharacterCameraParamsData() {
-            maxPitch = 70,
-            minPitch = -70,
-            pivotVerticalOffset = EnforcerSurvivor.instance.bodyInfo.cameraParamsVerticalOffset,
-            idealLocalCameraPos = shieldCameraPosition,
-            wallCushion = 0.1f,
-        };
-
-        public static CameraParamsOverrideHandle camOverrideHandle;
-
         public static event Action<bool> onDance = delegate { };
-
-        public static Vector3 shieldCameraPosition = new Vector3(2.3f, -1.0f, -6.5f);
 
         public static bool shotgunToggle = false;
         public bool dance = false;
@@ -35,7 +23,6 @@ namespace EntityStates.Enforcer {
         private EnforcerWeaponComponent weaponComponent;
         private EnforcerComponent enforcerComponent;
 
-        private bool wasShielding = false;
         private float initialTime;
         private float skateSpeedMultiplier = 0.5f;
         private float bungusStopwatch;
@@ -174,12 +161,6 @@ namespace EntityStates.Enforcer {
 
             bool shieldIsUp = (base.characterBody.HasBuff(Buffs.protectAndServeBuff) || base.characterBody.HasBuff(Buffs.minigunBuff) || base.characterBody.HasBuff(Buffs.skateboardBuff));
 
-            if(wasShielding != shieldIsUp) {
-                toggleShieldCamera(shieldIsUp);
-                wasShielding = shieldIsUp;
-            }
-
-
             //emotes
             if (base.isAuthority && base.characterMotor.isGrounded && !shieldIsUp)
             {
@@ -220,25 +201,6 @@ namespace EntityStates.Enforcer {
             {
                 EnforcerPlugin.NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
             }*/
-        }
-
-        //todo move to shield skill?
-        private void toggleShieldCamera(bool shieldIsUp) {
-
-            //shield mode camera stuff
-            if (shieldIsUp) {
-
-                CameraParamsOverrideRequest request = new CameraParamsOverrideRequest {
-                    cameraParamsData = shieldCameraParams,
-                    priority = 0,
-                };
-
-                camOverrideHandle = base.cameraTargetParams.AddParamsOverride(request, 0.6f);
-            } else {
-
-                base.cameraTargetParams.RemoveParamsOverride(camOverrideHandle, 0.3f);
-            }
-
         }
 
         public override void FixedUpdate()
@@ -406,8 +368,6 @@ namespace EntityStates.Enforcer {
         public override void OnExit()
         {
             base.OnExit();
-
-            toggleShieldCamera(false);
 
             AkSoundEngine.StopPlayingID(this.skatePlayID);
             this.skatePlayID = 0;

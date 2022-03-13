@@ -18,7 +18,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -42,6 +44,7 @@ namespace EnforcerPlugin {
         "LanguageAPI",
         "SoundAPI",
         "DamageAPI",
+        "UnlockableAPI",
 
     })]
 
@@ -120,13 +123,19 @@ namespace EnforcerPlugin {
         //    //start += EnforcerPlugin_LoadStart;
         //}
 
-        private void Start() {
-            Logger.LogInfo("[Initializing Enforcer]");
+        void Awake() {
 
             Modules.Config.ConfigShit(this);
 
             Assets.Initialize();
             Tokens.RegisterTokens();
+
+            EnforcerUnlockables.RegisterUnlockables();
+        }
+
+        private void Start() {
+            Logger.LogInfo("[Initializing Enforcer]");
+
             SetupModCompat();
 
             new EnforcerSurvivor().Initialize();
@@ -145,6 +154,7 @@ namespace EnforcerPlugin {
             //new Modules.ContentPacks().CreateContentPack();
             RoR2.ContentManagement.ContentManager.collectContentPackProviders += ContentManager_collectContentPackProviders;
             RoR2.ContentManagement.ContentManager.onContentPacksAssigned += ContentManager_onContentPacksAssigned;
+            //RoR2.RoR2Application.onLoad += LateSetupItemDisplays;
 
             gameObject.AddComponent<TestValueManager>();
         }
@@ -192,11 +202,7 @@ namespace EnforcerPlugin {
                 SetupVR();
             }
 
-            try {
-                FixItemDisplays();
-            } catch {
-                Logger.LogInfo("tried to fix big item displays. Waiting on r2api update");
-            }
+            FixItemDisplays();
         }
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
@@ -215,11 +221,9 @@ namespace EnforcerPlugin {
             }
         }
 
-        private void ContentManager_onContentPacksAssigned(HG.ReadOnlyArray<RoR2.ContentManagement.ReadOnlyContentPack> obj)
-        {
-            //EnforcerItemDisplays.RegisterDisplays();
-            //NemItemDisplays.RegisterDisplays();
-
+        private void ContentManager_onContentPacksAssigned(HG.ReadOnlyArray<RoR2.ContentManagement.ReadOnlyContentPack> obj) {//LateSetupItemDisplays() {
+            EnforcerItemDisplays.RegisterDisplays();
+            NemItemDisplays.RegisterDisplays();
         }
 
         private void ContentManager_collectContentPackProviders(RoR2.ContentManagement.ContentManager.AddContentPackProviderDelegate addContentPackProvider) {

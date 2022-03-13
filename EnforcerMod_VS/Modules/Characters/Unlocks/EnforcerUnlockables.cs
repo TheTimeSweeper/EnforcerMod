@@ -1,7 +1,6 @@
 ﻿using RoR2;
 using R2API;
 using EnforcerPlugin.Achievements;
-using Unlockables = Modules.Unlockables;
 using EnforcerPlugin;
 
 namespace Modules {
@@ -33,7 +32,7 @@ namespace Modules {
             //      fucking it was never merged in i'm reeing so hard right now
             enforcerUnlockableDef = Config.forceUnlock.Value ? null : Unlockables.AddUnlockable<EnforcerUnlockAchievement>(typeof(EnforcerUnlockAchievement.EnforcerUnlockAchievementServer));
             enforcerMasteryUnlockableDef = Unlockables.AddUnlockable<MasteryAchievementButEpic>();
-            //remember to increment the robit skin
+            //remember to increment the robit skin in applyskin in achievement
             //enforcerGrandMasteryUnlockableDef = Unlockables.AddUnlockable<GrandMasteryAchievement>();
 
             enforcerDoomUnlockableDef = Unlockables.AddUnlockable<DoomAchievement>(typeof(DoomAchievement.DoomAchievementServer));

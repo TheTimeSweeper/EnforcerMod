@@ -10,21 +10,6 @@ using HG.BlendableTypes;
 namespace EntityStates.Nemforcer {
     public class NemforcerMain : GenericCharacterMain
     {
-        private CharacterCameraParamsData minigunCameraParams = new CharacterCameraParamsData() {
-
-            maxPitch = 70,
-            minPitch = -70,
-            pivotVerticalOffset = 1.37f,
-            idealLocalCameraPos = minigunCameraPosition,
-            wallCushion = 0.1f,
-        };
-
-        private static Vector3 minigunCameraPosition = new Vector3(-2.2f, 0.0f, -9f);
-
-        public static CameraParamsOverrideHandle camOverrideHandle;
-
-        private bool wasMinigunning = false;
-        private float initialTime;
         private float currentHealth;
         private Animator animator;
         private NemforcerController nemComponent;
@@ -40,8 +25,7 @@ namespace EntityStates.Nemforcer {
             base.smoothingParameters.rightSpeedSmoothDamp = 0.02f;
         }
 
-        public override void Update()
-        {
+        public override void Update() {
             base.Update();
 
             //invasion test
@@ -50,42 +34,16 @@ namespace EntityStates.Nemforcer {
             //minigun mode camera stuff
             bool minigunUp = base.HasBuff(Buffs.minigunBuff);
 
-            if (wasMinigunning != minigunUp) {
-                toggleMinigunCamera(minigunUp);
-                wasMinigunning = minigunUp;
-            }
-
             //emotes
-            if (base.isAuthority && base.characterMotor.isGrounded && !minigunUp)
-            {
-                if (Input.GetKeyDown(Config.restKey.Value))
-                {
+            if (base.isAuthority && base.characterMotor.isGrounded && !minigunUp) {
+                if (Input.GetKeyDown(Config.restKey.Value)) {
                     this.outer.SetInterruptState(new Rest(), InterruptPriority.Any);
                     return;
-                }
-                else if (Input.GetKeyDown(Config.saluteKey.Value))
-                {
+                } else if (Input.GetKeyDown(Config.saluteKey.Value)) {
                     this.outer.SetInterruptState(new Salute(), InterruptPriority.Any);
                     return;
                 }
             }
-        }
-
-        private void toggleMinigunCamera(bool minigunUp) {
-
-            if (minigunUp) {
-
-                CameraParamsOverrideRequest request = new CameraParamsOverrideRequest {
-                    cameraParamsData = minigunCameraParams,
-                    priority = 0,
-                };
-
-                camOverrideHandle = base.cameraTargetParams.AddParamsOverride(request, 0.5f);
-            } else {
-
-                base.cameraTargetParams.RemoveParamsOverride(camOverrideHandle);
-            }
-
         }
 
         public override void FixedUpdate()
@@ -105,12 +63,6 @@ namespace EntityStates.Nemforcer {
             }
 
             if (this.animator) this.animator.SetBool("inCombat", (!base.characterBody.outOfCombat || !base.characterBody.outOfDanger));
-        }
-
-        public override void OnExit() {
-            base.OnExit();
-
-            toggleMinigunCamera(false);
         }
     }
 }

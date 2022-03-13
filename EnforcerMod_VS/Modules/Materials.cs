@@ -65,6 +65,7 @@ namespace Modules {
             tempMat.SetTexture("_EmTex", tempMat.GetTexture("_EmissionMap"));
             tempMat.EnableKeyword("DITHER");
 
+            //todo enable keyword in editor like i do with cull so I'm not adding it to every material
             tempMat.EnableKeyword("LIMBREMOVAL");
             tempMat.SetInt("_LimbRemovalOn", 1);
 
@@ -92,7 +93,7 @@ namespace Modules {
 
             if (cachedMaterials.Contains(material)) {
 
-                Debug.Log("cloning cached material for " + material.name + " and making unique");
+                //Debug.Log("cloning cached material for " + material.name + " and making unique");
                 return new Material(material);
             }
             return material;

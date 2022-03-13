@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Modules {
 
-    public static class Skills
+    internal static class Skills
     {
         #region genericskills
         public static void CreateSkillFamilies(GameObject targetPrefab, int families = 15, bool destroyExisting = true) {
@@ -102,6 +102,7 @@ namespace Modules {
             for (int i = 0; i < unlockableDefs.Length; i++) {
                 SkillFamily.Variant variant = skillFamily.variants[i];
                 variant.unlockableDef = unlockableDefs[i];
+                skillFamily.variants[i] = variant;
             }
         }
         #endregion

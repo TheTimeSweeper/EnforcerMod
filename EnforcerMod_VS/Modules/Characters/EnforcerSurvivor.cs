@@ -350,7 +350,7 @@ namespace Modules.Characters {
 
             Modules.Skills.AddUtilitySkills(bodyPrefab, utilitySkillDef1, utilitySkillDef2);
 
-            Modules.Skills.AddUnlockablesToFamily(bodyPrefab.GetComponent<SkillLocator>().primary.skillFamily,
+            Modules.Skills.AddUnlockablesToFamily(bodyPrefab.GetComponent<SkillLocator>().utility.skillFamily,
                                                   null,
                                                   EnforcerUnlockables.enforcerStunGrenadeUnlockableDef);
         }
@@ -648,7 +648,8 @@ namespace Modules.Characters {
         #region content
         public override void InitializeUnlockables() {
 
-            EnforcerUnlockables.RegisterUnlockables();
+            //moved to awake
+            //EnforcerUnlockables.RegisterUnlockables();
         }
 
         public override void InitializeSkins() {

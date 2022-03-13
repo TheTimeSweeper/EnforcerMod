@@ -66,7 +66,6 @@ namespace EntityStates.Nemforcer {
                 if (this.nemController)
                 {
                     this.nemController.minigunUp = false;
-                    this.nemController.UpdateCamera();
                 }
             }
             else
@@ -107,7 +106,6 @@ namespace EntityStates.Nemforcer {
                 if (this.nemController)
                 {
                     this.nemController.minigunUp = true;
-                    this.nemController.UpdateCamera();
                 }
             }
 

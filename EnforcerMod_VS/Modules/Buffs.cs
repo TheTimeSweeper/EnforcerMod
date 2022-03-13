@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Modules {
     internal static class Buffs {
@@ -20,15 +21,21 @@ namespace Modules {
         internal static BuffDef nemImpairedBuff;
 
         internal static void RegisterBuffs() {
+
+            Sprite img = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/texMovespeedBuffIcon").WaitForCompletion();
+
             protectAndServeBuff = AddNewBuff("Heavyweight", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffProtectAndServe"), EnforcerModPlugin.characterColor, false, false);
             energyShieldBuff = AddNewBuff("EnergyShield", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffProtectAndServe"), EnforcerModPlugin.characterColor, false, false);
-            skateboardBuff = AddNewBuff("Swag", RoR2.LegacyResourcesAPI.Load<Sprite>("Textures/BuffIcons/texMovespeedBuffIcon"), EnforcerModPlugin.characterColor, false, false);
+            skateboardBuff = AddNewBuff("Swag", img, EnforcerModPlugin.characterColor, false, false);
             minigunBuff = AddNewBuff("MinigunStance", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffMinigun"), new Color(1, 0.7176f, 0.1725f), false, false);
 
-            smallSlowBuff = AddNewBuff("NemSmallSelfSlow", RoR2.LegacyResourcesAPI.Load<Sprite>("Textures/BuffIcons/texBuffSlow50Icon"), new Color(0.647f, 0.168f, 0.184f), false, true);
-            bigSlowBuff = AddNewBuff("NemBigSelfSlow", RoR2.LegacyResourcesAPI.Load<Sprite>("Textures/BuffIcons/texBuffSlow50Icon"), new Color(0.65f, 0.078f, 0.078f), false, true);
-            impairedBuff = AddNewBuff("Impaired", RoR2.LegacyResourcesAPI.Load<Sprite>("Textures/BuffIcons/texBuffCloakIcon"), new Color(0.85f * 228f / 255f, 0.85f * 255f / 255f, 0.85f * 79f / 255f), false, true);
-            nemImpairedBuff = AddNewBuff("NemImpaired", RoR2.LegacyResourcesAPI.Load<Sprite>("Textures/BuffIcons/texBuffSlow50Icon"), Color.red, false, true);
+            Sprite slowIcon =  Assets.LoadBuffSprite("RoR2/Base/Common/bdSlow50.asset");
+            Sprite cloakIcon = Assets.LoadBuffSprite("RoR2/Base/Common/bdCloak.asset");
+
+            smallSlowBuff = AddNewBuff("NemSmallSelfSlow", slowIcon, new Color(0.647f, 0.168f, 0.184f), false, true);
+            bigSlowBuff = AddNewBuff("NemBigSelfSlow", slowIcon, new Color(0.65f, 0.078f, 0.078f), false, true);
+            impairedBuff = AddNewBuff("Impaired", cloakIcon, new Color(0.85f * 228f / 255f, 0.85f * 255f / 255f, 0.85f * 79f / 255f), false, true);
+            nemImpairedBuff = AddNewBuff("NemImpaired", slowIcon, Color.red, false, true);
         }
 
         // simple helper method

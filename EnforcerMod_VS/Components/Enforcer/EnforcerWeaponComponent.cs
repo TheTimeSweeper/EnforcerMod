@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnforcerWeaponComponent : MonoBehaviour {
+
     public enum EquippedGun {
         NONE = -1,
         GUN,
@@ -389,21 +390,6 @@ public class EnforcerWeaponComponent : MonoBehaviour {
             }
         }
     }
-
-    //todo CUM2 delete this
-    //public void UpdateCamera() {
-    //    this.isMultiplayer = Run.instance.participatingPlayerCount > 1;
-
-    //    if (this.isMultiplayer) {
-    //        this.cameraShit.cameraParams.standardLocalCameraPos = EnforcerMain.standardCameraPosition;
-    //    } else {
-    //        if (!this.shieldUp) {
-    //            this.cameraShit.cameraParams.standardLocalCameraPos = EnforcerMain.standardCameraPosition;
-    //        } else {
-    //            this.cameraShit.cameraParams.standardLocalCameraPos = EnforcerMain.shieldCameraPosition;
-    //        }
-    //    }
-    //}
 
     private void InitShells() {
         if (this.childLocator is null) return;

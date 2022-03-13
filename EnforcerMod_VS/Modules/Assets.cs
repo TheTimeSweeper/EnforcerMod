@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using EnforcerPlugin;
+using UnityEngine.AddressableAssets;
 
 namespace Modules {
 
@@ -340,6 +341,10 @@ namespace Modules {
         }
 
         #region helpers
+
+        internal static Sprite LoadBuffSprite(string path) {
+            return Addressables.LoadAssetAsync<BuffDef>(path).WaitForCompletion().iconSprite;
+        }
 
         internal static NetworkSoundEventDef CreateNetworkSoundEventDef(string eventName) {
             NetworkSoundEventDef networkSoundEventDef = ScriptableObject.CreateInstance<NetworkSoundEventDef>();

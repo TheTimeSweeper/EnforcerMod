@@ -30,6 +30,13 @@ namespace Modules {
 
         internal static List<NetworkSoundEventDef> networkSoundEventDefs = new List<NetworkSoundEventDef>();
 
+        public void Initialize() {
+            ContentManager.collectContentPackProviders += ContentManager_collectContentPackProviders;
+        }
+
+        private void ContentManager_collectContentPackProviders(ContentManager.AddContentPackProviderDelegate addContentPackProvider) {
+            addContentPackProvider(this);
+        }
 
         public IEnumerator FinalizeAsync(FinalizeAsyncArgs args) {
             args.ReportProgress(1f);

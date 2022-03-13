@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using RoR2;
-using ModdedUnlockable = Modules.ModdedUnlockable;
 
 namespace EnforcerPlugin.Achievements {
     public abstract class BaseMasteryUnlockable : GenericModdedUnlockable
