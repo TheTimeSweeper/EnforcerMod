@@ -60,8 +60,7 @@ lil out of date
 
 [![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)]()
 
-## Known Issues
-- Item displays not currently implemented 
+## Known Issues 
 - Cancelling shield with sprint does not work properly in multiplayer
 
 ## Future Plans
@@ -74,6 +73,13 @@ lil out of date
 - Help
 
 ## Changelog
+
+`3.2.13`
+ - Fixed shuriken and other things hitting shield
+ - readded item displays, might still need fixing, doesn't include sotv content
+ - fixed camera getting stuck in shield/minigun POV
+ - potential fix for void dios bug
+ - fixed achievements not properly added for skills
 
 `3.2.12`
  - Fixed some sounds being too ear-bleeding loud. 
