@@ -26,9 +26,9 @@ namespace Modules {
 
             protectAndServeBuff = AddNewBuff("Heavyweight", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffProtectAndServe"), EnforcerModPlugin.characterColor, false, false);
             energyShieldBuff = AddNewBuff("EnergyShield", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffProtectAndServe"), EnforcerModPlugin.characterColor, false, false);
-            skateboardBuff = AddNewBuff("Swag", img, EnforcerModPlugin.characterColor, false, false);
-            minigunBuff = AddNewBuff("MinigunStance", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffMinigun"), new Color(1, 0.7176f, 0.1725f), false, false);
-
+            skateboardBuff = AddNewBuff("Swag", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffMinigun"), EnforcerModPlugin.characterColor, false, false);
+            minigunBuff = AddNewBuff("MinigunStance", Addressables.LoadAssetAsync<BuffDef>("RoR2/Base/Common/bdOnFire.asset").WaitForCompletion().iconSprite, new Color(1, 0.7176f, 0.1725f), false, false);
+                                                      
             Sprite slowIcon =  Assets.LoadBuffSprite("RoR2/Base/Common/bdSlow50.asset");
             Sprite cloakIcon = Assets.LoadBuffSprite("RoR2/Base/Common/bdCloak.asset");
 

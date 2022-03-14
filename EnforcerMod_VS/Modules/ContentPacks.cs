@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Modules {
     //quick and dirty adadptaion of this module to the new interface
-    public class ContentPacks : IContentPackProvider {
+    internal class ContentPacks : IContentPackProvider {
         private static ContentPack contentPack = new ContentPack();
 
         public string identifier => "Enforcer.EnforcerContent";

@@ -211,9 +211,21 @@ namespace Modules
                 } else {
                     Renderer rend = childLocator.FindChild(customInfos[i].childName).GetComponent<Renderer>();
                     if (rend) {
+
+                        Material mat = customInfos[i].material;
+
+                        if(mat == null) {
+                            if (customInfos[i].dontHotpoo) {
+                                mat = rend.material;
+                            } else {
+                                mat = rend.material.SetHotpooMaterial();
+                            }
+                        }
+
+
                         rendererInfos.Add(new CharacterModel.RendererInfo {
                             renderer = rend,
-                            defaultMaterial = customInfos[i].material != null? customInfos[i].material : rend.material.SetHotpooMaterial(),
+                            defaultMaterial = mat,
                             ignoreOverlays = customInfos[i].ignoreOverlays,
                             defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On
                         });

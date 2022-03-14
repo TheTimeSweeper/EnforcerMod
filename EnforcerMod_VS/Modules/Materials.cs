@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Modules {
 
-    public static class Materials {
+    internal static class Materials {
 
         private static List<Material> cachedMaterials = new List<Material>();
 
@@ -65,9 +65,9 @@ namespace Modules {
             tempMat.SetTexture("_EmTex", tempMat.GetTexture("_EmissionMap"));
             tempMat.EnableKeyword("DITHER");
 
-            //todo enable keyword in editor like i do with cull so I'm not adding it to every material
-            tempMat.EnableKeyword("LIMBREMOVAL");
-            tempMat.SetInt("_LimbRemovalOn", 1);
+            if (tempMat.IsKeywordEnabled("LIMBREMOVAL")) {
+                tempMat.SetInt("_LimbRemovalOn", 1);
+            }
 
             if (bumpScale != null) {
                 tempMat.SetFloat("_NormalStrength", (float)bumpScale);
@@ -77,7 +77,7 @@ namespace Modules {
                 tempMat.SetFloat("_EmPower", 1);
             }
 
-            if (tempMat.IsKeywordEnabled("_CULL")) {
+            if (tempMat.IsKeywordEnabled("CULL")) {
                 tempMat.SetInt("_Cull", 0);
             }
 

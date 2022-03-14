@@ -1046,6 +1046,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: MatGM.001
+    second: {fileID: 2100000, guid: 6b1d75d72586b71459fe5941be563261, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: MatGMShield
     second: {fileID: 2100000, guid: 17bf8c810b1937147b52e80e21729a15, type: 2}
   - first:

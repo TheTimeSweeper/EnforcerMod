@@ -1,7 +1,6 @@
 ﻿using RoR2;
 
-namespace EnforcerPlugin.Achievements
-{
+namespace EnforcerPlugin.Achievements {
 
     public class AssaultRifleAchievement : GenericModdedUnlockable
     {

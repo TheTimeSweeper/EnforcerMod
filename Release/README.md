@@ -1,6 +1,6 @@
 # Enforcer
 - Adds the Enforcer from Risk of Rain 1
-- Includes a bunch of unlockable alternate skills ~~and skins~~
+- Includes a bunch of unlockable alternate skills and skins
 - Includes support for Ancient Scepter ~~and most modded items~~
 
 [![](https://i.imgur.com/mQNrhfH.png)]()
@@ -26,6 +26,7 @@ DarkLordLui - Animations
 Paysus - Animations  
 Violet Chaolan - Sounds  
 LucidInceptor (2cute2game) - Modeling  
+Dotflare - texture assistance  
 SalvadorBunny - Heavy TF2 Minecraft skin  
 Destructor - Original mod icon, help  
 Nebby - Help  
@@ -73,6 +74,13 @@ lil out of date
 - Help
 
 ## Changelog
+
+`3.3.1`
+ - Re-Added two skins with achievements: 
+   - Grandmastery Achievement: Unlocked by beating the game on typhoon or higher (use UntitledDifficultyMod or MoreDifficulties for that)
+     - huge thanks to Dotflare for the texture work, and of course Bruh for the model
+   - Clearance Achievement: Clear Void Fields at any stage
+ - Added unlock achievement for classic skin. press 3
 
 `3.2.13`
  - Fixed shuriken and other things hitting shield

@@ -8,7 +8,7 @@ using System.Reflection;
 using UnityEngine;
 
 namespace Modules {
-    public static class Unlockables {
+    internal static class Unlockables {
         private static readonly HashSet<string> usedRewardIds = new HashSet<string>();
         public static List<AchievementDef> achievementDefs = new List<AchievementDef>();
         public static List<UnlockableDef> unlockableDefs = new List<UnlockableDef>();

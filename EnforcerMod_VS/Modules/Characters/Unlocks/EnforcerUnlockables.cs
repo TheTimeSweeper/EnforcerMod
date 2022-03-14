@@ -10,20 +10,22 @@ namespace Modules {
         public static UnlockableDef enforcerMasteryUnlockableDef;
         public static UnlockableDef enforcerGrandMasteryUnlockableDef;
 
+        //skills
         public static UnlockableDef enforcerARUnlockableDef;
         public static UnlockableDef enforcerDoomUnlockableDef;
         public static UnlockableDef enforcerStunGrenadeUnlockableDef;
 
+        //extra skins
         public static UnlockableDef enforcerRobitUnlockableDef;
         public static UnlockableDef enforcerClassicUnlockableDef;
+        public static UnlockableDef enforcerNemesisSkinUnlockableDef;
 
+        //Nemforcer
         public static UnlockableDef nemesisUnlockableDef;
         public static UnlockableDef nemMasteryUnlockableDef;
         public static UnlockableDef nemGrandMasteryUnlockableDef;
 
         public static void RegisterUnlockables() {
-
-            RegisterTokens();
 
             //this is the version that works with the altered AddUnlockable I changed in R2API.
             //look at #r2api in the discord to see what I mean. I went into more detail in #development as well
@@ -32,16 +34,17 @@ namespace Modules {
             //      fucking it was never merged in i'm reeing so hard right now
             enforcerUnlockableDef = Config.forceUnlock.Value ? null : Unlockables.AddUnlockable<EnforcerUnlockAchievement>(typeof(EnforcerUnlockAchievement.EnforcerUnlockAchievementServer));
             enforcerMasteryUnlockableDef = Unlockables.AddUnlockable<MasteryAchievementButEpic>();
-            //remember to increment the robit skin in applyskin in achievement
-            //enforcerGrandMasteryUnlockableDef = Unlockables.AddUnlockable<GrandMasteryAchievement>();
+            enforcerGrandMasteryUnlockableDef = Unlockables.AddUnlockable<GrandMasteryAchievement>();
 
             enforcerDoomUnlockableDef = Unlockables.AddUnlockable<DoomAchievement>(typeof(DoomAchievement.DoomAchievementServer));
             enforcerARUnlockableDef = Unlockables.AddUnlockable<AssaultRifleAchievement>();
             enforcerStunGrenadeUnlockableDef = Unlockables.AddUnlockable<StunGrenadeAchievement>();
 
             enforcerRobitUnlockableDef = Unlockables.AddUnlockable<RobitAchievement>(typeof(RobitAchievement.RobitAchievementServer));
-            //UnlockablesAPI.AddUnlockable<Achievements.NemesisSkinAchievement>(true);
-            //enforcerClassicUnlockableDef = Unlockables.AddUnlockable<ClassicAchievement>();
+
+            enforcerNemesisSkinUnlockableDef = Unlockables.AddUnlockable<RecolorNemesisSkinAchievement>();
+
+            enforcerClassicUnlockableDef = Unlockables.AddUnlockable<ClassicAchievement>();
 
             //if (!Config.hateFun.Value)
             //{
@@ -57,102 +60,10 @@ namespace Modules {
             //    UnlockablesAPI.AddUnlockable<Achievements.SteveAchievement>(true);
             //}
 
-
             nemesisUnlockableDef = Unlockables.AddUnlockable<NemesisAchievement>();
             nemMasteryUnlockableDef = Unlockables.AddUnlockable<NemMasteryAchievement>();
             nemGrandMasteryUnlockableDef = Unlockables.AddUnlockable<NemGrandMasteryAchievement>();
             //    UnlockablesAPI.AddUnlockable<Achievements.NemDominanceAchievement>(true);
-        }
-
-        private static void RegisterTokens() {
-            #region enf
-            //character
-            LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME", "Riot");
-            LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC", "Kill a Magma Worm, a Wandering Vagrant and a Stone Titan in a single run.");
-            LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_UNLOCKABLE_NAME", "Riot");
-
-            LanguageAPI.Add("ENFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Mastery");
-            LanguageAPI.Add("ENFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Monsoon.");
-            LanguageAPI.Add("ENFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Mastery");
-
-            string masteryFootnote = EnforcerModPlugin.starstormInstalled ? "" : "\n<color=#8888>(Typhoon difficulty requires Starstorm 2)</color>";
-
-            LanguageAPI.Add("ENFORCER_GRANDMASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Grand Mastery");
-            LanguageAPI.Add("ENFORCER_GRANDMASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Typhoon or higher." + masteryFootnote);
-            LanguageAPI.Add("ENFORCER_GRANDMASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Grand Mastery");
-
-            //skills
-            LanguageAPI.Add("ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Rip and Tear...");
-            LanguageAPI.Add("ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, kill 40 imps in a single stage.");
-            LanguageAPI.Add("ENFORCER_DOOMUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Rip and Tear...");
-
-            LanguageAPI.Add("ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Rapidfire");
-            LanguageAPI.Add("ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, reach +400% attack speed.");
-            LanguageAPI.Add("ENFORCER_RIFLEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Rapidfire");
-
-            LanguageAPI.Add("ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Crowd Control");
-            LanguageAPI.Add("ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, have 20 enemies under the effects of Tear Gas at once.");
-            LanguageAPI.Add("ENFORCER_STUNGRENADEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Crowd Control");
-
-            //skans                                                       //technically not robocop quote but a lot more understandable in general
-            LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: We Have the Technology");
-            LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, fall and be brought back to life.");
-            LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: We Have the Technology");
-
-
-            //LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Clearance");
-            //LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, stabilize the Cell in the Void Fields.");
-            //LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Clearance");
-
-            //LanguageAPI.Add("ENFORCER_DOOMINTERNALUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: ...Until it is done");
-            //LanguageAPI.Add("ENFORCER_DOOMINTERNALUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, kill 4 imp overlords in a single stage.");
-            //LanguageAPI.Add("ENFORCER_DOOMINTERNALUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: ...Until it is done");
-
-            LanguageAPI.Add("ENFORCER_CLASSICUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Schmoovin'");
-            LanguageAPI.Add("ENFORCER_CLASSICUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, show off your dance moves.");
-            LanguageAPI.Add("ENFORCER_CLASSICUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Schmoovin'");
-
-            //LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Rules of Nature");
-            //LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, Defeat the unique guardian of Gilded Coast by pushing it off the edge of the map. <color=#c11>Host only</color>");
-            //LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Rules of Nature");
-
-            //LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Enforcing Perfection");
-            //LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, become one with the Bungus.");
-            //LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Enforcing Perfection");
-
-            //LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Long Live the Empire");
-            //LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, defeat an elite Solus Control Unit. <color=#c11>Host only</color>");
-            //LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Long Live the Empire");
-
-            //LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Through Thick and Thin");
-            //LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, make a friend on the moon.");
-            //LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Through Thick and Thin");
-
-            //LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Block");
-            //LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, block an attack with your shield.");
-            //LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Block");
-
-            #endregion
-
-            #region nem
-            //character
-            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_NAME", "???");
-            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC", "On monsoon, stabilize the anomaly, and defeat Enforcer's Vestige.");
-            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_UNLOCKABLE_NAME", "???");
-
-            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Mastery");
-            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Monsoon.");
-            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Mastery");
-
-            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Grand Mastery");
-            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Typhoon or higher." + masteryFootnote);
-            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Grand Mastery");
-
-            //sken
-            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Demolition");
-            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, destroy 5 projectiles at once with Dominance.");
-            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Demolition");
-            #endregion
         }
     }
 }
@@ -407,41 +318,6 @@ namespace EnforcerPlugin.Achievements {
     //        base.OnUninstall();
 
     //        GlobalEventManager.onCharacterDeathGlobal -= CheckDeath;
-    //    }
-    //}
-
-    //public class NemesisSkinAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
-    //{
-    //    public override String AchievementIdentifier { get; } = "ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_ID";
-    //    public override String UnlockableIdentifier { get; } = "ENFORCER_NEMESISSKINUNLOCKABLE_REWARD_ID";
-    //    public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_NEMESISSKINUNLOCKABLE_PREREQ_ID";
-    //    public override String AchievementNameToken { get; } = "ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_NAME";
-    //    public override String AchievementDescToken { get; } = "ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_DESC";
-    //    public override String UnlockableNameToken { get; } = "ENFORCER_NEMESISSKINUNLOCKABLE_UNLOCKABLE_NAME";
-    //    protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texNemforcerAchievement.png");
-
-    //    public override int LookUpRequiredBodyIndex()
-    //    {
-    //        return BodyCatalog.FindBodyIndex("EnforcerBody");
-    //    }
-
-    //    private void Check()
-    //    {
-    //        if (base.meetsBodyRequirement) base.Grant();
-    //    }
-
-    //    public override void OnInstall()
-    //    {
-    //        base.OnInstall();
-
-    //        ArenaMissionController.onBeatArena += Check;
-    //    }
-
-    //    public override void OnUninstall()
-    //    {
-    //        base.OnUninstall();
-
-    //        ArenaMissionController.onBeatArena -= Check;
     //    }
     //}
 

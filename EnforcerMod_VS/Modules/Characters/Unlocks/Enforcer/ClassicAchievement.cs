@@ -7,7 +7,7 @@ namespace EnforcerPlugin.Achievements
         public override string AchievementTokenPrefix => "ENFORCER_CLASSIC";
         public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
 
-        public override string AchievementSpriteName => "texClassicAchievement";
+        public override string AchievementSpriteName => "texEnforcerAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex()
         {
@@ -16,7 +16,12 @@ namespace EnforcerPlugin.Achievements
 
         private void Schmoovin(bool isDancing)
         {
-            if (base.meetsBodyRequirement && isDancing) base.Grant();
+            if (base.meetsBodyRequirement && isDancing) {
+                base.Grant();
+
+
+                localUser.cachedBody.GetComponent<EnforcerNetworkComponent>().RpcUhh(6);
+            }
         }
 
         public override void OnInstall()

@@ -63,8 +63,8 @@ namespace EnforcerPlugin.Achievements
 
                 //bool fucker = base.GetCurrentBody() == self.GetComponent<CharacterModel>().body;
                 if (_applyingSkin) {
-                    skinIndex = 2;
-                    self.characterModel.body.GetComponent<EnforcerNetworkComponent>().RpcUhh(2);
+                    skinIndex = 3;
+                    self.characterModel.body.GetComponent<EnforcerNetworkComponent>().RpcUhh(3);
                     On.RoR2.ModelSkinController.ApplySkin -= ModelSkinController_ApplySkin;
                 }
                 orig(self, skinIndex);

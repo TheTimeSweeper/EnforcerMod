@@ -5,9 +5,43 @@ using R2API;
 using System;
 
 namespace Modules {
-    public class Tokens {
+    internal class Tokens {
         //we doin this?
         public static void RegisterTokens() {
+
+            RegisterEnforcerTokens();
+
+            RegisterNemforcerTokens();
+
+        }
+
+        private static void RegisterNemforcerTokens() {
+
+            #region Achievements
+            //character
+            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_NAME", "???");
+            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC", "On monsoon, stabilize the anomaly, and defeat Enforcer's Vestige.");
+            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_UNLOCKABLE_NAME", "???");
+
+            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Mastery");
+            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Monsoon.");
+            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Mastery");
+
+            string masteryFootnote = EnforcerModPlugin.starstormInstalled ? "" : "\n<color=#8888>(Typhoon from Starstorm 2, or Deluge from UntitledDifficulties, etc)</color>";
+
+            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Grand Mastery");
+            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Typhoon or higher." + masteryFootnote);
+            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Grand Mastery");
+
+            //sken
+            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Demolition");
+            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, destroy 5 projectiles at once with Dominance.");
+            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Demolition");
+            #endregion
+        }
+
+        private static void RegisterEnforcerTokens() {
+
             #region Enforcer
 
             const string characterName = "Enforcer";
@@ -129,18 +163,19 @@ namespace Modules {
             #region Skins
             LanguageAPI.Add("ENFORCERBODY_DEFAULT_SKIN_NAME", "Default");
             LanguageAPI.Add("ENFORCERBODY_MASTERY_SKIN_NAME", "Peacekeeper");
+            LanguageAPI.Add("ENFORCERBODY_TYPHOON_SKIN_NAME", "Lawbringer");
             LanguageAPI.Add("ENFORCERBODY_BOT_SKIN_NAME", "N-4CR");
             LanguageAPI.Add("ENFORCERBODY_CLASSIC_SKIN_NAME", "Classic");
 
             LanguageAPI.Add("ENFORCERBODY_NEMESIS_SKIN_NAME", "Nemesis");
-            LanguageAPI.Add("ENFORCERBODY_TYPHOON_SKIN_NAME", "Lawbringer");
 
+            //not in yet
             LanguageAPI.Add("ENFORCERBODY_SPACE_SKIN_NAME", "Rainstormtrooper");
             LanguageAPI.Add("ENFORCERBODY_ENGI_SKIN_NAME", "Engineer?");
             LanguageAPI.Add("ENFORCERBODY_DOOM_SKIN_NAME", "Doom Slayer");
             LanguageAPI.Add("ENFORCERBODY_DESPERADO_SKIN_NAME", "Desperado");
             LanguageAPI.Add("ENFORCERBODY_FEM_SKIN_NAME", "Femforcer");
-            LanguageAPI.Add("ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME", "Block");
+            LanguageAPI.Add("ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME", "Blocked");
             #endregion Skins
 
             #region Achievements
@@ -153,7 +188,7 @@ namespace Modules {
             LanguageAPI.Add("ENFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Monsoon.");
             LanguageAPI.Add("ENFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Mastery");
 
-            string masteryFootnote = EnforcerModPlugin.starstormInstalled ? "" : "\n<color=#8888>(Typhoon difficulty requires Starstorm 2)</color>";
+            string masteryFootnote = EnforcerModPlugin.starstormInstalled ? "" : "\n<color=#8888>(Typhoon from Starstorm 2, or Deluge from UntitledDifficulties, etc)</color>";
 
             LanguageAPI.Add("ENFORCER_GRANDMASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Grand Mastery");
             LanguageAPI.Add("ENFORCER_GRANDMASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Typhoon or higher." + masteryFootnote);
@@ -178,12 +213,12 @@ namespace Modules {
             LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: We Have the Technology");
 
 
-            //LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Clearance");
-            //LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, stabilize the Cell in the Void Fields.");
-            //LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Clearance");
+            LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Clearance");
+            LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, stabilize the Cell in the Void Fields.");
+            LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Clearance");
 
             //LanguageAPI.Add("ENFORCER_DOOMINTERNALUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: ...Until it is done");
-            //LanguageAPI.Add("ENFORCER_DOOMINTERNALUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, kill 4 imp overlords in a single stage.");
+            //LanguageAPI.Add("ENFORCER_DOOMINTERNALUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, kill 10 imp overlords in a single run.");
             //LanguageAPI.Add("ENFORCER_DOOMINTERNALUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: ...Until it is done");
 
             LanguageAPI.Add("ENFORCER_CLASSICUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Schmoovin'");
@@ -206,14 +241,11 @@ namespace Modules {
             //LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, make a friend on the moon.");
             //LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Through Thick and Thin");
 
-            //LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Block");
+            //LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Blocks");
             //LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, block an attack with your shield.");
-            //LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Block");
+            //LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Blocks");
 
             #endregion Achievements
-
-            #region uh
-            #endregion uh
         }
     }
 }

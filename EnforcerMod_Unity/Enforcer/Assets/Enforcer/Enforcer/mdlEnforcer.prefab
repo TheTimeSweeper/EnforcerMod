@@ -2835,7 +2835,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.00000021383417, y: 0.00000023546161, z: 0.00000007339146}
+  m_ConnectedAnchor: {x: 0.00000022226338, y: 0.0000002337396, z: 0.000000049763308}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -3188,7 +3188,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.035394758, y: 0.28931856, z: -0.4176559}
+  m_ConnectedAnchor: {x: 0.03539475, y: 0.28931856, z: -0.41765594}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -3406,7 +3406,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.022904078, y: 0.17834407, z: -0.15968603}
+  m_ConnectedAnchor: {x: -0.022904059, y: 0.17834406, z: -0.15968609}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -3515,7 +3515,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.01913972, y: 0.15494128, z: 0.16620877}
+  m_ConnectedAnchor: {x: -0.019139728, y: 0.15494128, z: 0.16620879}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -5697,7 +5697,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.018411063, y: 0.47138312, z: 0.0055061635}
+  m_ConnectedAnchor: {x: -0.018411078, y: 0.47138312, z: 0.0055061057}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -7751,7 +7751,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4102519779649328068
 Transform:
   m_ObjectHideFlags: 0
@@ -7784,7 +7784,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 75fec93fba8cd3e4e826a8b8c3589cb0, type: 2}
+  - {fileID: 2100000, guid: ee54abbb80ecec04c9c7d5cc338313f9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7809,7 +7809,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300018, guid: c3e5a7a6dff7c6443afe2f5cb35a64e8, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 0ee2c7eb6b4aa654686c7ab763176996, type: 2}
   m_Bones:
   - {fileID: 2746367180934513079}
   - {fileID: 2746367180934512705}
@@ -9304,7 +9304,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3457765109960754718
 Transform:
   m_ObjectHideFlags: 0

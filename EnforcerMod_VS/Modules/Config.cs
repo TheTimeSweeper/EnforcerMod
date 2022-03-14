@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Modules {
 
-    public class Config {
+    internal class Config {
 
         public static ConfigEntry<bool> forceUnlock;
         public static ConfigEntry<bool> classicShotgun;
@@ -150,7 +150,6 @@ namespace Modules {
                                      KeyCode.Alpha2,
                                      "Key used to Salute");
 
-            if (!EnforcerModPlugin.holdonasec) {
                 danceKey
                     = plugin.Config.Bind("02 - Keybinds",
                                          "Dance Moves Emote",
@@ -161,7 +160,7 @@ namespace Modules {
                                             "Earl Run Emote",
                                             KeyCode.Alpha4,
                                             "FLINT LOCKWOOD");
-            }
+            
             sirensKey
                 = plugin.Config.Bind("02 - Keybinds",
                                         "Sirens",

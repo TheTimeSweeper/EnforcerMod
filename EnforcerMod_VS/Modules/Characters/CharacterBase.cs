@@ -87,7 +87,9 @@ namespace Modules.Characters {
         }
 
         public void SetItemDisplays() {
-            itemDisplays.SetItemDIsplays(characterBodyModel.itemDisplayRuleSet);
+            if (itemDisplays != null) {
+                itemDisplays.SetItemDIsplays(characterBodyModel.itemDisplayRuleSet);
+            }
         }
 
     }
@@ -182,5 +184,6 @@ namespace Modules.Characters {
         public string childName;
         public Material material = null;
         public bool ignoreOverlays = false;
+        public bool dontHotpoo = false;
     }
 }

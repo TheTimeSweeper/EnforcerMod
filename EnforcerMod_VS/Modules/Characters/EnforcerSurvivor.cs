@@ -59,6 +59,8 @@ namespace Modules.Characters {
             },
             new CustomRendererInfo {
                 childName = "ShieldGlassModel",
+                dontHotpoo = true,
+                ignoreOverlays = true,
             },
             new CustomRendererInfo {
                 childName = "SkamteBordModel",
@@ -87,7 +89,7 @@ namespace Modules.Characters {
 
         public override Type characterMainState => typeof(EnforcerMain);
 
-        public override ItemDisplaysBase itemDisplays => null; //todo CUM2
+        public override ItemDisplaysBase itemDisplays => null; //item displays handled by our own script instead of the new system
 
         public override UnlockableDef characterUnlockableDef => EnforcerUnlockables.enforcerUnlockableDef;
 

@@ -5,7 +5,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace Modules {
-    public class Content {
+    internal class Content {
 
         //must be some DRY way to do this
 

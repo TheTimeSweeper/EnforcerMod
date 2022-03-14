@@ -113,11 +113,11 @@ namespace EnforcerPlugin {
             defaultSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
             defaultSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            defaultSkinDefInfo.GameObjectActivations = getGameObjectActivations();
+            defaultSkinDefInfo.GameObjectActivations = getGameObjectActivations(sexforcerGlass);
 
             defaultSkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
                 "meshEnforcerShield",
-                null,//sex shield glass
+                "meshEnforcerShieldGlass",
                 "meshEnforcerSkamteBord",
                 "meshEnforcerGun",
                 "meshClassicGunSuper",
@@ -162,19 +162,63 @@ namespace EnforcerPlugin {
             masterySkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[defaultSkinDef.rendererInfos.Length];
             defaultSkinDef.rendererInfos.CopyTo(masterySkinDefInfo.RendererInfos, 0);
 
-            masterySkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matSexforcerShield", 0f, Color.black, 1f);
+            masterySkinDefInfo.RendererInfos[0].defaultMaterial = Materials.CreateHotpooMaterial("matSexforcerShield");
             //take default
             //masterySkinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matSexforcerShieldGlass", 0f, Color.black, 0);
-            masterySkinDefInfo.RendererInfos[2].defaultMaterial = Assets.CreateMaterial("matSexforcerBoard", 0f, Color.white, 0f);
+            masterySkinDefInfo.RendererInfos[2].defaultMaterial = Materials.CreateHotpooMaterial("matSexforcerBoard");
             //masterySkinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matEnforcerGun", 0f, Color.white, 0f);
             //masterySkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.white, 0f);
             //masterySkinDefInfo.RendererInfos[5].defaultMaterial = Assets.CreateMaterial("matClassicGunHMG", 0f, Color.white, 0f);
             //masterySkinDefInfo.RendererInfos[6].defaultMaterial = Assets.CreateMaterial("matEnforcerHammer", 0f, Color.white, 0f);
-            masterySkinDefInfo.RendererInfos[7].defaultMaterial = Assets.CreateMaterial("matSexforcer", 1f, Color.white, 0f);
-            masterySkinDefInfo.RendererInfos[8].defaultMaterial = Assets.CreateMaterial("matSexforcer", 1f, Color.white, 0f);
+            masterySkinDefInfo.RendererInfos[7].defaultMaterial = Materials.CreateHotpooMaterial("matSexforcer");
+            masterySkinDefInfo.RendererInfos[8].defaultMaterial = Materials.CreateHotpooMaterial("matSexforcer");
 
             SkinDef masterySkin = CreateSkinDef(masterySkinDefInfo);
             skinDefs.Add(masterySkin);
+            #endregion
+
+            #region GrandMastery
+            SkinDefInfo grandMasterySkinDefInfo = new SkinDefInfo();
+            grandMasterySkinDefInfo.Name = "ENFORCERBODY_TYPHOON_SKIN_NAME";
+            grandMasterySkinDefInfo.NameToken = "ENFORCERBODY_TYPHOON_SKIN_NAME";
+            grandMasterySkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texTyphoonAchievement");
+            grandMasterySkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerGrandMasteryUnlockableDef;
+            grandMasterySkinDefInfo.RootObject = modelTransform;
+
+            grandMasterySkinDefInfo.BaseSkins = new SkinDef[] { defaultSkinDef };
+            grandMasterySkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            grandMasterySkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+
+            grandMasterySkinDefInfo.GameObjectActivations = getGameObjectActivations(sexforcerGlass);
+
+            grandMasterySkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
+                "meshGMShield",
+                "meshGMShieldGlass",
+                null,//board
+                null,//"meshEnforcerGun",
+                null,//"meshClassicGunSuper",
+                null,//"meshClassicGunHMG",
+                null,//"meshEnforcerHammer",
+                "meshGMPauldron",
+                "meshGM"
+                );
+
+            grandMasterySkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[defaultSkinDef.rendererInfos.Length];
+            defaultSkinDef.rendererInfos.CopyTo(grandMasterySkinDefInfo.RendererInfos, 0);
+
+            grandMasterySkinDefInfo.RendererInfos[0].defaultMaterial = Materials.CreateHotpooMaterial("matGMShield");
+            //take default
+            //grandMasterySkinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matSexforcerShieldGlass", 0f, Color.black, 0);
+            //grandMasterySkinDefInfo.RendererInfos[2].defaultMaterial = Materials.CreateHotpooMaterial("matSexforcerBoard");
+            grandMasterySkinDefInfo.RendererInfos[3].defaultMaterial = Materials.CreateHotpooMaterial("matGMGun");
+            //grandMasterySkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.white, 0f);
+            //grandMasterySkinDefInfo.RendererInfos[5].defaultMaterial = Assets.CreateMaterial("matClassicGunHMG", 0f, Color.white, 0f);
+            //grandMasterySkinDefInfo.RendererInfos[6].defaultMaterial = Assets.CreateMaterial("matEnforcerHammer", 0f, Color.white, 0f);
+            grandMasterySkinDefInfo.RendererInfos[7].defaultMaterial = Materials.CreateHotpooMaterial("matGM");
+            grandMasterySkinDefInfo.RendererInfos[8].defaultMaterial = Materials.CreateHotpooMaterial("matGM");
+
+            SkinDef grandMasterySkin = CreateSkinDef(grandMasterySkinDefInfo);
+            skinDefs.Add(grandMasterySkin);
             #endregion
 
             #region robit
@@ -206,15 +250,15 @@ namespace EnforcerPlugin {
             robitSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[defaultSkinDef.rendererInfos.Length];
             defaultSkinDef.rendererInfos.CopyTo(robitSkinDefInfo.RendererInfos, 0);
 
-            robitSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matN4CR", 1f, Color.white, 0f);
-            //[1] take default
-            //[2] take default
-            robitSkinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matN4CR", 1f, Color.white, 0f);
-            robitSkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matN4CR", 1f, Color.white, 0f);
-            robitSkinDefInfo.RendererInfos[5].defaultMaterial = Assets.CreateMaterial("matN4CR", 1f, Color.white, 0f);
-            //[6] take default hammer
-            robitSkinDefInfo.RendererInfos[7].defaultMaterial = Assets.CreateMaterial("matN4CR", 1f, Color.white, 0f);
-            robitSkinDefInfo.RendererInfos[8].defaultMaterial = Assets.CreateMaterial("matN4CR", 1f, Color.white, 0f);
+            robitSkinDefInfo.RendererInfos[0].defaultMaterial = Materials.CreateHotpooMaterial("matN4CR");
+            //[1] take default                                  
+            //[2] take default                                  
+            robitSkinDefInfo.RendererInfos[3].defaultMaterial = Materials.CreateHotpooMaterial("matN4CR");
+            robitSkinDefInfo.RendererInfos[4].defaultMaterial = Materials.CreateHotpooMaterial("matN4CR");
+            robitSkinDefInfo.RendererInfos[5].defaultMaterial = Materials.CreateHotpooMaterial("matN4CR");
+            //[6] take default hammer                           
+            robitSkinDefInfo.RendererInfos[7].defaultMaterial = Materials.CreateHotpooMaterial("matN4CR");
+            robitSkinDefInfo.RendererInfos[8].defaultMaterial = Materials.CreateHotpooMaterial("matN4CR");
 
             SkinDef robitSkinDef = CreateSkinDef(robitSkinDefInfo);
             skinDefs.Add(robitSkinDef);
@@ -225,7 +269,7 @@ namespace EnforcerPlugin {
             classicSkinDefInfo.Name = "ENFORCERBODY_CLASSIC_SKIN_NAME";
             classicSkinDefInfo.NameToken = "ENFORCERBODY_CLASSIC_SKIN_NAME";
             classicSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
-            //classicSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerMasteryUnlockableDef;
+            classicSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerClassicUnlockableDef;
             classicSkinDefInfo.RootObject = modelTransform;
 
             classicSkinDefInfo.BaseSkins = new SkinDef[] { defaultSkinDef };
@@ -236,7 +280,7 @@ namespace EnforcerPlugin {
 
             classicSkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
                 null,//"meshEnforcerShield",
-                null,//"meshSexforcerShieldGlass",
+                null,//"meshEnforcerShieldGlass",//take default
                 null,//board
                 "meshClassicGun",
                 "meshClassicGunSuper",
@@ -252,15 +296,59 @@ namespace EnforcerPlugin {
             //classicSkinDefInfo.RendererInfos[0].defaultMaterial = Assets.CreateMaterial("matEnforcerShield", 0f, Color.black, 1f);
             //classicSkinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matSexforcerShieldGlass", 0f, Color.black, 0);
             //[2] default board
-            classicSkinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matClassicGun", 0f, Color.white, 0f);
-            classicSkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.white, 0f);
-            classicSkinDefInfo.RendererInfos[5].defaultMaterial = Assets.CreateMaterial("matClassicGunHMG", 0f, Color.white, 0f);
+            classicSkinDefInfo.RendererInfos[3].defaultMaterial = Materials.CreateHotpooMaterial("matClassicGun");
+            classicSkinDefInfo.RendererInfos[4].defaultMaterial = Materials.CreateHotpooMaterial("matClassicGunSuper");
+            classicSkinDefInfo.RendererInfos[5].defaultMaterial = Materials.CreateHotpooMaterial("matClassicGunHMG");
             //classicSkinDefInfo.RendererInfos[6].defaultMaterial = Assets.CreateMaterial("matEnforcerHammer", 0f, Color.white, 0f);
-            classicSkinDefInfo.RendererInfos[7].defaultMaterial = Assets.CreateMaterial("matClassic", 1f, Color.white, 0f);
-            classicSkinDefInfo.RendererInfos[8].defaultMaterial = Assets.CreateMaterial("matClassic", 1f, Color.white, 0f);
+            classicSkinDefInfo.RendererInfos[7].defaultMaterial = Materials.CreateHotpooMaterial("matClassic");
+            classicSkinDefInfo.RendererInfos[8].defaultMaterial = Materials.CreateHotpooMaterial("matClassic");
 
             SkinDef classicSkin = CreateSkinDef(classicSkinDefInfo);
             skinDefs.Add(classicSkin);
+            #endregion
+
+            #region RecolorNemesis
+            SkinDefInfo nemesisSkinDefInfo = new SkinDefInfo();
+            nemesisSkinDefInfo.Name = "ENFORCERBODY_NEMESIS_SKIN_NAME";
+            nemesisSkinDefInfo.NameToken = "ENFORCERBODY_NEMESIS_SKIN_NAME";
+            nemesisSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerAchievement");
+            nemesisSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerNemesisSkinUnlockableDef;
+            nemesisSkinDefInfo.RootObject = modelTransform;
+
+            nemesisSkinDefInfo.BaseSkins = new SkinDef[] { defaultSkinDef };
+            nemesisSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            nemesisSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+
+            nemesisSkinDefInfo.GameObjectActivations = getGameObjectActivations(sexforcerGlass);
+
+            nemesisSkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
+                null,
+                null,
+                null,//board
+                null,//"meshEnforcerGun",
+                null,//"meshClassicGunSuper",
+                null,//"meshClassicGunHMG",
+                "meshRecolorNemHammer",//"meshEnforcerHammer",
+                null,
+                null
+                );
+
+            nemesisSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[defaultSkinDef.rendererInfos.Length];
+            defaultSkinDef.rendererInfos.CopyTo(nemesisSkinDefInfo.RendererInfos, 0);
+
+            nemesisSkinDefInfo.RendererInfos[0].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorNemShield");
+            //take default
+            //nemesisSkinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matSexforcerShieldGlass", 0f, Color.black, 0);
+            //nemesisSkinDefInfo.RendererInfos[2].defaultMaterial = Materials.CreateHotpooMaterial("matSexforcerBoard");
+            nemesisSkinDefInfo.RendererInfos[3].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorNemGun");
+            //nemesisSkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.white, 0f);
+            //nemesisSkinDefInfo.RendererInfos[5].defaultMaterial = Assets.CreateMaterial("matClassicGunHMG", 0f, Color.white, 0f);
+            nemesisSkinDefInfo.RendererInfos[6].defaultMaterial = Materials.CreateHotpooMaterial("matNemforcerClassic");
+            nemesisSkinDefInfo.RendererInfos[7].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorNem");
+            nemesisSkinDefInfo.RendererInfos[8].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorNem");
+
+            SkinDef nemesisSkin = CreateSkinDef(nemesisSkinDefInfo);
+            skinDefs.Add(nemesisSkin);
             #endregion
 
             #region If she don't play the craft

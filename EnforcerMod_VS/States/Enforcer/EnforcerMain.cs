@@ -174,21 +174,18 @@ namespace EntityStates.Enforcer {
                     this.outer.SetInterruptState(new EnforcerSalute(), InterruptPriority.Any);
                     return;
                 }
-                if (!EnforcerPlugin.EnforcerModPlugin.holdonasec)
+                if (Input.GetKey(Config.danceKey.Value))
                 {
-                    if (Input.GetKey(Config.danceKey.Value))
-                    {
-                        onDance(true);
-                        this.outer.SetInterruptState(new DefaultDance(), InterruptPriority.Any);
-                        return;
-                    }
-                    else if (Input.GetKey(Config.runKey.Value))
-                    {
-                        this.outer.SetInterruptState(new FLINTLOCKWOOD(), InterruptPriority.Any);
-                        return;
-                    }
+                    onDance(true);
+                    this.outer.SetInterruptState(new DefaultDance(), InterruptPriority.Any);
+                    return;
                 }
-            }            
+                else if (Input.GetKey(Config.runKey.Value))
+                {
+                    this.outer.SetInterruptState(new FLINTLOCKWOOD(), InterruptPriority.Any);
+                    return;
+                }
+            }        
 
             //sirens
             if (base.isAuthority && Input.GetKeyDown(Config.sirensKey.Value))

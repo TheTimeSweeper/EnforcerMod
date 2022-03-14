@@ -13,7 +13,7 @@ using UnityEngine.AddressableAssets;
 
 namespace Modules {
 
-    public static class Assets {
+    internal static class Assets {
         public static AssetBundle MainAssetBundle = null;
         public static AssetBundle VRAssetBundle = null;
 
