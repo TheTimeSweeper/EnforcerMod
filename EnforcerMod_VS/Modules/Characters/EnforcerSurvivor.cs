@@ -85,6 +85,10 @@ namespace Modules.Characters {
             new CustomRendererInfo {
                 childName = "Model",
             },
+            new CustomRendererInfo {
+                childName = "ron",
+                material = Materials.CreateHotpooMaterial("ronin").SetEmission(5),
+            },
         };}
 
         public override Type characterMainState => typeof(EnforcerMain);
