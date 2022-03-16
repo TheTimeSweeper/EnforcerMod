@@ -118,6 +118,8 @@ namespace EntityStates.Enforcer {
 
                 Util.PlaySound(soundString, base.gameObject); 
 
+
+
                 characterBody.aimOriginTransform = childLocator.FindChild("ShieldAimOrigin");
 
                 //todo CUM2 delete this

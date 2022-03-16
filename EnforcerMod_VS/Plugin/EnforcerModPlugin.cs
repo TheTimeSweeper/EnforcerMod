@@ -37,7 +37,7 @@ namespace EnforcerPlugin {
     [BepInDependency("com.KingEnderBrine.ItemDisplayPlacementHelper", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.Moffein.RiskyArtifacts", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.3.0")]
+    [BepInPlugin(MODUID, "Enforcer", "3.3.6")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -45,7 +45,6 @@ namespace EnforcerPlugin {
         "SoundAPI",
         "DamageAPI",
         "UnlockableAPI",
-
     })]
 
     public class EnforcerModPlugin : BaseUnityPlugin
@@ -686,7 +685,7 @@ namespace EnforcerPlugin {
                 //uncomment this if barrier blocking isnt enough and you need to check facing direction like old days
                 CharacterBody body = info.attacker.GetComponent<CharacterBody>();
                 if (body) {
-                    //this is probably why this isn't networked
+
                     EnforcerComponent enforcerComponent = self.body.GetComponent<EnforcerComponent>();
 
                     //ugly hack cause golems kept hitting past shield

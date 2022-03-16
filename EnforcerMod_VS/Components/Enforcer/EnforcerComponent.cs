@@ -49,11 +49,11 @@ public class EnforcerComponent : MonoBehaviour
     public bool beefStop;
     float initialTime = 0;
 
-    private ChildLocator childLocator;
-    private CameraTargetParams cameraShit2;
+    public ChildLocator childLocator;
+    public CameraTargetParams cameraShit2;
 
     private GameObject energyShield;
-    private EnergyShieldControler energyShieldControler;
+    public EnergyShieldControler energyShieldControler;
 
     private Transform _shieldPreview;
     private Transform _shieldParent;
@@ -70,7 +70,7 @@ public class EnforcerComponent : MonoBehaviour
         get => energyShieldControler.healthComponent.health;
     }
 
-    void Start()
+    public void Init()
     {
         // dead.
         childLocator = GetComponentInChildren<ChildLocator>();
@@ -84,6 +84,8 @@ public class EnforcerComponent : MonoBehaviour
         energyShieldControler = energyShield.GetComponentInChildren<EnergyShieldControler>();
         energyShield = energyShieldControler?.gameObject;
         energyShield.SetActive(false);*/
+    }
+    void Start () {
 
         if (drOctagonapus == null) {
             drOctagonapus = EntityStateMachine.FindByCustomName(gameObject, "EnforcerParry");
@@ -107,6 +109,11 @@ public class EnforcerComponent : MonoBehaviour
         }
     }
 
+    public void ResetAimOrigin(CharacterBody characterBody) {
+
+        characterBody.aimOriginTransform = origOrigin;
+    }
+
     private void toggleShieldCamera(bool shieldIsUp) {
 
         //shield mode camera stuff
@@ -120,7 +127,13 @@ public class EnforcerComponent : MonoBehaviour
             camOverrideHandle = cameraShit2.AddParamsOverride(request, 0.6f);
         } else {
 
-            cameraShit2.RemoveParamsOverride(camOverrideHandle, 0.3f);
+            for (int i = cameraShit2.cameraParamsOverrides.Count - 1; i >= 0; i--) {
+
+                camOverrideHandle.target = cameraShit2.cameraParamsOverrides[i];
+
+                cameraShit2.RemoveParamsOverride(camOverrideHandle, 0.3f);
+            }
+
         }
     }
 

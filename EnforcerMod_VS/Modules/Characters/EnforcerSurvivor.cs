@@ -126,8 +126,15 @@ namespace Modules.Characters {
 
             //childLocator.FindChild("BungusShieldFill").gameObject.AddComponent<ObjectScaleCurve>().timeMax = 0.3f;
 
-            bodyPrefab.gameObject.AddComponent<EnforcerComponent>();
-            bodyPrefab.gameObject.AddComponent<EnforcerWeaponComponent>();
+            ChildLocator locator = characterBodyModel.GetComponent<ChildLocator>();
+
+            bodyPrefab.gameObject.AddComponent<EnforcerComponent>().Init();
+            //comp.childLocator = locator;
+            //comp.cameraShit2 = characterBodyModel.GetComponent<CameraTargetParams>();
+            //comp.drOctagonapus = EntityStateMachine.FindByCustomName(bodyPrefab, "EnforcerParry");
+
+            bodyPrefab.gameObject.AddComponent<EnforcerWeaponComponent>().Init();
+
             bodyPrefab.gameObject.AddComponent<EnforcerNetworkComponent>();
             bodyPrefab.gameObject.AddComponent<EnforcerLightController>();
             bodyPrefab.gameObject.AddComponent<EnforcerLightControllerAlt>();
@@ -168,12 +175,22 @@ namespace Modules.Characters {
             shieldHurtbox2.hurtBoxGroup = mainHurtboxGroup;
             shieldHurtbox2.indexInGroup = 1;
 
-            childLocator.FindChild("ShieldHurtboxParent").gameObject.SetActive(false);
+            shieldHurtbox.indexInGroup = 1;
 
-            mainHurtboxGroup.hurtBoxes.Concat(new HurtBox[] {
+            //HurtBox shieldHurtbox3 = childLocator.FindChild("ShieldHurtbox3").gameObject.AddComponent<HurtBox>();
+            //shieldHurtbox3.gameObject.layer = LayerIndex.entityPrecise.intVal;
+            //shieldHurtbox3.healthComponent = healthComponent;
+            //shieldHurtbox3.isBullseye = false;
+            //shieldHurtbox3.damageModifier = HurtBox.DamageModifier.Barrier;
+            //shieldHurtbox3.hurtBoxGroup = mainHurtboxGroup;
+            //shieldHurtbox3.indexInGroup = 1;
+            //childLocator.FindChild("ShieldHurtboxParent").gameObject.SetActive(false);
+
+            mainHurtboxGroup.hurtBoxes = new HurtBox[] {
                 shieldHurtbox,
-                shieldHurtbox2
-            }).ToArray();
+                shieldHurtbox2,
+                mainHurtboxGroup.hurtBoxes[0],
+            };
         }
 
         public override void InitializeHitboxes() {

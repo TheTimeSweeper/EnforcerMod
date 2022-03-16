@@ -142,7 +142,12 @@ public class NemforcerController : MonoBehaviour
             camOverrideHandle = cameraShit.AddParamsOverride(request, 0.5f);
         } else {
 
-            cameraShit.RemoveParamsOverride(camOverrideHandle);
+            for (int i = cameraShit.cameraParamsOverrides.Count - 1; i >= 0; i--) {
+
+                camOverrideHandle.target = cameraShit.cameraParamsOverrides[i];
+
+                cameraShit.RemoveParamsOverride(camOverrideHandle, 0.3f);
+            }
         }
 
     }

@@ -23,6 +23,8 @@ namespace EntityStates.Enforcer {
             damageCoefficient = 0.5f;
             baseMinimumDuration = 0.1f;
             projectileBaseSpeed = 80;
+            
+            base.characterBody.aimOriginTransform = base.GetModelChildLocator().FindChild("GrenadeAimOrigin");
 
             base.OnEnter();
         }
@@ -67,6 +69,8 @@ namespace EntityStates.Enforcer {
             base.AddRecoil(-2f * TearGas.bulletRecoil, -3f * TearGas.bulletRecoil, -1f * TearGas.bulletRecoil, 1f * TearGas.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * TearGas.bulletRecoil);
             EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, base.gameObject, TearGas.muzzleString, false);
+
+            GetComponent<EnforcerComponent>().ResetAimOrigin(base.characterBody);
         }
     }
 

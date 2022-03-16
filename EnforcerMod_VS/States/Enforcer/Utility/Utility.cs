@@ -5,6 +5,7 @@ using EntityStates.Toolbot;
 using Modules;
 
 namespace EntityStates.Enforcer {
+
     public class AimTearGas : AimThrowableBase
     {
         private AimStunDrone goodState;
@@ -25,6 +26,8 @@ namespace EntityStates.Enforcer {
             this.projectileBaseSpeed = 80;
 
             base.OnEnter();
+
+            base.characterBody.aimOriginTransform = base.GetModelChildLocator().FindChild("GrenadeAimOrigin");
 
             base.PlayAnimation("Gesture, Override", "BufferEmpty");
             base.PlayAnimation("Grenade, Override", "AimGrenade");
@@ -59,6 +62,8 @@ namespace EntityStates.Enforcer {
 
             base.AddRecoil(-2f * TearGas.bulletRecoil, -3f * TearGas.bulletRecoil, -1f * TearGas.bulletRecoil, 1f * TearGas.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * TearGas.bulletRecoil);
+
+            GetComponent<EnforcerComponent>().ResetAimOrigin(base.characterBody);
             //EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, base.gameObject, TearGas.muzzleString, false);
         }
     }

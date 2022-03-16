@@ -75,12 +75,39 @@ lil out of date
 
 ## Changelog
 
+`3.3.6`
+ - fixed a weird slowing issue introduced in the last patch
+
+`3.3.5`
+ - tweaked physical shield from stopping deflecting golem lasers
+   - as far as jank goes this is the least that I expected
+ - tweaked shield in/out animation to not snap jarringly
+
+`3.3.4`
+ - added an actual physical collider in front of the shield to stop enemies from walking through
+   - *definitely let us know if this causes any jank*
+ - tweaked shield hurtbox a bit
+ - fixed stun grenade and other projectiles being eaten by shield
+ - these changes make shield a little more reliable, but you still must reposition when you're overrun
+ - fixed gas grenade being thrown from an odd position
+ - more squashing the camera bug. 
+   - let me know if it's survived like a fuckin cockroach still
+
+`3.3.3`
+ - removed big thing thing was there by accident
+ - I mean nothing
+
+`3.3.2`
+ - Made grandmastery skins achievable in Eclipse (thanks moff)
+ - fixed buffs having missing icons (last update, forgot to mention)
+
 `3.3.1`
  - Re-Added two skins with achievements: 
    - Grandmastery Achievement: Unlocked by beating the game on typhoon or higher (use UntitledDifficultyMod or MoreDifficulties for that)
      - huge thanks to Dotflare for the texture work, and of course Bruh for the model
    - Clearance Achievement: Clear Void Fields at any stage
  - Added unlock achievement for classic skin. press 3
+ - Fixed buffs having missing icons
 
 `3.2.13`
  - Fixed shuriken and other things hitting shield

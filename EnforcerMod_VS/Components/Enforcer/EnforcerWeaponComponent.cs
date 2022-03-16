@@ -75,30 +75,34 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     private Transform skateboardBase;
     private Transform skateboardHandBase;
 
-    private FootstepHandler footStep;
-    private SfxLocator sfx;
-
     private string stepSoundString;
     private string landSoundString;
 
-    private CharacterBody charBody;
-    private CharacterMotor charMotor;
-    private HealthComponent charHealth;
-    private CameraTargetParams cameraShit;
-    private ChildLocator childLocator;
+    public CharacterBody charBody;
+    public CharacterMotor charMotor;
+    public HealthComponent charHealth;
+    public CameraTargetParams cameraShit;
+    public ChildLocator childLocator;
 
+    public FootstepHandler footStep;
+    public SfxLocator sfx;
 
-    private void Start() {
+    public void Init() {
         this.charBody = this.GetComponentInChildren<CharacterBody>();
         this.charMotor = this.GetComponentInChildren<CharacterMotor>();
         this.charHealth = this.GetComponentInChildren<HealthComponent>();
         this.cameraShit = this.GetComponent<CameraTargetParams>();
         this.childLocator = this.GetComponentInChildren<ChildLocator>();
+
         this.footStep = this.GetComponentInChildren<FootstepHandler>();
         this.sfx = this.GetComponentInChildren<SfxLocator>();
 
         if (this.footStep) this.stepSoundString = this.footStep.baseFootstepString;
         if (this.sfx) this.landSoundString = this.sfx.landingSound;
+
+    }
+
+    void Start() {
 
         this.SetWeaponsAndShields();
         this.InitShells();
