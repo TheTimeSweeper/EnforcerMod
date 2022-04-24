@@ -298,7 +298,7 @@ namespace EntityStates.Nemforcer {
         {
             base.FixedUpdate();
 
-            //AkSoundEngine.SetRTPCValue("Minigun_Speed", this.attackSpeedStat);
+            AkSoundEngine.SetRTPCValue("Minigun_Speed", this.attackSpeedStat);
         }
 
         public override void OnExit()

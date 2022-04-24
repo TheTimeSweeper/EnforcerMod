@@ -68,11 +68,10 @@ namespace EntityStates.Enforcer {
                 }
             }
 
-            //if (!EnforcerPlugin.EnforcerPlugin.cum && base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex)
-            //{
-            //    EnforcerPlugin.EnforcerPlugin.cum = true;
-            //    Util.PlaySound(EnforcerPlugin.Sounds.DOOM, base.gameObject);
-            //}
+            if (!EnforcerPlugin.EnforcerModPlugin.cum && Modules.Skins.isEnforcerCurrentSkin(base.characterBody, "ENFORCER_DOOM_SKIN_NAME")) {
+                EnforcerPlugin.EnforcerModPlugin.cum = true;
+                Util.PlaySound(Modules.Sounds.DOOM, base.gameObject);
+            }
 
             //disable the shield when energy shield is selected
             if (base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDON_NAME" || base.characterBody.skillLocator.special.skillNameToken == "ENFORCER_SPECIAL_SHIELDOFF_NAME")

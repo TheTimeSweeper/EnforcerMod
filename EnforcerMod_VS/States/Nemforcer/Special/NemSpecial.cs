@@ -124,9 +124,9 @@ namespace EntityStates.Nemforcer {
             else this.animator.SetLayerWeight(this.animator.GetLayerIndex("Minigun"), 0);
         }
 
-        public override void FixedUpdate()
+        public override void Update()
         {
-            base.FixedUpdate();
+            base.Update();
 
             float progress = Mathf.Clamp01(base.fixedAge / this.duration);
 
@@ -138,9 +138,18 @@ namespace EntityStates.Nemforcer {
 
             if (NetworkServer.active && base.characterBody.HasBuff(Buffs.bigSlowBuff) && !base.characterBody.HasBuff(Buffs.minigunBuff) && progress >= 0.5f) base.characterBody.RemoveBuff(Buffs.bigSlowBuff);
 
-            if (base.fixedAge >= this.duration && base.isAuthority) {
+            if (base.fixedAge >= this.duration * 0.5f && base.isAuthority) {
 
                 this.animator.SetBool("minigunActive", this.ye);
+            }
+        }
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+
+            if (base.fixedAge >= this.duration && base.isAuthority) {
+
                 this.outer.SetNextStateToMain();
                 return;
             }

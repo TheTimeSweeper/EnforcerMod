@@ -170,7 +170,7 @@ namespace Modules {
             LanguageAPI.Add("ENFORCERBODY_NEMESIS_SKIN_NAME", "Nemesis");
 
             //not in yet
-            LanguageAPI.Add("ENFORCERBODY_SPACE_SKIN_NAME", "Rainstormtrooper");
+            LanguageAPI.Add("ENFORCERBODY_STORM_SKIN_NAME", "Monsoontrooper");
             LanguageAPI.Add("ENFORCERBODY_ENGI_SKIN_NAME", "Engineer?");
             LanguageAPI.Add("ENFORCERBODY_DOOM_SKIN_NAME", "Doom Slayer");
             LanguageAPI.Add("ENFORCERBODY_DESPERADO_SKIN_NAME", "Desperado");

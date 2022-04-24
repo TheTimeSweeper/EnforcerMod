@@ -8,7 +8,6 @@ namespace EntityStates.Enforcer {
     {
         public static float baseDuration = 0.5f;
         public static float damageCoefficient = 5.4f;
-        public static float procCoefficient = 1f;
         public static float bulletRecoil = 2.5f;
         public static float projectileSpeed = 75f;
 

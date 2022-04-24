@@ -121,8 +121,8 @@ namespace EntityStates.Nemforcer {
                     Vector3 sex = this.childLocator.FindChild("SwingCenter").transform.position;
 
                     EffectData effectData = new EffectData();
-                    effectData.origin = sex + Vector3.up * TestValueManager.testValue2;
-                    effectData.scale = TestValueManager.testValue;
+                    effectData.origin = sex + Vector3.up * 0.5f;
+                    effectData.scale = 1;
 
                     EffectManager.SpawnEffect(slamPrefab, effectData, true); 
 

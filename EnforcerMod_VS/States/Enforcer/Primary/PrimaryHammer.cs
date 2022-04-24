@@ -147,7 +147,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                     
                     EffectData effectData = new EffectData();
                     effectData.origin = sex - Vector3.up;
-                    effectData.scale = TestValueManager.testValue;
+                    effectData.scale = 1;
 
                     EffectManager.SpawnEffect(slamPrefab, effectData, true);
                 }

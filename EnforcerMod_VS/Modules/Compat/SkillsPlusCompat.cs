@@ -7,7 +7,9 @@ using RoR2.Skills;
 using System;
 using R2API;
 
-namespace EnforcerPlugin {
+namespace EnforcerPlugin
+{
+
     public class SkillsPlusCompat {
 
         public static float riotInitialDamage;

@@ -72,7 +72,8 @@ namespace EnforcerPlugin {
             CreateBossPrefab();
             CreateMiniBossPrefab();
 
-            if (Modules.Config.kingDededeBoss.Value) CreateDededeBoss();
+            if (Modules.Config.kingDededeBoss.Value) 
+                CreateDededeBoss();
 
             if (EnforcerModPlugin.starstormInstalled) StarstormCompat();
         }
@@ -780,13 +781,14 @@ namespace EnforcerPlugin {
                                            typeof(NemMinigunState));
 
             minigunDownDef = SpecialSkillDef_MinigunUp();
-            minigunUpDef = SpecialSkillDef_MinigunDown();
 
             Modules.Skills.AddSpecialSkills(characterBodyPrefab, minigunDownDef);
 
-            SkillDef primaryDefMinigun = PrimarySkillDef_FireMinigun();
+            minigunUpDef = SpecialSkillDef_MinigunDown();
+            Modules.Content.AddSkillDef(minigunUpDef);
 
-            minigunFireDef = primaryDefMinigun;
+            minigunFireDef = PrimarySkillDef_FireMinigun();
+            Modules.Content.AddSkillDef(minigunFireDef);
         }
 
         #region skilldefs
@@ -881,6 +883,7 @@ namespace EnforcerPlugin {
             mySkillDef2.skillDescriptionToken = "NEMFORCER_PRIMARY_MINIGUN_DESCRIPTION";
             mySkillDef2.skillName = "NEMFORCER_PRIMARY_MINIGUN_NAME";
             mySkillDef2.skillNameToken = "NEMFORCER_PRIMARY_MINIGUN_NAME";
+            (mySkillDef2 as ScriptableObject).name = mySkillDef2.skillName;
             return mySkillDef2;
         }
 
@@ -2469,16 +2472,14 @@ namespace EnforcerPlugin {
             DirectorAPI.DirectorCardHolder dededeCard = new DirectorAPI.DirectorCardHolder {
                 Card = card,
                 MonsterCategory = DirectorAPI.MonsterCategory.Champions,
-                InteractableCategory = DirectorAPI.InteractableCategory.None
             };
 
-            DirectorAPI.MonsterActions += delegate (List<DirectorAPI.DirectorCardHolder> list, DirectorAPI.StageInfo stage) {
-                if (stage.stage == DirectorAPI.Stage.SkyMeadow || stage.stage == DirectorAPI.Stage.GildedCoast || stage.stage == DirectorAPI.Stage.TitanicPlains || stage.stage == DirectorAPI.Stage.VoidCell) {
-                    if (!list.Contains(dededeCard)) {
-                        list.Add(dededeCard);
-                    }
-                }
-            };
+            DirectorAPI.Helpers.AddNewMonsterToStage(dededeCard, false, DirectorAPI.Stage.TitanicPlains);
+            DirectorAPI.Helpers.AddNewMonsterToStage(dededeCard, false, DirectorAPI.Stage.TitanicPlainsSimulacrum);
+            DirectorAPI.Helpers.AddNewMonsterToStage(dededeCard, false, DirectorAPI.Stage.SkyMeadow);
+            DirectorAPI.Helpers.AddNewMonsterToStage(dededeCard, false, DirectorAPI.Stage.SkyMeadowSimulacrum);
+            DirectorAPI.Helpers.AddNewMonsterToStage(dededeCard, false, DirectorAPI.Stage.GildedCoast);
+            DirectorAPI.Helpers.AddNewMonsterToStage(dededeCard, false, DirectorAPI.Stage.VoidCell);
 
             RiskyCompat(characterSpawnCard);
         }

@@ -1046,6 +1046,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: MatGM
+    second: {fileID: 2100000, guid: 6b1d75d72586b71459fe5941be563261, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: MatGM.001
     second: {fileID: 2100000, guid: 6b1d75d72586b71459fe5941be563261, type: 2}
   - first:
@@ -1063,6 +1068,16 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: MatNemHammer
     second: {fileID: 2100000, guid: 82a036764a0960542a7cb9998217d89e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MatRecolorEngi
+    second: {fileID: 2100000, guid: 069c927969943e54da3b36fce3b5da33, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MatRecolorStorm
+    second: {fileID: 2100000, guid: 3524444e20151ad40b9c89934be78131, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -1167,5 +1182,5 @@ ModelImporter:
   avatarSetup: 1
   additionalBone: 0
   userData: 
-  assetBundleName: 
+  assetBundleName: dontbundle
   assetBundleVariant: 

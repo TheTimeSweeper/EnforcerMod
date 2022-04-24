@@ -62,7 +62,6 @@ namespace Modules {
                 (skillDef as ScriptableObject).name = skillDef.skillName;
             }
 
-
             skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant {
                 skillDef = skillDef,
                 unlockableDef = unlockableDef,
@@ -245,6 +244,8 @@ public class SkillDefInfo {
         this.stockToConsume = 0;
 
         this.cancelSprintingOnActivation = !agile;
+
+        if (agile) this.keywordTokens = new string[] { "KEYWORD_AGILE" };
     }
     #endregion construction complete
 }

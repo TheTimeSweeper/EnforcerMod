@@ -10,14 +10,20 @@ using System.Runtime.CompilerServices;
 namespace Modules {
     internal static class ItemDisplays {
         public static Dictionary<string, GameObject> itemDisplayPrefabs = new Dictionary<string, GameObject>();
+
         public static Dictionary<string, int> itemDisplayCheckCount = new Dictionary<string, int>();
-        public static Dictionary<string, string> itemDisplayCheckName = new Dictionary<string, string>();
 
         public static GameObject gatDronePrefab;
 
+        #region printing unused
+        public static bool printingUnused = false;
+        public static Dictionary<string, string> itemDisplayCheckName = new Dictionary<string, string>();
+        public static Dictionary<string, Object> itemDisplayCheckKeyAsset = new Dictionary<string, Object>();
+        #endregion
+
         internal static void PopulateDisplays() {
-            PopulateDisplaysFromBody("CommandoBody");
-            PopulateDisplaysFromBody("CrocoBody");
+            //PopulateDisplaysFromBody("CommandoBody");
+            //PopulateDisplaysFromBody("CrocoBody");
             PopulateDisplaysFromBody("MageBody");
             PopulateDisplaysFromBody("LunarExploderBody");
 
@@ -82,10 +88,14 @@ namespace Modules {
                     if (followerPrefab) {
                         string name = followerPrefab.name;
                         string key = name != null ? name.ToLower() : null;
+
                         if (!itemDisplayPrefabs.ContainsKey(key)) {
                             itemDisplayPrefabs[key] = followerPrefab;
-                            itemDisplayCheckCount[key] = 0;
-                            itemDisplayCheckName[key] = itemGroups[i].keyAsset.name;
+
+                            if (printingUnused) {
+                                itemDisplayCheckCount[key] = 0;
+                                itemDisplayCheckName[key] = itemGroups[i].keyAsset.name;
+                            }
                         }
                     }
                 }
@@ -98,7 +108,7 @@ namespace Modules {
             string no = "not used:";
 
             foreach (KeyValuePair<string, int> pair in itemDisplayCheckCount) {
-                string thing = $"\n{itemDisplayPrefabs[pair.Key].name} | {itemDisplayPrefabs[pair.Key]} | {pair.Value}";
+                string thing = $"\n{itemDisplayPrefabs[pair.Key].name} | {itemDisplayCheckName[pair.Key]} | {pair.Value}";
 
                 if (pair.Value > 0) {
                     yes += thing;
@@ -111,13 +121,19 @@ namespace Modules {
         }
 
         internal static GameObject LoadDisplay(string name) {
+
             if (itemDisplayPrefabs.ContainsKey(name.ToLower())) {
+
                 if (itemDisplayPrefabs[name.ToLower()]) {
-                    itemDisplayCheckCount[name.ToLower()]++;
+
+                    if(printingUnused)
+                        itemDisplayCheckCount[name.ToLower()]++;
+
                     return itemDisplayPrefabs[name.ToLower()];
                 }
             }
 
+            Debug.LogError("could not load display for " + name);
             return null;
         }
 
@@ -193,6 +209,20 @@ namespace Modules {
             }
         }
 
+        private static Object GetKeyAssetFromString(string itemName) {
+            Object itemDef = RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/" + itemName);
+
+            if (itemDef == null) {
+                itemDef = RoR2.LegacyResourcesAPI.Load<EquipmentDef>("EquipmentDefs/" + itemName);
+            }
+
+            if (itemDef == null) {
+                Debug.LogError("Could not load keyasset for " + itemName);
+            }
+
+            return itemDef;
+        }
+
         public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRuleGroup(Object keyAsset_, GameObject itemPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
 
             ItemDisplayRule singleRule = CreateDisplayRule(itemPrefab, childName, position, rotation, scale);
@@ -226,20 +256,6 @@ namespace Modules {
             };
         }
 
-        private static Object GetKeyAssetFromString(string itemName) {
-            Object itemDef = RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/" + itemName);
-
-            if (itemDef == null) {
-                itemDef = RoR2.LegacyResourcesAPI.Load<EquipmentDef>("EquipmentDefs/" + itemName);
-            }
-
-            if (itemDef == null) {
-                Debug.LogError("Could not load keyasset for " + itemName);
-            }
-
-            return itemDef;
-        }
-
         public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateDisplayRuleGroupWithRules(string itemName, params ItemDisplayRule[] rules) {
             return CreateDisplayRuleGroupWithRules(GetKeyAssetFromString(itemName), rules);
         }
@@ -255,13 +271,13 @@ namespace Modules {
         public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRule(string itemName, string prefabName, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
             return CreateGenericDisplayRule(GetKeyAssetFromString(itemName), prefabName, childName, position, rotation, scale);
         }
-        private static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRule(Object itemDef, string prefabName, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRule(Object itemDef, string prefabName, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
             return CreateGenereicDisplayRule(itemDef, LoadDisplay(prefabName), childName, position, rotation, scale);
         }
-        private static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRule(string itemName, GameObject displayPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRule(string itemName, GameObject displayPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
             return CreateGenereicDisplayRule(GetKeyAssetFromString(itemName), displayPrefab, childName, position, rotation, scale);
         }
-        private static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenereicDisplayRule(Object itemDef, GameObject displayPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
+        public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenereicDisplayRule(Object itemDef, GameObject displayPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
            
             
             return new ItemDisplayRuleSet.KeyAssetRuleGroup {

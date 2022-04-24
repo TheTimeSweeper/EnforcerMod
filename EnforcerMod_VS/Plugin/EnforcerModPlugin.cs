@@ -37,7 +37,7 @@ namespace EnforcerPlugin {
     [BepInDependency("com.KingEnderBrine.ItemDisplayPlacementHelper", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.Moffein.RiskyArtifacts", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.3.6")]
+    [BepInPlugin(MODUID, "Enforcer", "3.3.9")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -45,21 +45,22 @@ namespace EnforcerPlugin {
         "SoundAPI",
         "DamageAPI",
         "UnlockableAPI",
+        "DirectorAPI",
     })]
 
     public class EnforcerModPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.EnforcerGang.Enforcer";
-
+        
         public static EnforcerModPlugin instance;
 
-        public static bool holdonasec = false;
+        public static bool holdonasec = true;
 
         //i didn't want this to be static considering we're using an instance now but it throws 23 errors if i remove the static modifier 
         //i'm not dealing with that
         //public static GameObject characterBodyPrefab;
         //public static GameObject characterDisplay;
-
+        
         public static GameObject needlerCrosshair;
 
         public static GameObject nemesisSpawnEffect;
@@ -69,8 +70,6 @@ namespace EnforcerPlugin {
         public static GameObject laserTracer;
         public static GameObject bungusTracer = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/Tracers/TracerEngiTurret");
         public static GameObject minigunTracer;
-
-        public static Material bungusMat;
 
         public static GameObject tearGasProjectilePrefab;
         public GameObject tearGasPrefab;
@@ -127,9 +126,10 @@ namespace EnforcerPlugin {
             Modules.Config.ConfigShit(this);
 
             Assets.Initialize();
-            Tokens.RegisterTokens();
 
             EnforcerUnlockables.RegisterUnlockables();
+
+            Tokens.RegisterTokens();
         }
 
         private void Start() {
@@ -156,6 +156,8 @@ namespace EnforcerPlugin {
             //RoR2.RoR2Application.onLoad += LateSetupItemDisplays;
 
             gameObject.AddComponent<TestValueManager>();
+            
+            Logger.LogInfo("[Initialized]");
         }
 
         private void SetupModCompat() {
@@ -199,6 +201,11 @@ namespace EnforcerPlugin {
                 VRInstalled = true;
                 Assets.loadVRBundle();
                 SetupVR();
+            }
+
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.xoxfaby.BetterUI"))
+            {
+                BetterUICompat.init();
             }
 
             FixItemDisplays();
@@ -271,6 +278,13 @@ namespace EnforcerPlugin {
             On.EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle.OnEnter += FireLunarNeedle_OnEnter;
             On.RoR2.EntityStateMachine.SetState += EntityStateMachine_SetState;
             On.RoR2.DamageInfo.ModifyDamageInfo += DamageInfo_ModifyDamageInfo;
+            Run.onRunStartGlobal += Run_onRunStartGlobal;
+        }
+
+        private void Run_onRunStartGlobal(Run obj) {
+            //it's for doom music
+            //no I'm not renaming it
+            EnforcerModPlugin.cum = false;
         }
 
         private void DamageInfo_ModifyDamageInfo(On.RoR2.DamageInfo.orig_ModifyDamageInfo orig, DamageInfo self, HurtBox.DamageModifier damageModifier) {
@@ -568,9 +582,9 @@ namespace EnforcerPlugin {
                     self.armor -= 20f;
                     self.moveSpeed *= 0.25f;
                     self.attackSpeed *= 0.75f;
-                    if (!self.characterMotor.isGrounded) {
-                        self.characterMotor.velocity.y -= 10;
-                    }
+                    //if (!self.characterMotor.isGrounded) {
+                    //    self.characterMotor.velocity.y -= 10;
+                    //}
                 }
 
                 if (self.HasBuff(Modules.Buffs.nemImpairedBuff))

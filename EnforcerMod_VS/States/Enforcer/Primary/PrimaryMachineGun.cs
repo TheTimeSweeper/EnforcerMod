@@ -9,6 +9,7 @@ using Modules;
 namespace EntityStates.Enforcer.NeutralSpecial {
     class FireMachineGun : BaseSkillState {
         public static float damageCoefficient = 1.3f;
+        public static float procCoefficient = 1f;
         public static float baseDuration = 0.21f;
 
         public static float baseMaxSpread = 7f;
@@ -91,7 +92,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                     muzzleName = muzzleName,
                     smartCollision = false,
                     procChainMask = default,
-                    procCoefficient = 1f,
+                    procCoefficient = procCoefficient,
                     radius = 0.3f,
                     sniper = false,
                     stopperMask = LayerIndex.CommonMasks.bullet,

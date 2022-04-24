@@ -61,6 +61,9 @@
     <Reference Include="BepInEx.Preloader">
       <HintPath>libs\BepInEx.Preloader.dll</HintPath>
     </Reference>
+    <Reference Include="BetterUI">
+      <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\Compat\BetterUI.dll</HintPath>
+    </Reference>
     <Reference Include="com.unity.multiplayer-hlapi.Runtime">
       <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
     </Reference>

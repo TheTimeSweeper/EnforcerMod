@@ -51,10 +51,6 @@ namespace EntityStates.Enforcer {
             };
 
             camOverrideHandle = base.cameraTargetParams.AddParamsOverride(request, 0.5f);
-
-            //do shit
-            //if (base.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.doomGuyIndex && base.characterBody.baseNameToken == "ENFORCER_NAME")
-            //    soundString = EnforcerPlugin.Sounds.DOOM;
         }
 
 
@@ -79,6 +75,9 @@ namespace EntityStates.Enforcer {
 
             if (!string.IsNullOrEmpty(soundString))
             {
+                if (Modules.Skins.isEnforcerCurrentSkin(base.characterBody, "ENFORCER_DOOM_SKIN_NAME"))
+                    soundString = Modules.Sounds.DOOM;
+
                 activePlayID = Util.PlaySound(soundString, gameObject);
             };
         }
