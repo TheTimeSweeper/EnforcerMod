@@ -1093,6 +1093,21 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: MatSexforcerShieldGlass
     second: {fileID: 2100000, guid: 75fec93fba8cd3e4e826a8b8c3589cb0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: matFemforcer
+    second: {fileID: 2100000, guid: c5922d0421439f84aa95ef81d5632402, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: matFemforcer2
+    second: {fileID: 2100000, guid: c5922d0421439f84aa95ef81d5632402, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: matFemforcer2Board
+    second: {fileID: 2100000, guid: 67bd1631dba7dc8448bc0e709abd4e45, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

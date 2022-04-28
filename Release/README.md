@@ -22,7 +22,7 @@ Moffein - Idea Guy™, Coooooding
 PapaZach - Skill icons  
 bruh - Modeling, swag, animation  
 Jot - Animations  
-DarkLordLui - Animations  
+DarkLordLui (JestAnotherAnimator) - Animations  
 Paysus - Animations  
 Violet Chaolan - Sounds  
 LucidInceptor (2cute2game) - Modeling  
@@ -33,31 +33,31 @@ Nebby - Help
 Reithierion - New mod icon  
 Draymarc - Concepts  
 Lethan - Screenshots  
-wetpudding - item displays
+wetpudding - item displays  
 Ruxbieno - Idea Guy™  
 Swuff - Idea Guy™  
 
 And big thanks to everyone testing and giving their feedback, the mod wouldn't be the same without it
 
 ## Skills
-lil out of date
+may be lil out of date
 
 | Skill | | Description | Stats |
-|:-|-|------|-|
-| Riot Shotgun | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468730759675934/enforcer_primaryV2.png) | Fire a short range `piercing` blast for `8x45%` damage. | Proc: `0.5` |
-| Shield Bash | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468850683871232/enforcer_secondaryV2.png) | `Bash` nearby enemies away for `250%` damage. Use while sprinting to perform a `Shoulder Bash` for `450%` damage instead. `Deflects Projectiles`. | Proc: `1.0`, CD: `6 sec` |
+|:-||--------|-|
+| Riot Shotgun | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/RiotShotgunIcon.png) | Fire a short range `piercing` blast for `8x45%` damage. | Proc: `0.5` |
+| Shield Bash | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/ShieldBashIcon.png) | `Bash` nearby enemies away for `250%` damage. Use while sprinting to perform a `Shoulder Bash` for `450%` damage instead. `Deflects Projectiles`. | Proc: `1.0`, CD: `6 sec` |
 | Shoulder Bash |  | Short charge that stuns. Hitting heavier enemies deals up to `700%` damage. | Proc: `1.0` |
-| Tear Gas | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468892445376530/enforcer_utilityV2.png) | Throw a grenade that explodes into tear gas that leaves enemies `Impaired`. Lasts for 16 seconds. | CD: `24 sec` |
+| Tear Gas | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/TearGasIcon.png) | Throw a grenade that explodes into tear gas that leaves enemies `Impaired`. Lasts for 16 seconds. | CD: `24 sec` |
 | Impaired |  | Reduces `movement speed` by `75%`, `attack speed` by `25`, and `armor` by `20`|
-| Protect and Serve | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468993033306122/enforcer_shieldupV2.png) | Take a defensive stance `blocking` all damage from the front. `Increases your rate of fire` but prevents sprinting and jumping. | CD: `0 sec` |
+| Protect and Serve | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/ShieldUpIcon.png) | Take a defensive stance `blocking` all damage from the front. `Increases your rate of fire` but prevents sprinting and jumping. | CD: `0 sec` |
 
 ### Unlockable Alts (spoiler alert)
 
 | Skill | | Description | Stats |
-|:-|-|------|-|
-| Super Shotgun | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468767124815902/enforcer_primary2V2.png) | Fire up to 2 shotgun blasts for `8x80%` damage. While using `Protect and Serve`, fire both barrels at once. | Proc: `0.75` |
-| Heavy Machine Gun | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468797017227304/enforcer_primary3V2.png) | Unload a barrage of bullets for `130%` damage. While using `Protect and Serve` has increased accuracy, but slower movement speed. | Proc: `1` |
-| Stun Grenade | ![](https://cdn.discordapp.com/attachments/739696016755785859/782468931159457832/enforcer_utility2V2.png) | `Stunning`. Launch a stun grenade, dealing `540%` damage. Store up to 3 grenades. | Proc: `1`, CD: `6 sec` |
+|:-|-|-------|-|
+| Super Shotgun | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/SuperShotgunIcon.png) | Fire up to 2 shotgun blasts for `8x80%` damage. While using `Protect and Serve`, fire both barrels at once. | Proc: `0.75` |
+| Heavy Machine Gun | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/AssaultRifleIcon.png) | Unload a barrage of bullets for `130%` damage. While using `Protect and Serve` has increased accuracy, but slower movement speed. | Proc: `1` |
+| Stun Grenade | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/StunGrenadeIcon.png) | `Stunning`. Launch a stun grenade, dealing `540%` damage. Store up to 3 grenades. | Proc: `1`, CD: `6 sec` |
 
 [![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)]()
 
@@ -74,6 +74,21 @@ lil out of date
 - Help
 
 ## Changelog
+
+`3.3.9`
+ - moved unlockable code to r2api, fixing achievement issue with recent update
+ - hammer animation tweaks
+
+`3.3.8`
+ - fixed dedede bug with r2api update
+ - fixed sawmerang bug
+ - some texture optimization
+
+`3.3.7`
+ - added a few void item displays
+ - added proc coefficients to betterUI's skill tooltips
+ - removed physical collider from the shield. it was fun and maybe we'll revisit it again.
+ - tweaked/fixed animation for transition to aiming minigun
 
 `3.3.6`
  - fixed a weird slowing issue introduced in the last patch

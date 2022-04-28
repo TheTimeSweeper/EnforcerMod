@@ -101,16 +101,6 @@ namespace Modules {
 
         public static Material mainMat;
 
-        public static Mesh gmMesh;
-        public static Mesh stormtrooperMesh;
-        public static Mesh engiMesh;
-        public static Mesh desperadoMesh;
-        public static Mesh zeroSuitMesh;
-        public static Mesh classicMesh;
-        public static Mesh sexMesh;
-        public static Mesh femMesh;
-        public static Mesh fuckingSteveMesh;
-
         public static Mesh nemClassicMesh;
         public static Mesh nemClassicHammerMesh;
         public static Mesh nemMeshGM;

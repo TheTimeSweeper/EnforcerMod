@@ -35,7 +35,8 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     private GameObject hammerObject { get => this.childLocator.FindChild("HammerModel").gameObject; }
     private GameObject needlerObject { get => this.childLocator.FindChild("NeedlerModel").gameObject; }
 
-    private GameObject shieldObject { get => this.childLocator.FindChild("ShieldModel").gameObject; }
+    private GameObject shieldModelObject { get => this.childLocator.FindChild("ShieldModel").gameObject; }
+    private Transform shieldBoneTransform{ get => this.childLocator.FindChild("Shield"); }
     //private GameObject shielDevicedObject { get => this.childLocator.FindChild("ShieldDeviceModel").gameObject; }
     private GameObject skateBoardObject { get => this.childLocator.FindChild("SkamteBordModel").gameObject; }
 
@@ -129,7 +130,7 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         if (shield != currentShield) {
             currentShield = shield;
 
-            this.HideShields();
+            this.HideSpecials();
             this.EquipShield(shield);
             this.SetShieldDisplayRules(shield);
         }
@@ -138,7 +139,7 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     public void HideEquips()
     {
         HideWeapons();
-        HideShields();
+        HideSpecials();
     }
 
     public void UnHideEquips() {
@@ -157,11 +158,12 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         }
     }
 
-    public void HideShields()
+    public void HideSpecials()
     {
         if (this.childLocator)
         {
-            shieldObject.SetActive(false);
+            showShield(false);
+
             skateBoardObject.SetActive(false);
         }
     }
@@ -288,10 +290,10 @@ public class EnforcerWeaponComponent : MonoBehaviour {
             switch (shield) {
                 default:
                 case EquippedShield.SHIELD:
-                    shieldObject.SetActive(true);
+                    showShield(true);
                     break;
                 case EquippedShield.SHIELD2:
-                    shieldObject.SetActive(false);
+                    showShield(false);
                     break;
                 case EquippedShield.BOARD:
                     skateBoardObject.SetActive(true);
@@ -300,6 +302,12 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                     break;
             }
         }
+    }
+
+    private void showShield(bool show) {
+
+        shieldModelObject.SetActive(show);
+        shieldBoneTransform.localScale = show ? Vector3.one : Vector3.zero;
     }
 
     private void SetShieldDisplayRules(EquippedShield shield) {

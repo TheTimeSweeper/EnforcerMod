@@ -41,7 +41,7 @@ namespace Modules {
 
             #endregion
 
-            #region default rendererinfos for reference
+            #region old default rendererinfos for reference
             /*
                 new CharacterModel.RendererInfo
                 {
@@ -360,6 +360,7 @@ namespace Modules {
             SkinDef nemesisSkin = CreateSkinDef(nemesisSkinDefInfo);
             skinDefs.Add(nemesisSkin);
             #endregion
+
             if (!EnforcerModPlugin.holdonasec) {
                 #region RecolorEngi
                 SkinDefInfo engiSkinDefInfo = new SkinDefInfo();
@@ -537,6 +538,7 @@ namespace Modules {
                 skinDefs.Add(doomSkin);
                 #endregion
             }
+
             #region If she don't play the craft
             SkinDefInfo dontgettheshaftSkinDefInfo = new SkinDefInfo();
             dontgettheshaftSkinDefInfo.Name = "ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME";
@@ -580,6 +582,54 @@ namespace Modules {
             //    skinDefs.Add(dontgettheshaftSkin);
             #endregion
 
+            if (Config.femSkin.Value) {
+                #region fem
+                SkinDefInfo femforcerSkinDefInfo = new SkinDefInfo();
+                femforcerSkinDefInfo.Name = "ENFORCERBODY_FEMFORCER_SKIN_NAME";
+                femforcerSkinDefInfo.NameToken = "ENFORCERBODY_FEMFORCER_SKIN_NAME";
+                //femforcerSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texSexforcerAchievement");
+                femforcerSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.31f, 0.49f, 0.69f), new Color(0.86f, 0.83f, 0.63f), new Color(0.1f, 0.07f, 0.06f), new Color(0.21f, 0.29f, 0.38f), new Color(0.9f, 0.6f, 0.69f));
+
+                femforcerSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerMasteryUnlockableDef;
+                femforcerSkinDefInfo.RootObject = modelTransform;
+
+                femforcerSkinDefInfo.BaseSkins = new SkinDef[] { defaultSkinDef };
+                femforcerSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+                femforcerSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+
+                femforcerSkinDefInfo.GameObjectActivations = getGameObjectActivations(sexforcerGlass);
+
+                femforcerSkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
+                    "meshFemforcer2Shield",
+                    "meshFemforcer2ShieldGlass",
+                    "meshFemforcer2Board",
+                    null,//"meshEnforcerGun",
+                    null,//"meshClassicGunSuper",
+                    null,//"meshClassicGunHMG",
+                    null,//"meshEnforcerHammer",
+                    "meshFemforcer2Pauldron",
+                    "meshFemforcer2"
+                    );
+
+                femforcerSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[defaultSkinDef.rendererInfos.Length];
+                defaultSkinDef.rendererInfos.CopyTo(femforcerSkinDefInfo.RendererInfos, 0);
+
+                femforcerSkinDefInfo.RendererInfos[0].defaultMaterial = Materials.CreateHotpooMaterial("matFemforcer2");
+                //take default
+                //femforcerSkinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matFemforcer2ShieldGlass", 0f, Color.black, 0);
+                femforcerSkinDefInfo.RendererInfos[2].defaultMaterial = Materials.CreateHotpooMaterial("matFemforcer2Board");
+                //femforcerSkinDefInfo.RendererInfos[3].defaultMaterial = Assets.CreateMaterial("matEnforcerGun", 0f, Color.white, 0f);
+                //femforcerSkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.white, 0f);
+                //femforcerSkinDefInfo.RendererInfos[5].defaultMaterial = Assets.CreateMaterial("matClassicGunHMG", 0f, Color.white, 0f);
+                //femforcerSkinDefInfo.RendererInfos[6].defaultMaterial = Assets.CreateMaterial("matEnforcerHammer", 0f, Color.white, 0f);
+                femforcerSkinDefInfo.RendererInfos[7].defaultMaterial = Materials.CreateHotpooMaterial("matFemforcer2").MakeUnique();
+                femforcerSkinDefInfo.RendererInfos[8].defaultMaterial = Materials.CreateHotpooMaterial("matFemforcer2");
+
+                SkinDef femforcerSkin = CreateSkinDef(femforcerSkinDefInfo);
+                skinDefs.Add(femforcerSkin);
+
+                #endregion fem
+            }
             // what are we gonna do about all this...........
             //      fuckin nothing that's what you're gonna do faggot
             #region FUCK
