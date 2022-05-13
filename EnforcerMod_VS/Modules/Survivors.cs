@@ -1,12 +1,11 @@
-﻿using RoR2;
+﻿using EnforcerPlugin;
+using RoR2;
 using UnityEngine;
 
-namespace EnforcerPlugin.Modules
-{
-    internal static class Survivors
-    {
-        internal static void RegisterNewSurvivor(GameObject bodyPrefab, GameObject displayPrefab, string namePrefix, UnlockableDef unlockableDef, float sortPosition)
-        {
+namespace Modules {
+    internal static class Survivors {
+        [System.Obsolete("moving to survivorbase")]
+        internal static void RegisterNewSurvivor(GameObject bodyPrefab, GameObject displayPrefab, string namePrefix, UnlockableDef unlockableDef, float sortPosition) {
             string fullNameString = namePrefix + "_NAME";
             string fullDescString = namePrefix + "_DESCRIPTION";
             string fullOutroString = namePrefix + "_OUTRO_FLAVOR";
@@ -22,9 +21,10 @@ namespace EnforcerPlugin.Modules
             survivorDef.desiredSortPosition = sortPosition;
             survivorDef.unlockableDef = unlockableDef;
 
-            EnforcerModPlugin.survivorDefs.Add(survivorDef);
+            Modules.Content.AddSurvivorDef(survivorDef);
         }
 
+        [System.Obsolete("moving to survivorbase")]
         internal static void RegisterNewSurvivor(GameObject bodyPrefab, GameObject displayPrefab, string namePrefix) { RegisterNewSurvivor(bodyPrefab, displayPrefab, namePrefix, null, 4f); }
     }
 }

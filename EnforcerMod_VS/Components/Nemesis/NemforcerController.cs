@@ -2,16 +2,39 @@
 using RoR2.Skills;
 using System;
 using UnityEngine;
+using static RoR2.CameraTargetParams;
 
 public class NemforcerController : MonoBehaviour
 {
+
+    private CharacterCameraParamsData minigunCameraParams = new CharacterCameraParamsData() {
+
+        maxPitch = 70,
+        minPitch = -70,
+        pivotVerticalOffset = 1.37f,
+        idealLocalCameraPos = minigunCameraPosition,
+        wallCushion = 0.1f,
+    };
+
+    private static Vector3 minigunCameraPosition = new Vector3(-2.2f, 0.0f, -9f);
+
+    public CameraParamsOverrideHandle camOverrideHandle;
+
+    private bool _minigunUp;
+    public bool minigunUp {
+        get => _minigunUp;
+        set {
+            _minigunUp = value;
+            toggleMinigunCamera(value);
+        }
+    }
+
     public bool isMultiplayer;
 
     public SkillDef primarySkillDef;
 
     public EntityStateMachine mainStateMachine;
 
-    public bool minigunUp;
 
     private float maxLightningIntensity = 64f;
     private float maxMoonIntensity = 16f;
@@ -62,8 +85,6 @@ public class NemforcerController : MonoBehaviour
         InitWeapon();
 
         Invoke("ModelCheck", 0.2f);
-
-        UpdateCamera();
     }
 
     private void FixedUpdate()
@@ -109,25 +130,26 @@ public class NemforcerController : MonoBehaviour
         }
     }
 
-    public void UpdateCamera()
-    {
-        isMultiplayer = Run.instance.participatingPlayerCount > 1;
+    private void toggleMinigunCamera(bool minigunUp) {
 
-        if (isMultiplayer)
-        {
-            cameraShit.cameraParams.standardLocalCameraPos = new Vector3(0, 0.5f, -12);
-        }
-        else
-        {
-            if (!minigunUp)
-            {
-                cameraShit.cameraParams.standardLocalCameraPos = new Vector3(0, 0.5f, -12);
+        if (minigunUp) {
+
+            CameraParamsOverrideRequest request = new CameraParamsOverrideRequest {
+                cameraParamsData = minigunCameraParams,
+                priority = 0,
+            };
+
+            camOverrideHandle = cameraShit.AddParamsOverride(request, 0.5f);
+        } else {
+
+            for (int i = cameraShit.cameraParamsOverrides.Count - 1; i >= 0; i--) {
+
+                camOverrideHandle.target = cameraShit.cameraParamsOverrides[i];
+
+                cameraShit.RemoveParamsOverride(camOverrideHandle, 0.3f);
             }
-            else
-            {
-                cameraShit.cameraParams.standardLocalCameraPos = new Vector3(-1.2f, -0.5f, -9f);
-            }
         }
+
     }
 
     public void ModelCheck()
@@ -139,11 +161,12 @@ public class NemforcerController : MonoBehaviour
             if (charBody.master.inventory)
             {
                 //this hides the hammer
-                var characterModel = charBody.modelLocator.modelTransform.GetComponentInChildren<CharacterModel>();
+                var characterModel = charBody.modelLocator?.modelTransform.GetComponentInChildren<CharacterModel>();
                 if (characterModel)
                 {
                     characterModel.baseRendererInfos[0].defaultMaterial = characterModel.gameObject.GetComponent<ModelSkinController>().skins[charBody.skinIndex].rendererInfos[0].defaultMaterial;
-                    if (charBody.master.inventory.GetItemCount(RoR2Content.Items.ArmorReductionOnHit) > 0) characterModel.baseRendererInfos[0].defaultMaterial = null;
+                    if (charBody.master.inventory.GetItemCount(RoR2Content.Items.ArmorReductionOnHit) > 0) 
+                        characterModel.baseRendererInfos[0].defaultMaterial = null;
                 }
             }
         }
@@ -223,17 +246,17 @@ public class NemforcerController : MonoBehaviour
         {
             if (minigunUp)
             {
-                charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
+                charBody._defaultCrosshairPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Crosshair/BanditCrosshair");
             }
             else
             {
                 switch (weapon)
                 {
                     case 0:
-                        charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
+                        charBody._defaultCrosshairPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
                         break;
                     case 1:
-                        charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
+                        charBody._defaultCrosshairPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
                         break;
                 }
             }

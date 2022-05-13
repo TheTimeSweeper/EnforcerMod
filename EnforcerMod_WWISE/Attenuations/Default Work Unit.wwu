@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{11DB3BA3-FF78-4AEA-AB23-759A4DFBC217}" SchemaVersion="89">
+<WwiseDocument Type="WorkUnit" ID="{11DB3BA3-FF78-4AEA-AB23-759A4DFBC217}" SchemaVersion="97">
 	<Attenuations>
 		<WorkUnit Name="Default Work Unit" ID="{11DB3BA3-FF78-4AEA-AB23-759A4DFBC217}" PersistMode="Standalone">
 			<ChildrenList>
@@ -109,7 +109,7 @@
 				</Attenuation>
 				<Attenuation Name="Shotgun" ID="{7297D247-2F3C-4FCB-A08E-EF65110DE74A}" ShortID="212946365">
 					<PropertyList>
-						<Property Name="RadiusMax" Type="Real64" Value="200"/>
+						<Property Name="RadiusMax" Type="Real64" Value="175"/>
 					</PropertyList>
 					<CurveUsageInfoList>
 						<VolumeDryUsage>
@@ -125,13 +125,13 @@
 											<Flags>5</Flags>
 										</Point>
 										<Point>
-											<XPos>13.3333333333333</XPos>
+											<XPos>11.6666666666666</XPos>
 											<YPos>-0.5</YPos>
 											<Flags>0</Flags>
 											<SegmentShape>Log1</SegmentShape>
 										</Point>
 										<Point>
-											<XPos>200</XPos>
+											<XPos>175</XPos>
 											<YPos>-200</YPos>
 											<Flags>37</Flags>
 										</Point>

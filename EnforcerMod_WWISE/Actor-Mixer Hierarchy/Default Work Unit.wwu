@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}" SchemaVersion="89">
+<WwiseDocument Type="WorkUnit" ID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}" SchemaVersion="97">
 	<AudioObjects>
 		<WorkUnit Name="Default Work Unit" ID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}" PersistMode="Standalone">
 			<ChildrenList>
@@ -89,9 +89,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Shotgun hit base" ID="{3D194782-0090-4CC2-AC35-F76B37F3E65C}" ShortID="641318147">
+												<AudioFileSource Name="Shotgun hit base" ID="{3D194782-0090-4CC2-AC35-F76B37F3E65C}">
 													<Language>SFX</Language>
 													<AudioFile>Shotgun hit base.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="641318147"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -115,9 +118,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Shotgun hit base 2" ID="{BED6C29B-6BA3-4DE4-BE58-DF4EDBB34EEC}" ShortID="62719793">
+												<AudioFileSource Name="Shotgun hit base 2" ID="{BED6C29B-6BA3-4DE4-BE58-DF4EDBB34EEC}">
 													<Language>SFX</Language>
 													<AudioFile>Shotgun hit base 2.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="62719793"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -146,9 +152,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Shotgun crit additional" ID="{AE51F5DA-9B97-459C-AC87-34967B5A978A}" ShortID="754192387">
+												<AudioFileSource Name="Shotgun crit additional" ID="{AE51F5DA-9B97-459C-AC87-34967B5A978A}">
 													<Language>SFX</Language>
 													<AudioFile>Shotgun crit additional.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="754192387"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -177,12 +186,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Shotgun hit base 2" ID="{C61BC2BC-5488-4FC4-BB14-329E80812377}" ShortID="859970356">
+												<AudioFileSource Name="Shotgun hit base 2" ID="{C61BC2BC-5488-4FC4-BB14-329E80812377}">
 													<Language>SFX</Language>
 													<AudioFile>Shotgun hit base 2.wav</AudioFile>
-													<ConvertedFileIDList>
-														<File ID="62719793"/>
-													</ConvertedFileIDList>
+													<MediaIDList>
+														<MediaID ID="62719793"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -211,12 +220,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Shotgun hit base" ID="{E598FFF6-D30E-4C0D-8AA5-7959C0310B6C}" ShortID="640341779">
+												<AudioFileSource Name="Shotgun hit base" ID="{E598FFF6-D30E-4C0D-8AA5-7959C0310B6C}">
 													<Language>SFX</Language>
 													<AudioFile>Shotgun hit base.wav</AudioFile>
-													<ConvertedFileIDList>
-														<File ID="641318147"/>
-													</ConvertedFileIDList>
+													<MediaIDList>
+														<MediaID ID="641318147"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -274,9 +283,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="ror1 Shotgun" ID="{C011B450-79B1-4CD6-9A97-A8B094D7A308}" ShortID="415675420">
+												<AudioFileSource Name="ror1 Shotgun" ID="{C011B450-79B1-4CD6-9A97-A8B094D7A308}">
 													<Language>SFX</Language>
 													<AudioFile>ror1 Shotgun.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="415675420"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -370,7 +382,7 @@
 													<PropertyList>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>22</Value>
+																<Value>4</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -383,9 +395,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Shell falling 4" ID="{477FDC28-67EC-4017-8C72-D71A3EC9020F}" ShortID="133622821">
+														<AudioFileSource Name="Shell falling 4" ID="{477FDC28-67EC-4017-8C72-D71A3EC9020F}">
 															<Language>SFX</Language>
 															<AudioFile>Enforcer Shells\Shell falling 4.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="133622821"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -395,6 +410,11 @@
 												<RandomSequenceContainer Name="Shell Fast" ID="{64EA8219-11E0-46F8-B238-531C7D72E8B7}" ShortID="928648689">
 													<PropertyList>
 														<Property Name="RandomAvoidRepeating" Type="bool" Value="False"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-10</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -426,9 +446,12 @@
 																</Reference>
 															</ReferenceList>
 															<ChildrenList>
-																<AudioFileSource Name="Shell Falling 1" ID="{CE218B1D-1D10-4BD5-AD06-78AB06F386FE}" ShortID="453274341">
+																<AudioFileSource Name="Shell Falling 1" ID="{CE218B1D-1D10-4BD5-AD06-78AB06F386FE}">
 																	<Language>SFX</Language>
 																	<AudioFile>Enforcer Shells\Shell Falling 1.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="453274341"/>
+																	</MediaIDList>
 																</AudioFileSource>
 															</ChildrenList>
 															<ActiveSourceList>
@@ -456,9 +479,12 @@
 																</Reference>
 															</ReferenceList>
 															<ChildrenList>
-																<AudioFileSource Name="Shell Falling 2" ID="{6ABC6402-DB60-4B50-8BF4-4917DF664229}" ShortID="1049739006">
+																<AudioFileSource Name="Shell Falling 2" ID="{6ABC6402-DB60-4B50-8BF4-4917DF664229}">
 																	<Language>SFX</Language>
 																	<AudioFile>Enforcer Shells\Shell Falling 2.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="1049739006"/>
+																	</MediaIDList>
 																</AudioFileSource>
 															</ChildrenList>
 															<ActiveSourceList>
@@ -486,9 +512,12 @@
 																</Reference>
 															</ReferenceList>
 															<ChildrenList>
-																<AudioFileSource Name="Shell Falling 3" ID="{BEBB7FAA-F1D8-42EE-9C81-B79685092075}" ShortID="134475852">
+																<AudioFileSource Name="Shell Falling 3" ID="{BEBB7FAA-F1D8-42EE-9C81-B79685092075}">
 																	<Language>SFX</Language>
 																	<AudioFile>Enforcer Shells\Shell Falling 3.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="134475852"/>
+																	</MediaIDList>
 																</AudioFileSource>
 															</ChildrenList>
 															<ActiveSourceList>
@@ -551,9 +580,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Blaster Shotgun" ID="{70D98950-2BBF-4ED1-8861-80231755E1F5}" ShortID="103969424">
+														<AudioFileSource Name="Blaster Shotgun" ID="{70D98950-2BBF-4ED1-8861-80231755E1F5}">
 															<Language>SFX</Language>
 															<AudioFile>Blaster Shotgun.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="103969424"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -572,9 +604,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Bungus Riot" ID="{119F0453-4CE5-4729-BC20-B9179FE3AA14}" ShortID="426419519">
+												<AudioFileSource Name="Bungus Riot" ID="{119F0453-4CE5-4729-BC20-B9179FE3AA14}">
 													<Language>SFX</Language>
 													<AudioFile>Bungus Riot.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="426419519"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -598,9 +633,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Bungus SSg" ID="{8FFA1943-713C-4DC2-A580-2BC24ECCE499}" ShortID="870983138">
+												<AudioFileSource Name="Bungus SSg" ID="{8FFA1943-713C-4DC2-A580-2BC24ECCE499}">
 													<Language>SFX</Language>
 													<AudioFile>Bungus SSg.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="870983138"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -626,7 +664,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-4</Value>
+																<Value>-5</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -639,9 +677,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="shotgun" ID="{5AA54DCE-6EBC-40A7-82BB-FF8746C250F0}" ShortID="461747505">
+														<AudioFileSource Name="shotgun" ID="{5AA54DCE-6EBC-40A7-82BB-FF8746C250F0}">
 															<Language>SFX</Language>
 															<AudioFile>shotgun.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="461747505"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -665,7 +706,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-4</Value>
+																<Value>-13</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -678,9 +719,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="shotgun2" ID="{44434E20-B7A1-4C30-8BB8-539B97E7ED43}" ShortID="181124531">
+														<AudioFileSource Name="shotgun2" ID="{44434E20-B7A1-4C30-8BB8-539B97E7ED43}">
 															<Language>SFX</Language>
 															<AudioFile>shotgun2.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="181124531"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -749,9 +793,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Doom 2 Super Shotgun" ID="{AF10B306-F479-42F2-80AE-F88B030F1D55}" ShortID="212233180">
+														<AudioFileSource Name="Doom 2 Super Shotgun" ID="{AF10B306-F479-42F2-80AE-F88B030F1D55}">
 															<Language>SFX</Language>
 															<AudioFile>Doom 2 Super Shotgun.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="212233180"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -829,9 +876,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Super Shotgun crit" ID="{D6317A62-2DEC-432D-AF92-1CA2C9AFF8DE}" ShortID="322194405">
+														<AudioFileSource Name="Super Shotgun crit" ID="{D6317A62-2DEC-432D-AF92-1CA2C9AFF8DE}">
 															<Language>SFX</Language>
 															<AudioFile>Super Shotgun crit.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="322194405"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -890,7 +940,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-7</Value>
+																<Value>-8</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -906,9 +956,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Super Shotgun" ID="{7D76C9AF-4404-4FF1-988D-D15822803A72}" ShortID="553537820">
+														<AudioFileSource Name="Super Shotgun" ID="{7D76C9AF-4404-4FF1-988D-D15822803A72}">
 															<Language>SFX</Language>
 															<AudioFile>Super Shotgun.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="553537820"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -932,9 +985,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="double_shotgun_single" ID="{8E3E66D8-E1F9-4061-A5D0-66012B7AF82E}" ShortID="1019059826">
+														<AudioFileSource Name="double_shotgun_single" ID="{8E3E66D8-E1F9-4061-A5D0-66012B7AF82E}">
 															<Language>SFX</Language>
 															<AudioFile>double_shotgun_single.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="1019059826"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -958,9 +1014,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="double_shotgun_single_crit" ID="{F47DC3A9-47D5-4253-8B31-1E54E1464F82}" ShortID="948410475">
+														<AudioFileSource Name="double_shotgun_single_crit" ID="{F47DC3A9-47D5-4253-8B31-1E54E1464F82}">
 															<Language>SFX</Language>
 															<AudioFile>double_shotgun_single_crit.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="948410475"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1038,9 +1097,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Bash" ID="{0C80B092-B6F7-447E-B4FB-32E950A2E6ED}" ShortID="849633851">
+												<AudioFileSource Name="Bash" ID="{0C80B092-B6F7-447E-B4FB-32E950A2E6ED}">
 													<Language>SFX</Language>
 													<AudioFile>Bash.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="849633851"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -1083,9 +1145,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Bash hit enemy" ID="{8AB4242D-FFC5-41FC-BBF1-3F5321FE97B5}" ShortID="522079253">
+												<AudioFileSource Name="Bash hit enemy" ID="{8AB4242D-FFC5-41FC-BBF1-3F5321FE97B5}">
 													<Language>SFX</Language>
 													<AudioFile>Bash hit enemy.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="522079253"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -1138,9 +1203,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Shoulder Bash 1" ID="{384A2F3B-21CE-4199-8141-D1466B7C5963}" ShortID="309218343">
+														<AudioFileSource Name="Shoulder Bash 1" ID="{384A2F3B-21CE-4199-8141-D1466B7C5963}">
 															<Language>SFX</Language>
 															<AudioFile>Shoulder Bash\Shoulder Bash 1.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="309218343"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1157,9 +1225,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Shoulder Bash 2" ID="{2DFE29ED-79D3-4723-8ACA-93E2973D162F}" ShortID="969565441">
+														<AudioFileSource Name="Shoulder Bash 2" ID="{2DFE29ED-79D3-4723-8ACA-93E2973D162F}">
 															<Language>SFX</Language>
 															<AudioFile>Shoulder Bash\Shoulder Bash 2.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="969565441"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1176,9 +1247,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Shoulder Bash 3" ID="{F294A594-0D50-4270-8D23-F9020130B7FF}" ShortID="69430926">
+														<AudioFileSource Name="Shoulder Bash 3" ID="{F294A594-0D50-4270-8D23-F9020130B7FF}">
 															<Language>SFX</Language>
 															<AudioFile>Shoulder Bash\Shoulder Bash 3.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="69430926"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1195,9 +1269,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Shoulder Bash 4" ID="{501A0F15-4A09-4F7E-A8E5-3BAC7F844BB6}" ShortID="581708149">
+														<AudioFileSource Name="Shoulder Bash 4" ID="{501A0F15-4A09-4F7E-A8E5-3BAC7F844BB6}">
 															<Language>SFX</Language>
 															<AudioFile>Shoulder Bash\Shoulder Bash 4.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="581708149"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1325,9 +1402,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Bash Deflect heavy hit 1" ID="{8629FAA5-4680-4CF8-80A4-B7133F653DF6}" ShortID="655619842">
+														<AudioFileSource Name="Bash Deflect heavy hit 1" ID="{8629FAA5-4680-4CF8-80A4-B7133F653DF6}">
 															<Language>SFX</Language>
 															<AudioFile>Enforcer Deflect Sounds\Bash Deflect heavy\Bash Deflect heavy hit 1.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="655619842"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1354,9 +1434,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Block 4" ID="{4FB006C2-7A81-48D8-9D50-06D0CBE9EBA5}" ShortID="486377049">
+														<AudioFileSource Name="Block 4" ID="{4FB006C2-7A81-48D8-9D50-06D0CBE9EBA5}">
 															<Language>SFX</Language>
 															<AudioFile>Enforcer Block\Block 4.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="486377049"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1420,9 +1503,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Bash Deflect light hit 1" ID="{E59FCDDD-B6E9-46AE-9C7F-07CA0B3AD3C1}" ShortID="742533614">
+														<AudioFileSource Name="Bash Deflect light hit 1" ID="{E59FCDDD-B6E9-46AE-9C7F-07CA0B3AD3C1}">
 															<Language>SFX</Language>
 															<AudioFile>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 1.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="742533614"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1439,9 +1525,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Bash Deflect light hit 10" ID="{89A1740D-D227-4657-87AF-2E97A43D11A0}" ShortID="47641269">
+														<AudioFileSource Name="Bash Deflect light hit 10" ID="{89A1740D-D227-4657-87AF-2E97A43D11A0}">
 															<Language>SFX</Language>
 															<AudioFile>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 10.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="47641269"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1458,9 +1547,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Bash Deflect light hit 2" ID="{94C68496-927C-4098-B5CC-46AC52F279FE}" ShortID="641095720">
+														<AudioFileSource Name="Bash Deflect light hit 2" ID="{94C68496-927C-4098-B5CC-46AC52F279FE}">
 															<Language>SFX</Language>
 															<AudioFile>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 2.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="641095720"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1477,9 +1569,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Bash Deflect light hit 3" ID="{11ADE2D6-8462-4155-8CA1-793F71F4BC7A}" ShortID="503085412">
+														<AudioFileSource Name="Bash Deflect light hit 3" ID="{11ADE2D6-8462-4155-8CA1-793F71F4BC7A}">
 															<Language>SFX</Language>
 															<AudioFile>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 3.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="503085412"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1496,9 +1591,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Bash Deflect light hit 4" ID="{7346A6A1-0965-499B-9C8D-0314C5D1BF69}" ShortID="234994547">
+														<AudioFileSource Name="Bash Deflect light hit 4" ID="{7346A6A1-0965-499B-9C8D-0314C5D1BF69}">
 															<Language>SFX</Language>
 															<AudioFile>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 4.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="234994547"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1515,9 +1613,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Bash Deflect light hit 5" ID="{5A1B4A45-3CF6-4265-B61E-2DD5D816025B}" ShortID="396410601">
+														<AudioFileSource Name="Bash Deflect light hit 5" ID="{5A1B4A45-3CF6-4265-B61E-2DD5D816025B}">
 															<Language>SFX</Language>
 															<AudioFile>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 5.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="396410601"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1534,9 +1635,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Bash Deflect light hit 6" ID="{5BACA724-DC12-4782-9CE0-507C2EF421AE}" ShortID="212422922">
+														<AudioFileSource Name="Bash Deflect light hit 6" ID="{5BACA724-DC12-4782-9CE0-507C2EF421AE}">
 															<Language>SFX</Language>
 															<AudioFile>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 6.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="212422922"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1553,9 +1657,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Bash Deflect light hit 7" ID="{F8B84705-F22E-4792-B560-4685E58B22B6}" ShortID="84913251">
+														<AudioFileSource Name="Bash Deflect light hit 7" ID="{F8B84705-F22E-4792-B560-4685E58B22B6}">
 															<Language>SFX</Language>
 															<AudioFile>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 7.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="84913251"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1572,9 +1679,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Bash Deflect light hit 8" ID="{C6E0576B-745A-4468-AE91-6C3C832BF772}" ShortID="485664771">
+														<AudioFileSource Name="Bash Deflect light hit 8" ID="{C6E0576B-745A-4468-AE91-6C3C832BF772}">
 															<Language>SFX</Language>
 															<AudioFile>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 8.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="485664771"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1591,9 +1701,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Bash Deflect light hit 9" ID="{C5554A9B-75EF-4AF7-B6B6-EDE7AEAE0AF1}" ShortID="173434373">
+														<AudioFileSource Name="Bash Deflect light hit 9" ID="{C5554A9B-75EF-4AF7-B6B6-EDE7AEAE0AF1}">
 															<Language>SFX</Language>
 															<AudioFile>Enforcer Deflect Sounds\Bash Deflect Light\Bash Deflect light hit 9.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="173434373"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1642,9 +1755,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Deflect 2" ID="{382B67B7-90DB-4A12-9EAB-3BE10BF98DC2}" ShortID="1001586314">
+														<AudioFileSource Name="Deflect 2" ID="{382B67B7-90DB-4A12-9EAB-3BE10BF98DC2}">
 															<Language>SFX</Language>
 															<AudioFile>Deflect\Deflect 2.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="1001586314"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1661,9 +1777,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Deflect 3" ID="{6C36AB22-677F-4917-ADB1-64B504E575A7}" ShortID="272632443">
+														<AudioFileSource Name="Deflect 3" ID="{6C36AB22-677F-4917-ADB1-64B504E575A7}">
 															<Language>SFX</Language>
 															<AudioFile>Deflect\Deflect 3.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="272632443"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1680,9 +1799,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Defllect 1" ID="{5678A0BA-3F36-4891-825C-CBC618CC7CF1}" ShortID="1002905034">
+														<AudioFileSource Name="Defllect 1" ID="{5678A0BA-3F36-4891-825C-CBC618CC7CF1}">
 															<Language>SFX</Language>
 															<AudioFile>Deflect\Defllect 1.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="1002905034"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -1796,9 +1918,12 @@
 																</Reference>
 															</ReferenceList>
 															<ChildrenList>
-																<AudioFileSource Name="shot 1" ID="{3EAD39C7-95FF-4C02-AE97-6CDC408038B7}" ShortID="875080085">
+																<AudioFileSource Name="shot 1" ID="{3EAD39C7-95FF-4C02-AE97-6CDC408038B7}">
 																	<Language>SFX</Language>
 																	<AudioFile>Enforcer Assault Rifle\Shots 1\shot 1.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="875080085"/>
+																	</MediaIDList>
 																</AudioFileSource>
 															</ChildrenList>
 															<ActiveSourceList>
@@ -1815,9 +1940,12 @@
 																</Reference>
 															</ReferenceList>
 															<ChildrenList>
-																<AudioFileSource Name="shot 2" ID="{C3602FB7-F509-40C3-AD49-BEBB912B7060}" ShortID="582034157">
+																<AudioFileSource Name="shot 2" ID="{C3602FB7-F509-40C3-AD49-BEBB912B7060}">
 																	<Language>SFX</Language>
 																	<AudioFile>Enforcer Assault Rifle\Shots 1\shot 2.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="582034157"/>
+																	</MediaIDList>
 																</AudioFileSource>
 															</ChildrenList>
 															<ActiveSourceList>
@@ -1834,9 +1962,12 @@
 																</Reference>
 															</ReferenceList>
 															<ChildrenList>
-																<AudioFileSource Name="shot 3" ID="{AA29999A-DC4A-401F-A59D-BC0F977BA3E0}" ShortID="1053440328">
+																<AudioFileSource Name="shot 3" ID="{AA29999A-DC4A-401F-A59D-BC0F977BA3E0}">
 																	<Language>SFX</Language>
 																	<AudioFile>Enforcer Assault Rifle\Shots 1\shot 3.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="1053440328"/>
+																	</MediaIDList>
 																</AudioFileSource>
 															</ChildrenList>
 															<ActiveSourceList>
@@ -1899,9 +2030,12 @@
 																</Reference>
 															</ReferenceList>
 															<ChildrenList>
-																<AudioFileSource Name="Shot 1" ID="{7D7ACF7F-9DB3-42C8-AF4D-F9DCA2BBA805}" ShortID="1052826638">
+																<AudioFileSource Name="Shot 1" ID="{7D7ACF7F-9DB3-42C8-AF4D-F9DCA2BBA805}">
 																	<Language>SFX</Language>
 																	<AudioFile>Enforcer Assault Rifle\Shots 2\Shot 1.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="1052826638"/>
+																	</MediaIDList>
 																</AudioFileSource>
 															</ChildrenList>
 															<ActiveSourceList>
@@ -1918,9 +2052,12 @@
 																</Reference>
 															</ReferenceList>
 															<ChildrenList>
-																<AudioFileSource Name="shot 2" ID="{5D6155B2-1F67-45B2-B30F-865228A46BB8}" ShortID="342598265">
+																<AudioFileSource Name="shot 2" ID="{5D6155B2-1F67-45B2-B30F-865228A46BB8}">
 																	<Language>SFX</Language>
 																	<AudioFile>Enforcer Assault Rifle\Shots 2\shot 2.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="342598265"/>
+																	</MediaIDList>
 																</AudioFileSource>
 															</ChildrenList>
 															<ActiveSourceList>
@@ -1937,9 +2074,12 @@
 																</Reference>
 															</ReferenceList>
 															<ChildrenList>
-																<AudioFileSource Name="Shot 3" ID="{672B1040-11B0-4BCF-9F2D-F4B643066E2C}" ShortID="337138913">
+																<AudioFileSource Name="Shot 3" ID="{672B1040-11B0-4BCF-9F2D-F4B643066E2C}">
 																	<Language>SFX</Language>
 																	<AudioFile>Enforcer Assault Rifle\Shots 2\Shot 3.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="337138913"/>
+																	</MediaIDList>
 																</AudioFileSource>
 															</ChildrenList>
 															<ActiveSourceList>
@@ -1998,9 +2138,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Blaster Rifle" ID="{002A1287-904E-463F-A940-609CEDFE0CCA}" ShortID="817438832">
+												<AudioFileSource Name="Blaster Rifle" ID="{002A1287-904E-463F-A940-609CEDFE0CCA}">
 													<Language>SFX</Language>
 													<AudioFile>Blaster Rifle.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="817438832"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2048,9 +2191,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Bungus AR" ID="{7FA73F1B-9140-42E1-99C4-9C258EB526CC}" ShortID="323850625">
+												<AudioFileSource Name="Bungus AR" ID="{7FA73F1B-9140-42E1-99C4-9C258EB526CC}">
 													<Language>SFX</Language>
 													<AudioFile>Bungus AR.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="323850625"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2086,9 +2232,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="m203 stun" ID="{A1AC1FA3-F755-4EDE-BE3D-0B9F97F398ED}" ShortID="332297219">
+												<AudioFileSource Name="m203 stun" ID="{A1AC1FA3-F755-4EDE-BE3D-0B9F97F398ED}">
 													<Language>SFX</Language>
 													<AudioFile>m203 stun.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="332297219"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2112,9 +2261,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="m203 Gas" ID="{E3E28D78-0810-4C15-BA94-599672932BA7}" ShortID="900091441">
+												<AudioFileSource Name="m203 Gas" ID="{E3E28D78-0810-4C15-BA94-599672932BA7}">
 													<Language>SFX</Language>
 													<AudioFile>m203 Gas.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="900091441"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2138,9 +2290,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Gas Explosion" ID="{11AFA16F-BB1A-4E5C-BC0C-6D8593F51FD1}" ShortID="615230019">
+												<AudioFileSource Name="Gas Explosion" ID="{11AFA16F-BB1A-4E5C-BC0C-6D8593F51FD1}">
 													<Language>SFX</Language>
 													<AudioFile>Gas Explosion.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="615230019"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2224,9 +2379,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Gas Sound" ID="{1A330A0F-B695-451C-BE86-1C92BD814473}" ShortID="1041263716">
+												<AudioFileSource Name="Gas Sound" ID="{1A330A0F-B695-451C-BE86-1C92BD814473}">
 													<Language>SFX</Language>
 													<AudioFile>Gas Sound.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1041263716"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2255,9 +2413,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Stun Explosion 1" ID="{7DB2B27D-3E9E-4D67-992B-E3256F53027F}" ShortID="1018300447">
+												<AudioFileSource Name="Stun Explosion 1" ID="{7DB2B27D-3E9E-4D67-992B-E3256F53027F}">
 													<Language>SFX</Language>
 													<AudioFile>Stun Explosion 1.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1018300447"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2304,13 +2465,19 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="police death siren" ID="{2AEBAFC1-7FC7-41F7-AB17-9EA0A0B0A053}" ShortID="202275642">
+												<AudioFileSource Name="police death siren" ID="{2AEBAFC1-7FC7-41F7-AB17-9EA0A0B0A053}">
 													<Language>SFX</Language>
 													<AudioFile>police death siren.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="202275642"/>
+													</MediaIDList>
 												</AudioFileSource>
-												<AudioFileSource Name="fart with reverb (and suction)" ID="{A998F480-C516-46E8-972E-3BE788DD0BAF}" ShortID="190412978">
+												<AudioFileSource Name="fart with reverb (and suction)" ID="{A998F480-C516-46E8-972E-3BE788DD0BAF}">
 													<Language>SFX</Language>
 													<AudioFile>fart with reverb (and suction).wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="190412978"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2334,9 +2501,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Police Siren Spawn" ID="{9CEF130C-8E9A-4993-B89E-7D0F7EAA6746}" ShortID="938658609">
+												<AudioFileSource Name="Police Siren Spawn" ID="{9CEF130C-8E9A-4993-B89E-7D0F7EAA6746}">
 													<Language>SFX</Language>
 													<AudioFile>Police Siren Spawn.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="938658609"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2378,9 +2548,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Siren loop" ID="{D9CE4211-6394-458E-A669-EE1F472B3073}" ShortID="326807822">
+														<AudioFileSource Name="Siren loop" ID="{D9CE4211-6394-458E-A669-EE1F472B3073}">
 															<Language>SFX</Language>
 															<AudioFile>Siren loop.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="326807822"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -2403,9 +2576,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="piercer siren" ID="{A74B32FE-6E07-4DA1-BEB1-922899E006DA}" ShortID="640539541">
+														<AudioFileSource Name="piercer siren" ID="{A74B32FE-6E07-4DA1-BEB1-922899E006DA}">
 															<Language>SFX</Language>
 															<AudioFile>piercer siren.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="640539541"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -2433,9 +2609,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="siren loop spawn" ID="{EAFD9962-1ABD-4170-8040-E36A64781326}" ShortID="1015415358">
+														<AudioFileSource Name="siren loop spawn" ID="{EAFD9962-1ABD-4170-8040-E36A64781326}">
 															<Language>SFX</Language>
 															<AudioFile>siren loop spawn.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="1015415358"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -2467,9 +2646,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Croak siren" ID="{473D1573-C151-4C9F-B14D-82EB676759B0}" ShortID="515027859">
+												<AudioFileSource Name="Croak siren" ID="{473D1573-C151-4C9F-B14D-82EB676759B0}">
 													<Language>SFX</Language>
 													<AudioFile>Croak siren.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="515027859"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2506,9 +2688,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="siren_short2" ID="{F51A6431-5051-42FD-9268-819932F99979}" ShortID="358537542">
+														<AudioFileSource Name="siren_short2" ID="{F51A6431-5051-42FD-9268-819932F99979}">
 															<Language>SFX</Language>
 															<AudioFile>siren_short2.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="358537542"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -2535,9 +2720,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="siren_short1" ID="{FB916443-97D1-4A81-AE4A-77177B41F7EC}" ShortID="421134234">
+														<AudioFileSource Name="siren_short1" ID="{FB916443-97D1-4A81-AE4A-77177B41F7EC}">
 															<Language>SFX</Language>
 															<AudioFile>siren_short1.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="421134234"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -2596,9 +2784,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="doom1" ID="{A95B978F-1E53-4598-880B-78714B116439}" ShortID="82296412">
+														<AudioFileSource Name="doom1" ID="{A95B978F-1E53-4598-880B-78714B116439}">
 															<Language>SFX</Language>
 															<AudioFile>doom1.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="82296412"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -2622,9 +2813,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="doom2" ID="{9D065D95-92C4-453E-B09A-80C33F307074}" ShortID="295939489">
+														<AudioFileSource Name="doom2" ID="{9D065D95-92C4-453E-B09A-80C33F307074}">
 															<Language>SFX</Language>
 															<AudioFile>doom2.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="295939489"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -2667,9 +2861,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Fortnite default dance sound" ID="{6BBC6A2E-AFE4-4D1E-813D-91350F08A078}" ShortID="221782282">
+												<AudioFileSource Name="Fortnite default dance sound" ID="{6BBC6A2E-AFE4-4D1E-813D-91350F08A078}">
 													<Language>SFX</Language>
 													<AudioFile>Fortnite default dance sound.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="221782282"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2694,9 +2891,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Floss" ID="{870E3764-0EAD-4F67-A709-F52199BE5B4A}" ShortID="286574097">
+												<AudioFileSource Name="Floss" ID="{870E3764-0EAD-4F67-A709-F52199BE5B4A}">
 													<Language>SFX</Language>
 													<AudioFile>Floss.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="286574097"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2721,9 +2921,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="InfinidabLoop" ID="{ADB1C8CC-D935-413E-805F-2F1D47739B3F}" ShortID="425570657">
+												<AudioFileSource Name="InfinidabLoop" ID="{ADB1C8CC-D935-413E-805F-2F1D47739B3F}">
 													<Language>SFX</Language>
 													<AudioFile>InfinidabLoop.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="425570657"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2743,9 +2946,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Mio Honda" ID="{FE72369B-98BE-4EFF-AEDF-C3FD022AD740}" ShortID="642987550">
+												<AudioFileSource Name="Mio Honda" ID="{FE72369B-98BE-4EFF-AEDF-C3FD022AD740}">
 													<Language>SFX</Language>
 													<AudioFile>Mio Honda.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="642987550"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2762,9 +2968,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Orange Justice" ID="{F145ECFA-E5A8-4E5F-BD89-904770211492}" ShortID="573479036">
+												<AudioFileSource Name="Orange Justice" ID="{F145ECFA-E5A8-4E5F-BD89-904770211492}">
 													<Language>SFX</Language>
 													<AudioFile>Orange Justice.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="573479036"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2819,9 +3028,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="R down" ID="{4FAB21B7-C355-413A-A2C2-DA2631B60A0D}" ShortID="749379476">
+												<AudioFileSource Name="R down" ID="{4FAB21B7-C355-413A-A2C2-DA2631B60A0D}">
 													<Language>SFX</Language>
 													<AudioFile>R down.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="749379476"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2857,9 +3069,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="R up" ID="{0205AD39-3161-4B99-8765-5476B63AEBA9}" ShortID="880879728">
+												<AudioFileSource Name="R up" ID="{0205AD39-3161-4B99-8765-5476B63AEBA9}">
 													<Language>SFX</Language>
 													<AudioFile>R up.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="880879728"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2883,9 +3098,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Energy R down" ID="{D800D87D-129F-4A77-87D5-95A1A2F05ECA}" ShortID="596441432">
+												<AudioFileSource Name="Energy R down" ID="{D800D87D-129F-4A77-87D5-95A1A2F05ECA}">
 													<Language>SFX</Language>
 													<AudioFile>Energy R down.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="596441432"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2909,9 +3127,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Energy R Up" ID="{73897C3F-D3F2-49A3-8954-541325D466F5}" ShortID="28568263">
+												<AudioFileSource Name="Energy R Up" ID="{73897C3F-D3F2-49A3-8954-541325D466F5}">
 													<Language>SFX</Language>
 													<AudioFile>Energy R Up.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="28568263"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -2937,9 +3158,12 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<AudioFileSource Name="croak select" ID="{1E61B761-E2DB-43A0-A6CC-FAA9C18D9CA0}" ShortID="519303745">
+										<AudioFileSource Name="croak select" ID="{1E61B761-E2DB-43A0-A6CC-FAA9C18D9CA0}">
 											<Language>SFX</Language>
 											<AudioFile>croak select.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="519303745"/>
+											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
 									<ActiveSourceList>
@@ -2965,9 +3189,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Doom Eternal - BFG Division [2020 Edition] [Full Track]" ID="{BDA1C6D3-65BB-43E5-871C-CBC789410B01}" ShortID="960631325">
+												<AudioFileSource Name="Doom Eternal - BFG Division [2020 Edition] [Full Track]" ID="{BDA1C6D3-65BB-43E5-871C-CBC789410B01}">
 													<Language>SFX</Language>
 													<AudioFile>DLC1\Doom Eternal - BFG Division [2020 Edition] [Full Track].wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="960631325"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -3054,9 +3281,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Earlstep 5" ID="{15C95381-A4F6-47F6-A42D-C32F898ADE6F}" ShortID="463778954">
+												<AudioFileSource Name="Earlstep 5" ID="{15C95381-A4F6-47F6-A42D-C32F898ADE6F}">
 													<Language>SFX</Language>
 													<AudioFile>Earlstep 5.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="463778954"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -3079,9 +3309,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Earlstep 2" ID="{EE84B595-44E4-4D7B-AC95-6DDE70FBC48C}" ShortID="80400301">
+												<AudioFileSource Name="Earlstep 2" ID="{EE84B595-44E4-4D7B-AC95-6DDE70FBC48C}">
 													<Language>SFX</Language>
 													<AudioFile>Earlstep 2.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="80400301"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -3146,9 +3379,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="CollieD" ID="{CF7EAC77-448E-4B50-82A5-4DD4610867A6}" ShortID="514674134">
+												<AudioFileSource Name="CollieD" ID="{CF7EAC77-448E-4B50-82A5-4DD4610867A6}">
 													<Language>SFX</Language>
 													<AudioFile>Skateboard\CollieD.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="514674134"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -3261,9 +3497,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="grindmetal03" ID="{C5AC8F7B-1B4E-40B7-B7FD-EEC0128F2B02}" ShortID="1023427158">
+												<AudioFileSource Name="grindmetal03" ID="{C5AC8F7B-1B4E-40B7-B7FD-EEC0128F2B02}">
 													<Language>SFX</Language>
 													<AudioFile>Skateboard\grindmetal03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1023427158"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -3282,9 +3521,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="HUD_jumpgap" ID="{9CBE66A4-13CB-4F39-BFD7-8996EBAA8864}" ShortID="306254288">
+														<AudioFileSource Name="HUD_jumpgap" ID="{9CBE66A4-13CB-4F39-BFD7-8996EBAA8864}">
 															<Language>SFX</Language>
 															<AudioFile>Skateboard\HUD_jumpgap.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="306254288"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -3301,9 +3543,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="HUD_perfecttrickB" ID="{C394F30B-1E2A-48B4-AA47-77CC4354F949}" ShortID="32584676">
+														<AudioFileSource Name="HUD_perfecttrickB" ID="{C394F30B-1E2A-48B4-AA47-77CC4354F949}">
 															<Language>SFX</Language>
 															<AudioFile>Skateboard\HUD_perfecttrickB.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="32584676"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -3320,9 +3565,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="HUD_scoreE" ID="{D780CC70-49F7-4524-8D17-19DF0B2D6DA0}" ShortID="693056796">
+														<AudioFileSource Name="HUD_scoreE" ID="{D780CC70-49F7-4524-8D17-19DF0B2D6DA0}">
 															<Language>SFX</Language>
 															<AudioFile>Skateboard\HUD_scoreE.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="693056796"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -3339,9 +3587,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="HUD_specialtrickAA" ID="{99DCB54C-D0F4-4DB5-A3EC-2EB9D89A0EBD}" ShortID="949829171">
+														<AudioFileSource Name="HUD_specialtrickAA" ID="{99DCB54C-D0F4-4DB5-A3EC-2EB9D89A0EBD}">
 															<Language>SFX</Language>
 															<AudioFile>Skateboard\HUD_specialtrickAA.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="949829171"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -3373,9 +3624,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="landconcrete1" ID="{70ECDA17-93F8-46D5-9E34-A22DAE895FF2}" ShortID="334592697">
+														<AudioFileSource Name="landconcrete1" ID="{70ECDA17-93F8-46D5-9E34-A22DAE895FF2}">
 															<Language>SFX</Language>
 															<AudioFile>Skateboard\landconcrete1.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="334592697"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -3392,9 +3646,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="landdirt3" ID="{43E12924-72EC-4E08-8158-5911FCCE8339}" ShortID="1058145702">
+														<AudioFileSource Name="landdirt3" ID="{43E12924-72EC-4E08-8158-5911FCCE8339}">
 															<Language>SFX</Language>
 															<AudioFile>Skateboard\landdirt3.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="1058145702"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -3488,9 +3745,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="rollconcrete02" ID="{E25E69F4-EEED-4AC5-8695-50874D160CA2}" ShortID="252525989">
+												<AudioFileSource Name="rollconcrete02" ID="{E25E69F4-EEED-4AC5-8695-50874D160CA2}">
 													<Language>SFX</Language>
 													<AudioFile>Skateboard\rollconcrete02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="252525989"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -3527,9 +3787,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="180_1" ID="{D74B62A8-9CFD-4EBA-B5C5-95DE7CAF13CD}" ShortID="337103">
+														<AudioFileSource Name="180_1" ID="{D74B62A8-9CFD-4EBA-B5C5-95DE7CAF13CD}">
 															<Language>SFX</Language>
 															<AudioFile>Skateboard\180_1.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="337103"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -3553,9 +3816,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="180_2" ID="{9C451B63-FC7B-49A6-93D1-66C746896F95}" ShortID="340850113">
+														<AudioFileSource Name="180_2" ID="{9C451B63-FC7B-49A6-93D1-66C746896F95}">
 															<Language>SFX</Language>
 															<AudioFile>Skateboard\180_2.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="340850113"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -3567,7 +3833,14 @@
 									</ChildrenList>
 								</ActorMixer>
 								<ActorMixer Name="MG" ID="{7DFFDAE4-6F50-4438-A4DF-283AB8109F90}" ShortID="162041922">
+									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="1"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+									</PropertyList>
 									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="Shotgun" ID="{7297D247-2F3C-4FCB-A08E-EF65110DE74A}" WorkUnitID="{11DB3BA3-FF78-4AEA-AB23-759A4DFBC217}"/>
+										</Reference>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
 										</Reference>
@@ -3578,13 +3851,17 @@
 									<ChildrenList>
 										<Sound Name="sndHeavyMachinegun" ID="{68C3CA5B-2CD0-4975-9220-C959CF74EFF9}" ShortID="309109934">
 											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="1"/>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>-6</Value>
+														<Value>-13</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
 											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="Shotgun" ID="{7297D247-2F3C-4FCB-A08E-EF65110DE74A}" WorkUnitID="{11DB3BA3-FF78-4AEA-AB23-759A4DFBC217}"/>
+												</Reference>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
 												</Reference>
@@ -3593,9 +3870,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="sndHeavyMachinegun" ID="{BBE99CAA-A4D1-46E8-9B38-A9651CEB8A11}" ShortID="827040859">
+												<AudioFileSource Name="sndHeavyMachinegun" ID="{BBE99CAA-A4D1-46E8-9B38-A9651CEB8A11}">
 													<Language>SFX</Language>
 													<AudioFile>sndHeavyMachinegun.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="827040859"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -3604,13 +3884,17 @@
 										</Sound>
 										<Sound Name="sndMachinegun" ID="{B95CC4A0-2B4F-460F-BF85-52B28B7BB22D}" ShortID="566037801">
 											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="1"/>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>-6</Value>
+														<Value>-11</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
 											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="Shotgun" ID="{7297D247-2F3C-4FCB-A08E-EF65110DE74A}" WorkUnitID="{11DB3BA3-FF78-4AEA-AB23-759A4DFBC217}"/>
+												</Reference>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
 												</Reference>
@@ -3619,9 +3903,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="sndMachinegun" ID="{4726CCD0-623C-4E0F-A474-1F766322D060}" ShortID="750725189">
+												<AudioFileSource Name="sndMachinegun" ID="{4726CCD0-623C-4E0F-A474-1F766322D060}">
 													<Language>SFX</Language>
 													<AudioFile>sndMachinegun.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="750725189"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -3640,9 +3927,12 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<AudioFileSource Name="reflect" ID="{3BA8B4B6-D93A-4C2E-B34E-1CE0F0DC41BC}" ShortID="238198734">
+										<AudioFileSource Name="reflect" ID="{3BA8B4B6-D93A-4C2E-B34E-1CE0F0DC41BC}">
 											<Language>SFX</Language>
 											<AudioFile>reflect.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="238198734"/>
+											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
 									<ActiveSourceList>
@@ -3659,9 +3949,12 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<AudioFileSource Name="CharSelect" ID="{4E01FA19-EB37-4BBC-90EE-0D46C118E748}" ShortID="288847377">
+										<AudioFileSource Name="CharSelect" ID="{4E01FA19-EB37-4BBC-90EE-0D46C118E748}">
 											<Language>SFX</Language>
 											<AudioFile>CharSelect.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="288847377"/>
+											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
 									<ActiveSourceList>
@@ -3704,9 +3997,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="chargeMax" ID="{4F9C9771-E898-44F8-83E8-E8A3E0674CF1}" ShortID="951465725">
+												<AudioFileSource Name="chargeMax" ID="{4F9C9771-E898-44F8-83E8-E8A3E0674CF1}">
 													<Language>SFX</Language>
 													<AudioFile>chargeMax.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="951465725"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -3723,9 +4019,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="chargeStart" ID="{82348BBE-E48A-4E1C-B8D8-D807B84BDF33}" ShortID="71678922">
+												<AudioFileSource Name="chargeStart" ID="{82348BBE-E48A-4E1C-B8D8-D807B84BDF33}">
 													<Language>SFX</Language>
 													<AudioFile>chargeStart.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="71678922"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -3782,9 +4081,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="HammerFlameBurst" ID="{DBC57312-923A-40FF-A0E4-B3D6E5C6BFA7}" ShortID="20313979">
+												<AudioFileSource Name="HammerFlameBurst" ID="{DBC57312-923A-40FF-A0E4-B3D6E5C6BFA7}">
 													<Language>SFX</Language>
 													<AudioFile>HammerFlameBurst.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="20313979"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -3876,9 +4178,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="HammerFlameLoop" ID="{B5B4B386-6A79-4268-BF84-EC3B663B59C0}" ShortID="769609833">
+												<AudioFileSource Name="HammerFlameLoop" ID="{B5B4B386-6A79-4268-BF84-EC3B663B59C0}">
 													<Language>SFX</Language>
 													<AudioFile>HammerFlameLoop.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="769609833"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -3947,9 +4252,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="HammerSlamS" ID="{BBA5F9E7-20FF-44D2-A186-B2E3E6974C0B}" ShortID="1016044949">
+												<AudioFileSource Name="HammerSlamS" ID="{BBA5F9E7-20FF-44D2-A186-B2E3E6974C0B}">
 													<Language>SFX</Language>
 													<AudioFile>HammerSlamS.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1016044949"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -4018,9 +4326,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="HammerSlamL" ID="{42424296-BB68-45AF-A17C-32ACDE1147F7}" ShortID="47938053">
+												<AudioFileSource Name="HammerSlamL" ID="{42424296-BB68-45AF-A17C-32ACDE1147F7}">
 													<Language>SFX</Language>
 													<AudioFile>HammerSlamL.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="47938053"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -4057,9 +4368,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="HammerImpactL" ID="{80CC75C2-C1A6-49E1-A17D-8C3FBC81D180}" ShortID="478708561">
+												<AudioFileSource Name="HammerImpactL" ID="{80CC75C2-C1A6-49E1-A17D-8C3FBC81D180}">
 													<Language>SFX</Language>
 													<AudioFile>HammerImpactL.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="478708561"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -4083,9 +4397,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="bonk" ID="{137E8F5B-BD4D-4CFE-948E-E7ED9D93D41E}" ShortID="472912323">
+												<AudioFileSource Name="bonk" ID="{137E8F5B-BD4D-4CFE-948E-E7ED9D93D41E}">
 													<Language>SFX</Language>
 													<AudioFile>bonk.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="472912323"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -4110,9 +4427,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="NemHammerImpact" ID="{0DC78D48-244C-4B68-B86C-F70993E992BE}" ShortID="50725959">
+												<AudioFileSource Name="NemHammerImpact" ID="{0DC78D48-244C-4B68-B86C-F70993E992BE}">
 													<Language>SFX</Language>
 													<AudioFile>NemHammerImpact.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="50725959"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -4129,9 +4449,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="NemSwingSecondary" ID="{2C9A1F86-B872-4FCD-BF72-1AEEB2407709}" ShortID="951359654">
+												<AudioFileSource Name="NemSwingSecondary" ID="{2C9A1F86-B872-4FCD-BF72-1AEEB2407709}">
 													<Language>SFX</Language>
 													<AudioFile>NemSwingSecondary.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="951359654"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -4155,9 +4478,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="se_dedede_hammer_attack_l" ID="{AFDAE873-8E59-477C-83D2-E37E8E54ECA8}" ShortID="101912264">
+												<AudioFileSource Name="se_dedede_hammer_attack_l" ID="{AFDAE873-8E59-477C-83D2-E37E8E54ECA8}">
 													<Language>SFX</Language>
 													<AudioFile>se_dedede_hammer_attack_l.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="101912264"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -4210,9 +4536,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="GrenadeThrow" ID="{FA7781A3-BB0D-4112-A9F9-9329590627D8}" ShortID="29354304">
+												<AudioFileSource Name="GrenadeThrow" ID="{FA7781A3-BB0D-4112-A9F9-9329590627D8}">
 													<Language>SFX</Language>
 													<AudioFile>GrenadeThrow.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="29354304"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -4260,9 +4589,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="minigun_wind_down" ID="{5106C799-B2C3-4203-A1D2-C0C16699A24D}" ShortID="1050121589">
+												<AudioFileSource Name="minigun_wind_down" ID="{5106C799-B2C3-4203-A1D2-C0C16699A24D}">
 													<Language>SFX</Language>
 													<AudioFile>minigun_wind_down.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1050121589"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -4404,9 +4736,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="minigun_shoot_crit" ID="{5C0A7834-C001-49B1-A2E6-0392DEFE5D01}" ShortID="227158378">
+														<AudioFileSource Name="minigun_shoot_crit" ID="{5C0A7834-C001-49B1-A2E6-0392DEFE5D01}">
 															<Language>SFX</Language>
 															<AudioFile>minigun_shoot_crit.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="227158378"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -4491,9 +4826,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="minigun_shoot" ID="{D3993845-CD60-40C8-949C-3E1F05732095}" ShortID="746042411">
+														<AudioFileSource Name="minigun_shoot" ID="{D3993845-CD60-40C8-949C-3E1F05732095}">
 															<Language>SFX</Language>
 															<AudioFile>minigun_shoot.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="746042411"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -4563,9 +4901,12 @@
 																</Reference>
 															</ReferenceList>
 															<ChildrenList>
-																<AudioFileSource Name="minigun_spin" ID="{58C7F630-EBA5-4E62-A5D5-36EEB6DC422F}" ShortID="817933366">
+																<AudioFileSource Name="minigun_spin" ID="{58C7F630-EBA5-4E62-A5D5-36EEB6DC422F}">
 																	<Language>SFX</Language>
 																	<AudioFile>minigun_spin.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="817933366"/>
+																	</MediaIDList>
 																</AudioFileSource>
 															</ChildrenList>
 															<ActiveSourceList>
@@ -4607,9 +4948,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="minigun_wind_up" ID="{3F028DC9-1188-436E-861A-7C11F2EDC7F9}" ShortID="237491122">
+												<AudioFileSource Name="minigun_wind_up" ID="{3F028DC9-1188-436E-861A-7C11F2EDC7F9}">
 													<Language>SFX</Language>
 													<AudioFile>minigun_wind_up.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="237491122"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -4641,9 +4985,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="MinigunSheathe" ID="{5BCC2C21-3A2A-4D9F-A4A1-AA4E9D6FC5B2}" ShortID="177245763">
+												<AudioFileSource Name="MinigunSheathe" ID="{5BCC2C21-3A2A-4D9F-A4A1-AA4E9D6FC5B2}">
 													<Language>SFX</Language>
 													<AudioFile>MinigunSheathe.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="177245763"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -4675,9 +5022,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="MinigunUnsheathe" ID="{A5718DAD-24F2-44A3-BD13-5D784DBF43E7}" ShortID="619611377">
+												<AudioFileSource Name="MinigunUnsheathe" ID="{A5718DAD-24F2-44A3-BD13-5D784DBF43E7}">
 													<Language>SFX</Language>
 													<AudioFile>MinigunUnsheathe.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="619611377"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -4757,9 +5107,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Heavy Swing 1" ID="{5F105ACE-E138-49F7-9447-F58082DFB483}" ShortID="1041197163">
+														<AudioFileSource Name="Heavy Swing 1" ID="{5F105ACE-E138-49F7-9447-F58082DFB483}">
 															<Language>SFX</Language>
 															<AudioFile>Heavy Swing\Heavy Swing 1.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="1041197163"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -4776,9 +5129,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Heavy Swing 2" ID="{6BB40995-1D0C-4913-824C-2D546639E697}" ShortID="1012025303">
+														<AudioFileSource Name="Heavy Swing 2" ID="{6BB40995-1D0C-4913-824C-2D546639E697}">
 															<Language>SFX</Language>
 															<AudioFile>Heavy Swing\Heavy Swing 2.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="1012025303"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -4795,9 +5151,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Heavy Swing 3" ID="{C4BEC16C-82D8-41D5-99A8-92D87DB1C414}" ShortID="419574738">
+														<AudioFileSource Name="Heavy Swing 3" ID="{C4BEC16C-82D8-41D5-99A8-92D87DB1C414}">
 															<Language>SFX</Language>
 															<AudioFile>Heavy Swing\Heavy Swing 3.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="419574738"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -4814,9 +5173,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="Heavy Swing 4" ID="{C1AD16D1-4F4D-448B-AC34-AFC2A38AE864}" ShortID="431836681">
+														<AudioFileSource Name="Heavy Swing 4" ID="{C1AD16D1-4F4D-448B-AC34-AFC2A38AE864}">
 															<Language>SFX</Language>
 															<AudioFile>Heavy Swing\Heavy Swing 4.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="431836681"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -4878,9 +5240,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="Heavy Swing Hit" ID="{ED254524-2218-422F-ABC6-0C742873DED7}" ShortID="268021578">
+												<AudioFileSource Name="Heavy Swing Hit" ID="{ED254524-2218-422F-ABC6-0C742873DED7}">
 													<Language>SFX</Language>
 													<AudioFile>Heavy Swing\Heavy Swing Hit.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="268021578"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -4912,9 +5277,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="HammerSwingL" ID="{E534C096-845E-4164-ADCB-5726A50524EE}" ShortID="643828831">
+												<AudioFileSource Name="HammerSwingL" ID="{E534C096-845E-4164-ADCB-5726A50524EE}">
 													<Language>SFX</Language>
 													<AudioFile>HammerSwingL.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="643828831"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -4931,9 +5299,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="HammerSmash" ID="{BC35A410-618A-41FE-A6A2-D6C630F80985}" ShortID="732033497">
+												<AudioFileSource Name="HammerSmash" ID="{BC35A410-618A-41FE-A6A2-D6C630F80985}">
 													<Language>SFX</Language>
 													<AudioFile>HammerSmash.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="732033497"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -4973,9 +5344,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="HammerswingNewL1" ID="{8D7D93D0-950C-42DE-B8DE-2B3EAE4145E0}" ShortID="365738532">
+														<AudioFileSource Name="HammerswingNewL1" ID="{8D7D93D0-950C-42DE-B8DE-2B3EAE4145E0}">
 															<Language>SFX</Language>
 															<AudioFile>HammerswingNewL1.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="365738532"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -4998,9 +5372,12 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="HammerswingNewL2" ID="{3CB36A37-7C34-418C-8BB9-F68992369299}" ShortID="331487414">
+														<AudioFileSource Name="HammerswingNewL2" ID="{3CB36A37-7C34-418C-8BB9-F68992369299}">
 															<Language>SFX</Language>
 															<AudioFile>HammerswingNewL2.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="331487414"/>
+															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
@@ -5026,9 +5403,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="se_dedede_hammer_attack_m" ID="{3E0FDD38-E830-4D7E-AA5E-1107FD6CF9D4}" ShortID="929897034">
+												<AudioFileSource Name="se_dedede_hammer_attack_m" ID="{3E0FDD38-E830-4D7E-AA5E-1107FD6CF9D4}">
 													<Language>SFX</Language>
 													<AudioFile>se_dedede_hammer_attack_m.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="929897034"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -5056,9 +5436,12 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="se_dedede_hammer_swing_m" ID="{4E1E9895-8F12-43D2-A7BC-831E7B28FDD0}" ShortID="315505764">
+												<AudioFileSource Name="se_dedede_hammer_swing_m" ID="{4E1E9895-8F12-43D2-A7BC-831E7B28FDD0}">
 													<Language>SFX</Language>
 													<AudioFile>se_dedede_hammer_swing_m.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="315505764"/>
+													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
@@ -5082,9 +5465,12 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<AudioFileSource Name="Home_Run_Bat_Hit" ID="{59FAD4D0-DCE8-44DD-BFA2-6A0FA6526519}" ShortID="841133334">
+								<AudioFileSource Name="Home_Run_Bat_Hit" ID="{59FAD4D0-DCE8-44DD-BFA2-6A0FA6526519}">
 									<Language>SFX</Language>
 									<AudioFile>Home_Run_Bat_Hit.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="841133334"/>
+									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
 							<ActiveSourceList>

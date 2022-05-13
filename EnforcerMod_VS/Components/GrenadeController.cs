@@ -10,7 +10,7 @@ public class GrenadeController : MonoBehaviour
     float initialTime;
     bool never = true;
 
-    GameObject explodePrefab = Resources.Load<GameObject>("prefabs/effects/omnieffect/OmniExplosionVFX");
+    GameObject explodePrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("prefabs/effects/omnieffect/OmniExplosionVFX");
 
     void Start()
     {

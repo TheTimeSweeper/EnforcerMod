@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using RoR2;
 using System.Collections.Generic;
-using EnforcerPlugin.Modules;
+using Modules;
 
 class EnforcerLightControllerAlt : MonoBehaviour
 {
@@ -149,7 +149,7 @@ class EnforcerLightControllerAlt : MonoBehaviour
 
         if (this.sirenToggle)
         {
-            string sound = EnforcerPlugin.Sounds.SirenButton;
+            string sound = Sounds.SirenButton;
 
             if (this.characterBody && Config.cursed.Value)
             {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using RoR2;
-using EnforcerPlugin.Modules;
+using Modules;
 
 class EnforcerLightController : MonoBehaviour
 {
@@ -151,7 +151,7 @@ class EnforcerLightController : MonoBehaviour
 
         if (this.sirenToggle)
         {
-            string sound = EnforcerPlugin.Sounds.SirenButton;
+            string sound = Sounds.SirenButton;
             if (this.characterBody && Config.cursed.Value)
             {
                 //if (this.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.frogIndex ) sound = EnforcerPlugin.Sounds.Croak;

@@ -1,10 +1,12 @@
 ﻿using EntityStates.Enforcer;
+using Modules;
 using RoR2;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnforcerWeaponComponent : MonoBehaviour {
+
     public enum EquippedGun {
         NONE = -1,
         GUN,
@@ -33,7 +35,8 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     private GameObject hammerObject { get => this.childLocator.FindChild("HammerModel").gameObject; }
     private GameObject needlerObject { get => this.childLocator.FindChild("NeedlerModel").gameObject; }
 
-    private GameObject shieldObject { get => this.childLocator.FindChild("ShieldModel").gameObject; }
+    private GameObject shieldModelObject { get => this.childLocator.FindChild("ShieldModel").gameObject; }
+    private Transform shieldBoneTransform{ get => this.childLocator.FindChild("Shield"); }
     //private GameObject shielDevicedObject { get => this.childLocator.FindChild("ShieldDeviceModel").gameObject; }
     private GameObject skateBoardObject { get => this.childLocator.FindChild("SkamteBordModel").gameObject; }
 
@@ -73,38 +76,42 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     private Transform skateboardBase;
     private Transform skateboardHandBase;
 
-    private FootstepHandler footStep;
-    private SfxLocator sfx;
-
     private string stepSoundString;
     private string landSoundString;
 
-    private CharacterBody charBody;
-    private CharacterMotor charMotor;
-    private HealthComponent charHealth;
-    private CameraTargetParams cameraShit;
-    private ChildLocator childLocator;
+    public CharacterBody charBody;
+    public CharacterMotor charMotor;
+    public HealthComponent charHealth;
+    public CameraTargetParams cameraShit;
+    public ChildLocator childLocator;
 
+    public FootstepHandler footStep;
+    public SfxLocator sfx;
 
-    private void Start() {
+    public void Init() {
         this.charBody = this.GetComponentInChildren<CharacterBody>();
         this.charMotor = this.GetComponentInChildren<CharacterMotor>();
         this.charHealth = this.GetComponentInChildren<HealthComponent>();
         this.cameraShit = this.GetComponent<CameraTargetParams>();
         this.childLocator = this.GetComponentInChildren<ChildLocator>();
+
         this.footStep = this.GetComponentInChildren<FootstepHandler>();
         this.sfx = this.GetComponentInChildren<SfxLocator>();
 
         if (this.footStep) this.stepSoundString = this.footStep.baseFootstepString;
         if (this.sfx) this.landSoundString = this.sfx.landingSound;
 
+    }
+
+    void Start() {
+
         this.SetWeaponsAndShields();
         this.InitShells();
         this.InitSkateboard();
 
         this.Invoke("ModelCheck", 0.2f);
-
-        this.UpdateCamera();
+        //todo CUM2 delete this
+        //this.UpdateCamera();
     }
 
     public void SetWeaponsAndShields() {
@@ -123,7 +130,7 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         if (shield != currentShield) {
             currentShield = shield;
 
-            this.HideShields();
+            this.HideSpecials();
             this.EquipShield(shield);
             this.SetShieldDisplayRules(shield);
         }
@@ -132,7 +139,7 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     public void HideEquips()
     {
         HideWeapons();
-        HideShields();
+        HideSpecials();
     }
 
     public void UnHideEquips() {
@@ -151,11 +158,12 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         }
     }
 
-    public void HideShields()
+    public void HideSpecials()
     {
         if (this.childLocator)
         {
-            shieldObject.SetActive(false);
+            showShield(false);
+
             skateBoardObject.SetActive(false);
         }
     }
@@ -217,13 +225,13 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                 case EquippedGun.GUN:
                 case EquippedGun.SUPER:
                 case EquippedGun.HMG:
-                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
+                    this.charBody._defaultCrosshairPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
                     break;
                 case EquippedGun.HAMMER:
-                    this.charBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
+                    this.charBody._defaultCrosshairPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
                     break;
                 case EquippedGun.NEEDLER:
-                    this.charBody.crosshairPrefab = EnforcerPlugin.EnforcerModPlugin.needlerCrosshair;
+                    this.charBody._defaultCrosshairPrefab = EnforcerPlugin.EnforcerModPlugin.needlerCrosshair;
                     break;
             }
         }
@@ -282,10 +290,10 @@ public class EnforcerWeaponComponent : MonoBehaviour {
             switch (shield) {
                 default:
                 case EquippedShield.SHIELD:
-                    shieldObject.SetActive(true);
+                    showShield(true);
                     break;
                 case EquippedShield.SHIELD2:
-                    shieldObject.SetActive(false);
+                    showShield(false);
                     break;
                 case EquippedShield.BOARD:
                     skateBoardObject.SetActive(true);
@@ -294,6 +302,12 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                     break;
             }
         }
+    }
+
+    private void showShield(bool show) {
+
+        shieldModelObject.SetActive(show);
+        shieldBoneTransform.localScale = show ? Vector3.one : Vector3.zero;
     }
 
     private void SetShieldDisplayRules(EquippedShield shield) {
@@ -389,20 +403,6 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         }
     }
 
-    public void UpdateCamera() {
-        this.isMultiplayer = Run.instance.participatingPlayerCount > 1;
-
-        if (this.isMultiplayer) {
-            this.cameraShit.cameraParams.standardLocalCameraPos = EnforcerMain.standardCameraPosition;
-        } else {
-            if (!this.shieldUp) {
-                this.cameraShit.cameraParams.standardLocalCameraPos = EnforcerMain.standardCameraPosition;
-            } else {
-                this.cameraShit.cameraParams.standardLocalCameraPos = EnforcerMain.shieldCameraPosition;
-            }
-        }
-    }
-
     private void InitShells() {
         if (this.childLocator is null) return;
 
@@ -425,8 +425,8 @@ public class EnforcerWeaponComponent : MonoBehaviour {
 
         this.shellObjects = new GameObject[EnforcerWeaponComponent.maxShellCount + 1];
 
-        GameObject desiredShell = EnforcerPlugin.Assets.shotgunShell;
-        if (this.GetWeapon() == EquippedGun.SUPER) desiredShell = EnforcerPlugin.Assets.superShotgunShell;
+        GameObject desiredShell = Assets.shotgunShell;
+        if (this.GetWeapon() == EquippedGun.SUPER) desiredShell = Assets.superShotgunShell;
 
         for (int i = 0; i < EnforcerWeaponComponent.maxShellCount; i++) {
             this.shellObjects[i] = GameObject.Instantiate(desiredShell, this.childLocator.FindChild("Gun"), false);
@@ -474,7 +474,7 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                 this.skateboard.transform.SetParent(this.skateboardBase);
                 this.skateboard.transform.localPosition = Vector3.zero;
                 if (this.footStep) this.footStep.baseFootstepString = "";
-                if (this.sfx) this.sfx.landingSound = EnforcerPlugin.Sounds.SkateLand;
+                if (this.sfx) this.sfx.landingSound = Sounds.SkateLand;
                 break;
             case SkateBoardParent.HAND:
                 this.skateboard.transform.SetParent(this.skateboardHandBase);

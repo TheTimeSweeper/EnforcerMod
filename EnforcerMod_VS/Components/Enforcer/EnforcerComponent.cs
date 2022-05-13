@@ -1,36 +1,27 @@
-﻿using EnforcerPlugin.Modules;
-using EntityStates;
+﻿using EntityStates;
+using Modules;
+using Modules.Characters;
 using RoR2;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
-using UnityEngine.Networking;
-public class EnforcerNetworkComponent : NetworkBehaviour {
-
-    [SyncVar]
-    public int parries;
-
-    [ClientRpc]
-    public void RpcUhh(int skin) {
-        //fuckin nasty i'm calling this from modelskincontroller > charmodel > getcomponent body > enforcernetworkcomponent > here < just to go modeltransform < getcomponent < back to modelskincontroller fuck man
-        GetComponent<CharacterBody>().modelLocator.modelTransform.GetComponent<ModelSkinController>().ApplySkin(skin);
-
-        StartCoroutine(fuckthis(skin));
-    }
-
-    //I refuse to let this be the solution
-    //I'd rather have the horrible hook hack in the serverachievement
-    public IEnumerator fuckthis(int skin)
-    {
-        yield return new WaitForSeconds(1);
-        GetComponent<CharacterBody>().modelLocator.modelTransform.GetComponent<ModelSkinController>().ApplySkin(skin);
-    }
-}
+using static RoR2.CameraTargetParams;
 
 public class EnforcerComponent : MonoBehaviour
 {
+    protected CharacterCameraParamsData shieldCameraParams = new CharacterCameraParamsData() {
+        maxPitch = 70,
+        minPitch = -70,
+        pivotVerticalOffset = EnforcerSurvivor.instance.bodyInfo.cameraParamsVerticalOffset,
+        idealLocalCameraPos = shieldCameraPosition,
+        wallCushion = 0.1f,
+    };
+
+    public static CameraParamsOverrideHandle camOverrideHandle;
+
+    public static Vector3 shieldCameraPosition = new Vector3(2.3f, -1.0f, -6.5f);
+
     static float maxSpeed = 0.1f;
     static float coef = 1; // affects how quickly it reaches max speed
 
@@ -42,17 +33,27 @@ public class EnforcerComponent : MonoBehaviour
 
     public Transform origOrigin { get; set; }
 
-    public bool isShielding = false;
+    private bool _isShielding;
+    public bool isShielding {
+        get => _isShielding;
+        set {
+            _isShielding = value;
+            toggleShieldCamera(value);
+        }
+    }
+
+
     public Ray aimRay;
     public Vector3 shieldDirection = new Vector3(1,0,0);
 
     public bool beefStop;
     float initialTime = 0;
 
-    private ChildLocator childLocator;
+    public ChildLocator childLocator;
+    public CameraTargetParams cameraShit2;
 
     private GameObject energyShield;
-    private EnergyShieldControler energyShieldControler;
+    public EnergyShieldControler energyShieldControler;
 
     private Transform _shieldPreview;
     private Transform _shieldParent;
@@ -60,7 +61,7 @@ public class EnforcerComponent : MonoBehaviour
     private float _shieldSizeMultiplier = 1.2f;
 
     GameObject dummy;
-    GameObject boyPrefab = Resources.Load<GameObject>("Prefabs/CharacterBodies/LemurianBody");
+    GameObject boyPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LemurianBody");
     public static bool skateJump;
 
     private Transform head;
@@ -69,19 +70,24 @@ public class EnforcerComponent : MonoBehaviour
         get => energyShieldControler.healthComponent.health;
     }
 
-    void Start()
+    public void Init()
     {
         // dead.
         childLocator = GetComponentInChildren<ChildLocator>();
         head = childLocator.FindChild("Head");
+
+        cameraShit2 = GetComponentInChildren<CameraTargetParams>();
+
         /*energyShield = childLocator.FindChild("EnergyShield").gameObject;
 
         energyShield.SetActive(true);// i don't know if the object has to be active to get the component but i'm playing it safe
         energyShieldControler = energyShield.GetComponentInChildren<EnergyShieldControler>();
         energyShield = energyShieldControler?.gameObject;
         energyShield.SetActive(false);*/
-        
-        if(drOctagonapus == null) {
+    }
+    void Start () {
+
+        if (drOctagonapus == null) {
             drOctagonapus = EntityStateMachine.FindByCustomName(gameObject, "EnforcerParry");
         }
     }
@@ -100,6 +106,34 @@ public class EnforcerComponent : MonoBehaviour
             head.transform.localScale = Vector3.one * Config.headSize.Value;
             //magic numbers based on head bone's default position
             head.transform.localPosition = new Vector3(0, 0.0535f + 0.0450f * Config.headSize.Value, 0);
+        }
+    }
+
+    public void ResetAimOrigin(CharacterBody characterBody) {
+
+        characterBody.aimOriginTransform = origOrigin;
+    }
+
+    private void toggleShieldCamera(bool shieldIsUp) {
+
+        //shield mode camera stuff
+        if (shieldIsUp) {
+
+            CameraParamsOverrideRequest request = new CameraParamsOverrideRequest {
+                cameraParamsData = shieldCameraParams,
+                priority = 0,
+            };
+
+            camOverrideHandle = cameraShit2.AddParamsOverride(request, 0.6f);
+        } else {
+
+            for (int i = cameraShit2.cameraParamsOverrides.Count - 1; i >= 0; i--) {
+
+                camOverrideHandle.target = cameraShit2.cameraParamsOverrides[i];
+
+                cameraShit2.RemoveParamsOverride(camOverrideHandle, 0.3f);
+            }
+
         }
     }
 

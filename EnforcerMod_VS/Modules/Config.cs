@@ -1,10 +1,11 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
-using System;
+using EnforcerPlugin;
 using UnityEngine;
 
-namespace EnforcerPlugin.Modules {
-    public class Config {
+namespace Modules {
+
+    internal class Config {
 
         public static ConfigEntry<bool> forceUnlock;
         public static ConfigEntry<bool> classicShotgun;
@@ -15,7 +16,7 @@ namespace EnforcerPlugin.Modules {
         public static ConfigEntry<bool> useNeedlerCrosshair;
         public static ConfigEntry<bool> cursed;
         public static ConfigEntry<bool> hateFun;
-        //public static ConfigEntry<bool> femSkin;
+        public static ConfigEntry<bool> femSkin;
         public static ConfigEntry<bool> shellSounds;
         public static ConfigEntry<bool> globalInvasion;
         public static ConfigEntry<bool> multipleInvasions;
@@ -107,14 +108,14 @@ namespace EnforcerPlugin.Modules {
             //  = plugin.Config.Bind("01 - General Settings",
             //                       "I hate fun",
             //                       false,
-            //                       "Overrides cursed. Further disables extra content, namely skins and their achievements");
+            //                       "Overrides Cursed. Further disables extra content, namely skins and their achievements");
             //cursed.Value |= hateFun.Value;
 
-            //femSkin
-            //  = plugin.Config.Bind("01 - General Settings",
-            //                       "Femforcer",
-            //                       false,
-            //                       "Enables femforcer skin. Not for good boys and girls.");
+            femSkin
+              = plugin.Config.Bind("01 - General Settings",
+                                   "Femforcer",
+                                   false,
+                                   "Enables femforcer skin. Not for good boys and girls.");
             shellSounds
                 = plugin.Config.Bind("01 - General Settings",
                                      "Shell Sounds",
@@ -149,8 +150,6 @@ namespace EnforcerPlugin.Modules {
                                      KeyCode.Alpha2,
                                      "Key used to Salute");
 
-            if (!EnforcerModPlugin.holdonasec)
-            {
                 danceKey
                     = plugin.Config.Bind("02 - Keybinds",
                                          "Dance Moves Emote",
@@ -161,7 +160,7 @@ namespace EnforcerPlugin.Modules {
                                             "Earl Run Emote",
                                             KeyCode.Alpha4,
                                             "FLINT LOCKWOOD");
-            }
+            
             sirensKey
                 = plugin.Config.Bind("02 - Keybinds",
                                         "Sirens",

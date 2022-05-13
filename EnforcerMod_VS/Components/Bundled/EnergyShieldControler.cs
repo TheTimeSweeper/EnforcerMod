@@ -64,7 +64,7 @@ public class EnergyShieldControler : MonoBehaviour
         characterBody.sprintingSpeedMultiplier = 0;
         characterBody.wasLucky = false;
         characterBody.hideCrosshair = true;
-        characterBody.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
+        characterBody._defaultCrosshairPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Crosshair/SMGCrosshair");
         characterBody.aimOriginTransform = transform;
         characterBody.hullClassification = HullClassification.Human;
         characterBody.portraitIcon = null;
