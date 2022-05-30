@@ -60,6 +60,8 @@ namespace Modules {
         public static ConfigEntry<bool> balancedShieldBash;
         public static ConfigEntry<bool> stupidShieldBash;
 
+        public static ConfigEntry<bool> translucentVRShield;
+
 
         public static void ConfigShit(BaseUnityPlugin plugin) {
 
@@ -311,6 +313,16 @@ namespace Modules {
                                      "Ally Knockback",
                                      true,
                                      "Applies knockback to allies.");
+
+            #region vr
+
+            translucentVRShield
+                = plugin.Config.Bind("08 - VR",
+                                     "Semi-Transparent Shield",
+                                     true,
+                                     "Makes the shield semi-transparent to improve vision.");
+
+            #endregion
         }
     }
 }

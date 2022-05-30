@@ -198,8 +198,6 @@ namespace EnforcerPlugin {
 
             //VR stuff
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DrBibop.VRAPI")) {
-                VRInstalled = true;
-                Assets.loadVRBundle();
                 SetupVR();
             }
 
@@ -248,9 +246,11 @@ namespace EnforcerPlugin {
         {
             if (!VRAPI.VR.enabled || !VRAPI.MotionControls.enabled) return;
 
+            VRInstalled = true;
+            Assets.loadVRBundle();
             VRAPI.MotionControls.AddHandPrefab(Assets.vrDominantHand);
             VRAPI.MotionControls.AddHandPrefab(Assets.vrNonDominantHand);
-            VRAPI.MotionControls.AddSkillRemap("EnforcerBody", SkillSlot.Utility, SkillSlot.Special);
+            VRAPI.MotionControls.AddSkillBindingOverride("EnforcerBody", SkillSlot.Primary, SkillSlot.Secondary, SkillSlot.Special, SkillSlot.Utility);
         }
 
         private void Hook()

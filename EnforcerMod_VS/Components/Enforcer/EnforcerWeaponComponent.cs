@@ -4,6 +4,7 @@ using RoR2;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using VRAPI;
 
 public class EnforcerWeaponComponent : MonoBehaviour {
 
@@ -61,6 +62,10 @@ public class EnforcerWeaponComponent : MonoBehaviour {
 
     }
 
+    private GameObject vrShotgunObject { get => this.vrChildLocator.FindChild("GunModel").gameObject; }
+    private GameObject vrSsgobject { get => this.vrChildLocator.FindChild("SuperGunModel").gameObject; }
+    private GameObject vrHmgObject { get => this.vrChildLocator.FindChild("HMGModel").gameObject; }
+
     public EquippedGun currentGun = EquippedGun.NONE;
     public EquippedShield currentShield = EquippedShield.NONE;
 
@@ -84,6 +89,7 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     public HealthComponent charHealth;
     public CameraTargetParams cameraShit;
     public ChildLocator childLocator;
+    public ChildLocator vrChildLocator;
 
     public FootstepHandler footStep;
     public SfxLocator sfx;
@@ -100,7 +106,22 @@ public class EnforcerWeaponComponent : MonoBehaviour {
 
         if (this.footStep) this.stepSoundString = this.footStep.baseFootstepString;
         if (this.sfx) this.landSoundString = this.sfx.landingSound;
+    }
 
+    void OnEnable()
+    {
+        if (EnforcerPlugin.EnforcerModPlugin.VRInstalled)
+        {
+            SubscribeToHandPairEvent();
+        }
+    }
+
+    void OnDisable()
+    {
+        if (EnforcerPlugin.EnforcerModPlugin.VRInstalled)
+        {
+            UnsubscribeToHandPairEvent();
+        }
     }
 
     void Start() {
@@ -112,6 +133,58 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         this.Invoke("ModelCheck", 0.2f);
         //todo CUM2 delete this
         //this.UpdateCamera();
+    }
+
+    private void SubscribeToHandPairEvent()
+    {
+        MotionControls.onHandPairSet += SetVRWeapon;
+    }
+
+    private void UnsubscribeToHandPairEvent()
+    {
+        MotionControls.onHandPairSet -= SetVRWeapon;
+    }
+
+    private void SetVRWeapon(CharacterBody body)
+    {
+        if (!body.name.Contains("EnforcerBody")) return;
+
+        vrChildLocator = VRAPI.MotionControls.dominantHand.transform.GetComponentInChildren<ChildLocator>();
+
+        if (vrChildLocator)
+        {
+            List<GameObject> allVRWeapons = new List<GameObject>()
+            {
+                vrShotgunObject,
+                vrSsgobject,
+                vrHmgObject
+            };
+
+            foreach (GameObject weaponObject in allVRWeapons)
+            {
+                //bit of a hack to make sure objects hide their associated item bones
+                weaponObject.SetActive(true);
+                weaponObject.SetActive(false);
+            }
+
+            EquippedGun weapon = GetWeapon();
+            Transform muzzle = VRAPI.MotionControls.dominantHand.muzzle;
+            switch (weapon)
+            {
+                default:
+                case EquippedGun.GUN:
+                    vrShotgunObject.SetActive(true);
+                    break;
+                case EquippedGun.SUPER:
+                    vrSsgobject.SetActive(true);
+                    muzzle.localPosition = new Vector3(0.0131f, -0.2545f, 0.8665f);
+                    break;
+                case EquippedGun.HMG:
+                    vrHmgObject.SetActive(true);
+                    muzzle.localPosition = new Vector3(0.01302f, -0.22613f, 0.81347f);
+                    break;
+            }
+        }
     }
 
     public void SetWeaponsAndShields() {
