@@ -66,7 +66,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 //if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterRifle;
                 //if (this.isEngi) soundString = EnforcerPlugin.Sounds.FireBungusRifle;
 
-                Util.PlayAttackSpeedSound(soundString, gameObject, attackSpeedStat);
+                Util.PlayAttackSpeedSound(soundString, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject, attackSpeedStat);
 
                 if (isAuthority) {
                     float damage = damageCoefficient * damageStat;

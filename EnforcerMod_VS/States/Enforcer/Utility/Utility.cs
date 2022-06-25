@@ -3,12 +3,14 @@ using RoR2.Projectile;
 using UnityEngine;
 using EntityStates.Toolbot;
 using Modules;
+using System;
 
 namespace EntityStates.Enforcer {
 
     public class AimTearGas : AimThrowableBase
     {
         private AimStunDrone goodState;
+        private Vector3 origMuzzlePos;
 
         public override void OnEnter()
         {
@@ -27,10 +29,29 @@ namespace EntityStates.Enforcer {
 
             base.OnEnter();
 
-            base.characterBody.aimOriginTransform = base.GetModelChildLocator().FindChild("GrenadeAimOrigin");
+            if (!EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(base.characterBody))
+            {
+                base.characterBody.aimOriginTransform = base.GetModelChildLocator().FindChild("GrenadeAimOrigin");
+            }
+            else
+            {
+                MoveMuzzlePos();
+            }
 
             base.PlayAnimation("Gesture, Override", "BufferEmpty");
             base.PlayAnimation("Grenade, Override", "AimGrenade");
+        }
+
+        private void MoveMuzzlePos()
+        {
+            Transform muzzle = VRAPI.MotionControls.dominantHand.muzzle;
+            origMuzzlePos = muzzle.localPosition;
+            muzzle.localPosition = new Vector3(-0.004f, 0, 0.074f);
+        }
+
+        private void ResetMuzzlePos()
+        {
+            VRAPI.MotionControls.dominantHand.muzzle.localPosition = origMuzzlePos;
         }
 
         public override void FixedUpdate()
@@ -58,12 +79,16 @@ namespace EntityStates.Enforcer {
 
             base.PlayAnimation("Grenade, Override", "ThrowGrenade");
 
-            Util.PlaySound(Sounds.NemesisGrenadeThrow, base.gameObject);
+            Util.PlaySound(Sounds.NemesisGrenadeThrow, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject);
 
             base.AddRecoil(-2f * TearGas.bulletRecoil, -3f * TearGas.bulletRecoil, -1f * TearGas.bulletRecoil, 1f * TearGas.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * TearGas.bulletRecoil);
 
             GetComponent<EnforcerComponent>().ResetAimOrigin(base.characterBody);
+
+            if (EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(base.characterBody))
+                ResetMuzzlePos();
+
             //EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, base.gameObject, TearGas.muzzleString, false);
         }
     }
@@ -89,7 +114,7 @@ namespace EntityStates.Enforcer {
 
             base.PlayAnimation("Grenade, Override", "ThrowGrenade");
 
-            Util.PlaySound(Sounds.NemesisGrenadeThrow, base.gameObject);
+            Util.PlaySound(Sounds.NemesisGrenadeThrow, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject);
 
             base.AddRecoil(-2f * TearGas.bulletRecoil, -3f * TearGas.bulletRecoil, -1f * TearGas.bulletRecoil, 1f * TearGas.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * TearGas.bulletRecoil);

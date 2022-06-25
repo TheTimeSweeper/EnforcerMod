@@ -147,7 +147,12 @@ public class EnforcerWeaponComponent : MonoBehaviour {
 
     private void SetVRWeapon(CharacterBody body)
     {
-        if (!body.name.Contains("EnforcerBody")) return;
+        if (!body.name.Contains("EnforcerBody") || GetComponent<CharacterBody>() != body) return;
+
+        EnforcerComponent enforcerComponent = GetComponent<EnforcerComponent>();
+
+        if (enforcerComponent)
+            enforcerComponent.origOrigin = VRAPI.MotionControls.dominantHand.muzzle;
 
         vrChildLocator = VRAPI.MotionControls.dominantHand.transform.GetComponentInChildren<ChildLocator>();
 
@@ -177,11 +182,11 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                     break;
                 case EquippedGun.SUPER:
                     vrSsgobject.SetActive(true);
-                    muzzle.localPosition = new Vector3(0.0131f, -0.2545f, 0.8665f);
+                    muzzle.localPosition = new Vector3(0.01297f, -0.2533f, 0.8785f);
                     break;
                 case EquippedGun.HMG:
                     vrHmgObject.SetActive(true);
-                    muzzle.localPosition = new Vector3(0.01302f, -0.22613f, 0.81347f);
+                    muzzle.localPosition = new Vector3(0.01657f, -0.21657f, 0.81805f);
                     break;
             }
         }

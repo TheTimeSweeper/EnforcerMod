@@ -23,8 +23,9 @@ namespace EntityStates.Enforcer {
             damageCoefficient = 0.5f;
             baseMinimumDuration = 0.1f;
             projectileBaseSpeed = 80;
-            
-            base.characterBody.aimOriginTransform = base.GetModelChildLocator().FindChild("GrenadeAimOrigin");
+
+            if (!EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(base.characterBody))
+                base.characterBody.aimOriginTransform = base.GetModelChildLocator().FindChild("GrenadeAimOrigin");
 
             base.OnEnter();
         }
@@ -55,7 +56,7 @@ namespace EntityStates.Enforcer {
         {
             base.OnExit();
 
-            Util.PlayAttackSpeedSound(Sounds.LaunchTearGas, base.gameObject, 0.7f);
+            Util.PlayAttackSpeedSound(Sounds.LaunchTearGas, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject, 0.7f);
 
             if (base.HasBuff(Buffs.protectAndServeBuff) || base.HasBuff(Buffs.energyShieldBuff))
             {
@@ -107,7 +108,7 @@ namespace EntityStates.Enforcer {
                 base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
             }
 
-            Util.PlayAttackSpeedSound(Sounds.LaunchStunGrenade, base.gameObject, 2.5f);
+            Util.PlayAttackSpeedSound(Sounds.LaunchStunGrenade, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject, 2.5f);
 
             base.AddRecoil(-2f * ShockGrenade.bulletRecoil, -3f * ShockGrenade.bulletRecoil, -1f * ShockGrenade.bulletRecoil, 1f * ShockGrenade.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * ShockGrenade.bulletRecoil);
@@ -117,7 +118,8 @@ namespace EntityStates.Enforcer {
 
                 Transform OGrigin = base.characterBody.aimOriginTransform;
 
-                base.characterBody.aimOriginTransform = childLocator.FindChild("GrenadeAimOrigin");
+                if (!EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(base.characterBody))
+                    base.characterBody.aimOriginTransform = childLocator.FindChild("GrenadeAimOrigin");
 
                 Ray aimRay = base.GetAimRay();
                 Vector3 aimTweak;
@@ -145,7 +147,8 @@ namespace EntityStates.Enforcer {
                 };
                 ProjectileManager.instance.FireProjectile(info);
 
-                base.characterBody.aimOriginTransform = OGrigin;
+                if (!EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(base.characterBody))
+                    base.characterBody.aimOriginTransform = OGrigin;
             }
         }
 

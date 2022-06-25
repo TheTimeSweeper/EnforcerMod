@@ -45,7 +45,7 @@ namespace EntityStates.Enforcer {
                     base.characterBody.RemoveBuff(Buffs.energyShieldBuff);
                 }
 
-                Util.PlaySound(Sounds.EnergyShieldDown, base.gameObject);
+                Util.PlaySound(Sounds.EnergyShieldDown, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject() : gameObject);
             }
             else
             {
@@ -66,7 +66,7 @@ namespace EntityStates.Enforcer {
                     base.characterBody.AddBuff(Buffs.energyShieldBuff);
                 }
 
-                Util.PlaySound(Sounds.EnergyShieldUp, base.gameObject);
+                Util.PlaySound(Sounds.EnergyShieldUp, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject() : gameObject);
             }
         }
 

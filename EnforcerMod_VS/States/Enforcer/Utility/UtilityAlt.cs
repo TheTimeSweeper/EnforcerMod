@@ -35,7 +35,7 @@ namespace EntityStates.Enforcer {
                 base.PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", this.duration);
             }
 
-            Util.PlaySound(Sounds.LaunchStunGrenade, base.gameObject);
+            Util.PlaySound(Sounds.LaunchStunGrenade, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject);
 
             base.AddRecoil(-2f * StunGrenade.bulletRecoil, -3f * StunGrenade.bulletRecoil, -1f * StunGrenade.bulletRecoil, 1f * StunGrenade.bulletRecoil);
             base.characterBody.AddSpreadBloom(0.33f * StunGrenade.bulletRecoil);
@@ -45,7 +45,8 @@ namespace EntityStates.Enforcer {
 
                 Transform OGrigin = base.characterBody.aimOriginTransform;
 
-                base.characterBody.aimOriginTransform = childLocator.FindChild("GrenadeAimOrigin");
+                if (!EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(base.characterBody))
+                    base.characterBody.aimOriginTransform = childLocator.FindChild("GrenadeAimOrigin");
 
                 Ray aimRay = base.GetAimRay();
                 Vector3 aimTweak;
@@ -73,7 +74,8 @@ namespace EntityStates.Enforcer {
                 };
                 ProjectileManager.instance.FireProjectile(info);
 
-                base.characterBody.aimOriginTransform = OGrigin;
+                if (!EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(base.characterBody))
+                    base.characterBody.aimOriginTransform = OGrigin;
             }
         }
 

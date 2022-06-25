@@ -102,7 +102,7 @@ public class EnforcerComponent : MonoBehaviour
 
         Vector3 shieldAimDirection;
 
-        if (EnforcerPlugin.EnforcerModPlugin.VRInstalled)
+        if (EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(enforcerBody))
         {
             shieldAimDirection = GetVRShieldDirection();
         }
@@ -125,7 +125,7 @@ public class EnforcerComponent : MonoBehaviour
             head.transform.localPosition = new Vector3(0, 0.0535f + 0.0450f * Config.headSize.Value, 0);
         }
 
-        if (EnforcerPlugin.EnforcerModPlugin.VRInstalled && Config.translucentVRShield.Value)
+        if (EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(enforcerBody) && Config.translucentVRShield.Value)
         {
             UpdateVRShieldTransparency();
         }
@@ -179,7 +179,7 @@ public class EnforcerComponent : MonoBehaviour
         shieldDirection += turnSpeed * turnDirection.normalized;
         shieldDirection = shieldDirection.normalized;
 
-        if (EnforcerPlugin.EnforcerModPlugin.VRInstalled && enforcerBody.HasBuff(Buffs.protectAndServeBuff))
+        if (EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(enforcerBody) && enforcerBody.HasBuff(Buffs.protectAndServeBuff))
         {
             FaceTowardsVRShield();
         }

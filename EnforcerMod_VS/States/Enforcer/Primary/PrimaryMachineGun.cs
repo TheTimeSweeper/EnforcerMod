@@ -57,9 +57,9 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             }
 
             if (crit) {
-                Util.PlaySound(Sounds.HMGCrit, gameObject);
+                Util.PlaySound(Sounds.HMGCrit, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject);
             } else {
-                Util.PlaySound(Sounds.HMGShoot, gameObject);
+                Util.PlaySound(Sounds.HMGShoot, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject);
             }
 
             EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, gameObject, muzzleName, false);
