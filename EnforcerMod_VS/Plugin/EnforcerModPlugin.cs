@@ -602,27 +602,29 @@ namespace EnforcerPlugin {
             }
 
             //regen passive
-            if (sender.baseNameToken == "NEMFORCER_NAME") //Use BodyIndex instead //|| self.baseNameToken == "NEMFORCER_BOSS_NAME" Disabled because bosses should not regen.
+            //Added isPlayerControlled check because regen on enemies simply turns them into a DPS check that can't even be whittled down.
+            //Regen passive is too forgiving, but I don't play enough NemForcer to think of an alternative.
+            if (sender.isPlayerControlled && (sender.baseNameToken == "NEMFORCER_NAME" || sender.baseNameToken == "NEMFORCER_BOSS_NAME")) //Use BodyIndex instead.
             {
                 HealthComponent hp = sender.healthComponent;
                 float regenValue = hp.fullCombinedHealth * NemforcerPlugin.passiveRegenBonus;
                 float regen = Mathf.SmoothStep(regenValue, 0, hp.combinedHealth / hp.fullCombinedHealth);
 
                 // reduce it while taking damage, scale it back up over time- only apply this to the normal boss and let ultra keep the bullshit regen
-                if (sender.teamComponent.teamIndex == TeamIndex.Monster && sender.baseNameToken == "NEMFORCER_NAME")
+                /*if (sender.teamComponent.teamIndex == TeamIndex.Monster && sender.baseNameToken == "NEMFORCER_NAME")
                 {
                     float maxRegenValue = regen;
                     float i = Mathf.Clamp(sender.outOfDangerStopwatch, 0f, 5f);
                     regen = Util.Remap(i, 0f, 5f, 0f, maxRegenValue);
-                }
+                }*/
 
                 args.baseRegenAdd += regen;
 
-                if (sender.teamComponent.teamIndex == TeamIndex.Monster)
+                /*if (sender.teamComponent.teamIndex == TeamIndex.Monster)
                 {
                     sender.regen *= 0.8f;   //Would rather do this via args
                     if (sender.HasBuff(RoR2Content.Buffs.SuperBleed) || sender.HasBuff(RoR2Content.Buffs.Bleeding) || sender.HasBuff(RoR2Content.Buffs.OnFire)) sender.regen = 0f;
-                }
+                }*/
             }
         }
 
