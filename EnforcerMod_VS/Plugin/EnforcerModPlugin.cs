@@ -36,8 +36,9 @@ namespace EnforcerPlugin {
     [BepInDependency("com.cwmlolzlz.skills", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ItemDisplayPlacementHelper", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.Moffein.RiskyArtifacts", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("HIFU.Inferno", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.3.9")]
+    [BepInPlugin(MODUID, "Enforcer", "3.4.0")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -64,6 +65,8 @@ namespace EnforcerPlugin {
         public static GameObject needlerCrosshair;
 
         public static GameObject nemesisSpawnEffect;
+
+        public static bool infernoPluginLoaded = false;
 
         public static GameObject bulletTracer;
         public static GameObject bulletTracerSSG;
@@ -122,7 +125,7 @@ namespace EnforcerPlugin {
         //}
 
         void Awake() {
-
+            infernoPluginLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("HIFU.Inferno");
             Modules.Config.ConfigShit(this);
 
             Assets.Initialize();

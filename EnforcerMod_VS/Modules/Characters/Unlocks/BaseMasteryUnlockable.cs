@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using RoR2;
+using System.Runtime.CompilerServices;
 
 namespace EnforcerPlugin.Achievements {
     public abstract class BaseMasteryUnlockable : GenericModdedUnlockable
@@ -33,7 +34,15 @@ namespace EnforcerPlugin.Achievements {
                 DifficultyIndex difficultyIndex = runReport.ruleBook.FindDifficulty();
                 DifficultyDef runDifficulty = DifficultyCatalog.GetDifficultyDef(runReport.ruleBook.FindDifficulty());
 
-                if ((runDifficulty.countsAsHardMode && runDifficulty.scalingValue >= RequiredDifficultyCoefficient || (difficultyIndex >= DifficultyIndex.Eclipse1 && difficultyIndex <= DifficultyIndex.Eclipse8))) {
+                DifficultyDef infernoDef = null;
+                if (EnforcerModPlugin.infernoPluginLoaded)
+                {
+                    infernoDef = GetInfernoDef();
+                }
+
+                if ((infernoDef != null && runDifficulty == infernoDef)
+                    || (runDifficulty.countsAsHardMode && runDifficulty.scalingValue >= RequiredDifficultyCoefficient)
+                    || (difficultyIndex >= DifficultyIndex.Eclipse1 && difficultyIndex <= DifficultyIndex.Eclipse8)) {
                     Grant();
                 }
             }
@@ -42,6 +51,12 @@ namespace EnforcerPlugin.Achievements {
         public override BodyIndex LookUpRequiredBodyIndex()
         {
             return BodyCatalog.FindBodyIndex(RequiredCharacterBody);
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private DifficultyDef GetInfernoDef()
+        {
+            return Inferno.Main.InfernoDiffDef;
         }
     }
 }
