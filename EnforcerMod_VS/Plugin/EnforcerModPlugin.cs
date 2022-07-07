@@ -1070,7 +1070,7 @@ namespace EnforcerPlugin {
             grenadeImpact.timerAfterImpact = true;
             grenadeImpact.falloffModel = BlastAttack.FalloffModel.SweetSpot;
             grenadeImpact.lifetime = 18;
-            grenadeImpact.lifetimeAfterImpact = 0f;//0.5f;
+            grenadeImpact.lifetimeAfterImpact = 0.5f;
             grenadeImpact.lifetimeRandomOffset = 0;
             grenadeImpact.blastRadius = 8;
             grenadeImpact.blastDamageCoefficient = 1;
@@ -1160,7 +1160,7 @@ namespace EnforcerPlugin {
             scepterGrenadeImpact.timerAfterImpact = true;
             scepterGrenadeImpact.falloffModel = BlastAttack.FalloffModel.SweetSpot;
             scepterGrenadeImpact.lifetime = 18;
-            scepterGrenadeImpact.lifetimeAfterImpact = 0f;//0.5f;
+            scepterGrenadeImpact.lifetimeAfterImpact = 0.5f;
             scepterGrenadeImpact.lifetimeRandomOffset = 0;
             scepterGrenadeImpact.blastRadius = 8;
             scepterGrenadeImpact.blastDamageCoefficient = 1;
