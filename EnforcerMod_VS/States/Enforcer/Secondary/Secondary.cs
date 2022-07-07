@@ -169,9 +169,15 @@ namespace EntityStates.Enforcer {
 
                                     float mass = 0f;
 
+                                    //HAN-D checks rigidbody first. This seems to allow beetle queens to be launched.
+                                    if (hitRigidbody)
+                                    {
+                                        mass = hitRigidbody.mass;
+                                    }
+
                                     if (hitCharacterMotor) {
 
-                                        mass = hitCharacterMotor.mass;
+                                        if (mass == 0f) mass = hitCharacterMotor.mass;
 
                                         hitCharacterMotor.Motor.ForceUnground();
 
@@ -183,14 +189,15 @@ namespace EntityStates.Enforcer {
                                         //float vel = hitCharacterMotor.velocity.magnitude;
                                         //hitCharacterMotor.velocity = aimRay.direction * vel;
 
-                                    } else if (hitRigidbody) {
-                                        mass = hitRigidbody.mass;
                                     }
 
-                                    if (mass <= 100f) mass = 100f;
-                                    if (Config.balancedShieldBash.Value && mass > 500f) mass = 500f; 
+                                    force *= 100f * Mathf.Max(mass / 100f, 1f);
 
-                                    force *= mass;
+                                    //Champions have a knockback penalty.
+                                    if (hitCharacterBody.isChampion && !Config.uncappedShieldBash.Value)
+                                    {
+                                        force *= 0.7f;  //TODO: FIND SUITABLE NUMBER
+                                    }
 
                                     DamageInfo info = new DamageInfo
                                     {
