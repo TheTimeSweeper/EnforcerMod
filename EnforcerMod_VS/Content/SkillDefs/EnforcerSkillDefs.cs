@@ -153,7 +153,7 @@ namespace Modules.Characters {
             tearGasDef.activationState = new SerializableEntityStateType(typeof(AimTearGas));
             tearGasDef.activationStateMachineName = "Weapon";
             tearGasDef.baseMaxStock = 1;
-            tearGasDef.baseRechargeInterval = 24;
+            tearGasDef.baseRechargeInterval = 21f;
             tearGasDef.beginSkillCooldownOnSkillEnd = true;
             tearGasDef.canceledFromSprinting = false;
             tearGasDef.fullRestockOnAssign = true;
