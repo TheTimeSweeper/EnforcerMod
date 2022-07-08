@@ -131,12 +131,17 @@ namespace EntityStates.Enforcer {
                 {
                     Vector3 pushForce = ((aimRay.origin + 200 * aimRay.direction) - childLocator.FindChild(hitboxString).position + (75 * Vector3.up)) * ShieldBash.knockbackForce;
 
-                    Collider[] array = Physics.OverlapSphere(childLocator.FindChild(hitboxString).position, ShieldBash.blastRadius, LayerIndex.defaultLayer.mask);
+                    List<HealthComponent> affectedTargets = new List<HealthComponent>();
+
+                    Collider[] array = Physics.OverlapSphere(childLocator.FindChild(hitboxString).position, ShieldBash.blastRadius, LayerIndex.entityPrecise.mask);//defaultLayer
                     for (int i = 0; i < array.Length; i++)
                     {
-                        HealthComponent healthComponent = array[i].GetComponent<HealthComponent>();
-                        if (healthComponent)
+                        HurtBox hb = array[i].GetComponent<HurtBox>();
+                        if (hb && hb.healthComponent && base.healthComponent != hb.healthComponent && !affectedTargets.Contains(hb.healthComponent))
                         {
+                            affectedTargets.Add(hb.healthComponent);
+                            HealthComponent healthComponent = hb.healthComponent;
+                            //Debug.Log("\nProcessing HealthComponent");
                             TeamComponent component2 = healthComponent.GetComponent<TeamComponent>();
 
                             bool enemyTeam = component2.teamIndex != base.teamComponent.teamIndex;
@@ -146,6 +151,7 @@ namespace EntityStates.Enforcer {
 
                             if (enemyTeam || configKnockbackAllies)
                             {
+                                //Debug.Log("Enemy Found");
                                 Util.PlaySound(Sounds.BashHitEnemy, healthComponent.gameObject);
 
                                 CharacterBody hitCharacterBody = healthComponent.body;
@@ -163,8 +169,8 @@ namespace EntityStates.Enforcer {
                                     //    }
                                     //}
 
-                                    CharacterMotor hitCharacterMotor = hitCharacterBody.GetComponent<CharacterMotor>();
-                                    Rigidbody hitRigidbody = hitCharacterBody.GetComponent<Rigidbody>();
+                                    CharacterMotor hitCharacterMotor = hitCharacterBody.characterMotor;
+                                    Rigidbody hitRigidbody = hitCharacterBody.rigidbody;
                                     Vector3 force = pushForce;
 
                                     float bossMult = 0.7f;
@@ -172,18 +178,13 @@ namespace EntityStates.Enforcer {
 
                                     bool isGrounded = false;
 
-                                    if (hitRigidbody)
-                                    {
-                                        mass = hitRigidbody.mass;
-                                    }
-
                                     if (hitCharacterMotor) {
 
-                                        mass = Mathf.Max(hitCharacterMotor.mass, mass);
+                                        mass = hitCharacterMotor.mass;
 
                                         isGrounded = hitCharacterMotor.isGrounded;
 
-                                        hitCharacterMotor.Motor.ForceUnground();
+                                        //hitCharacterMotor.Motor.ForceUnground();
 
                                         //TODO: redirecting allies
                                         //if(hitCharacterMotor.velocity.magnitude > niggaspeed) {
@@ -193,6 +194,10 @@ namespace EntityStates.Enforcer {
                                         //float vel = hitCharacterMotor.velocity.magnitude;
                                         //hitCharacterMotor.velocity = aimRay.direction * vel;
 
+                                    }
+                                    else if (hitRigidbody)
+                                    {
+                                        mass = hitRigidbody.mass;
                                     }
 
                                     force *= 80f;   //100f is full forcce
@@ -215,7 +220,7 @@ namespace EntityStates.Enforcer {
                                         force *= bossMult;
                                     }
 
-                                    DamageInfo info = new DamageInfo
+                                    /*DamageInfo info = new DamageInfo
                                     {
                                         attacker = base.gameObject,
                                         inflictor = base.gameObject,
@@ -225,12 +230,14 @@ namespace EntityStates.Enforcer {
                                         crit = false,
                                         dotIndex = DotController.DotIndex.None,
                                         force = force,
-                                        position = base.transform.position,
+                                        position = array[i].transform.position,
                                         procChainMask = default(ProcChainMask),
                                         procCoefficient = 0
-                                    };
+                                    };*/
 
-                                    hitCharacterBody.healthComponent.TakeDamageForce(info, true, true);
+                                    //Debug.Log(force);
+
+                                    healthComponent.TakeDamageForce(force, true, true);
                                 }
                             }
                         }
