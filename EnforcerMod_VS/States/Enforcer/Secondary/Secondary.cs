@@ -191,7 +191,7 @@ namespace EntityStates.Enforcer {
 
                                     }
 
-                                    force *= 80f * Mathf.Max(mass / 100f, 1f); //*100f is old value
+                                    force *= 100f * Mathf.Max(mass / 100f, 1f);
 
                                     //Champions have a knockback penalty.
                                     if (hitCharacterBody.isChampion && !Config.uncappedShieldBash.Value)
