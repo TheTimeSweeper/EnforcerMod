@@ -167,9 +167,11 @@ namespace EntityStates.Enforcer {
                                     Rigidbody hitRigidbody = hitCharacterBody.GetComponent<Rigidbody>();
                                     Vector3 force = pushForce;
 
+                                    float bossMult = 0.7f;
                                     float mass = 0f;
 
-                                    //HAN-D checks rigidbody first. This seems to allow beetle queens to be launched.
+                                    bool isGrounded = false;
+
                                     if (hitRigidbody)
                                     {
                                         mass = hitRigidbody.mass;
@@ -177,7 +179,9 @@ namespace EntityStates.Enforcer {
 
                                     if (hitCharacterMotor) {
 
-                                        if (mass == 0f) mass = hitCharacterMotor.mass;
+                                        mass = Mathf.Max(hitCharacterMotor.mass, mass);
+
+                                        isGrounded = hitCharacterMotor.isGrounded;
 
                                         hitCharacterMotor.Motor.ForceUnground();
 
@@ -191,12 +195,24 @@ namespace EntityStates.Enforcer {
 
                                     }
 
-                                    force *= 100f * Mathf.Max(mass / 100f, 1f);
+                                    force *= 80f;   //100f is full forcce
+
+                                    //Launch grounded enemies into the air.
+                                    if (isGrounded)
+                                    {
+                                        force.y = Mathf.Max(force.y, 1200f);
+                                        if (hitCharacterBody.isChampion)
+                                        {
+                                            force.y /= bossMult;    //Negate boss forcce penalty
+                                        }
+                                    }
+
+                                    force *= Mathf.Max(mass / 100f, 1f);
 
                                     //Champions have a knockback penalty.
                                     if (hitCharacterBody.isChampion && !Config.uncappedShieldBash.Value)
                                     {
-                                        force *= 0.7f;
+                                        force *= bossMult;
                                     }
 
                                     DamageInfo info = new DamageInfo
