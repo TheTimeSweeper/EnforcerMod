@@ -559,6 +559,7 @@ namespace EnforcerPlugin {
                 args.moveSpeedReductionMultAdd += 1.8f;//self.moveSpeed *= 0.35
                 sender.maxJumpCount = 0;
             }
+
             if (sender.HasBuff(Modules.Buffs.minigunBuff))
             {
                 args.armorAdd += 60f;

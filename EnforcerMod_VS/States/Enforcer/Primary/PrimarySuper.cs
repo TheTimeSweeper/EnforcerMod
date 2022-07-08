@@ -26,7 +26,7 @@ namespace EntityStates.Enforcer {
         public static int bulletCount = 16;
         public new float bulletSpread = Config.superSpread.Value;// 6f
 
-        public static float durationBaseMeasure = Config.superDuration.Value;
+        public static float durationBaseMeasure = 1f;//Config.superDuration.Value;
         public new float baseShieldDuration = durationBaseMeasure * 2;// = 2
         public new float baseDuration = durationBaseMeasure * 1.5f;
         public float shot1InterruptibleDuration = durationBaseMeasure * 1; //fuck you config and fuck me for doing it

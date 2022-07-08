@@ -54,7 +54,6 @@ namespace Modules {
 
         public static ConfigEntry<float> superDamage;
         public static ConfigEntry<float> superSpread;
-        public static ConfigEntry<float> superDuration;
         public static ConfigEntry<float> superBeef;
 
         public static ConfigEntry<bool> uncappedShieldBash;
@@ -192,7 +191,7 @@ namespace Modules {
             baseArmor
                 = plugin.Config.Bind("03 - Character Stats",
                                      "Base Armor",
-                                     15f,
+                                     12f,
                                      "");
             armorGrowth
                 = plugin.Config.Bind("03 - Character Stats",
@@ -261,11 +260,7 @@ namespace Modules {
                                      "Max Spread",
                                      6f,
                                      "your cheeks");
-            superDuration
-                = plugin.Config.Bind("06 - Super Shotgun 3.1.0",
-                                     "Duration Scale",
-                                     1f,
-                                     $" Scale the duration of the attack (i.e. attack speed) by this value");
+
             superBeef
                 = plugin.Config.Bind("06 - Super Shotgun 3.1.0",
                                      "beef",
