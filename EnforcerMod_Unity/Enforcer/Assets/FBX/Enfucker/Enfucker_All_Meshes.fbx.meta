@@ -1108,6 +1108,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: matFemforcer2Board
     second: {fileID: 2100000, guid: 67bd1631dba7dc8448bc0e709abd4e45, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: matFuckingSteve2
+    second: {fileID: 2100000, guid: beccf45ba1fc44142a2b3cddeba02a67, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

@@ -17,6 +17,7 @@ namespace Modules {
 
         public static Dictionary<int, string> SkinIdices = new Dictionary<int, string>();
 
+        //todo what the fuck
         public static bool isEnforcerCurrentSkin(CharacterBody characterbody, string skin) {
             return characterbody.baseNameToken == "ENFORCER_NAME" && SkinIdices[(int)characterbody.skinIndex] == skin;
         }
@@ -134,11 +135,11 @@ namespace Modules {
                 "meshEnforcerPauldron",
                 "meshEnforcer"
                 );
-
+            
             defaultSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
             //pauldron for lights
             defaultSkinDefInfo.RendererInfos[7].defaultMaterial.MakeUnique();
-
+            
             SkinDef defaultSkinDef = CreateSkinDef(defaultSkinDefInfo);
             skinDefs.Add(defaultSkinDef);
             #endregion
@@ -539,48 +540,54 @@ namespace Modules {
                 #endregion
             }
 
-            #region If she don't play the craft
-            SkinDefInfo dontgettheshaftSkinDefInfo = new SkinDefInfo();
-            dontgettheshaftSkinDefInfo.Name = "ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME";
-            dontgettheshaftSkinDefInfo.NameToken = "ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME";
-            dontgettheshaftSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texSbeveAchievement");
-            dontgettheshaftSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerMasteryUnlockableDef;
-            dontgettheshaftSkinDefInfo.RootObject = modelTransform;
+            if(Config.cursed.Value) {
 
-            dontgettheshaftSkinDefInfo.BaseSkins = new SkinDef[] { defaultSkinDef };
-            dontgettheshaftSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
-            dontgettheshaftSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+                #region If she don't play the craft
+                SkinDefInfo dontgettheshaftSkinDefInfo = new SkinDefInfo();
+                dontgettheshaftSkinDefInfo.Name = "ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME";
+                dontgettheshaftSkinDefInfo.NameToken = "ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME";
+                dontgettheshaftSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texSbeveAchievement");
+                dontgettheshaftSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerSteveUnlockableDef;
+                dontgettheshaftSkinDefInfo.RootObject = modelTransform;
 
-            dontgettheshaftSkinDefInfo.GameObjectActivations = getGameObjectActivations();
-            dontgettheshaftSkinDefInfo.GameObjectActivations.AddItem(new SkinDef.GameObjectActivation {
-                gameObject = childLocator.FindChild("PauldronModel").gameObject,
-                shouldActivate = false
-            });
+                dontgettheshaftSkinDefInfo.BaseSkins = new SkinDef[] { defaultSkinDef };
+                dontgettheshaftSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+                dontgettheshaftSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-            dontgettheshaftSkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
-                "meshSbeveShield",
-                null,//"meshSexforcerShieldGlass",
-                "meshSbeveBoard",
-                "meshSbeveGun",
-                "meshSbeveGunSuper",
-                "meshSbeveGunHMG",
-                "meshSbeveHammer",
-                "meshSbevePauldron",
-                "meshSbeve"
-                );
-            dontgettheshaftSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+                dontgettheshaftSkinDefInfo.GameObjectActivations = getGameObjectActivations().AddItem(new SkinDef.GameObjectActivation {
+                    gameObject = childLocator.FindChild("PauldronModel").gameObject,
+                    shouldActivate = false
+                }).ToArray();
 
-            dontgettheshaftSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[defaultSkinDef.rendererInfos.Length];
-            defaultSkinDef.rendererInfos.CopyTo(dontgettheshaftSkinDefInfo.RendererInfos, 0);
+                dontgettheshaftSkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
+                    "meshFuckingSteve2Shield",
+                    null,//"meshSexforcerShieldGlass",
+                    null,//"meshSbeveBoard",
+                    null,//"meshSbeveGun",
+                    null,//"meshSbeveGunSuper",
+                    null,//"meshSbeveGunHMG",
+                    null,//"meshSbeveHammer",
+                    null,//"meshSbevePauldron",
+                    "meshFuckingSteve2"
+                    );
+                dontgettheshaftSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
 
-            dontgettheshaftSkinDefInfo.RendererInfos[7].defaultMaterial = Assets.CreateMaterial("matFuckingSteve", 1f, Color.white, 0f);
+                dontgettheshaftSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[defaultSkinDef.rendererInfos.Length];
+                defaultSkinDef.rendererInfos.CopyTo(dontgettheshaftSkinDefInfo.RendererInfos, 0);
 
-            SkinDef dontgettheshaftSkin = CreateSkinDef(dontgettheshaftSkinDefInfo);
+                dontgettheshaftSkinDefInfo.RendererInfos[0].defaultMaterial = Materials.CreateHotpooMaterial("matFuckingSteve2Shield");
+                dontgettheshaftSkinDefInfo.RendererInfos[8].defaultMaterial = Materials.CreateHotpooMaterial("matFuckingSteve2");
 
-            //wait more model
-            //if(Config.cursed.Value)
-            //    skinDefs.Add(dontgettheshaftSkin);
-            #endregion
+                SkinDef dontgettheshaftSkin = CreateSkinDef(dontgettheshaftSkinDefInfo);
+
+                //wait more model
+                if (Config.cursed.Value)
+                    skinDefs.Add(dontgettheshaftSkin);
+                #endregion
+
+                #region fucking frog
+                #endregion
+            }
 
             if (Config.femSkin.Value) {
                 #region fem

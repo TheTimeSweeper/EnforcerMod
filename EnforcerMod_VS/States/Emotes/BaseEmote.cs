@@ -75,7 +75,7 @@ namespace EntityStates.Enforcer {
 
             if (!string.IsNullOrEmpty(soundString))
             {
-                if (Modules.Skins.isEnforcerCurrentSkin(base.characterBody, "ENFORCER_DOOM_SKIN_NAME"))
+                if (Modules.Skins.isEnforcerCurrentSkin(base.characterBody, "ENFORCERBODY_DOOM_SKIN_NAME"))
                     soundString = Modules.Sounds.DOOM;
 
                 activePlayID = Util.PlaySound(soundString, gameObject);

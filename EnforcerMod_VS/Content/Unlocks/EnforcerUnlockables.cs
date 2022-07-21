@@ -19,9 +19,12 @@ namespace Modules {
         public static UnlockableDef enforcerRobitUnlockableDef;
         public static UnlockableDef enforcerClassicUnlockableDef;
         public static UnlockableDef enforcerNemesisSkinUnlockableDef;
+
         public static UnlockableDef enforcerEngiSkinUnlockableDef;
         public static UnlockableDef enforcerStormSkinUnlockableDef;
         public static UnlockableDef enforcerDoomSkinUnlockableDef;
+
+        public static UnlockableDef enforcerSteveUnlockableDef;
 
         //Nemforcer
         public static UnlockableDef nemesisUnlockableDef;
@@ -56,11 +59,11 @@ namespace Modules {
             //    UnlockablesAPI.AddUnlockable<Achievements.StormtrooperAchievement>(true);
             //}
 
-            //if (Config.cursed.Value)
-            //{
-            //    UnlockablesAPI.AddUnlockable<Achievements.FrogAchievement>(true);
-            //    UnlockablesAPI.AddUnlockable<Achievements.SteveAchievement>(true);
-            //}
+            if (Config.cursed.Value)
+            {
+                //    UnlockablesAPI.AddUnlockable<Achievements.FrogAchievement>(true);
+                enforcerSteveUnlockableDef = UnlockableAPI.AddUnlockable<SteveAchievement>();
+            }
 
             nemesisUnlockableDef = UnlockableAPI.AddUnlockable<NemesisAchievement>();
             nemMasteryUnlockableDef = UnlockableAPI.AddUnlockable<NemMasteryAchievement>();
@@ -241,41 +244,6 @@ namespace EnforcerPlugin.Achievements {
     //    }
     //}
 
-    //public class SteveAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
-    //{
-    //    public override String AchievementIdentifier { get; } = "ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_ID";
-    //    public override String UnlockableIdentifier { get; } = "ENFORCER_STEVEUNLOCKABLE_REWARD_ID";
-    //    public override String PrerequisiteUnlockableIdentifier { get; } = "ENFORCER_STEVEUNLOCKABLE_PREREQ_ID";
-    //    public override String AchievementNameToken { get; } = "ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_NAME";
-    //    public override String AchievementDescToken { get; } = "ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_DESC";
-    //    public override String UnlockableNameToken { get; } = "ENFORCER_STEVEUNLOCKABLE_UNLOCKABLE_NAME";
-    //    protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texSbeveAchievement.png");
-
-    //    public override int LookUpRequiredBodyIndex()
-    //    {
-    //        return BodyCatalog.FindBodyIndex("EnforcerBody");
-    //    }
-
-    //    private void Blocked(bool cum)
-    //    {
-    //        if (cum && base.meetsBodyRequirement) base.Grant();
-    //    }
-
-    //    public override void OnInstall()
-    //    {
-    //        base.OnInstall();
-
-    //        ShieldComponent.BlockedGet += Blocked;
-    //    }
-
-    //    public override void OnUninstall()
-    //    {
-    //        base.OnUninstall();
-
-    //        ShieldComponent.BlockedGet -= Blocked;
-    //    }
-    //}
-
     //public class PigAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
     //{
     //    public override String AchievementIdentifier { get; } = "ENFORCER_PIGUNLOCKABLE_ACHIEVEMENT_ID";
@@ -320,57 +288,6 @@ namespace EnforcerPlugin.Achievements {
     //        base.OnUninstall();
 
     //        GlobalEventManager.onCharacterDeathGlobal -= CheckDeath;
-    //    }
-    //}
-
-    //public class NemGrandMasteryAchievement : ModdedUnlockableAndAchievement<CustomSpriteProvider>
-    //{
-    //    public override String AchievementIdentifier { get; } = "NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_ID";
-    //    public override String UnlockableIdentifier { get; } = "NEMFORCER_TYPHOONUNLOCKABLE_REWARD_ID";
-    //    public override String PrerequisiteUnlockableIdentifier { get; } = "NEMFORCER_TYPHOONUNLOCKABLE_PREREQ_ID";
-    //    public override String AchievementNameToken { get; } = "NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_NAME";
-    //    public override String AchievementDescToken { get; } = "NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC";
-    //    public override String UnlockableNameToken { get; } = "NEMFORCER_TYPHOONUNLOCKABLE_UNLOCKABLE_NAME";
-    //    protected override CustomSpriteProvider SpriteProvider { get; } = new CustomSpriteProvider("@Enforcer:Assets/Enforcer/EnforcerAssets/Icons/texNemforcerGrandMastery.png");
-
-    //    public override int LookUpRequiredBodyIndex()
-    //    {
-    //        return BodyCatalog.FindBodyIndex("NemesisEnforcerBody");
-    //    }
-
-    //    public void ClearCheck(Run run, RunReport runReport)
-    //    {
-    //        if (run is null) return;
-    //        if (runReport is null) return;
-
-    //        if (!runReport.gameEnding) return;
-
-    //        if (runReport.gameEnding.isWin)
-    //        {
-    //            DifficultyDef difficultyDef = DifficultyCatalog.GetDifficultyDef(runReport.ruleBook.FindDifficulty());
-
-    //            if (difficultyDef != null && difficultyDef.nameToken == "DIFFICULTY_TYPHOON_NAME")
-    //            {
-    //                if (base.meetsBodyRequirement)
-    //                {
-    //                    base.Grant();
-    //                }
-    //            }
-    //        }
-    //    }
-
-    //    public override void OnInstall()
-    //    {
-    //        base.OnInstall();
-
-    //        Run.onClientGameOverGlobal += this.ClearCheck;
-    //    }
-
-    //    public override void OnUninstall()
-    //    {
-    //        base.OnUninstall();
-
-    //        Run.onClientGameOverGlobal -= this.ClearCheck;
     //    }
     //}
 

@@ -54,7 +54,7 @@ namespace EnforcerPlugin {
         
         public static EnforcerModPlugin instance;
 
-        public static bool holdonasec = true;
+        public static bool holdonasec = false;
 
         //i didn't want this to be static considering we're using an instance now but it throws 23 errors if i remove the static modifier 
         //i'm not dealing with that
@@ -295,13 +295,12 @@ namespace EnforcerPlugin {
         }
         #region Hooks
 
+        //TODO TEST THIS
         private bool isMonsoon()
         {
-            bool flag = true;
+            DifficultyDef runDifficulty = DifficultyCatalog.GetDifficultyDef(Run.instance.ruleBook.FindDifficulty());
 
-            if (Run.instance.selectedDifficulty == DifficultyIndex.Easy || Run.instance.selectedDifficulty == DifficultyIndex.Normal) flag = false;
-
-            return flag;
+            return runDifficulty.countsAsHardMode && runDifficulty.scalingValue >= 3;
         }
 
         private void MapZone_TryZoneStart(On.RoR2.MapZone.orig_TryZoneStart orig, MapZone self, Collider other)

@@ -164,7 +164,6 @@ namespace Modules.Characters {
             shieldHurtbox.isBullseye = false;
             shieldHurtbox.damageModifier = HurtBox.DamageModifier.Barrier;
             shieldHurtbox.hurtBoxGroup = mainHurtboxGroup;
-            shieldHurtbox.indexInGroup = 1;
 
             HurtBox shieldHurtbox2 = childLocator.FindChild("ShieldHurtbox2").gameObject.AddComponent<HurtBox>();
             shieldHurtbox2.gameObject.layer = LayerIndex.entityPrecise.intVal;
@@ -172,18 +171,6 @@ namespace Modules.Characters {
             shieldHurtbox2.isBullseye = false;
             shieldHurtbox2.damageModifier = HurtBox.DamageModifier.Barrier;
             shieldHurtbox2.hurtBoxGroup = mainHurtboxGroup;
-            shieldHurtbox2.indexInGroup = 1;
-
-            shieldHurtbox.indexInGroup = 1;
-
-            //HurtBox shieldHurtbox3 = childLocator.FindChild("ShieldHurtbox3").gameObject.AddComponent<HurtBox>();
-            //shieldHurtbox3.gameObject.layer = LayerIndex.entityPrecise.intVal;
-            //shieldHurtbox3.healthComponent = healthComponent;
-            //shieldHurtbox3.isBullseye = false;
-            //shieldHurtbox3.damageModifier = HurtBox.DamageModifier.Barrier;
-            //shieldHurtbox3.hurtBoxGroup = mainHurtboxGroup;
-            //shieldHurtbox3.indexInGroup = 1;
-            //childLocator.FindChild("ShieldHurtboxParent").gameObject.SetActive(false);
 
             mainHurtboxGroup.hurtBoxes = new HurtBox[] {
                 shieldHurtbox,

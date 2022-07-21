@@ -68,7 +68,7 @@ namespace EntityStates.Enforcer {
                 }
             }
 
-            if (!EnforcerPlugin.EnforcerModPlugin.cum && Modules.Skins.isEnforcerCurrentSkin(base.characterBody, "ENFORCER_DOOM_SKIN_NAME")) {
+            if (!EnforcerPlugin.EnforcerModPlugin.cum && Modules.Skins.isEnforcerCurrentSkin(base.characterBody, "ENFORCERBODY_DOOM_SKIN_NAME")) {
                 EnforcerPlugin.EnforcerModPlugin.cum = true;
                 Util.PlaySound(Modules.Sounds.DOOM, base.gameObject);
             }
@@ -239,16 +239,17 @@ namespace EntityStates.Enforcer {
                 if (!flag) this.bungusStopwatch = 0;*/
 
 
-                //sprint shield cancel
-                if (base.isAuthority && NetworkServer.active && this.sprintCancelEnabled && base.inputBank)
+            }
+
+            //sprint shield cancel
+            if (base.isAuthority && NetworkServer.active && this.sprintCancelEnabled && base.inputBank)
+            {
+                if (base.HasBuff(Buffs.protectAndServeBuff) && base.inputBank.sprint.down)
                 {
-                    if (base.HasBuff(Buffs.protectAndServeBuff) && base.inputBank.sprint.down)
+                    if (base.skillLocator)
                     {
-                        if (base.skillLocator)
-                        {
-                            if (base.skillLocator.special.CanExecute()) this.hasSprintCancelled = true;
-                            base.skillLocator.special.ExecuteIfReady();
-                        }
+                        if (base.skillLocator.special.CanExecute()) this.hasSprintCancelled = true;
+                        base.skillLocator.special.ExecuteIfReady();
                     }
                 }
             }
