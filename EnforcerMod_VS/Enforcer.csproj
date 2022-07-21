@@ -79,6 +79,9 @@
     <Reference Include="HGUnityUtils">
       <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\HGUnityUtils.dll</HintPath>
     </Reference>
+    <Reference Include="Inferno">
+      <HintPath>libs\Compat\Inferno.dll</HintPath>
+    </Reference>
     <Reference Include="KinematicCharacterController">
       <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\KinematicCharacterController.dll</HintPath>
     </Reference>

@@ -36,8 +36,9 @@ namespace EnforcerPlugin {
     [BepInDependency("com.cwmlolzlz.skills", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ItemDisplayPlacementHelper", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.Moffein.RiskyArtifacts", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("HIFU.Inferno", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.3.9")]
+    [BepInPlugin(MODUID, "Enforcer", "3.4.0")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -46,6 +47,7 @@ namespace EnforcerPlugin {
         "DamageAPI",
         "UnlockableAPI",
         "DirectorAPI",
+        "RecalculateStatsAPI"
     })]
 
     public class EnforcerModPlugin : BaseUnityPlugin
@@ -64,6 +66,8 @@ namespace EnforcerPlugin {
         public static GameObject needlerCrosshair;
 
         public static GameObject nemesisSpawnEffect;
+
+        public static bool infernoPluginLoaded = false;
 
         public static GameObject bulletTracer;
         public static GameObject bulletTracerSSG;
@@ -122,7 +126,7 @@ namespace EnforcerPlugin {
         //}
 
         void Awake() {
-
+            infernoPluginLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("HIFU.Inferno");
             Modules.Config.ConfigShit(this);
 
             Assets.Initialize();
@@ -255,6 +259,7 @@ namespace EnforcerPlugin {
 
         private void Hook()
         {
+            RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
             //add hooks here
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             On.EntityStates.GolemMonster.FireLaser.OnEnter += FireLaser_OnEnter;
@@ -545,89 +550,92 @@ namespace EnforcerPlugin {
             orig(newContentPacks);
         }
 
+        private void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender, RecalculateStatsAPI.StatHookEventArgs args)
+        {
+            if (sender.HasBuff(Modules.Buffs.protectAndServeBuff))
+            {
+                //args.armorAdd += 10f;
+                args.moveSpeedReductionMultAdd += 1.8f;//self.moveSpeed *= 0.35
+                sender.maxJumpCount = 0;
+            }
+
+            if (sender.HasBuff(Modules.Buffs.minigunBuff))
+            {
+                args.armorAdd += 60f;
+                args.moveSpeedReductionMultAdd += 0.25f;//self.moveSpeed *= 0.8f;
+            }
+
+            if (sender.HasBuff(Modules.Buffs.energyShieldBuff))
+            {
+                sender.maxJumpCount = 0;
+                args.armorAdd += 40f;
+                args.moveSpeedReductionMultAdd += 0.5f; //self.moveSpeed *= 0.65f;
+            }
+
+            if (sender.HasBuff(Modules.Buffs.impairedBuff))
+            {
+                sender.maxJumpCount = 0;
+                args.armorAdd -= 30f;
+                args.moveSpeedReductionMultAdd += 3f; //self.moveSpeed *= 0.25f;
+                sender.attackSpeed *= 0.75f;    //TODO: Convert to attackSpeedReductionMultAdd if that gets added to R2API.
+            }
+
+            if (sender.HasBuff(Modules.Buffs.nemImpairedBuff))
+            {
+                sender.maxJumpCount = 0;
+                args.moveSpeedReductionMultAdd += 3f; //self.moveSpeed *= 0.25f;
+                if (!sender.characterMotor.isGrounded)
+                {
+                    sender.characterMotor.velocity.y -= 10;
+                }
+            }
+
+            if (sender.HasBuff(Modules.Buffs.smallSlowBuff))
+            {
+                args.armorAdd += 10f;
+                args.moveSpeedReductionMultAdd += 0.4f; //self.moveSpeed *= 0.7f;
+            }
+
+            if (sender.HasBuff(Modules.Buffs.bigSlowBuff))
+            {
+                args.moveSpeedReductionMultAdd += 4f; //self.moveSpeed *= 0.2f;
+            }
+
+            //regen passive
+            //Added isPlayerControlled check because regen on enemies simply turns them into a DPS check that can't even be whittled down.
+            //Regen passive is too forgiving, but I don't play enough NemForcer to think of an alternative.
+            if (sender.isPlayerControlled && (sender.baseNameToken == "NEMFORCER_NAME" || sender.baseNameToken == "NEMFORCER_BOSS_NAME")) //Use BodyIndex instead.
+            {
+                HealthComponent hp = sender.healthComponent;
+                float regenValue = hp.fullCombinedHealth * NemforcerPlugin.passiveRegenBonus;
+                float regen = Mathf.SmoothStep(regenValue, 0, hp.combinedHealth / hp.fullCombinedHealth);
+
+                // reduce it while taking damage, scale it back up over time- only apply this to the normal boss and let ultra keep the bullshit regen
+                /*if (sender.teamComponent.teamIndex == TeamIndex.Monster && sender.baseNameToken == "NEMFORCER_NAME")
+                {
+                    float maxRegenValue = regen;
+                    float i = Mathf.Clamp(sender.outOfDangerStopwatch, 0f, 5f);
+                    regen = Util.Remap(i, 0f, 5f, 0f, maxRegenValue);
+                }*/
+
+                args.baseRegenAdd += regen;
+
+                /*if (sender.teamComponent.teamIndex == TeamIndex.Monster)
+                {
+                    sender.regen *= 0.8f;   //Would rather do this via args
+                    if (sender.HasBuff(RoR2Content.Buffs.SuperBleed) || sender.HasBuff(RoR2Content.Buffs.Bleeding) || sender.HasBuff(RoR2Content.Buffs.OnFire)) sender.regen = 0f;
+                }*/
+            }
+        }
+
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
         {
             orig(self);
 
             if (self)
             {
-                if (self.HasBuff(Modules.Buffs.protectAndServeBuff))
-                {
-                    self.armor += 10f;
-                    self.moveSpeed *= 0.35f;
-                    self.maxJumpCount = 0;
-                }
-
-                if (self.HasBuff(Modules.Buffs.minigunBuff))
-                {
-                    self.armor += 60f;
-                    self.moveSpeed *= 0.8f;
-                }
-
-                if (self.HasBuff(Modules.Buffs.energyShieldBuff))
-                {
-                    self.maxJumpCount = 0;
-                    self.armor += 40f;
-                    self.moveSpeed *= 0.65f;
-                }
-
                 if (self.HasBuff(Modules.Buffs.skateboardBuff)) {
                     self.characterMotor.airControl = 0.1f;
-                }
-
-                if (self.HasBuff(Modules.Buffs.impairedBuff))
-                {
-                    self.maxJumpCount = 0;
-                    self.armor -= 20f;
-                    self.moveSpeed *= 0.25f;
-                    self.attackSpeed *= 0.75f;
-                    //if (!self.characterMotor.isGrounded) {
-                    //    self.characterMotor.velocity.y -= 10;
-                    //}
-                }
-
-                if (self.HasBuff(Modules.Buffs.nemImpairedBuff))
-                {
-                    self.maxJumpCount = 0;
-                    self.moveSpeed *= 0.25f;
-                    if (!self.characterMotor.isGrounded) {
-                        self.characterMotor.velocity.y -= 10;
-                    }
-                }
-
-                if (self.HasBuff(Modules.Buffs.smallSlowBuff))
-                {
-                    self.armor += 10f;
-                    self.moveSpeed *= 0.7f;
-                }
-
-                if (self.HasBuff(Modules.Buffs.bigSlowBuff))
-                {
-                    self.moveSpeed *= 0.2f;
-                }
-
-                //regen passive
-                if (self.baseNameToken == "NEMFORCER_NAME" || self.baseNameToken == "NEMFORCER_BOSS_NAME")
-                {
-                    HealthComponent hp = self.healthComponent;
-                    float regenValue = hp.fullCombinedHealth * NemforcerPlugin.passiveRegenBonus;
-                    float regen = Mathf.SmoothStep(regenValue, 0, hp.combinedHealth / hp.fullCombinedHealth);
-
-                    // reduce it while taking damage, scale it back up over time- only apply this to the normal boss and let ultra keep the bullshit regen
-                    if (self.teamComponent.teamIndex == TeamIndex.Monster && self.baseNameToken == "NEMFORCER_NAME")
-                    {
-                        float maxRegenValue = regen;
-                        float i = Mathf.Clamp(self.outOfDangerStopwatch, 0f, 5f);
-                        regen = Util.Remap(i, 0f, 5f, 0f, maxRegenValue);
-                    }
-
-                    self.regen += regen;
-
-                    if (self.teamComponent.teamIndex == TeamIndex.Monster)
-                    {
-                        self.regen *= 0.8f;
-                        if (self.HasBuff(RoR2Content.Buffs.SuperBleed) || self.HasBuff(RoR2Content.Buffs.Bleeding)) self.regen = 0f;
-                    }
                 }
             }
         }
@@ -1039,6 +1047,16 @@ namespace EnforcerPlugin {
 
             filter.teamIndex = TeamIndex.Player;
 
+            //Tear Gas damage numbers
+            On.RoR2.HealthComponent.TakeDamage += (orig, self, di) =>
+            {
+                if (di.damageColorIndex == DamageColorIndex.Default && self.body.HasBuff(Buffs.impairedBuff))
+                {
+                    di.damageColorIndex = DamageColorIndex.WeakPoint;
+                }
+                orig(self, di);
+            };
+
             GameObject grenadeModel = Assets.tearGasGrenadeModel.InstantiateClone("TearGasGhost", true);
             grenadeModel.AddComponent<NetworkIdentity>();
             grenadeModel.AddComponent<ProjectileGhostController>();
@@ -1056,7 +1074,7 @@ namespace EnforcerPlugin {
             grenadeImpact.lifetime = 18;
             grenadeImpact.lifetimeAfterImpact = 0.5f;
             grenadeImpact.lifetimeRandomOffset = 0;
-            grenadeImpact.blastRadius = 6;
+            grenadeImpact.blastRadius = 8;
             grenadeImpact.blastDamageCoefficient = 1;
             grenadeImpact.blastProcCoefficient = 1;
             grenadeImpact.fireChildren = true;
@@ -1146,7 +1164,7 @@ namespace EnforcerPlugin {
             scepterGrenadeImpact.lifetime = 18;
             scepterGrenadeImpact.lifetimeAfterImpact = 0.5f;
             scepterGrenadeImpact.lifetimeRandomOffset = 0;
-            scepterGrenadeImpact.blastRadius = 6;
+            scepterGrenadeImpact.blastRadius = 8;
             scepterGrenadeImpact.blastDamageCoefficient = 1;
             scepterGrenadeImpact.blastProcCoefficient = 1;
             scepterGrenadeImpact.fireChildren = true;

@@ -7,9 +7,9 @@ using UnityEngine.UI;
 namespace EntityStates.Enforcer.NeutralSpecial {
     public class SuperShotgun2 : BaseState {
 
-        public static float baseShotDuration = 0.85f; //first shot 62.5% dps? //TODO: base shot needs to not finish reloading until little after the shot
-        public static float baseSecondShotDuration = 1.8f; //second shot, total shots 2.65s. 
-        public static float baseShieldShotDuration = 1.7f; //shield shot. 
+        public static float baseShotDuration = 0.3125f; //This number is FaN //0.85f first shot 62.5% dps? //TODO: base shot needs to not finish reloading until little after the shot
+        public static float baseSecondShotDuration = 1.4333f + 0.3125f; //1.8f second shot, total shots 2.65s. 
+        public static float baseShieldShotDuration = 1.4333f + 0.3125f; //1.7f shield shot. 
 
         public static float baseReloadDuration { get => baseSecondShotDuration - baseShotDuration; }
         public static float baseShieldReloadDuration { get => baseShieldShotDuration - baseShotDuration; }
@@ -32,7 +32,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         private bool _secondShot = false; //Determines whether player is forced to reload
         
         private bool _isShielded;
-        private float _shieldLockTime = 0.6f;
+        private float _shieldLockTime = 0.3125f;    //0.6f
         private float _shieldInputBufferableTime = 0.4f;
         private bool _shieldBufferable = false;
         private bool _shieldInputBuffer;
@@ -62,8 +62,8 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 _secondShot = true;
             }
 
-            _shotDuration = baseShotDuration / attackSpeedStat * Config.superDuration.Value;
-            _reloadDuration = (_isShielded ? baseShieldReloadDuration : baseReloadDuration) / attackSpeedStat * Config.superDuration.Value;
+            _shotDuration = baseShotDuration / attackSpeedStat; //* Config.superDuration.Value; (1f)
+            _reloadDuration = (_isShielded ? baseShieldReloadDuration : baseReloadDuration) / attackSpeedStat; //* Config.superDuration.Value; (1f)
             _totalDuration = _shotDuration + _reloadDuration;
             //If it's all handled in 2anims, change this to shotDuration + reloadDuration * reloadFraction
             _reloadCompleteTime = _totalDuration * reloadCompleteFraction;
