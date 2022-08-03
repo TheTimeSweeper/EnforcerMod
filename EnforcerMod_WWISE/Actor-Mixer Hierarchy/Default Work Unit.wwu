@@ -2752,6 +2752,7 @@
 										<RandomSequenceContainer Name="DOOM" ID="{4AA2B656-2D61-4223-A212-35A21C23CD4B}" ShortID="1011874692">
 											<PropertyList>
 												<Property Name="GlobalOrPerObject" Type="int16" Value="0"/>
+												<Property Name="RandomOrSequence" Type="int16" Value="0"/>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-1</Value>
@@ -2826,6 +2827,10 @@
 													</ActiveSourceList>
 												</Sound>
 											</ChildrenList>
+											<Playlist>
+												<ItemRef Name="doom1" ID="{C5F5EDD8-FBBD-48A0-B14E-7716BD31DDF8}"/>
+												<ItemRef Name="doom2" ID="{FF713CDE-C3C0-4236-B2C9-EFCFDD297BB4}"/>
+											</Playlist>
 										</RandomSequenceContainer>
 									</ChildrenList>
 								</ActorMixer>

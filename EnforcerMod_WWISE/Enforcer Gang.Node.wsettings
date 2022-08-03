@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="UserProjectSettings" SchemaVersion="89">
+<WwiseDocument Type="UserProjectSettings" SchemaVersion="97">
 	<UserProjectSettingsInfo>
 		<UserProjectSettings Name="" ID="{7D10B8F8-2746-4B92-9C50-85DE2FA43377}">
 			<PropertyList>
@@ -67,6 +67,7 @@
 						<Value Platform="Windows">GeneratedSoundBanks\Windows\</Value>
 					</ValueList>
 				</Property>
+				<Property Name="Game Profiler\Voice Monitor\LastBus" Type="string" Value="{00000000-0000-0000-0000-000000000000}"/>
 				<Property Name="General\LatestLanguage" Type="int32" Value="684519430"/>
 				<Property Name="General\LatestPlatform" Type="string" Value="Windows"/>
 				<Property Name="GenerateSoundBanks\x64_SelectedLanguages" Type="string" Value=""/>
@@ -82,12 +83,15 @@
 				<Property Name="MeterView\MeterMode1Viewpoint2" Type="int32" Value="3"/>
 				<Property Name="MeterView\MeterMode1Viewpoint3" Type="int32" Value="0"/>
 				<Property Name="Mixing Desk\LastSession" Type="string" Value="{00000000-0000-0000-0000-000000000000}"/>
+				<Property Name="MonitoringManager\GameObjectFilter\GameObjectFilterVersion" Type="int32" Value="1"/>
+				<Property Name="MonitoringManager\GameObjectFilter\GameObjectFiltersEnable" Type="bool" Value="True"/>
+				<Property Name="MonitoringManager\GameObjectFilter\x64_GameObjectFilters" Type="string" Value=""/>
 				<Property Name="MonitoringManager\WatchMgr\WatchesVersion" Type="int32" Value="6"/>
 				<Property Name="MonitoringManager\WatchMgr\x64_GameSyncWatches" Type="string" Value=""/>
 				<Property Name="MonitoringManager\WatchMgr\x64_Watches" Type="string" Value=""/>
 				<Property Name="ProjectExplorer\FirstVisible_10_1" Type="string" Value="{4C96B38B-3DB4-40C7-91C9-665510E38993}"/>
 				<Property Name="ProjectExplorer\FirstVisible_11_1" Type="string" Value="{23EC2DE3-3ED8-4B82-AC99-92E25F2E4C6B}"/>
-				<Property Name="ProjectExplorer\FirstVisible_1_1" Type="string" Value="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}"/>
+				<Property Name="ProjectExplorer\FirstVisible_1_1" Type="string" Value="{BDB0942F-CE9B-4BC7-B6B5-0A5A8FDF8D9F}"/>
 				<Property Name="ProjectExplorer\FirstVisible_3_1" Type="string" Value="{A69BF0FC-D84A-487C-ABDD-56F71CB2A126}"/>
 				<Property Name="ProjectExplorer\FirstVisible_4_1" Type="string" Value="{CB6175F1-6080-4A23-92EF-0807E304D0C1}"/>
 				<Property Name="ProjectExplorer\FirstVisible_6_1" Type="string" Value="{C98E673F-A24C-48A8-960F-10565FFE70A0}"/>
@@ -105,7 +109,7 @@
 				<Property Name="ProjectExplorer\x64_Expanded_1_1" Type="string" Value="yh1icT7Dtk6mQcpZ23I3Ig=="/>
 				<Property Name="ProjectExplorer\x64_Expanded_20_1" Type="string" Value=""/>
 				<Property Name="ProjectExplorer\x64_Expanded_21_1" Type="string" Value=""/>
-				<Property Name="ProjectExplorer\x64_Expanded_2_1" Type="string" Value="ef8mPd4KsECuAQPb6cz9Ex/LvkF9fQRFnwKOLJtJfy/CCsGEyTReRp4BnSXsNBLHA9TWY3TvZEikTH+kePmXMgasUzj8hdVJmej73kfOBPt9r2ccglhUTLm51F/JUmorrJA2TuXGKU6PxrwE/jIvTA=="/>
+				<Property Name="ProjectExplorer\x64_Expanded_2_1" Type="string" Value="ef8mPd4KsECuAQPb6cz9Ex/LvkF9fQRFnwKOLJtJfy/CCsGEyTReRp4BnSXsNBLHA9TWY3TvZEikTH+kePmXMgasUzj8hdVJmej73kfOBPvPihNvCwgaS6K6Biel3u5Ifa9nHIJYVEy5udRfyVJqK6yQNk7lxilOj8a8BP4yL0w="/>
 				<Property Name="ProjectExplorer\x64_Expanded_3_1" Type="string" Value="23kjIo6NwkCVWDCndH0eQCgDgz1PGXtMjEpnI2jDflM="/>
 				<Property Name="ProjectExplorer\x64_Expanded_4_1" Type="string" Value=""/>
 				<Property Name="ProjectExplorer\x64_Expanded_5_1" Type="string" Value=""/>

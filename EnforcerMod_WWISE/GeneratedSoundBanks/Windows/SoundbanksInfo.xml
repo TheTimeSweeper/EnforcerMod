@@ -34,7 +34,7 @@
 				<GameParameter Id="3673881719" Name="Volume_SFX" ObjectPath="\Game Parameters\Default Work Unit\Volume_SFX"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="3045143027" Language="SFX" Hash="3116810905">
+		<SoundBank Id="3045143027" Language="SFX" Hash="1734315767">
 			<ObjectPath>\SoundBanks\Default Work Unit\EnforcerBank</ObjectPath>
 			<ShortName>EnforcerBank</ShortName>
 			<Path>EnforcerBank.bnk</Path>

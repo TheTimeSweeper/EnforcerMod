@@ -11,14 +11,13 @@ namespace Modules {
     internal static class ItemDisplays {
         public static Dictionary<string, GameObject> itemDisplayPrefabs = new Dictionary<string, GameObject>();
 
-        public static Dictionary<string, int> itemDisplayCheckCount = new Dictionary<string, int>();
 
         public static GameObject gatDronePrefab;
 
         #region printing unused
         public static bool printingUnused = false;
+        public static Dictionary<string, int> itemDisplayCheckCount = new Dictionary<string, int>();
         public static Dictionary<string, string> itemDisplayCheckName = new Dictionary<string, string>();
-        public static Dictionary<string, Object> itemDisplayCheckKeyAsset = new Dictionary<string, Object>();
         #endregion
 
         internal static void PopulateDisplays() {

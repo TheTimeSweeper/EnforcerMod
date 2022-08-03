@@ -26,6 +26,7 @@ namespace EnforcerPlugin.Achievements
 
             base.OnBodyRequirementBroken();
         }
+
         public class DoomAchievementServer : RoR2.Achievements.BaseServerAchievement {
 
             protected virtual int impRequirement => 40;

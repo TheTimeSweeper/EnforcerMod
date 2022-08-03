@@ -79,6 +79,9 @@
     <Reference Include="HGUnityUtils">
       <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\HGUnityUtils.dll</HintPath>
     </Reference>
+    <Reference Include="Inferno">
+      <HintPath>libs\Compat\Inferno.dll</HintPath>
+    </Reference>
     <Reference Include="KinematicCharacterController">
       <HintPath>E:\Abbas's stuff VII I think\1337 haxx\ror2lol\Chikara ga minegitte kuru\EnforcerMod\EnforcerMod_VS\libs\KinematicCharacterController.dll</HintPath>
     </Reference>
@@ -178,7 +181,7 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="if &quot;$(Username)&quot; == &quot;Erikbir&quot; copy /Y &quot;$(ProjectDir)\..\EnforcerMod_Unity\Enforcer\AssetBundles\enforcer&quot; &quot;$(ProjectDir)&quot;" />
+    <Exec Command="if &quot;$(Username)&quot; == &quot;Erikbir&quot; copy /Y &quot;$(ProjectDir)\..\EnforcerMod_Unity\Enforcer\AssetBundles\enforcer&quot; &quot;$(ProjectDir)&quot;&#xD;&#xA;if &quot;$(Username)&quot; == &quot;Erikbir&quot; copy /Y &quot;$(ProjectDir)\..\EnforcerMod_WWISE\GeneratedSoundBanks\Windows\EnforcerBank.bnk&quot; &quot;$(ProjectDir)&quot;" />
   </Target>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

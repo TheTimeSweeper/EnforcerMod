@@ -49,6 +49,9 @@
     <Reference Include="R2API">
       <HintPath>..\libs\R2API.dll</HintPath>
     </Reference>
+    <Reference Include="RoR2">
+      <HintPath>..\libs\RoR2.dll</HintPath>
+    </Reference>
     <Reference Include="Starstorm2TK">
       <HintPath>..\libs\Compat\Starstorm2TK.dll</HintPath>
     </Reference>
