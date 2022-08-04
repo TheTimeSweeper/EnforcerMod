@@ -47,7 +47,8 @@ namespace EnforcerPlugin {
         "DamageAPI",
         "UnlockableAPI",
         "DirectorAPI",
-        "RecalculateStatsAPI"
+        "RecalculateStatsAPI",
+        "LoadoutAPI"
     })]
 
     public class EnforcerModPlugin : BaseUnityPlugin
