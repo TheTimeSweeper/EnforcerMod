@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
+using BepInEx.Logging;
 using EntityStates;
 using EntityStates.Enforcer;
 using EntityStates.Enforcer.NeutralSpecial;
@@ -125,8 +126,11 @@ namespace EnforcerPlugin {
         //    //awake += EnforcerPlugin_Load;
         //    //start += EnforcerPlugin_LoadStart;
         //}
+        internal static ManualLogSource StaticLogger;
 
-        void Awake() {
+        void Awake()
+        {
+            StaticLogger = Logger;
             infernoPluginLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("HIFU.Inferno");
             Modules.Config.ConfigShit(this);
 

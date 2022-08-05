@@ -1,4 +1,5 @@
-﻿using EntityStates.Enforcer;
+﻿using EnforcerPlugin;
+using EntityStates.Enforcer;
 using Modules;
 using RoR2;
 using System;
@@ -62,10 +63,6 @@ public class EnforcerWeaponComponent : MonoBehaviour {
 
     }
 
-    private GameObject vrShotgunObject { get => this.vrChildLocator.FindChild("GunModel").gameObject; }
-    private GameObject vrSsgobject { get => this.vrChildLocator.FindChild("SuperGunModel").gameObject; }
-    private GameObject vrHmgObject { get => this.vrChildLocator.FindChild("HMGModel").gameObject; }
-
     public EquippedGun currentGun = EquippedGun.NONE;
     public EquippedShield currentShield = EquippedShield.NONE;
 
@@ -89,7 +86,6 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     public HealthComponent charHealth;
     public CameraTargetParams cameraShit;
     public ChildLocator childLocator;
-    public ChildLocator vrChildLocator;
 
     public FootstepHandler footStep;
     public SfxLocator sfx;
@@ -137,32 +133,41 @@ public class EnforcerWeaponComponent : MonoBehaviour {
 
     private void SubscribeToHandPairEvent()
     {
-        MotionControls.onHandPairSet += SetVRWeapon;
+        MotionControls.onHandPairSet += OnHandPairSet;
     }
 
     private void UnsubscribeToHandPairEvent()
     {
-        MotionControls.onHandPairSet -= SetVRWeapon;
+        MotionControls.onHandPairSet -= OnHandPairSet;
     }
 
-    private void SetVRWeapon(CharacterBody body)
+    private void OnHandPairSet(CharacterBody body)
     {
         if (!body.name.Contains("EnforcerBody") || GetComponent<CharacterBody>() != body) return;
 
+        // Skin not loaded yet, wait a bit
+        StartCoroutine(SetVRWeaponAndShield(body));
+    }
+    private IEnumerator<WaitForSeconds> SetVRWeaponAndShield(CharacterBody body)
+    {
+        yield return new WaitForSeconds(0.5f);
         EnforcerComponent enforcerComponent = GetComponent<EnforcerComponent>();
 
         if (enforcerComponent)
             enforcerComponent.origOrigin = VRAPI.MotionControls.dominantHand.muzzle;
 
-        vrChildLocator = VRAPI.MotionControls.dominantHand.transform.GetComponentInChildren<ChildLocator>();
+        ChildLocator vrWeaponChildLocator = VRAPI.MotionControls.dominantHand.transform.GetComponentInChildren<ChildLocator>();
+        ChildLocator vrShieldChildLocator = VRAPI.MotionControls.nonDominantHand.transform.GetComponentInChildren<ChildLocator>();
 
-        if (vrChildLocator)
+        if (vrWeaponChildLocator && vrShieldChildLocator)
         {
+            var donminHandObj = vrWeaponChildLocator.FindChild("HandModel").gameObject;
             List<GameObject> allVRWeapons = new List<GameObject>()
             {
-                vrShotgunObject,
-                vrSsgobject,
-                vrHmgObject
+                vrWeaponChildLocator.FindChild("GunModel").gameObject,
+                vrWeaponChildLocator.FindChild("SuperGunModel").gameObject,
+                vrWeaponChildLocator.FindChild("HMGModel").gameObject,
+                vrWeaponChildLocator.FindChild("RobotArmModel").gameObject
             };
 
             foreach (GameObject weaponObject in allVRWeapons)
@@ -174,20 +179,58 @@ public class EnforcerWeaponComponent : MonoBehaviour {
 
             EquippedGun weapon = GetWeapon();
             Transform muzzle = VRAPI.MotionControls.dominantHand.muzzle;
-            switch (weapon)
+            if (Skins.isEnforcerCurrentSkin(body, Skins.EnforcerSkin.ROBIT))
             {
-                default:
-                case EquippedGun.GUN:
-                    vrShotgunObject.SetActive(true);
-                    break;
-                case EquippedGun.SUPER:
-                    vrSsgobject.SetActive(true);
-                    muzzle.localPosition = new Vector3(0.01297f, -0.2533f, 0.8785f);
-                    break;
-                case EquippedGun.HMG:
-                    vrHmgObject.SetActive(true);
-                    muzzle.localPosition = new Vector3(0.01657f, -0.21657f, 0.81805f);
-                    break;
+                allVRWeapons[3].SetActive(true);
+                muzzle.localPosition = new Vector3(0.0128f, -0.0911f, 0.2719f);
+            }
+            else
+                switch (weapon)
+                {
+                    default:
+                    case EquippedGun.GUN:
+                        allVRWeapons[0].SetActive(true);
+                        break;
+                    case EquippedGun.SUPER:
+                        allVRWeapons[1].SetActive(true);
+                        muzzle.localPosition = new Vector3(0.01297f, -0.2533f, 0.8785f);
+                        break;
+                    case EquippedGun.HMG:
+                        allVRWeapons[2].SetActive(true);
+                        muzzle.localPosition = new Vector3(0.01657f, -0.21657f, 0.81805f);
+                        break;
+                }
+
+            var nonDonminHandObj = vrShieldChildLocator.FindChild("HandModel").gameObject;
+            List<GameObject> allVRShields = new List<GameObject>()
+            {
+                vrShieldChildLocator.FindChild("ShieldModel").gameObject,
+                vrShieldChildLocator.FindChild("GlassShieldModel").gameObject,
+                vrShieldChildLocator.FindChild("FemShieldModel").gameObject,
+                vrShieldChildLocator.FindChild("SteveShieldModel").gameObject,
+                vrShieldChildLocator.FindChild("N4CRShieldModel").gameObject
+            };
+
+            foreach (GameObject shieldObject in allVRShields)
+            {
+                //bit of a hack to make sure objects hide their associated item bones
+                shieldObject.SetActive(true);
+                shieldObject.SetActive(false);
+            }
+
+
+            if (Skins.isEnforcerCurrentSkin(body, Skins.EnforcerSkin.MASTERY))
+                allVRShields[1].SetActive(true);
+            else if (Skins.isEnforcerCurrentSkin(body, Skins.EnforcerSkin.FEMFORCER))
+                allVRShields[2].SetActive(true);
+            else if (Skins.isEnforcerCurrentSkin(body, Skins.EnforcerSkin.FUCKINGSTEVE))
+                allVRShields[3].SetActive(true);
+            else if (Skins.isEnforcerCurrentSkin(body, Skins.EnforcerSkin.ROBIT))
+                allVRShields[4].SetActive(true);
+            else
+            {
+                allVRShields[0].SetActive(true);
+                allVRShields[0].GetComponent<MeshRenderer>().material = Skins.skinDefs[(int)body.skinIndex].rendererInfos[0].defaultMaterial;
             }
         }
     }

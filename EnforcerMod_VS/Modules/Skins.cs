@@ -13,13 +13,66 @@ namespace Modules {
 
     internal static class Skins {
 
+        public enum EnforcerSkin
+        {
+            NONE = -1,
+            DEFAULT,
+            MASTERY,
+            GRANDMASTERY,
+            ROBIT,
+            CLASSIC,
+            RECOLORENGI,
+            RECOLORENGIBUNG,
+            RECOLORSTORM,
+            RECOLORDOOM,
+            FUCKINGSTEVE,
+            FEMFORCER
+        }
+
         public static SkinDef engiBungusSkin;
 
         public static Dictionary<int, string> SkinIdices = new Dictionary<int, string>();
 
+        public static List<SkinDef> skinDefs = new List<SkinDef>();
+
         //todo what the fuck
         public static bool isEnforcerCurrentSkin(CharacterBody characterbody, string skin) {
             return characterbody.baseNameToken == "ENFORCER_NAME" && SkinIdices[(int)characterbody.skinIndex] == skin;
+        }
+
+        public static bool isEnforcerCurrentSkin(CharacterBody characterbody, EnforcerSkin skin)
+        {
+            return isEnforcerCurrentSkin(characterbody, GetFuckingSkinID(skin));
+        }
+
+        public static string GetFuckingSkinID(EnforcerSkin skin)
+        {
+            switch (skin)
+            {
+                default:
+                case EnforcerSkin.DEFAULT:
+                    return "ENFORCERBODY_DEFAULT_SKIN_NAME";
+                case EnforcerSkin.MASTERY:
+                    return "ENFORCERBODY_MASTERY_SKIN_NAME";
+                case EnforcerSkin.GRANDMASTERY:
+                    return "ENFORCERBODY_TYPHOON_SKIN_NAME";
+                case EnforcerSkin.ROBIT:
+                    return "ENFORCERBODY_BOT_SKIN_NAME";
+                case EnforcerSkin.CLASSIC:
+                    return "ENFORCERBODY_CLASSIC_SKIN_NAME";
+                case EnforcerSkin.RECOLORENGI:
+                    return "ENFORCERBODY_ENGI_SKIN_NAME";
+                case EnforcerSkin.RECOLORENGIBUNG:
+                    return "ENFORCERBODY_ENGIBUNGUS_SKIN_NAME";
+                case EnforcerSkin.RECOLORSTORM:
+                    return "ENFORCERBODY_STORM_SKIN_NAME";
+                case EnforcerSkin.RECOLORDOOM:
+                    return "ENFORCERBODY_DOOM_SKIN_NAME";
+                case EnforcerSkin.FUCKINGSTEVE:
+                    return "ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME";
+                case EnforcerSkin.FEMFORCER:
+                    return "ENFORCERBODY_FEMFORCER_SKIN_NAME";
+            }
         }
 
         public static void RegisterSkins() {
@@ -29,7 +82,7 @@ namespace Modules {
             ModelSkinController skinController = modelTransform.AddComponent<ModelSkinController>();
             ChildLocator childLocator = modelTransform.GetComponent<ChildLocator>();
             SkinnedMeshRenderer mainRenderer = characterModel.mainSkinnedMeshRenderer;
-            List<SkinDef> skinDefs = new List<SkinDef>();
+            skinDefs = new List<SkinDef>();
 
             #region GameObjectActivations
 
@@ -409,7 +462,7 @@ namespace Modules {
 
                 #region RecolorEngiBung
                 SkinDefInfo engiBungusSkinDefInfo = new SkinDefInfo();
-                engiBungusSkinDefInfo.Name = "ENFORCERBODY_ENGIbUNGUS_SKIN_NAME";
+                engiBungusSkinDefInfo.Name = "ENFORCERBODY_ENGIBUNGUS_SKIN_NAME";
                 engiBungusSkinDefInfo.NameToken = "ENFORCERBODY_ENGIBUNGUS_SKIN_NAME";
                 engiBungusSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texBungusAchievement");
                 engiBungusSkinDefInfo.UnlockableDef = null;
