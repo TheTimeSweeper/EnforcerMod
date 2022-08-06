@@ -81,6 +81,7 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     private GameObject VRSkateboard;
     private Transform VRSkateboardHandBase;
     private bool isSkating = false;
+    private EnforcerComponent enforcerComponent;
 
     private string stepSoundString;
     private string landSoundString;
@@ -155,7 +156,7 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     private IEnumerator<WaitForSeconds> SetVRWeaponAndShield(CharacterBody body)
     {
         yield return new WaitForSeconds(0.5f);
-        EnforcerComponent enforcerComponent = GetComponent<EnforcerComponent>();
+        enforcerComponent = GetComponent<EnforcerComponent>();
 
         if (enforcerComponent)
             enforcerComponent.origOrigin = VRAPI.MotionControls.dominantHand.muzzle;
@@ -655,13 +656,40 @@ public class EnforcerWeaponComponent : MonoBehaviour {
 
     private void LateUpdate()
     {
-        // For skateborad to stay under the player in VR
-        if (isSkating && VRAPICompat.IsLocalVRPlayer(charBody) && VRSkateboard && VRSkateboardHandBase)
+        if (VRAPICompat.IsLocalVRPlayer(charBody))
         {
-            this.VRSkateboard.transform.SetParent(this.skateboardBase);
-            this.VRSkateboard.transform.localPosition = Vector3.zero;
-            this.VRSkateboard.transform.localRotation = Quaternion.identity;
-            this.VRSkateboard.transform.SetParent(this.VRSkateboardHandBase);
+            // For skateborad to stay under the player in VR
+            if (isSkating && VRSkateboard && VRSkateboardHandBase)
+            {
+                this.VRSkateboard.transform.SetParent(this.skateboardBase);
+                this.VRSkateboard.transform.localPosition = Vector3.zero;
+                this.VRSkateboard.transform.localRotation = Quaternion.identity;
+                this.VRSkateboard.transform.SetParent(this.VRSkateboardHandBase);
+            }
+            // Auto shielding when you hold the shield in front of you
+            if (GetShield() == EquippedShield.SHIELD && enforcerComponent && (Config.physicalVRShieldUp.Value || Config.physicalVRShieldDown.Value))
+            {
+                var target = MotionControls.nonDominantHand.muzzle.position - Camera.main.transform.position;
+                bool isForward = Vector3.Dot(Camera.main.transform.forward, target) > 0;
+                bool isRight = Vector3.Cross(Camera.main.transform.forward, target).y > 0;
+                bool otherSide = (MotionControls.dominantHand == MotionControls.rightHand) ? isRight : !isRight;
+                if (Config.physicalVRShieldUp.Value && !enforcerComponent.isShielding)
+                {
+                    // Auto shield up based on the angle between non-dominate hand and camera
+                    Vector3 v1 = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z);
+                    Vector3 v2 = new Vector3(target.x, 0, target.z);
+                    var angle = Vector3.Angle(v1, v2);
+                    if (isForward && otherSide && angle > 30)
+                        charBody.skillLocator.special.ExecuteIfReady();
+                } 
+                else if(Config.physicalVRShieldDown.Value && enforcerComponent.isShielding)
+                {
+                    // Auto shield down when non-dominate hand points downward
+                    var angle = Vector3.Angle(MotionControls.nonDominantHand.muzzle.forward, Vector3.down);
+                    if (!otherSide && angle < 55)
+                        charBody.skillLocator.special.ExecuteIfReady();
+                }
+            }
         }
     }
 

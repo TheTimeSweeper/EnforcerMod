@@ -60,6 +60,8 @@ namespace Modules {
         public static ConfigEntry<bool> stupidShieldBash;
 
         public static ConfigEntry<bool> translucentVRShield;
+        public static ConfigEntry<bool> physicalVRShieldUp;
+        public static ConfigEntry<bool> physicalVRShieldDown;
 
 
         public static void ConfigShit(BaseUnityPlugin plugin) {
@@ -298,6 +300,7 @@ namespace Modules {
                                      "Maximum spread");*/
             #endregion hmg
 
+            #region shield bash
             uncappedShieldBash
                 = plugin.Config.Bind("07 - Shield Bash",
                                      "Uncapped Knockback",
@@ -308,14 +311,25 @@ namespace Modules {
                                      "Allies Knockback",
                                      false,
                                      "Applies knockback to allies.");
+            #endregion shield bash
 
             #region vr
 
             translucentVRShield
                 = plugin.Config.Bind("08 - VR",
                                      "Semi-Transparent Shield",
-                                     false,
+                                     true,
                                      "Makes the shield semi-transparent to improve vision.");
+            physicalVRShieldUp
+                = plugin.Config.Bind("08 - VR",
+                                     "Physical Shield Up",
+                                     true,
+                                     "Allows you to shield up by physically moving your non-dominant hand in front of you.");
+            physicalVRShieldDown
+                = plugin.Config.Bind("08 - VR",
+                                     "Physical Shield Down",
+                                     true,
+                                     "Allows you to shield down by physically pointing your non-dominant hand downward.");
 
             #endregion
         }
