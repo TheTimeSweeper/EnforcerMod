@@ -167,19 +167,22 @@ public class EnforcerComponent : MonoBehaviour
         }
     }
 
-    private void aimShield(Vector3 aimDirection) {
+    private void aimShield(Vector3 aimDirection)
+    {
+        bool isInVR = EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(enforcerBody);
 
         float time = Time.fixedTime - initialTime;
 
         Vector3 cross = Vector3.Cross(aimDirection, shieldDirection);
         Vector3 turnDirection = Vector3.Cross(shieldDirection, cross);
 
-        float turnSpeed = maxSpeed * (1 - Mathf.Exp(-1 * coef * time));
+        //Instant turnning in VR in order to actually block with shield
+        float turnSpeed = (isInVR)? 1 : maxSpeed * (1 - Mathf.Exp(-1 * coef * time));
 
         shieldDirection += turnSpeed * turnDirection.normalized;
         shieldDirection = shieldDirection.normalized;
 
-        if (EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(enforcerBody) && enforcerBody.HasBuff(Buffs.protectAndServeBuff))
+        if (isInVR && enforcerBody.HasBuff(Buffs.protectAndServeBuff))
         {
             FaceTowardsVRShield();
         }

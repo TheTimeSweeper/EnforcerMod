@@ -314,7 +314,7 @@ namespace Modules {
             translucentVRShield
                 = plugin.Config.Bind("08 - VR",
                                      "Semi-Transparent Shield",
-                                     true,
+                                     false,
                                      "Makes the shield semi-transparent to improve vision.");
 
             #endregion

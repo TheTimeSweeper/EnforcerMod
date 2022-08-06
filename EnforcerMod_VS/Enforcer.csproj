@@ -181,7 +181,7 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="if &quot;$(Username)&quot; == &quot;Erikbir&quot; copy /Y &quot;$(ProjectDir)\..\EnforcerMod_Unity\Enforcer\AssetBundles\enforcer&quot; &quot;$(ProjectDir)&quot;&#xD;&#xA;if &quot;$(Username)&quot; == &quot;Erikbir&quot; copy /Y &quot;$(ProjectDir)\..\EnforcerMod_WWISE\GeneratedSoundBanks\Windows\EnforcerBank.bnk&quot; &quot;$(ProjectDir)&quot;" />
+    <Exec Command="copy /Y &quot;$(ProjectDir)\..\EnforcerMod_Unity\Enforcer\AssetBundles\enforcer&quot; &quot;$(ProjectDir)&quot;&#xD;&#xA;copy /Y &quot;$(ProjectDir)\..\EnforcerMod_Unity\EnforcerVR\AssetBundles\enforcervr&quot; &quot;$(ProjectDir)&quot;&#xD;&#xA;copy /Y &quot;$(ProjectDir)\..\EnforcerMod_WWISE\GeneratedSoundBanks\Windows\EnforcerBank.bnk&quot; &quot;$(ProjectDir)&quot;" />
   </Target>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

@@ -209,7 +209,9 @@ namespace EntityStates.Enforcer {
             if (isShielded)
             {
                 base.characterBody.isSprinting = false;
-                base.characterBody.SetAimTimer(0.2f);
+                // Only aims when not in VR
+                if(!EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(base.characterBody))
+                    base.characterBody.SetAimTimer(0.2f);
             }
 
             if (this.hasSprintCancelled)
