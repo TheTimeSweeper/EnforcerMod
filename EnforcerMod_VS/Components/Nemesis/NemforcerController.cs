@@ -149,6 +149,7 @@ public class NemforcerController : MonoBehaviour
                 vrHammerChildLocator.FindChild("HammerGMModel").gameObject,
                 vrHammerChildLocator.FindChild("HammerMCModel").gameObject,
                 vrHammerChildLocator.FindChild("HammerDededeModel").gameObject,
+                vrHammerChildLocator.FindChild("HammerEnforcerModel").gameObject,
                 vrHammerChildLocator.FindChild("ThrowHammerModel").gameObject
             };
             List<GameObject> allVRMiniguns = new List<GameObject>()
@@ -158,6 +159,7 @@ public class NemforcerController : MonoBehaviour
                 vrMinigunChildLocator.FindChild("MinigunGMModel").gameObject,
                 vrMinigunChildLocator.FindChild("MinigunMCModel").gameObject,
                 vrMinigunChildLocator.FindChild("MinigunDededeModel").gameObject,
+                vrMinigunChildLocator.FindChild("MinigunEnforcerModel").gameObject,
                 vrMinigunChildLocator.FindChild("MinigunDripModel").gameObject
             };
 
@@ -199,20 +201,15 @@ public class NemforcerController : MonoBehaviour
                 bigHammer = allVRHammers[4];
                 VRMinigun = allVRMiniguns[4];
             }
+            else if (NemforcerSkins.isNemforcerCurrentSkin(body, NemforcerSkins.NemforcerSkin.ENFORCER))
+            {
+                bigHammer = allVRHammers[5];
+                VRMinigun = allVRMiniguns[5];
+            }
             else if (NemforcerSkins.isNemforcerCurrentSkin(body, NemforcerSkins.NemforcerSkin.DRIP))
             {
                 bigHammer = allVRHammers[0];
-                VRMinigun = allVRMiniguns[5];
-            }
-            else if (NemforcerSkins.isNemforcerCurrentSkin(body, NemforcerSkins.NemforcerSkin.ENFORCER))
-            {
-                bigHammer = allVRHammers[0];
-                VRMinigun = allVRMiniguns[0];
-                var mat = NemforcerSkins.skinDefs[(int)body.skinIndex].rendererInfos[0].defaultMaterial;
-                bigHammer.GetComponentInChildren<MeshRenderer>().material = mat;
-                allVRMiniguns[0].GetComponentsInChildren<MeshRenderer>()[0].material = mat;
-                allVRMiniguns[0].GetComponentsInChildren<MeshRenderer>()[1].material = mat;
-                VRAPI.MotionControls.dominantHand.rendererInfos[0].defaultMaterial = mat;
+                VRMinigun = allVRMiniguns[6];
             }
             else
             {

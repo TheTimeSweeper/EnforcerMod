@@ -247,6 +247,10 @@ namespace EntityStates.Nemforcer {
             if (base.isAuthority && base.inputBank && base.characterDirection)
             {
                 this.forwardDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.GetAimRay().direction : base.inputBank.moveVector).normalized;
+
+                // In VR it feels more natrual to use the aim direction
+                if (EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody))
+                    this.forwardDirection = base.GetAimRay().direction;
             }
 
             if (this.charge >= 0.6f) Util.PlaySound(Sounds.NemesisFlameBurst, soundGO);
