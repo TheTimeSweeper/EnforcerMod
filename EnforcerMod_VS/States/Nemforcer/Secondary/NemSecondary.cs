@@ -28,6 +28,8 @@ namespace EntityStates.Nemforcer {
 
         private AimRequest aimRequest;
 
+        private GameObject soundGO;
+
         public override void OnEnter()
         {
             base.OnEnter();
@@ -45,8 +47,9 @@ namespace EntityStates.Nemforcer {
                 base.PlayAnimation("Legs, Override", "HammerCharge", "HammerCharge.playbackRate", this.chargeDuration);
             }
 
-            this.chargePlayID = Util.PlayAttackSpeedSound(Sounds.NemesisStartCharge, base.gameObject, this.attackSpeedStat);
-            this.flameLoopPlayID = Util.PlaySound(Sounds.NemesisFlameLoop, base.gameObject);
+            soundGO = EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : base.gameObject;
+            this.chargePlayID = Util.PlayAttackSpeedSound(Sounds.NemesisStartCharge, soundGO, this.attackSpeedStat);
+            this.flameLoopPlayID = Util.PlaySound(Sounds.NemesisFlameLoop, soundGO);
 
             if (base.cameraTargetParams)
             {
@@ -91,7 +94,7 @@ namespace EntityStates.Nemforcer {
             if (charge >= 1f && !this.finishedCharge)
             {
                 this.finishedCharge = true;
-                Util.PlaySound(Sounds.NemesisMaxCharge, base.gameObject);
+                Util.PlaySound(Sounds.NemesisMaxCharge, soundGO);
 
                 if (this.nemController) this.nemController.hammerChargeLarge.Play();
 
@@ -216,6 +219,8 @@ namespace EntityStates.Nemforcer {
         private Vector3 storedVelocity;
         private NemforcerController nemController;
 
+        private GameObject soundGO;
+
         public override void OnEnter()
         {
             base.OnEnter();
@@ -237,12 +242,14 @@ namespace EntityStates.Nemforcer {
             this.animator = base.GetModelAnimator();
             this.nemController = base.GetComponent<NemforcerController>();
 
+            this.soundGO = EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : base.gameObject;
+
             if (base.isAuthority && base.inputBank && base.characterDirection)
             {
                 this.forwardDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.GetAimRay().direction : base.inputBank.moveVector).normalized;
             }
 
-            if (this.charge >= 0.6f) Util.PlaySound(Sounds.NemesisFlameBurst, base.gameObject);
+            if (this.charge >= 0.6f) Util.PlaySound(Sounds.NemesisFlameBurst, soundGO);
 
             this.RecalculateSpeed();
 
@@ -330,8 +337,8 @@ namespace EntityStates.Nemforcer {
                 this.hasPlayedUppercutAnim = true;
                 base.PlayCrossfade("FullBody, Override", "Uppercut", "Uppercut.playbackRate", (this.duration - (this.duration * HammerUppercut.dashDuration)) * 1.5f, this.duration * 0.1f);
                 base.PlayAnimation("Legs, Override", "BufferEmpty");
-                if (this.charge >= 0.75f) Util.PlaySound(Sounds.NemesisSwingSecondary, base.gameObject);
-                else Util.PlaySound(Sounds.NemesisSwingL, base.gameObject);
+                if (this.charge >= 0.75f) Util.PlaySound(Sounds.NemesisSwingSecondary, soundGO);
+                else Util.PlaySound(Sounds.NemesisSwingL, soundGO);
             }
 
             if (base.isAuthority)
@@ -472,6 +479,8 @@ namespace EntityStates.Nemforcer {
         private BaseState.HitStopCachedState hitStopCachedState;
         private Transform modelBaseTransform;
 
+        private GameObject soundGO;
+
         public override void OnEnter()
         {
             base.OnEnter();
@@ -486,6 +495,8 @@ namespace EntityStates.Nemforcer {
             this.modelBaseTransform = base.GetModelBaseTransform();
             this.animator = base.GetModelAnimator();
 
+            this.soundGO = EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : base.gameObject;
+
             if (NetworkServer.active) base.characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
 
             if (base.characterMotor)
@@ -493,7 +504,7 @@ namespace EntityStates.Nemforcer {
                 base.characterMotor.velocity.y -= this.fallVelocity;
             }
 
-            if (this.charge >= 0.6f) Util.PlaySound(Sounds.NemesisFlameBurst, base.gameObject);
+            if (this.charge >= 0.6f) Util.PlaySound(Sounds.NemesisFlameBurst, soundGO);
 
             HitBoxGroup hitBoxGroup = Array.Find<HitBoxGroup>(base.GetModelTransform().GetComponents<HitBoxGroup>(), (HitBoxGroup element) => element.groupName == "Uppercut");
 
@@ -554,7 +565,7 @@ namespace EntityStates.Nemforcer {
             base.SmallHop(base.characterMotor, this.radius * 0.3f);
 
             AkSoundEngine.SetRTPCValue("M2_Charge", 100f * this.charge);
-            Util.PlaySound(Sounds.NemesisSmash, base.gameObject);
+            Util.PlaySound(Sounds.NemesisSmash, soundGO);
 
             if (base.isAuthority)
             {
@@ -619,7 +630,7 @@ namespace EntityStates.Nemforcer {
                         string soundString = Sounds.NemesisSwing2;
                         if (base.characterBody.skinIndex == 2) soundString = Sounds.NemesisSwingAxe;
 
-                        Util.PlaySound(soundString, base.gameObject);
+                        Util.PlaySound(soundString, soundGO);
                     }
 
                     if (this.attack.Fire())

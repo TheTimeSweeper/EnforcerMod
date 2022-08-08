@@ -1,4 +1,5 @@
-﻿using EntityStates.Enforcer;
+﻿using EnforcerPlugin;
+using EntityStates.Enforcer;
 using Modules;
 using RoR2;
 using RoR2.Skills;
@@ -140,7 +141,9 @@ namespace EntityStates.Nemforcer {
 
                 string soundString = Sounds.NemesisSwing2;
                 if (base.characterBody.skinIndex == 2) soundString = Sounds.NemesisSwingAxe;
-                Util.PlayAttackSpeedSound(soundString, base.gameObject, this.attackSpeedStat);
+
+                var soundGO = VRAPICompat.IsLocalVRPlayer(characterBody) ? VRAPICompat.GetPrimaryMuzzleObject() : base.gameObject;
+                Util.PlayAttackSpeedSound(soundString, soundGO, this.attackSpeedStat);
 
                 base.AddRecoil(-1f * HammerSwing.attackRecoil, -2f * HammerSwing.attackRecoil, -0.5f * HammerSwing.attackRecoil, 0.5f * HammerSwing.attackRecoil);
 

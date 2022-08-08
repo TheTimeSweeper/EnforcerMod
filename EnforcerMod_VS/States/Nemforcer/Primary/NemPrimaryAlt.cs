@@ -1,4 +1,5 @@
-﻿using Modules;
+﻿using EnforcerPlugin;
+using Modules;
 using RoR2;
 using RoR2.Projectile;
 using RoR2.Skills;
@@ -44,7 +45,8 @@ namespace EntityStates.Nemforcer {
                 Ray aimRay = base.GetAimRay();
 
                 base.AddRecoil(-1f * ThrowHammer.recoil, -2f * ThrowHammer.recoil, -0.5f * ThrowHammer.recoil, 0.5f * ThrowHammer.recoil);
-                Util.PlaySound(Sounds.NemesisGrenadeThrow, base.gameObject);
+                var soundGO = VRAPICompat.IsLocalVRPlayer(characterBody) ? VRAPICompat.GetPrimaryMuzzleObject() : base.gameObject;
+                Util.PlaySound(Sounds.NemesisGrenadeThrow, soundGO);
 
                 if (base.isAuthority)
                 {

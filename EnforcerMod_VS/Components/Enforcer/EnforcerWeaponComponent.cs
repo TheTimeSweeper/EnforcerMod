@@ -173,7 +173,8 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                 vrWeaponChildLocator.FindChild("SuperGunModel").gameObject,
                 vrWeaponChildLocator.FindChild("HMGModel").gameObject,
                 vrWeaponChildLocator.FindChild("RobotArmModel").gameObject,
-                vrWeaponChildLocator.FindChild("HammerModel").gameObject
+                vrWeaponChildLocator.FindChild("HammerModel").gameObject,
+                vrWeaponChildLocator.FindChild("NemHammerModel").gameObject
             };
 
             foreach (GameObject weaponObject in allVRWeapons)
@@ -197,7 +198,10 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                         muzzle.localPosition = new Vector3(0.0128f, -0.0911f, 0.2719f);
                         break;
                     case EquippedGun.HAMMER:
-                        allVRWeapons[4].SetActive(true);
+                        if (Skins.isEnforcerCurrentSkin(body, Skins.EnforcerSkin.RECOLORNEMESIS))
+                            allVRWeapons[5].SetActive(true);
+                        else
+                            allVRWeapons[4].SetActive(true);
                         muzzle.localPosition = new Vector3(0.01657f, -0.21657f, 0.81805f);
                         break;
                 }
@@ -254,6 +258,8 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                         allVRShields[2].SetActive(true);
                     else if (Skins.isEnforcerCurrentSkin(body, Skins.EnforcerSkin.FUCKINGSTEVE))
                         allVRShields[3].SetActive(true);
+                    else if (Skins.isEnforcerCurrentSkin(body, Skins.EnforcerSkin.ROBIT))
+                        allVRShields[4].SetActive(true);
                     else if (Skins.isEnforcerCurrentSkin(body, Skins.EnforcerSkin.ROBIT))
                         allVRShields[4].SetActive(true);
                     else

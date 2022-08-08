@@ -257,9 +257,12 @@ namespace EnforcerPlugin {
 
             VRInstalled = true;
             Assets.loadVRBundle();
-            VRAPI.MotionControls.AddHandPrefab(Assets.vrDominantHand);
-            VRAPI.MotionControls.AddHandPrefab(Assets.vrNonDominantHand);
+            VRAPI.MotionControls.AddHandPrefab(Assets.vrEnforcerDominantHand);
+            VRAPI.MotionControls.AddHandPrefab(Assets.vrEnforcerNonDominantHand);
+            VRAPI.MotionControls.AddHandPrefab(Assets.vrNemforcerDominantHand);
+            VRAPI.MotionControls.AddHandPrefab(Assets.vrNemforcerNonDominantHand);
             VRAPI.MotionControls.AddSkillBindingOverride("EnforcerBody", SkillSlot.Primary, SkillSlot.Secondary, SkillSlot.Special, SkillSlot.Utility);
+            VRAPI.MotionControls.AddSkillBindingOverride("NemesisEnforcerBody", SkillSlot.Primary, SkillSlot.Utility, SkillSlot.Special, SkillSlot.Secondary);
         }
 
         private void Hook()

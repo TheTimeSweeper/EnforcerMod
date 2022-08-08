@@ -8,8 +8,60 @@ using Modules;
 namespace EnforcerPlugin {
     public static class NemforcerSkins
     {
+
         public static SkinDef dededeBossSkin;
         public static SkinDef ultraSkin;
+
+        public enum NemforcerSkin
+        {
+            NONE = -1,
+            DEFAULT,
+            CLASSIC,
+            TYPHOONSKIN,
+            ENFORCER,
+            DRIP,
+            DEDEDE,
+            DEDEDEBOSS,
+            MINECRAFT
+        }
+
+        public static Dictionary<int, string> SkinIdices = new Dictionary<int, string>();
+
+        public static List<SkinDef> skinDefs = new List<SkinDef>();
+
+        public static bool isNemforcerCurrentSkin(CharacterBody characterbody, string skin)
+        {
+            return characterbody.baseNameToken == "NEMFORCER_NAME" && SkinIdices[(int)characterbody.skinIndex] == skin;
+        }
+
+        public static bool isNemforcerCurrentSkin(CharacterBody characterbody, NemforcerSkin skin)
+        {
+            return isNemforcerCurrentSkin(characterbody, GetFuckingSkinID(skin));
+        }
+
+        public static string GetFuckingSkinID(NemforcerSkin skin)
+        {
+            switch (skin)
+            {
+                default:
+                case NemforcerSkin.DEFAULT:
+                    return "NEMFORCERBODY_DEFAULT_SKIN_NAME";
+                case NemforcerSkin.CLASSIC:
+                    return "NEMFORCERBODY_CLASSIC_SKIN_NAME";
+                case NemforcerSkin.TYPHOONSKIN:
+                    return "NEMFORCERBODY_TYPHOON_SKIN_NAME";
+                case NemforcerSkin.ENFORCER:
+                    return "NEMFORCERBODY_ENFORCER_SKIN_NAME";
+                case NemforcerSkin.DRIP:
+                    return "NEMFORCERBODY_DRIP_SKIN_NAME";
+                case NemforcerSkin.DEDEDE:
+                    return "NEMFORCERBODY_DEDEDE_SKIN_NAME";
+                case NemforcerSkin.DEDEDEBOSS:
+                    return "NEMFORCERBODY_DEDEDE_SKIN_NAME";
+                case NemforcerSkin.MINECRAFT:
+                    return "NEMFORCERBODY_MINECRAFT_SKIN_NAME";
+            }
+        }
 
         public static void RegisterSkins() {
             GameObject bodyPrefab = NemforcerPlugin.characterBodyPrefab;
@@ -311,7 +363,7 @@ namespace EnforcerPlugin {
             SkinDef minecraftSkin = Skins.CreateSkinDef(minecraftSkinDefInfo);
             #endregion
 
-            List<SkinDef> skinDefs = new List<SkinDef>()
+            skinDefs = new List<SkinDef>()
             {
                 defaultSkinDef,
                 classicSkin,
@@ -327,6 +379,11 @@ namespace EnforcerPlugin {
             }
 
             skinController.skins = skinDefs.ToArray();
+
+            for (int i = 0; i < skinDefs.Count; i++)
+            {
+                SkinIdices[i] = skinDefs[i].name;
+            }
         }
     }
 }

@@ -1,7 +1,4 @@
 ﻿using RoR2;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 namespace EnforcerPlugin
@@ -23,9 +20,14 @@ namespace EnforcerPlugin
             return VRAPI.MotionControls.nonDominantHand.GetMuzzleByIndex(1).gameObject;
         }
 
+        public static GameObject GetMinigunMuzzleObject()
+        {
+            return VRAPI.MotionControls.nonDominantHand.GetMuzzleByIndex(1).gameObject;
+        }
+
         public static bool IsLocalVRPlayer(CharacterBody body)
         {
-            return EnforcerPlugin.EnforcerModPlugin.VRInstalled && body == LocalUserManager.GetFirstLocalUser().cachedBody;
+            return EnforcerModPlugin.VRInstalled && body == LocalUserManager.GetFirstLocalUser().cachedBody;
         }
     }
 }

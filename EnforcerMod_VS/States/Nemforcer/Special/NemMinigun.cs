@@ -3,6 +3,7 @@ using UnityEngine;
 using EntityStates.ClayBruiser.Weapon;
 using UnityEngine.Networking;
 using Modules;
+using EnforcerPlugin;
 
 namespace EntityStates.Nemforcer {
     public class NemMinigunFire : NemMinigunState
@@ -46,7 +47,8 @@ namespace EntityStates.Nemforcer {
             this.critEndTime = Run.FixedTimeStamp.negativeInfinity;
             this.lastCritCheck = Run.FixedTimeStamp.negativeInfinity;
 
-            this.playID = Util.PlaySound(Sounds.NemesisMinigunLoop, base.gameObject);
+            var soundGO = VRAPICompat.IsLocalVRPlayer(characterBody) ? VRAPICompat.GetMinigunMuzzleObject() : base.gameObject;
+            this.playID = Util.PlaySound(Sounds.NemesisMinigunLoop, soundGO);
         }
 
         private void UpdateCrits()
@@ -207,7 +209,8 @@ namespace EntityStates.Nemforcer {
         {
             base.OnEnter();
             this.duration = NemMinigunSpinDown.baseDuration / this.attackSpeedStat;
-            Util.PlayAttackSpeedSound(Sounds.NemesisMinigunSpinDown, base.gameObject, this.attackSpeedStat);
+            var soundGO = VRAPICompat.IsLocalVRPlayer(characterBody) ? VRAPICompat.GetMinigunMuzzleObject() : base.gameObject;
+            Util.PlayAttackSpeedSound(Sounds.NemesisMinigunSpinDown, soundGO, this.attackSpeedStat);
 
             spin = animator.GetFloat("Minigun.spinSpeed");
         }
@@ -219,10 +222,21 @@ namespace EntityStates.Nemforcer {
             float spinlerp = Mathf.Lerp(spin, 0, fixedAge / duration);
             animator.SetFloat("Minigun.spinSpeed", spinlerp);
 
+            if (VRAPICompat.IsLocalVRPlayer(base.characterBody))
+                VRAPI.MotionControls.nonDominantHand.animator.SetFloat("SpinSpeed", spinlerp);
+
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
                 this.outer.SetNextStateToMain();
             }
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+
+            if (VRAPICompat.IsLocalVRPlayer(base.characterBody))
+                VRAPI.MotionControls.nonDominantHand.animator.SetBool("MinigunSpin", false);
         }
     }
 
@@ -237,12 +251,13 @@ namespace EntityStates.Nemforcer {
         {
             base.OnEnter();
             this.duration = NemMinigunSpinUp.baseDuration / this.attackSpeedStat;
-            Util.PlayAttackSpeedSound(Sounds.NemesisMinigunSpinUp, base.gameObject, this.attackSpeedStat);
+            var soundGO = VRAPICompat.IsLocalVRPlayer(characterBody) ? VRAPICompat.GetMinigunMuzzleObject() : base.gameObject;
+            Util.PlayAttackSpeedSound(Sounds.NemesisMinigunSpinUp, soundGO, this.attackSpeedStat);
 
             if (this.muzzleTransform && MinigunSpinUp.chargeEffectPrefab)
             {
-                this.chargeInstance = UnityEngine.Object.Instantiate<GameObject>(MinigunSpinUp.chargeEffectPrefab, this.muzzleTransform.position, this.muzzleTransform.rotation);
-                this.chargeInstance.transform.parent = this.muzzleTransform;
+                this.chargeInstance = UnityEngine.Object.Instantiate<GameObject>(MinigunSpinUp.chargeEffectPrefab, this.muzzleTransform.position, this.muzzleTransform.rotation, this.muzzleTransform);
+                chargeInstance.transform.parent = this.muzzleTransform;
                 ScaleParticleSystemDuration component = this.chargeInstance.GetComponent<ScaleParticleSystemDuration>();
                 if (component)
                 {
@@ -252,6 +267,9 @@ namespace EntityStates.Nemforcer {
                 if (this.chargeInstance.transform.Find("Ring, Dark")) Destroy(this.chargeInstance.transform.Find("Ring, Dark").gameObject);
                 if (this.chargeInstance.transform.Find("SmokeBillboard")) Destroy(this.chargeInstance.transform.Find("SmokeBillboard").gameObject);
             }
+
+            if (VRAPICompat.IsLocalVRPlayer(base.characterBody))
+                VRAPI.MotionControls.nonDominantHand.animator.SetBool("MinigunSpin", true);
         }
 
         public override void FixedUpdate()
@@ -260,6 +278,9 @@ namespace EntityStates.Nemforcer {
 
             float spinlerp = Mathf.Lerp(0, 0.5f, base.fixedAge / this.duration);
             this.animator.SetFloat("Minigun.spinSpeed", spinlerp);
+
+            if (VRAPICompat.IsLocalVRPlayer(base.characterBody))
+                VRAPI.MotionControls.nonDominantHand.animator.SetFloat("SpinSpeed", spinlerp);
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {

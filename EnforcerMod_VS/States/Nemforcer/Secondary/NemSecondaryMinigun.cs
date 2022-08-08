@@ -112,8 +112,10 @@ namespace EntityStates.Nemforcer {
                 this.DestroyProjectiles();
                 this.Bonk();
 
+                var soundGO = EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : base.gameObject;
+
                 AkSoundEngine.SetRTPCValue("M2_Charge", 100f);
-                Util.PlaySound(Sounds.NemesisSmash, base.gameObject);
+                Util.PlaySound(Sounds.NemesisSmash, soundGO);
                 //Util.PlaySound("Play_parent_attack1_slam", base.gameObject);
 
                 if (base.isAuthority)

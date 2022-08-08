@@ -21,6 +21,7 @@ namespace Modules {
             GRANDMASTERY,
             ROBIT,
             CLASSIC,
+            RECOLORNEMESIS,
             RECOLORENGI,
             RECOLORENGIBUNG,
             RECOLORSTORM,
@@ -62,6 +63,8 @@ namespace Modules {
                     return "ENFORCERBODY_CLASSIC_SKIN_NAME";
                 case EnforcerSkin.RECOLORENGI:
                     return "ENFORCERBODY_ENGI_SKIN_NAME";
+                case EnforcerSkin.RECOLORNEMESIS:
+                    return "ENFORCERBODY_NEMESIS_SKIN_NAME";
                 case EnforcerSkin.RECOLORENGIBUNG:
                     return "ENFORCERBODY_ENGIBUNGUS_SKIN_NAME";
                 case EnforcerSkin.RECOLORSTORM:
