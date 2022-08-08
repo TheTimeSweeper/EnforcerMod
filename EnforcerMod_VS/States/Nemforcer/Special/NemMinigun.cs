@@ -169,6 +169,9 @@ namespace EntityStates.Nemforcer {
             float rate = Mathf.Lerp(0.5f, 2, rateLerp);
             this.animator.SetFloat("Minigun.spinSpeed", rate);
 
+            if (VRAPICompat.IsLocalVRPlayer(base.characterBody))
+                VRAPI.MotionControls.nonDominantHand.animator.SetFloat("SpinSpeed", rate);
+
             if (base.characterMotor)
             {
                 //animator.speed = 0;

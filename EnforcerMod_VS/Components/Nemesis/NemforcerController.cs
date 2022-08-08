@@ -62,10 +62,10 @@ public class NemforcerController : MonoBehaviour
     private float previousAngle;
     private bool passiveIsPlaying;
 
-    private GameObject VRHammer, VRMinigun, VROffHand;
+    private GameObject VROffHand;
+    private Transform VRMuzzleOriginParent;
     private Vector3 VRMuzzleOriginPos;
     private Quaternion VRMuzzleOriginRot;
-    private MonoBehaviour TwoHandedHammer, TwoHandedMinigun;
 
     private void Start()
     {
@@ -128,29 +128,17 @@ public class NemforcerController : MonoBehaviour
     {
         if (!body.name.Contains("NemesisEnforcerBody") || GetComponent<CharacterBody>() != body) return;
 
-        // Skin not loaded yet, wait a bit
-        StartCoroutine(SetVRWeaponAndShield(body));
+        StartCoroutine(SetVRWeaponAndMinigun(body));
     }
-    private IEnumerator<WaitForSeconds> SetVRWeaponAndShield(CharacterBody body)
+    private IEnumerator<WaitForSeconds> SetVRWeaponAndMinigun(CharacterBody body)
     {
+        // Skin not loaded yet, wait a bit
         yield return new WaitForSeconds(0.5f);
 
         body.aimOriginTransform = VRAPI.MotionControls.dominantHand.muzzle;
 
         ChildLocator vrHammerChildLocator = VRAPI.MotionControls.dominantHand.transform.GetComponentInChildren<ChildLocator>();
         ChildLocator vrMinigunChildLocator = VRAPI.MotionControls.nonDominantHand.transform.GetComponentInChildren<ChildLocator>();
-        var components = VRAPI.MotionControls.dominantHand.transform.GetComponentsInChildren(typeof(MonoBehaviour));
-        foreach (MonoBehaviour component in components)
-        {
-            if (component.GetType().Name.Contains("TwoHandedMainHand") && !TwoHandedHammer)
-                TwoHandedHammer = component;
-        }
-        components = VRAPI.MotionControls.nonDominantHand.transform.GetComponentsInChildren(typeof(MonoBehaviour));
-        foreach (MonoBehaviour component in components)
-        {
-            if (component.GetType().Name.Contains("TwoHandedMainHand") && !TwoHandedMinigun)
-                TwoHandedMinigun = component;
-        }
 
         if (vrHammerChildLocator && vrMinigunChildLocator)
         {
@@ -169,6 +157,7 @@ public class NemforcerController : MonoBehaviour
                 vrMinigunChildLocator.FindChild("MinigunClassicModel").gameObject,
                 vrMinigunChildLocator.FindChild("MinigunGMModel").gameObject,
                 vrMinigunChildLocator.FindChild("MinigunMCModel").gameObject,
+                vrMinigunChildLocator.FindChild("MinigunDededeModel").gameObject,
                 vrMinigunChildLocator.FindChild("MinigunDripModel").gameObject
             };
 
@@ -189,6 +178,7 @@ public class NemforcerController : MonoBehaviour
 
             GameObject bigHammer;
             GameObject throwHammer = allVRHammers[5];
+            GameObject VRHammer, VRMinigun;
             if (NemforcerSkins.isNemforcerCurrentSkin(body, NemforcerSkins.NemforcerSkin.CLASSIC))
             {
                 bigHammer = allVRHammers[1];
@@ -207,12 +197,12 @@ public class NemforcerController : MonoBehaviour
             else if (NemforcerSkins.isNemforcerCurrentSkin(body, NemforcerSkins.NemforcerSkin.DEDEDE))
             {
                 bigHammer = allVRHammers[4];
-                VRMinigun = allVRMiniguns[1];
+                VRMinigun = allVRMiniguns[4];
             }
             else if (NemforcerSkins.isNemforcerCurrentSkin(body, NemforcerSkins.NemforcerSkin.DRIP))
             {
                 bigHammer = allVRHammers[0];
-                VRMinigun = allVRMiniguns[4];
+                VRMinigun = allVRMiniguns[5];
             }
             else if (NemforcerSkins.isNemforcerCurrentSkin(body, NemforcerSkins.NemforcerSkin.ENFORCER))
             {
@@ -238,12 +228,13 @@ public class NemforcerController : MonoBehaviour
             {
                 VRHammer = throwHammer;
                 // disable two-handed for throw hammer
-                TwoHandedHammer.GetType().GetField("snapAngle", BindingFlags.Instance|BindingFlags.Public).SetValue(TwoHandedHammer, 0);
+                VRAPI.MotionControls.dominantHand.animator.SetBool("OneHandedHammer", true);
             }
 
             VRHammer.SetActive(true);
             VRMinigun.SetActive(true);
 
+            // setting up hammer charging VFX
             hammerBurst.transform.parent = VRHammer.transform.Find("HammerBurst");
             hammerBurst.transform.localPosition = Vector3.zero;
             hammerBurst.transform.localRotation = Quaternion.identity;
@@ -254,6 +245,8 @@ public class NemforcerController : MonoBehaviour
             hammerChargeLarge.transform.localPosition = Vector3.zero;
             hammerChargeLarge.transform.localRotation = Quaternion.identity;
 
+            // gotta place the muzzle from dominant hand to non-dominant hand, reserve the origin data for later restore
+            VRMuzzleOriginParent = VRAPI.MotionControls.dominantHand.muzzle.parent;
             VRMuzzleOriginPos = VRAPI.MotionControls.dominantHand.muzzle.localPosition;
             VRMuzzleOriginRot = VRAPI.MotionControls.dominantHand.muzzle.localRotation;
             VROffHand = vrMinigunChildLocator.FindChild("HandModel").gameObject;
@@ -267,9 +260,7 @@ public class NemforcerController : MonoBehaviour
     {
         if (VRAPICompat.IsLocalVRPlayer(charBody) && self.characterBody.name.Contains("NemesisEnforcerBody"))
         {
-            if (self is EntityStates.Nemforcer.AimNemGas)
-                return VRAPI.MotionControls.nonDominantHand.aimRay;
-            else if (self is EntityStates.Enforcer.StunGrenade)
+            if (self is EntityStates.Nemforcer.AimNemGas || self is EntityStates.Enforcer.StunGrenade)
                 return VRAPI.MotionControls.nonDominantHand.aimRay;
         }
         return orig(self);
@@ -277,16 +268,8 @@ public class NemforcerController : MonoBehaviour
 
     private void VRMinigunToggle(bool minigun)
     {
-        if (!(VRHammer && VRMinigun && TwoHandedMinigun && TwoHandedHammer))
-            return;
         if (minigun)
         {
-            TwoHandedMinigun.enabled = true;
-            TwoHandedHammer.enabled = false;
-            if (VRHammer.transform.parent.gameObject.activeSelf)
-                VRHammer.transform.parent.gameObject.SetActive(false);
-            if (!VRMinigun.transform.parent.gameObject.activeSelf)
-                VRMinigun.transform.parent.gameObject.SetActive(true);
             VRAPI.MotionControls.dominantHand.muzzle.SetParent(VRAPICompat.GetMinigunMuzzleObject().transform.parent);
             VRAPI.MotionControls.dominantHand.muzzle.localPosition = VRAPICompat.GetMinigunMuzzleObject().transform.localPosition;
             VRAPI.MotionControls.dominantHand.muzzle.localRotation = VRAPICompat.GetMinigunMuzzleObject().transform.localRotation;
@@ -294,13 +277,7 @@ public class NemforcerController : MonoBehaviour
         } 
         else
         {
-            TwoHandedMinigun.enabled = false;
-            TwoHandedHammer.enabled = true;
-            if (!VRHammer.transform.parent.gameObject.activeSelf)
-                VRHammer.transform.parent.gameObject.SetActive(true);
-            if (VRMinigun.transform.parent.gameObject.activeSelf)
-                VRMinigun.transform.parent.gameObject.SetActive(false);
-            VRAPI.MotionControls.dominantHand.muzzle.SetParent(VRHammer.transform.parent);
+            VRAPI.MotionControls.dominantHand.muzzle.SetParent(VRMuzzleOriginParent);
             VRAPI.MotionControls.dominantHand.muzzle.localPosition = VRMuzzleOriginPos;
             VRAPI.MotionControls.dominantHand.muzzle.localRotation = VRMuzzleOriginRot;
             VROffHand.SetActive(GetWeapon()==1); // Only show off hand when equiping throw hammer
