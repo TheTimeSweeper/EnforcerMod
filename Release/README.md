@@ -1,7 +1,7 @@
 # Enforcer
 - Adds the Enforcer from Risk of Rain 1
 - Includes a bunch of unlockable alternate skills and skins
-- Includes support for Ancient Scepter ~~and most modded items~~
+- Includes support for Ancient Scepter and a few other mods
 
 [![](https://i.imgur.com/mQNrhfH.png)]()
 
@@ -43,7 +43,7 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 may be lil out of date
 
 | Skill | | Description | Stats |
-|:-||--------|-|
+|:-|-|-------|-|
 | Riot Shotgun | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/RiotShotgunIcon.png) | Fire a short range `piercing` blast for `8x45%` damage. | Proc: `0.5` |
 | Shield Bash | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/ShieldBashIcon.png) | `Bash` nearby enemies away for `250%` damage. Use while sprinting to perform a `Shoulder Bash` for `450%` damage instead. `Deflects Projectiles`. | Proc: `1.0`, CD: `6 sec` |
 | Shoulder Bash |  | Short charge that stuns. Hitting heavier enemies deals up to `700%` damage. | Proc: `1.0` |

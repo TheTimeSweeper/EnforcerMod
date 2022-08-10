@@ -592,6 +592,98 @@
 														<ActiveSource Name="Blaster Shotgun" ID="{70D98950-2BBF-4ED1-8861-80231755E1F5}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
+												<Sound Name="Blaster Rifle" ID="{F4E921B1-05E9-46E9-A312-91A61BC942F2}" ShortID="748921169">
+													<PropertyList>
+														<Property Name="3DSpatialization" Type="int16" Value="1"/>
+														<Property Name="MaxSoundPerInstance" Type="int16">
+															<ValueList>
+																<Value>3</Value>
+															</ValueList>
+														</Property>
+														<Property Name="OverridePositioning" Type="bool" Value="True"/>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{CFDA0853-4510-4D52-A445-6E37A4F110F6}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Max" Type="Real64" Value="100"/>
+																			<Property Name="Min" Type="Real64" Value="-100"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="UseMaxSoundPerInstance" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-2</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Attenuation">
+															<ObjectRef Name="Shotgun" ID="{7297D247-2F3C-4FCB-A08E-EF65110DE74A}" WorkUnitID="{11DB3BA3-FF78-4AEA-AB23-759A4DFBC217}"/>
+														</Reference>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{71621DCA-C33E-4EB6-A641-CA59DB723722}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="Blaster Rifle" ID="{002A1287-904E-463F-A940-609CEDFE0CCA}">
+															<Language>SFX</Language>
+															<AudioFile>Blaster Rifle.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="817438832"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Blaster Rifle" ID="{002A1287-904E-463F-A940-609CEDFE0CCA}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="Blaster Shotgun SSG" ID="{AC94F5FA-490D-4F8A-863B-2B1ADE87BFE5}" ShortID="766548641">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-6</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{71621DCA-C33E-4EB6-A641-CA59DB723722}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="Blaster Shotgun SSG" ID="{56F2515A-F8BB-454C-B14D-21BAEA6FA6C0}">
+															<PropertyList>
+																<Property Name="LoopBegin" Type="Real64" Value="-0.001"/>
+																<Property Name="LoopEnd" Type="Real64" Value="-0.001"/>
+																<Property Name="TrimBegin" Type="Real64" Value="-0.001"/>
+																<Property Name="TrimEnd" Type="Real64" Value="-0.001"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>Blaster Shotgun SSG.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="457919970"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Blaster Shotgun SSG" ID="{56F2515A-F8BB-454C-B14D-21BAEA6FA6C0}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
 											</ChildrenList>
 										</Folder>
 										<Sound Name="Bungus Riot" ID="{887FE0E0-8438-475E-BD89-2EABC5975813}" ShortID="521908955">
@@ -798,6 +890,19 @@
 															<AudioFile>Doom 2 Super Shotgun.wav</AudioFile>
 															<MediaIDList>
 																<MediaID ID="212233180"/>
+															</MediaIDList>
+														</AudioFileSource>
+														<AudioFileSource Name="Blaster Shotgun SSG" ID="{4852A3E7-ED32-4AEC-9598-D2E851F76C32}">
+															<PropertyList>
+																<Property Name="LoopBegin" Type="Real64" Value="-0.001"/>
+																<Property Name="LoopEnd" Type="Real64" Value="-0.001"/>
+																<Property Name="TrimBegin" Type="Real64" Value="-0.001"/>
+																<Property Name="TrimEnd" Type="Real64" Value="-0.001"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>Blaster Shotgun SSG.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="457919970"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -2093,63 +2198,6 @@
 												<ItemRef Name="Shots 3" ID="{53B54DD9-CFC4-43A2-BB61-40ECE0E5DAAA}"/>
 											</Playlist>
 										</RandomSequenceContainer>
-										<Sound Name="Blaster Rifle" ID="{F4E921B1-05E9-46E9-A312-91A61BC942F2}" ShortID="748921169">
-											<PropertyList>
-												<Property Name="3DSpatialization" Type="int16" Value="1"/>
-												<Property Name="MaxSoundPerInstance" Type="int16">
-													<ValueList>
-														<Value>3</Value>
-													</ValueList>
-												</Property>
-												<Property Name="OverridePositioning" Type="bool" Value="True"/>
-												<Property Name="Pitch" Type="int32">
-													<ModifierList>
-														<ModifierInfo>
-															<Modifier Name="" ID="{CFDA0853-4510-4D52-A445-6E37A4F110F6}">
-																<PropertyList>
-																	<Property Name="Enabled" Type="bool" Value="True"/>
-																	<Property Name="Max" Type="Real64" Value="100"/>
-																	<Property Name="Min" Type="Real64" Value="-100"/>
-																</PropertyList>
-															</Modifier>
-														</ModifierInfo>
-													</ModifierList>
-												</Property>
-												<Property Name="UseMaxSoundPerInstance" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-2</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Attenuation">
-													<ObjectRef Name="Shotgun" ID="{7297D247-2F3C-4FCB-A08E-EF65110DE74A}" WorkUnitID="{11DB3BA3-FF78-4AEA-AB23-759A4DFBC217}"/>
-												</Reference>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{71621DCA-C33E-4EB6-A641-CA59DB723722}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="Blaster Rifle" ID="{002A1287-904E-463F-A940-609CEDFE0CCA}">
-													<Language>SFX</Language>
-													<AudioFile>Blaster Rifle.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="817438832"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="Blaster Rifle" ID="{002A1287-904E-463F-A940-609CEDFE0CCA}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 										<Sound Name="Bungus AR" ID="{B4421164-C5FC-493C-8D06-5D3B793B2F7C}" ShortID="384130218">
 											<PropertyList>
 												<Property Name="IgnoreParentMaxSoundInstance" Type="bool" Value="True"/>

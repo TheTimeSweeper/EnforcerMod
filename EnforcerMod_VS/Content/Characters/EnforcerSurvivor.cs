@@ -411,10 +411,10 @@ namespace Modules.Characters {
             tearGasScepterDef.keywordTokens = new string[] {
                 "KEYWORD_BLINDED"
             };
-
+            
             Modules.Content.AddSkillDef(tearGasScepterDef);
             Modules.Content.AddEntityState(typeof(AimDamageGas));
-
+            
             SkillDef shockGrenadeDef = EnforcerSkillDefs.UtilitySkillDef_StunGrenade();
             shockGrenadeDef.activationState = new SerializableEntityStateType(typeof(ShockGrenade));
             shockGrenadeDef.icon = Assets.icon31StunGrenadeScepter;

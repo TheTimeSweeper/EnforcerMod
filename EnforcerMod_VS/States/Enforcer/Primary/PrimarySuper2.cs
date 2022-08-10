@@ -48,10 +48,16 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         private string muzzleString;
         private bool shieldLocked;
 
+        private bool isStormtrooper;
+
         public override void OnEnter() {
 
             base.OnEnter();
             enforcerComponent = GetComponent<EnforcerComponent>();
+
+            if (Skins.isEnforcerCurrentSkin(base.characterBody, "ENFORCERBODY_STORM_SKIN_NAME")) {
+                isStormtrooper = true;
+            }
 
             shieldLocked = false;
             _finishedReload = false;
@@ -81,6 +87,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             }
 
             FireBullet();
+
         }
 
         public override void FixedUpdate() {
@@ -175,11 +182,11 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         public void FireBullet() {
             muzzleString = "Muzzle";
 
-            string soundString = "";
-
             bool isCrit = RollCrit();
 
-            soundString = !isCrit ? _isShielded ? Sounds.FireSuperShotgun : Sounds.FireSuperShotgunSingle : _isShielded ? Sounds.FireSuperShotgunCrit : Sounds.FireSuperShotgunSingleCrit;
+            string soundString = !isCrit ? _isShielded ? Sounds.FireSuperShotgun : Sounds.FireSuperShotgunSingle : _isShielded ? Sounds.FireSuperShotgunCrit : Sounds.FireSuperShotgunSingleCrit;
+
+            if (isStormtrooper) soundString = _isShielded ? Sounds.FireBlasterSSG : Sounds.FireBlasterShotgun;
 
             Util.PlayAttackSpeedSound(soundString, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject, attackSpeedStat);
 
@@ -194,8 +201,8 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
                 GameObject tracerEffect = EnforcerModPlugin.bulletTracerSSG;
 
-                //if (this.isStormtrooper) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
-                //if (this.isEngi) tracerEffect = EnforcerPlugin.EnforcerPlugin.bungusTracer;
+                if (this.isStormtrooper) tracerEffect = EnforcerPlugin.EnforcerModPlugin.laserTracer;
+                //if (this.isEngi) tracerEffect = EnforcerPlugin.EnforcerModPlugin.bungusTracer;
 
                 Ray aimRay = GetAimRay();
 

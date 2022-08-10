@@ -226,27 +226,27 @@ namespace Modules {
 
             #region riot
             shotgunDamage
-                = plugin.Config.Bind("04 - Riot Shotgun 3.1.0",
+                = plugin.Config.Bind("04 - Riot Shotgun 3.4.0",
                                      "Damage Coefficient",
-                                     0.45f,
+                                     0.6f,
                                      "Damage of each pellet");
             shotgunProcCoefficient
-                = plugin.Config.Bind("04 - Riot Shotgun 3.1.0",
+                = plugin.Config.Bind("04 - Riot Shotgun 3.4.0",
                                      "Proc Coefficient",
                                      0.5f,
                                      "Proc Coefficient of each pellet");
             shotgunBulletCount
-                = plugin.Config.Bind("04 - Riot Shotgun 3.1.0",
+                = plugin.Config.Bind("04 - Riot Shotgun 3.4.0",
                                      "Bullet Count",
-                                     8,
+                                     6,
                                      "Amount of pellets fired");
             shotgunRange
-                = plugin.Config.Bind("04 - Riot Shotgun 3.1.0",
+                = plugin.Config.Bind("04 - Riot Shotgun 3.4.0",
                                      "Range",
                                      64f,
                                      "Maximum range");
             shotgunSpread
-                = plugin.Config.Bind("04 - Riot Shotgun 3.1.0",
+                = plugin.Config.Bind("04 - Riot Shotgun 3.4.0",
                                      "Spread",
                                      5.5f,
                                      "Maximum spread");
@@ -305,11 +305,11 @@ namespace Modules {
                 = plugin.Config.Bind("07 - Shield Bash",
                                      "Uncapped Knockback",
                                      false,
-                                     "Shield bash has no penalty against bosses.");
+                                     "If true, Shield bash has no penalty against bosses.");
             stupidShieldBash
                 = plugin.Config.Bind("07 - Shield Bash",
                                      "Allies Knockback",
-                                     false,
+                                     true,
                                      "Applies knockback to allies.");
             #endregion shield bash
 

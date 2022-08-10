@@ -147,13 +147,13 @@ namespace Modules.Characters {
 
             return mySkillDef;
         }
-
+        
         public static SkillDef UtilitySkillDef_TearGas() {
             SkillDef tearGasDef = ScriptableObject.CreateInstance<SkillDef>();
             tearGasDef.activationState = new SerializableEntityStateType(typeof(AimTearGas));
             tearGasDef.activationStateMachineName = "Weapon";
             tearGasDef.baseMaxStock = 1;
-            tearGasDef.baseRechargeInterval = 21f;
+            tearGasDef.baseRechargeInterval = 16f;
             tearGasDef.beginSkillCooldownOnSkillEnd = true;
             tearGasDef.canceledFromSprinting = false;
             tearGasDef.fullRestockOnAssign = true;

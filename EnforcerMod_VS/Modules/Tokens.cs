@@ -108,8 +108,7 @@ namespace Modules {
 
             //string desc = $"<style=cIsDamage>Bash</style> nearby enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style>. <style=cIsUtility>Deflects projectiles</style>. Use while <style=cIsUtility>sprinting</style> to perform a <style=cIsDamage>Shoulder Bash</style> for <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}-{100f * ShoulderBash.knockbackDamageCoefficient}% damage</style> instead.";
             string shieldBashDesc = $"<style=cIsDamage>Stunning</style>. Knock back enemies for <style=cIsDamage>{100f * ShieldBash.damageCoefficient}% damage</style> and <style=cIsUtility>deflect projectiles</style>.";
-            desc += $"\nWhile <style=cIsUtility>sprinting</style>, perform a <style=cIsDamage>Shoulder Bash</style> instead.";
-            //desc += $" Deals <style=cIsDamage>{100f * ShoulderBash.chargeDamageCoefficient}% damage</style> while sprinting.";
+            shieldBashDesc += $"\nWhile <style=cIsUtility>sprinting</style>, perform a <style=cIsDamage>Shoulder Bash</style> instead.";
 
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_NAME", "Shield Bash");
             LanguageAPI.Add("ENFORCER_SECONDARY_BASH_DESCRIPTION", shieldBashDesc);
@@ -174,7 +173,7 @@ namespace Modules {
             LanguageAPI.Add("ENFORCERBODY_ENGI_SKIN_NAME", "Engineer?");
             LanguageAPI.Add("ENFORCERBODY_DOOM_SKIN_NAME", "Doom Slayer");
             LanguageAPI.Add("ENFORCERBODY_DESPERADO_SKIN_NAME", "Desperado");
-            LanguageAPI.Add("ENFORCERBODY_FEM_SKIN_NAME", "Femforcer");
+            LanguageAPI.Add("ENFORCERBODY_FEMFORCER_SKIN_NAME", "Rushed");
             LanguageAPI.Add("ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME", "Blocked");
             #endregion Skins
 

@@ -29,7 +29,7 @@ namespace EnforcerPlugin.Achievements
 
         public class DoomAchievementServer : RoR2.Achievements.BaseServerAchievement {
 
-            protected virtual int impRequirement => 40;
+            protected virtual int impRequirement => 20;
             protected virtual BodyIndex impBodyIndex => BodyCatalog.FindBodyIndex("ImpBody");
 
             private int _impProgress = 0;

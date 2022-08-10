@@ -520,14 +520,14 @@ namespace Modules {
                 stormSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
                 stormSkinDefInfo.GameObjectActivations = getGameObjectActivations(sexforcerGlass);
-
+                
                 stormSkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
                     null,
                     null,
                     null,//board
                     "meshRecolorStormGun",
-                    null,//"meshClassicGunSuper",
-                    null,//"meshClassicGunHMG",
+                    "meshRecolorStormGun",
+                    "meshRecolorStormGun",
                     null,//"meshEnforcerHammer",
                     null,
                     "meshRecolorStorm"
@@ -541,8 +541,8 @@ namespace Modules {
                 //stormSkinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matSexforcerShieldGlass", 0f, Color.black, 0);
                 //stormSkinDefInfo.RendererInfos[2].defaultMaterial = Materials.CreateHotpooMaterial("matSexforcerBoard");
                 stormSkinDefInfo.RendererInfos[3].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorStormGun");
-                //stormSkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.white, 0f);
-                //stormSkinDefInfo.RendererInfos[5].defaultMaterial = Assets.CreateMaterial("matClassicGunHMG", 0f, Color.white, 0f);
+                stormSkinDefInfo.RendererInfos[4].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorStormGun");
+                stormSkinDefInfo.RendererInfos[5].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorStormGun");
                 //stormSkinDefInfo.RendererInfos[6].defaultMaterial = Materials.CreateHotpooMaterial("matNemforcerClassic");
                 stormSkinDefInfo.RendererInfos[7].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorStorm").MakeUnique();
                 stormSkinDefInfo.RendererInfos[8].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorStorm");
@@ -599,23 +599,23 @@ namespace Modules {
             if(Config.cursed.Value) {
 
                 #region If she don't play the craft
-                SkinDefInfo dontgettheshaftSkinDefInfo = new SkinDefInfo();
-                dontgettheshaftSkinDefInfo.Name = "ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME";
-                dontgettheshaftSkinDefInfo.NameToken = "ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME";
-                dontgettheshaftSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texSbeveAchievement");
-                dontgettheshaftSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerSteveUnlockableDef;
-                dontgettheshaftSkinDefInfo.RootObject = modelTransform;
+                SkinDefInfo minecraftSkinDefInfo = new SkinDefInfo();
+                minecraftSkinDefInfo.Name = "ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME";
+                minecraftSkinDefInfo.NameToken = "ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME";
+                minecraftSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texSbeveAchievement");
+                minecraftSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerSteveUnlockableDef;
+                minecraftSkinDefInfo.RootObject = modelTransform;
 
-                dontgettheshaftSkinDefInfo.BaseSkins = new SkinDef[] { defaultSkinDef };
-                dontgettheshaftSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
-                dontgettheshaftSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+                minecraftSkinDefInfo.BaseSkins = new SkinDef[] { defaultSkinDef };
+                minecraftSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+                minecraftSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-                dontgettheshaftSkinDefInfo.GameObjectActivations = getGameObjectActivations().AddItem(new SkinDef.GameObjectActivation {
+                minecraftSkinDefInfo.GameObjectActivations = getGameObjectActivations().AddItem(new SkinDef.GameObjectActivation {
                     gameObject = childLocator.FindChild("PauldronModel").gameObject,
                     shouldActivate = false
                 }).ToArray();
 
-                dontgettheshaftSkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
+                minecraftSkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
                     "meshFuckingSteve2Shield",
                     null,//"meshSexforcerShieldGlass",
                     null,//"meshSbeveBoard",
@@ -626,20 +626,19 @@ namespace Modules {
                     null,//"meshSbevePauldron",
                     "meshFuckingSteve2"
                     );
-                dontgettheshaftSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+                minecraftSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
 
-                dontgettheshaftSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[defaultSkinDef.rendererInfos.Length];
-                defaultSkinDef.rendererInfos.CopyTo(dontgettheshaftSkinDefInfo.RendererInfos, 0);
+                minecraftSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[defaultSkinDef.rendererInfos.Length];
+                defaultSkinDef.rendererInfos.CopyTo(minecraftSkinDefInfo.RendererInfos, 0);
 
-                dontgettheshaftSkinDefInfo.RendererInfos[0].defaultMaterial = Materials.CreateHotpooMaterial("matFuckingSteve2Shield");
-                dontgettheshaftSkinDefInfo.RendererInfos[8].defaultMaterial = Materials.CreateHotpooMaterial("matFuckingSteve2");
+                minecraftSkinDefInfo.RendererInfos[0].defaultMaterial = Materials.CreateHotpooMaterial("matFuckingSteve2Shield");
+                minecraftSkinDefInfo.RendererInfos[8].defaultMaterial = Materials.CreateHotpooMaterial("matFuckingSteve2");
 
-                SkinDef dontgettheshaftSkin = CreateSkinDef(dontgettheshaftSkinDefInfo);
+                SkinDef minecraftSkin = CreateSkinDef(minecraftSkinDefInfo);
 
                 //wait more model
-                if (Config.cursed.Value)
-                    skinDefs.Add(dontgettheshaftSkin);
-                #endregion
+                skinDefs.Add(minecraftSkin);
+                #endregion she don't get the shaft
 
                 #region fucking frog
                 #endregion
