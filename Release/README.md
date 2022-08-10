@@ -3,10 +3,10 @@
 - Includes a bunch of unlockable alternate skills and skins
 - Includes support for Ancient Scepter and a few other mods
 
-[![](https://i.imgur.com/mQNrhfH.png)]()
+[![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/Release/readme/screen0.png)]()
 
-[![](https://cdn.discordapp.com/attachments/739704939671978024/787500376793677844/screen1.png)]()
-[![](https://cdn.discordapp.com/attachments/739704939671978024/787500388198514728/screen2.png)]()
+[![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/Release/readme/screen1.png)]()
+[![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/Release/readme/screen2.png)]()
 
 [![](https://cdn.discordapp.com/attachments/739696016755785859/828394816986808360/EnfuckerIcon.png)]()
 
@@ -67,13 +67,51 @@ may be lil out of date
 ## Future Plans
 - More alternate skill(s)
 - Skills++ support
-- vr?
+- vr.
 - Other things 100% decided on pure whimsy
 - Readding everything
 - Fixing this fucker
 - Help
 
 ## Changelog
+
+`3.4.0`
+- Riot Shotgun
+    - bullet count reduced 8->6
+    - bullet damage increased 45%-60%
+
+  *math on total damage remains the same, but procs were way too crazy and have been brought in line a bit*
+    
+- Tear Gas
+    - Increased stun radius from 6m -> 8m
+    - Reduced uptime from 18s -> 12s
+    - Reduced cooldown from 24s -> 16s
+    - Now changes damage number color to orange to better communicate the armor reduction.
+    - Reduced bounce time after impact
+
+  *having a 20+ second cooldown on the move before you could reposition it was making it way too inflexible. basically only seeing use in the teleporter. new values make it more active and flexible to use, as well as some polish*
+
+- Shield Bash
+    - Reduced knockback 20%.
+    - logic improved, beetle queens and gups can be pushed now
+    - Now has a minimum vertical knockback amount, so aiming downwards will still knock enemies back.
+    - Balanced Knockback
+        - Enabled balanced knockback by default.
+        - Changed how balanced knockback works.
+            - Old Behavior: Caps mass scaling at 500.
+            - New Behavior: Simply applies a 0.7x force multiplier against Champion enemies. 
+    
+  *should feel a lot more consistent and fair*
+
+- Super Shotgun
+    - Increased fire rate from 0.85s/shot -> 0.3125s/shot
+    - Reduced shield lock time from 0.6s -> 0.3125s
+    - Removed fire rate config option due to code jank.
+    
+ - Removed HP regen on Nemforcer Boss
+ - added inferno compat for grandmastery skins
+ - readded minecraft skin under cursed config
+ - added redone femforcer skin under femforcer config (*thanks anon*)
 
 `3.3.9`
  - moved unlockable code to r2api, fixing achievement issue with recent update
