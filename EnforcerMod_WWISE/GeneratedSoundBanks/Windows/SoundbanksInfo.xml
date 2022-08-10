@@ -34,7 +34,7 @@
 				<GameParameter Id="3673881719" Name="Volume_SFX" ObjectPath="\Game Parameters\Default Work Unit\Volume_SFX"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="3045143027" Language="SFX" Hash="1734315767">
+		<SoundBank Id="3045143027" Language="SFX" Hash="3559303438">
 			<ObjectPath>\SoundBanks\Default Work Unit\EnforcerBank</ObjectPath>
 			<ShortName>EnforcerBank</ShortName>
 			<Path>EnforcerBank.bnk</Path>
@@ -116,6 +116,14 @@
 						<File Id="103969424" Language="SFX">
 							<ShortName>Blaster Shotgun.wav</ShortName>
 							<Path>SFX\Blaster Shotgun_752A8D69.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3552352096" Name="Blaster_SSG" ObjectPath="\Events\Default Work Unit\Enforcer\Shotgun\Blaster_SSG">
+					<IncludedMemoryFiles>
+						<File Id="457919970" Language="SFX">
+							<ShortName>Blaster Shotgun SSG.wav</ShortName>
+							<Path>SFX\Blaster Shotgun SSG_D8C07C79.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>

@@ -25,12 +25,18 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         private float firingStopwatch = 0;
         private bool hasFired = false;
 
+        private bool isStormtrooper;
+
         public override void OnEnter() {
             base.OnEnter();
 
             isShielded = HasBuff(Buffs.protectAndServeBuff) || HasBuff(Buffs.energyShieldBuff);
 
             duration = baseDuration / characterBody.attackSpeed * (isShielded ? 0.8f : 1f);
+
+            if (Skins.isEnforcerCurrentSkin(base.characterBody, "ENFORCERBODY_STORM_SKIN_NAME")) {
+                isStormtrooper = true;
+            }
 
             if (NetworkServer.active) {
                 if (isShielded && characterBody) {                                  //this ugly?
@@ -56,11 +62,12 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", Mathf.Max(0.05f, 2f * duration));
             }
 
-            if (crit) {
-                Util.PlaySound(Sounds.HMGCrit, gameObject);
-            } else {
-                Util.PlaySound(Sounds.HMGShoot, gameObject);
-            }
+            string soundstring = crit ? Sounds.HMGCrit : Sounds.HMGShoot;
+
+            if (isStormtrooper)
+                soundstring = Sounds.FireBlasterRifle;
+
+            Util.PlaySound(soundstring, gameObject);
 
             EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, gameObject, muzzleName, false);
 
@@ -73,6 +80,9 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                     characterBody.SetSpreadBloom(maxSpread, false);
                     characterBody.spreadBloomInternal = maxSpread;
                 }
+
+                GameObject tracer = Commando.CommandoWeapon.FireBarrage.tracerEffectPrefab;
+                if (isStormtrooper) tracer = EnforcerPlugin.EnforcerModPlugin.laserTracer;
 
                 new BulletAttack {
                     bulletCount = bullets,
@@ -97,7 +107,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                     sniper = false,
                     stopperMask = LayerIndex.CommonMasks.bullet,
                     weapon = null,
-                    tracerEffectPrefab = Commando.CommandoWeapon.FireBarrage.tracerEffectPrefab,
+                    tracerEffectPrefab = tracer,
                     spreadPitchScale = 1f,
                     spreadYawScale = 1f,
                     queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,

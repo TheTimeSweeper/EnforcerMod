@@ -7,8 +7,8 @@
 					<PropertyList>
 						<Property Name="EnvelopeAttackTime" Type="Real64" Value="0"/>
 						<Property Name="EnvelopeAutoRelease" Type="bool" Value="True"/>
-						<Property Name="EnvelopeDecayTime" Type="Real64" Value="12"/>
-						<Property Name="EnvelopeReleaseTime" Type="Real64" Value="4"/>
+						<Property Name="EnvelopeDecayTime" Type="Real64" Value="9"/>
+						<Property Name="EnvelopeReleaseTime" Type="Real64" Value="3"/>
 					</PropertyList>
 				</ModulatorEnvelope>
 			</ChildrenList>

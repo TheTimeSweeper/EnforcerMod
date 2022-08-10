@@ -38,6 +38,8 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
         protected EnforcerComponent enforcerComponent;
 
+        private bool isStormtrooper;
+
         public override void OnEnter() {
             base.OnEnter();
             characterBody.SetAimTimer(5f);
@@ -46,16 +48,13 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             muzzleString = "Muzzle";
             hasFired = false;
 
-            /*this.isStormtrooper = false;
-            this.isEngi = false;
-            if (base.characterBody.skinIndex == Config.stormtrooperIndex && Config.cursed.Value)
-            {
-                this.isStormtrooper = true;
+            if (Skins.isEnforcerCurrentSkin(base.characterBody, "ENFORCERBODY_STORM_SKIN_NAME")) {
+                isStormtrooper = true;
             }
-            if (base.characterBody.skinIndex == EnforcerModPlugin.engiIndex && Config.cursed.Value)
-            {
-                this.isEngi = true;
-            }*/
+            //if (base.characterBody.skinIndex == EnforcerModPlugin.engiIndex && Config.cursed.Value)
+            //{
+            //    this.isEngi = true;
+            //}
 
             if (HasBuff(Buffs.protectAndServeBuff) || HasBuff(Buffs.energyShieldBuff)) {
                 duration = baseShieldDuration / attackSpeedStat;
@@ -84,8 +83,8 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
                 if (Config.classicShotgun.Value) soundString = Sounds.FireClassicShotgun;
 
-                //if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterShotgun;
-                //if (this.isEngi) soundString = EnforcerPlugin.Sounds.FireBungusShotgun;
+                if (isStormtrooper) soundString = Sounds.FireBlasterShotgun;
+                //if (this.isEngi) soundString = Sounds.FireBungusShotgun;
 
                 Util.PlayAttackSpeedSound(soundString, gameObject, attackSpeedStat);
 
@@ -110,7 +109,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
                         thiccenTracer(ref tracerEffect);
                     }
-                    //if (this.isStormtrooper) tracerEffect = EnforcerModPlugin.laserTracer;
+                    if (this.isStormtrooper) tracerEffect = EnforcerModPlugin.laserTracer;
                     //if (this.isEngi) tracerEffect = EnforcerModPlugin.bungusTracer;
 
                     Ray aimRay = GetAimRay();

@@ -422,6 +422,7 @@ namespace Modules {
         public static readonly string FireAssaultRifleFast = "Assault_Shots_2";
 
         public static readonly string FireBlasterShotgun = "Blaster_Shotgun";
+        public static readonly string FireBlasterSSG = "Blaster_SSG";
         public static readonly string FireBlasterRifle = "Blaster_Rifle";
 
         public static readonly string FireBungusShotgun = "Bungus_Riot";

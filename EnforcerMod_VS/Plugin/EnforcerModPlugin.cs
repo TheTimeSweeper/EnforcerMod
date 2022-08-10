@@ -56,7 +56,7 @@ namespace EnforcerPlugin {
         
         public static EnforcerModPlugin instance;
 
-        public static bool holdonasec = false;
+        public static bool holdonasec = true;
 
         //i didn't want this to be static considering we're using an instance now but it throws 23 errors if i remove the static modifier 
         //i'm not dealing with that
@@ -66,8 +66,6 @@ namespace EnforcerPlugin {
         public static GameObject needlerCrosshair;
 
         public static GameObject nemesisSpawnEffect;
-
-        public static bool infernoPluginLoaded = false;
 
         public static GameObject bulletTracer;
         public static GameObject bulletTracerSSG;
@@ -91,6 +89,7 @@ namespace EnforcerPlugin {
         public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
         public static bool cum; //don't ask
+
         public static bool ScepterInstalled = false;
         public static bool aetheriumInstalled = false;
         public static bool sivsItemsInstalled = false;
@@ -100,6 +99,7 @@ namespace EnforcerPlugin {
         public static bool IDPHelperInstalled = false;
         public static bool VRInstalled = false;
         public static bool RiskyArtifactsInstalled = false;
+        public static bool infernoPluginLoaded = false;
 
         public static DamageAPI.ModdedDamageType barrierDamageType;
 
@@ -126,12 +126,9 @@ namespace EnforcerPlugin {
         //}
 
         void Awake() {
-            infernoPluginLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("HIFU.Inferno");
             Modules.Config.ConfigShit(this);
 
             Assets.Initialize();
-
-            EnforcerUnlockables.RegisterUnlockables();
 
             Tokens.RegisterTokens();
         }
@@ -140,6 +137,8 @@ namespace EnforcerPlugin {
             Logger.LogInfo("[Initializing Enforcer]");
 
             SetupModCompat();
+
+            EnforcerUnlockables.RegisterUnlockables();
 
             new EnforcerSurvivor().Initialize();
 
@@ -211,6 +210,8 @@ namespace EnforcerPlugin {
             {
                 BetterUICompat.init();
             }
+
+            infernoPluginLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("HIFU.Inferno");
 
             FixItemDisplays();
         }
@@ -554,9 +555,8 @@ namespace EnforcerPlugin {
         {
             if (sender.HasBuff(Modules.Buffs.protectAndServeBuff))
             {
-                //args.armorAdd += 10f;
+                args.armorAdd += 10f;
                 args.moveSpeedReductionMultAdd += 1.8f;//self.moveSpeed *= 0.35
-                sender.maxJumpCount = 0;
             }
 
             if (sender.HasBuff(Modules.Buffs.minigunBuff))
@@ -567,22 +567,20 @@ namespace EnforcerPlugin {
 
             if (sender.HasBuff(Modules.Buffs.energyShieldBuff))
             {
-                sender.maxJumpCount = 0;
                 args.armorAdd += 40f;
                 args.moveSpeedReductionMultAdd += 0.5f; //self.moveSpeed *= 0.65f;
             }
 
             if (sender.HasBuff(Modules.Buffs.impairedBuff))
             {
-                sender.maxJumpCount = 0;
-                args.armorAdd -= 30f;
+                args.armorAdd -= 20f;
                 args.moveSpeedReductionMultAdd += 3f; //self.moveSpeed *= 0.25f;
                 sender.attackSpeed *= 0.75f;    //TODO: Convert to attackSpeedReductionMultAdd if that gets added to R2API.
             }
 
             if (sender.HasBuff(Modules.Buffs.nemImpairedBuff))
             {
-                sender.maxJumpCount = 0;
+                //sender.maxJumpCount = 0; //doesn't work with recalcapi
                 args.moveSpeedReductionMultAdd += 3f; //self.moveSpeed *= 0.25f;
                 if (!sender.characterMotor.isGrounded)
                 {
@@ -632,8 +630,22 @@ namespace EnforcerPlugin {
         {
             orig(self);
 
-            if (self)
+            if (self) 
             {
+                //doesn't work in recalculatestatsapi for some reason
+                if (self.HasBuff(Modules.Buffs.protectAndServeBuff)) {
+                    self.maxJumpCount = 0;
+                }
+                if (self.HasBuff(Modules.Buffs.energyShieldBuff)) {
+                    self.maxJumpCount = 0;
+                }
+                if (self.HasBuff(Modules.Buffs.impairedBuff)) {
+                    self.maxJumpCount = 0;
+                }
+                if (self.HasBuff(Modules.Buffs.nemImpairedBuff)) {
+                    self.maxJumpCount = 0;
+                }
+
                 if (self.HasBuff(Modules.Buffs.skateboardBuff)) {
                     self.characterMotor.airControl = 0.1f;
                 }
@@ -695,6 +707,11 @@ namespace EnforcerPlugin {
 
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
+            //Tear Gas damage numbers
+            if (info.damageColorIndex == DamageColorIndex.Default && self.body.HasBuff(Buffs.impairedBuff)) {
+                info.damageColorIndex = DamageColorIndex.WeakPoint;
+            }
+
             bool blocked = false;
 
             if(DamageAPI.HasModdedDamageType(info,barrierDamageType) && self.body.baseNameToken == "ENFORCER_NAME") { 
@@ -1046,17 +1063,7 @@ namespace EnforcerPlugin {
             BuffWard buffWard = tearGasPrefab.AddComponent<BuffWard>();
 
             filter.teamIndex = TeamIndex.Player;
-
-            //Tear Gas damage numbers
-            On.RoR2.HealthComponent.TakeDamage += (orig, self, di) =>
-            {
-                if (di.damageColorIndex == DamageColorIndex.Default && self.body.HasBuff(Buffs.impairedBuff))
-                {
-                    di.damageColorIndex = DamageColorIndex.WeakPoint;
-                }
-                orig(self, di);
-            };
-
+            
             GameObject grenadeModel = Assets.tearGasGrenadeModel.InstantiateClone("TearGasGhost", true);
             grenadeModel.AddComponent<NetworkIdentity>();
             grenadeModel.AddComponent<ProjectileGhostController>();
@@ -1071,8 +1078,8 @@ namespace EnforcerPlugin {
             grenadeImpact.destroyOnWorld = false;
             grenadeImpact.timerAfterImpact = true;
             grenadeImpact.falloffModel = BlastAttack.FalloffModel.SweetSpot;
-            grenadeImpact.lifetime = 18;
-            grenadeImpact.lifetimeAfterImpact = 0.5f;
+            grenadeImpact.lifetime = 12;
+            grenadeImpact.lifetimeAfterImpact = 0.2f;
             grenadeImpact.lifetimeRandomOffset = 0;
             grenadeImpact.blastRadius = 8;
             grenadeImpact.blastDamageCoefficient = 1;
@@ -1115,14 +1122,14 @@ namespace EnforcerPlugin {
             Destroy(tearGasPrefab.transform.GetChild(0).gameObject);
             GameObject gasFX = Assets.tearGasEffectPrefab.InstantiateClone("FX", false);
             gasFX.AddComponent<TearGasComponent>();
-            gasFX.AddComponent<DestroyOnTimer>().duration = 18f;
+            gasFX.AddComponent<DestroyOnTimer>().duration = 12f;
             gasFX.transform.parent = tearGasPrefab.transform;
             gasFX.transform.localPosition = Vector3.zero;
 
             //i have this really big cut on my shin and it's bleeding but i'm gonna code instead of doing something about it
             // that's the spirit, champ
 
-            tearGasPrefab.AddComponent<DestroyOnTimer>().duration = 18;
+            tearGasPrefab.AddComponent<DestroyOnTimer>().duration = 12;
 
             //scepter stuff.........
             //damageGasProjectile = PrefabAPI.InstantiateClone(projectilePrefab, "DamageGasGrenade", true);
@@ -1140,7 +1147,7 @@ namespace EnforcerPlugin {
             dotZone.fireFrequency = 4f;
             dotZone.forceVector = Vector3.zero;
             dotZone.impactEffect = null;
-            dotZone.lifetime = 18f;
+            dotZone.lifetime = 12f;
             dotZone.overlapProcCoefficient = 0.05f;
             dotZone.transform.localScale = Vector3.one * 28;
 
@@ -1161,8 +1168,8 @@ namespace EnforcerPlugin {
             scepterGrenadeImpact.destroyOnWorld = false;
             scepterGrenadeImpact.timerAfterImpact = true;
             scepterGrenadeImpact.falloffModel = BlastAttack.FalloffModel.SweetSpot;
-            scepterGrenadeImpact.lifetime = 18;
-            scepterGrenadeImpact.lifetimeAfterImpact = 0.5f;
+            scepterGrenadeImpact.lifetime = 12;
+            scepterGrenadeImpact.lifetimeAfterImpact = 0.2f;
             scepterGrenadeImpact.lifetimeRandomOffset = 0;
             scepterGrenadeImpact.blastRadius = 8;
             scepterGrenadeImpact.blastDamageCoefficient = 1;
@@ -1192,11 +1199,11 @@ namespace EnforcerPlugin {
             Destroy(damageGasEffect.transform.GetChild(0).gameObject);
             GameObject scepterGasFX = Assets.tearGasEffectPrefabAlt.InstantiateClone("FX", false);
             scepterGasFX.AddComponent<TearGasComponent>();
-            scepterGasFX.AddComponent<DestroyOnTimer>().duration = 18f;
+            scepterGasFX.AddComponent<DestroyOnTimer>().duration = 12f;
             scepterGasFX.transform.parent = damageGasEffect.transform;
             scepterGasFX.transform.localPosition = Vector3.zero;
 
-            damageGasEffect.AddComponent<DestroyOnTimer>().duration = 18;
+            damageGasEffect.AddComponent<DestroyOnTimer>().duration = 12;
 
             BuffWard buffWard2 = damageGasEffect.AddComponent<BuffWard>();
 

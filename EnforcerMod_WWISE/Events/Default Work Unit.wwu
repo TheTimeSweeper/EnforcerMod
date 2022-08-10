@@ -299,6 +299,20 @@
 										</Action>
 									</ChildrenList>
 								</Event>
+								<Event Name="Blaster_SSG" ID="{318443B6-81BA-496C-893F-91703A929815}">
+									<ChildrenList>
+										<Action Name="" ID="{FAC894BE-B83E-45E1-91FA-1DBDE0F5F9E9}" ShortID="539304014">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="Blaster Shotgun SSG" ID="{AC94F5FA-490D-4F8A-863B-2B1ADE87BFE5}" WorkUnitID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
 							</ChildrenList>
 						</Folder>
 						<Folder Name="Bash" ID="{B0F2B0B0-A37B-47CD-BDC9-2C0F9407DCC0}" ShortID="176315841">

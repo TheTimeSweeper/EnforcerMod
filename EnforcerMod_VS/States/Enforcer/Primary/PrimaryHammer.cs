@@ -116,6 +116,10 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             //to guarantee attack comes out if at high attack speed the stopwatch skips past the firing duration between frames
             if ((fireStarted && !fireEnded) || (fireStarted && fireEnded && !this.hasFired)) {
 
+                if (!hasFired) {
+                    OnFireAttackEnter();
+                }
+
                 FireAttack();
             }
 
@@ -130,26 +134,29 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             }
         }
 
+        protected virtual void OnFireAttackEnter() { }
+
         public void FireAttack() {
 
-            if (!hasFired && base.isAuthority) {
+            if (!hasFired) {
                 hasFired = true;
+                if (base.isAuthority) {
+                    Util.PlayAttackSpeedSound(Sounds.NemesisSwing, gameObject, 0.25f + attackSpeedStat);
 
-                Util.PlayAttackSpeedSound(Sounds.NemesisSwing, gameObject, 0.25f + attackSpeedStat);
+                    AddRecoil(-1f * attackRecoil, -2f * attackRecoil, -0.5f * attackRecoil, 0.5f * attackRecoil);
 
-                AddRecoil(-1f * attackRecoil, -2f * attackRecoil, -0.5f * attackRecoil, 0.5f * attackRecoil);
+                    string muzzleString = "ShieldHitbox";
+                    EffectManager.SimpleMuzzleFlash(Assets.hammerSwingFX, gameObject, muzzleString, true);
 
-                string muzzleString = "ShieldHitbox";
-                EffectManager.SimpleMuzzleFlash(Assets.hammerSwingFX, gameObject, muzzleString, true);
+                    if (slamPrefab) {
+                        Vector3 sex = childLocator.FindChild("HammerMuzzle").transform.position;
 
-                if (slamPrefab) {
-                    Vector3 sex = childLocator.FindChild("HammerMuzzle").transform.position;
-                    
-                    EffectData effectData = new EffectData();
-                    effectData.origin = sex - Vector3.up;
-                    effectData.scale = 1;
+                        EffectData effectData = new EffectData();
+                        effectData.origin = sex - Vector3.up;
+                        effectData.scale = 1;
 
-                    EffectManager.SpawnEffect(slamPrefab, effectData, true);
+                        EffectManager.SpawnEffect(slamPrefab, effectData, true);
+                    }
                 }
             }
 
