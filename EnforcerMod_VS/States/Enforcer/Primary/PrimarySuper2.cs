@@ -188,7 +188,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
             if (isStormtrooper) soundString = _isShielded ? Sounds.FireBlasterSSG : Sounds.FireBlasterShotgun;
 
-            Util.PlayAttackSpeedSound(soundString, gameObject, attackSpeedStat);
+            Util.PlayAttackSpeedSound(soundString, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject, attackSpeedStat);
 
             float recoilAmplitude = _isShielded ? shieldedBulletRecoil : bulletRecoil / attackSpeedStat;
 

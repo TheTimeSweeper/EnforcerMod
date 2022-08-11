@@ -48,7 +48,7 @@ namespace EntityStates.Enforcer {
             base.StartAimMode(2f, false);
 
             EffectManager.SimpleMuzzleFlash(FireLunarNeedle.muzzleFlashEffectPrefab, base.gameObject, "NeedlerMuzzle", false);
-            Util.PlaySound(FireLunarNeedle.fireSound, base.gameObject);
+            Util.PlaySound(FireLunarNeedle.fireSound, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(base.characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : base.gameObject);
         }
 
         public override void FixedUpdate()

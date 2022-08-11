@@ -67,7 +67,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             if (isStormtrooper)
                 soundstring = Sounds.FireBlasterRifle;
 
-            Util.PlaySound(soundstring, gameObject);
+            Util.PlaySound(soundstring, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject);
 
             EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, gameObject, muzzleName, false);
 

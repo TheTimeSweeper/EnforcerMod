@@ -59,12 +59,15 @@ public class EnforcerComponent : MonoBehaviour
     private Transform _shieldParent;
     private float _shieldSize;
     private float _shieldSizeMultiplier = 1.2f;
+    private MeshRenderer shieldMeshVR;
 
     GameObject dummy;
     GameObject boyPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LemurianBody");
     public static bool skateJump;
 
     private Transform head;
+
+    private CharacterBody enforcerBody;
 
     public float shieldHealth {
         get => energyShieldControler.healthComponent.health;
@@ -90,13 +93,27 @@ public class EnforcerComponent : MonoBehaviour
         if (drOctagonapus == null) {
             drOctagonapus = EntityStateMachine.FindByCustomName(gameObject, "EnforcerParry");
         }
+        if (enforcerBody == null) {
+            enforcerBody = GetComponent<CharacterBody>();
+        }
     }
 
     void FixedUpdate() {
 
-        aimShield();
+        Vector3 shieldAimDirection;
 
-        if (energyShieldControler) energyShieldControler.shieldAimRayDirection = aimRay.direction;
+        if (EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(enforcerBody))
+        {
+            shieldAimDirection = GetVRShieldDirection();
+        }
+        else
+        {
+            shieldAimDirection = aimRay.direction;
+        }
+
+        aimShield(shieldAimDirection);
+
+        if (energyShieldControler) energyShieldControler.shieldAimRayDirection = shieldAimDirection;
     }
 
     void LateUpdate() {
@@ -107,6 +124,19 @@ public class EnforcerComponent : MonoBehaviour
             //magic numbers based on head bone's default position
             head.transform.localPosition = new Vector3(0, 0.0535f + 0.0450f * Config.headSize.Value, 0);
         }
+
+        if (EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(enforcerBody) && Config.translucentVRShield.Value)
+        {
+            UpdateVRShieldTransparency();
+        }
+    }
+
+    private void UpdateVRShieldTransparency()
+    {
+        VRAPI.MotionControls.HandController shieldHand = VRAPI.MotionControls.nonDominantHand;
+        if (shieldHand == null) return;
+
+        shieldHand.rendererInfos[0].defaultMaterial.SetFloat(CommonShaderProperties._Fade, enforcerBody.HasBuff(Buffs.protectAndServeBuff) ? 0.6f : 0.3f);
     }
 
     public void ResetAimOrigin(CharacterBody characterBody) {
@@ -137,24 +167,48 @@ public class EnforcerComponent : MonoBehaviour
         }
     }
 
-    private void aimShield() {
+    private void aimShield(Vector3 aimDirection)
+    {
+        bool isInVR = EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(enforcerBody);
 
         float time = Time.fixedTime - initialTime;
-        
-        Vector3 cross = Vector3.Cross(aimRay.direction, shieldDirection);
+
+        Vector3 cross = Vector3.Cross(aimDirection, shieldDirection);
         Vector3 turnDirection = Vector3.Cross(shieldDirection, cross);
 
-        float turnSpeed = maxSpeed * (1 - Mathf.Exp(-1 * coef * time));
+        //Instant turnning in VR in order to actually block with shield
+        float turnSpeed = (isInVR)? 1 : maxSpeed * (1 - Mathf.Exp(-1 * coef * time));
 
         shieldDirection += turnSpeed * turnDirection.normalized;
         shieldDirection = shieldDirection.normalized;
 
-        Vector3 difference = aimRay.direction - shieldDirection;
+        if (isInVR && enforcerBody.HasBuff(Buffs.protectAndServeBuff))
+        {
+            FaceTowardsVRShield();
+        }
+
+        Vector3 difference = aimDirection - shieldDirection;
         if (difference.magnitude < 0.05) {
             initialTime = Time.fixedTime;
         }
 
         //displayShieldPreviewCube();
+    }
+
+    private void FaceTowardsVRShield()
+    {
+        if (enforcerBody == null) return;
+
+        Vector3 forwardDirection = shieldDirection;
+        forwardDirection.y = 0;
+        forwardDirection.Normalize();
+
+        enforcerBody.characterDirection.forward = forwardDirection;
+    }
+
+    private Vector3 GetVRShieldDirection()
+    {
+        return VRAPI.MotionControls.nonDominantHand.GetMuzzleByIndex(1).forward;
     }
 
     public void ToggleEnergyShield(bool shieldToggle)

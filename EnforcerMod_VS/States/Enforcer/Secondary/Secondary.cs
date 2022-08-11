@@ -49,7 +49,6 @@ namespace EntityStates.Enforcer {
             this.duration = baseDuration / this.attackSpeedStat;
             this.fireDuration = this.duration * 0.15f;
             this.deflectDuration = this.duration * 0.45f;
-            this.aimRay = base.GetAimRay();
             this.hasFired = false;
             this.hasDeflected = false;
             this.usingBash = false;
@@ -58,6 +57,16 @@ namespace EntityStates.Enforcer {
             enforcerNet = characterBody.GetComponent<EnforcerNetworkComponent>();
 
             enforcerNet.parries = 0;
+
+            if (EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody))
+            {
+                Transform shieldMuzzle = EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject().transform;
+                this.aimRay = new Ray(shieldMuzzle.position, shieldMuzzle.forward);
+            }
+            else
+            {
+                this.aimRay = base.GetAimRay();
+            }
 
             base.StartAimMode(aimRay, 2f, false);
 
@@ -94,7 +103,7 @@ namespace EntityStates.Enforcer {
                 this.attackStopDuration = ShieldBash.beefDurationNoShield / this.attackSpeedStat;
             }
 
-            Util.PlayAttackSpeedSound(Sounds.ShieldBash, base.gameObject, this.attackSpeedStat);
+            Util.PlayAttackSpeedSound(Sounds.ShieldBash, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject() : gameObject, this.attackSpeedStat);
         }
 
         private void FireBlast()
@@ -314,7 +323,18 @@ namespace EntityStates.Enforcer {
                 {
                     if (pc.owner != gameObject)
                     {
-                        Ray aimRay = base.GetAimRay();
+                        Ray aimRay;
+
+                        if (EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody))
+                        {
+                            Transform shieldMuzzle = EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject().transform;
+                            aimRay = new Ray(shieldMuzzle.position, shieldMuzzle.forward);
+                        }
+                        else
+                        {
+                            aimRay = base.GetAimRay();
+                        }
+
                         Vector3 aimSpot = (aimRay.origin + 100 * aimRay.direction) - pc.gameObject.transform.position;
 
                         pc.owner = gameObject;
@@ -335,7 +355,7 @@ namespace EntityStates.Enforcer {
                         };
                         ProjectileManager.instance.FireProjectile(info);
 
-                        Util.PlayAttackSpeedSound(Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
+                        Util.PlayAttackSpeedSound(Sounds.BashDeflect, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject() : gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
 
                         Destroy(pc.gameObject);
 
@@ -361,7 +381,7 @@ namespace EntityStates.Enforcer {
             if (enforcerNet.parries <= 0)
                 return;
 
-            Util.PlayAttackSpeedSound(Sounds.BashDeflect, base.gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
+            Util.PlayAttackSpeedSound(Sounds.BashDeflect, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject() : gameObject, UnityEngine.Random.Range(0.9f, 1.1f));
 
             for (int i = 0; i < enforcerNet.parries; i++)
             {
@@ -387,7 +407,19 @@ namespace EntityStates.Enforcer {
         {
             yield return new WaitForSeconds(delay);
 
-            Vector3 point = GetAimRay().GetPoint(1000);
+            Ray aimRay;
+
+            if (EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody))
+            {
+                Transform shieldMuzzle = EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject().transform;
+                aimRay = new Ray(shieldMuzzle.position, shieldMuzzle.forward);
+            }
+            else
+            {
+                aimRay = base.GetAimRay();
+            }
+
+            Vector3 point = aimRay.GetPoint(1000);
             Vector3 laserDirection = point - transform.position;
 
             GolemMonster.FireLaser fireLaser = new GolemMonster.FireLaser();
@@ -439,14 +471,25 @@ namespace EntityStates.Enforcer {
             base.characterBody.GetComponent<EnforcerLightControllerAlt>().FlashLights(6);
             base.characterBody.isSprinting = true;
 
-            Util.PlayAttackSpeedSound(Croco.Leap.leapSoundString, base.gameObject, 1.75f);
+            bool isInVR = EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody);
+
+            Util.PlayAttackSpeedSound(Croco.Leap.leapSoundString, isInVR ? EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject() : gameObject, 1.75f);
 
            // if (!base.HasBuff(EnforcerPlugin.Modules.Buffs.skateboardBuff))
                 base.PlayAnimation("FullBody, Override", "ShoulderBash");//, "ShoulderBash.playbackRate", this.duration
 
             if (base.isAuthority && base.inputBank && base.characterDirection)
             {
-                this.forwardDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.characterDirection.forward : base.inputBank.moveVector).normalized;
+                if (isInVR)
+                {
+                    Vector3 shieldDirection = EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject().transform.forward;
+                    shieldDirection.y = 0;
+                    this.forwardDirection = shieldDirection.normalized;
+                }
+                else
+                {
+                    this.forwardDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.characterDirection.forward : base.inputBank.moveVector).normalized;
+                }
             }
 
             this.RecalculateSpeed();
@@ -562,7 +605,7 @@ namespace EntityStates.Enforcer {
 
                     if (this.attack.Fire(this.victimsStruck))
                     {
-                        Util.PlaySound(Sounds.ShoulderBashHit, base.gameObject);
+                        Util.PlaySound(Sounds.ShoulderBashHit, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject() : gameObject);
                         this.inHitPause = true;
                         this.hitPauseTimer = Toolbot.ToolbotDash.hitPauseDuration;
                         base.AddRecoil(-0.5f * Toolbot.ToolbotDash.recoilAmplitude, -0.5f * Toolbot.ToolbotDash.recoilAmplitude, -0.5f * Toolbot.ToolbotDash.recoilAmplitude, 0.5f * Toolbot.ToolbotDash.recoilAmplitude);
@@ -648,7 +691,7 @@ namespace EntityStates.Enforcer {
             if (!base.HasBuff(Buffs.skateboardBuff)) base.PlayAnimation("FullBody, Override", "BashRecoil");
             base.SmallHop(base.characterMotor, ShoulderBash.smallHopVelocity);
 
-            Util.PlayAttackSpeedSound(Sounds.ShoulderBashHit, base.gameObject, 0.5f);
+            Util.PlayAttackSpeedSound(Sounds.ShoulderBashHit, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject() : gameObject, 0.5f);
 
             if (NetworkServer.active)
             {

@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
+using BepInEx.Logging;
 using EntityStates;
 using EntityStates.Enforcer;
 using EntityStates.Enforcer.NeutralSpecial;
@@ -47,7 +48,8 @@ namespace EnforcerPlugin {
         "DamageAPI",
         "UnlockableAPI",
         "DirectorAPI",
-        "RecalculateStatsAPI"
+        "RecalculateStatsAPI",
+        "LoadoutAPI"
     })]
 
     public class EnforcerModPlugin : BaseUnityPlugin
@@ -124,8 +126,12 @@ namespace EnforcerPlugin {
         //    //awake += EnforcerPlugin_Load;
         //    //start += EnforcerPlugin_LoadStart;
         //}
+        internal static ManualLogSource StaticLogger;
 
-        void Awake() {
+
+        void Awake()
+        {
+            StaticLogger = Logger;
             Modules.Config.ConfigShit(this);
 
             Assets.Initialize();
@@ -201,8 +207,6 @@ namespace EnforcerPlugin {
 
             //VR stuff
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DrBibop.VRAPI")) {
-                VRInstalled = true;
-                Assets.loadVRBundle();
                 SetupVR();
             }
 
@@ -253,9 +257,14 @@ namespace EnforcerPlugin {
         {
             if (!VRAPI.VR.enabled || !VRAPI.MotionControls.enabled) return;
 
-            VRAPI.MotionControls.AddHandPrefab(Assets.vrDominantHand);
-            VRAPI.MotionControls.AddHandPrefab(Assets.vrNonDominantHand);
-            VRAPI.MotionControls.AddSkillRemap("EnforcerBody", SkillSlot.Utility, SkillSlot.Special);
+            VRInstalled = true;
+            Assets.loadVRBundle();
+            VRAPI.MotionControls.AddHandPrefab(Assets.vrEnforcerDominantHand);
+            VRAPI.MotionControls.AddHandPrefab(Assets.vrEnforcerNonDominantHand);
+            VRAPI.MotionControls.AddHandPrefab(Assets.vrNemforcerDominantHand);
+            VRAPI.MotionControls.AddHandPrefab(Assets.vrNemforcerNonDominantHand);
+            VRAPI.MotionControls.AddSkillBindingOverride("EnforcerBody", SkillSlot.Primary, SkillSlot.Secondary, SkillSlot.Special, SkillSlot.Utility);
+            VRAPI.MotionControls.AddSkillBindingOverride("NemesisEnforcerBody", SkillSlot.Primary, SkillSlot.Utility, SkillSlot.Special, SkillSlot.Secondary);
         }
 
         private void Hook()

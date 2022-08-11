@@ -86,7 +86,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 if (isStormtrooper) soundString = Sounds.FireBlasterShotgun;
                 //if (this.isEngi) soundString = Sounds.FireBungusShotgun;
 
-                Util.PlayAttackSpeedSound(soundString, gameObject, attackSpeedStat);
+                Util.PlayAttackSpeedSound(soundString, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject, attackSpeedStat);
 
                 float recoilAmplitude = bulletRecoil / this.attackSpeedStat;
 

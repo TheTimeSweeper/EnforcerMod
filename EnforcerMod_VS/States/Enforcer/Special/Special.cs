@@ -67,9 +67,10 @@ namespace EntityStates.Enforcer {
                 string soundString = Sounds.ShieldDown;
                 //if (isEngi || isDoom) soundString = EnforcerPlugin.Sounds.EnergyShieldDown;
 
-                Util.PlaySound(soundString, base.gameObject);
+                Util.PlaySound(soundString, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject() : gameObject);
 
-                base.characterBody.aimOriginTransform = shieldComponent.origOrigin;
+                if (!EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(base.characterBody))
+                    base.characterBody.aimOriginTransform = shieldComponent.origOrigin;
 
                 //todo CUM2 delete this
                 //if (this.weaponComponent)
@@ -116,11 +117,11 @@ namespace EntityStates.Enforcer {
                 string soundString = Sounds.ShieldUp;
                 //if (isEngi || isDoom) soundString = EnforcerPlugin.Sounds.EnergyShieldUp;
 
-                Util.PlaySound(soundString, base.gameObject); 
+                Util.PlaySound(soundString, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject() : gameObject); 
 
 
-
-                characterBody.aimOriginTransform = childLocator.FindChild("ShieldAimOrigin");
+                if (!EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(base.characterBody))
+                    characterBody.aimOriginTransform = childLocator.FindChild("ShieldAimOrigin");
 
                 //todo CUM2 delete this
                 //if (this.weaponComponent)

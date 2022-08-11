@@ -96,8 +96,10 @@ namespace Modules {
 
         public static GameObject gatDrone;
 
-        public static GameObject vrDominantHand; //Shotgun hand
-        public static GameObject vrNonDominantHand; //Shield hand
+        public static GameObject vrEnforcerDominantHand; //Shotgun hand
+        public static GameObject vrEnforcerNonDominantHand; //Shield hand
+        public static GameObject vrNemforcerDominantHand; //Shotgun hand
+        public static GameObject vrNemforcerNonDominantHand; //Shield hand
 
         public static Material mainMat;
 
@@ -326,8 +328,10 @@ namespace Modules {
                 }
             }
 
-            vrDominantHand = VRAssetBundle.LoadAsset<GameObject>("EnforcerShotgunHand");
-            vrNonDominantHand = VRAssetBundle.LoadAsset<GameObject>("EnforcerShieldHand");
+            vrEnforcerDominantHand = VRAssetBundle.LoadAsset<GameObject>("EnforcerShotgunHand");
+            vrEnforcerNonDominantHand = VRAssetBundle.LoadAsset<GameObject>("EnforcerShieldHand");
+            vrNemforcerDominantHand = VRAssetBundle.LoadAsset<GameObject>("NemforcerHammerHand");
+            vrNemforcerNonDominantHand = VRAssetBundle.LoadAsset<GameObject>("NemforcerNonDomHand");
         }
 
         #region helpers
