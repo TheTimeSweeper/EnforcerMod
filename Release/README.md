@@ -75,6 +75,10 @@ may be lil out of date
 
 ## Changelog
 
+`3.4.1`
+- fixed guns breaking with custom skins
+- fixed missing enforcer in logbook
+
 `3.4.0`
 - Riot Shotgun
     - bullet count reduced 8->6

@@ -38,7 +38,7 @@ namespace EnforcerPlugin {
     [BepInDependency("com.Moffein.RiskyArtifacts", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("HIFU.Inferno", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.4.0")]
+    [BepInPlugin(MODUID, "Enforcer", "3.4.1")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",

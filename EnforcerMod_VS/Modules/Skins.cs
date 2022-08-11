@@ -15,11 +15,12 @@ namespace Modules {
 
         public static SkinDef engiBungusSkin;
 
-        public static Dictionary<int, string> SkinIdices = new Dictionary<int, string>();
+        public static Dictionary<uint, string> SkinIdices = new Dictionary<uint, string>();
 
         //todo what the fuck
         public static bool isEnforcerCurrentSkin(CharacterBody characterbody, string skin) {
-            return characterbody.baseNameToken == "ENFORCER_NAME" && SkinIdices[(int)characterbody.skinIndex] == skin;
+
+            return characterbody.baseNameToken == "ENFORCER_NAME" && SkinIdices.ContainsKey(characterbody.skinIndex) && SkinIdices[characterbody.skinIndex] == skin;
         }
 
         public static void RegisterSkins() {
@@ -1252,7 +1253,7 @@ namespace Modules {
             skinController.skins = skinDefs.ToArray();
 
             for (int i = 0; i < skinDefs.Count; i++) {
-                SkinIdices[i] = skinDefs[i].name;
+                SkinIdices[(uint)i] = skinDefs[i].name;
             }
         }
 
