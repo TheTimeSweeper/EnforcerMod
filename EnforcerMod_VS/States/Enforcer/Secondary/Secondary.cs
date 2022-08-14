@@ -455,7 +455,7 @@ namespace EntityStates.Enforcer {
             {
                 if (isInVR)
                 {
-                    Vector3 shieldDirection = EnforcerVRComponent.shieldLastSteadyForward;
+                    Vector3 shieldDirection = Camera.main.transform.forward;
                     shieldDirection.y = 0;
                     this.forwardDirection = shieldDirection.normalized;
                 }

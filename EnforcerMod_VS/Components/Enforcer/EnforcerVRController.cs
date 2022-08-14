@@ -16,11 +16,6 @@ public class EnforcerVRComponent : MonoBehaviour
     private EnforcerComponent enforcerComponent;
     private EnforcerWeaponComponent enforcerWeaponComponent;
 
-    private Transform shieldBashTip;
-    private Vector3[] tipPath = new Vector3[3] { Vector3.zero, Vector3.zero, Vector3.zero, };
-    public static Vector3 shieldLastSteadyPos = Vector3.zero;
-    public static Vector3 shieldLastSteadyForward = Vector3.zero;
-
     public CharacterBody charBody;
 
     public void InitSkateBoardBase(Transform skateboardBase)
@@ -89,7 +84,6 @@ public class EnforcerVRComponent : MonoBehaviour
 
         if (vrWeaponChildLocator && vrShieldChildLocator)
         {
-            shieldBashTip = vrWeaponChildLocator.FindChild("ShieldBashTip");
             var donminHandObj = vrWeaponChildLocator.FindChild("HandModel").gameObject;
             List<GameObject> allVRWeapons = new List<GameObject>()
             {
