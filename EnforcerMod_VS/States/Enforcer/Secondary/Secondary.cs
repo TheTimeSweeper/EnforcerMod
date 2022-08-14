@@ -58,15 +58,8 @@ namespace EntityStates.Enforcer {
 
             enforcerNet.parries = 0;
 
-            if (EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody))
-            {
-                Transform shieldMuzzle = EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject().transform;
-                this.aimRay = new Ray(shieldMuzzle.position, shieldMuzzle.forward);
-            }
-            else
-            {
-                this.aimRay = base.GetAimRay();
-            }
+
+            this.aimRay = base.GetAimRay();
 
             base.StartAimMode(aimRay, 2f, false);
 
@@ -323,17 +316,7 @@ namespace EntityStates.Enforcer {
                 {
                     if (pc.owner != gameObject)
                     {
-                        Ray aimRay;
-
-                        if (EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody))
-                        {
-                            Transform shieldMuzzle = EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject().transform;
-                            aimRay = new Ray(shieldMuzzle.position, shieldMuzzle.forward);
-                        }
-                        else
-                        {
-                            aimRay = base.GetAimRay();
-                        }
+                        Ray aimRay = base.GetAimRay();
 
                         Vector3 aimSpot = (aimRay.origin + 100 * aimRay.direction) - pc.gameObject.transform.position;
 
@@ -407,17 +390,7 @@ namespace EntityStates.Enforcer {
         {
             yield return new WaitForSeconds(delay);
 
-            Ray aimRay;
-
-            if (EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody))
-            {
-                Transform shieldMuzzle = EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject().transform;
-                aimRay = new Ray(shieldMuzzle.position, shieldMuzzle.forward);
-            }
-            else
-            {
-                aimRay = base.GetAimRay();
-            }
+            Ray aimRay = base.GetAimRay();
 
             Vector3 point = aimRay.GetPoint(1000);
             Vector3 laserDirection = point - transform.position;
@@ -482,7 +455,7 @@ namespace EntityStates.Enforcer {
             {
                 if (isInVR)
                 {
-                    Vector3 shieldDirection = EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject().transform.forward;
+                    Vector3 shieldDirection = EnforcerVRComponent.shieldLastSteadyForward;
                     shieldDirection.y = 0;
                     this.forwardDirection = shieldDirection.normalized;
                 }

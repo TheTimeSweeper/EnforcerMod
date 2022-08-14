@@ -107,7 +107,7 @@ namespace EntityStates.Nemforcer {
                 if (this.animator) this.animator.SetFloat("HammerSwing.playbackRate", 0f);
             }
 
-            if (this.stopwatch >= this.duration * 0.45f && this.stopwatch <= this.duration * 0.75f)
+            if (this.stopwatch >= this.duration * 0.45f && this.stopwatch <= this.duration * 0.75f || VRAPICompat.IsLocalVRPlayer(characterBody))
             {
                 this.FireAttack();
             }

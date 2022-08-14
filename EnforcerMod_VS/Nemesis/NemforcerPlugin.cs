@@ -528,6 +528,8 @@ namespace EnforcerPlugin {
             aimAnimator.inputBank = characterBodyPrefab.GetComponent<InputBankTest>();
 
             characterBodyPrefab.AddComponent<NemforcerController>();
+            if(EnforcerModPlugin.VRInstalled)
+                characterBodyPrefab.AddComponent<NemforcerVRController>();
         }
 
         private void RegisterCharacter()
@@ -2340,6 +2342,8 @@ namespace EnforcerPlugin {
             aimAnimator.inputBank = dededePrefab.GetComponent<InputBankTest>();
 
             dededePrefab.AddComponent<NemforcerController>();
+            if (EnforcerModPlugin.VRInstalled)
+                dededePrefab.AddComponent<NemforcerVRController>();
             dededePrefab.AddComponent<DeathRewards>();
         }
 

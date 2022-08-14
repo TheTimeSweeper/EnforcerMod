@@ -134,11 +134,14 @@ namespace Modules.Characters {
 
             bodyPrefab.gameObject.AddComponent<EnforcerWeaponComponent>().Init();
 
+            if(EnforcerModPlugin.VRInstalled)
+                bodyPrefab.gameObject.AddComponent<EnforcerVRComponent>();
+
             bodyPrefab.gameObject.AddComponent<EnforcerNetworkComponent>();
             bodyPrefab.gameObject.AddComponent<EnforcerLightController>();
             bodyPrefab.gameObject.AddComponent<EnforcerLightControllerAlt>();
 
-            if (EnforcerPlugin.EnforcerModPlugin.IDPHelperInstalled) {
+            if (EnforcerModPlugin.IDPHelperInstalled) {
                 characterBodyModel.gameObject.AddComponent<EnforcerItemDisplayEditorComponent>();
             }
         }
