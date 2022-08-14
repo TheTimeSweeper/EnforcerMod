@@ -62,6 +62,7 @@ namespace Modules {
         public static ConfigEntry<bool> translucentVRShield;
         public static ConfigEntry<bool> physicalVRShieldUp;
         public static ConfigEntry<bool> physicalVRShieldDown;
+        public static ConfigEntry<int> physicalVRShieldDownAngle;
 
 
         public static void ConfigShit(BaseUnityPlugin plugin) {
@@ -330,6 +331,11 @@ namespace Modules {
                                      "Physical Shield Down",
                                      true,
                                      "Allows you to shield down by physically pointing your non-dominant hand downward.");
+            physicalVRShieldDownAngle
+                = plugin.Config.Bind("08 - VR",
+                                     "Physical Shield Down Angle",
+                                     25,
+                                     "How many degrees must you point to ground to trigger shield down.");
 
             #endregion
         }
