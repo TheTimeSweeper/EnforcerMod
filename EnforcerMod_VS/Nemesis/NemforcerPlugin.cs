@@ -492,6 +492,27 @@ namespace EnforcerPlugin {
 
             hitBoxGroup2.groupName = "Uppercut";
 
+            if (EnforcerModPlugin.VRInstalled) {
+
+                HitBoxGroup hitBoxGroupVR = model.AddComponent<HitBoxGroup>();
+
+                GameObject hammerHitboxVR = childLocator.FindChild("VRHitbox").gameObject;
+                hammerHitboxVR.layer = LayerIndex.projectile.intVal;
+
+                GameObject hammerHitboxVR2 = childLocator.FindChild("VRHitbox2").gameObject;
+                hammerHitboxVR2.layer = LayerIndex.projectile.intVal;
+
+                HitBox hitBoxVR1 = hammerHitboxVR.AddComponent<HitBox>();
+                HitBox hitBoxVR11 = hammerHitboxVR2.AddComponent<HitBox>();
+
+                hitBoxGroupVR.hitBoxes = new HitBox[]
+                {
+                hitBoxVR1,
+                hitBoxVR11,
+                };
+                hitBoxGroupVR.groupName = "HammerVR";
+            }
+
             FootstepHandler footstepHandler = model.AddComponent<FootstepHandler>();
             footstepHandler.baseFootstepString = "Play_player_footstep";
             footstepHandler.sprintFootstepOverrideString = "";

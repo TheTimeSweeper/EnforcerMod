@@ -42,9 +42,12 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         private HitStopCachedState hitStopCachedState;
         private Transform modelBaseTransform;
 
+        private bool inVR;
+
         public override void OnEnter() {
             base.OnEnter();
-            StartAimMode(2f, false);
+            inVR = EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody);
+            if(!inVR) StartAimMode(2f, false);
             hasFired = false;
             characterBody.isSprinting = false;
 
@@ -110,8 +113,8 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 if (animator) animator.SetFloat("HammerSwing.playbackRate", 0f);
             }
 
-            bool fireStarted = stopwatch >= this.duration * 0.469f;
-            bool fireEnded = stopwatch >= this.duration * 0.6f;
+            bool fireStarted = stopwatch >= this.duration * 0.469f || inVR;
+            bool fireEnded = stopwatch >= this.duration * (!inVR ? 0.6f : 0.4f);
 
             //to guarantee attack comes out if at high attack speed the stopwatch skips past the firing duration between frames
             if ((fireStarted && !fireEnded) || (fireStarted && fireEnded && !this.hasFired)) {

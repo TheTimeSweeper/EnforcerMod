@@ -328,16 +328,44 @@ namespace Modules {
                 }
             }
 
-            vrEnforcerDominantHand = VRAssetBundle.LoadAsset<GameObject>("EnforcerShotgunHand");
+            vrEnforcerDominantHand = VRAssetBundle.LoadAsset<GameObject>("EnforcerShotgunHand").ConvertAllRenderersToHopooShader();
             vrEnforcerNonDominantHand = VRAssetBundle.LoadAsset<GameObject>("EnforcerShieldHand");
-            vrNemforcerDominantHand = VRAssetBundle.LoadAsset<GameObject>("NemforcerHammerHand");
-            vrNemforcerNonDominantHand = VRAssetBundle.LoadAsset<GameObject>("NemforcerNonDomHand");
+
+            //keep sex shield glass out of hopoo shader-izing
+            //one day I'll learn nice hopoo shader transparency
+            Renderer sexGlassRenderer = vrEnforcerNonDominantHand.transform.Find("Visuals/Enfucker_VR_LeftHand_Armature /Shields/meshSexforcerShield/meshShieldGlass")?.GetComponent<Renderer>();
+            Material sexGlassMat = sexGlassRenderer?.material;
+
+            vrEnforcerNonDominantHand.ConvertAllRenderersToHopooShader();
+            
+            if (sexGlassMat) sexGlassRenderer.material = sexGlassMat;
+
+            vrNemforcerDominantHand = VRAssetBundle.LoadAsset<GameObject>("NemforcerHammerHand").ConvertAllRenderersToHopooShader();
+            vrNemforcerNonDominantHand = VRAssetBundle.LoadAsset<GameObject>("NemforcerNonDomHand").ConvertAllRenderersToHopooShader();
         }
 
         #region helpers
 
         internal static Sprite LoadBuffSprite(string path) {
             return Addressables.LoadAssetAsync<BuffDef>(path).WaitForCompletion().iconSprite;
+        }
+
+        public static GameObject ConvertAllRenderersToHopooShader(this GameObject objectToConvert) {
+            if (!objectToConvert) return objectToConvert;
+
+            foreach (MeshRenderer i in objectToConvert.GetComponentsInChildren<MeshRenderer>()) {
+                if (i?.sharedMaterial != null) {
+                    i.sharedMaterial.SetHotpooMaterial();
+                }
+            }
+
+            foreach (SkinnedMeshRenderer i in objectToConvert.GetComponentsInChildren<SkinnedMeshRenderer>()) {
+                if (i?.sharedMaterial != null) {
+                    i.sharedMaterial.SetHotpooMaterial();
+                }
+            }
+
+            return objectToConvert;
         }
 
         internal static NetworkSoundEventDef CreateNetworkSoundEventDef(string eventName) {

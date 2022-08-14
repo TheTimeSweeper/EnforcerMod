@@ -34,6 +34,7 @@ namespace EntityStates.Nemforcer {
         private Transform modelBaseTransform;
         private NemforcerController nemController;
         private Vector3 storedVelocity;
+        private bool inVR;
 
         public override void OnEnter()
         {
@@ -49,12 +50,17 @@ namespace EntityStates.Nemforcer {
             this.animator = base.GetModelAnimator();
             this.nemController = base.GetComponent<NemforcerController>();
 
+            inVR = VRAPICompat.IsLocalVRPlayer(characterBody);
+
             bool grounded = base.characterMotor.isGrounded;
             bool moving = this.animator.GetBool("isMoving");
 
             string swingAnimState = currentSwing % 2 == 0 ? "HammerSwing" : "HammerSwing2";
 
             HitBoxGroup hitBoxGroup = base.FindHitBoxGroup("Hammer");
+            if (inVR) {
+                hitBoxGroup = base.FindHitBoxGroup("HammerVR");
+            }
             this.animator.SetBool("swinging", true);
 
             base.PlayCrossfade("Gesture, Override", swingAnimState, "HammerSwing.playbackRate", this.duration, 0.05f);
@@ -107,13 +113,22 @@ namespace EntityStates.Nemforcer {
                 if (this.animator) this.animator.SetFloat("HammerSwing.playbackRate", 0f);
             }
 
-            if (this.stopwatch >= this.duration * 0.45f && this.stopwatch <= this.duration * 0.75f)
+            bool fireStarted = this.stopwatch >= this.duration * 0.45f || inVR;
+            bool fireEnded = this.stopwatch >= this.duration * (!inVR? 0.75f : 0.4f);
+
+            if (fireStarted && !fireEnded)
             {
                 this.FireAttack();
             }
 
             float rot = this.animator.GetFloat(mecanimRotateParameter);
-            this.nemController.pseudoAimMode(rot);
+
+            if (!inVR) {
+
+                this.nemController.pseudoAimMode(rot);
+            } else {
+                this.nemController.pseudoAimMode(0, Camera.main.transform.forward);
+            }
 
             if (base.fixedAge >= this.earlyExitDuration && base.inputBank.skill1.down)
             {
@@ -126,7 +141,7 @@ namespace EntityStates.Nemforcer {
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
                 this.outer.SetNextStateToMain();
-                base.StartAimMode(0.2f, false);
+                if (!inVR) base.StartAimMode(0.2f, false);
                 return;
             }
         }

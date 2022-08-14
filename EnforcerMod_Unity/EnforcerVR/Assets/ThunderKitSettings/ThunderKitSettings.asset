@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ThunderKitSettings
   m_EditorClassIdentifier: 
   GameExecutable: Risk of Rain 2.exe
-  GamePath: L:\SteamLibrary\steamapps\common\Risk of Rain 2
+  GamePath: C:\Program Files (x86)\Steam\steamapps\common\Risk of Rain 2
   Is64Bit: 1
