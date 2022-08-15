@@ -12,7 +12,7 @@ public class EnforcerVRComponent : MonoBehaviour
     private Transform skateboardBase;
     private GameObject VRSkateboard;
     private Transform VRSkateboardHandBase;
-    private bool isSkating = false;
+    private bool isSkating;
     private EnforcerComponent enforcerComponent;
     private EnforcerWeaponComponent enforcerWeaponComponent;
 
@@ -127,9 +127,6 @@ public class EnforcerVRComponent : MonoBehaviour
                 switch (weapon)
                 {
                     default:
-                    case EquippedGun.GUN:
-                        allVRWeapons[0].SetActive(true);
-                        break;
                     case EquippedGun.SUPER:
                         allVRWeapons[1].SetActive(true);
                         muzzle.localPosition = new Vector3(0.01297f, -0.2533f, 0.8785f);
@@ -141,6 +138,25 @@ public class EnforcerVRComponent : MonoBehaviour
                     case EquippedGun.HAMMER:
                         allVRWeapons[4].SetActive(true);
                         muzzle.localPosition = new Vector3(0.0156f, -0.025f, 0.0853f);
+                        break;
+                    case EquippedGun.GUN:
+                        allVRWeapons[0].SetActive(true);
+
+                        Skins.EnforcerSkin[] sameShotgunSkins = new Skins.EnforcerSkin[] {
+
+                            Skins.EnforcerSkin.GRANDMASTERY,
+                            Skins.EnforcerSkin.RECOLORNEMESIS,
+                            Skins.EnforcerSkin.RECOLORDESPERADO,
+                            Skins.EnforcerSkin.RECOLORENGI,
+                            Skins.EnforcerSkin.RECOLORDOOM,
+                        };
+                        for (int i = 0; i < sameShotgunSkins.Length; i++) {
+                            if (Skins.isEnforcerCurrentSkin(charBody, sameShotgunSkins[i])) {
+
+                                MotionControls.dominantHand.rendererInfos[0].defaultMaterial = Skins.skinDefs[(int)body.skinIndex].rendererInfos[3].defaultMaterial;
+                                continue;
+                            }
+                        }
                         break;
                 }
 
@@ -180,9 +196,7 @@ public class EnforcerVRComponent : MonoBehaviour
                     {
                         allVRShields[0].SetActive(true);
                     }
-                    Shader hotpoo = LegacyResourcesAPI.Load<Shader>("Shaders/Deferred/hgstandard");
                     MotionControls.nonDominantHand.rendererInfos[0].defaultMaterial = Skins.skinDefs[(int)body.skinIndex].rendererInfos[0].defaultMaterial;
-                    MotionControls.nonDominantHand.rendererInfos[0].defaultMaterial.shader = hotpoo;
                     break;
                 case EquippedShield.BOARD:
                     var skateboard = (Skins.isEnforcerCurrentSkin(body, Skins.EnforcerSkin.FEMFORCER)) ? allVRShields[6] : allVRShields[5];
@@ -198,9 +212,12 @@ public class EnforcerVRComponent : MonoBehaviour
         switch (newParent)
         {
             case SkateBoardParent.BASE:
+                Debug.LogWarning("uh");
                 isSkating = true;
                 break;
             case SkateBoardParent.HAND:
+                Debug.LogWarning($"uh2 {VRAPICompat.IsLocalVRPlayer(charBody)} {VRSkateboard} {VRSkateboardHandBase}");
+
                 isSkating = false;
                 if (VRAPICompat.IsLocalVRPlayer(charBody) && VRSkateboard && VRSkateboardHandBase)
                 {
@@ -225,26 +242,31 @@ public class EnforcerVRComponent : MonoBehaviour
                 this.VRSkateboard.transform.SetParent(this.VRSkateboardHandBase);
             }
             // Auto shielding when you hold the shield in front of you
-            if ((Config.physicalVRShieldUp.Value || Config.physicalVRShieldDown.Value) && enforcerWeaponComponent && enforcerWeaponComponent.GetShield() == EquippedShield.SHIELD && enforcerComponent)
-            {
-                var target = MotionControls.nonDominantHand.muzzle.position - Camera.main.transform.position;
+            if ((Config.physicalVRShieldUp.Value || Config.physicalVRShieldDown.Value) && enforcerWeaponComponent && enforcerWeaponComponent.GetShield() == EquippedShield.SHIELD && enforcerComponent) {
+                
+                float offset = -0.3f * (MotionControls.dominantHand == MotionControls.rightHand ? -1f : 1f);
+                Vector3 target = (MotionControls.nonDominantHand.muzzle.position + Camera.main.transform.right * offset) - Camera.main.transform.position;
                 bool isForward = Vector3.Dot(Camera.main.transform.forward, target) > 0;
                 bool isRight = Vector3.Cross(Camera.main.transform.forward, target).y > 0;
                 bool otherSide = (MotionControls.dominantHand == MotionControls.rightHand) ? isRight : !isRight;
-                if (Config.physicalVRShieldUp.Value && !enforcerComponent.isShielding)
+
+                float pointAngle = Vector3.Angle(MotionControls.nonDominantHand.muzzle.forward, Vector3.down);
+                bool angledDown = pointAngle < 90 - Config.physicalVRShieldDownAngle.Value;
+
+
+                if (Config.physicalVRShieldDown.Value && enforcerComponent.isShielding)
+                {
+                    // Auto shield down when non-dominate hand points downward
+                    if (/*!otherSide && */angledDown)
+                        charBody.skillLocator.special.ExecuteIfReady();
+                }
+                else if(Config.physicalVRShieldUp.Value && !enforcerComponent.isShielding)
                 {
                     // Auto shield up based on the angle between non-dominate hand and camera
                     Vector3 v1 = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z);
                     Vector3 v2 = new Vector3(target.x, 0, target.z);
                     var angle = Vector3.Angle(v1, v2);
-                    if (isForward && otherSide && angle > 20)
-                        charBody.skillLocator.special.ExecuteIfReady();
-                }
-                else if (Config.physicalVRShieldDown.Value && enforcerComponent.isShielding)
-                {
-                    // Auto shield down when non-dominate hand points downward
-                    var angle = Vector3.Angle(MotionControls.nonDominantHand.muzzle.forward, Vector3.down);
-                    if (!otherSide && angle < 90 - Config.physicalVRShieldDownAngle.Value)
+                    if (!angledDown && isForward && otherSide && angle > 20)
                         charBody.skillLocator.special.ExecuteIfReady();
                 }
             }

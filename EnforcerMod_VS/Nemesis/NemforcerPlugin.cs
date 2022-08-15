@@ -631,7 +631,7 @@ namespace EnforcerPlugin {
             dotZone.fireFrequency = 4f;
             dotZone.forceVector = Vector3.zero;
             dotZone.impactEffect = null;
-            dotZone.lifetime = 18f;
+            dotZone.lifetime = 12f;
             dotZone.overlapProcCoefficient = 0.05f;
             dotZone.transform.localScale = Vector3.one * 32;
 
@@ -669,7 +669,7 @@ namespace EnforcerPlugin {
             grenadeImpact.timerAfterImpact = true;
             grenadeImpact.falloffModel = BlastAttack.FalloffModel.SweetSpot;
             grenadeImpact.lifetime = 18;
-            grenadeImpact.lifetimeAfterImpact = 0.5f;
+            grenadeImpact.lifetimeAfterImpact = 0.2f;
             grenadeImpact.lifetimeRandomOffset = 0;
             grenadeImpact.blastRadius = 6;
             grenadeImpact.blastDamageCoefficient = 1;
@@ -699,7 +699,7 @@ namespace EnforcerPlugin {
             EnforcerModPlugin.Destroy(nemGas.transform.GetChild(0).gameObject);
             GameObject gasFX = Assets.nemGasEffectPrefab.InstantiateClone("FX", false);
             gasFX.AddComponent<TearGasComponent>();
-            gasFX.AddComponent<DestroyOnTimer>().duration = 18f;
+            gasFX.AddComponent<DestroyOnTimer>().duration = 12f;
             gasFX.transform.parent = nemGas.transform;
             gasFX.transform.localPosition = Vector3.zero;
 
@@ -989,7 +989,7 @@ namespace EnforcerPlugin {
             utilityDef1.activationState = new SerializableEntityStateType(typeof(StunGrenade));
             utilityDef1.activationStateMachineName = "Weapon";
             utilityDef1.baseMaxStock = 3;
-            utilityDef1.baseRechargeInterval = 8f;
+            utilityDef1.baseRechargeInterval = 7f;
             utilityDef1.beginSkillCooldownOnSkillEnd = false;
             utilityDef1.canceledFromSprinting = false;
             utilityDef1.fullRestockOnAssign = true;
@@ -1021,7 +1021,7 @@ namespace EnforcerPlugin {
             mySkillDef.activationState = new SerializableEntityStateType(typeof(AimNemGas));
             mySkillDef.activationStateMachineName = "Weapon";
             mySkillDef.baseMaxStock = 1;
-            mySkillDef.baseRechargeInterval = 24;
+            mySkillDef.baseRechargeInterval = 16;
             mySkillDef.beginSkillCooldownOnSkillEnd = true;
             mySkillDef.canceledFromSprinting = false;
             mySkillDef.fullRestockOnAssign = true;

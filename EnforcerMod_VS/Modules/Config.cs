@@ -334,8 +334,8 @@ namespace Modules {
             physicalVRShieldDownAngle
                 = plugin.Config.Bind("08 - VR",
                                      "Physical Shield Down Angle",
-                                     25,
-                                     "How many degrees must you point to ground to trigger shield down.");
+                                     20,
+                                     "How many degrees must you point to ground to trigger shield down.\nHigher angle means you must be pointing closer to the ground");
 
             #endregion
         }

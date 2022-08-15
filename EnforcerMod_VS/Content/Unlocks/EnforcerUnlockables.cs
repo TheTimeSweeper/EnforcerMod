@@ -20,6 +20,7 @@ namespace Modules {
         public static UnlockableDef enforcerClassicUnlockableDef;
         public static UnlockableDef enforcerNemesisSkinUnlockableDef;
 
+        public static UnlockableDef enforcerDesperadoSkinUnlockableDef;
         public static UnlockableDef enforcerEngiSkinUnlockableDef;
         public static UnlockableDef enforcerStormSkinUnlockableDef;
         public static UnlockableDef enforcerDoomSkinUnlockableDef;
@@ -30,7 +31,7 @@ namespace Modules {
         public static UnlockableDef nemesisUnlockableDef;
         public static UnlockableDef nemMasteryUnlockableDef;
         public static UnlockableDef nemGrandMasteryUnlockableDef;
-
+        
         public static void RegisterUnlockables() {
 
             //this is the version that works with the altered AddUnlockable I changed in R2API.
@@ -53,12 +54,12 @@ namespace Modules {
 
             //if (!Config.hateFun.Value)
             //{
-            //   enforcerDoom2UnlockableDef = UnlockableAPI.AddUnlockable<DoomAchievement2>(typeof(DoomAchievement2.DoomAchievement2Server));
-            //    UnlockablesAPI.AddUnlockable<Achievements.DesperadoAchievement>(true);
-            //    UnlockablesAPI.AddUnlockable<Achievements.BungusAchievement>(true);
-            //    UnlockablesAPI.AddUnlockable<Achievements.StormtrooperAchievement>(true);
+            //    //enforcerDesperadoSkinUnlockableDef = UnlockableAPI.AddUnlockable<DoomAchievement2>(typeof(DoomAchievement2.DoomAchievement2Server));
+            //    //enforcerEngiSkinUnlockableDef = UnlockableAPI.AddUnlockable<DoomAchievement2>(typeof(DoomAchievement2.DoomAchievement2Server));
+            //    //enforcerStormSkinUnlockableDef = UnlockableAPI.AddUnlockable<DoomAchievement2>(typeof(DoomAchievement2.DoomAchievement2Server));
+            //    //enforcerDoomSkinUnlockableDef = UnlockableAPI.AddUnlockable<DoomAchievement2>(typeof(DoomAchievement2.DoomAchievement2Server));
             //}
-
+            
             if (Config.cursed.Value)
             {
                 //    UnlockablesAPI.AddUnlockable<Achievements.FrogAchievement>(true);

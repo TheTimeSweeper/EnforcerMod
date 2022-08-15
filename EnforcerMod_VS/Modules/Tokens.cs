@@ -20,7 +20,7 @@ namespace Modules {
             #region Achievements
             //character
             LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_NAME", "???");
-            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC", "On monsoon, stabilize the anomaly, and defeat Enforcer's Vestige.");
+            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, on monsoon or higher, stabilize the Void Fields and defeat Enforcer's Vestige.");
             LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_UNLOCKABLE_NAME", "???");
 
             LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Mastery");

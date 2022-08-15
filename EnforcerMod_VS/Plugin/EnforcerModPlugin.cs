@@ -273,7 +273,9 @@ namespace EnforcerPlugin {
             //add hooks here
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             On.EntityStates.GolemMonster.FireLaser.OnEnter += FireLaser_OnEnter;
-            On.EntityStates.BaseState.OnEnter += BaseState_OnEnter;
+            //uncomment this when nebby's variants return
+            //although truthfully rewrite this shit it's terrible
+            //On.EntityStates.BaseState.OnEnter += BaseState_OnEnter;
             //On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnEnemyHit;
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
             On.RoR2.CharacterBody.Update += CharacterBody_Update;
@@ -781,17 +783,6 @@ namespace EnforcerPlugin {
             orig(self, info);
         }
 
-        private void EntityStateMachine_SetState(On.RoR2.EntityStateMachine.orig_SetState orig, EntityStateMachine self, EntityState newState)
-        {
-            
-            if(self.commonComponents.characterBody?.bodyIndex == BodyCatalog.FindBodyIndex("EnforcerBody"))
-            {
-                if (newState is EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle)
-                    newState = new FireNeedler();
-            }
-            orig(self, newState);
-        }
-
         private void BaseState_OnEnter(On.EntityStates.BaseState.orig_OnEnter orig, BaseState self) {
             orig(self);
 
@@ -858,6 +849,16 @@ namespace EnforcerPlugin {
             }
             
             orig(self);
+        }
+
+        //this did work c:
+        private void EntityStateMachine_SetState(On.RoR2.EntityStateMachine.orig_SetState orig, EntityStateMachine self, EntityState newState) {
+
+            if (self.commonComponents.characterBody?.bodyIndex == BodyCatalog.FindBodyIndex("EnforcerBody")) {
+                if (newState is EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle)
+                    newState = new FireNeedler();
+            }
+            orig(self, newState);
         }
 
         private void SceneDirector_Start(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)

@@ -4,6 +4,7 @@ using EntityStates.ClayBruiser.Weapon;
 using UnityEngine.Networking;
 using Modules;
 using EnforcerPlugin;
+using System.Runtime.CompilerServices;
 
 namespace EntityStates.Nemforcer {
     public class NemMinigunFire : NemMinigunState
@@ -169,8 +170,9 @@ namespace EntityStates.Nemforcer {
             float rate = Mathf.Lerp(0.5f, 2, rateLerp);
             this.animator.SetFloat("Minigun.spinSpeed", rate);
 
-            if (VRAPICompat.IsLocalVRPlayer(base.characterBody))
-                VRAPI.MotionControls.nonDominantHand.animator.SetFloat("SpinSpeed", rate);
+            if (VRAPICompat.IsLocalVRPlayer(base.characterBody)) {
+                setVRSpinSpeed(rate);
+            }
 
             if (base.characterMotor)
             {
@@ -200,6 +202,10 @@ namespace EntityStates.Nemforcer {
         }
 
 
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private static void setVRSpinSpeed(float rate) {
+            VRAPI.MotionControls.nonDominantHand.animator.SetFloat("SpinSpeed", rate);
+        }
     }
 
     public class NemMinigunSpinDown : NemMinigunState
@@ -224,22 +230,35 @@ namespace EntityStates.Nemforcer {
 
             float spinlerp = Mathf.Lerp(spin, 0, fixedAge / duration);
             animator.SetFloat("Minigun.spinSpeed", spinlerp);
-
-            if (VRAPICompat.IsLocalVRPlayer(base.characterBody))
-                VRAPI.MotionControls.nonDominantHand.animator.SetFloat("SpinSpeed", spinlerp);
-
+            
+            if (VRAPICompat.IsLocalVRPlayer(base.characterBody)) {
+                setVRAnimatorSpeed(spinlerp);
+            }
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
                 this.outer.SetNextStateToMain();
             }
         }
 
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private static void setVRAnimatorSpeed(float spinlerp) {
+            VRAPI.MotionControls.nonDominantHand.animator.SetFloat("SpinSpeed", spinlerp);
+        }
+
+
         public override void OnExit()
         {
             base.OnExit();
 
-            if (VRAPICompat.IsLocalVRPlayer(base.characterBody))
-                VRAPI.MotionControls.nonDominantHand.animator.SetBool("MinigunSpin", false);
+            if (VRAPICompat.IsLocalVRPlayer(base.characterBody)) {
+                setVRAnimatorSpin();
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private static void setVRAnimatorSpin() {
+            VRAPI.MotionControls.nonDominantHand.animator.SetBool("MinigunSpin", false); ;
         }
     }
 
@@ -271,8 +290,14 @@ namespace EntityStates.Nemforcer {
                 if (this.chargeInstance.transform.Find("SmokeBillboard")) Destroy(this.chargeInstance.transform.Find("SmokeBillboard").gameObject);
             }
 
-            if (VRAPICompat.IsLocalVRPlayer(base.characterBody))
-                VRAPI.MotionControls.nonDominantHand.animator.SetBool("MinigunSpin", true);
+            if (VRAPICompat.IsLocalVRPlayer(base.characterBody)) {
+                setVRAnimatorSpin();
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private static void setVRAnimatorSpin() {
+            VRAPI.MotionControls.nonDominantHand.animator.SetBool("MinigunSpin", true); ;
         }
 
         public override void FixedUpdate()
@@ -282,13 +307,19 @@ namespace EntityStates.Nemforcer {
             float spinlerp = Mathf.Lerp(0, 0.5f, base.fixedAge / this.duration);
             this.animator.SetFloat("Minigun.spinSpeed", spinlerp);
 
-            if (VRAPICompat.IsLocalVRPlayer(base.characterBody))
-                VRAPI.MotionControls.nonDominantHand.animator.SetFloat("SpinSpeed", spinlerp);
+            if (VRAPICompat.IsLocalVRPlayer(base.characterBody)) {
+                setVRAnimatorSpeed(spinlerp);
+            }
 
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
                 this.outer.SetNextState(new NemMinigunFire());
             }
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private static void setVRAnimatorSpeed(float spinlerp) {
+            VRAPI.MotionControls.nonDominantHand.animator.SetFloat("SpinSpeed", spinlerp);
         }
 
         public override void OnExit()

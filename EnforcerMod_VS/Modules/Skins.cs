@@ -22,6 +22,7 @@ namespace Modules {
             ROBIT,
             CLASSIC,
             RECOLORNEMESIS,
+            RECOLORDESPERADO,
             RECOLORENGI,
             RECOLORENGIBUNG,
             RECOLORSTORM,
@@ -62,6 +63,8 @@ namespace Modules {
                     return "ENFORCERBODY_BOT_SKIN_NAME";
                 case EnforcerSkin.CLASSIC:
                     return "ENFORCERBODY_CLASSIC_SKIN_NAME";
+                case EnforcerSkin.RECOLORDESPERADO:
+                    return "ENFORCERBODY_DESPERADO_SKIN_NAME";
                 case EnforcerSkin.RECOLORENGI:
                     return "ENFORCERBODY_ENGI_SKIN_NAME";
                 case EnforcerSkin.RECOLORNEMESIS:
@@ -405,8 +408,7 @@ namespace Modules {
             defaultSkinDef.rendererInfos.CopyTo(nemesisSkinDefInfo.RendererInfos, 0);
 
             nemesisSkinDefInfo.RendererInfos[0].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorNemShield");
-            //take default
-            //nemesisSkinDefInfo.RendererInfos[1].defaultMaterial = Assets.CreateMaterial("matSexforcerShieldGlass", 0f, Color.black, 0);
+            nemesisSkinDefInfo.RendererInfos[1].defaultMaterial = Assets.LoadAsset<Material>("matRecolorDesperadoShieldGlass");
             //nemesisSkinDefInfo.RendererInfos[2].defaultMaterial = Materials.CreateHotpooMaterial("matSexforcerBoard");
             nemesisSkinDefInfo.RendererInfos[3].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorNemGun");
             //nemesisSkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.white, 0f);
@@ -420,6 +422,49 @@ namespace Modules {
             #endregion
 
             if (!EnforcerModPlugin.holdonasec) {
+                #region RecolorDesperado
+                SkinDefInfo desperadoSkinDefInfo = new SkinDefInfo();
+                desperadoSkinDefInfo.Name = "ENFORCERBODY_DESPERADO_SKIN_NAME";
+                desperadoSkinDefInfo.NameToken = "ENFORCERBODY_DESPERADO_SKIN_NAME";
+                desperadoSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texDesperadoAchievement");
+                desperadoSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerDesperadoSkinUnlockableDef;
+                desperadoSkinDefInfo.RootObject = modelTransform;
+
+                desperadoSkinDefInfo.BaseSkins = new SkinDef[] { defaultSkinDef };
+                desperadoSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+                desperadoSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+
+                desperadoSkinDefInfo.GameObjectActivations = getGameObjectActivations(sexforcerGlass);
+
+                desperadoSkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
+                    null,
+                    null,
+                    null,//board
+                    null,//"meshEnforcerGun",
+                    null,//"meshClassicGunSuper",
+                    null,//"meshClassicGunHMG",
+                    null,//"meshEnforcerHammer",
+                    null,
+                    null//"meshRecolorDesperado"
+                    );
+
+                desperadoSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[defaultSkinDef.rendererInfos.Length];
+                defaultSkinDef.rendererInfos.CopyTo(desperadoSkinDefInfo.RendererInfos, 0);
+
+                desperadoSkinDefInfo.RendererInfos[0].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorDesperadoShield");
+                desperadoSkinDefInfo.RendererInfos[1].defaultMaterial = Assets.LoadAsset<Material>("matRecolorDesperadoShieldGlass");
+                //desperadoSkinDefInfo.RendererInfos[2].defaultMaterial = Materials.CreateHotpooMaterial("matSexforcerBoard");
+                desperadoSkinDefInfo.RendererInfos[3].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorDesperadoGun");
+                //desperadoSkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.white, 0f);
+                //desperadoSkinDefInfo.RendererInfos[5].defaultMaterial = Assets.CreateMaterial("matClassicGunHMG", 0f, Color.white, 0f);
+                //desperadoSkinDefInfo.RendererInfos[6].defaultMaterial = Materials.CreateHotpooMaterial("matNemforcerClassic");
+                desperadoSkinDefInfo.RendererInfos[7].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorDesperado").MakeUnique();
+                desperadoSkinDefInfo.RendererInfos[8].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorDesperado");
+
+                SkinDef desperadoSkin = CreateSkinDef(desperadoSkinDefInfo);
+                skinDefs.Add(desperadoSkin);
+                #endregion
+
                 #region RecolorEngi
                 SkinDefInfo engiSkinDefInfo = new SkinDefInfo();
                 engiSkinDefInfo.Name = "ENFORCERBODY_ENGI_SKIN_NAME";
