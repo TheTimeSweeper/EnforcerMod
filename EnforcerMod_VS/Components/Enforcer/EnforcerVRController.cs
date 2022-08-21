@@ -212,11 +212,9 @@ public class EnforcerVRComponent : MonoBehaviour
         switch (newParent)
         {
             case SkateBoardParent.BASE:
-                Debug.LogWarning("uh");
                 isSkating = true;
                 break;
             case SkateBoardParent.HAND:
-                Debug.LogWarning($"uh2 {VRAPICompat.IsLocalVRPlayer(charBody)} {VRSkateboard} {VRSkateboardHandBase}");
 
                 isSkating = false;
                 if (VRAPICompat.IsLocalVRPlayer(charBody) && VRSkateboard && VRSkateboardHandBase)

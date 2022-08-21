@@ -96,7 +96,7 @@ namespace EntityStates.Enforcer {
                 
             onDance(false);
 
-            this.sprintCancelEnabled = Config.sprintShieldCancel.Value;
+            this.sprintCancelEnabled = Config.sprintShieldCancel.Value && !EnforcerPlugin.EnforcerModPlugin.autoSprintInstalled;
 
             /*AnimationCurve commandoCurve = RoR2.LegacyResourcesAPI.Load<GameObject>("prefabs/characterbodies/commandobody").GetComponent<CharacterBody>().spreadBloomCurve;
             foreach (Keyframe k in commandoCurve.keys)

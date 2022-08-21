@@ -1,7 +1,7 @@
 # Enforcer
 - Adds the Enforcer from Risk of Rain 1
 - Includes a bunch of unlockable alternate skills and skins
-- Includes support for Ancient Scepter and a few other mods
+- Includes support for Ancient Scepter, VR, and a few other mods
 
 [![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/Release/readme/screen0.png)]()
 
@@ -26,11 +26,13 @@ DarkLordLui (JestAnotherAnimator) - Animations
 Paysus - Animations  
 Violet Chaolan - Sounds  
 LucidInceptor (2cute2game) - Modeling  
+Dr.Bibop - VR implementation  
+PureDark - VR implementation  
 Dotflare - texture assistance  
 SalvadorBunny - Heavy TF2 Minecraft skin  
 Destructor - Original mod icon, help  
-Nebby - Help  
 Reithierion - New mod icon  
+Nebby - Help  
 Draymarc - Concepts  
 Lethan - Screenshots  
 wetpudding - item displays  
@@ -39,15 +41,37 @@ Swuff - Idea Guy™
 
 And big thanks to everyone testing and giving their feedback, the mod wouldn't be the same without it
 
+## VR 
+Enforcer is now compatible with [Dr.Bibop's VRMod](https://thunderstore.io/package/DrBibop/VRMod/). make sure you have [VRAPI installed](https://thunderstore.io/package/DrBibop/VRAPI/).  
+Huge thanks to Dr.Bibop and PureDark for the *full* VR implementation  
+[![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/Release/readme/enforvr.png)]()
+
+#### Guns
+ - aimed with dominant hand
+#### Shield Bash
+ - can be activated by swinging shield-hand. 
+ - knocks enemies back based on your look direction
+ - sprint shield bash also faces your look direction
+#### Protect and Serve
+ - can be automatically activated by raising and lowering your shield
+   - raising your shield is triggered by having your shield-hand in front of you and raised
+   - lowering your shield is triggered when you point your shield-hand downwards
+   - can be disabled in config
+#### Hammer
+ - held with both hands
+ - activated by swinging with motion controls
+#### Hammer uppercut
+ - aimed with dominant hand
+#### Minigun
+ - held and aimed with both hands
 ## Skills
-may be lil out of date
 
 | Skill | | Description | Stats |
 |:-|-|-------|-|
-| Riot Shotgun | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/RiotShotgunIcon.png) | Fire a short range `piercing` blast for `8x45%` damage. | Proc: `0.5` |
+| Riot Shotgun | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/RiotShotgunIcon.png) | Fire a short range `piercing` blast for `6x60%` damage. | Proc: `0.5` |
 | Shield Bash | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/ShieldBashIcon.png) | `Bash` nearby enemies away for `250%` damage. Use while sprinting to perform a `Shoulder Bash` for `450%` damage instead. `Deflects Projectiles`. | Proc: `1.0`, CD: `6 sec` |
 | Shoulder Bash |  | Short charge that stuns. Hitting heavier enemies deals up to `700%` damage. | Proc: `1.0` |
-| Tear Gas | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/TearGasIcon.png) | Throw a grenade that explodes into tear gas that leaves enemies `Impaired`. Lasts for 16 seconds. | CD: `24 sec` |
+| Tear Gas | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/TearGasIcon.png) | Throw a grenade that explodes into tear gas that leaves enemies `Impaired`. Lasts for 12 seconds. | CD: `16 sec` |
 | Impaired |  | Reduces `movement speed` by `75%`, `attack speed` by `25`, and `armor` by `20`|
 | Protect and Serve | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/ShieldUpIcon.png) | Take a defensive stance `blocking` all damage from the front. `Increases your rate of fire` but prevents sprinting and jumping. | CD: `0 sec` |
 
@@ -57,7 +81,7 @@ may be lil out of date
 |:-|-|-------|-|
 | Super Shotgun | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/SuperShotgunIcon.png) | Fire up to 2 shotgun blasts for `8x80%` damage. While using `Protect and Serve`, fire both barrels at once. | Proc: `0.75` |
 | Heavy Machine Gun | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/AssaultRifleIcon.png) | Unload a barrage of bullets for `130%` damage. While using `Protect and Serve` has increased accuracy, but slower movement speed. | Proc: `1` |
-| Stun Grenade | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/StunGrenadeIcon.png) | `Stunning`. Launch a stun grenade, dealing `540%` damage. Store up to 3 grenades. | Proc: `1`, CD: `6 sec` |
+| Stun Grenade | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/StunGrenadeIcon.png) | `Stunning`. Launch a stun grenade, dealing `540%` damage. Store up to 3 grenades. | Proc: `1`, CD: `7 sec` |
 
 [![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)]()
 
@@ -67,7 +91,6 @@ may be lil out of date
 ## Future Plans
 - More alternate skill(s)
 - Skills++ support
-- vr.
 - Other things 100% decided on pure whimsy
 - Readding everything
 - Fixing this fucker
@@ -75,6 +98,20 @@ may be lil out of date
 
 ## Changelog
 
+`3.5.0` holy shit VR  
+
+Huge thanks to Dr.Bibop and PureDark for *full* VR implementation
+ - custom VR hands with custom models based on each skin
+ - motion controls for melee skills
+ - two-handed aiming for minigun
+ - read more above
+
+Additional:
+ - updated heavy tf2's grenades with enforcer's changes from previous patches
+ - updated nemforcer unlock condition in the logbook to be more clear
+ - fixed enforcer and nemforcer with sawmerang
+ - automatically disabled sprint shield cancel if autosprint is installed (been about time, truthfully)
+ 
 `3.4.1`
 - fixed guns breaking with custom skins
 - fixed missing enforcer in logbook

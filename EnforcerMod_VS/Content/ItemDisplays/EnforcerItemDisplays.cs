@@ -983,11 +983,11 @@ namespace EnforcerPlugin {
                                                                 new Vector3(9.0684F, 272.2467F, 359.5266F),
                                                                 new Vector3(0.1F, 0.1F, 0.1F)));
 
-            //itemRules.Add(ItemDisplays.CreateGenericDisplayRule("Saw", "DisplaySawmerang",
-            //                                                    "Root",
-            //                                                    new Vector3(0.62211F, 0.43106F, 1.15734F),
-            //                                                    new Vector3(358.3824F, 269.3275F, 292.5764F),
-            //                                                    new Vector3(0.225F, 0.225F, 0.225F)));
+            itemRules.Add(ItemDisplays.CreateGenericDisplayRule(RoR2Content.Equipment.Saw, "DisplaySawmerangFollower",
+                                                                "Root",
+                                                                new Vector3(0.62199F, -0.50274F, -1.3056F),
+                                                                new Vector3(358.3824F, 269.3275F, 292.5764F),
+                                                                new Vector3(0.225F, 0.225F, 0.225F)));
             itemRules.Add(ItemDisplays.CreateGenericDisplayRule("Meteor", "DisplayMeteor",
                                                                 "Root",
                                                                 new Vector3(1.04502F, 0.51043F, 0.67377F),

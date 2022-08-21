@@ -30,7 +30,7 @@ namespace Modules {
             string masteryFootnote = EnforcerModPlugin.starstormInstalled ? "" : "\n<color=#8888>(Counts any difficulty Typhoon or higher)</color>";
 
             LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Grand Mastery");
-            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Typhoon or Eclipse." + masteryFootnote);
+            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Typhoon or Eclipse." + masteryFootnote);
             LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Grand Mastery");
 
             //sken

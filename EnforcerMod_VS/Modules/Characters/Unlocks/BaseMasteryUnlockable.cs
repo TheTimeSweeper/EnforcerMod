@@ -34,15 +34,9 @@ namespace EnforcerPlugin.Achievements {
                 DifficultyIndex difficultyIndex = runReport.ruleBook.FindDifficulty();
                 DifficultyDef runDifficulty = DifficultyCatalog.GetDifficultyDef(runReport.ruleBook.FindDifficulty());
 
-                DifficultyDef infernoDef = null;
-                if (EnforcerModPlugin.infernoPluginLoaded)
-                {
-                    infernoDef = GetInfernoDef();
-                }
-
-                if ((infernoDef != null && runDifficulty == infernoDef)
-                    || (runDifficulty.countsAsHardMode && runDifficulty.scalingValue >= RequiredDifficultyCoefficient)
-                    || (difficultyIndex >= DifficultyIndex.Eclipse1 && difficultyIndex <= DifficultyIndex.Eclipse8)) {
+                if ((runDifficulty.countsAsHardMode && runDifficulty.scalingValue >= RequiredDifficultyCoefficient) || 
+                    (difficultyIndex >= DifficultyIndex.Eclipse1 && difficultyIndex <= DifficultyIndex.Eclipse8) ||
+                    (runDifficulty.nameToken == "INFERNO_NAME")) {
                     Grant();
                 }
             }
@@ -51,12 +45,6 @@ namespace EnforcerPlugin.Achievements {
         public override BodyIndex LookUpRequiredBodyIndex()
         {
             return BodyCatalog.FindBodyIndex(RequiredCharacterBody);
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        private DifficultyDef GetInfernoDef()
-        {
-            return Inferno.Main.InfernoDiffDef;
         }
     }
 }

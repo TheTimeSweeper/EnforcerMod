@@ -143,7 +143,7 @@ namespace EnforcerPlugin {
             itemRules.Add(NemItemDisplays.CreateFollowerDisplayRuleE("Talisman", "DisplayTalisman", new Vector3(-0.015f, 0.03f, 0.05f), new Vector3(0, 270, 0), new Vector3(1, 1, 1)));
             itemRules.Add(NemItemDisplays.CreateFollowerDisplayRuleE("FocusConvergence", "DisplayFocusedConvergence", new Vector3(0.035f, 0.01f, 0.03f), new Vector3(0, 0, 0), new Vector3(0.2f, 0.2f, 0.2f)));
 
-            itemRules.Add(NemItemDisplays.CreateFollowerDisplayRuleE("Saw", "DisplaySawmerang", new Vector3(0.06f, 0.02f, 0), new Vector3(90, 0, 0), new Vector3(0.25f, 0.25f, 0.25f)));
+            itemRules.Add(NemItemDisplays.CreateFollowerDisplayRuleE("Saw", "DisplaySawmerangFollower", new Vector3(0.00698F, 0.01826F, 0.03111F), new Vector3(90F, 0F, 0F), new Vector3(0.00387F, 0.00387F, 0.00387F)));
             itemRules.Add(NemItemDisplays.CreateFollowerDisplayRuleE("Meteor", "DisplayMeteor", new Vector3(0.05f, 0.02f, 0), new Vector3(90, 0, 0), new Vector3(1, 1, 1)));
             itemRules.Add(NemItemDisplays.CreateFollowerDisplayRuleE("Blackhole", "DisplayGravCube", new Vector3(0.05f, 0.02f, 0), new Vector3(90, 0, 0), new Vector3(1, 1, 1)));
 

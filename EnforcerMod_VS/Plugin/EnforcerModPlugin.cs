@@ -37,9 +37,9 @@ namespace EnforcerPlugin {
     [BepInDependency("com.cwmlolzlz.skills", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ItemDisplayPlacementHelper", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.Moffein.RiskyArtifacts", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency("HIFU.Inferno", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("HIFU.Inferno", BepInDependency.DependencyFlags.SoftDependency)][BepInDependency("com.johnedwa.RTAutoSprintEx", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.4.1")]
+    [BepInPlugin(MODUID, "Enforcer", "3.5.0")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -101,7 +101,7 @@ namespace EnforcerPlugin {
         public static bool IDPHelperInstalled = false;
         public static bool VRInstalled = false;
         public static bool RiskyArtifactsInstalled = false;
-        public static bool infernoPluginLoaded = false;
+        public static bool autoSprintInstalled = false;
 
         public static DamageAPI.ModdedDamageType barrierDamageType;
 
@@ -172,40 +172,24 @@ namespace EnforcerPlugin {
         private void SetupModCompat() {
 
             //aetherium item displays- dll won't compile without a reference to aetherium
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KomradeSpectre.Aetherium")) {
-                aetheriumInstalled = true;
-            }
-            //sivs item displays- dll won't compile without a reference
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Sivelos.SivsItems")) {
-                sivsItemsInstalled = true;
-            }
-            //supply drop item displays- dll won't compile without a reference
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.K1454.SupplyDrop")) {
-                supplyDropInstalled = true;
-            }
+            aetheriumInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KomradeSpectre.Aetherium");
+            sivsItemsInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Sivelos.SivsItems");
+            supplyDropInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.K1454.SupplyDrop");
+
             //scepter stuff
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter")) {
-                ScepterInstalled = true;
-            }
+            ScepterInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter");
             //shartstorm 2 xDDDD
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TeamMoonstorm.Starstorm2")) {
-                starstormInstalled = true;
-            }
-            //skillsplus
+            starstormInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TeamMoonstorm.Starstorm2");
+
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.cwmlolzlz.skills")) {
                 skillsPlusInstalled = true;
                 SkillsPlusCompat.init();
             }
-            //weapon idrs
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ItemDisplayPlacementHelper")) {
-                IDPHelperInstalled = true;
-            }
 
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Moffein.RiskyArtifacts")) {
-                RiskyArtifactsInstalled = true;
-            }
+            IDPHelperInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ItemDisplayPlacementHelper");
 
-            //VR stuff
+            RiskyArtifactsInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Moffein.RiskyArtifacts");
+
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DrBibop.VRAPI")) {
                 SetupVR();
             }
@@ -215,7 +199,7 @@ namespace EnforcerPlugin {
                 BetterUICompat.init();
             }
 
-            infernoPluginLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("HIFU.Inferno");
+            autoSprintInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.johnedwa.RTAutoSprintEx");
 
             FixItemDisplays();
         }

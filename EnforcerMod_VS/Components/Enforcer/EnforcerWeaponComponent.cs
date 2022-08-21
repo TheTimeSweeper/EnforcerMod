@@ -87,10 +87,10 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     public CameraTargetParams cameraShit;
     public ChildLocator childLocator;
 
+    private EnforcerVRComponent enforcerVRComponent;
+
     public FootstepHandler footStep;
     public SfxLocator sfx;
-
-    private EnforcerVRComponent enforcerVRComponent;
 
     public void Init() {
         this.charBody = this.GetComponentInChildren<CharacterBody>();
@@ -99,14 +99,18 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         this.cameraShit = this.GetComponent<CameraTargetParams>();
         this.childLocator = this.GetComponentInChildren<ChildLocator>();
 
-        if(EnforcerModPlugin.VRInstalled)
-            this.enforcerVRComponent = this.GetComponentInChildren<EnforcerVRComponent>();
-
         this.footStep = this.GetComponentInChildren<FootstepHandler>();
         this.sfx = this.GetComponentInChildren<SfxLocator>();
 
         if (this.footStep) this.stepSoundString = this.footStep.baseFootstepString;
         if (this.sfx) this.landSoundString = this.sfx.landingSound;
+    }
+
+    void Awake() {
+
+        if (EnforcerModPlugin.VRInstalled) {
+            this.enforcerVRComponent = this.GetComponent<EnforcerVRComponent>();
+        }
     }
 
     void Start() {

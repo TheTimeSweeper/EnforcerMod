@@ -458,11 +458,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: NemforcerHammerHand
       objectReference: {fileID: 0}
-    - target: {fileID: 2796157326729394000, guid: 6378549875afc4d4a9f71aa1400ed7bd,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6378549875afc4d4a9f71aa1400ed7bd, type: 3}
 --- !u!1001 &4408129163860253661
@@ -531,6 +526,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnforcerShieldHand
+      objectReference: {fileID: 0}
+    - target: {fileID: 4408129165459900275, guid: 102ecd5fd7df74a4783cac6806dd05fa,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 102ecd5fd7df74a4783cac6806dd05fa, type: 3}
