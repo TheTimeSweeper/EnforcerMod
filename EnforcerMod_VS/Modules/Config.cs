@@ -108,12 +108,12 @@ namespace Modules {
                                      "Cursed",
                                      false,
                                      "Enables extra/unfinished content. Enable at own risk.");
-            //hateFun
-            //  = plugin.Config.Bind("01 - General Settings",
-            //                       "I hate fun",
-            //                       false,
-            //                       "Overrides Cursed. Further disables extra content, namely skins and their achievements");
-            //cursed.Value |= hateFun.Value;
+            hateFun
+              = plugin.Config.Bind("01 - General Settings",
+                                   "I hate fun",
+                                   false,
+                                   "Overrides Cursed. Further disables extra content, namely skins and their achievements");
+            cursed.Value |= hateFun.Value;
 
             femSkin
               = plugin.Config.Bind("01 - General Settings",

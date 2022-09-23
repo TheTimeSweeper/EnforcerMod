@@ -25,7 +25,7 @@ public class EnforcerVRComponent : MonoBehaviour
 
     void OnEnable()
     {
-        if (EnforcerModPlugin.VRInstalled)
+        if (EnforcerModPlugin.VREnabled)
         {
             SubscribeToHandPairEvent();
             On.EntityStates.BaseState.GetAimRay += EditAimRay;
@@ -34,7 +34,7 @@ public class EnforcerVRComponent : MonoBehaviour
 
     void OnDisable()
     {
-        if (EnforcerModPlugin.VRInstalled)
+        if (EnforcerModPlugin.VREnabled)
         {
             UnsubscribeToHandPairEvent();
             On.EntityStates.BaseState.GetAimRay -= EditAimRay;

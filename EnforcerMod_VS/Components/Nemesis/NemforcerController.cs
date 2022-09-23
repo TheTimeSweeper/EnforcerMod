@@ -71,7 +71,7 @@ public class NemforcerController : MonoBehaviour
         cameraShit = GetComponent<CameraTargetParams>();
         childLocator = GetComponentInChildren<ChildLocator>();
 
-        if(EnforcerModPlugin.VRInstalled)
+        if(EnforcerModPlugin.VREnabled)
             nemforcerVRController = GetComponentInChildren<NemforcerVRController>();
 
         primarySkillDef = charBody.skillLocator.primary.skillDef;
@@ -93,8 +93,19 @@ public class NemforcerController : MonoBehaviour
         InitWeapon();
 
         Invoke("ModelCheck", 0.2f);
+
+        charBody.onInventoryChanged += Inventory_onInventoryChanged;
     }
 
+    void OnDestroy() {
+
+        charBody.onInventoryChanged -= Inventory_onInventoryChanged;
+    }
+
+    private void Inventory_onInventoryChanged() {
+        DelayedResetWeapon();
+        ModelCheck();
+    }
 
     private void FixedUpdate()
     {

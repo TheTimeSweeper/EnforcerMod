@@ -68,7 +68,7 @@ namespace EntityStates.Enforcer {
                 }
             }
 
-            if (!EnforcerPlugin.EnforcerModPlugin.cum && Modules.Skins.isEnforcerCurrentSkin(base.characterBody, "ENFORCERBODY_DOOM_SKIN_NAME")) {
+            if (!EnforcerPlugin.EnforcerModPlugin.cum && Modules.Skins.isEnforcerCurrentSkin(base.characterBody, Skins.EnforcerSkin.RECOLORDOOM)) {
                 EnforcerPlugin.EnforcerModPlugin.cum = true;
                 Util.PlaySound(Modules.Sounds.DOOM, base.gameObject);
             }
@@ -223,24 +223,22 @@ namespace EntityStates.Enforcer {
             //bungus achievement
             if (base.isAuthority && base.hasCharacterMotor)
             {
-                //bool flag = false;
+                bool howdareyoucallafuckingboolflagyoufag = false;
 
-                /*if (base.characterMotor.velocity == Vector3.zero && base.characterMotor.isGrounded)
+                if (base.characterMotor.velocity == Vector3.zero && base.characterMotor.isGrounded)
                 {
                     int bungusCount = base.characterBody.master.inventory.GetItemCount(RoR2Content.Items.Mushroom);
                     if (bungusCount > 0)
                     {
-                        flag = true;
+                        howdareyoucallafuckingboolflagyoufag = true;
                         float bungusMult = bungusCount * 0.35f;
                         this.bungusStopwatch += (1 + bungusMult) * Time.fixedDeltaTime;
 
-                        Bungus(this.bungusStopwatch);
+                        Bungus?.Invoke(this.bungusStopwatch);
                     }
                 }
 
-                if (!flag) this.bungusStopwatch = 0;*/
-
-
+                if (!howdareyoucallafuckingboolflagyoufag) this.bungusStopwatch = 0;
             }
 
             //sprint shield cancel

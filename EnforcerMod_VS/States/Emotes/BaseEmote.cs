@@ -73,11 +73,11 @@ namespace EntityStates.Enforcer {
                 PlayAnimationOnAnimator(animator, "FullBody, Override", animString);
             }
 
+            if (Skins.isEnforcerCurrentSkin(base.characterBody, Skins.EnforcerSkin.RECOLORDOOM))
+                soundString = Modules.Sounds.DOOM;
+
             if (!string.IsNullOrEmpty(soundString))
             {
-                if (Modules.Skins.isEnforcerCurrentSkin(base.characterBody, "ENFORCERBODY_DOOM_SKIN_NAME"))
-                    soundString = Modules.Sounds.DOOM;
-
                 activePlayID = Util.PlaySound(soundString, gameObject);
             };
         }

@@ -39,7 +39,7 @@ namespace EnforcerPlugin {
     [BepInDependency("com.Moffein.RiskyArtifacts", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("HIFU.Inferno", BepInDependency.DependencyFlags.SoftDependency)][BepInDependency("com.johnedwa.RTAutoSprintEx", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.5.0")]
+    [BepInPlugin(MODUID, "Enforcer", "3.6.0")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -99,7 +99,7 @@ namespace EnforcerPlugin {
         public static bool starstormInstalled = false;
         public static bool skillsPlusInstalled = false;
         public static bool IDPHelperInstalled = false;
-        public static bool VRInstalled = false;
+        public static bool VREnabled = false;
         public static bool RiskyArtifactsInstalled = false;
         public static bool autoSprintInstalled = false;
 
@@ -241,7 +241,7 @@ namespace EnforcerPlugin {
         {
             if (!VRAPI.VR.enabled || !VRAPI.MotionControls.enabled) return;
 
-            VRInstalled = true;
+            VREnabled = true;
             Assets.loadVRBundle();
             VRAPI.MotionControls.AddHandPrefab(Assets.vrEnforcerDominantHand);
             VRAPI.MotionControls.AddHandPrefab(Assets.vrEnforcerNonDominantHand);
@@ -647,40 +647,17 @@ namespace EnforcerPlugin {
             }
         }
 
+        //todo move this to respective components and subscribe to characterbody.inventory.onvinentorychanged instead of using a hook and checking names
         private void CharacterMaster_OnInventoryChanged(On.RoR2.CharacterMaster.orig_OnInventoryChanged orig, CharacterMaster self)
         {
             orig(self);
 
-            if (self.hasBody)
-            {
-                if (self.GetBody().baseNameToken == "ENFORCER_NAME")
-                {
-                    var weaponComponent = self.GetBody().GetComponent<EnforcerWeaponComponent>();
-                    if (weaponComponent)
-                    {
-                        weaponComponent.DelayedResetWeaponsAndShields();
-                        weaponComponent.ModelCheck();
-                    }
-                }
-                else
-                {
-                    if (self.GetBody().baseNameToken == "NEMFORCER_NAME")
-                    {
-                        var nemComponent = self.GetBody().GetComponent<NemforcerController>();
-                        if (nemComponent)
-                        {
-                            nemComponent.DelayedResetWeapon();
-                            nemComponent.ModelCheck();
-                        }
-                    }
-                    else if (self.inventory && Modules.Config.useNeedlerCrosshair.Value)
-                    {
-                        if (self.inventory.GetItemCount(RoR2Content.Items.LunarPrimaryReplacement) > 0)
-                        {
-                            self.GetBody()._defaultCrosshairPrefab = needlerCrosshair;
+            if (self.hasBody) {
+                if (self.inventory && Modules.Config.useNeedlerCrosshair.Value) {
+                    if (self.inventory.GetItemCount(RoR2Content.Items.LunarPrimaryReplacement) > 0) {
+                        self.GetBody()._defaultCrosshairPrefab = needlerCrosshair;
 
-                            //CrosshairUtils.RequestOverrideForBody(self.GetBody(), needlerCrosshair, CrosshairUtils.OverridePriority.Skill);
-                        }
+                        //CrosshairUtils.RequestOverrideForBody(self.GetBody(), needlerCrosshair, CrosshairUtils.OverridePriority.Skill);
                     }
                 }
             }
@@ -731,9 +708,6 @@ namespace EnforcerPlugin {
                             if (enforcerComponent.isDeflecting) {
                                 blocked = true;
                             }
-
-                            //Debug.LogWarning("firin mah layzor " + NetworkServer.active);
-                            //enforcerComponent.invokeOnLaserHitEvent();
                         }
                     }
 
@@ -847,17 +821,18 @@ namespace EnforcerPlugin {
 
         private void SceneDirector_Start(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
         {
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "moon")
-            {
-                //null checks to hell and back
-                if (GameObject.Find("EscapeSequenceController")) {
-                    if (GameObject.Find("EscapeSequenceController").transform.Find("EscapeSequenceObjects")) {
-                        if (GameObject.Find("EscapeSequenceController").transform.Find("EscapeSequenceObjects").transform.Find("SmoothFrog")) {
-                            GameObject.Find("EscapeSequenceController").transform.Find("EscapeSequenceObjects").transform.Find("SmoothFrog").gameObject.AddComponent<FrogComponent>();
-                        }
-                    }
-                }
-            }
+            //good riddance gameobject.finds
+            //if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "moon")
+            //{
+            //    //null checks to hell and back
+            //    if (GameObject.Find("EscapeSequenceController")) {
+            //        if (GameObject.Find("EscapeSequenceController").transform.Find("EscapeSequenceObjects")) {
+            //            if (GameObject.Find("EscapeSequenceController").transform.Find("EscapeSequenceObjects").transform.Find("SmoothFrog")) {
+            //                GameObject.Find("EscapeSequenceController").transform.Find("EscapeSequenceObjects").transform.Find("SmoothFrog").gameObject.AddComponent<FrogComponent>();
+            //            }
+            //        }
+            //    }
+            //}
 
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "bazaar")
             {

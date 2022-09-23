@@ -1,13 +1,14 @@
-﻿using RoR2;
+﻿using Modules;
+using RoR2;
 
 namespace EnforcerPlugin.Achievements
 {
     public class DoomAchievement2 : GenericModdedUnlockable
     {
-        public override string AchievementTokenPrefix => "ENFORCER_DOOMINTERNAL";
+        public override string AchievementTokenPrefix => "ENFORCER_DOOMINTERNAL" + knee.grow;
         public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
 
-        public override string AchievementSpriteName => "texClassicAchievement";
+        public override string AchievementSpriteName => "texDoomAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex()
         {
@@ -32,8 +33,14 @@ namespace EnforcerPlugin.Achievements
 
         public class DoomAchievement2Server : DoomAchievement.DoomAchievementServer
         {
-            protected override int impRequirement => 4;
+            protected override int impRequirement => 10;
             protected override BodyIndex impBodyIndex => BodyCatalog.FindBodyIndex("ImpBossBody");
+
+            protected override void onGrant() {
+
+                base.GetCurrentBody().GetComponent<EnforcerNetworkComponent>().Uhh(Skins.getEnforcerSkinIndex(Skins.EnforcerSkin.RECOLORDOOM));
+                Util.PlaySound(Modules.Sounds.DOOM, base.GetCurrentBody().gameObject);
+            }
         }
     }
 }

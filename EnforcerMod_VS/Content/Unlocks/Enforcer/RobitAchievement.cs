@@ -1,13 +1,12 @@
-﻿using RoR2;
+﻿using Modules;
+using RoR2;
 using RoR2.Achievements;
 
-namespace EnforcerPlugin.Achievements
-{
+namespace EnforcerPlugin.Achievements {
 
     public class RobitAchievement : GenericModdedUnlockable {
-        static string nig = "";
 
-        public override string AchievementTokenPrefix => "ENFORCER_ROBIT" + nig;
+        public override string AchievementTokenPrefix => "ENFORCER_ROBIT" + knee.grow;
         public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
 
         public override string AchievementSpriteName => "texNemforcerEnforcer";
@@ -64,7 +63,7 @@ namespace EnforcerPlugin.Achievements
                 //bool fucker = base.GetCurrentBody() == self.GetComponent<CharacterModel>().body;
                 if (_applyingSkin) {
                     skinIndex = 3;
-                    self.characterModel.body.GetComponent<EnforcerNetworkComponent>().RpcUhh(3);
+                    self.characterModel.body.GetComponent<EnforcerNetworkComponent>().Uhh(Skins.getEnforcerSkinIndex(Skins.EnforcerSkin.ROBIT));
                     On.RoR2.ModelSkinController.ApplySkin -= ModelSkinController_ApplySkin;
                 }
                 orig(self, skinIndex);

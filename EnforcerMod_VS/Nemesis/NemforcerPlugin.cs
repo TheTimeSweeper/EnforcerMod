@@ -492,7 +492,7 @@ namespace EnforcerPlugin {
 
             hitBoxGroup2.groupName = "Uppercut";
 
-            if (EnforcerModPlugin.VRInstalled) {
+            if (EnforcerModPlugin.VREnabled) {
 
                 HitBoxGroup hitBoxGroupVR = model.AddComponent<HitBoxGroup>();
 
@@ -549,7 +549,7 @@ namespace EnforcerPlugin {
             aimAnimator.inputBank = characterBodyPrefab.GetComponent<InputBankTest>();
 
             characterBodyPrefab.AddComponent<NemforcerController>();
-            if(EnforcerModPlugin.VRInstalled)
+            if(EnforcerModPlugin.VREnabled)
                 characterBodyPrefab.AddComponent<NemforcerVRController>();
         }
 
@@ -2363,7 +2363,7 @@ namespace EnforcerPlugin {
             aimAnimator.inputBank = dededePrefab.GetComponent<InputBankTest>();
 
             dededePrefab.AddComponent<NemforcerController>();
-            if (EnforcerModPlugin.VRInstalled)
+            if (EnforcerModPlugin.VREnabled)
                 dededePrefab.AddComponent<NemforcerVRController>();
             dededePrefab.AddComponent<DeathRewards>();
         }

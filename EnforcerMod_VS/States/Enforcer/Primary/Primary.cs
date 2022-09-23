@@ -30,15 +30,14 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         protected float duration;
         protected float fireDuration;
         protected float attackStopDuration;
-        //protected bool isStormtrooper;
-        //protected bool isEngi;
+        protected bool isStormtrooper;
+        protected bool isEngi;
         protected bool hasFired;
         private Animator animator;
         protected string muzzleString;
 
         protected EnforcerComponent enforcerComponent;
-
-        private bool isStormtrooper;
+        
 
         public override void OnEnter() {
             base.OnEnter();
@@ -48,13 +47,14 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             muzzleString = "Muzzle";
             hasFired = false;
 
-            if (Skins.isEnforcerCurrentSkin(base.characterBody, "ENFORCERBODY_STORM_SKIN_NAME")) {
-                isStormtrooper = true;
+            if (Skins.isEnforcerCurrentSkin(base.characterBody, Skins.EnforcerSkin.RECOLORSTORM)) 
+            {
+                this.isStormtrooper = true;
             }
-            //if (base.characterBody.skinIndex == EnforcerModPlugin.engiIndex && Config.cursed.Value)
-            //{
-            //    this.isEngi = true;
-            //}
+            if (Skins.isEnforcerCurrentSkin(base.characterBody, Skins.EnforcerSkin.RECOLORENGIBUNG))
+            {
+                this.isEngi = true;
+            }
 
             if (HasBuff(Buffs.protectAndServeBuff) || HasBuff(Buffs.energyShieldBuff)) {
                 duration = baseShieldDuration / attackSpeedStat;
@@ -84,7 +84,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 if (Config.classicShotgun.Value) soundString = Sounds.FireClassicShotgun;
 
                 if (isStormtrooper) soundString = Sounds.FireBlasterShotgun;
-                //if (this.isEngi) soundString = Sounds.FireBungusShotgun;
+                if (isEngi) soundString = Sounds.FireBungusShotgun;
 
                 Util.PlayAttackSpeedSound(soundString, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject, attackSpeedStat);
 
@@ -103,14 +103,14 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                     float damage = damageCoefficient * damageStat;
                     
                     GameObject tracerEffect = EnforcerModPlugin.bulletTracer;
-
-                    if (levelHasChanged) {
-                        levelHasChanged = false;
-
-                        thiccenTracer(ref tracerEffect);
-                    }
                     if (this.isStormtrooper) tracerEffect = EnforcerModPlugin.laserTracer;
-                    //if (this.isEngi) tracerEffect = EnforcerModPlugin.bungusTracer;
+                    if (this.isEngi) tracerEffect = EnforcerModPlugin.bungusTracer;
+
+                    //if (levelHasChanged) {
+                    //    levelHasChanged = false;
+
+                    //    thiccenTracer(ref tracerEffect);
+                    //}
 
                     Ray aimRay = GetAimRay();
 

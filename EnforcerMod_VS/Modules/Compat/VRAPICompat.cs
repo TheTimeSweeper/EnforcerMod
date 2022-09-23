@@ -27,7 +27,7 @@ namespace EnforcerPlugin
 
         public static bool IsLocalVRPlayer(CharacterBody body)
         {
-            return EnforcerModPlugin.VRInstalled && body == LocalUserManager.GetFirstLocalUser().cachedBody;
+            return EnforcerModPlugin.VREnabled && body == LocalUserManager.GetFirstLocalUser().cachedBody;
         }
     }
 }

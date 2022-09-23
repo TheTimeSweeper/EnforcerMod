@@ -4,7 +4,7 @@ namespace EnforcerPlugin.Achievements
 {
     public class DoomAchievement : GenericModdedUnlockable {
 
-        public override string AchievementTokenPrefix => "ENFORCER_DOOM";
+        public override string AchievementTokenPrefix => "ENFORCER_DOOM" + knee.grow;
         public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
 
         public override string AchievementSpriteName => "texSuperShotgunAchievement";
@@ -58,11 +58,14 @@ namespace EnforcerPlugin.Achievements
                 if (imp) {
                     this._impProgress++;
                     //Debug.Log("doom imps" + this.impProgress);
-                    if (this._impProgress > impRequirement) {
+                    if (this._impProgress >= impRequirement) {
                         base.Grant();
+                        onGrant();
                     }
                 }
             }
+
+            protected virtual void onGrant() { }
         }
     }
 }

@@ -89,6 +89,8 @@ public class EnforcerWeaponComponent : MonoBehaviour {
 
     private EnforcerVRComponent enforcerVRComponent;
 
+    private bool _transformationApplied;
+
     public FootstepHandler footStep;
     public SfxLocator sfx;
 
@@ -108,7 +110,7 @@ public class EnforcerWeaponComponent : MonoBehaviour {
 
     void Awake() {
 
-        if (EnforcerModPlugin.VRInstalled) {
+        if (EnforcerModPlugin.VREnabled) {
             this.enforcerVRComponent = this.GetComponent<EnforcerVRComponent>();
         }
     }
@@ -122,6 +124,18 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         this.Invoke("ModelCheck", 0.2f);
         //todo CUM2 delete this
         //this.UpdateCamera();
+
+        charBody.onInventoryChanged += Inventory_onInventoryChanged;
+    }
+
+    void OnDestroy() {
+        if (this.shellObjects != null && this.shellObjects.Length > 0) {
+            for (int i = 0; i < this.shellObjects.Length; i++) {
+                if (this.shellObjects[i]) Destroy(this.shellObjects[i]);
+            }
+        }
+
+        charBody.onInventoryChanged -= Inventory_onInventoryChanged;
     }
 
     public void SetWeaponsAndShields() {
@@ -385,9 +399,20 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         }*/
     }
 
+    private void Inventory_onInventoryChanged() {
+        DelayedResetWeaponsAndShields();
+        ModelCheck();
+    }
+
     public void ModelCheck() {
         if (this.charBody && this.charBody.master) {
             if (this.charBody.master.inventory) {
+                EnforcerModPlugin.StaticLogger.LogWarning("nergig");
+                if(!_transformationApplied && Skins.isEnforcerCurrentSkin(charBody, Skins.EnforcerSkin.RECOLORENGIBUNG)) {
+                    _transformationApplied = true;
+                    Skins.engiBungusSkin.Apply(charBody.gameObject);
+                }
+
                 /*if (EnforcerPlugin.EnforcerPlugin.sillyHammer.Value)
                 {
                     var characterModel = charBody.modelLocator.modelTransform.GetComponentInChildren<CharacterModel>();
@@ -500,13 +525,5 @@ public class EnforcerWeaponComponent : MonoBehaviour {
         this.skateboard.transform.localRotation = Quaternion.identity;
 
         this.enforcerVRComponent?.ReparentSkateboard(newParent);
-    }
-
-    void OnDestroy() {
-        if (this.shellObjects != null && this.shellObjects.Length > 0) {
-            for (int i = 0; i < this.shellObjects.Length; i++) {
-                if (this.shellObjects[i]) Destroy(this.shellObjects[i]);
-            }
-        }
     }
 }

@@ -49,14 +49,18 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         private bool shieldLocked;
 
         private bool isStormtrooper;
+        private bool isEngi;
 
         public override void OnEnter() {
 
             base.OnEnter();
             enforcerComponent = GetComponent<EnforcerComponent>();
 
-            if (Skins.isEnforcerCurrentSkin(base.characterBody, "ENFORCERBODY_STORM_SKIN_NAME")) {
-                isStormtrooper = true;
+            if (Skins.isEnforcerCurrentSkin(base.characterBody, Skins.EnforcerSkin.RECOLORSTORM)) {
+                this.isStormtrooper = true;
+            }
+            if (Skins.isEnforcerCurrentSkin(base.characterBody, Skins.EnforcerSkin.RECOLORENGIBUNG)) {
+                this.isEngi = true;
             }
 
             shieldLocked = false;
@@ -187,6 +191,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             string soundString = !isCrit ? _isShielded ? Sounds.FireSuperShotgun : Sounds.FireSuperShotgunSingle : _isShielded ? Sounds.FireSuperShotgunCrit : Sounds.FireSuperShotgunSingleCrit;
 
             if (isStormtrooper) soundString = _isShielded ? Sounds.FireBlasterSSG : Sounds.FireBlasterShotgun;
+            if (isEngi) soundString = Sounds.FireBungusSSG;
 
             Util.PlayAttackSpeedSound(soundString, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject, attackSpeedStat);
 
@@ -202,7 +207,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 GameObject tracerEffect = EnforcerModPlugin.bulletTracerSSG;
 
                 if (this.isStormtrooper) tracerEffect = EnforcerPlugin.EnforcerModPlugin.laserTracer;
-                //if (this.isEngi) tracerEffect = EnforcerPlugin.EnforcerModPlugin.bungusTracer;
+                if (this.isEngi) tracerEffect = EnforcerPlugin.EnforcerModPlugin.bungusTracer;
 
                 Ray aimRay = GetAimRay();
 

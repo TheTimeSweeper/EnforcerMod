@@ -153,7 +153,8 @@ class EnforcerLightControllerAlt : MonoBehaviour
 
             if (this.characterBody && Config.cursed.Value)
             {
-                //if (this.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.frogIndex) sound = EnforcerPlugin.Sounds.Croak;
+                if (Skins.isEnforcerCurrentSkin(characterBody, Skins.EnforcerSkin.FUCKINGFROG)) 
+                    sound = Sounds.Croak;
             }
 
             this.flashStopwatch = 0;

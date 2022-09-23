@@ -26,6 +26,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         private bool hasFired = false;
 
         private bool isStormtrooper;
+        private bool isEngi;
 
         public override void OnEnter() {
             base.OnEnter();
@@ -34,8 +35,11 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
             duration = baseDuration / characterBody.attackSpeed * (isShielded ? 0.8f : 1f);
 
-            if (Skins.isEnforcerCurrentSkin(base.characterBody, "ENFORCERBODY_STORM_SKIN_NAME")) {
-                isStormtrooper = true;
+            if (Skins.isEnforcerCurrentSkin(base.characterBody, Skins.EnforcerSkin.RECOLORSTORM)) {
+                this.isStormtrooper = true;
+            }
+            if (Skins.isEnforcerCurrentSkin(base.characterBody, Skins.EnforcerSkin.RECOLORENGIBUNG)) {
+                this.isEngi = true;
             }
 
             if (NetworkServer.active) {
@@ -62,14 +66,18 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", Mathf.Max(0.05f, 2f * duration));
             }
 
-            string soundstring = crit ? Sounds.HMGCrit : Sounds.HMGShoot;
+            string soundString = crit ? Sounds.HMGCrit : Sounds.HMGShoot;
 
-            if (isStormtrooper)
-                soundstring = Sounds.FireBlasterRifle;
+            if (this.isStormtrooper) soundString = Sounds.FireBlasterRifle;
+            if (this.isEngi) soundString = Sounds.FireBungusRifle;
 
-            Util.PlaySound(soundstring, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject);
+            Util.PlaySound(soundString, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject);
 
-            EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, gameObject, muzzleName, false);
+            GameObject tracerEffect = Commando.CommandoWeapon.FireBarrage.effectPrefab;
+            if (this.isStormtrooper) tracerEffect = EnforcerPlugin.EnforcerModPlugin.laserTracer;
+            if (this.isEngi) tracerEffect = EnforcerPlugin.EnforcerModPlugin.bungusTracer;
+
+            EffectManager.SimpleMuzzleFlash(tracerEffect, gameObject, muzzleName, false);
 
             if (isAuthority && characterBody) {
                 float shieldSpreadMult = isShielded ? FireMachineGun.shieldSpreadMult : 1f;

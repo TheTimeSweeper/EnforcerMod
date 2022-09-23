@@ -17,7 +17,7 @@ public class NemforcerVRController : MonoBehaviour
 
     void OnEnable()
     {
-        if (EnforcerModPlugin.VRInstalled)
+        if (EnforcerModPlugin.VREnabled)
         {
             SubscribeToHandPairEvent();
         }
@@ -25,7 +25,7 @@ public class NemforcerVRController : MonoBehaviour
 
     void OnDisable()
     {
-        if (EnforcerModPlugin.VRInstalled)
+        if (EnforcerModPlugin.VREnabled)
         {
             UnsubscribeToHandPairEvent();
         }

@@ -1,10 +1,15 @@
-﻿using RoR2;
+﻿using Modules;
+using RoR2;
 
 namespace EnforcerPlugin.Achievements
 {
+    public static class knee {
+        public const string grow = "6";
+    }
+    
     public class ClassicAchievement : GenericModdedUnlockable
     {
-        public override string AchievementTokenPrefix => "ENFORCER_CLASSIC";
+        public override string AchievementTokenPrefix => "ENFORCER_CLASSIC" + knee.grow;
         public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
 
         public override string AchievementSpriteName => "texEnforcerAchievement";
@@ -19,8 +24,7 @@ namespace EnforcerPlugin.Achievements
             if (base.meetsBodyRequirement && isDancing) {
                 base.Grant();
 
-
-                localUser.cachedBody.GetComponent<EnforcerNetworkComponent>().RpcUhh(6);
+                localUser.cachedBody.GetComponent<EnforcerNetworkComponent>().Uhh(Skins.getEnforcerSkinIndex(Skins.EnforcerSkin.CLASSIC));
             }
         }
 

@@ -134,7 +134,7 @@ namespace Modules.Characters {
 
             bodyPrefab.gameObject.AddComponent<EnforcerWeaponComponent>().Init();
 
-            if(EnforcerModPlugin.VRInstalled)
+            if(EnforcerModPlugin.VREnabled)
                 bodyPrefab.gameObject.AddComponent<EnforcerVRComponent>();
 
             bodyPrefab.gameObject.AddComponent<EnforcerNetworkComponent>();
