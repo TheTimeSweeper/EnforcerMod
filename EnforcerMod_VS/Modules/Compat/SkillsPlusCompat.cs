@@ -21,15 +21,8 @@ namespace EnforcerPlugin
             riotInitialDamage = RiotShotgun.damageCoefficient;
             riotInitialThiccness = RiotShotgun.bulletThiccness;
             riotInitialSpread = RiotShotgun.bulletSpread;
-
-            doLanguage();
             
             SkillModifierManager.LoadSkillModifiers();
-        }
-
-        private static void doLanguage() {
-            //"SkillDef.skillName".toupper() + "Name_UPGRADE_DESCRIPTION"
-            LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_NAME_UPGRADE_DESCRIPTION", "<style=cIsUtility>+5%</style> damage, <style=cIsUtility>+10%</style> bullet thickness, and <style=cIsUtility>+0.1</style> bullet spread");
         }
     }
                          //SkillDef.skillName
