@@ -136,7 +136,7 @@ namespace EnforcerPlugin {
 
             Assets.Initialize();
 
-            Tokens.RegisterTokens();
+            TokenReplacers.Init();
         }
 
         private void Start() {
