@@ -30,9 +30,6 @@ namespace TKNemforcer
             string eventStart = "ENFORCER_EVENT_NEMFORCERBOSS_START";
             string eventEnd = "ENFORCER_EVENT_NEMFORCERBOSS_END";
 
-            LanguageAPI.Add(eventStart, "An unnatural force emanates from the void... </style>");
-            LanguageAPI.Add(eventEnd, "The void's influence fades...</style>");
-
             LoadoutAPI.AddSkill(typeof(NemforcerInvasion));
 
             NemforcerInvasionCard = ScriptableObject.CreateInstance<EventDirectorCard>();
