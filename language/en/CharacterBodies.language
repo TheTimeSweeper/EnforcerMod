@@ -86,11 +86,11 @@
 	"NEMFORCER_PRIMARY_THROWHAMMER_DESCRIPTION", "Throw a hammer for <style=cIsDamage>{0}%</style> damage.",
 
 	"NEMFORCER_PRIMARY_MINIGUN_NAME": "Golden Minigun",
-	"NEMFORCER_PRIMARY_MINIGUN_DESCRIPTION", "Rev up and fire a hail of bullets dealing <style=cIsDamage>{0}% damage</style> per bullet. <style=cIsUtility>Slows your movement while shooting.</style>",
+	"NEMFORCER_PRIMARY_MINIGUN_DESCRIPTION": "Rev up and fire a hail of bullets dealing <style=cIsDamage>{0}% damage</style> per bullet. <style=cIsUtility>Slows your movement while shooting.</style>",
 	
 	
 	"NEMFORCER_SECONDARY_BASH_NAME": "Dominance",
-	"NEMFORCER_SECONDARY_BASH_DESCRIPTION", "<style=cIsUtility>Charge up</style>, then lunge forward and unleash a <style=cIsDamage>rising uppercut</style> for <style=cIsDamage>{0}%-{1}% damage</style>. Use while <style=cIsUtility>falling and looking down</style> to perform a <style=cIsUtility>Downward Slam</style> instead.",
+	"NEMFORCER_SECONDARY_BASH_DESCRIPTION": "<style=cIsUtility>Charge up</style>, then lunge forward and unleash a <style=cIsDamage>rising uppercut</style> for <style=cIsDamage>{0}%-{1}% damage</style>. Use while <style=cIsUtility>falling and looking down</style> to perform a <style=cIsUtility>Downward Slam</style> instead.",
 
 	"NEMFORCER_SECONDARY_SLAM_NAME": "Dominance (Minigun)",
 	"NEMFORCER_SECONDARY_SLAM_DESCRIPTION":  "<style=cIsDamage>Stunning.</style> While in minigun stance, violently <style=cIsHealth>slam</style> down your hammer, dealing <style=cIsDamage>{0}% damage</style> and <style=cIsDamage>knocking back</style> enemies hit. <style=cIsUtility>Explodes projectiles.</style>",
