@@ -1,0 +1,132 @@
+{
+	"en":
+	{
+	"ENFORCER_BODY_NAME": "Enforcer",
+	"ENFORCER_BODY_SUBTITLE" : "Unwavering Bastion",
+	
+	//Riot
+	"ENFORCER_PRIMARY_SHOTGUN_NAME": "Riot Shotgun",
+	"ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION" : "Fire a short-range blast that <style=cIsUtility>pierces</style> for <style=cIsDamage>{0}x{1}% damage.</style>",
+	//Super
+	"ENFORCER_PRIMARY_SUPERSHOTGUN_NAME": "Super Shotgun",
+	"ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION": "Fire up to 2 shotgun blasts for <style=cIsDamage>{0}x{1}% damage</style>.\nWhile using <style=cIsUtility>Protect and Serve</style>, fire <style=cIsDamage>both barrels at once.</style>",
+	//AR
+	"ENFORCER_PRIMARY_RIFLE_NAME": "Heavy Machine Gun",
+	"ENFORCER_PRIMARY_RIFLE_DESCRIPTION": "Unload a barrage of bullets for <style=cIsDamage>{0}% damage</style>.\nWhile using <style=cIsUtility>Protect and Serve</style>, has <style=cIsDamage>increased accuracy</style>, but <style=cIsHealth>slower movement speed</style>.",
+	//Hammer
+	"ENFORCER_PRIMARY_HAMMER_NAME": "Breaching Hammer",
+	"ENFORCER_PRIMARY_HAMMER_DESCRIPTION": "Swing your hammer for <style=cIsDamage>{0}% damage</style>.\nWhile using Protect and Serve, swing in a <style=cIsUtility>larger area</style>, for <style=cIsDamage>{1}% damage</style> instead.",
+	
+	
+	"ENFORCER_SECONDARY_BASH_NAME": "Shield Bash",
+	"ENFORCER_SECONDARY_BASH_DESCRIPTION" : "<style=cIsDamage>Stunning</style>. Knock back enemies for <style=cIsDamage>{0}% damage</style> and <style=cIsUtility>deflect projectiles</style>.\nWhile <style=cIsUtility>sprinting</style>, perform a <style=cIsDamage>Shoulder Bash</style> instead.",
+	
+	//Gas
+	"ENFORCER_UTILITY_TEARGAS_NAME": "Tear Gas",
+	"ENFORCER_UTILITY_TEARGAS_DESCRIPTION": "Toss a grenade that covers an area in <style=cIsDamage>Impairing</style> gas.",
+	//Stun
+	"ENFORCER_UTILITY_STUNGRENADE_NAME": "Stun Grenade",
+	"ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION": "<style=cIsDamage>Stunning</style>. Launch a grenade that concusses enemies for <style=cIsDamage>{0}% damage</style>. Hold up to 3.",
+	//gas scepter
+	"ENFORCER_UTILITY_TEARGASSCEPTER_NAME": "Mustard Gas",
+	"ENFORCER_UTILITY_TEARGASSCEPTER_DESCRIPTION": "Toss a grenade that covers an area in <style=cIsDamage>Impairing</style> gas, choking enemies for <style=cIsDamage>200% damage per second</style>.",
+	//stun scepter
+	"ENFORCER_UTILITY_SHOCKGRENADE_NAME": "Shock Grenade",
+	"ENFORCER_UTILITY_SHOCKGRENADE_DESCRIPTION": "<style=cIsDamage>Shocking</style>. Launch a grenade that electrocutes enemies for <style=cIsDamage>{0}% damage</style>. Hold up to 3.",
+	
+	//Shield
+	"ENFORCER_SPECIAL_SHIELDUP_NAME": "Protect and Serve",
+	"ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION": "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsUtility>Enhances primary fire</style>, but <style=cIsHealth>prevents sprinting and jumping</style>.",
+	"ENFORCER_SPECIAL_SHIELDDOWN_NAME": "Protect and Serve",
+	"ENFORCER_SPECIAL_SHIELDDOWN_DESCRIPTION": "Take a defensive stance, <style=cIsUtility>blocking all damage from the front</style>. <style=cIsDamage>Increases attack speed</style>, but <style=cIsHealth>prevents sprinting and jumping</style>.",
+	
+	//Energy Shield
+	"ENFORCER_SPECIAL_SHIELDON_NAME": "Project and Swerve",
+	"ENFORCER_SPECIAL_SHIELDON_DESCRIPTION": "Take a defensive stance, <style=cIsUtility>projecting an Energy Shield in front of you</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsUtility>prevents sprinting and jumping</style>.",
+	"ENFORCER_SPECIAL_SHIELDOFF_NAME": "Project and Swerve",
+	"ENFORCER_SPECIAL_SHIELDOFF_DESCRIPTION": "Take a defensive stance, <style=cIsUtility>projecting an Energy Shield in front of you</style>. <style=cIsDamage>Increases your rate of fire</style>, but <style=cIsUtility>prevents sprinting and jumping</style>.",
+	//skateboard
+	"ENFORCER_SPECIAL_BOARDUP_NAME_NAME": "Skateboard",
+	"ENFORCER_SPECIAL_BOARDUP_NAME_DESCRIPTION": "Swag.",
+	"ENFORCER_SPECIAL_BOARDDOWN_NAME": "Skateboard",
+	"ENFORCER_SPECIAL_BOARDDOWN_DESCRIPTION": "Unswag.",
+	
+	"ENFORCER_DESCRIPTION": "The Enforcer is a defensive juggernaut who can take and give a beating.<color=#CCD3E0>\r\n\r\n< ! > Riot Shotgun can pierce through many enemies at once.\r\n\r\n< ! > Batting away enemies with Shield Bash guarantees you will keep enemies at a safe range.\r\n\r\n< ! > Use Tear Gas to weaken large crowds of enemies, then get in close and crush them.\r\n\r\n< ! > When you can, use Protect and Serve against walls to prevent enemies from flanking you.\r\n<\/style>\r\n",
+	
+	"ENFORCERBODY_DEFAULT_SKIN_NAME": "Default",
+	"ENFORCERBODY_MASTERY_SKIN_NAME": "Peacekeeper",
+	"ENFORCERBODY_TYPHOON_SKIN_NAME": "Lawbringer",
+	"ENFORCERBODY_BOT_SKIN_NAME": "N-4CR",
+	"ENFORCERBODY_CLASSIC_SKIN_NAME": "Classic",
+
+	"ENFORCERBODY_NEMESIS_SKIN_NAME": "Nemesis",
+
+	"ENFORCERBODY_STORM_SKIN_NAME": "Monsoontrooper",
+	"ENFORCERBODY_ENGI_SKIN_NAME": "Engineer?",
+	"ENFORCERBODY_DOOM_SKIN_NAME": "Doom Slayer",
+	"ENFORCERBODY_DESPERADO_SKIN_NAME": "Desperado",
+
+	"ENFORCERBODY_FEMFORCER_SKIN_NAME": "Rushed",
+	"ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME": "Blocked",
+	"ENFORCERBODY_FUCKINGFROG_SKIN_NAME": "Zero Suit",
+
+	"ENFORCER_BODY_LORE": "\n<style=cMono>\"You don't have to do this.\"</style>\r\n\r\nThe words echoed in his head, yet he pushed forward. The pod was only a few steps away — he had a chance to leave — but something in his core kept him moving. He didn't know what it was, but he didn't question it. It was a natural force: the same force that always drove him to follow orders.\n\nThis time, however, it didn't seem so natural. There were no orders. The heavy trigger and its rhythmic thunder were his — and his alone.",
+	
+	//[Nemforcer]
+	"NEMFORCER_BODY_NAME": "Nemesis Enforcer",
+	"NEMFORCER_BODY_SUBTITLE" : "Incorruptible Shadow",
+	
+	"NEMFORCER_PASSIVE_NAME": "Colossus",
+	"NEMFORCER_PASSIVE_DESCRIPTION", "Nemesis Enforcer gains <style=cIsHealing>bonus health regen</style>, based on his current <style=cIsHealth>missing health</style>, up to <style=cIsHealth>{0}% max health</style>.",
+	
+	"NEMFORCER_PRIMARY_HAMMER_NAME": "Golden Hammer",
+	"NEMFORCER_PRIMARY_HAMMER_DESCRIPTION", "Swing your hammer for <style=cIsDamage>{0}%</style> damage.",
+
+	"NEMFORCER_PRIMARY_THROWHAMMER_NAME": "Throwing Hammer",
+	"NEMFORCER_PRIMARY_THROWHAMMER_DESCRIPTION", "Throw a hammer for <style=cIsDamage>{0}%</style> damage.",
+
+	"NEMFORCER_PRIMARY_MINIGUN_NAME": "Golden Minigun",
+	"NEMFORCER_PRIMARY_MINIGUN_DESCRIPTION", "Rev up and fire a hail of bullets dealing <style=cIsDamage>{0}% damage</style> per bullet. <style=cIsUtility>Slows your movement while shooting.</style>",
+	
+	
+	"NEMFORCER_SECONDARY_BASH_NAME": "Dominance",
+	"NEMFORCER_SECONDARY_BASH_DESCRIPTION", "<style=cIsUtility>Charge up</style>, then lunge forward and unleash a <style=cIsDamage>rising uppercut</style> for <style=cIsDamage>{0}%-{1}% damage</style>. Use while <style=cIsUtility>falling and looking down</style> to perform a <style=cIsUtility>Downward Slam</style> instead.",
+
+	"NEMFORCER_SECONDARY_SLAM_NAME": "Dominance (Minigun)",
+	"NEMFORCER_SECONDARY_SLAM_DESCRIPTION":  "<style=cIsDamage>Stunning.</style> While in minigun stance, violently <style=cIsHealth>slam</style> down your hammer, dealing <style=cIsDamage>{0}% damage</style> and <style=cIsDamage>knocking back</style> enemies hit. <style=cIsUtility>Explodes projectiles.</style>",
+	
+	//Gas
+	"NEMFORCER_UTILITY_GAS_NAME": "XM47 Grenade",
+	"NEMFORCER_UTILITY_GAS_DESCRIPTION": "Throw a grenade that explodes into a cloud of <style=cIsUtility>corrosive gas</style> that <style=cIsUtility>slows</style> and deals <style=cIsDamage>200% damage per second</style> and lasts for <style=cIsDamage>16 seconds</style>.",
+	
+	"NEMFORCER_UTILITY_JUMP_NAME": "Super Dedede Jump",
+	"NEMFORCER_UTILITY_JUMP_DESCRIPTION": "Jump into the air, then slam down for <style=cIsDamage>{0}% damage</style>. <style=cIsUtility>Deals reduced damage outside the center of the impact.</style>",
+
+	"NEMFORCER_UTILITY_CRASH_NAME": "Heat Crash",
+	"NEMFORCER_UTILITY_CRASH_DESCRIPTION": "<style=cIsUtility>Grappling.</style> Jump into the air, then slam down for <style=cIsDamage>{0}% damage</style>. <style=cIsUtility>Deals reduced damage outside the center of the impact.</style>",
+	
+	"NEMFORCER_SPECIAL_MINIGUNUP_NAME": "Suppression Stance",
+	"NEMFORCER_SPECIAL_MINIGUNUP_DESCRIPTION": "Take an offensive stance, <style=cIsDamage>readying your minigun</style>. <style=cIsHealth>Prevents sprinting</style>.",
+
+	"NEMFORCER_SPECIAL_MINIGUNDOWN_NAME": "Destruction Stance",
+	"NEMFORCER_SPECIAL_MINIGUNDOWN_DESCRIPTION": "<style=cIsUtility>Sheathe your minigun</style>.",
+	
+	"NEMFORCER_DESCRIPTION": "Nemesis Enforcer is an incarnation of valiance and strength, a supernatural kind who is nobody to take lightly.<color=#CCD3E0>\r\n\r\n< ! > Golden Hammer can hit many enemies at once.\r\n\r\n< ! > Use Dominance from high up to perform a devastating slam.\r\n\r\n< ! > Strafing with Golden Minigun is key to taking down powerful bosses.\r\n\r\n< ! > Shields are for pussies.\r\n<\/style>\r\n",
+	
+	"NEMFORCERBODY_DEFAULT_SKIN_NAME": "Nemesis",
+	"NEMFORCERBODY_ENFORCER_SKIN_NAME": "Enforcer",
+	"NEMFORCERBODY_CLASSIC_SKIN_NAME": "Classic",
+	"NEMFORCERBODY_TYPHOON_SKIN_NAME": "Champion",
+	"NEMFORCERBODY_DRIP_SKIN_NAME": "Dripforcer",
+	"NEMFORCERBODY_DEDEDE_SKIN_NAME": "King Dedede",
+	"NEMFORCERBODY_MINECRAFT_SKIN_NAME": "Minecraft",
+
+	"NEMFORCER_BODY_LORE": "\nheavy tf2\n\n",
+	
+	"NEMFORCER_BOSS_NAME": "Ultra Nemesis Enforcer",
+	"NEMFORCER_BOSS_SUBTITLE": "End of the Line",
+
+	"DEDEDE_NAME": "King Dedede",
+	"DEDEDE_BOSS_SUBTITLE": "King of Dreamland",
+	}
+}
