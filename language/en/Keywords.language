@@ -1,0 +1,13 @@
+{
+  "en":
+  {
+  //[Enforcer]
+  "KEYWORD_BASH": "<style=cKeywordName>Bash</style><style=cSub>Applies <style=cIsDamage>stun</style> and <style=cIsUtility>heavy knockback</style>.",
+  "KEYWORD_SPRINTBASH": "<style=cKeywordName>Shoulder Bash</style><style=cSub><style=cIsDamage>Stunning.</style> A short charge that deals <style=cIsDamage>{0}% damage</style>.\nHitting <style=cIsDamage>heavier enemies</style> deals <style=cIsDamage>{1}% damage</style>.",
+  "KEYWORD_BLINDED" : "<style=cKeywordName>Impaired</style><style=cSub>Reduce movement speed by <style=cIsDamage>75%</style>, attack speed by <style=cIsDamage>25%</style> and armor by <style=cIsDamage>30</style>.</style></style>",
+
+  //[Nemforcer]
+  "KEYWORD_SLAM": "<style=cKeywordName>Downward Slam</style><style=cIsDamage>Stunning.</style> Viciously <style=cIsHealth>crash down</style> with your hammer, dealing <style=cIsDamage>{0}%-{1}% damage</style> and dealing an extra <style=cIsDamage>30%</style> of that on impact. <style=cIsUtility>Impact radius scales with speed.</style>",
+  "KEYWORD_GRAPPLE": "<style=cKeywordName>Grappling</style><style=cSub>Applies <style=cIsDamage>stun</style> and attempts to <style=cIsUtility>grab</style> a nearby enemy."
+  }
+}
