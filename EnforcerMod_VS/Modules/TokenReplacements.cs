@@ -44,6 +44,10 @@ namespace EnforcerPlugin
 			NTPP("NEMFORCER_SECONDARY_SLAM_DESCRIPTION", new object[]{(100f * HammerSlam.damageCoefficient)}),
 			NTPP("NEMFORCER_UTILITY_JUMP_DESCRIPTION", new object[]{(100f * SuperDededeJump.slamDamageCoefficient)}),
 			NTPP("NEMFORCER_UTILITY_CRASH_DESCRIPTION", new object[]{(100f * HeatCrash.slamDamageCoefficient)}),
+			
+			//Keywords
+			NTPP("KEYWORD_SPRINTBASH", new object[]{(100f * ShoulderBash.chargeDamageCoefficient), (ShoulderBash.knockbackDamageCoefficient * 100f)}),
+			NTPP("KEYWORD_SLAM", new object[]{(100f * HammerAirSlam.minDamageCoefficient), (100f * HammerAirSlam.maxDamageCoefficient)}),
 		};
 		
 		//new tokenPlusParam
