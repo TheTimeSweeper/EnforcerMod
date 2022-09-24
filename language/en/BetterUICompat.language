@@ -1,0 +1,13 @@
+{
+	"en":
+	{
+	//no idea if this works
+		"ENFORCER_STAT_BULLET": "Bullet",
+		"ENFORCER_STAT_BASH": "Bash",
+		"ENFORCER_STAT_GRENADE": "Grenade",
+		"ENFORCER_STAT_DAMAGINGGAS": "Damaging Gas",
+		"ENFORCER_STAT_SKATEBOARD": "Skateboard",
+		"ENFORCER_STAT_HAMMER": "Hammer",
+		"ENFORCER_STAT_UPPERCUT": "Uppercut",
+	}
+}
