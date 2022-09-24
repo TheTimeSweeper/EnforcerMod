@@ -20,13 +20,6 @@ using Modules;
 namespace EnforcerPlugin {
     public class NemforcerPlugin
     {
-        public const string characterName = "Nemesis Enforcer";
-        public const string characterSubtitle = "Incorruptible Shadow";
-        public const string bossSubtitle = "End of the Line";
-        public const string characterOutro = "..and so he left, with newfound might to honor.";
-        public const string characterOutroFailure = "..and so he returned, infallible bastion truly immortalized.";
-        public const string characterLore = "\nheavy tf2\n\n";
-
         public static GameObject characterBodyPrefab;
         public static GameObject characterDisplay;
         public static GameObject doppelganger;
@@ -555,20 +548,6 @@ namespace EnforcerPlugin {
 
         private void RegisterCharacter()
         {
-            string desc = "Nemesis Enforcer is an incarnation of valiance and strength, a supernatural kind who is nobody to take lightly.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine;
-            desc = desc + "< ! > Golden Hammer can hit many enemies at once." + Environment.NewLine + Environment.NewLine;
-            desc = desc + "< ! > Use Dominance from high up to perform a devastating slam." + Environment.NewLine + Environment.NewLine;
-            desc = desc + "< ! > Strafing with Golden Minigun is key to taking down powerful bosses." + Environment.NewLine + Environment.NewLine;
-            desc = desc + "< ! > Shields are for pussies." + Environment.NewLine + Environment.NewLine;
-
-            LanguageAPI.Add("NEMFORCER_NAME", characterName);
-            LanguageAPI.Add("NEMFORCER_DESCRIPTION", desc);
-            LanguageAPI.Add("NEMFORCER_SUBTITLE", characterSubtitle);
-            //LanguageAPI.Add("ENFORCER_LORE", "I'M FUCKING INVINCIBLE");
-            LanguageAPI.Add("NEMFORCER_LORE", characterLore);
-            LanguageAPI.Add("NEMFORCER_OUTRO_FLAVOR", characterOutro);
-            LanguageAPI.Add("NEMFORCER_OUTRO_FAILURE", characterOutroFailure);
-
             characterDisplay.AddComponent<NetworkIdentity>();
 
             Modules.Survivors.RegisterNewSurvivor(characterBodyPrefab, characterDisplay, "NEMFORCER", EnforcerUnlockables.nemesisUnlockableDef, 5.101f);
@@ -730,9 +709,6 @@ namespace EnforcerPlugin {
 
         private void PassiveSetup()
         {
-            LanguageAPI.Add("NEMFORCER_PASSIVE_NAME", "Colossus");
-            LanguageAPI.Add("NEMFORCER_PASSIVE_DESCRIPTION", $"Nemesis Enforcer gains <style=cIsHealing>bonus health regen</style>, based on his current <style=cIsHealth>missing health</style>, up to <style=cIsHealth>{100 * NemforcerPlugin.passiveRegenBonus}% max health</style>.");
-
             skillLocator.passiveSkill.enabled = true;
             skillLocator.passiveSkill.skillNameToken = "NEMFORCER_PASSIVE_NAME";
             skillLocator.passiveSkill.skillDescriptionToken = "NEMFORCER_PASSIVE_DESCRIPTION";
@@ -817,11 +793,6 @@ namespace EnforcerPlugin {
         #region skilldefs
         private static SkillDef PrimarySkillDef_Hammer()
         {
-            string desc = "Swing your hammer for <style=cIsDamage>" + 100f * EntityStates.Nemforcer.HammerSwing.damageCoefficient + "%</style> damage.";
-
-            LanguageAPI.Add("NEMFORCER_PRIMARY_HAMMER_NAME", "Golden Hammer");
-            LanguageAPI.Add("NEMFORCER_PRIMARY_HAMMER_DESCRIPTION", desc);
-
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(EntityStates.Nemforcer.HammerSwing));
             mySkillDef.activationStateMachineName = "Weapon";
@@ -850,11 +821,6 @@ namespace EnforcerPlugin {
 
         private static SkillDef PrimarySkillDef_Throw()
         {
-            string desc = "Throw a hammer for <style=cIsDamage>" + 100f * EntityStates.Nemforcer.ThrowHammer.damageCoefficient + "%</style> damage.";
-
-            LanguageAPI.Add("NEMFORCER_PRIMARY_THROWHAMMER_NAME", "Throwing Hammer");
-            LanguageAPI.Add("NEMFORCER_PRIMARY_THROWHAMMER_DESCRIPTION", desc);
-
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(EntityStates.Nemforcer.ThrowHammer));
             mySkillDef.activationStateMachineName = "Weapon";
@@ -881,11 +847,6 @@ namespace EnforcerPlugin {
 
         private static SkillDef PrimarySkillDef_FireMinigun()
         {
-            string desc = "Rev up and fire a hail of bullets dealing <style=cIsDamage>" + NemMinigunFire.baseDamageCoefficient * 100f + "% damage</style> per bullet. <style=cIsUtility>Slows your movement while shooting.</style>";
-
-            LanguageAPI.Add("NEMFORCER_PRIMARY_MINIGUN_NAME", "Golden Minigun");
-            LanguageAPI.Add("NEMFORCER_PRIMARY_MINIGUN_DESCRIPTION", desc);
-
             SkillDef mySkillDef2 = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef2.activationState = new SerializableEntityStateType(typeof(NemMinigunSpinUp));
             mySkillDef2.activationStateMachineName = "Weapon";
@@ -912,13 +873,6 @@ namespace EnforcerPlugin {
 
         private static SkillDef SecondarySkillDef_HammerUppercut()
         {
-            LanguageAPI.Add("KEYWORD_SLAM", $"<style=cKeywordName>Downward Slam</style><style=cIsDamage>Stunning.</style> Viciously <style=cIsHealth>crash down</style> with your hammer, dealing <style=cIsDamage>{100f * HammerAirSlam.minDamageCoefficient}%-{100f * HammerAirSlam.maxDamageCoefficient}% damage</style> and dealing an extra <style=cIsDamage>30%</style> of that on impact. <style=cIsUtility>Impact radius scales with speed.</style>");
-
-            string desc = $"<style=cIsUtility>Charge up</style>, then lunge forward and unleash a <style=cIsDamage>rising uppercut</style> for <style=cIsDamage>{100f * HammerUppercut.minDamageCoefficient}%-{100f * HammerUppercut.maxDamageCoefficient}% damage</style>. Use while <style=cIsUtility>falling and looking down</style> to perform a <style=cIsUtility>Downward Slam</style> instead.";
-
-            LanguageAPI.Add("NEMFORCER_SECONDARY_BASH_NAME", "Dominance");
-            LanguageAPI.Add("NEMFORCER_SECONDARY_BASH_DESCRIPTION", desc);
-
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(HammerCharge));
             mySkillDef.activationStateMachineName = "Weapon";
@@ -947,11 +901,6 @@ namespace EnforcerPlugin {
         }
         private static SkillDef SecondarySkillDef_HammerSlam()
         {
-            string desc = $"<style=cIsDamage>Stunning.</style> While in minigun stance, violently <style=cIsHealth>slam</style> down your hammer, dealing <style=cIsDamage>{100f * HammerSlam.damageCoefficient}% damage</style> and <style=cIsDamage>knocking back</style> enemies hit. <style=cIsUtility>Explodes projectiles.</style>";
-
-            LanguageAPI.Add("NEMFORCER_SECONDARY_SLAM_NAME", "Dominance (Minigun)");
-            LanguageAPI.Add("NEMFORCER_SECONDARY_SLAM_DESCRIPTION", desc);
-
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(HammerSlam));
             mySkillDef.activationStateMachineName = "Weapon";
@@ -1014,9 +963,6 @@ namespace EnforcerPlugin {
 
         private static SkillDef UtilitySkillDef_Gas()
         {
-            LanguageAPI.Add("NEMFORCER_UTILITY_GAS_NAME", "XM47 Grenade");
-            LanguageAPI.Add("NEMFORCER_UTILITY_GAS_DESCRIPTION", "Throw a grenade that explodes into a cloud of <style=cIsUtility>corrosive gas</style> that <style=cIsUtility>slows</style> and deals <style=cIsDamage>200% damage per second</style> and lasts for <style=cIsDamage>16 seconds</style>.");
-
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(AimNemGas));
             mySkillDef.activationStateMachineName = "Weapon";
@@ -1043,9 +989,6 @@ namespace EnforcerPlugin {
 
         private static SkillDef UtilitySkillDef_DededeJump()
         {
-            LanguageAPI.Add("NEMFORCER_UTILITY_JUMP_NAME", "Super Dedede Jump");
-            LanguageAPI.Add("NEMFORCER_UTILITY_JUMP_DESCRIPTION", "Jump into the air, then slam down for <style=cIsDamage>" + 100f * SuperDededeJump.slamDamageCoefficient + "% damage</style>. <style=cIsUtility>Deals reduced damage outside the center of the impact.</style>");
-
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(SuperDededeJump));
             mySkillDef.activationStateMachineName = "Body";
@@ -1074,11 +1017,6 @@ namespace EnforcerPlugin {
 
         private static SkillDef UtilitySkillDef_HeatCrash()
         {
-            LanguageAPI.Add("KEYWORD_GRAPPLE", "<style=cKeywordName>Grappling</style><style=cSub>Applies <style=cIsDamage>stun</style> and attempts to <style=cIsUtility>grab</style> a nearby enemy.");
-
-            LanguageAPI.Add("NEMFORCER_UTILITY_CRASH_NAME", "Heat Crash");
-            LanguageAPI.Add("NEMFORCER_UTILITY_CRASH_DESCRIPTION", "<style=cIsUtility>Grappling.</style> Jump into the air, then slam down for <style=cIsDamage>" + 100f * HeatCrash.slamDamageCoefficient + "% damage</style>. <style=cIsUtility>Deals reduced damage outside the center of the impact.</style>");
-
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(HeatCrash));
             mySkillDef.activationStateMachineName = "Weapon";
@@ -1109,9 +1047,6 @@ namespace EnforcerPlugin {
 
         private static SkillDef SpecialSkillDef_MinigunUp()
         {
-            LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNUP_NAME", "Suppression Stance");
-            LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNUP_DESCRIPTION", "Take an offensive stance, <style=cIsDamage>readying your minigun</style>. <style=cIsHealth>Prevents sprinting</style>.");
-
             SkillDef mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(MinigunToggle));
             mySkillDef.activationStateMachineName = "Weapon";
@@ -1137,9 +1072,6 @@ namespace EnforcerPlugin {
         }
         private static SkillDef SpecialSkillDef_MinigunDown()
         {
-            LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNDOWN_NAME", "Destruction Stance");
-            LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNDOWN_DESCRIPTION", "<style=cIsUtility>Sheathe your minigun</style>.");
-
             SkillDef mySkillDef2 = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef2.activationState = new SerializableEntityStateType(typeof(MinigunToggle));
             mySkillDef2.activationStateMachineName = "Weapon";
@@ -1186,9 +1118,6 @@ namespace EnforcerPlugin {
             EnforcerModPlugin.Destroy(bossPrefab.transform.Find("AimOrigin").gameObject);
 
             CharacterBody charBody = bossPrefab.GetComponent<CharacterBody>();
-
-            LanguageAPI.Add("NEMFORCER_BOSS_NAME", "Ultra Nemesis Enforcer");
-            LanguageAPI.Add("NEMFORCER_BOSS_SUBTITLE", bossSubtitle);
 
             charBody.name = "NemesisEnforcerBossBody";
             charBody.baseNameToken = "NEMFORCER_NAME";
@@ -2377,9 +2306,6 @@ namespace EnforcerPlugin {
             EnforcerModPlugin.Destroy(dededePrefab.GetComponentInChildren<ModelSkinController>());
 
             CharacterBody charBody = dededePrefab.GetComponent<CharacterBody>();
-
-            LanguageAPI.Add("DEDEDE_NAME", "King Dedede");
-            LanguageAPI.Add("DEDEDE_BOSS_SUBTITLE", "King of Dreamland");
 
             charBody.name = "KingDededeBody";
             charBody.baseNameToken = "DEDEDE_NAME";
