@@ -2,12 +2,13 @@
 using RoR2;
 
 namespace EnforcerPlugin.Achievements {
+                 //lol at me trying to have some structure with the recolor skins
     public class RecolorNemesisSkinAchievement : GenericModdedUnlockable {
 
         public override string AchievementTokenPrefix => "ENFORCER_NEMESISSKIN" + knee.grow;
         public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
 
-        public override string AchievementSpriteName => "texNemforcerAchievement";
+        public override string AchievementSpriteName => "texNemSkinAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex() {
             return BodyCatalog.FindBodyIndex("EnforcerBody");

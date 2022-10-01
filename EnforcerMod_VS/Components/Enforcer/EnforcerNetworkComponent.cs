@@ -3,17 +3,15 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using Modules;
+using System;
 
 public class EnforcerNetworkComponent : NetworkBehaviour {
 
     [SyncVar]
     public int parries;
 
+    #region applyskin
     public void Uhh(int skin) {
-
-        EnforcerPlugin.EnforcerModPlugin.StaticLogger.LogWarning("RpcUhh");
-
-        //ApplySkin(skin);
 
         if (NetworkServer.active) {
             RpcApplySkin(skin);
@@ -24,19 +22,15 @@ public class EnforcerNetworkComponent : NetworkBehaviour {
 
     [Command]
     public void CmdApplySkin(int skin) {
-        EnforcerPlugin.EnforcerModPlugin.StaticLogger.LogWarning("CmdApplySkin");
         RpcApplySkin(skin);
     }
 
     [ClientRpc]
     public void RpcApplySkin(int skin) {
-        EnforcerPlugin.EnforcerModPlugin.StaticLogger.LogWarning("RpcApplySkin");
         ApplySkin(skin);
     }
 
     private void ApplySkin(int skin) {
-
-        EnforcerPlugin.EnforcerModPlugin.StaticLogger.LogWarning("ApplySkin");
 
         //fuckin nasty i'm calling this from modelskincontroller > charmodel > getcomponent body > enforcernetworkcomponent > here < just to go modeltransform < getcomponent < back to modelskincontroller fuck man
         GetComponent<CharacterBody>().modelLocator.modelTransform.GetComponent<ModelSkinController>().ApplySkin(skin);
@@ -46,11 +40,63 @@ public class EnforcerNetworkComponent : NetworkBehaviour {
 
     //I refuse to let this be the solution
     //I'd rather have the horrible hook hack in the serverachievement
+        //apparently I don't refuse cause I'm just letting this happen the last couple months
     public IEnumerator fuckthis(int skin)
     {
-
         yield return new WaitForSeconds(1);
 
         GetComponent<CharacterBody>().modelLocator.modelTransform.GetComponent<ModelSkinController>().ApplySkin(skin);
     }
+    #endregion applyskin
+
+    #region bungus
+    public void UhhBungus(bool shouldApply) {
+
+        if (NetworkServer.active) {
+            RpcApplyBungus(shouldApply);
+        } else {
+            CmdApplyBungus(shouldApply);
+        }
+    }
+
+    [Command]
+    private void CmdApplyBungus(bool shouldApply) {
+        RpcApplyBungus(shouldApply);
+    }
+
+    [ClientRpc]
+    private void RpcApplyBungus(bool shouldApply) {
+        ApplyBungus(shouldApply);
+    }
+
+    private void ApplyBungus(bool shouldApply) {
+        SkinDef skindef = shouldApply ? Skins.engiBungusSkin : Skins.engiNormalSkin;
+        skindef.Apply(GetComponent<CharacterBody>().modelLocator.modelTransform.gameObject);
+    }
+    #endregion bungus
+
+    #region door
+    public void UhhDoor() {
+
+        if (NetworkServer.active) {
+            RpcApplyDoor();
+        } else {
+            CmdApplyDoor();
+        }
+    }
+
+    [Command]
+    private void CmdApplyDoor() {
+        RpcApplyDoor();
+    }
+
+    [ClientRpc]
+    private void RpcApplyDoor() {
+        ApplyDoor();
+    }
+
+    private void ApplyDoor() {
+        Skins.podDoorSkin.Apply(GetComponent<CharacterBody>().modelLocator.modelTransform.gameObject);
+    }
+    #endregion door
 }

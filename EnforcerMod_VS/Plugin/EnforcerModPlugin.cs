@@ -87,6 +87,7 @@ namespace EnforcerPlugin {
         public static GameObject blockEffectPrefab;
         public static GameObject heavyBlockEffectPrefab;
         public static GameObject hammerSlamEffect;
+        public static GameObject hammerSlamEffectShield;
 
         public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
@@ -127,7 +128,6 @@ namespace EnforcerPlugin {
         //    //start += EnforcerPlugin_LoadStart;
         //}
         internal static ManualLogSource StaticLogger;
-
 
         void Awake()
         {
@@ -711,8 +711,8 @@ namespace EnforcerPlugin {
                         }
                     }
 
-                    if (enforcerComponent) {
-                        enforcerComponent.AttackBlocked(blocked);
+                    if (enforcerComponent && blocked) {
+                        enforcerComponent.AttackBlocked(self.body.gameObject);
                     }
                 }
             }
@@ -1269,7 +1269,7 @@ namespace EnforcerPlugin {
             heavyBlockEffectPrefab.GetComponent<EffectComponent>().soundName = Sounds.ShieldBlockHeavy;
             if (!heavyBlockEffectPrefab.GetComponent<NetworkIdentity>()) heavyBlockEffectPrefab.AddComponent<NetworkIdentity>();
 
-            //hammer slam effect for enforcer m1 and nemforcer m2
+            //hammer slam effect for enforcer m1
             hammerSlamEffect = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/ImpactEffects/ParentSlamEffect").InstantiateClone("EnforcerHammerSlamEffect");
             hammerSlamEffect.GetComponent<EffectComponent>().applyScale = true;
 

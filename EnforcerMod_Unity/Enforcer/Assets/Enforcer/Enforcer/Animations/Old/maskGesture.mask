@@ -31,11 +31,13 @@ AvatarMask:
     m_Weight: 0
   - m_Path: Armature/Root
     m_Weight: 0
-  - m_Path: Armature/Root/nade1
-    m_Weight: 0
-  - m_Path: Armature/Root/nade2
-    m_Weight: 0
   - m_Path: Armature/Root/Pelvis
+    m_Weight: 0
+  - m_Path: Armature/Root/Pelvis/nade1
+    m_Weight: 0
+  - m_Path: Armature/Root/Pelvis/nade2
+    m_Weight: 0
+  - m_Path: Armature/Root/Pelvis/pack
     m_Weight: 0
   - m_Path: Armature/Root/Pelvis/UpperLeg.L
     m_Weight: 0
@@ -58,8 +60,6 @@ AvatarMask:
   - m_Path: Armature/Root/Stomach/Chest
     m_Weight: 1
   - m_Path: Armature/Root/Stomach/Chest/Collar.L
-    m_Weight: 1
-  - m_Path: Armature/Root/Stomach/Chest/Collar.L/Pauldron.L
     m_Weight: 1
   - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L
     m_Weight: 1
@@ -91,23 +91,31 @@ AvatarMask:
     m_Weight: 1
   - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L/LowerArm.L/Hand.L/R1.L/R2.L/R3.L
     m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L/LowerArm.L/Hand.L/Shield
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L/LowerArm.L/Hand.L/Shield/shieldSmearBottom
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L/LowerArm.L/Hand.L/Shield/shieldSmearBottom/shieldSmearBottom.2
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L/LowerArm.L/Hand.L/Shield/shieldSmearMiddle
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L/LowerArm.L/Hand.L/Shield/shieldSmearMiddle/shieldSmearMiddle.2
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L/LowerArm.L/Hand.L/Shield/shieldSmearTop
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L/LowerArm.L/Hand.L/Shield/shieldSmearTop/shieldSmearTop.2
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L/LowerArm.L/Hand.L/SkamteBordHeld
+    m_Weight: 1
   - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L/LowerArm.L/Hand.L/T1.L
     m_Weight: 1
   - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L/LowerArm.L/Hand.L/T1.L/T2.L
     m_Weight: 1
   - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L/LowerArm.L/Hand.L/T1.L/T2.L/T3.L
     m_Weight: 1
-  - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L/LowerArm.L/Shield
-    m_Weight: 1
-  - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L/LowerArm.L/Shield/shieldSmear.01
-    m_Weight: 1
-  - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L/LowerArm.L/Shield/shieldSmear.02
-    m_Weight: 1
-  - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L/LowerArm.L/Shield/shieldSmear.03
+  - m_Path: Armature/Root/Stomach/Chest/Collar.L/UpperArm.L/LowerArm.L/ShieldStraps
     m_Weight: 1
   - m_Path: Armature/Root/Stomach/Chest/Collar.R
-    m_Weight: 1
-  - m_Path: Armature/Root/Stomach/Chest/Collar.R/Pauldron.R
     m_Weight: 1
   - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R
     m_Weight: 1
@@ -115,9 +123,47 @@ AvatarMask:
     m_Weight: 1
   - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R/LowerArm.R/Hand.R
     m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R/LowerArm.R/Hand.R/base
+      base
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R/LowerArm.R/Hand.R/base
+      base/head
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R/LowerArm.R/Hand.R/base
+      base/left base
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R/LowerArm.R/Hand.R/base
+      base/left base/left.1
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R/LowerArm.R/Hand.R/base
+      base/left base/left.1/left.2
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R/LowerArm.R/Hand.R/base
+      base/left base/left.1/left.2/left.3
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R/LowerArm.R/Hand.R/base
+      base/left base/left.1/left.2/left.3/left.4
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R/LowerArm.R/Hand.R/base
+      base/right base
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R/LowerArm.R/Hand.R/base
+      base/right base/right.1
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R/LowerArm.R/Hand.R/base
+      base/right base/right.1/right.2
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R/LowerArm.R/Hand.R/base
+      base/right base/right.1/right.2/right.3
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R/LowerArm.R/Hand.R/base
+      base/right base/right.1/right.2/right.3/right.4
+    m_Weight: 1
   - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R/LowerArm.R/Hand.R/Grenade
     m_Weight: 1
   - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R/LowerArm.R/Hand.R/Gun
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R/LowerArm.R/Hand.R/Gun/GunBarrel
     m_Weight: 1
   - m_Path: Armature/Root/Stomach/Chest/Collar.R/UpperArm.R/LowerArm.R/Hand.R/I1.R
     m_Weight: 1
@@ -153,13 +199,25 @@ AvatarMask:
     m_Weight: 1
   - m_Path: Armature/Root/Stomach/Chest/Neck/Head
     m_Weight: 1
-  - m_Path: Light
+  - m_Path: Armature/Root/Stomach/Chest/Pauldron.L
+    m_Weight: 1
+  - m_Path: Armature/Root/Stomach/Chest/Pauldron.R
+    m_Weight: 1
+  - m_Path: Armature/SkamteBord
+    m_Weight: 0
+  - m_Path: Armature/SkamteBordFeet
     m_Weight: 0
   - m_Path: meshEnforcer
     m_Weight: 0
-  - m_Path: meshGun
+  - m_Path: meshEnforcerGun
     m_Weight: 0
-  - m_Path: meshPauldron
+  - m_Path: meshEnforcerHammer
     m_Weight: 0
-  - m_Path: meshShield
+  - m_Path: meshEnforcerPauldron
+    m_Weight: 0
+  - m_Path: meshEnforcerShield
+    m_Weight: 0
+  - m_Path: meshEnforcerShieldGlass
+    m_Weight: 0
+  - m_Path: meshEnforcerSkamteBord
     m_Weight: 0

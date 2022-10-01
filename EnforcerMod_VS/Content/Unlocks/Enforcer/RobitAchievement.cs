@@ -9,7 +9,7 @@ namespace EnforcerPlugin.Achievements {
         public override string AchievementTokenPrefix => "ENFORCER_ROBIT" + knee.grow;
         public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
 
-        public override string AchievementSpriteName => "texNemforcerEnforcer";
+        public override string AchievementSpriteName => "texN4CRAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex() {
             return BodyCatalog.FindBodyIndex("EnforcerBody");

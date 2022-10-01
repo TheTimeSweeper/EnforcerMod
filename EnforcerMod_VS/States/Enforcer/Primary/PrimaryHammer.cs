@@ -64,7 +64,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 pushawayForce = shieldPushawayForce;
                 slamPrefab = shieldSlamEffectPrefab;
 
-                PlayCrossfade("Gesture, Additive", "ShieldSwingHammer", "HammerSwing.playbackRate", duration, 0.05f);
+                PlayCrossfade("Gesture, Override", "ShieldSwingHammer", "HammerSwing.playbackRate", duration, 0.05f);
 
             } else {
                 duration = baseDuration / attackSpeedStat;
@@ -74,7 +74,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 pushawayForce = basePushawayForce;
                 slamPrefab = slamEffectPrefab;
 
-                PlayCrossfade("Gesture, Additive", "SwingHammer", "HammerSwing.playbackRate", duration, 0.05f);
+                PlayCrossfade("Gesture, Override", "SwingHammer", "HammerSwing.playbackRate", duration, 0.05f);
             }
 
             earlyExitDuration = duration * baseEarlyExitTime;
@@ -126,10 +126,10 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 FireAttack();
             }
 
-            if (fixedAge >= earlyExitDuration && inputBank.skill1.down && isAuthority) {
-                outer.SetNextState(new HammerSwing());
-                return;
-            }
+            //if (fixedAge >= earlyExitDuration && inputBank.skill1.down && isAuthority) {
+            //    outer.SetNextState(new HammerSwing());
+            //    return;
+            //}
 
             if (fixedAge >= duration && isAuthority) {
                 outer.SetNextStateToMain();
@@ -189,6 +189,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         }
 
         public override InterruptPriority GetMinimumInterruptPriority() {
+            if (fixedAge > earlyExitDuration) return InterruptPriority.Any;
             return InterruptPriority.Skill;
         }
     }

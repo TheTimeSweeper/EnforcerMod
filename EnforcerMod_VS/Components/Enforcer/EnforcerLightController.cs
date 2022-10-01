@@ -152,9 +152,9 @@ class EnforcerLightController : MonoBehaviour
         if (this.sirenToggle)
         {
             string sound = Sounds.SirenButton;
-            if (this.characterBody && Config.cursed.Value)
-            {
-                //if (this.characterBody.skinIndex == EnforcerPlugin.EnforcerPlugin.frogIndex ) sound = EnforcerPlugin.Sounds.Croak;
+            if (this.characterBody && Config.cursed.Value) {
+                if (Skins.isEnforcerCurrentSkin(characterBody, Skins.EnforcerSkin.FUCKINGFROG))
+                    sound = Sounds.Croak;
             }
             this.playID = Util.PlaySound(sound, base.gameObject);
             this.flashStopwatch = 0;

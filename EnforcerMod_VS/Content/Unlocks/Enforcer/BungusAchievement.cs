@@ -18,7 +18,8 @@ namespace EnforcerPlugin.Achievements {
         public void BungusCheck(float bungus) {
             if (base.meetsBodyRequirement && bungus >= BungusAchievement.bungusTime) {
                 base.Grant();
-                localUser.cachedBody.GetComponent<EnforcerNetworkComponent>().Uhh(Skins.getEnforcerSkinIndex(Skins.EnforcerSkin.RECOLORENGI));
+                //localUser.cachedBody.GetComponent<EnforcerNetworkComponent>().Uhh(Skins.getEnforcerSkinIndex(Skins.EnforcerSkin.RECOLORENGI));
+                localUser.cachedBody.GetComponent<EnforcerNetworkComponent>().UhhBungus(true);
             }
         }
 

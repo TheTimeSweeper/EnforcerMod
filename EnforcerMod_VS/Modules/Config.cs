@@ -113,13 +113,18 @@ namespace Modules {
                                    "I hate fun",
                                    false,
                                    "Overrides Cursed. Further disables extra content, namely skins and their achievements");
-            cursed.Value |= hateFun.Value;
-
             femSkin
               = plugin.Config.Bind("01 - General Settings",
                                    "Femforcer",
                                    false,
                                    "Enables femforcer skin. Not for good boys and girls.");
+
+            //cursed.Value |= hateFun.Value;
+            if (hateFun.Value) {
+                cursed.SetSerializedValue("false");
+                femSkin.SetSerializedValue("false");
+            }
+
             shellSounds
                 = plugin.Config.Bind("01 - General Settings",
                                      "Shell Sounds",

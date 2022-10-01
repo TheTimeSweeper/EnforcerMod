@@ -3,6 +3,12 @@ using R2API;
 using EnforcerPlugin.Achievements;
 using EnforcerPlugin;
 
+namespace EnforcerPlugin.Achievements {
+    public static class knee {
+        public const string grow = "";
+    }
+}
+
 namespace Modules {
     public static class EnforcerUnlockables {
 

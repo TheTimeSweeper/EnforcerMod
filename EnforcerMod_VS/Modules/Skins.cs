@@ -32,7 +32,9 @@ namespace Modules {
             FEMFORCER
         }
 
+        public static SkinDef engiNormalSkin;
         public static SkinDef engiBungusSkin;
+        public static SkinDef podDoorSkin;
 
         public static Dictionary<uint, string> SkinIndices = new Dictionary<uint, string>();
 
@@ -112,7 +114,7 @@ namespace Modules {
 
             GameObject sexforcerGlass = childLocator.FindChild("ShieldGlassModel").gameObject;
             GameObject pauldrons = childLocator.FindChild("PauldronModel").gameObject;
-
+            
             allGameObjectActivations = new List<GameObject> {
                 sexforcerGlass,
                 pauldrons
@@ -245,7 +247,7 @@ namespace Modules {
             SkinDefInfo robitSkinDefInfo = new SkinDefInfo();
             robitSkinDefInfo.Name = "ENFORCERBODY_BOT_SKIN_NAME";
             robitSkinDefInfo.NameToken = "ENFORCERBODY_BOT_SKIN_NAME";
-            robitSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerEnforcer");
+            robitSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texN4CRAchievement");
             robitSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerRobitUnlockableDef;
             robitSkinDefInfo.RootObject = modelTransform;
 
@@ -288,7 +290,7 @@ namespace Modules {
             SkinDefInfo classicSkinDefInfo = new SkinDefInfo();
             classicSkinDefInfo.Name = "ENFORCERBODY_CLASSIC_SKIN_NAME";
             classicSkinDefInfo.NameToken = "ENFORCERBODY_CLASSIC_SKIN_NAME";
-            classicSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
+            classicSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texClassicAchievement");
             classicSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerClassicUnlockableDef;
             classicSkinDefInfo.RootObject = modelTransform;
 
@@ -331,7 +333,7 @@ namespace Modules {
             SkinDefInfo nemesisSkinDefInfo = new SkinDefInfo();
             nemesisSkinDefInfo.Name = "ENFORCERBODY_NEMESIS_SKIN_NAME";
             nemesisSkinDefInfo.NameToken = "ENFORCERBODY_NEMESIS_SKIN_NAME";
-            nemesisSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerAchievement");
+            nemesisSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemSkinAchievement");
             nemesisSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerNemesisSkinUnlockableDef;
             nemesisSkinDefInfo.RootObject = modelTransform;
 
@@ -370,7 +372,53 @@ namespace Modules {
             skinDefs.Add(nemesisSkin);
             #endregion
 
+            #region Door
+            SkinDefInfo podDoorSkinDefInfo = new SkinDefInfo();
+            podDoorSkinDefInfo.Name = "ENFORCERBODY_DOOR_SKIN_NAME";
+            podDoorSkinDefInfo.NameToken = "ENFORCERBODY_DOOR_SKIN_NAME";
+            podDoorSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
+            podDoorSkinDefInfo.RootObject = modelTransform;
+            
+            podDoorSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            podDoorSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            podDoorSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+            
+            podDoorSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[] {
+                new SkinDef.GameObjectActivation{
+                    gameObject = sexforcerGlass,
+                    shouldActivate = true,
+                } 
+            };
+
+            podDoorSkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
+                "meshEscapePodDoor",
+                "meshEscapePodDoorGlass",
+                null, //"meshEnforcerSkamteBord",
+                null, //"meshEnforcerGun",
+                null, //"meshClassicGunSuper",
+                null, //"meshClassicGunHMG",
+                null, //"meshEnforcerHammer",
+                null, //"meshEnforcerPauldron",
+                null //"meshEnforcer"
+                );
+
+            podDoorSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[] {
+                new CharacterModel.RendererInfo {
+                    defaultMaterial = UnityEngine.AddressableAssets.Addressables.LoadAssetAsync<Material>("RoR2/Base/SurvivorPod/matEscapePod.mat").WaitForCompletion(),
+                    renderer = characterModel.baseRendererInfos[0].renderer
+                },
+                //new CharacterModel.RendererInfo {
+                //    defaultMaterial = Materials.CreateHotpooMaterial("matPodDoorShieldGlass"),
+                //    renderer = characterModel.baseRendererInfos[1].renderer
+                //}
+            };
+
+            podDoorSkin = CreateSkinDef(podDoorSkinDefInfo);
+            #endregion
+
+
             if (!Config.hateFun.Value) {
+
                 #region RecolorDesperado
                 SkinDefInfo desperadoSkinDefInfo = new SkinDefInfo();
                 desperadoSkinDefInfo.Name = "ENFORCERBODY_DESPERADO_SKIN_NAME";
@@ -500,6 +548,7 @@ namespace Modules {
 
                 SkinDef engiSkin = CreateSkinDef(engiSkinDefInfo);
                 skinDefs.Add(engiSkin);
+                engiNormalSkin = engiSkin;
                 #endregion
 
                 #region RecolorEngiBung
@@ -604,14 +653,14 @@ namespace Modules {
                 minecraftSkinDefInfo.BaseSkins = new SkinDef[] { defaultSkinDef };
                 minecraftSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
                 minecraftSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
-
+                
                 minecraftSkinDefInfo.GameObjectActivations = getGameObjectActivations();
 
                 minecraftSkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
                     "meshFuckingSteve2Shield",
                     null,//"meshSexforcerShieldGlass",
                     null,//"meshSbeveBoard",
-                    null,//"meshSbeveGun",
+                    "meshFuckingSteve2Gun2",
                     null,//"meshSbeveGunSuper",
                     null,//"meshSbeveGunHMG",
                     null,//"meshSbeveHammer",
@@ -624,6 +673,7 @@ namespace Modules {
                 defaultSkinDef.rendererInfos.CopyTo(minecraftSkinDefInfo.RendererInfos, 0);
 
                 minecraftSkinDefInfo.RendererInfos[0].defaultMaterial = Materials.CreateHotpooMaterial("matFuckingSteve2Shield");
+                minecraftSkinDefInfo.RendererInfos[3].defaultMaterial = Materials.CreateHotpooMaterial("matFuckingSteve2Gun");
                 minecraftSkinDefInfo.RendererInfos[8].defaultMaterial = Materials.CreateHotpooMaterial("matFuckingSteve2");
 
                 SkinDef minecraftSkin = CreateSkinDef(minecraftSkinDefInfo);
@@ -631,7 +681,7 @@ namespace Modules {
                 //wait more model
                 skinDefs.Add(minecraftSkin);
                 #endregion she don't get the shaft
-
+                
                 #region RecolorFuckingFrog
                 SkinDefInfo fuckingFrogSkinDefInfo = new SkinDefInfo();
                 fuckingFrogSkinDefInfo.Name = "ENFORCERBODY_FUCKINGFROG_SKIN_NAME";
@@ -644,7 +694,7 @@ namespace Modules {
                 fuckingFrogSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
                 fuckingFrogSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
 
-                fuckingFrogSkinDefInfo.GameObjectActivations = getGameObjectActivations();
+                fuckingFrogSkinDefInfo.GameObjectActivations = getGameObjectActivations(sexforcerGlass);
                 fuckingFrogSkinDefInfo.MeshReplacements = getMeshReplacements(characterModel.baseRendererInfos,
                     null,
                     null,
@@ -668,7 +718,7 @@ namespace Modules {
                 ////fuckingFrogSkinDefInfo.RendererInfos[5].defaultMaterial = Assets.CreateMaterial("matClassicGunHMG", 0f, Color.white, 0f);
                 ////fuckingFrogSkinDefInfo.RendererInfos[6].defaultMaterial = Materials.CreateHotpooMaterial("matNemforcerClassic");
                 //fuckingFrogSkinDefInfo.RendererInfos[7].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorFuckingFrog").MakeUnique();
-                //fuckingFrogSkinDefInfo.RendererInfos[8].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorFuckingFrog");
+                fuckingFrogSkinDefInfo.RendererInfos[8].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorNem");
 
                 SkinDef fuckingFrogSkin = CreateSkinDef(fuckingFrogSkinDefInfo);
                 skinDefs.Add(fuckingFrogSkin);
@@ -681,8 +731,8 @@ namespace Modules {
                 SkinDefInfo femforcerSkinDefInfo = new SkinDefInfo();
                 femforcerSkinDefInfo.Name = "ENFORCERBODY_FEMFORCER_SKIN_NAME";
                 femforcerSkinDefInfo.NameToken = "ENFORCERBODY_FEMFORCER_SKIN_NAME";
-                //femforcerSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texSexforcerAchievement");
-                femforcerSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.31f, 0.49f, 0.69f), new Color(0.86f, 0.83f, 0.63f), new Color(0.1f, 0.07f, 0.06f), new Color(0.21f, 0.29f, 0.38f), new Color(0.9f, 0.6f, 0.69f));
+                femforcerSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texFemSkin");
+                //femforcerSkinDefInfo.Icon = LoadoutAPI.CreateSkinIcon(new Color(0.31f, 0.49f, 0.69f), new Color(0.86f, 0.83f, 0.63f), new Color(0.1f, 0.07f, 0.06f), new Color(0.21f, 0.29f, 0.38f), new Color(0.9f, 0.6f, 0.69f));
 
                 femforcerSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerMasteryUnlockableDef;
                 femforcerSkinDefInfo.RootObject = modelTransform;

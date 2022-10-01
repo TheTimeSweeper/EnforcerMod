@@ -12,7 +12,7 @@ namespace EntityStates.Enforcer {
     {
         public static string hitboxString = "ShieldHitbox"; //transform where the hitbox is fired
         public static float baseDuration = 0.8f;
-        public static float damageCoefficient = 2.5f;
+        public static float damageCoefficient = 3.5f;
         public static float procCoefficient = 1f;
         public static float knockbackForce = 0.14f;
         public static float blastRadius = 6f;

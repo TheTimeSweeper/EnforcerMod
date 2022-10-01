@@ -24,7 +24,7 @@ public class MemeRigController : MonoBehaviour
         origAnimator.enabled = false;
         memeAnimator.Rebind();
         memeAnimator.gameObject.SetActive(true);
-        memeScaler.gameObject.SetActive(scale);
+        //memeScaler.gameObject.SetActive(scale);
         isPlaying = true;
     }
 
@@ -32,7 +32,7 @@ public class MemeRigController : MonoBehaviour
     {
         memeAnimator.Play("Empty");
         memeAnimator.gameObject.SetActive(false);
-        memeScaler.gameObject.SetActive(false);
+        //memeScaler.gameObject.SetActive(false);
         origAnimator.enabled = true;
         isPlaying = false;
     }

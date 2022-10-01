@@ -227,10 +227,10 @@ public class EnforcerComponent : MonoBehaviour
         }
     }
 
-    public static event Action<bool> BlockedGet = delegate { };
+    public static event Action<GameObject> BlockedGet = delegate { };
 
-    public void AttackBlocked(bool flag)
+    public void AttackBlocked(GameObject gameObject)
     {
-        BlockedGet(flag);
+        BlockedGet(gameObject);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using RoR2;
+using UnityEngine;
 
 namespace EnforcerPlugin.Achievements {
     public class SteveAchievement : GenericModdedUnlockable {
@@ -39,9 +40,9 @@ namespace EnforcerPlugin.Achievements {
                 EnforcerComponent.BlockedGet -= Blocked;
             }
 
-            private void Blocked(bool cum) {
+            private void Blocked(GameObject cum) {
                 //don't apply the skin cause that's kinda silly just for blocking
-                if (cum) base.Grant();
+                if (cum == base.GetCurrentBody().gameObject) base.Grant();
             }
         }
     }

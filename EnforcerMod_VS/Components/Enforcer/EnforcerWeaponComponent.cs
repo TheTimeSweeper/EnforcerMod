@@ -407,10 +407,10 @@ public class EnforcerWeaponComponent : MonoBehaviour {
     public void ModelCheck() {
         if (this.charBody && this.charBody.master) {
             if (this.charBody.master.inventory) {
-                EnforcerModPlugin.StaticLogger.LogWarning("nergig");
-                if(!_transformationApplied && Skins.isEnforcerCurrentSkin(charBody, Skins.EnforcerSkin.RECOLORENGIBUNG)) {
-                    _transformationApplied = true;
-                    Skins.engiBungusSkin.Apply(charBody.gameObject);
+
+                if(_transformationApplied != Skins.isEnforcerCurrentSkin(charBody, Skins.EnforcerSkin.RECOLORENGIBUNG)) {
+                    _transformationApplied = Skins.isEnforcerCurrentSkin(charBody, Skins.EnforcerSkin.RECOLORENGIBUNG);
+                    GetComponent<EnforcerNetworkComponent>().UhhBungus(_transformationApplied);
                 }
 
                 /*if (EnforcerPlugin.EnforcerPlugin.sillyHammer.Value)

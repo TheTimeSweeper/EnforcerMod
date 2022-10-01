@@ -1,8 +1,8 @@
 {
     "name": "Enforcer",
-    "version_number": "3.5.0",
+    "version_number": "3.6.0",
     "website_url": "https://github.com/GnomeModder/EnforcerMod",
-    "description": "Adds the Enforcer from Risk of Rain 1 as a fully fleshed out playable survivor. | Full VR support!",
+    "description": "Anniversary Update! ALL old skins return. | Adds the Enforcer from Risk of Rain 1 as a fully fleshed out playable survivor.",
     "dependencies": [
         "bbepis-BepInExPack-5.4.1905",
         "tristanmcpherson-R2API-4.3.21"
