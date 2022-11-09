@@ -15,6 +15,7 @@ namespace Modules {
             survivorDef.bodyPrefab = bodyPrefab;
             survivorDef.displayPrefab = displayPrefab;
             survivorDef.displayNameToken = fullNameString;
+            survivorDef.cachedName = bodyPrefab.name.Replace("Body", "");
             survivorDef.descriptionToken = fullDescString;
             survivorDef.outroFlavorToken = fullOutroString;
             survivorDef.mainEndingEscapeFailureFlavorToken = fullFailureString;

@@ -42,7 +42,6 @@ namespace Modules.Characters {
             displayPrefab = Modules.Prefabs.CreateDisplayPrefab(characterName + "Display", bodyPrefab, bodyInfo);
         }
 
-
         public virtual void InitializeUnlockables() {
         }
 
@@ -56,6 +55,7 @@ namespace Modules.Characters {
             survivorDef.primaryColor = charColor;
 
             survivorDef.displayNameToken = tokenPrefix + "NAME";
+            survivorDef.cachedName = bodyPrefab.name.Replace("Body", ""); 
             survivorDef.descriptionToken = tokenPrefix + "DESCRIPTION";
             survivorDef.outroFlavorToken = tokenPrefix + "OUTRO_FLAVOR";
             survivorDef.mainEndingEscapeFailureFlavorToken = tokenPrefix + "OUTRO_FAILURE";

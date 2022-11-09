@@ -64,7 +64,7 @@ namespace Modules {
             return 0;
         }
 
-        public static string GetFuckingSkinID(EnforcerSkin skin)
+        private static string GetFuckingSkinID(EnforcerSkin skin)
         {
             switch (skin)
             {

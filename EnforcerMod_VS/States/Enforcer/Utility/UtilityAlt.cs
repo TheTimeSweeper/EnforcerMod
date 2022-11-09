@@ -44,7 +44,7 @@ namespace EntityStates.Enforcer {
             if (base.isAuthority) {
 
                 Transform OGrigin = base.characterBody.aimOriginTransform;
-
+                
                 if (!EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(base.characterBody))
                     base.characterBody.aimOriginTransform = childLocator.FindChild("GrenadeAimOrigin");
 
