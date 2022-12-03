@@ -89,6 +89,9 @@ namespace EnforcerPlugin {
         public static GameObject hammerSlamEffect;
         public static GameObject hammerSlamEffectShield;
 
+        //If Enforcer receives an attack from a Body in this list while he is shielded, the attack will be blocked if Attacker == Inflictor (so projectiles dont count) and the attack is not a backstab.
+        public static List<BodyIndex> BodiesToAlwaysBlock = new List<BodyIndex>();
+
         public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
         public static bool cum; //don't ask
@@ -137,6 +140,28 @@ namespace EnforcerPlugin {
             Assets.Initialize();
 
             Tokens.RegisterTokens();
+
+            On.RoR2.BodyCatalog.Init += (orig) =>
+            {
+                orig();
+
+                AddBodyToBlock("BeetleBody");
+                AddBodyToBlock("BeetleCrystalBody");
+                AddBodyToBlock("LemurianBody"); //Only applies to melee since projectile Inflictor != Attacker
+                AddBodyToBlock("ImpBody");
+                AddBodyToBlock("BisonBody");
+                AddBodyToBlock("VerminBody");
+                AddBodyToBlock("GupBody");
+                AddBodyToBlock("GeepBody");
+                AddBodyToBlock("GipBody");
+                AddBodyToBlock("MoffeinClayManBody");
+            };
+        }
+
+        private void AddBodyToBlock(string bodyName)
+        {
+            BodyIndex index = BodyCatalog.FindBodyIndex(bodyName);
+            if (index != BodyIndex.None) BodiesToAlwaysBlock.Add(index);
         }
 
         private void Start() {
@@ -694,19 +719,31 @@ namespace EnforcerPlugin {
             if (isEnforcer && info.attacker)
             {
                 //uncomment this if barrier blocking isnt enough and you need to check facing direction like old days
-                CharacterBody body = info.attacker.GetComponent<CharacterBody>();
-                if (body) {
+                CharacterBody attackerBody = info.attacker.GetComponent<CharacterBody>();
+                if (attackerBody) {
 
                     EnforcerComponent enforcerComponent = self.body.GetComponent<EnforcerComponent>();
 
-                    //ugly hack cause golems kept hitting past shield
-                    //actually they're just not anymore? probably cause shield isn't parented anymroe
-                    //code stays for deflecting tho
-                    if (body.bodyIndex == BodyCatalog.FindBodyIndex("GolemBody") && GetShieldBlock(self, info, enforcerComponent)) {
-                        blocked = self.body.HasBuff(Modules.Buffs.protectAndServeBuff);
+                    if (enforcerComponent)
+                    {
+                        //ugly hack cause golems kept hitting past shield
+                        //actually they're just not anymore? probably cause shield isn't parented anymroe
+                        //code stays for deflecting tho
+                        if (attackerBody.bodyIndex == BodyCatalog.FindBodyIndex("GolemBody") && info.attacker && enforcerComponent.GetShieldBlock(attackerBody.corePosition, 60f))
+                        {
+                            blocked = self.body.HasBuff(Modules.Buffs.protectAndServeBuff);
 
-                        if (enforcerComponent != null) {
-                            if (enforcerComponent.isDeflecting) {
+                            if (enforcerComponent.isDeflecting)
+                            {
+                                blocked = true;
+                            }
+                        }
+                        
+                        //Hack to get melee enemies to stop penetrating the shield at certain angles.
+                        if (!blocked && info.attacker == info.inflictor && BodiesToAlwaysBlock.Contains(attackerBody.bodyIndex))
+                        {
+                            if (enforcerComponent.isShielding && enforcerComponent.GetShieldBlock(attackerBody.corePosition, 60f))
+                            {
                                 blocked = true;
                             }
                         }
@@ -731,6 +768,7 @@ namespace EnforcerPlugin {
 
                 EffectManager.SpawnEffect(blockEffect, effectData, true);
 
+                info.damage = 0f;
                 info.rejected = true;
             }
 
@@ -898,16 +936,6 @@ namespace EnforcerPlugin {
                 }
             }
             orig(self, killerOverride, inflictorOverride, damageType);
-        }
-
-        private bool GetShieldBlock(HealthComponent self, DamageInfo info, EnforcerComponent shieldComponent)
-        {
-            CharacterBody charB = self.GetComponent<CharacterBody>();
-            Ray aimRay = shieldComponent.aimRay;
-            Vector3 relativePosition = info.attacker.transform.position - aimRay.origin;
-            float angle = Vector3.Angle(shieldComponent.shieldDirection, relativePosition);
-
-            return angle < 55;
         }
 
         /*private void GlobalEventManager_OnEnemyHit(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo info, GameObject victim)
