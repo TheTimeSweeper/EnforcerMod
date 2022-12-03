@@ -311,7 +311,7 @@ namespace EnforcerPlugin {
                 CharacterBody body = other.GetComponent<CharacterBody>();
                 if (body)
                 {
-                    if (body.baseNameToken == "NEMFORCER_NAME" || body.baseNameToken == "NEMFORCER_BOSS_NAME")
+                    if (body.bodyIndex == BodyCatalog.FindBodyIndex("NemesisEnforcerBody") || body.bodyIndex == BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody"))
                     {
                         var teamComponent = body.teamComponent;
                         if (teamComponent)
@@ -597,7 +597,7 @@ namespace EnforcerPlugin {
             //regen passive
             //Added isPlayerControlled check because regen on enemies simply turns them into a DPS check that can't even be whittled down.
             //Regen passive is too forgiving, but I don't play enough NemForcer to think of an alternative.
-            if (sender.isPlayerControlled && (sender.baseNameToken == "NEMFORCER_NAME" || sender.baseNameToken == "NEMFORCER_BOSS_NAME")) //Use BodyIndex instead.
+            if (sender.isPlayerControlled && (sender.bodyIndex == BodyCatalog.FindBodyIndex("NemesisEnforcerBody") || sender.bodyIndex == BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody"))) //Use BodyIndex instead.
             {
                 HealthComponent hp = sender.healthComponent;
                 float regenValue = hp.fullCombinedHealth * NemforcerPlugin.passiveRegenBonus;
@@ -667,7 +667,7 @@ namespace EnforcerPlugin {
         {
             orig(self);
 
-            if (self.baseNameToken == "ENFORCER_NAME")
+            if (self.bodyIndex == BodyCatalog.FindBodyIndex("EnforcerBody"))
             {
                 var lightController = self.GetComponent<EnforcerLightControllerAlt>();
                 if (lightController)
@@ -685,12 +685,13 @@ namespace EnforcerPlugin {
             }
 
             bool blocked = false;
+            bool isEnforcer = self.body.bodyIndex == BodyCatalog.FindBodyIndex("EnforcerBody");
 
-            if(DamageAPI.HasModdedDamageType(info,barrierDamageType) && self.body.baseNameToken == "ENFORCER_NAME") { 
+            if (DamageAPI.HasModdedDamageType(info,barrierDamageType) && isEnforcer) { 
                 blocked = true;
             }
 
-            if (self.body.baseNameToken == "ENFORCER_NAME" && info.attacker)
+            if (isEnforcer && info.attacker)
             {
                 //uncomment this if barrier blocking isnt enough and you need to check facing direction like old days
                 CharacterBody body = info.attacker.GetComponent<CharacterBody>();
@@ -701,7 +702,7 @@ namespace EnforcerPlugin {
                     //ugly hack cause golems kept hitting past shield
                     //actually they're just not anymore? probably cause shield isn't parented anymroe
                     //code stays for deflecting tho
-                    if (body.baseNameToken == "GOLEM_BODY_NAME" && GetShieldBlock(self, info, enforcerComponent)) {
+                    if (body.bodyIndex == BodyCatalog.FindBodyIndex("GolemBody") && GetShieldBlock(self, info, enforcerComponent)) {
                         blocked = self.body.HasBuff(Modules.Buffs.protectAndServeBuff);
 
                         if (enforcerComponent != null) {
@@ -888,7 +889,7 @@ namespace EnforcerPlugin {
 
             if (damageType == DamageType.VoidDeath) {
                 //Debug.LogWarning("voidDeath");
-                if (self.body.baseNameToken == "NEMFORCER_NAME" || self.body.baseNameToken == "NEMFORCER_BOSS_NAME") {
+                if (self.body.bodyIndex == BodyCatalog.FindBodyIndex("NemesisEnforcerBody") || self.body.bodyIndex == BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody")) {
                     //Debug.LogWarning("nemmememme");
                     if (self.body.teamComponent.teamIndex != TeamIndex.Player) {
                         //Debug.LogWarning("spookyscary");

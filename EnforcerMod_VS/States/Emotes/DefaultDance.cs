@@ -1,4 +1,5 @@
 ﻿using Modules;
+using RoR2;
 using UnityEngine;
 
 namespace EntityStates.Enforcer {
@@ -36,7 +37,7 @@ namespace EntityStates.Enforcer {
         {
             base.OnEnter();
 
-            if (Random.value < 0.015f && base.characterBody.baseNameToken == "ENFORCER_NAME")
+            if (Random.value < 0.015f && base.characterBody && base.characterBody.bodyIndex == BodyCatalog.FindBodyIndex("EnforcerBody"))
             {
                 this.outer.SetInterruptState(new DefaultDance(), InterruptPriority.Any);
                 return;
