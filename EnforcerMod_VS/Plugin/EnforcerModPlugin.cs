@@ -741,7 +741,9 @@ namespace EnforcerPlugin {
                         
                         //Hack to get melee enemies to stop penetrating the shield at certain angles.
                         //info.attacker is already guaranteed notnull
-                        if (!blocked && info.attacker == info.inflictor && !GuaranteedBlockBlacklist.Contains(attackerBody.bodyIndex))
+                        if (!blocked
+                            && !info.damageType.HasFlag(DamageType.DoT) && !info.damageType.HasFlag(DamageType.BypassBlock)
+                            && info.attacker == info.inflictor && !GuaranteedBlockBlacklist.Contains(attackerBody.bodyIndex))
                         {
                             if (enforcerComponent.isShielding && enforcerComponent.GetShieldBlock(attackerBody.corePosition, 55f))
                             {
