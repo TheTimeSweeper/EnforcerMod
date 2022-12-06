@@ -245,9 +245,9 @@ public class EnforcerComponent : MonoBehaviour
         if (angle <= blockAngle) shouldBlock = true;
 
         //DEBUG TEXT. DISABLE THIS
-        string debugString = angle.ToString();
+        /*string debugString = angle.ToString();
         if (shouldBlock) debugString += " - Blocked!";
-        Debug.Log(debugString);
+        Debug.Log(debugString);*/
 
         return shouldBlock;
     }
