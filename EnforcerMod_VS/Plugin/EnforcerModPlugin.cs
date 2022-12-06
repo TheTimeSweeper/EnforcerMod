@@ -89,8 +89,11 @@ namespace EnforcerPlugin {
         public static GameObject hammerSlamEffect;
         public static GameObject hammerSlamEffectShield;
 
-        //If Enforcer receives an attack from a Body in this list while he is shielded, the attack will be blocked if Attacker == Inflictor (so projectiles dont count) and the attack is not a backstab.
-        public static List<BodyIndex> BodiesToAlwaysBlock = new List<BodyIndex>();
+        //These bodies ignore the Guaranteed Block Cone
+        public static List<BodyIndex> GuaranteedBlockBlacklist = new List<BodyIndex>();
+        public static BodyIndex EnforcerBodyIndex;
+        public static BodyIndex NemesisEnforcerBodyIndex;
+        public static BodyIndex NemesisEnforcerBossBodyIndex;
 
         public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
@@ -145,23 +148,20 @@ namespace EnforcerPlugin {
             {
                 orig();
 
-                AddBodyToBlock("BeetleBody");
-                AddBodyToBlock("BeetleCrystalBody");
-                AddBodyToBlock("LemurianBody"); //Only applies to melee since projectile Inflictor != Attacker
-                AddBodyToBlock("ImpBody");
-                AddBodyToBlock("BisonBody");
-                AddBodyToBlock("VerminBody");
-                AddBodyToBlock("GupBody");
-                AddBodyToBlock("GeepBody");
-                AddBodyToBlock("GipBody");
-                AddBodyToBlock("MoffeinClayManBody");
+                AddBodyToBlockBlacklist("BrotherBody");
+                AddBodyToBlockBlacklist("MagmaWormBody");
+                AddBodyToBlockBlacklist("ElectricWormBody");
+
+                EnforcerBodyIndex = BodyCatalog.FindBodyIndex("EnforcerBody");
+                NemesisEnforcerBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBody");
+                NemesisEnforcerBossBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody");
             };
         }
 
-        private void AddBodyToBlock(string bodyName)
+        private void AddBodyToBlockBlacklist(string bodyName)
         {
             BodyIndex index = BodyCatalog.FindBodyIndex(bodyName);
-            if (index != BodyIndex.None) BodiesToAlwaysBlock.Add(index);
+            if (index != BodyIndex.None) GuaranteedBlockBlacklist.Add(index);
         }
 
         private void Start() {
@@ -336,7 +336,7 @@ namespace EnforcerPlugin {
                 CharacterBody body = other.GetComponent<CharacterBody>();
                 if (body)
                 {
-                    if (body.bodyIndex == BodyCatalog.FindBodyIndex("NemesisEnforcerBody") || body.bodyIndex == BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody"))
+                    if (body.bodyIndex == EnforcerModPlugin.NemesisEnforcerBodyIndex || body.bodyIndex == EnforcerModPlugin.NemesisEnforcerBossBodyIndex)
                     {
                         var teamComponent = body.teamComponent;
                         if (teamComponent)
@@ -622,7 +622,7 @@ namespace EnforcerPlugin {
             //regen passive
             //Added isPlayerControlled check because regen on enemies simply turns them into a DPS check that can't even be whittled down.
             //Regen passive is too forgiving, but I don't play enough NemForcer to think of an alternative.
-            if (sender.isPlayerControlled && (sender.bodyIndex == BodyCatalog.FindBodyIndex("NemesisEnforcerBody") || sender.bodyIndex == BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody"))) //Use BodyIndex instead.
+            if (sender.isPlayerControlled && (sender.bodyIndex == EnforcerModPlugin.NemesisEnforcerBodyIndex || sender.bodyIndex == EnforcerModPlugin.NemesisEnforcerBossBodyIndex)) //Use BodyIndex instead.
             {
                 HealthComponent hp = sender.healthComponent;
                 float regenValue = hp.fullCombinedHealth * NemforcerPlugin.passiveRegenBonus;
@@ -692,7 +692,7 @@ namespace EnforcerPlugin {
         {
             orig(self);
 
-            if (self.bodyIndex == BodyCatalog.FindBodyIndex("EnforcerBody"))
+            if (self.bodyIndex == EnforcerModPlugin.EnforcerBodyIndex)
             {
                 var lightController = self.GetComponent<EnforcerLightControllerAlt>();
                 if (lightController)
@@ -710,7 +710,7 @@ namespace EnforcerPlugin {
             }
 
             bool blocked = false;
-            bool isEnforcer = self.body.bodyIndex == BodyCatalog.FindBodyIndex("EnforcerBody");
+            bool isEnforcer = self.body.bodyIndex == EnforcerModPlugin.EnforcerBodyIndex;
 
             if (DamageAPI.HasModdedDamageType(info,barrierDamageType) && isEnforcer) { 
                 blocked = true;
@@ -740,7 +740,8 @@ namespace EnforcerPlugin {
                         }
                         
                         //Hack to get melee enemies to stop penetrating the shield at certain angles.
-                        if (!blocked && info.attacker == info.inflictor && BodiesToAlwaysBlock.Contains(attackerBody.bodyIndex))
+                        //info.attacker is already guaranteed notnull
+                        if (!blocked && info.attacker == info.inflictor && !GuaranteedBlockBlacklist.Contains(attackerBody.bodyIndex))
                         {
                             if (enforcerComponent.isShielding && enforcerComponent.GetShieldBlock(attackerBody.corePosition, 60f))
                             {
@@ -838,7 +839,7 @@ namespace EnforcerPlugin {
             // don't forget to register the state if you do :^)
             if (false)//self.outer.commonComponents.characterBody)
             {
-                if (self.outer.commonComponents.characterBody.bodyIndex == BodyCatalog.FindBodyIndex("EnforcerBody"))
+                if (self.outer.commonComponents.characterBody.bodyIndex == EnforcerModPlugin.EnforcerBodyIndex)
                 {
                     self.outer.SetNextState(new FireNeedler());
                     return;
@@ -851,7 +852,7 @@ namespace EnforcerPlugin {
         //this did work c:
         private void EntityStateMachine_SetState(On.RoR2.EntityStateMachine.orig_SetState orig, EntityStateMachine self, EntityState newState) {
 
-            if (self.commonComponents.characterBody?.bodyIndex == BodyCatalog.FindBodyIndex("EnforcerBody")) {
+            if (self.commonComponents.characterBody?.bodyIndex == EnforcerModPlugin.EnforcerBodyIndex) {
                 if (newState is EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle)
                     newState = new FireNeedler();
             }
@@ -927,7 +928,7 @@ namespace EnforcerPlugin {
 
             if (damageType == DamageType.VoidDeath) {
                 //Debug.LogWarning("voidDeath");
-                if (self.body.bodyIndex == BodyCatalog.FindBodyIndex("NemesisEnforcerBody") || self.body.bodyIndex == BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody")) {
+                if (self.body.bodyIndex == EnforcerModPlugin.NemesisEnforcerBodyIndex || self.body.bodyIndex == EnforcerModPlugin.NemesisEnforcerBossBodyIndex) {
                     //Debug.LogWarning("nemmememme");
                     if (self.body.teamComponent.teamIndex != TeamIndex.Player) {
                         //Debug.LogWarning("spookyscary");

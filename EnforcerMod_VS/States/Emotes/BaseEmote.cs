@@ -123,7 +123,7 @@ namespace EntityStates.Enforcer {
             //dance cancels lol
             if (base.isAuthority)
             {
-                if (base.characterBody && base.characterBody.bodyIndex == BodyCatalog.FindBodyIndex("EnforcerBody"))
+                if (base.characterBody && base.characterBody.bodyIndex == EnforcerPlugin.EnforcerModPlugin.EnforcerBodyIndex)
                 {
                     if (Input.GetKeyDown(Config.restKey.Value))
                     {
