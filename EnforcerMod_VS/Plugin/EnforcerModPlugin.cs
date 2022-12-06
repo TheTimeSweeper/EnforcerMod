@@ -729,7 +729,7 @@ namespace EnforcerPlugin {
                         //ugly hack cause golems kept hitting past shield
                         //actually they're just not anymore? probably cause shield isn't parented anymroe
                         //code stays for deflecting tho
-                        if (attackerBody.bodyIndex == BodyCatalog.FindBodyIndex("GolemBody") && info.attacker && enforcerComponent.GetShieldBlock(attackerBody.corePosition, 60f))
+                        if (attackerBody.bodyIndex == BodyCatalog.FindBodyIndex("GolemBody") && info.attacker && enforcerComponent.GetShieldBlock(attackerBody.corePosition, 55f))
                         {
                             blocked = self.body.HasBuff(Modules.Buffs.protectAndServeBuff);
 
@@ -743,7 +743,7 @@ namespace EnforcerPlugin {
                         //info.attacker is already guaranteed notnull
                         if (!blocked && info.attacker == info.inflictor && !GuaranteedBlockBlacklist.Contains(attackerBody.bodyIndex))
                         {
-                            if (enforcerComponent.isShielding && enforcerComponent.GetShieldBlock(attackerBody.corePosition, 60f))
+                            if (enforcerComponent.isShielding && enforcerComponent.GetShieldBlock(attackerBody.corePosition, 55f))
                             {
                                 blocked = true;
                             }
