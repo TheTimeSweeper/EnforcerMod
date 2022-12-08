@@ -89,6 +89,12 @@ namespace EnforcerPlugin {
         public static GameObject hammerSlamEffect;
         public static GameObject hammerSlamEffectShield;
 
+        //These bodies ignore the Guaranteed Block Cone
+        public static List<BodyIndex> GuaranteedBlockBlacklist = new List<BodyIndex>();
+        public static BodyIndex EnforcerBodyIndex;
+        public static BodyIndex NemesisEnforcerBodyIndex;
+        public static BodyIndex NemesisEnforcerBossBodyIndex;
+
         public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
         public static bool cum; //don't ask
@@ -137,6 +143,25 @@ namespace EnforcerPlugin {
             Assets.Initialize();
 
             Tokens.RegisterTokens();
+
+            On.RoR2.BodyCatalog.Init += (orig) =>
+            {
+                orig();
+
+                AddBodyToBlockBlacklist("BrotherBody");
+                AddBodyToBlockBlacklist("MagmaWormBody");
+                AddBodyToBlockBlacklist("ElectricWormBody");
+
+                EnforcerBodyIndex = BodyCatalog.FindBodyIndex("EnforcerBody");
+                NemesisEnforcerBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBody");
+                NemesisEnforcerBossBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody");
+            };
+        }
+
+        private void AddBodyToBlockBlacklist(string bodyName)
+        {
+            BodyIndex index = BodyCatalog.FindBodyIndex(bodyName);
+            if (index != BodyIndex.None) GuaranteedBlockBlacklist.Add(index);
         }
 
         private void Start() {
@@ -311,7 +336,7 @@ namespace EnforcerPlugin {
                 CharacterBody body = other.GetComponent<CharacterBody>();
                 if (body)
                 {
-                    if (body.baseNameToken == "NEMFORCER_NAME" || body.baseNameToken == "NEMFORCER_BOSS_NAME")
+                    if (body.bodyIndex == EnforcerModPlugin.NemesisEnforcerBodyIndex || body.bodyIndex == EnforcerModPlugin.NemesisEnforcerBossBodyIndex)
                     {
                         var teamComponent = body.teamComponent;
                         if (teamComponent)
@@ -597,7 +622,7 @@ namespace EnforcerPlugin {
             //regen passive
             //Added isPlayerControlled check because regen on enemies simply turns them into a DPS check that can't even be whittled down.
             //Regen passive is too forgiving, but I don't play enough NemForcer to think of an alternative.
-            if (sender.isPlayerControlled && (sender.baseNameToken == "NEMFORCER_NAME" || sender.baseNameToken == "NEMFORCER_BOSS_NAME")) //Use BodyIndex instead.
+            if (sender.isPlayerControlled && (sender.bodyIndex == EnforcerModPlugin.NemesisEnforcerBodyIndex || sender.bodyIndex == EnforcerModPlugin.NemesisEnforcerBossBodyIndex)) //Use BodyIndex instead.
             {
                 HealthComponent hp = sender.healthComponent;
                 float regenValue = hp.fullCombinedHealth * NemforcerPlugin.passiveRegenBonus;
@@ -667,7 +692,7 @@ namespace EnforcerPlugin {
         {
             orig(self);
 
-            if (self.baseNameToken == "ENFORCER_NAME")
+            if (self.bodyIndex == EnforcerModPlugin.EnforcerBodyIndex)
             {
                 var lightController = self.GetComponent<EnforcerLightControllerAlt>();
                 if (lightController)
@@ -685,27 +710,43 @@ namespace EnforcerPlugin {
             }
 
             bool blocked = false;
+            bool isEnforcer = self.body.bodyIndex == EnforcerModPlugin.EnforcerBodyIndex;
 
-            if(DamageAPI.HasModdedDamageType(info,barrierDamageType) && self.body.baseNameToken == "ENFORCER_NAME") { 
+            if (DamageAPI.HasModdedDamageType(info,barrierDamageType) && isEnforcer) { 
                 blocked = true;
             }
 
-            if (self.body.baseNameToken == "ENFORCER_NAME" && info.attacker)
+            if (isEnforcer && info.attacker)
             {
                 //uncomment this if barrier blocking isnt enough and you need to check facing direction like old days
-                CharacterBody body = info.attacker.GetComponent<CharacterBody>();
-                if (body) {
+                CharacterBody attackerBody = info.attacker.GetComponent<CharacterBody>();
+                if (attackerBody) {
 
                     EnforcerComponent enforcerComponent = self.body.GetComponent<EnforcerComponent>();
 
-                    //ugly hack cause golems kept hitting past shield
-                    //actually they're just not anymore? probably cause shield isn't parented anymroe
-                    //code stays for deflecting tho
-                    if (body.baseNameToken == "GOLEM_BODY_NAME" && GetShieldBlock(self, info, enforcerComponent)) {
-                        blocked = self.body.HasBuff(Modules.Buffs.protectAndServeBuff);
+                    if (enforcerComponent)
+                    {
+                        //ugly hack cause golems kept hitting past shield
+                        //actually they're just not anymore? probably cause shield isn't parented anymroe
+                        //code stays for deflecting tho
+                        if (attackerBody.bodyIndex == BodyCatalog.FindBodyIndex("GolemBody") && info.attacker && enforcerComponent.GetShieldBlock(attackerBody.corePosition, 55f))
+                        {
+                            blocked = self.body.HasBuff(Modules.Buffs.protectAndServeBuff);
 
-                        if (enforcerComponent != null) {
-                            if (enforcerComponent.isDeflecting) {
+                            if (enforcerComponent.isDeflecting)
+                            {
+                                blocked = true;
+                            }
+                        }
+                        
+                        //Hack to get melee enemies to stop penetrating the shield at certain angles.
+                        //info.attacker is already guaranteed notnull
+                        if (!blocked
+                            && !info.damageType.HasFlag(DamageType.DoT) && !info.damageType.HasFlag(DamageType.BypassBlock)
+                            && info.attacker == info.inflictor && !GuaranteedBlockBlacklist.Contains(attackerBody.bodyIndex))
+                        {
+                            if (enforcerComponent.isShielding && enforcerComponent.GetShieldBlock(attackerBody.corePosition, 55f))
+                            {
                                 blocked = true;
                             }
                         }
@@ -730,6 +771,7 @@ namespace EnforcerPlugin {
 
                 EffectManager.SpawnEffect(blockEffect, effectData, true);
 
+                info.damage = 0f;
                 info.rejected = true;
             }
 
@@ -799,7 +841,7 @@ namespace EnforcerPlugin {
             // don't forget to register the state if you do :^)
             if (false)//self.outer.commonComponents.characterBody)
             {
-                if (self.outer.commonComponents.characterBody.bodyIndex == BodyCatalog.FindBodyIndex("EnforcerBody"))
+                if (self.outer.commonComponents.characterBody.bodyIndex == EnforcerModPlugin.EnforcerBodyIndex)
                 {
                     self.outer.SetNextState(new FireNeedler());
                     return;
@@ -812,7 +854,7 @@ namespace EnforcerPlugin {
         //this did work c:
         private void EntityStateMachine_SetState(On.RoR2.EntityStateMachine.orig_SetState orig, EntityStateMachine self, EntityState newState) {
 
-            if (self.commonComponents.characterBody?.bodyIndex == BodyCatalog.FindBodyIndex("EnforcerBody")) {
+            if (self.commonComponents.characterBody?.bodyIndex == EnforcerModPlugin.EnforcerBodyIndex) {
                 if (newState is EntityStates.GlobalSkills.LunarNeedle.FireLunarNeedle)
                     newState = new FireNeedler();
             }
@@ -888,7 +930,7 @@ namespace EnforcerPlugin {
 
             if (damageType == DamageType.VoidDeath) {
                 //Debug.LogWarning("voidDeath");
-                if (self.body.baseNameToken == "NEMFORCER_NAME" || self.body.baseNameToken == "NEMFORCER_BOSS_NAME") {
+                if (self.body.bodyIndex == EnforcerModPlugin.NemesisEnforcerBodyIndex || self.body.bodyIndex == EnforcerModPlugin.NemesisEnforcerBossBodyIndex) {
                     //Debug.LogWarning("nemmememme");
                     if (self.body.teamComponent.teamIndex != TeamIndex.Player) {
                         //Debug.LogWarning("spookyscary");
@@ -897,16 +939,6 @@ namespace EnforcerPlugin {
                 }
             }
             orig(self, killerOverride, inflictorOverride, damageType);
-        }
-
-        private bool GetShieldBlock(HealthComponent self, DamageInfo info, EnforcerComponent shieldComponent)
-        {
-            CharacterBody charB = self.GetComponent<CharacterBody>();
-            Ray aimRay = shieldComponent.aimRay;
-            Vector3 relativePosition = info.attacker.transform.position - aimRay.origin;
-            float angle = Vector3.Angle(shieldComponent.shieldDirection, relativePosition);
-
-            return angle < 55;
         }
 
         /*private void GlobalEventManager_OnEnemyHit(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo info, GameObject victim)

@@ -233,4 +233,22 @@ public class EnforcerComponent : MonoBehaviour
     {
         BlockedGet(gameObject);
     }
+
+    public bool GetShieldBlock(Vector3 attackerPosition, float blockAngle)
+    {
+        bool shouldBlock = false;
+
+        Vector3 shieldDirection = this.shieldDirection;
+        Vector3 directionToEnemy = attackerPosition - enforcerBody.corePosition;
+
+        float angle = Vector3.Angle(shieldDirection, directionToEnemy);
+        if (angle <= blockAngle) shouldBlock = true;
+
+        //DEBUG TEXT. DISABLE THIS
+        /*string debugString = angle.ToString();
+        if (shouldBlock) debugString += " - Blocked!";
+        Debug.Log(debugString);*/
+
+        return shouldBlock;
+    }
 }

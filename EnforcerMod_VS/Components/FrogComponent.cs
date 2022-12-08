@@ -21,7 +21,7 @@ namespace EnforcerPlugin {
                 CharacterBody component = array[i].GetComponent<CharacterBody>();
                 if (component)
                 {
-                    if (component.baseNameToken == "ENFORCER_NAME") FrogGet(true);
+                    if (component.bodyIndex == EnforcerModPlugin.EnforcerBodyIndex) FrogGet(true);
                 }
             }
         }

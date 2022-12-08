@@ -17,7 +17,7 @@ namespace EnforcerPlugin
             if (EnforcerModPlugin.starstormInstalled)
             {
                 CharacterBody body = this.GetComponent<CharacterBody>();
-                if (body && body.baseNameToken == "NEMFORCER_BOSS_NAME")
+                if (body && body.bodyIndex == EnforcerModPlugin.NemesisEnforcerBossBodyIndex)
                 {
                     ModelSkinController skinController = this.GetComponentInChildren<ModelSkinController>();
                     skinController.skins = new SkinDef[]
