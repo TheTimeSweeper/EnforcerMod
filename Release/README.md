@@ -99,6 +99,9 @@ Huge thanks to Dr.Bibop and PureDark for the *full* VR implementation
 
 ## Changelog
 
+`3.6.1`
+ - fixed eclipse not saving progress
+
 `3.6.0` Anniversary Update  
 Holy shit it's been two years.
  - readded ALL the old skins
