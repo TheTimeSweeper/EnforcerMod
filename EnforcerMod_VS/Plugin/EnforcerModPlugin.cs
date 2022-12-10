@@ -39,7 +39,7 @@ namespace EnforcerPlugin {
     [BepInDependency("com.Moffein.RiskyArtifacts", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("HIFU.Inferno", BepInDependency.DependencyFlags.SoftDependency)][BepInDependency("com.johnedwa.RTAutoSprintEx", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.6.0")]
+    [BepInPlugin(MODUID, "Enforcer", "3.7.0")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
@@ -90,7 +90,16 @@ namespace EnforcerPlugin {
         public static GameObject hammerSlamEffectShield;
 
         //These bodies ignore the Guaranteed Block Cone
-        public static List<BodyIndex> GuaranteedBlockBlacklist = new List<BodyIndex>();
+        private static List<BodyIndex> GuaranteedBlockBlacklist = new List<BodyIndex>();
+        //add enemy's bodyname to this list if you don't want them to be blocked by enforcer's extra blocking code (they will still be blocked by the shield hurtbox)
+        //for example, large melee attacks you want to go through the shield (mithrix, beetle guard), or characters with weird characterbody.corepositions (worms).
+            //if you're worried about projectile weirdness, the cone only checks if attacker == inflictor, so projectiles won't be included in the code check
+        public static List<string> GuaranteedBlockBlacklistBodyNames = new List<string> {
+            "BrotherBody",
+            "MagmaWormBody",
+            "ElectricWormBody",
+            "BeetleGuardBody"
+        };
         public static BodyIndex EnforcerBodyIndex;
         public static BodyIndex NemesisEnforcerBodyIndex;
         public static BodyIndex NemesisEnforcerBossBodyIndex;
@@ -148,17 +157,17 @@ namespace EnforcerPlugin {
             {
                 orig();
 
-                AddBodyToBlockBlacklist("BrotherBody");
-                AddBodyToBlockBlacklist("MagmaWormBody");
-                AddBodyToBlockBlacklist("ElectricWormBody");
+                for (int i = 0; i < GuaranteedBlockBlacklistBodyNames.Count; i++) {
+                    AddBodyToBlockBlacklist(GuaranteedBlockBlacklistBodyNames[i]);
+                }
 
                 EnforcerBodyIndex = BodyCatalog.FindBodyIndex("EnforcerBody");
                 NemesisEnforcerBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBody");
                 NemesisEnforcerBossBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody");
             };
         }
-
-        private void AddBodyToBlockBlacklist(string bodyName)
+        
+        public static void AddBodyToBlockBlacklist(string bodyName)
         {
             BodyIndex index = BodyCatalog.FindBodyIndex(bodyName);
             if (index != BodyIndex.None) GuaranteedBlockBlacklist.Add(index);

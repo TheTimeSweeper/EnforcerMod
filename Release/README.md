@@ -30,7 +30,7 @@ Dr.Bibop - VR implementation
 PureDark - VR implementation  
 Dotflare - texture assistance  
 SalvadorBunny - Heavy TF2 Minecraft skin  
-Destructor - Original mod icon, help  
+Destructor - Original mod icon  
 Reithierion - New mod icon  
 Nebby - Help  
 Draymarc - Concepts  
@@ -93,11 +93,19 @@ Huge thanks to Dr.Bibop and PureDark for the *full* VR implementation
 - More alternate skill(s)
 - Skills++ support
 - Other things 100% decided on pure whimsy
-- Readding everything
+- ~~Readding everything~~
 - Fixing this fucker
 - Help
 
 ## Changelog
+
+`3.7.0`
+ - added logic for blocking melee attacks based on character's core position being in front of you
+ - this makes blocking beetles, gups, and other melee enemies very consistent
+ - some enemies (beetle guards, mithrix, worms) are blacklisted from this logic
+   - *A. Some large attacks still feel like they should get past the shield (beetle guard, mithrix)*
+   - *B. The code checks character body's position, and worm's center position is very desynced from where it looks like it is*
+   - *if you'd like to add your melee enemy to this blacklist, add their body name to EnforcerModPlugin.GuaranteedBlockBlacklistBodyNames list*
 
 `3.6.1`
  - fixed eclipse not saving progress

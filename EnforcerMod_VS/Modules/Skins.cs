@@ -42,7 +42,7 @@ namespace Modules {
 
         private static bool isEnforcerCurrentSkin(CharacterBody characterbody, string skin) {
 
-            return characterbody.baseNameToken == "ENFORCER_NAME" && SkinIndices.ContainsKey(characterbody.skinIndex) && SkinIndices[characterbody.skinIndex] == skin;
+            return characterbody.bodyIndex == EnforcerModPlugin.EnforcerBodyIndex && SkinIndices.ContainsKey(characterbody.skinIndex) && SkinIndices[characterbody.skinIndex] == skin;
         }
 
         public static bool isEnforcerCurrentSkin(CharacterBody characterbody, EnforcerSkin skin)
@@ -87,8 +87,7 @@ namespace Modules {
                     return "ENFORCERBODY_ENGI_SKIN_NAME";
                 case EnforcerSkin.RECOLORNEMESIS:
                     return "ENFORCERBODY_NEMESIS_SKIN_NAME";
-                    //doesn't work
-                case EnforcerSkin.RECOLORENGIBUNG:
+                case EnforcerSkin.RECOLORENGIBUNG://doesn't work
                     return "ENFORCERBODY_ENGIBUNGUS_SKIN_NAME";
                 case EnforcerSkin.RECOLORDOOM:
                     return "ENFORCERBODY_DOOM_SKIN_NAME";
