@@ -1,0 +1,575 @@
+ManifestFileVersion: 0
+CRC: 2141323724
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: af1df51d0f46229e49391f81d745c02d
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 6927bca4f5c10696afb566849f31f17f
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 96
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: f323546490a9bfc43bd8f94667a46304, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 67079b849227b734694872d8810229b8, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c8031655a4525f045823a4241d2e6d69, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: db294d07add6b364f99a346939dd2a8a, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5ed117478acec3b4288cade2d0abbcba, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5ba1170f040a5d54abe3c4119e8932cf, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c29fc05f334b8d644961c5188217e62c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5920f97f0a8ea4843b8dae72bbc7dec5, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 134
+  Script: {instanceID: 0}
+- Class: 135
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+- Class: 144
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 319
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Enforcer/Enforcer/Animations/Old/Ascend.anim
+- Assets/Enforcer/Nemesis/Animations/HeatCrash.anim
+- Assets/Enforcer/Nemesis/Textures/texMinecraftNemEmission.png
+- Assets/Enforcer/Nemesis/Animations/Salute.anim
+- Assets/Enforcer/Enforcer/Mesh/meshFemforcer2.mesh
+- Assets/Enforcer/Enforcer/Mesh/meshN4CRPauldron.mesh
+- Assets/Enforcer/Nemesis/Mesh/MeshNemforcer.mesh
+- Assets/Enforcer/Nemesis/VFX/texNemFireSoft.png
+- Assets/Enforcer/Nemesis/Animations/UppercutM.anim
+- Assets/Enforcer/Enforcer/Enfucker_meme Variant.prefab
+- Assets/Enforcer/Enforcer/Icons/Skins/texDoomAchievement.png
+- Assets/Enforcer/Nemesis/Animations/temp/HoldGrenadeMinigun.anim
+- Assets/Enforcer/Enforcer/Icons/Skills/SkamteOnIcon.png
+- Assets/Enforcer/Enforcer/Icons/Skills/Skill4Icon.png
+- Assets/Enforcer/Enforcer/Textures/texGM_Emission.png
+- Assets/Enforcer/Enforcer/Textures/texRecolorStormGun.png
+- Assets/Enforcer/Enforcer/Icons/Skins/texZeroSuitAchievement.png
+- Assets/Enforcer/Nemesis/Mesh/MeshDripforcerHammer.mesh
+- Assets/Enforcer/Enforcer/Materials/matRecolorNemShield.mat
+- Assets/Enforcer/Nemesis/Animations/NemImpact.anim
+- Assets/Enforcer/Enforcer/Materials/matRecolorDoom.mat
+- Assets/Enforcer/Nemesis/Textures/texNemforcerAlt.png
+- Assets/Enforcer/Enforcer/Animations/Old/Salute.anim
+- Assets/Enforcer/Nemesis/Animations/ForwardDash.anim
+- Assets/Enforcer/Enforcer/Icons/Skills/Skill4BIcon.png
+- Assets/Enforcer/Enforcer/Textures/texRecolorEngi_Emission.png
+- Assets/Enforcer/Enforcer/Mesh/meshEscapePodDoorGlass.mesh
+- Assets/Enforcer/Nemesis/Animations/HeatCrashSlam.anim
+- Assets/Enforcer/Enforcer/sortThisAllLater/matTemp.mat
+- Assets/Enforcer/Enforcer/Animations/Old/DefaultPose.anim
+- Assets/Enforcer/Nemesis/texDededeIconPlayer.png
+- Assets/Enforcer/Enforcer/Animations/Old/maskImpact.mask
+- Assets/Enforcer/Enforcer/Materials/matFemforcer2Board.mat
+- Assets/Enforcer/Nemesis/Mesh/MeshClassicHammer.mesh
+- Assets/Enforcer/Enforcer/Materials/matEnforcer.mat
+- Assets/Enforcer/Nemesis/Mesh/meshHammerGM.mesh
+- Assets/Enforcer/Enforcer/Textures/texClassicGun.png
+- Assets/Enforcer/Enforcer/Icons/Skins/texDesperadoAchievement.png
+- Assets/Enforcer/Nemesis/Animations/nemtest.controller
+- Assets/Enforcer/Enforcer/Mesh/meshRecolorEngiBungusHammer.mesh
+- Assets/Enforcer/Enforcer/Textures/texClassicGunSuper.png
+- Assets/Enforcer/Nemesis/Materials/ChGordoBody01.mat
+- Assets/Enforcer/Enforcer/Materials/matGMShield.mat
+- Assets/Enforcer/Enforcer/Animations/Old/Idle.anim
+- Assets/Enforcer/Enforcer/Materials/matGMGun.mat
+- Assets/Enforcer/Enforcer/Animations/Old/maskGesture.mask
+- Assets/Enforcer/Nemesis/VFX/texTornado.png
+- Assets/Enforcer/Enforcer/Animations/Old/ShieldDescend.anim
+- Assets/Enforcer/Nemesis/Animations/SwapToGun.anim
+- Assets/Enforcer/Nemesis/Animations/UppercutL2.anim
+- Assets/Enforcer/Nemesis/Mesh/meshDededeHammer.mesh
+- Assets/Enforcer/Nemesis/VFX/texNemSlash.png
+- Assets/Enforcer/Enforcer/Textures/texGMGun.png
+- Assets/Enforcer/Nemesis/Animations/UppercutSbak.anim
+- Assets/Enforcer/Enforcer/Textures/texEnforcerBoard.png
+- Assets/Enforcer/Nemesis/Animations/DededeJump.anim
+- Assets/Enforcer/Enforcer/Textures/texRecolorNemGun.png
+- Assets/Enforcer/Nemesis/Textures/ChGordoBody01.png
+- Assets/Enforcer/Nemesis/Animations/RestIdle.anim
+- Assets/Enforcer/Enforcer/Mesh/meshGMPauldron.mesh
+- Assets/Enforcer/Enforcer/sortThisAllLater/matShell.mat
+- Assets/Enforcer/Nemesis/Mesh/MeshNemforcerAlt.mesh
+- Assets/Enforcer/Enforcer/Textures/texRecolorEngi.png
+- Assets/Enforcer/Enforcer/sortThisAllLater/ShotgunShell.prefab
+- Assets/Enforcer/Enforcer/Icons/Skills/ShieldBashIcon.png
+- Assets/Enforcer/Enforcer/Textures/texClassic_Emissive.png
+- Assets/Enforcer/Enforcer/Mesh/meshEnforcerHammer.mesh
+- Assets/Enforcer/Nemesis/mdlNemforcerBoss.prefab
+- Assets/Enforcer/Nemesis/Icons/texNemesisUnlockAchievement.png
+- Assets/Enforcer/Enforcer/Materials/matRecolorDesperadoShield.mat
+- Assets/Enforcer/Nemesis/Animations/MenuAnim.anim
+- Assets/Enforcer/Enforcer/Animations/Old/RunF.anim
+- Assets/Enforcer/Enforcer/sortThisAllLater/EnforcerSwing.prefab
+- Assets/Enforcer/Nemesis/Materials/matMinecraftNem.mat
+- Assets/Enforcer/Enforcer/Textures/texSexforcerShieldUES.png
+- Assets/Enforcer/Nemesis/nemIconRed.png
+- Assets/Enforcer/Nemesis/Materials/matDedede.mat
+- Assets/Enforcer/Enforcer/Textures/texRecolorDoomShield.png
+- Assets/Enforcer/Enforcer/Materials/matFuckingSteve2Shield.mat
+- Assets/Enforcer/Enforcer/Icons/Skills/texStunGrenadeAchievement.png
+- Assets/Enforcer/Enforcer/Icons/Skills/RiotShotgunIcon.png
+- Assets/Enforcer/Enforcer/Mesh/meshFuckingFrogSex.mesh
+- Assets/Enforcer/Enforcer/sortThisAllLater/StunGrenade.prefab
+- Assets/Enforcer/Nemesis/Icons/HammerStanceIcon.png
+- Assets/Enforcer/Nemesis/Textures/texAltHammer.png
+- Assets/Enforcer/Enforcer/Textures/texRecolorEngiShield.png
+- Assets/Enforcer/Enforcer/Icons/Skills/Skill3BIcon.png
+- Assets/Enforcer/Nemesis/Animations/SprintF.anim
+- Assets/Enforcer/Enforcer/Animations/Old/Sprint.anim
+- Assets/Enforcer/Enforcer/Materials/matSexforcer.mat
+- Assets/Enforcer/Enforcer/Icons/Skills/StunGrenadeScepterIcon.png
+- Assets/Enforcer/Nemesis/Animations/Masks/maskNemHead.mask
+- Assets/Enforcer/Nemesis/Materials/matNemforcerClassicAlt.mat
+- Assets/Enforcer/Nemesis/Animations/UppercutS.anim
+- Assets/Enforcer/Nemesis/VFX/texNemMaxCharge.png
+- Assets/Enforcer/Nemesis/VFX/texNemEmber.png
+- Assets/Enforcer/Enforcer/sortThisAllLater/texShockGrenadeEmission.png
+- Assets/Enforcer/Nemesis/Icons/MinigunFireIcon.png
+- Assets/Enforcer/Nemesis/Animations/HammerDescendCharge2.anim
+- Assets/Enforcer/Nemesis/Animations/temp/tempUppercut.anim
+- Assets/Enforcer/Enforcer/Textures/texFemforcer2.png
+- Assets/Enforcer/Enforcer/Materials/matRecolorNemGun.mat
+- Assets/Enforcer/Nemesis/VFX/matNemSlash.mat
+- Assets/Enforcer/Enforcer/Materials/matEnforcerShield.mat
+- Assets/Enforcer/Enforcer/Icons/Skills/Skill2Icon.png
+- Assets/Enforcer/Nemesis/Animations/ForwardDash2.anim
+- Assets/Enforcer/Enforcer/Textures/texRecolorDesperadoShield.png
+- Assets/Enforcer/Enforcer/Textures/texRecolorDoom.png
+- Assets/Enforcer/Enforcer/Animations/Old/ShieldAscend.anim
+- Assets/Enforcer/Enforcer/Textures/texN4CR.png
+- Assets/Enforcer/Enforcer/Textures/texGMShield.png
+- Assets/Enforcer/Nemesis/HammerProjectile.prefab
+- Assets/Enforcer/Enforcer/Mesh/meshRecolorStormGun.mesh
+- Assets/Enforcer/Enforcer/Textures/texRecolorDesperadoGun_Emission.png
+- Assets/Enforcer/Enforcer/Animations/EnforcerOfficerEarlRun2.anim
+- Assets/Enforcer/Enforcer/Materials/matRecolorDesperado.mat
+- Assets/Enforcer/Enforcer/Materials/matEnforcerHammer.mat
+- Assets/Enforcer/Enforcer/Materials/matEnforcerGun.mat
+- Assets/Enforcer/Enforcer/sortThisAllLater/matSuperShell.mat
+- Assets/Enforcer/Enforcer/Textures/texRecolorNem.png
+- Assets/Enforcer/Enforcer/Textures/texRecolorDesperadoGun.png
+- Assets/Enforcer/Nemesis/Animations/HammerDescendCharge.anim
+- Assets/Enforcer/Enforcer/Animations/Old/ShieldFireShotgunOld.anim
+- Assets/Enforcer/Enforcer/sortThisAllLater/matShockGrenade.mat
+- Assets/Enforcer/Nemesis/Textures/texMinecraftNem.png
+- Assets/Enforcer/Enforcer/Materials/matFemforcer2.mat
+- Assets/Enforcer/Nemesis/Animations/UppercutMbak.anim
+- Assets/Enforcer/Nemesis/VFX/texNemHitFlash.png
+- Assets/Enforcer/Nemesis/Textures/texNemforcerClassicAlt.png
+- Assets/Enforcer/Nemesis/Animations/MinigunAscend.anim
+- Assets/Enforcer/Enforcer/Animations/animEnforcer.controller
+- Assets/Enforcer/Nemesis/Textures/texNemGrenade.png
+- Assets/Enforcer/Enforcer/Animations/Old/ShieldBash.anim
+- Assets/Enforcer/Enforcer/Icons/texEnforcerIcon.png
+- Assets/Enforcer/Nemesis/Animations/MinigunWalkL.anim
+- Assets/Enforcer/Nemesis/VFX/texNemforcerSwing.png
+- Assets/Enforcer/Enforcer/Textures/texRecolorEngiGun.png
+- Assets/Enforcer/Enforcer/Mesh/meshClassic.mesh
+- Assets/Enforcer/Nemesis/Materials/matDripforcer.mat
+- Assets/Enforcer/Enforcer/Icons/texEnforcerUnlockAchievement.png
+- Assets/Enforcer/Nemesis/NemGasGrenade.prefab
+- Assets/Enforcer/Enforcer/Animations/Old/MenuIdleIn.anim
+- Assets/Enforcer/Nemesis/Icons/NemGasGrenadeIcon.png
+- Assets/Enforcer/Nemesis/VFX/matNemforcerLightningAnim.mat
+- Assets/Enforcer/Nemesis/VFX/HammerHeadMesh.mesh
+- Assets/Enforcer/Enforcer/Textures/texEnforcerGun.png
+- Assets/Enforcer/Nemesis/Mesh/meshDedede.mesh
+- Assets/Enforcer/Nemesis/Animations/GunToHammer.anim
+- Assets/Enforcer/Enforcer/Animations/Old/ShieldedBash.anim
+- Assets/Enforcer/Nemesis/Icons/HammerSwingIcon.png
+- Assets/Enforcer/Nemesis/VFX/HammerFlameMesh.mesh
+- Assets/Enforcer/Nemesis/Textures/texNemforcerEmission.png
+- Assets/Enforcer/Enforcer/Animations/Old/RunR.anim
+- Assets/Enforcer/Nemesis/VFX/TornadoMesh2.fbx
+- Assets/Enforcer/Nemesis/Animations/Masks/maskNemBarrel.mask
+- Assets/Enforcer/Enforcer/Animations/Old/FireShotgun.anim
+- Assets/Enforcer/Nemesis/Icons/texNemforcerDrip.png
+- Assets/Enforcer/Nemesis/VFX/matNemMaxCharge.mat
+- Assets/Enforcer/Enforcer/Icons/Skins/texBungusAchievement.png
+- Assets/Enforcer/Nemesis/VFX/matNemSmoke.mat
+- Assets/Enforcer/Enforcer/Textures/texClassic_Normal.png
+- Assets/Enforcer/Enforcer/Icons/Skills/AssaultRifleIcon.png
+- Assets/Enforcer/Enforcer/Animations/Old/Descend.anim
+- Assets/Enforcer/Enforcer/Mesh/meshGMShield.mesh
+- Assets/Enforcer/Nemesis/VFX/matFireTornado3.mat
+- Assets/Enforcer/Nemesis/Textures/texNemforcerClassicEmission.png
+- Assets/Enforcer/Enforcer/sortThisAllLater/ShieldBashFX.prefab
+- Assets/Enforcer/Enforcer/Textures/texFemforcer2Board.png
+- Assets/Enforcer/Enforcer/Mesh/meshFemforcer2Board.mesh
+- Assets/Enforcer/Enforcer/Icons/Skills/Skill3Icon.png
+- Assets/Enforcer/Nemesis/Animations/temp/ThrowGrenadeMinigun.anim
+- Assets/Enforcer/Enforcer/Icons/Skins/texTyphoonAchievement.png
+- Assets/Enforcer/Enforcer/Textures/texRecolorNemShield.png
+- Assets/Enforcer/Nemesis/Animations/HammerSwing1.anim
+- Assets/Enforcer/Enforcer/Icons/Skills/ShieldUpIcon.png
+- Assets/Enforcer/Enforcer/sortThisAllLater/texTearGas.png
+- Assets/Enforcer/Enforcer/Mesh/meshClassicGun.mesh
+- Assets/Enforcer/Nemesis/Animations/Masks/maskNemAim.mask
+- Assets/Enforcer/Nemesis/ImpactNemforcerAxe_Vertical.prefab
+- Assets/Enforcer/Enforcer/Animations/animEnforcerMenu.controller
+- Assets/Enforcer/Enforcer/Materials/matRecolorEngiShield.mat
+- Assets/Enforcer/Enforcer/Icons/Skills/Skill1Icon.png
+- Assets/Enforcer/Enforcer/Materials/matChair.mat
+- Assets/Enforcer/Nemesis/Icons/NemStunGrenadeIcon.png
+- Assets/Enforcer/Enforcer/Mesh/meshClassicPauldron.mesh
+- Assets/Enforcer/Nemesis/Animations/HammerAirSlam.anim
+- Assets/Enforcer/Nemesis/mdlNemforcerBossDedede.prefab
+- Assets/Enforcer/Enforcer/Mesh/meshClassicGunSuper.mesh
+- Assets/Enforcer/Enforcer/Mesh/meshSexforcerPauldron.mesh
+- Assets/Enforcer/Enforcer/Animations/EnforcerOfficerEarlRun.anim
+- Assets/Enforcer/Enforcer/Animations/Old/ShieldWalkL.anim
+- Assets/Enforcer/Enforcer/Materials/matRecolorNem.mat
+- Assets/Enforcer/Nemesis/Animations/HammerCharge2.anim
+- Assets/Enforcer/Enforcer/EnforcerDisplay.prefab
+- Assets/Enforcer/Nemesis/VFX/matNemforcerImpact.mat
+- Assets/Enforcer/Enforcer/Mesh/meshN4CRShield.mesh
+- Assets/Enforcer/Enforcer/Textures/texClassicGunHMG.png
+- Assets/Enforcer/Enforcer/Animations/Old/ExitShield.anim
+- Assets/Enforcer/Enforcer/sortThisAllLater/ShockGrenade.prefab
+- Assets/Enforcer/Enforcer/Icons/texBuffProtectAndServe.png
+- Assets/Enforcer/Nemesis/Animations/HammerWalkB.anim
+- Assets/Enforcer/Nemesis/Materials/matNemforcerClassic.mat
+- Assets/Enforcer/Enforcer/Animations/Old/RunB.anim
+- Assets/Enforcer/Nemesis/Animations/MinigunPitch.anim
+- Assets/Enforcer/Nemesis/NemesisHammer.prefab
+- Assets/Enforcer/Enforcer/Animations/Old/RunL.anim
+- Assets/Enforcer/Enforcer/Icons/Skins/texClassicAchievement.png
+- Assets/Enforcer/Enforcer/Textures/texFuckingSteve2Gun.png
+- Assets/Enforcer/Enforcer/sortThisAllLater/texStunGrenade.png
+- Assets/Enforcer/Nemesis/HeavyImpactNemforcer.prefab
+- Assets/Enforcer/Enforcer/Icons/Skills/BreachingHammerIcon.png
+- Assets/Enforcer/Enforcer/Mesh/meshSexforcer.mesh
+- Assets/Enforcer/Enforcer/Textures/texFuckingSteve2Emission.png
+- Assets/Enforcer/Enforcer/Animations/DanceMoves.anim
+- Assets/Enforcer/Nemesis/Mesh/meshMinecraftNem.mesh
+- Assets/Enforcer/Nemesis/Animations/MinigunIdle.anim
+- Assets/Enforcer/Nemesis/VFX/HammerFlameMesh.fbx
+- Assets/Enforcer/Nemesis/VFX/matFireTornado4.mat
+- Assets/Enforcer/Enforcer/Materials/matClassicGunHMG.mat
+- Assets/Enforcer/Enforcer/Icons/Skins/texSbeveAchievementbak.png
+- Assets/Enforcer/Nemesis/Mesh/MeshDripforcer.mesh
+- Assets/Enforcer/Enforcer/Mesh/meshFuckingSteve2Gun2.mesh
+- Assets/Enforcer/Nemesis/texDededeIcon.png
+- Assets/Enforcer/Enforcer/Textures/texSexforcer_Emission.png
+- Assets/Enforcer/Nemesis/NemforcerDisplay.prefab
+- Assets/Enforcer/Nemesis/VFX/texNemFireAB.png
+- Assets/Enforcer/Enforcer/Icons/Skins/texNemSkinAchievement.png
+- Assets/Enforcer/Nemesis/VFX/texNemforcerImpact.png
+- Assets/Enforcer/Nemesis/Animations/Masks/maskNemTorso.mask
+- Assets/Enforcer/Enforcer/Textures/texRecolorEngiGun_Emission.png
+- Assets/Enforcer/Nemesis/Materials/matSneed.mat
+- Assets/Enforcer/Nemesis/Animations/UppercutL5bak.anim
+- Assets/Enforcer/Nemesis/VFX/texNemSmoke.png
+- Assets/Enforcer/Nemesis/ImpactNemforcer.prefab
+- Assets/Enforcer/Nemesis/Icons/PassiveIcon.png
+- Assets/Enforcer/Nemesis/VFX/texNemHitSpark2.png
+- Assets/Enforcer/Nemesis/VFX/matNemforcerMoon.mat
+- Assets/Enforcer/Enforcer/Textures/texFuckingSteve2Shield.png
+- Assets/Enforcer/Enforcer/Textures/texSexforcer.png
+- Assets/Enforcer/Nemesis/VFX/matNemHitSpark.mat
+- Assets/Enforcer/Enforcer/Icons/texEnforcerIconEpic.png
+- Assets/Enforcer/Nemesis/Animations/HammerSlam.anim
+- Assets/Enforcer/Nemesis/Animations/HammerWalkF.anim
+- Assets/Enforcer/Enforcer/Textures/texRecolorNemGun_Emission.png
+- Assets/Enforcer/Nemesis/Animations/HammerDescend.anim
+- Assets/Enforcer/Enforcer/Materials/matGM.mat
+- Assets/Enforcer/Nemesis/VFX/matFireTornado.mat
+- Assets/Enforcer/Enforcer/Icons/Skills/SkamteOffIcon.png
+- Assets/Enforcer/Nemesis/Mesh/meshMallet.mesh
+- Assets/Enforcer/Enforcer/Mesh/meshEnfuckerSbeve.mesh
+- Assets/Enforcer/Nemesis/Animations/SprintR.anim
+- Assets/Enforcer/Nemesis/Icons/texNemforcerGrandMastery.png
+- Assets/Enforcer/Enforcer/Textures/texEnforcer.png
+- Assets/Enforcer/Nemesis/Animations/temp/NemesisYaw.anim
+- Assets/Enforcer/Nemesis/Animations/UppercutL5.anim
+- Assets/Enforcer/Nemesis/NemforcerSwing.prefab
+- Assets/Enforcer/Enforcer/Mesh/meshEnforcerSkamteBord.mesh
+- Assets/Enforcer/Nemesis/VFX/matNemStar.mat
+- Assets/Enforcer/Enforcer/Mesh/meshRecolorEngi.mesh
+- Assets/Enforcer/Nemesis/VFX/texNemforcerLightningAnimated.png
+- Assets/Enforcer/Nemesis/Textures/texDripforcer.png
+- Assets/Enforcer/Enforcer/Textures/texRecolorDesperado.png
+- Assets/Enforcer/Enforcer/Icons/Skins/texStormtrooperAchievement.png
+- Assets/Enforcer/Enforcer/Textures/texN4CREmission.png
+- Assets/Enforcer/Enforcer/Materials/matSexforcerBoard.mat
+- Assets/Enforcer/Enforcer/Animations/Old/IdleIn.anim
+- Assets/Enforcer/Enforcer/Textures/texGM_Normal.png
+- Assets/Enforcer/Enforcer/Textures/texFemforcer2_Emission.png
+- Assets/Enforcer/Enforcer/Materials/matRecolorStormShield.mat
+- Assets/Enforcer/Enforcer/sortThisAllLater/TearGasEffectAlt.prefab
+- Assets/Enforcer/Nemesis/HammerAirSlamFX.prefab
+- Assets/Enforcer/Enforcer/Textures/texEnforcerShield.png
+- Assets/Enforcer/Enforcer/Icons/Skills/texSuperShotgunAchievement.png
+- Assets/Enforcer/Enforcer/Materials/matRecolorStormGun.mat
+- Assets/Enforcer/Enforcer/Textures/texFemforcer2_Normal.png
+- Assets/Enforcer/Nemesis/Materials/ChGordoBody00.mat
+- Assets/Enforcer/Enforcer/Materials/matClassicGunSuper.mat
+- Assets/Enforcer/Enforcer/Icons/Skins/texSbeveAchievement.png
+- Assets/Enforcer/Enforcer/Icons/Skills/texAssaultRifleAchievement.png
+- Assets/Enforcer/Nemesis/NemGasEffect.prefab
+- Assets/Enforcer/Nemesis/VFX/TornadoMesh1.fbx
+- Assets/Enforcer/Enforcer/sortThisAllLater/matTearGasGrenadeAlt.mat
+- Assets/Enforcer/Enforcer/Animations/Old/ShieldIdle.anim
+- Assets/Enforcer/Enforcer/Textures/texSexforcerBoard.png
+- Assets/Enforcer/Enforcer/sortThisAllLater/texSuperShell.png
+- Assets/Enforcer/Nemesis/Materials/matNemforcerAlt.mat
+- Assets/Enforcer/Enforcer/Materials/matClassicGun.mat
+- Assets/Enforcer/Nemesis/VFX/texNemforcerHitSpark.png
+- Assets/Enforcer/Nemesis/Icons/texNemforcerEnforcer.png
+- Assets/Enforcer/Enforcer/Mesh/meshFemforcer2Shield.mesh
+- Assets/Enforcer/Enforcer/Textures/texRecolorDoomGun_Emission.png
+- Assets/Enforcer/Enforcer/Materials/matRecolorEngi.mat
+- Assets/Enforcer/Enforcer/Mesh/meshRecolorStorm.mesh
+- Assets/Enforcer/Enforcer/sortThisAllLater/texStunGrenadeAlt.png
+- Assets/Enforcer/Enforcer/sortThisAllLater/texTearGasAlt.png
+- Assets/Enforcer/Enforcer/Mesh/meshEnforcerGun.mesh
+- Assets/Enforcer/Nemesis/VFX/matNemImpact2.mat
+- Assets/Enforcer/Nemesis/Materials/matNemGrenade.mat
+- Assets/Enforcer/Nemesis/NemforcerSwingUppercut.prefab
+- Assets/Enforcer/Enforcer/Animations/Old/ShieldWalkR.anim
+- Assets/Enforcer/Nemesis/Animations/temp/HoldGrenadeHammer.anim
+- Assets/Enforcer/Enforcer/Materials/matRecolorDesperadoShieldGlass.mat
+- Assets/Enforcer/Enforcer/sortThisAllLater/texShockGrenade.png
+- Assets/Enforcer/Enforcer/Textures/texGM.png
+- Assets/Enforcer/Nemesis/Mesh/meshSneed.mesh
+- Assets/Enforcer/Nemesis/Animations/Masks/maskNemImpact.mask
+- Assets/Enforcer/Enforcer/Mesh/meshFuckingFrogClassic.mesh
+- Assets/Enforcer/Enforcer/Materials/matSexforcerShield.mat
+- Assets/Enforcer/Nemesis/nemIconBlu.png
+- Assets/Enforcer/Nemesis/VFX/matNemforcerHitSpark.mat
+- Assets/Enforcer/Nemesis/Animations/Masks/maskNemFlinch.mask
+- Assets/Enforcer/Enforcer/Icons/Skins/texN4CRAchievement.png
+- Assets/Enforcer/Enforcer/Icons/Skills/ShieldDownIcon.png
+- Assets/Enforcer/Nemesis/Icons/MinigunStanceIcon.png
+- Assets/Enforcer/Enforcer/Materials/matRecolorEngiGun.mat
+- Assets/Enforcer/Enforcer/Materials/matN4CR.mat
+- Assets/Enforcer/Enforcer/Textures/texRecolorDoom_Emission.png
+- Assets/Enforcer/Enforcer/Materials/matClassic.mat
+- Assets/Enforcer/Enforcer/Mesh/meshRecolorEngiBungusHMG.mesh
+- Assets/Enforcer/Nemesis/VFX/matNemImpact1.mat
+- Assets/Enforcer/Nemesis/Icons/HeatCrashIcon.png
+- Assets/Enforcer/Nemesis/Animations/Masks/maskNemLegs.mask
+- Assets/Enforcer/Enforcer/Textures/texRecolorStorm_Emission.png
+- Assets/Enforcer/Enforcer/Animations/Old/MenuIdle.anim
+- Assets/Enforcer/Nemesis/Icons/texNemforcerMastery.png
+- Assets/Enforcer/Enforcer/sortThisAllLater/TearGasGrenade.prefab
+- Assets/Enforcer/Enforcer/Mesh/meshGMShieldGlass.mesh
+- Assets/Enforcer/Nemesis/Textures/ChGordoBody00.png
+- Assets/Enforcer/Enforcer/Mesh/meshSexforcerShield.mesh
+- Assets/Enforcer/Nemesis/Animations/temp/TempFall.anim
+- Assets/Enforcer/Nemesis/VFX/texNemStar.tga
+- Assets/Enforcer/Enforcer/Mesh/meshEscapePodDoor.mesh
+- Assets/Enforcer/Nemesis/Animations/RestEmoteLoop.anim
+- Assets/Enforcer/Enforcer/sortThisAllLater/ImpactEnforcer.prefab
+- Assets/Enforcer/Nemesis/Mesh/meshNemforcerClassic.mesh
+- Assets/Enforcer/Enforcer/Animations/Old/ThrowGrenade.anim
+- Assets/Enforcer/Nemesis/Mesh/MeshHammer.mesh
+- Assets/Enforcer/Nemesis/Icons/texDededeSkin.png
+- Assets/Enforcer/Nemesis/Animations/MinigunIdleIn.anim
+- Assets/Enforcer/Enforcer/Mesh/meshEnforcer.mesh
+- Assets/Enforcer/Nemesis/Animations/HammerCharge.anim
+- Assets/Enforcer/Nemesis/Icons/HammerSlamIcon.png
+- Assets/Enforcer/Enforcer/Icons/Skills/TestIcon.png
+- Assets/Enforcer/Enforcer/Textures/texEnforcerGun_Emission.png
+- Assets/Enforcer/Nemesis/Animations/Weapon/HammerProjectile.controller
+- Assets/Enforcer/Enforcer/Icons/texBuffMinigun.png
+- Assets/Enforcer/Nemesis/texSneedIcon.png
+- Assets/Enforcer/Nemesis/Animations/temp/NemesisYawHead.anim
+- Assets/Enforcer/Nemesis/VFX/metNemSoftFlame.mat
+- Assets/Enforcer/Enforcer/Textures/texClassic.png
+- Assets/Enforcer/Enforcer/Materials/matFuckingSteve2.mat
+- Assets/Enforcer/Nemesis/Animations/temp/NemesisPitchAlt.anim
+- Assets/Enforcer/Enforcer/Animations/Old/maskAimYaw.mask
+- Assets/Enforcer/Nemesis/VFX/texNemFire.png
+- Assets/Enforcer/Enforcer/Animations/animEnfucker.controller
+- Assets/Enforcer/Nemesis/Textures/texSneed.png
+- Assets/Enforcer/Enforcer/Animations/Old/maskAimPitch.mask
+- Assets/Enforcer/Nemesis/Icons/HammerChargeIcon.png
+- Assets/Enforcer/Enforcer/Animations/animEnfuckerMeme.controller
+- Assets/Enforcer/Enforcer/Materials/matEnforcerShieldGlass.mat
+- Assets/Enforcer/Enforcer/Icons/Skills/TearGasIcon.png
+- Assets/Enforcer/Enforcer/Mesh/meshN4CR.mesh
+- Assets/Enforcer/Enforcer/Mesh/meshFuckingSteve2Shield.mesh
+- Assets/Enforcer/Nemesis/Animations/MinigunSpin.anim
+- Assets/Enforcer/Nemesis/Mesh/MeshNemforcerHammer.mesh
+- Assets/Enforcer/Enforcer/sortThisAllLater/TearGasGrenadeAlt.prefab
+- Assets/Enforcer/Enforcer/Mesh/meshGM.mesh
+- Assets/Enforcer/Nemesis/Animations/temp/ThrowHammer.anim
+- Assets/Enforcer/Enforcer/Mesh/meshEnforcerShieldGlass.mesh
+- Assets/Enforcer/Enforcer/Animations/Old/PumpShotgun.anim
+- Assets/Enforcer/Enforcer/Mesh/meshEnforcerPauldron.mesh
+- Assets/Enforcer/Nemesis/Textures/texNemforcerAltEmission.png
+- Assets/Enforcer/Nemesis/VFX/matNemHitFlash.mat
+- Assets/Enforcer/Enforcer/mdlEnforcer.prefab
+- Assets/Enforcer/Enforcer/sortThisAllLater/texShell.png
+- Assets/Enforcer/Nemesis/VFX/matNemFireAB.mat
+- Assets/Enforcer/Nemesis/VFX/texNemHitSpark3.png
+- Assets/Enforcer/Enforcer/sortThisAllLater/GatDrone.prefab
+- Assets/Enforcer/Nemesis/VFX/matFireTornado2.mat
+- Assets/Enforcer/Nemesis/ImpactNemforcerAxe.prefab
+- Assets/Enforcer/Nemesis/VFX/NemforcerSwingMesh.asset
+- Assets/Enforcer/Nemesis/Textures/texNemGrenadeEmission.png
+- Assets/Enforcer/Nemesis/Textures/texNemforcerClassic.png
+- Assets/Enforcer/Enforcer/Mesh/meshRecolorEngiBungusGun.mesh
+- Assets/Enforcer/Enforcer/Mesh/meshFuckingFrog.mesh
+- Assets/Enforcer/Nemesis/Animations/HammerIdleIn.anim
+- Assets/Enforcer/Nemesis/Animations/animNemforcer.controller
+- Assets/Enforcer/Enforcer/Textures/texEnforcer_Emission.png
+- Assets/Enforcer/Enforcer/Textures/texRecolorStormShield.png
+- Assets/Enforcer/Nemesis/NemforcerSwingSlam.prefab
+- Assets/Enforcer/Nemesis/Animations/temp/NemesisPitch.anim
+- Assets/Enforcer/Enforcer/Icons/texEnforcerBuffIcon.png
+- Assets/Enforcer/Nemesis/Materials/matAltHammer.mat
+- Assets/Enforcer/Nemesis/VFX/texNemforcerMoon.png
+- Assets/Enforcer/Enforcer/Materials/matRecolorDoomShield.mat
+- Assets/Enforcer/Enforcer/Mesh/meshRecolorEngiBungusSSG.mesh
+- Assets/Enforcer/Nemesis/Animations/UppercutL3.anim
+- Assets/Enforcer/Enforcer/sortThisAllLater/matTearGasGrenade.mat
+- Assets/Enforcer/Enforcer/Animations/Old/EnterShield.anim
+- Assets/Enforcer/Nemesis/mdlNemforcer.prefab
+- Assets/Enforcer/Enforcer/Icons/Skins/texEnforcerAchievement.png
+- Assets/Enforcer/Enforcer/Textures/texSexforcerShieldGlass.png
+- Assets/Enforcer/Nemesis/Icons/HammerThrowIcon.png
+- Assets/Enforcer/Nemesis/Animations/HammerWalkR.anim
+- Assets/Enforcer/Enforcer/sortThisAllLater/ShoulderBashFX.prefab
+- Assets/Enforcer/Nemesis/HammerProjectileGordo.prefab
+- Assets/Enforcer/Nemesis/Animations/HammerChargeCurve.anim
+- Assets/Enforcer/Enforcer/Icons/Skills/BreachingHammerIconn.png
+- Assets/Enforcer/Nemesis/HammerDashFX.prefab
+- Assets/Enforcer/Enforcer/Icons/Skills/StunGrenadeIcon.png
+- Assets/Enforcer/Nemesis/Animations/MinigunDescend.anim
+- Assets/Enforcer/Enforcer/Icons/Skills/SuperShotgunIcon.png
+- Assets/Enforcer/Nemesis/Animations/HammerSwing2.anim
+- Assets/Enforcer/Nemesis/Animations/Weapon/HammerAnim.anim
+- Assets/Enforcer/Enforcer/Materials/matRecolorDesperadoGun.mat
+- Assets/Enforcer/Nemesis/Animations/temp/ThrowGrenadeHammer.anim
+- Assets/Enforcer/Nemesis/Animations/HammerWalkL.anim
+- Assets/Enforcer/Enforcer/Animations/Old/RestEmote.anim
+- Assets/Enforcer/Nemesis/Animations/UppercutL4.anim
+- Assets/Enforcer/Enforcer/sortThisAllLater/SuperShellController.prefab
+- Assets/Enforcer/Enforcer/Textures/texClassicGun_Normal.png
+- Assets/Enforcer/Nemesis/Animations/MinigunWalkR.anim
+- Assets/Enforcer/Enforcer/Icons/Skins/texSexforcerAchievement.png
+- Assets/Enforcer/Enforcer/Animations/Old/Jump.anim
+- Assets/Enforcer/Enforcer/sortThisAllLater/matGatDrone.mat
+- Assets/Enforcer/Nemesis/Animations/HammerAscend.anim
+- Assets/Enforcer/Nemesis/VFX/matNemFire.mat
+- Assets/Enforcer/Nemesis/Textures/texNemforcer.png
+- Assets/Enforcer/Nemesis/Animations/animNemforcerDisplay.controller
+- Assets/Enforcer/Enforcer/sortThisAllLater/ShellPhysics.physicMaterial
+- Assets/Enforcer/Enforcer/Textures/texRecolorStorm.png
+- Assets/Enforcer/Nemesis/Animations/HammerJump.anim
+- Assets/Enforcer/Enforcer/Materials/matHackyHide.mat
+- Assets/Enforcer/Nemesis/Animations/MinigunWalkB.anim
+- Assets/Enforcer/Enforcer/Mesh/meshFuckingSteve2.mesh
+- Assets/Enforcer/Enforcer/Animations/Old/AimYaw.anim
+- Assets/Enforcer/Nemesis/Animations/Spawn.anim
+- Assets/Enforcer/Enforcer/sortThisAllLater/matStunGrenade.mat
+- Assets/Enforcer/Enforcer/Mesh/meshN4CRGun.mesh
+- Assets/Enforcer/Enforcer/Materials/matFuckingSteve2Gun.mat
+- Assets/Enforcer/Nemesis/Mesh/meshMinecraftHammer.mesh
+- Assets/Enforcer/Nemesis/Animations/SprintL.anim
+- Assets/Enforcer/Enforcer/Materials/matRecolorStorm.mat
+- Assets/Enforcer/Nemesis/Animations/HammerIdle.anim
+- Assets/Enforcer/Nemesis/VFX/matNemStarAB.mat
+- Assets/Enforcer/Enforcer/Materials/matRecolorDoomGun.mat
+- Assets/Enforcer/Nemesis/Animations/RestEmote.anim
+- Assets/Enforcer/Enforcer/Animations/Old/ShieldWalkF.anim
+- Assets/Enforcer/Nemesis/Icons/texNemforcerAchievement.png
+- Assets/Enforcer/Nemesis/Mesh/meshNemforcerGM.mesh
+- Assets/Enforcer/Nemesis/VFX/matNemforcerSwing.mat
+- Assets/Enforcer/Enforcer/Animations/Old/AimPitch.anim
+- Assets/Enforcer/Enforcer/Mesh/meshEnforcerShield.mesh
+- Assets/Enforcer/Enforcer/sortThisAllLater/TearGasEffect.prefab
+- Assets/Enforcer/Nemesis/VFX/texTornado2.png
+- Assets/Enforcer/Enforcer/Animations/Old/ShieldFireShotgun.anim
+- Assets/Enforcer/Nemesis/Animations/NemFlinch.anim
+- Assets/Enforcer/Enforcer/Textures/texFuckingSteve2Gun2.png
+- Assets/Enforcer/Enforcer/Animations/Old/AimGrenade.anim
+- Assets/Enforcer/Nemesis/VFX/matNemEmber.mat
+- Assets/Enforcer/Enforcer/Materials/matEnforcerBoard.mat
+- Assets/Enforcer/Enforcer/Mesh/meshFemforcer2ShieldGlass.mesh
+- Assets/Enforcer/Enforcer/sortThisAllLater/ShellController.prefab
+- Assets/Enforcer/Enforcer/Mesh/meshRecolorNemHammer.mesh
+- Assets/Enforcer/Nemesis/Icons/texNemforcerMinecraftShit.png
+- Assets/Enforcer/Nemesis/Mesh/meshDededeBoss.mesh
+- Assets/Enforcer/Enforcer/Mesh/meshSexforcerShieldGlass.mesh
+- Assets/Enforcer/Nemesis/Animations/UppercutL.anim
+- Assets/Enforcer/Nemesis/VFX/texNemforcerLightning.png
+- Assets/Enforcer/Nemesis/Animations/HighJump.anim
+- Assets/Enforcer/Enforcer/Materials/matSexforcerShieldGlass.mat
+- Assets/Enforcer/Enforcer/Textures/texRecolorDoomGun.png
+- Assets/Enforcer/Nemesis/Animations/MinigunWalkF.anim
+- Assets/Enforcer/Nemesis/VFX/matNemforcerLightning.mat
+- Assets/Enforcer/Enforcer/sortThisAllLater/texGatDrone.png
+- Assets/Enforcer/Enforcer/Animations/Old/ShieldWalkB.anim
+- Assets/Enforcer/Nemesis/Textures/texDedede.png
+- Assets/Enforcer/Nemesis/VFX/texTornado3.png
+- Assets/Enforcer/Enforcer/Icons/Skills/TearGasScepterIcon.png
+- Assets/Enforcer/Enforcer/Icons/Skins/texFemSkin.png
+- Assets/Enforcer/Nemesis/Materials/matNemforcer.mat
+- Assets/Enforcer/Enforcer/Animations/Old/LightImpact.anim
+- Assets/Enforcer/Enforcer/Mesh/meshClassicGunHMG.mesh
+- Assets/Enforcer/Enforcer/Textures/texEnforcerShield_Normal.png
+- Assets/Enforcer/Nemesis/VFX/texNemHitSpark4.png
+- Assets/Enforcer/Enforcer/Textures/texRecolorNem_Emission.png
+- Assets/Enforcer/Enforcer/Textures/texFuckingSteve2.png
+- Assets/Enforcer/Enforcer/sortThisAllLater/SuperShotgunShell.prefab
+- Assets/Enforcer/Enforcer/Textures/texRecolorDesperado_Emission.png
+- Assets/Enforcer/Nemesis/Animations/RestIdleIn.anim
+- Assets/Enforcer/Nemesis/Textures/texDripforcerEmission.png
+- Assets/Enforcer/Enforcer/Mesh/meshFemforcer2Pauldron.mesh
+- Assets/Enforcer/Nemesis/Textures/texNemforcerClassicAltEmission.png
+Dependencies: []

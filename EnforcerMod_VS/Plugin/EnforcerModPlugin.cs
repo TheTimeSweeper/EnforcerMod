@@ -39,17 +39,15 @@ namespace EnforcerPlugin {
     [BepInDependency("com.Moffein.RiskyArtifacts", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("HIFU.Inferno", BepInDependency.DependencyFlags.SoftDependency)][BepInDependency("com.johnedwa.RTAutoSprintEx", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.7.0")]
+    [BepInPlugin(MODUID, "Enforcer", "3.7.1")]
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
         "LanguageAPI",
-        "SoundAPI",
         "DamageAPI",
         "UnlockableAPI",
         "DirectorAPI",
         "RecalculateStatsAPI",
-        "LoadoutAPI"
     })]
 
     public class EnforcerModPlugin : BaseUnityPlugin
@@ -98,7 +96,8 @@ namespace EnforcerPlugin {
             "BrotherBody",
             "MagmaWormBody",
             "ElectricWormBody",
-            "BeetleGuardBody"
+            "BeetleGuardBody",
+            "VerminBody"
         };
         public static BodyIndex EnforcerBodyIndex;
         public static BodyIndex NemesisEnforcerBodyIndex;
@@ -147,34 +146,20 @@ namespace EnforcerPlugin {
         void Awake()
         {
             StaticLogger = Logger;
+
+            Files.Init(Info);
+
             Modules.Config.ConfigShit(this);
 
             Assets.Initialize();
 
             Tokens.RegisterTokens();
-
-            On.RoR2.BodyCatalog.Init += (orig) =>
-            {
-                orig();
-
-                for (int i = 0; i < GuaranteedBlockBlacklistBodyNames.Count; i++) {
-                    AddBodyToBlockBlacklist(GuaranteedBlockBlacklistBodyNames[i]);
-                }
-
-                EnforcerBodyIndex = BodyCatalog.FindBodyIndex("EnforcerBody");
-                NemesisEnforcerBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBody");
-                NemesisEnforcerBossBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody");
-            };
-        }
-        
-        public static void AddBodyToBlockBlacklist(string bodyName)
-        {
-            BodyIndex index = BodyCatalog.FindBodyIndex(bodyName);
-            if (index != BodyIndex.None) GuaranteedBlockBlacklist.Add(index);
         }
 
         private void Start() {
             Logger.LogInfo("[Initializing Enforcer]");
+
+            SoundBanks.Init();
 
             SetupModCompat();
 
@@ -314,6 +299,25 @@ namespace EnforcerPlugin {
             On.RoR2.EntityStateMachine.SetState += EntityStateMachine_SetState;
             On.RoR2.DamageInfo.ModifyDamageInfo += DamageInfo_ModifyDamageInfo;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
+            On.RoR2.BodyCatalog.Init += BodyCatalog_Init;
+        }
+
+        private void BodyCatalog_Init(On.RoR2.BodyCatalog.orig_Init orig) {
+
+            orig();
+
+            for (int i = 0; i < GuaranteedBlockBlacklistBodyNames.Count; i++) {
+                AddBodyToBlockBlacklist(GuaranteedBlockBlacklistBodyNames[i]);
+            }
+
+            EnforcerBodyIndex = BodyCatalog.FindBodyIndex("EnforcerBody");
+            NemesisEnforcerBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBody");
+            NemesisEnforcerBossBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody");
+        }
+
+        public static void AddBodyToBlockBlacklist(string bodyName) {
+            BodyIndex index = BodyCatalog.FindBodyIndex(bodyName);
+            if (index != BodyIndex.None) GuaranteedBlockBlacklist.Add(index);
         }
 
         private void Run_onRunStartGlobal(Run obj) {

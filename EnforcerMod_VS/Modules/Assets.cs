@@ -17,7 +17,6 @@ namespace Modules {
         public static AssetBundle MainAssetBundle = null;
         public static AssetBundle VRAssetBundle = null;
 
-        public static Material commandoMat;
         internal static Shader hotpoo = RoR2.LegacyResourcesAPI.Load<Shader>("Shaders/Deferred/HGStandard");
         #region why did we do it this way
         public static Texture charPortrait;
@@ -122,33 +121,32 @@ namespace Modules {
 
         public static void Initialize() {
 
-            commandoMat = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial;
             PopulateBundles();
 
             PopulateAssets();//and boy are there assets
         }
 
         private static void PopulateBundles() {
+
             if (MainAssetBundle == null) {
-                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.enforcer")) {
-                    MainAssetBundle = AssetBundle.LoadFromStream(assetStream);
-                }
+                MainAssetBundle = AssetBundle.LoadFromFile(Files.GetPathToFile("AssetBundles", "enforcer"));
             }
 
-            //fuck whoever wrote this code and fuck you
-            // comment out the soundbank shit and then wonder why sounds aren't working you're literally fucking retarded holy hell
-            using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.EnforcerBank.bnk")) {
-                byte[] array = new byte[manifestResourceStream2.Length];
-                manifestResourceStream2.Read(array, 0, array.Length);
-                SoundAPI.SoundBanks.Add(array);
-            }
+            ////fuck whoever wrote this code and fuck you
+            //// comment out the soundbank shit and then wonder why sounds aren't working you're literally fucking retarded holy hell
+            //using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.EnforcerBank.bnk")) {
+            //    byte[] array = new byte[manifestResourceStream2.Length];
+            //    manifestResourceStream2.Read(array, 0, array.Length);
+            //    SoundAPI.SoundBanks.Add(array);
+            //}
 
-            // it's 2022 and I just fucking did it again
-            using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.Nemforcer.bnk")) {
-                byte[] array = new byte[manifestResourceStream2.Length];
-                manifestResourceStream2.Read(array, 0, array.Length);
-                SoundAPI.SoundBanks.Add(array);
-            };
+            //// it's 2022 and I just fucking did it again
+            //using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.Nemforcer.bnk")) {
+            //    byte[] array = new byte[manifestResourceStream2.Length];
+            //    manifestResourceStream2.Read(array, 0, array.Length);
+            //    SoundAPI.SoundBanks.Add(array);
+            //};
+            //deleting these memories is punishable by cum
         }
 
         private static void PopulateAssets() {
@@ -323,9 +321,7 @@ namespace Modules {
         public static void loadVRBundle() {
 
             if (VRAssetBundle == null) {
-                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Enforcer.enforcervr")) {
-                    VRAssetBundle = AssetBundle.LoadFromStream(assetStream);
-                }
+                VRAssetBundle = AssetBundle.LoadFromFile(Files.GetPathToFile("AssetBundles", "enforcervr"));
             }
 
             vrEnforcerDominantHand = VRAssetBundle.LoadAsset<GameObject>("EnforcerShotgunHand").ConvertAllRenderersToHopooShader();
