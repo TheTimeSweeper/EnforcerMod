@@ -40,13 +40,13 @@ namespace EnforcerPlugin {
     [BepInDependency("com.bepis.r2api.items", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("HIFU.Inferno", BepInDependency.DependencyFlags.SoftDependency)][BepInDependency("com.johnedwa.RTAutoSprintEx", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.7.2")]
+    [BepInPlugin(MODUID, "Enforcer", "3.7.3")]
     public class EnforcerModPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.EnforcerGang.Enforcer";
         
         public static EnforcerModPlugin instance;
-
+        
         public static bool holdonasec = true;
         
         //i didn't want this to be static considering we're using an instance now but it throws 23 errors if i remove the static modifier 

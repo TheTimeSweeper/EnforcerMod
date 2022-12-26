@@ -1,4 +1,6 @@
-# Enforcer
+# Enforcer Legacy Readme
+Actual readme in release folder
+Legacy Changelog below
 - Adds the Enforcer from Risk of Rain 1
 - Includes a bunch of unlockable alternate skills and skins
 - Includes support for ClassicItems' Ancient Scepter
@@ -62,8 +64,18 @@ And big thanks to everyone testing and giving their feedback, the mod wouldn't b
 
 ## Future Plans
 - More alternate skills
+___
+## Legacy Changelog
 
-## Changelog
+`2.2.6`
+- King Dedede's bonus health regen is now disabled upon taking damage, and bleed now cuts ALL regen by 100% (only applies to Starstorm 2 invasion variant)
+
+`2.2.5`
+- Added compatibility with Standalone Ancient Scepter and removed ClassicItems compatibility
+
+`2.2.4`
+- Fixed a minor issue with skins
+
 `2.2.3`
 - Added compatibility for Starstorm 2's void event- the default invasion event is still here, only now with a twist
 - Added Enforcer's Grand Mastery skin- huge thanks to bruh for the model

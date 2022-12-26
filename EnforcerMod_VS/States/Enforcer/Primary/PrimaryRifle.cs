@@ -48,69 +48,67 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         }
 
         private void FireBullet() {
-            if (hasFired < bulletCount) {
-                hasFired++;
-                lastFired = Time.time + fireInterval / attackSpeedStat;
 
-                AddRecoil(-2f * bulletRecoil, -3f * bulletRecoil, -1f * bulletRecoil, 1f * bulletRecoil);
-                characterBody.AddSpreadBloom(0.33f * bulletRecoil);
-                EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, gameObject, muzzleString, false);
+            lastFired = Time.time + fireInterval / attackSpeedStat;
 
-                if (HasBuff(Buffs.protectAndServeBuff) || HasBuff(Buffs.energyShieldBuff)) {
-                    PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", 0.5f * duration);
-                } else {
-                    PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", 1.75f * duration);
-                }
+            AddRecoil(-2f * bulletRecoil, -3f * bulletRecoil, -1f * bulletRecoil, 1f * bulletRecoil);
+            characterBody.AddSpreadBloom(0.33f * bulletRecoil);
+            EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, gameObject, muzzleString, false);
 
-                string soundString = Sounds.FireAssaultRifleSlow;
-                //if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterRifle;
-                //if (this.isEngi) soundString = EnforcerPlugin.Sounds.FireBungusRifle;
+            if (HasBuff(Buffs.protectAndServeBuff) || HasBuff(Buffs.energyShieldBuff)) {
+                PlayAnimation("Gesture, Override", "ShieldFireShotgun", "FireShotgun.playbackRate", 0.5f * duration);
+            } else {
+                PlayAnimation("Gesture, Override", "FireShotgun", "FireShotgun.playbackRate", 1.75f * duration);
+            }
 
-                Util.PlayAttackSpeedSound(soundString, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject, attackSpeedStat);
+            string soundString = Sounds.FireAssaultRifleSlow;
+            //if (this.isStormtrooper) soundString = EnforcerPlugin.Sounds.FireBlasterRifle;
+            //if (this.isEngi) soundString = EnforcerPlugin.Sounds.FireBungusRifle;
 
-                if (isAuthority) {
-                    float damage = damageCoefficient * damageStat;
-                    float force = 10;
-                    float procCoefficient = 0.75f;
-                    bool isCrit = RollCrit();
+            Util.PlayAttackSpeedSound(soundString, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject, attackSpeedStat);
 
-                    Ray aimRay = GetAimRay();
+            if (isAuthority) {
+                float damage = damageCoefficient * damageStat;
+                float force = 10;
+                float procCoefficient = 0.75f;
+                bool isCrit = RollCrit();
 
-                    GameObject tracerEffect = bulletTracer;
-                    //if (this.isStormtrooper) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
-                    //if (this.isEngi) tracerEffect = EnforcerPlugin.EnforcerPlugin.bungusTracer;
+                Ray aimRay = GetAimRay();
 
-                    new BulletAttack {
-                        bulletCount = 1,
-                        aimVector = aimRay.direction,
-                        origin = aimRay.origin,
-                        damage = damage,
-                        damageColorIndex = DamageColorIndex.Default,
-                        damageType = DamageType.Generic,
-                        falloffModel = BulletAttack.FalloffModel.DefaultBullet,
-                        maxDistance = range,
-                        force = force,
-                        hitMask = LayerIndex.CommonMasks.bullet,
-                        minSpread = minSpread,
-                        maxSpread = maxSpread,
-                        isCrit = isCrit,
-                        owner = gameObject,
-                        muzzleName = muzzleString,
-                        smartCollision = false,
-                        procChainMask = default,
-                        procCoefficient = procCoefficient,
-                        radius = 0.75f,
-                        sniper = false,
-                        stopperMask = LayerIndex.CommonMasks.bullet,
-                        weapon = null,
-                        tracerEffectPrefab = tracerEffect,
-                        spreadPitchScale = 0.25f,
-                        spreadYawScale = 0.25f,
-                        queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
-                        hitEffectPrefab = MinigunFire.bulletHitEffectPrefab,
-                        HitEffectNormal = MinigunFire.bulletHitEffectNormal
-                    }.Fire();
-                }
+                GameObject tracerEffect = bulletTracer;
+                //if (this.isStormtrooper) tracerEffect = EnforcerPlugin.EnforcerPlugin.laserTracer;
+                //if (this.isEngi) tracerEffect = EnforcerPlugin.EnforcerPlugin.bungusTracer;
+
+                new BulletAttack {
+                    bulletCount = 1,
+                    aimVector = aimRay.direction,
+                    origin = aimRay.origin,
+                    damage = damage,
+                    damageColorIndex = DamageColorIndex.Default,
+                    damageType = DamageType.Generic,
+                    falloffModel = BulletAttack.FalloffModel.DefaultBullet,
+                    maxDistance = range,
+                    force = force,
+                    hitMask = LayerIndex.CommonMasks.bullet,
+                    minSpread = minSpread,
+                    maxSpread = maxSpread,
+                    isCrit = isCrit,
+                    owner = gameObject,
+                    muzzleName = muzzleString,
+                    smartCollision = false,
+                    procChainMask = default,
+                    procCoefficient = procCoefficient,
+                    radius = 0.75f,
+                    sniper = false,
+                    stopperMask = LayerIndex.CommonMasks.bullet,
+                    weapon = null,
+                    tracerEffectPrefab = tracerEffect,
+                    spreadPitchScale = 0.25f,
+                    spreadYawScale = 0.25f,
+                    queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
+                    hitEffectPrefab = MinigunFire.bulletHitEffectPrefab,
+                    HitEffectNormal = MinigunFire.bulletHitEffectNormal
+                }.Fire();
             }
         }
 
@@ -118,7 +116,11 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             base.FixedUpdate();
 
             if (fixedAge >= fireDuration && Time.time > lastFired) {
-                FireBullet();
+
+                if (hasFired < bulletCount) {
+                    hasFired++;
+                    FireBullet();
+                }
             }
 
             if (fixedAge >= duration && isAuthority) {

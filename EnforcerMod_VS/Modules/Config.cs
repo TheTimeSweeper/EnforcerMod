@@ -46,6 +46,7 @@ namespace Modules {
         public static ConfigEntry<float> shotgunRange;
         public static ConfigEntry<float> shotgunSpread;
 
+        public static ConfigEntry<float> rifleScreenShake;
         public static ConfigEntry<float> rifleDamage;
         public static ConfigEntry<int> rifleBaseBulletCount;
         public static ConfigEntry<float> rifleProcCoefficient;
@@ -146,7 +147,7 @@ namespace Modules {
                                      false,
                                      "Adds a King Dedede boss that spawns on Sky Meadow and post-loop Titanic Plains.");
             #endregion general
-
+            
             #region keybinds
             restKey
                 = plugin.Config.Bind("02 - Keybinds",
@@ -279,6 +280,13 @@ namespace Modules {
             #endregion ssg
 
             #region hmg
+
+            rifleScreenShake
+                = plugin.Config.Bind("05 - Heavy Machine Gun",
+                                     "Screen Shake Multiplier",
+                                     1f,
+                                     "Adjusts screen shake. (screenshake is already lowered while in shield)");
+
             /*rifleDamage
                 = plugin.Config.Bind("05 - Assault Rifle",
                                      "Damage Coefficient",

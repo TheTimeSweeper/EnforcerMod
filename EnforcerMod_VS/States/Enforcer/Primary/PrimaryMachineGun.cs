@@ -73,11 +73,9 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
             Util.PlaySound(soundString, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetPrimaryMuzzleObject() : gameObject);
 
-            GameObject tracerEffect = Commando.CommandoWeapon.FireBarrage.effectPrefab;
-            if (this.isStormtrooper) tracerEffect = EnforcerPlugin.EnforcerModPlugin.laserTracer;
-            if (this.isEngi) tracerEffect = EnforcerPlugin.EnforcerModPlugin.bungusTracer;
+            GameObject flashEffect = Commando.CommandoWeapon.FireBarrage.effectPrefab;
 
-            EffectManager.SimpleMuzzleFlash(tracerEffect, gameObject, muzzleName, false);
+            EffectManager.SimpleMuzzleFlash(flashEffect, gameObject, muzzleName, false);
 
             if (isAuthority && characterBody) {
                 float shieldSpreadMult = isShielded ? FireMachineGun.shieldSpreadMult : 1f;
@@ -90,7 +88,8 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 }
 
                 GameObject tracer = Commando.CommandoWeapon.FireBarrage.tracerEffectPrefab;
-                if (isStormtrooper) tracer = EnforcerPlugin.EnforcerModPlugin.laserTracer;
+                if (this.isStormtrooper) tracer = EnforcerPlugin.EnforcerModPlugin.laserTracer;
+                if (this.isEngi) tracer = EnforcerPlugin.EnforcerModPlugin.bungusTracer;
 
                 new BulletAttack {
                     bulletCount = bullets,
@@ -125,6 +124,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
 
                 float scaledRecoil = recoilAmplitude / characterBody.attackSpeed * bullets;
                 characterBody.AddSpreadBloom(FireMachineGun.bloom * shieldSpreadMult);
+                scaledRecoil *= Modules.Config.rifleScreenShake.Value;
                 AddRecoil(-0.2f * scaledRecoil, -0.69f * scaledRecoil, -0.3f * scaledRecoil, 0.3f * scaledRecoil);
             }
         }
