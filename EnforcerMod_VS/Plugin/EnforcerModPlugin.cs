@@ -37,19 +37,10 @@ namespace EnforcerPlugin {
     [BepInDependency("com.cwmlolzlz.skills", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.ItemDisplayPlacementHelper", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.Moffein.RiskyArtifacts", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.bepis.r2api.items", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("HIFU.Inferno", BepInDependency.DependencyFlags.SoftDependency)][BepInDependency("com.johnedwa.RTAutoSprintEx", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.7.1")]
-    [R2APISubmoduleDependency(new string[]
-    {
-        "PrefabAPI",
-        "LanguageAPI",
-        "DamageAPI",
-        "UnlockableAPI",
-        "DirectorAPI",
-        "RecalculateStatsAPI",
-    })]
-
+    [BepInPlugin(MODUID, "Enforcer", "3.7.2")]
     public class EnforcerModPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.EnforcerGang.Enforcer";
@@ -57,7 +48,7 @@ namespace EnforcerPlugin {
         public static EnforcerModPlugin instance;
 
         public static bool holdonasec = true;
-
+        
         //i didn't want this to be static considering we're using an instance now but it throws 23 errors if i remove the static modifier 
         //i'm not dealing with that
         //public static GameObject characterBodyPrefab;
@@ -119,11 +110,6 @@ namespace EnforcerPlugin {
         public static bool autoSprintInstalled = false;
 
         public static DamageAPI.ModdedDamageType barrierDamageType;
-
-        //public static uint doomGuyIndex = 2;
-        //public static uint engiIndex = 3;
-        //public static uint stormtrooperIndex = 4;
-        //public static uint frogIndex = 7;
 
         //private SkillLocator _skillLocator;
         //private CharacterSelectSurvivorPreviewDisplayController _previewController;
@@ -213,14 +199,15 @@ namespace EnforcerPlugin {
                 SetupVR();
             }
 
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.xoxfaby.BetterUI"))
-            {
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.xoxfaby.BetterUI")) {
                 BetterUICompat.init();
             }
 
             autoSprintInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.johnedwa.RTAutoSprintEx");
 
-            FixItemDisplays();
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.bepis.r2api.items")) {
+                FixItemDisplays();
+            }
         }
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]

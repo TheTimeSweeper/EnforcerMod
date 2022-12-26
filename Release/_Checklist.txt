@@ -1,6 +1,6 @@
 >icon
 >manifest
->dll
+>plugins
  - tested n shit
  - version
 >readme

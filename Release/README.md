@@ -3,15 +3,17 @@
 - Includes a bunch of unlockable alternate skills and skins
 - Includes support for Ancient Scepter, VR, and a few other mods
 
-[![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/Release/readme/screen0.png)]()
+[![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/Release/readme/screen0.png)]()
 
-[![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/Release/readme/screen1.png)]()
-[![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/Release/readme/screen2.png)]()
+[![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/Release/readme/screen1.png)]()
+[![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/Release/readme/screen2.png)]()
 
 [![](https://cdn.discordapp.com/attachments/739696016755785859/828394816986808360/EnfuckerIcon.png)]()
 
 Join the discord server to share any feedback/bugs/suggestions- https://discord.gg/HpQB9fC
 Or ping/message me directly (TheTimesweeper#5727) with all the nastiest feedback you can think of
+
+___
 
 ## Credits
 Gnome - Coding  
@@ -41,31 +43,35 @@ Swuff - Idea Guy™
 
 And big thanks to everyone testing and giving their feedback, the mod wouldn't be the same without it
 
+___
+
 ## Skills
 
 | Skill | | Description | Stats |
 |:-|-|-------|-|
-| Riot Shotgun | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/RiotShotgunIcon.png) | Fire a short range `piercing` blast for `6x60%` damage. | Proc: `0.5` |
-| Shield Bash | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/ShieldBashIcon.png) | `Bash` nearby enemies away for `250%` damage. Use while sprinting to perform a `Shoulder Bash` for `450%` damage instead. `Deflects Projectiles`. | Proc: `1.0`, CD: `6 sec` |
+| Riot Shotgun | ![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/RiotShotgunIcon.png) | Fire a short range `piercing` blast for `6x60%` damage. | Proc: `0.5` |
+| Shield Bash | ![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/ShieldBashIcon.png) | `Bash` nearby enemies away for `250%` damage. Use while sprinting to perform a `Shoulder Bash` for `450%` damage instead. `Deflects Projectiles`. | Proc: `1.0`, CD: `6 sec` |
 | Shoulder Bash |  | Short charge that stuns. Hitting heavier enemies deals up to `700%` damage. | Proc: `1.0` |
-| Tear Gas | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/TearGasIcon.png) | Throw a grenade that explodes into tear gas that leaves enemies `Impaired`. Lasts for 12 seconds. | CD: `16 sec` |
+| Tear Gas | ![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/TearGasIcon.png) | Throw a grenade that explodes into tear gas that leaves enemies `Impaired`. Lasts for 12 seconds. | CD: `16 sec` |
 | Impaired |  | Reduces `movement speed` by `75%`, `attack speed` by `25`, and `armor` by `20`|
-| Protect and Serve | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/ShieldUpIcon.png) | Take a defensive stance `blocking` all damage from the front. `Increases your rate of fire` but prevents sprinting and jumping. | CD: `0 sec` |
+| Protect and Serve | ![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/ShieldUpIcon.png) | Take a defensive stance `blocking` all damage from the front. `Increases your rate of fire` but prevents sprinting and jumping. | CD: `0 sec` |
 
 ### Unlockable Alts (spoiler alert)
 
 | Skill | | Description | Stats |
 |:-|-|-------|-|
-| Super Shotgun | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/SuperShotgunIcon.png) | Fire up to 2 shotgun blasts for `8x80%` damage. While using `Protect and Serve`, fire both barrels at once. | Proc: `0.75` |
-| Heavy Machine Gun | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/AssaultRifleIcon.png) | Unload a barrage of bullets for `130%` damage. While using `Protect and Serve` has increased accuracy, but slower movement speed. | Proc: `1` |
-| Stun Grenade | ![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/StunGrenadeIcon.png) | `Stunning`. Launch a stun grenade, dealing `540%` damage. Store up to 3 grenades. | Proc: `1`, CD: `7 sec` |
+| Super Shotgun | ![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/SuperShotgunIcon.png) | Fire up to 2 shotgun blasts for `8x80%` damage. While using `Protect and Serve`, fire both barrels at once. | Proc: `0.75` |
+| Heavy Machine Gun | ![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/AssaultRifleIcon.png) | Unload a barrage of bullets for `130%` damage. While using `Protect and Serve` has increased accuracy, but slower movement speed. | Proc: `1` |
+| Stun Grenade | ![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/StunGrenadeIcon.png) | `Stunning`. Launch a stun grenade, dealing `540%` damage. Store up to 3 grenades. | Proc: `1`, CD: `7 sec` |
 
 [![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)]()
+
+___
 
 ## VR 
 Enforcer is now compatible with [Dr.Bibop's VRMod](https://thunderstore.io/package/DrBibop/VRMod/). make sure you have [VRAPI installed](https://thunderstore.io/package/DrBibop/VRAPI/).  
 Huge thanks to Dr.Bibop and PureDark for the *full* VR implementation  
-[![](https://raw.githubusercontent.com/GnomeModder/EnforcerMod/master/Release/readme/enforvr.png)]()
+[![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/Release/readme/enforvr.png)]()
 
 #### Guns
  - aimed with dominant hand
@@ -78,6 +84,9 @@ Huge thanks to Dr.Bibop and PureDark for the *full* VR implementation
    - raising your shield is triggered by having your shield-hand in front of you and raised
    - lowering your shield is triggered when you point your shield-hand downwards
    - can be disabled in config
+
+___
+
 #### Hammer
  - held with both hands
  - activated by swinging with motion controls
@@ -86,18 +95,32 @@ Huge thanks to Dr.Bibop and PureDark for the *full* VR implementation
 #### Minigun
  - held and aimed with both hands
 
+___
+
 ## Known Issues 
 - Cancelling shield with sprint does not work properly in multiplayer
+
+___
 
 ## Future Plans
 - More alternate skill(s)
 - Skills++ support
+- animation pass
+- mention heavy tf2
 - Other things 100% decided on pure whimsy
 - ~~Readding everything~~
 - Fixing this fucker
 - Help
 
+___
+
 ## Changelog
+
+`3.7.1`
+ - blacklisted blind vermin from melee blocking code
+ - separated assetbundles and soundbank from dll
+   - *let me know if this breaks anything*
+ - fix grandmastery missing hand
 
 `3.7.0`
  - added logic for blocking melee attacks based on character's core position being in front of you

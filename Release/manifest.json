@@ -1,10 +1,16 @@
 {
     "name": "Enforcer",
-    "version_number": "3.7.0",
+    "version_number": "3.7.2",
     "website_url": "https://github.com/GnomeModder/EnforcerMod",
-    "description": "Adds the Enforcer from Risk of Rain 1 as a fully fleshed out playable survivor. | Melee blocking update",
+    "description": "Adds the Enforcer from Risk of Rain 1 as a fully fleshed out playable survivor.",
     "dependencies": [
         "bbepis-BepInExPack-5.4.1905",
-        "tristanmcpherson-R2API-4.3.21"
+        "RiskofThunder-R2API_Core-5.0.3",
+        "RiskofThunder-R2API_Prefab-1.0.1",
+        "RiskofThunder-R2API_RecalculateStats-1.0.0",
+        "RiskofThunder-R2API_Unlockable-1.0.0",
+        "RiskofThunder-R2API_Director-1.0.0",
+        "RiskofThunder-R2API_DamageType-1.0.0",
+        "RiskofThunder-R2API_Language-1.0.0"
     ]
 }

@@ -2508,7 +2508,7 @@ namespace EnforcerPlugin {
 
             RiskyCompat(characterSpawnCard);
         }
-
+        
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         private static void RiskyCompat(CharacterSpawnCard characterSpawnCard) {
             if (EnforcerModPlugin.RiskyArtifactsInstalled)
