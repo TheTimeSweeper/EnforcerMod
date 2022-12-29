@@ -403,6 +403,7 @@ namespace EnforcerPlugin {
             mainHurtbox.damageModifier = HurtBox.DamageModifier.Normal;
             mainHurtbox.hurtBoxGroup = hurtBoxGroup;
             mainHurtbox.indexInGroup = 0;
+            mainHurtbox.isSniperTarget = true;
 
             //todo see if triggers can be hurtboxes
             //HurtBox headHurtbox = model.transform.Find("Head").GetComponent<SphereCollider>().gameObject.AddComponent<HurtBox>();
@@ -1240,7 +1241,7 @@ namespace EnforcerPlugin {
         {
             minibossPrefab = PrefabAPI.InstantiateClone(characterBodyPrefab, "NemesisEnforcerMiniBossBody");
 
-            minibossPrefab.GetComponent<ModelLocator>().modelBaseTransform.localScale *= 1.5f;
+            minibossPrefab.GetComponent<ModelLocator>().modelBaseTransform.localScale *= 2f;
 
             EnforcerModPlugin.Destroy(minibossPrefab.transform.Find("ModelBase").gameObject);
             EnforcerModPlugin.Destroy(minibossPrefab.transform.Find("CameraPivot").gameObject);

@@ -14,7 +14,7 @@ namespace EnforcerPlugin
         {
             this.healthComponent = this.GetComponent<HealthComponent>();
 
-            if (EnforcerModPlugin.starstormInstalled)
+            if (EnforcerModPlugin.starstormInstalled || EnforcerModPlugin.ss2uInstalled)
             {
                 CharacterBody body = this.GetComponent<CharacterBody>();
                 if (body && body.bodyIndex == EnforcerModPlugin.NemesisEnforcerBossBodyIndex)

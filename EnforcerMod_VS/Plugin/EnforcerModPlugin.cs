@@ -28,6 +28,7 @@ using UnityEngine.UI;
 namespace EnforcerPlugin {
 
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("com.ChirrLover.Starstorm2Unofficial", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.DrBibop.VRAPI", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.DestroyedClone.AncientScepter", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KomradeSpectre.Aetherium", BepInDependency.DependencyFlags.SoftDependency)]
@@ -40,7 +41,7 @@ namespace EnforcerPlugin {
     [BepInDependency("com.bepis.r2api.items", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("HIFU.Inferno", BepInDependency.DependencyFlags.SoftDependency)][BepInDependency("com.johnedwa.RTAutoSprintEx", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.7.3")]
+    [BepInPlugin(MODUID, "Enforcer", "3.7.4")]
     public class EnforcerModPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.EnforcerGang.Enforcer";
@@ -108,6 +109,7 @@ namespace EnforcerPlugin {
         public static bool VREnabled = false;
         public static bool RiskyArtifactsInstalled = false;
         public static bool autoSprintInstalled = false;
+        public static bool ss2uInstalled = false;
 
         public static DamageAPI.ModdedDamageType barrierDamageType;
 
@@ -185,6 +187,7 @@ namespace EnforcerPlugin {
             ScepterInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter");
             //shartstorm 2 xDDDD
             starstormInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TeamMoonstorm.Starstorm2");
+            ss2uInstalled = !starstormInstalled && BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.ChirrLover.Starstorm2Unofficial");
 
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.cwmlolzlz.skills")) {
                 skillsPlusInstalled = true;
