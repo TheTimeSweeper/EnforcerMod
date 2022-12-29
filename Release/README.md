@@ -116,6 +116,10 @@ ___
 
 ## Changelog
 
+`3.7.4`
+
+- Nemforcer can now be headshotted by Railgunner.
+
 `3.7.3`
 - updated for r2api split ass(emblies)
 - nothing else changed. you can revert if you're still on old r2api
