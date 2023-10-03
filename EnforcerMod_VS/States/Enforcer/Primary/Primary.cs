@@ -35,6 +35,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         protected bool hasFired;
         private Animator animator;
         protected string muzzleString;
+        protected float beefDuration;
 
         protected EnforcerComponent enforcerComponent;
         
@@ -69,17 +70,31 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             }
 
             fireDuration = 0;// 0.1f * duration; fucking windup on a shotgun you dumb cunt
+            // i liked the weight okay but it can be simulated via animation well enough so
+            // Fair
+
+            beefDuration = attackStopDuration + fireDuration; // one less math op running in fixedupdate
+            // then again fireduration is zero now so i could have just used attackStopDuration in its place
+            // future proofing? in case we make him clunkier at some point?
+        }
+
+        private GameObject tracerPrefab
+        {
+            get
+            {
+                if (this.isStormtrooper) return EnforcerModPlugin.laserTracer;
+                if (this.isEngi) return EnforcerModPlugin.bungusTracer;
+                return EnforcerModPlugin.bulletTracer;
+            }
         }
 
         public virtual void FireBullet() {
             if (!hasFired) {
                 hasFired = true;
 
-                string soundString = "";
-
                 bool isCrit = RollCrit();
 
-                soundString = isCrit ? Sounds.FireShotgunCrit : Sounds.FireShotgun;
+                string soundString = isCrit ? Sounds.FireShotgunCrit : Sounds.FireShotgun;
 
                 if (Config.classicShotgun.Value) soundString = Sounds.FireClassicShotgun;
 
@@ -96,15 +111,14 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                 characterBody.AddSpreadBloom(4f);
                 EffectManager.SimpleMuzzleFlash(Commando.CommandoWeapon.FireBarrage.effectPrefab, gameObject, muzzleString, false);
 
-                //if (!this.isStormtrooper && !this.isEngi)
-                GetComponent<EnforcerWeaponComponent>().DropShell(-GetModelBaseTransform().transform.right * -Random.Range(4, 12));
+                if (!this.isStormtrooper)
+                    enforcerComponent.weaponComponent.DropShell(-GetModelBaseTransform().transform.right * -Random.Range(4, 12));
+                // toook off one getcomponent let's go dude
+                // also stormtrooper doesn't drop shells for a reason fuck you
+                // laser gun
 
                 if (isAuthority) {
                     float damage = damageCoefficient * damageStat;
-                    
-                    GameObject tracerEffect = EnforcerModPlugin.bulletTracer;
-                    if (this.isStormtrooper) tracerEffect = EnforcerModPlugin.laserTracer;
-                    if (this.isEngi) tracerEffect = EnforcerModPlugin.bungusTracer;
 
                     //if (levelHasChanged) {
                     //    levelHasChanged = false;
@@ -143,7 +157,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                         sniper = false,
                         stopperMask = LayerIndex.world.collisionMask,
                         weapon = null,
-                        tracerEffectPrefab = tracerEffect,
+                        tracerEffectPrefab = tracerPrefab,
                         spreadPitchScale = 1f,
                         spreadYawScale = 1f,
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
@@ -180,13 +194,14 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                     i.widthMultiplier = (1 + addedBulletThiccness) * 0.5f;
                 }
             }
+            //  dude?
         }
 
         public override void FixedUpdate() {
             base.FixedUpdate();
             
             enforcerComponent.beefStop = false;
-            if (fixedAge > fireDuration && fixedAge < attackStopDuration + fireDuration) {
+            if (fixedAge > fireDuration && fixedAge < beefDuration) {
                 if (characterMotor) {
                     characterMotor.moveDirection = Vector3.zero;
                     enforcerComponent.beefStop = true;

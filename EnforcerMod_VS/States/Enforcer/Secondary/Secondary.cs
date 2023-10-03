@@ -6,6 +6,7 @@ using System;
 using UnityEngine.Networking;
 using System.Collections;
 using Modules;
+using UnityEngine.AddressableAssets;
 
 namespace EntityStates.Enforcer {
     public class ShieldBash : BaseSkillState
@@ -17,10 +18,12 @@ namespace EntityStates.Enforcer {
         public static float knockbackForce = 0.14f;
         public static float blastRadius = 6f;
         public static float deflectRadius = 3f;
-        public static float beefDurationNoShield = 0.4f;
+        public static float beefDurationNoShield = 0.1f;
         public static float beefDurationShield = 0.8f;
         public static float recoilAmplitude = 1f;
         public static float parryInterval = 0.12f;
+
+        public float lungeForce = 18f;
 
         private float attackStopDuration;
         private float duration;
@@ -37,6 +40,7 @@ namespace EntityStates.Enforcer {
         private EnforcerComponent shieldComponent;
         private bool sprintbash;
         private EnforcerNetworkComponent enforcerNet;
+        private bool hasLunged;
 
         private Transform _origOrigin;
 
@@ -127,6 +131,25 @@ namespace EntityStates.Enforcer {
                     blastAttack.impactEffect = BeetleGuardMonster.GroundSlam.hitEffectPrefab.GetComponent<EffectComponent>().effectIndex;
 
                     blastAttack.Fire();
+
+                    // spawn hit effect on targets, play hit sound, do the funny melee hop thing
+                    BlastAttack.HitPoint[] hitPoints = blastAttack.CollectHits();
+                    if (hitPoints.Length > 0)
+                    {
+                        // just use loader's hit effect for now
+                        GameObject j = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Loader/OmniImpactVFXLoader.prefab").WaitForCompletion();
+                        foreach (BlastAttack.HitPoint i in hitPoints)
+                        {
+                            EffectManager.SpawnEffect(j, new EffectData
+                            {
+                                origin = i.hitPosition,
+                                scale = 1f
+                            }, true);
+                        }
+
+                        Util.PlaySound(Sounds.BashHitEnemy, this.gameObject);
+                        this.characterMotor.velocity.y = 7f;
+                    }
                 }
 
                 if (NetworkServer.active)
@@ -154,7 +177,7 @@ namespace EntityStates.Enforcer {
                             if (enemyTeam || configKnockbackAllies)
                             {
                                 //Debug.Log("Enemy Found");
-                                Util.PlaySound(Sounds.BashHitEnemy, healthComponent.gameObject);
+                                //Util.PlaySound(Sounds.BashHitEnemy, healthComponent.gameObject);
 
                                 CharacterBody hitCharacterBody = healthComponent.body;
                                 if (hitCharacterBody)
@@ -271,6 +294,16 @@ namespace EntityStates.Enforcer {
                     base.characterMotor.moveDirection = Vector3.zero;
                 }
             }
+            else
+            {
+                if (!this.hasLunged)
+                {
+                    this.hasLunged = true;
+
+                    // only lunge forward if grounded
+                    if (this.isGrounded) this.characterMotor.velocity += (this.characterDirection.forward * this.lungeForce);
+                }
+            }
 
             if (base.fixedAge >= this.fireDuration)
             {
@@ -354,7 +387,7 @@ namespace EntityStates.Enforcer {
                     }
                 }
             }
-        }        
+        }
 
         private void ParryLasers() 
         {

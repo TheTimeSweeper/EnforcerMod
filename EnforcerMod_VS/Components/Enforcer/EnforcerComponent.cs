@@ -33,6 +33,8 @@ public class EnforcerComponent : MonoBehaviour
 
     public Transform origOrigin { get; set; }
 
+    public EnforcerWeaponComponent weaponComponent;
+
     private bool _isShielding;
     public bool isShielding {
         get => _isShielding;
@@ -96,6 +98,8 @@ public class EnforcerComponent : MonoBehaviour
         if (enforcerBody == null) {
             enforcerBody = GetComponent<CharacterBody>();
         }
+
+        weaponComponent = GetComponent<EnforcerWeaponComponent>();
     }
 
     void FixedUpdate() {
