@@ -114,6 +114,9 @@ namespace Modules {
         public static Mesh dededeBossMesh;
         public static Mesh minecraftNemMesh;
         public static Mesh minecraftHammerMesh;
+        public static Mesh femNemMesh;
+        public static Mesh femHammerMesh;
+
         #endregion why did we do it this way
         internal static NetworkSoundEventDef hammerHitSoundEvent;
         internal static NetworkSoundEventDef nemHammerHitSoundEvent;
@@ -312,6 +315,8 @@ namespace Modules {
             dededeBossMesh = MainAssetBundle.LoadAsset<Mesh>("meshDededeBoss");
             minecraftNemMesh = MainAssetBundle.LoadAsset<Mesh>("meshMinecraftNem");
             minecraftHammerMesh = MainAssetBundle.LoadAsset<Mesh>("meshMinecraftHammer");
+            femNemMesh = MainAssetBundle.LoadAsset<Mesh>("meshNemforcerFemBody");
+            femHammerMesh = MainAssetBundle.LoadAsset<Mesh>("meshNemforcerFemHammer");
 
             hammerHitSoundEvent = CreateNetworkSoundEventDef(Sounds.NemesisImpact);
             nemHammerHitSoundEvent = CreateNetworkSoundEventDef(Sounds.NemesisImpact2);

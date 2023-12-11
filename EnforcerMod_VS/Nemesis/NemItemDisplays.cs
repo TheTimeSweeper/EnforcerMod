@@ -113,7 +113,7 @@ namespace EnforcerPlugin {
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("BleedOnHitAndExplode", "DisplayBleedOnHitAndExplode", "LegR", new Vector3(0.005f, 0.005f, 0), new Vector3(0, 0, 0), new Vector3(0.002f, 0.002f, 0.002f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("MonstersOnShrineUse", "DisplayMonstersOnShrineUse", "LegL", new Vector3(-0.005f, 0.005f, 0.002f), new Vector3(90, 0, 0), new Vector3(0.002f, 0.002f, 0.002f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("RandomDamageZone", "DisplayRandomDamageZone", "HandL", new Vector3(0.002f, 0.005f, 0.001f), new Vector3(0, 270, 270), new Vector3(0.002f, 0.002f, 0.002f)));
-
+            
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("Jetpack", "DisplayBugWings", "Chest", new Vector3(0.008f, 0.008f, 0), new Vector3(0, 270, 0), new Vector3(0.005f, 0.005f, 0.005f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("GoldGat", "DisplayGoldGat", "Chest", new Vector3(0.003f, 0.007f, 0), new Vector3(0, 0, 0), new Vector3(0.002f, 0.002f, 0.002f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("BFG", "DisplayBFG", "Chest", new Vector3(0, 0.012f, -0.006f), new Vector3(15, 270, 25), new Vector3(0.01f, 0.01f, 0.01f)));
@@ -125,7 +125,7 @@ namespace EnforcerPlugin {
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("AffixHaunted", "DisplayEliteStealthCrown", "Head", new Vector3(0, 0.008f, 0), new Vector3(270, 0, 0), new Vector3(0.002f, 0.002f, 0.002f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("CritOnUse", "DisplayNeuralImplant", "Head", new Vector3(-0.008f, 0.006f, 0), new Vector3(0, 90, 0), new Vector3(0.01f, 0.01f, 0.01f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("DroneBackup", "DisplayRadio", "Pelvis", new Vector3(0, 0, 0.008f), new Vector3(0, 0, 180), new Vector3(0.01f, 0.01f, 0.01f)));
-            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("Lightning", "DisplayLightning", "ClavicleL", new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0.04f, 0.04f, 0.04f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("Lightning", "DisplayLightningArmNem", "ClavicleL", new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0.04f, 0.04f, 0.04f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("BurnNearby", "DisplayPotion", "Pelvis", new Vector3(0, 0, 0.008f), new Vector3(0, 0, 180), new Vector3(0.002f, 0.002f, 0.002f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("CrippleWard", "DisplayEffigy", "Pelvis", new Vector3(0, 0.008f, 0.009f), new Vector3(0, 180, 180), new Vector3(0.02f, 0.02f, 0.02f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRuleE("GainArmor", "DisplayElephantFigure", "KneeR", new Vector3(0.004f, 0.012f, 0), new Vector3(90, 90, 0), new Vector3(0.02f, 0.02f, 0.02f)));

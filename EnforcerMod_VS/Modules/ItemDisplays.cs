@@ -27,6 +27,7 @@ namespace Modules {
             PopulateDisplaysFromBody("LunarExploderBody");
 
             CreateFuckingGatDrone();
+            AddCustomLightningArm();
 
             //foreach (KeyValuePair<string, GameObject> pair in itemDisplayPrefabs)
             //{
@@ -74,6 +75,27 @@ namespace Modules {
             itemDisplayPrefabs["DisplayGoldGatDrone"] = gatDronePrefab;
         }
 
+
+        private static void AddCustomLightningArm() {
+            #region IgnoreThisAndRunAway
+            //seriously you don't need this
+            //I see you're still here, well if you do need this here's what you do
+            //but again you don't need this
+            //capacitor is hardcoded to track your "UpperArmR", "LowerArmR", and "HandR" bones.
+            //this is for having the lightning on custom bones in your childlocator
+
+            GameObject display = R2API.PrefabAPI.InstantiateClone(itemDisplayPrefabs["DisplayLightningArmRight".ToLowerInvariant()], "DisplayLightningArmCustom", false);
+
+            LimbMatcher limbMatcher = display.GetComponent<LimbMatcher>();
+
+            limbMatcher.limbPairs[0].targetChildLimb = "ShoulderR";
+            limbMatcher.limbPairs[1].targetChildLimb = "ElbowR";
+            limbMatcher.limbPairs[2].targetChildLimb = "HandR";
+
+            string key = "DisplayLightningArmNem".ToLowerInvariant();
+            itemDisplayPrefabs[key] = display;
+            #endregion
+        }
         private static void PopulateDisplaysFromBody(string body) {
             ItemDisplayRuleSet itemDisplayRuleSet = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/" + body).GetComponent<ModelLocator>().modelTransform.GetComponent<CharacterModel>().itemDisplayRuleSet;
 

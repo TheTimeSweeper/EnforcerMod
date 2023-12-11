@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 namespace EntityStates.Nemforcer {
-    public class HammerSwing : BaseSkillState
+    public class NemHammerSwing : BaseSkillState
     {
         public static string hitboxString = "HammerHitbox";
         public static float baseDuration = 1.05f;
@@ -72,7 +72,7 @@ namespace EntityStates.Nemforcer {
 
             if (base.characterBody.skinIndex == 2) hitSound = Assets.nemAxeHitSoundEvent;
 
-            float dmg = HammerSwing.damageCoefficient;
+            float dmg = NemHammerSwing.damageCoefficient;
 
             this.attack = new OverlapAttack();
             this.attack.damageType = DamageType.Generic;
@@ -132,7 +132,7 @@ namespace EntityStates.Nemforcer {
 
             if (base.fixedAge >= this.earlyExitDuration && base.inputBank.skill1.down)
             {
-                var nextSwing = new HammerSwing();
+                var nextSwing = new NemHammerSwing();
                 nextSwing.currentSwing = this.currentSwing + 1;
                 this.outer.SetNextState(nextSwing);
                 return;
@@ -160,7 +160,7 @@ namespace EntityStates.Nemforcer {
                 var soundGO = VRAPICompat.IsLocalVRPlayer(characterBody) ? VRAPICompat.GetPrimaryMuzzleObject() : base.gameObject;
                 Util.PlayAttackSpeedSound(soundString, soundGO, this.attackSpeedStat);
 
-                base.AddRecoil(-1f * HammerSwing.attackRecoil, -2f * HammerSwing.attackRecoil, -0.5f * HammerSwing.attackRecoil, 0.5f * HammerSwing.attackRecoil);
+                base.AddRecoil(-1f * NemHammerSwing.attackRecoil, -2f * NemHammerSwing.attackRecoil, -0.5f * NemHammerSwing.attackRecoil, 0.5f * NemHammerSwing.attackRecoil);
 
                 if (base.isAuthority) EffectManager.SimpleMuzzleFlash(Assets.nemSwingFX, base.gameObject, "SwingCenter", true);
             }
@@ -171,13 +171,13 @@ namespace EntityStates.Nemforcer {
 
                 if (this.attack.Fire())
                 {
-                    base.AddRecoil(-1f * HammerSwing.attackRecoil, -2f * HammerSwing.attackRecoil, -0.5f * HammerSwing.attackRecoil, 0.5f * HammerSwing.attackRecoil);
+                    base.AddRecoil(-1f * NemHammerSwing.attackRecoil, -2f * NemHammerSwing.attackRecoil, -0.5f * NemHammerSwing.attackRecoil, 0.5f * NemHammerSwing.attackRecoil);
 
                     if (!this.hasHopped)
                     {
                         if (base.characterMotor && !base.characterMotor.isGrounded)
                         {
-                            base.SmallHop(base.characterMotor, HammerSwing.hitHopVelocity);
+                            base.SmallHop(base.characterMotor, NemHammerSwing.hitHopVelocity);
                         }
 
                         this.hasHopped = true;

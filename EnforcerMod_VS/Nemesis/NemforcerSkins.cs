@@ -74,14 +74,6 @@ namespace EnforcerPlugin {
 
             SkinnedMeshRenderer mainRenderer = characterModel.mainSkinnedMeshRenderer;
 
-            LanguageAPI.Add("NEMFORCERBODY_DEFAULT_SKIN_NAME", "Nemesis");
-            LanguageAPI.Add("NEMFORCERBODY_ENFORCER_SKIN_NAME", "Enforcer");
-            LanguageAPI.Add("NEMFORCERBODY_CLASSIC_SKIN_NAME", "Classic");
-            LanguageAPI.Add("NEMFORCERBODY_TYPHOON_SKIN_NAME", "Champion");
-            LanguageAPI.Add("NEMFORCERBODY_DRIP_SKIN_NAME", "Dripforcer");
-            LanguageAPI.Add("NEMFORCERBODY_DEDEDE_SKIN_NAME", "King Dedede");
-            LanguageAPI.Add("NEMFORCERBODY_MINECRAFT_SKIN_NAME", "Minecraft");
-
             #region DefaultSkin
             Skins.SkinDefInfo defaultSkinDefInfo = default(Skins.SkinDefInfo);
             defaultSkinDefInfo.Name = "NEMFORCERBODY_DEFAULT_SKIN_NAME";
@@ -363,6 +355,44 @@ namespace EnforcerPlugin {
             SkinDef minecraftSkin = Skins.CreateSkinDef(minecraftSkinDefInfo);
             #endregion
 
+            #region FemSkin
+            Skins.SkinDefInfo femSkinDefInfo = default(Skins.SkinDefInfo);
+            femSkinDefInfo.Name = "NEMFORCERBODY_FEM_SKIN_NAME";
+            femSkinDefInfo.NameToken = "NEMFORCERBODY_FEM_SKIN_NAME";
+            femSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemforcerFem");
+            femSkinDefInfo.UnlockableDef = null;
+            femSkinDefInfo.RootObject = model;
+
+            femSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
+            femSkinDefInfo.MinionSkinReplacements = new SkinDef.MinionSkinReplacement[0];
+            femSkinDefInfo.ProjectileGhostReplacements = new SkinDef.ProjectileGhostReplacement[0];
+
+            femSkinDefInfo.GameObjectActivations = new SkinDef.GameObjectActivation[0];
+
+            femSkinDefInfo.MeshReplacements = new SkinDef.MeshReplacement[]
+            {
+                new SkinDef.MeshReplacement
+                {
+                    renderer = mainRenderer,
+                    mesh = Assets.femNemMesh
+                },
+                new SkinDef.MeshReplacement
+                {
+                    renderer = characterModel.baseRendererInfos[0].renderer,
+                    mesh = Assets.femHammerMesh
+                }
+            };
+            femSkinDefInfo.RendererInfos = characterModel.baseRendererInfos;
+
+            femSkinDefInfo.RendererInfos = new CharacterModel.RendererInfo[characterModel.baseRendererInfos.Length];
+            characterModel.baseRendererInfos.CopyTo(femSkinDefInfo.RendererInfos, 0);
+
+            femSkinDefInfo.RendererInfos[0].defaultMaterial = Materials.CreateHotpooMaterial("matNemforcerFem");
+            femSkinDefInfo.RendererInfos[femSkinDefInfo.RendererInfos.Length - 1].defaultMaterial = Materials.CreateHotpooMaterial("matNemforcerFem");
+
+            SkinDef femSkin = Skins.CreateSkinDef(femSkinDefInfo);
+            #endregion
+
             skinDefs = new List<SkinDef>()
             {
                 defaultSkinDef,
@@ -376,6 +406,10 @@ namespace EnforcerPlugin {
                 skinDefs.Add(dripSkin);
                 skinDefs.Add(minecraftSkin);
                 skinDefs.Add(dededeSkin);
+            }
+
+            if (Config.femSkin.Value) {
+                skinDefs.Add(femSkin);
             }
 
             skinController.skins = skinDefs.ToArray();

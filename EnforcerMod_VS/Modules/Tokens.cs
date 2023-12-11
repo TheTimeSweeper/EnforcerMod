@@ -1,43 +1,28 @@
 ﻿using EnforcerPlugin;
 using EntityStates.Enforcer;
 using EntityStates.Enforcer.NeutralSpecial;
-using R2API;
+using EntityStates.Nemforcer;
 using System;
 
 namespace Modules {
-    internal class Tokens {
-        //we doin this?
-        public static void RegisterTokens() {
+    internal static class LanguageAPI {
+        public static void Add(string token, string text) {
+            //R2API.LanguageAPI.Add(token, text);
+            Languages.Add(token, text);
+        }
+    }
 
+    internal class Tokens {
+
+        public static void RegisterTokens() {
+            //in case ruin's new language system doesn't work
+            //which I think it doesn't
+            //rip
             RegisterEnforcerTokens();
+            Languages.PrintOutput("Enforcer.txt");
 
             RegisterNemforcerTokens();
-
-        }
-
-        private static void RegisterNemforcerTokens() {
-
-            #region Achievements
-            //character
-            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_NAME", "???");
-            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, on monsoon or higher, stabilize the Void Fields and defeat Enforcer's Vestige.");
-            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_UNLOCKABLE_NAME", "???");
-
-            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Mastery");
-            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Monsoon.");
-            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Mastery");
-
-            string masteryFootnote = EnforcerModPlugin.starstormInstalled ? "" : "\n<color=#8888>(Counts any difficulty Typhoon or higher)</color>";
-
-            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Grand Mastery");
-            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Typhoon or Eclipse." + masteryFootnote);
-            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Grand Mastery");
-
-            //sken
-            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Demolition");
-            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, destroy 5 projectiles at once with Dominance.");
-            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Demolition");
-            #endregion
+            Languages.PrintOutput("Nemforcer.txt");
         }
 
         private static void RegisterEnforcerTokens() {
@@ -246,6 +231,127 @@ namespace Modules {
             LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Blocks");
 
             #endregion Achievements
+
+            #region skillsplus
+            LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_NAME_UPGRADE_DESCRIPTION", "<style=cIsUtility>+5%</style> damage, <style=cIsUtility>+10%</style> bullet thickness, and <style=cIsUtility>+0.1</style> bullet spread");
+            #endregion
+        }
+
+        private static void RegisterNemforcerTokens() {
+
+            #region Unforcer
+            string characterName = "Nemesis Enforcer";
+            string characterSubtitle = "Incorruptible Shadow";
+            string bossSubtitle = "End of the Line";
+            string characterOutro = "..and so he left, with newfound might to honor.";
+            string characterOutroFailure = "..and so he returned, infallible bastion truly immortalized.";
+            string characterLore = "\nheavy tf2\n\n";
+            string characterDescription = "Nemesis Enforcer is an incarnation of valiance and strength, a supernatural kind who is nobody to take lightly.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine;
+            characterDescription = characterDescription + "< ! > Golden Hammer can hit many enemies at once." + Environment.NewLine + Environment.NewLine;
+            characterDescription = characterDescription + "< ! > Use Dominance from high up to perform a devastating slam." + Environment.NewLine + Environment.NewLine;
+            characterDescription = characterDescription + "< ! > Strafing with Golden Minigun is key to taking down powerful bosses." + Environment.NewLine + Environment.NewLine;
+            characterDescription = characterDescription + "< ! > Shields are for pussies." + Environment.NewLine + Environment.NewLine;
+
+            LanguageAPI.Add("NEMFORCER_NAME", characterName);
+            LanguageAPI.Add("NEMFORCER_DESCRIPTION", characterDescription);
+            LanguageAPI.Add("NEMFORCER_SUBTITLE", characterSubtitle);
+            LanguageAPI.Add("NEMFORCER_LORE", characterLore);
+            LanguageAPI.Add("NEMFORCER_OUTRO_FLAVOR", characterOutro);
+            LanguageAPI.Add("NEMFORCER_OUTRO_FAILURE", characterOutroFailure);
+
+            LanguageAPI.Add("NEMFORCER_BOSS_NAME", "Ultra Nemesis Enforcer");
+            LanguageAPI.Add("NEMFORCER_BOSS_SUBTITLE", bossSubtitle);
+
+            LanguageAPI.Add("DEDEDE_NAME", "King Dedede");
+            LanguageAPI.Add("DEDEDE_BOSS_SUBTITLE", "King of Dreamland");
+
+            LanguageAPI.Add("ENFORCER_EVENT_NEMFORCERBOSS_START", "An unnatural force emanates from the void... </style>");
+            LanguageAPI.Add("ENFORCER_EVENT_NEMFORCERBOSS_END", "The void's influence fades...</style>");
+            #endregion Unforcer
+
+            #region Skills
+
+            //passive
+            LanguageAPI.Add("NEMFORCER_PASSIVE_NAME", "Colossus");
+            LanguageAPI.Add("NEMFORCER_PASSIVE_DESCRIPTION", $"Nemesis Enforcer gains <style=cIsHealing>bonus health regen</style>, based on his current <style=cIsHealth>missing health</style>, up to <style=cIsHealth>{100 * NemforcerPlugin.passiveRegenBonus}% max health</style>.");
+
+            #region Primary
+            LanguageAPI.Add("NEMFORCER_PRIMARY_HAMMER_NAME", "Golden Hammer");
+            LanguageAPI.Add("NEMFORCER_PRIMARY_HAMMER_DESCRIPTION", "Swing your hammer for <style=cIsDamage>" + 100f * NemHammerSwing.damageCoefficient + "%</style> damage.");
+
+            LanguageAPI.Add("NEMFORCER_PRIMARY_THROWHAMMER_NAME", "Throwing Hammer");
+            LanguageAPI.Add("NEMFORCER_PRIMARY_THROWHAMMER_DESCRIPTION", "Throw a hammer for <style=cIsDamage>" + 100f * ThrowHammer.damageCoefficient + "%</style> damage.");
+
+            LanguageAPI.Add("NEMFORCER_PRIMARY_MINIGUN_NAME", "Golden Minigun");
+            LanguageAPI.Add("NEMFORCER_PRIMARY_MINIGUN_DESCRIPTION", "Rev up and fire a hail of bullets dealing <style=cIsDamage>" + NemMinigunFire.baseDamageCoefficient * 100f + "% damage</style> per bullet. <style=cIsUtility>Slows your movement while shooting.</style>");
+            #endregion Primary
+
+            #region Secondary
+            LanguageAPI.Add("KEYWORD_SLAM", $"<style=cKeywordName>Downward Slam</style><style=cIsDamage>Stunning.</style> Viciously <style=cIsHealth>crash down</style> with your hammer, dealing <style=cIsDamage>{100f * HammerAirSlam.minDamageCoefficient}%-{100f * HammerAirSlam.maxDamageCoefficient}% damage</style> and dealing an extra <style=cIsDamage>30%</style> of that on impact. <style=cIsUtility>Impact radius scales with speed.</style>");
+
+            LanguageAPI.Add("NEMFORCER_SECONDARY_BASH_NAME", "Dominance");
+            LanguageAPI.Add("NEMFORCER_SECONDARY_BASH_DESCRIPTION", $"<style=cIsUtility>Charge up</style>, then lunge forward and unleash a <style=cIsDamage>rising uppercut</style> for <style=cIsDamage>{100f * HammerUppercut.minDamageCoefficient}%-{100f * HammerUppercut.maxDamageCoefficient}% damage</style>. Use while <style=cIsUtility>falling and looking down</style> to perform a <style=cIsUtility>Downward Slam</style> instead.");
+
+            LanguageAPI.Add("NEMFORCER_SECONDARY_SLAM_NAME", "Dominance (Minigun)");
+            LanguageAPI.Add("NEMFORCER_SECONDARY_SLAM_DESCRIPTION", $"<style=cIsDamage>Stunning.</style> While in minigun stance, violently <style=cIsHealth>slam</style> down your hammer, dealing <style=cIsDamage>{100f * HammerSlam.damageCoefficient}% damage</style> and <style=cIsDamage>knocking back</style> enemies hit. <style=cIsUtility>Explodes projectiles.</style>");
+
+            #endregion Secondary
+
+            #region Utility
+            LanguageAPI.Add("NEMFORCER_UTILITY_GAS_NAME", "XM47 Grenade");
+            LanguageAPI.Add("NEMFORCER_UTILITY_GAS_DESCRIPTION", "Throw a grenade that explodes into a cloud of <style=cIsUtility>corrosive gas</style> that <style=cIsUtility>slows</style> and deals <style=cIsDamage>200% damage per second</style> and lasts for <style=cIsDamage>16 seconds</style>.");
+
+            LanguageAPI.Add("NEMFORCER_UTILITY_JUMP_NAME", "Super Dedede Jump");
+            LanguageAPI.Add("NEMFORCER_UTILITY_JUMP_DESCRIPTION", "Jump into the air, then slam down for <style=cIsDamage>" + 100f * SuperDededeJump.slamDamageCoefficient + "% damage</style>. <style=cIsUtility>Deals reduced damage outside the center of the impact.</style>");
+
+
+            LanguageAPI.Add("KEYWORD_GRAPPLE", "<style=cKeywordName>Grappling</style><style=cSub>Applies <style=cIsDamage>stun</style> and attempts to <style=cIsUtility>grab</style> a nearby enemy.");
+
+            LanguageAPI.Add("NEMFORCER_UTILITY_CRASH_NAME", "Heat Crash");
+            LanguageAPI.Add("NEMFORCER_UTILITY_CRASH_DESCRIPTION", "<style=cIsUtility>Grappling.</style> Jump into the air, then slam down for <style=cIsDamage>" + 100f * HeatCrash.slamDamageCoefficient + "% damage</style>. <style=cIsUtility>Deals reduced damage outside the center of the impact.</style>");
+            #endregion Utility
+
+            #region Special
+            LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNUP_NAME", "Suppression Stance");
+            LanguageAPI.Add("NEMFORCER_SPECIAL_MINIGUNUP_DESCRIPTION", "Take an offensive stance, <style=cIsDamage>readying your minigun</style>. <style=cIsHealth>Prevents sprinting</style>.");
+
+
+            #endregion Special
+
+            #endregion SKills
+
+            #region Skins
+            LanguageAPI.Add("NEMFORCERBODY_DEFAULT_SKIN_NAME", "Nemesis");
+            LanguageAPI.Add("NEMFORCERBODY_ENFORCER_SKIN_NAME", "Enforcer");
+            LanguageAPI.Add("NEMFORCERBODY_CLASSIC_SKIN_NAME", "Classic");
+            LanguageAPI.Add("NEMFORCERBODY_TYPHOON_SKIN_NAME", "Champion");
+            LanguageAPI.Add("NEMFORCERBODY_DRIP_SKIN_NAME", "Dripforcer");
+            LanguageAPI.Add("NEMFORCERBODY_DEDEDE_SKIN_NAME", "King Dedede");
+            LanguageAPI.Add("NEMFORCERBODY_MINECRAFT_SKIN_NAME", "Minecraft");
+            LanguageAPI.Add("NEMFORCERBODY_FEM_SKIN_NAME", "Spiked");
+            #endregion Skins
+
+            #region Achievements
+            //character
+            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_NAME", "???");
+            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, on monsoon or higher, stabilize the Void Fields and defeat Enforcer's Vestige.");
+            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_UNLOCKABLE_NAME", "???");
+
+            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Mastery");
+            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Monsoon.");
+            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Mastery");
+
+            string masteryFootnote = EnforcerModPlugin.starstormInstalled ? "" : "\n<color=#8888>(Counts any difficulty Typhoon or higher)</color>";
+
+            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Grand Mastery");
+            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Typhoon or Eclipse." + masteryFootnote);
+            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Grand Mastery");
+
+            //sken
+            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Demolition");
+            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, destroy 5 projectiles at once with Dominance.");
+            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Demolition");
+            #endregion
         }
     }
 }

@@ -118,13 +118,7 @@ namespace Modules {
               = plugin.Config.Bind("01 - General Settings",
                                    "Femforcer",
                                    false,
-                                   "Enables femforcer skin. Not for good boys and girls.");
-
-            //cursed.Value |= hateFun.Value;
-            if (hateFun.Value) {
-                cursed.SetSerializedValue("false");
-                femSkin.SetSerializedValue("false");
-            }
+                                   "Enables femforcer skins. Not for good boys and girls.");
 
             shellSounds
                 = plugin.Config.Bind("01 - General Settings",

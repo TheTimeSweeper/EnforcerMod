@@ -731,7 +731,7 @@ namespace Modules {
                 femforcerSkinDefInfo.Name = "ENFORCERBODY_FEMFORCER_SKIN_NAME";
                 femforcerSkinDefInfo.NameToken = "ENFORCERBODY_FEMFORCER_SKIN_NAME";
                 femforcerSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texFemSkin");
-                femforcerSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerMasteryUnlockableDef;
+                femforcerSkinDefInfo.UnlockableDef = null;
                 femforcerSkinDefInfo.RootObject = modelTransform;
 
                 femforcerSkinDefInfo.BaseSkins = new SkinDef[] { defaultSkinDef };

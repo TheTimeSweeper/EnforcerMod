@@ -4,8 +4,6 @@ using System.IO;
 namespace Modules {
     internal static class Files {
 
-        //public static SubFileSystem fileSystem;
-
         public static PluginInfo PluginInfo;
 
         internal static string assemblyDir {

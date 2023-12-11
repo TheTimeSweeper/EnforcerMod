@@ -39,9 +39,10 @@ namespace EnforcerPlugin {
     [BepInDependency("com.KingEnderBrine.ItemDisplayPlacementHelper", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.Moffein.RiskyArtifacts", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.bepis.r2api.items", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency("HIFU.Inferno", BepInDependency.DependencyFlags.SoftDependency)][BepInDependency("com.johnedwa.RTAutoSprintEx", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("HIFU.Inferno", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.johnedwa.RTAutoSprintEx", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.7.4")]
+    [BepInPlugin(MODUID, "Enforcer", "3.8.0")]
     public class EnforcerModPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.EnforcerGang.Enforcer";
@@ -129,19 +130,18 @@ namespace EnforcerPlugin {
         //    //awake += EnforcerPlugin_Load;
         //    //start += EnforcerPlugin_LoadStart;
         //}
-        internal static ManualLogSource StaticLogger;
 
         void Awake()
         {
-            StaticLogger = Logger;
+            Log.Init(Logger);
 
             Files.Init(Info);
 
             Modules.Config.ConfigShit(this);
 
             Assets.Initialize();
-
-            Tokens.RegisterTokens();
+            Modules.Tokens.RegisterTokens();
+            Modules.Languages.Init();
         }
 
         private void Start() {
@@ -220,8 +220,8 @@ namespace EnforcerPlugin {
                 "NemesisEnforcerBody",
                 "MinerBody",
                 "CHEF",
-                "ExecutionerBody",
-                "NemmandoBody"
+                "SS2UExecutionerBody",
+                "SS2UNemmandoBody"
             };
 
             for (int i = 0; i < bods.Length; i++) {
@@ -741,18 +741,35 @@ namespace EnforcerPlugin {
                                 blocked = true;
                             }
                         }
-                        
-                        //Hack to get melee enemies to stop penetrating the shield at certain angles.
-                        //info.attacker is already guaranteed notnull
-                        if (!blocked
-                            && !info.damageType.HasFlag(DamageType.DoT) && !info.damageType.HasFlag(DamageType.BypassBlock)
-                            && info.attacker == info.inflictor && !GuaranteedBlockBlacklist.Contains(attackerBody.bodyIndex))
-                        {
-                            if (enforcerComponent.isShielding && enforcerComponent.GetShieldBlock(attackerBody.corePosition, 55f))
-                            {
-                                blocked = true;
+
+                        //check angle-based blocking
+                        if (enforcerComponent.isShielding && !blocked) {
+                            //don't block dots or bypassblock
+                            if (!info.damageType.HasFlag(DamageType.DoT) && !info.damageType.HasFlag(DamageType.BypassBlock)) {
+                                //check if the damage source is the attacker
+                                if(info.attacker == info.inflictor) {
+                                    //check against blacklist, block attacker position
+                                    if (!GuaranteedBlockBlacklist.Contains(attackerBody.bodyIndex)) {
+                                        blocked |= enforcerComponent.GetShieldBlock(attackerBody.corePosition, 55f);
+                                    }
+                                    //if inflictor (usually projectile) is separate from attacker, block based on inflictor
+                                } else if(info.inflictor != null){
+                                    blocked |= enforcerComponent.GetShieldBlock(info.inflictor.transform.position, 55f);
+                                }
                             }
                         }
+                        
+                        ////Hack to get melee enemies to stop penetrating the shield at certain angles.
+                        ////info.attacker is already guaranteed notnull
+                        //if (!blocked
+                        //    && !info.damageType.HasFlag(DamageType.DoT) && !info.damageType.HasFlag(DamageType.BypassBlock)
+                        //    && info.attacker == info.inflictor && !GuaranteedBlockBlacklist.Contains(attackerBody.bodyIndex))
+                        //{
+                        //    if (enforcerComponent.isShielding && enforcerComponent.GetShieldBlock(attackerBody.corePosition, 55f))
+                        //    {
+                        //        blocked = true;
+                        //    }
+                        //}
                     }
 
                     if (enforcerComponent && blocked) {

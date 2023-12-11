@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2141323724
+CRC: 2936797479
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: af1df51d0f46229e49391f81d745c02d
+    Hash: 7e456d5089488cba0c4ee1a4d9f50a82
   TypeTreeHash:
     serializedVersion: 2
     Hash: 6927bca4f5c10696afb566849f31f17f
@@ -218,8 +218,10 @@ Assets:
 - Assets/Enforcer/Enforcer/Textures/texRecolorEngiGun.png
 - Assets/Enforcer/Enforcer/Mesh/meshClassic.mesh
 - Assets/Enforcer/Nemesis/Materials/matDripforcer.mat
+- Assets/Enforcer/Nemesis/Textures/texNemforcerFemEmission.png
 - Assets/Enforcer/Enforcer/Icons/texEnforcerUnlockAchievement.png
 - Assets/Enforcer/Nemesis/NemGasGrenade.prefab
+- Assets/Enforcer/Nemesis/Mesh/meshNemforcerFemHammer.mesh
 - Assets/Enforcer/Enforcer/Animations/Old/MenuIdleIn.anim
 - Assets/Enforcer/Nemesis/Icons/NemGasGrenadeIcon.png
 - Assets/Enforcer/Nemesis/VFX/matNemforcerLightningAnim.mat
@@ -230,6 +232,7 @@ Assets:
 - Assets/Enforcer/Enforcer/Animations/Old/ShieldedBash.anim
 - Assets/Enforcer/Nemesis/Icons/HammerSwingIcon.png
 - Assets/Enforcer/Nemesis/VFX/HammerFlameMesh.mesh
+- Assets/Enforcer/Nemesis/Textures/texNemforcerFem.png
 - Assets/Enforcer/Nemesis/Textures/texNemforcerEmission.png
 - Assets/Enforcer/Enforcer/Animations/Old/RunR.anim
 - Assets/Enforcer/Nemesis/VFX/TornadoMesh2.fbx
@@ -324,6 +327,7 @@ Assets:
 - Assets/Enforcer/Nemesis/Animations/HammerWalkF.anim
 - Assets/Enforcer/Enforcer/Textures/texRecolorNemGun_Emission.png
 - Assets/Enforcer/Nemesis/Animations/HammerDescend.anim
+- Assets/Enforcer/Nemesis/Materials/matNemforcerFem.mat
 - Assets/Enforcer/Enforcer/Materials/matGM.mat
 - Assets/Enforcer/Nemesis/VFX/matFireTornado.mat
 - Assets/Enforcer/Enforcer/Icons/Skills/SkamteOffIcon.png
@@ -527,6 +531,7 @@ Assets:
 - Assets/Enforcer/Enforcer/Materials/matRecolorDoomGun.mat
 - Assets/Enforcer/Nemesis/Animations/RestEmote.anim
 - Assets/Enforcer/Enforcer/Animations/Old/ShieldWalkF.anim
+- Assets/Enforcer/Nemesis/Mesh/meshNemforcerFemBody.mesh
 - Assets/Enforcer/Nemesis/Icons/texNemforcerAchievement.png
 - Assets/Enforcer/Nemesis/Mesh/meshNemforcerGM.mesh
 - Assets/Enforcer/Nemesis/VFX/matNemforcerSwing.mat
@@ -539,6 +544,7 @@ Assets:
 - Assets/Enforcer/Enforcer/Textures/texFuckingSteve2Gun2.png
 - Assets/Enforcer/Enforcer/Animations/Old/AimGrenade.anim
 - Assets/Enforcer/Nemesis/VFX/matNemEmber.mat
+- Assets/Enforcer/Enforcer/sortThisAllLater/matTemp 1.mat
 - Assets/Enforcer/Enforcer/Materials/matEnforcerBoard.mat
 - Assets/Enforcer/Enforcer/Mesh/meshFemforcer2ShieldGlass.mesh
 - Assets/Enforcer/Enforcer/sortThisAllLater/ShellController.prefab
@@ -569,6 +575,7 @@ Assets:
 - Assets/Enforcer/Enforcer/sortThisAllLater/SuperShotgunShell.prefab
 - Assets/Enforcer/Enforcer/Textures/texRecolorDesperado_Emission.png
 - Assets/Enforcer/Nemesis/Animations/RestIdleIn.anim
+- Assets/Enforcer/Nemesis/Icons/texNemforcerFem.png
 - Assets/Enforcer/Nemesis/Textures/texDripforcerEmission.png
 - Assets/Enforcer/Enforcer/Mesh/meshFemforcer2Pauldron.mesh
 - Assets/Enforcer/Nemesis/Textures/texNemforcerClassicAltEmission.png

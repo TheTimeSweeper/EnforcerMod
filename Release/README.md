@@ -116,9 +116,14 @@ ___
 
 ## Changelog
 
+`3.8.0`
+- Added Language Support. see above for translations
+- Added new skin in femforcer config
+- Fixed nemforcer royal capacitor missing display
+
 `3.7.4`
 
-- Nemforcer can now be headshotted by Railgunner.
+- Nemforcer can now be "head"shotted by Railgunner.
 
 `3.7.3`
 - updated for r2api split ass(emblies)
