@@ -60,7 +60,7 @@
     "ENFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC" : "Como Executor, vença o jogo ou aniquile em Monção.",
     "ENFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME" : "Executor: Domínio",
     "ENFORCER_GRANDMASTERYUNLOCKABLE_ACHIEVEMENT_NAME" : "Executor: Grande Domínio",
-    "ENFORCER_GRANDMASTERYUNLOCKABLE_ACHIEVEMENT_DESC" : "Como Executor, vença o jogo ou aniquile em Tufão ou Eclipse.\n<color=#8888>(A dificuldade Tufão requer o mod Starstorm 2)</color>",</color>",
+    "ENFORCER_GRANDMASTERYUNLOCKABLE_ACHIEVEMENT_DESC" : "Como Executor, vença o jogo ou aniquile em Tufão ou Eclipse.\n<color=#8888>(A dificuldade Tufão requer o mod Starstorm 2)</color>",
     "ENFORCER_GRANDMASTERYUNLOCKABLE_UNLOCKABLE_NAME" : "Executor: Grande Domínio",
     "ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_NAME" : "Executor: Estraçalhar e Destruir...",
     "ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_DESC" : "Como Executor, aniquile 20 diabretes em uma única jogatina.",
