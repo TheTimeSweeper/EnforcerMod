@@ -10,8 +10,8 @@
 
 [![](https://cdn.discordapp.com/attachments/739696016755785859/828394816986808360/EnfuckerIcon.png)]()
 
-Join the discord server to share any feedback/bugs/suggestions- https://discord.gg/HpQB9fC
-Or ping/message me directly (TheTimesweeper#5727) with all the nastiest feedback you can think of
+Join the discord server to share any feedback/bugs/suggestions- https://discord.gg/HpQB9fC  
+Or ping/message me directly (`thetimesweeper`) with all the nastiest feedback you can think of
 
 ___
 
@@ -22,19 +22,18 @@ TheTimesweeper - Coooding
 Enigma - Cooooding  
 Moffein - Idea Guy™, Coooooding  
 PapaZach - Skill icons  
-bruh - Modeling, swag, animation  
 Jot - Animations  
-DarkLordLui (JestAnotherAnimator) - Animations  
-Paysus - Animations  
+DarkLordLui (JestAnAnimator) - Animations  
 Violet Chaolan - Sounds  
 LucidInceptor (2cute2game) - Modeling  
+bruh - Modeling, swag, animation  
+Paysus - Animations  
 Dr.Bibop - VR implementation  
 PureDark - VR implementation  
 Dotflare - texture assistance  
 SalvadorBunny - Heavy TF2 Minecraft skin  
 Destructor - Original mod icon  
 Reithierion - New mod icon  
-Nebby - Help  
 Draymarc - Concepts  
 Lethan - Screenshots  
 wetpudding - item displays  
@@ -43,6 +42,12 @@ Swuff - Idea Guy™
 
 And big thanks to everyone testing and giving their feedback, the mod wouldn't be the same without it
 
+## Languages
+If you'd like to translate to your langauge, check out the [language folder on github](https://github.com/TheTimeSweeper/EnforcerMod/tree/master/Release/plugins/Language).  
+You can submit a pull request or issue with your language files, or can send it directly to `thetimesweeper` on discord  
+Thanks to those that have and in advance to those that may.
+
+French - StyleMyk
 ___
 
 ## Skills
@@ -104,6 +109,8 @@ ___
 
 ## Future Plans
 - More alternate skill(s)
+  - perhaps new rorr skills
+    - if anyone would like to pr any of those (or anything you want) to the repo you're free to do so
 - Skills++ support
 - animation pass
 - mention heavy tf2
@@ -116,9 +123,11 @@ ___
 
 ## Changelog
 
-`3.8.0`
+`3.8.0`  
+been a year since we updated this fucker. let me know if anything broke.  
 - Added Language Support. see above for translations
 - Added new skin in femforcer config
+- Added a lunge to shield bash if inputting forward
 - Fixed nemforcer royal capacitor missing display
 
 `3.7.4`

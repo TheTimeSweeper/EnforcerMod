@@ -8,7 +8,7 @@ namespace Modules {
 
         public static string TokensOutput = "";
 
-        public static bool printingEnabled => false;
+        public static bool printingEnabled => true;
 
         internal static string languageRoot => System.IO.Path.Combine(Files.assemblyDir, "Language");
 

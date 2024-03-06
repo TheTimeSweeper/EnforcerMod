@@ -13,17 +13,18 @@ namespace EntityStates.Enforcer {
     {
         public static string hitboxString = "ShieldHitbox"; //transform where the hitbox is fired
         public static float baseDuration = 0.8f;
+        public static float baseFireDuration = 0.25f;
         public static float damageCoefficient = 3.5f;
         public static float procCoefficient = 1f;
         public static float knockbackForce = 0.14f;
         public static float blastRadius = 6f;
         public static float deflectRadius = 3f;
         public static float beefDurationNoShield = 0.1f;
-        public static float beefDurationShield = 0.8f;
+        public static float beefDurationShield = 0.6f;
         public static float recoilAmplitude = 1f;
         public static float parryInterval = 0.12f;
 
-        public float lungeForce = 18f;
+        public float lungeForce = 3.8f;
 
         private float attackStopDuration;
         private float duration;
@@ -51,7 +52,7 @@ namespace EntityStates.Enforcer {
             base.OnEnter();
 
             this.duration = baseDuration / this.attackSpeedStat;
-            this.fireDuration = this.duration * 0.15f;
+            this.fireDuration = this.duration * baseFireDuration;
             this.deflectDuration = this.duration * 0.45f;
             this.hasFired = false;
             this.hasDeflected = false;
@@ -101,6 +102,22 @@ namespace EntityStates.Enforcer {
             }
 
             Util.PlayAttackSpeedSound(Sounds.ShieldBash, EnforcerPlugin.VRAPICompat.IsLocalVRPlayer(characterBody) ? EnforcerPlugin.VRAPICompat.GetShieldMuzzleObject() : gameObject, this.attackSpeedStat);
+
+            if (isAuthority) {
+                Lunge();
+            }
+        }
+
+        private void Lunge() {
+            Vector3 aimRayFlat = aimRay.direction;
+            aimRayFlat.y = 0;
+            aimRayFlat = aimRayFlat.normalized;
+
+            float lungeInputMultiplier = Mathf.Max(0, Vector3.Dot(aimRayFlat, inputBank.moveVector));
+            // only lunge forward if grounded
+            if (this.isGrounded) {
+                this.characterMotor.velocity += aimRayFlat * this.lungeForce * lungeInputMultiplier * moveSpeedStat;
+            }
         }
 
         private void FireBlast()
@@ -292,16 +309,6 @@ namespace EntityStates.Enforcer {
                 if (base.characterMotor)
                 {
                     base.characterMotor.moveDirection = Vector3.zero;
-                }
-            }
-            else
-            {
-                if (!this.hasLunged)
-                {
-                    this.hasLunged = true;
-
-                    // only lunge forward if grounded
-                    if (this.isGrounded) this.characterMotor.velocity += (this.characterDirection.forward * this.lungeForce);
                 }
             }
 

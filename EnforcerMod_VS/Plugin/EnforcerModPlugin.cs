@@ -138,9 +138,9 @@ namespace EnforcerPlugin {
             Files.Init(Info);
 
             Modules.Config.ConfigShit(this);
-
+            
             Assets.Initialize();
-            Modules.Tokens.RegisterTokens();
+            Modules.Tokens.GenerateLanguageTokens();
             Modules.Languages.Init();
         }
 
@@ -170,9 +170,9 @@ namespace EnforcerPlugin {
             RoR2.ContentManagement.ContentManager.collectContentPackProviders += ContentManager_collectContentPackProviders;
             RoR2.ContentManagement.ContentManager.onContentPacksAssigned += ContentManager_onContentPacksAssigned;
             //RoR2.RoR2Application.onLoad += LateSetupItemDisplays;
-
-            gameObject.AddComponent<TestValueManager>();
-            
+            if (TestValueManager.testingEnabled) {
+                gameObject.AddComponent<TestValueManager>();
+            }
             Logger.LogInfo("[Initialized]");
         }
 

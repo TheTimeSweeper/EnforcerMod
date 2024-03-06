@@ -26,7 +26,6 @@ namespace EnforcerPlugin {
             #region Display Rules
 
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("CritGlasses", "DisplayGlasses", "Head", new Vector3(-0.003f, 0.008f, 0f), new Vector3(335, 270, 0), new Vector3(0.01f, 0.01f, 0.01f)));
-            itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("CritGlassesVoid", "DisplayGlassesVoid", "Head", new Vector3(-0.003f, 0.008f, 0f), new Vector3(335, 270, 0), new Vector3(0.01f, 0.01f, 0.01f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("Syringe", "DisplaySyringeCluster", "Chest", new Vector3(0, 0.012f, 0.006f), new Vector3(25, 315, 0), new Vector3(0.005f, 0.005f, 0.005f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("NearbyDamageBonus", "DisplayDiamond", "Hammer", new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0.005f, 0.005f, 0.005f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ArmorReductionOnHit", "DisplayWarhammer", "Hammer", new Vector3(0, 0.005f, 0), new Vector3(270, 90, 0), new Vector3(0.0175f, 0.0175f, 0.0175f)));
@@ -46,7 +45,6 @@ namespace EnforcerPlugin {
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("FireRing", "DisplayFireRing", "HandR", new Vector3(0, 0.002f, 0), new Vector3(270, 90, 0), new Vector3(0.02f, 0.0175f, 0.0175f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("Behemoth", "DisplayBehemoth", "Minigun", new Vector3(-0.016f, 0.008f, -0.005f), new Vector3(0, 270, 90), new Vector3(0.005f, 0.005f, 0.005f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("Missile", "DisplayMissileLauncher", "Chest", new Vector3(0, 0.03f, 0), new Vector3(0, 270, 0), new Vector3(0.005f, 0.005f, 0.005f)));
-            itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("MissileVoid", "DisplayMissileLauncherVoid", "Chest", new Vector3(0, 0.03f, 0), new Vector3(0, 270, 0), new Vector3(0.005f, 0.005f, 0.005f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("Dagger", "DisplayDagger", "Chest", new Vector3(0, 0, 0), new Vector3(0, 270, 0), new Vector3(0.02f, 0.02f, 0.02f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ChainLightning", "DisplayUkulele", "MinigunBarrel", new Vector3(0, 0.01f, 0.004f), new Vector3(0, 0, 0), new Vector3(0.03f, 0.03f, 0.03f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("GhostOnKill", "DisplayMask", "Head", new Vector3(-0.0025f, 0.003f, 0), new Vector3(0, 270, 0), new Vector3(0.02f, 0.02f, 0.02f)));
@@ -79,6 +77,8 @@ namespace EnforcerPlugin {
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("BossDamageBonus", "DisplayAPRound", "Pelvis", new Vector3(0, 0, 0.008f), new Vector3(90, 0, 0), new Vector3(0.02f, 0.02F, 0.02F)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ExtraLife", "DisplayHippo", "Hammer", new Vector3(0, 0.02f, 0.014f), new Vector3(0, 0, 0), new Vector3(0.02f, 0.02f, 0.02f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("ExtraLifeVoid", "DisplayHippoVoid", "Hammer", new Vector3(0, 0.02f, 0.014f), new Vector3(0, 0, 0), new Vector3(0.02f, 0.02f, 0.02f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("CritGlassesVoid", "DisplayGlassesVoid", "Head", new Vector3(-0.003f, 0.008f, 0f), new Vector3(335, 270, 0), new Vector3(0.01f, 0.01f, 0.01f)));
+            itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("MissileVoid", "DisplayMissileLauncherVoid", "Chest", new Vector3(0, 0.03f, 0), new Vector3(0, 270, 0), new Vector3(0.005f, 0.005f, 0.005f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("KillEliteFrenzy", "DisplayBrainstalk", "Head", new Vector3(0.001f, 0.007f, 0), new Vector3(0, 90, 0), new Vector3(0.006f, 0.006f, 0.006f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("RepeatHeal", "DisplayCorpseFlower", "ClavicleR", new Vector3(0.005f, 0.01f, 0), new Vector3(0, 25, 300), new Vector3(0.01f, 0.01f, 0.01f)));
             itemRules.Add(NemItemDisplays.CreateGenericDisplayRule("AutoCastEquipment", "DisplayFossil", "Pelvis", new Vector3(-0.009f, 0.002f, 0), new Vector3(0, 0, 0), new Vector3(0.02f, 0.02f, 0.02f)));
@@ -395,11 +395,13 @@ namespace EnforcerPlugin {
 
         public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRule(string itemName, string prefabName, string childName, Vector3 position, Vector3 rotation, Vector3 scale)
         {
+            ItemDef itemDef = RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/" + itemName);
+            if (itemDef == null)
+                return new ItemDisplayRuleSet.KeyAssetRuleGroup();
             ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                keyAsset = RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/" + itemName),
-                displayRuleGroup = new DisplayRuleGroup
-                {
+                keyAsset = itemDef,
+                displayRuleGroup = new DisplayRuleGroup {
                     rules = new ItemDisplayRule[]
                     {
                         new ItemDisplayRule
@@ -421,11 +423,14 @@ namespace EnforcerPlugin {
 
         public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRuleE(string itemName, string prefabName, string childName, Vector3 position, Vector3 rotation, Vector3 scale)
         {
+            EquipmentDef equipmentDef = RoR2.LegacyResourcesAPI.Load<EquipmentDef>("EquipmentDefs/" + itemName);
+            if (equipmentDef == null)
+                return new ItemDisplayRuleSet.KeyAssetRuleGroup();
+
             ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                keyAsset = RoR2.LegacyResourcesAPI.Load<EquipmentDef>("EquipmentDefs/" + itemName),
-                displayRuleGroup = new DisplayRuleGroup
-                {
+                keyAsset = equipmentDef,
+                displayRuleGroup = new DisplayRuleGroup {
                     rules = new ItemDisplayRule[]
                     {
                         new ItemDisplayRule
@@ -447,9 +452,12 @@ namespace EnforcerPlugin {
 
         public static ItemDisplayRuleSet.KeyAssetRuleGroup CreateGenericDisplayRule(string itemName, GameObject itemPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale)
         {
+            ItemDef itemDef = RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/" + itemName);
+            if (itemDef == null)
+                return new ItemDisplayRuleSet.KeyAssetRuleGroup();
             ItemDisplayRuleSet.KeyAssetRuleGroup displayRule = new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
-                keyAsset = RoR2.LegacyResourcesAPI.Load<ItemDef>("ItemDefs/" + itemName),
+                keyAsset = itemDef,
                 displayRuleGroup = new DisplayRuleGroup
                 {
                     rules = new ItemDisplayRule[]

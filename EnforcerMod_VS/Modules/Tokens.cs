@@ -14,7 +14,7 @@ namespace Modules {
 
     internal class Tokens {
 
-        public static void RegisterTokens() {
+        public static void GenerateLanguageTokens() {
             //in case ruin's new language system doesn't work
             //which I think it doesn't
             //rip
@@ -235,6 +235,15 @@ namespace Modules {
             #region skillsplus
             LanguageAPI.Add("ENFORCER_PRIMARY_SHOTGUN_NAME_UPGRADE_DESCRIPTION", "<style=cIsUtility>+5%</style> damage, <style=cIsUtility>+10%</style> bullet thickness, and <style=cIsUtility>+0.1</style> bullet spread");
             #endregion
+
+            #region betterui
+            LanguageAPI.Add("ENFORCER_PROC_BASH", "Bullet");
+            LanguageAPI.Add("ENFORCER_PROC_HAMMER", "Hammer");
+            LanguageAPI.Add("ENFORCER_PROC_BASH", "Bash");
+            LanguageAPI.Add("ENFORCER_PROC_GRENADE", "Grenade");
+            LanguageAPI.Add("ENFORCER_PROC_DAMAGING_GAS", "Damaging Gas");
+            LanguageAPI.Add("ENFORCER_PROC_SKATEBOARD", "Skateboard");
+            #endregion
         }
 
         private static void RegisterNemforcerTokens() {
@@ -351,6 +360,12 @@ namespace Modules {
             LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Demolition");
             LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, destroy 5 projectiles at once with Dominance.");
             LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Demolition");
+            #endregion
+
+            #region betterui
+            LanguageAPI.Add("NEMFORCER_PROC_UPPERCUT", "Uppercut");
+            LanguageAPI.Add("NEMFORCER_PROC_SLAM", "Slam");
+            LanguageAPI.Add("NEMFORCER_PROC_JAM", "Jam");
             #endregion
         }
     }

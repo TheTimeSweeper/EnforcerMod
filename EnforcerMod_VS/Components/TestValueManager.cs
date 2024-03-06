@@ -5,13 +5,13 @@ public class TestValueManager : MonoBehaviour {
     //how do doing attributes
     //[debugfloat("valuename", KeyCode.U, KeyCode.J, 5)]
     //would be 
-    public static float testValue = 1.00f;
+    public static float testValue = 0.25f;
 
     private float tim;
     private float holdTime = 0.5f;
 
     //compiler flags when
-    private bool testingEnabled = true;
+    public static bool testingEnabled = false;
     
     internal static Vector3 testVector = new Vector3(-2.2f, -0.5f, -9f);
 
@@ -22,7 +22,7 @@ public class TestValueManager : MonoBehaviour {
         if (!Input.GetKey(KeyCode.LeftAlt))
             return;
 
-        manageTestValue(ref testValue, "devl", KeyCode.Keypad7, KeyCode.Keypad4, 0.1f);
+        manageTestValue(ref testValue, "devl", KeyCode.Keypad7, KeyCode.Keypad4, 0.01f);
 
         //manageTestVector(ref testVector, "cam", 0.05f);
     }
@@ -32,7 +32,6 @@ public class TestValueManager : MonoBehaviour {
                                   KeyCode yUp = KeyCode.Keypad8, KeyCode yDown = KeyCode.Keypad5,
                                   KeyCode zUp = KeyCode.Keypad9, KeyCode zDown = KeyCode.Keypad6) {
 
-        manageTestValue(ref vector.x, vectorName + "x", xUp, xDown, incrementAmount);
         manageTestValue(ref vector.x, vectorName + "x", xUp, xDown, incrementAmount);
         manageTestValue(ref vector.y, vectorName + "y", yUp, yDown, incrementAmount);
         manageTestValue(ref vector.z, vectorName + "z", zUp, zDown, incrementAmount);
@@ -61,7 +60,7 @@ public class TestValueManager : MonoBehaviour {
             if (tim > holdTime) {
 
                 value = setTestValue(value + amount, valueName);
-                tim = holdTime - 0.1f;
+                tim = holdTime - 0.05f;
             }
         }
 

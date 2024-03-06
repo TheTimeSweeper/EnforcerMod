@@ -3,4 +3,6 @@
 >plugins
  - tested n shit
  - version
+ - no funny debug (testvaluemanager, language)
+   - holdonasec set to true
 >readme
