@@ -113,7 +113,7 @@ namespace Modules {
               = plugin.Config.Bind("01 - General Settings",
                                    "I hate fun",
                                    false,
-                                   "Overrides Cursed. Further disables extra content, namely skins and their achievements");
+                                   "Set true to further disable extra content, namely skins and their achievements");
             femSkin
               = plugin.Config.Bind("01 - General Settings",
                                    "Femforcer",

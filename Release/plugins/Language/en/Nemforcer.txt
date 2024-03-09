@@ -55,5 +55,8 @@
     "NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_NAME" : "Nemesis Enforcer: Demolition",
     "NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC" : "As Nemesis Enforcer, destroy 5 projectiles at once with Dominance.",
     "NEMFORCER_DOMINANCEUNLOCKABLE_UNLOCKABLE_NAME" : "Nemesis Enforcer: Demolition",
+    "NEMFORCER_PROC_UPPERCUT" : "Uppercut",
+    "NEMFORCER_PROC_SLAM" : "Slam",
+    "NEMFORCER_PROC_JAM" : "Jam",
     }
 }

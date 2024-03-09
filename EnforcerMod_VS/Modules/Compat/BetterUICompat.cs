@@ -35,9 +35,9 @@ namespace EnforcerPlugin {
 
             AddSkill("NEMFORCER_UTILITY_GAS_NAME", "ENFORCER_PROC_DAMAGING_GAS", 0.05f);
 
-            AddSkill("NEMFORCER_UTILITY_CRASH_NAME", "ENFORCER_PROC_SLAM", 1f);
+            AddSkill("NEMFORCER_UTILITY_CRASH_NAME", "NEMFORCER_PROC_SLAM", 1f);
 
-            AddSkill("NEMFORCER_UTILITY_JUMP_NAME", "ENFORCER_PROC_JAM", 1f);
+            AddSkill("NEMFORCER_UTILITY_JUMP_NAME", "NEMFORCER_PROC_JAM", 1f);
         }
     }
 }

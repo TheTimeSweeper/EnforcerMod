@@ -1,6 +1,6 @@
 # Enforcer Legacy Readme
 Actual readme in release folder  
-Legacy Changelog below
+Full Changelog in Release folder
 - Adds the Enforcer from Risk of Rain 1
 - Includes a bunch of unlockable alternate skills and skins
 - Includes support for ClassicItems' Ancient Scepter

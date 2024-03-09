@@ -5,13 +5,13 @@ using System.Linq;
 
 namespace Modules {
     internal static class Languages {
-
+        
         public static string TokensOutput = "";
 
-        public static bool printingEnabled => true;
+        public static bool printingEnabled => false;
 
         internal static string languageRoot => System.IO.Path.Combine(Files.assemblyDir, "Language");
-
+        
         public static void Init() {
             HookRegisterLanguageTokens();
         }

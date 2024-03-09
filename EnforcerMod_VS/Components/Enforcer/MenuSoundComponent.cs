@@ -12,8 +12,8 @@ using UnityEngine;
         private void OnEnable()
         {                              //Sounds.CharSelect
             this.playIDSiren = Util.PlaySound(Sounds.SirenDeflect, base.gameObject);
-                    //presto! frame / framerate * animation speed in animator state 
-            takeOutGunDelay = 105f / 24f / 1.1f;
+            //presto! frame / framerate / animation speed in animator state 
+            takeOutGunDelay = 105f / 30f / 1.0f;
 
             StartCoroutine(delayedGunSound());
 

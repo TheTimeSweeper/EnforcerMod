@@ -237,7 +237,7 @@ namespace Modules {
             #endregion
 
             #region betterui
-            LanguageAPI.Add("ENFORCER_PROC_BASH", "Bullet");
+            LanguageAPI.Add("ENFORCER_PROC_BULLET", "Bullet");
             LanguageAPI.Add("ENFORCER_PROC_HAMMER", "Hammer");
             LanguageAPI.Add("ENFORCER_PROC_BASH", "Bash");
             LanguageAPI.Add("ENFORCER_PROC_GRENADE", "Grenade");

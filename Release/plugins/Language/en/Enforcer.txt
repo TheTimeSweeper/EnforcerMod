@@ -99,5 +99,11 @@
     "ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_DESC" : "As Enforcer, block an attack with your shield.",
     "ENFORCER_STEVEUNLOCKABLE_UNLOCKABLE_NAME" : "Enforcer: Blocks",
     "ENFORCER_PRIMARY_SHOTGUN_NAME_UPGRADE_DESCRIPTION" : "<style=cIsUtility>+5%</style> damage, <style=cIsUtility>+10%</style> bullet thickness, and <style=cIsUtility>+0.1</style> bullet spread",
+    "ENFORCER_PROC_BULLET" : "Bullet",
+    "ENFORCER_PROC_HAMMER" : "Hammer",
+    "ENFORCER_PROC_BASH" : "Bash",
+    "ENFORCER_PROC_GRENADE" : "Grenade",
+    "ENFORCER_PROC_DAMAGING_GAS" : "Damaging Gas",
+    "ENFORCER_PROC_SKATEBOARD" : "Skateboard",
     }
 }
