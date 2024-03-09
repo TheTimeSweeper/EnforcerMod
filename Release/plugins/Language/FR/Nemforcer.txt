@@ -55,5 +55,8 @@
     "NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_NAME" : "Enforcer Némésis : Démolition",
     "NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC" : "En tant qu'Enforcer Némésis, détruisez 5 projectiles simultanément avec Dominance.",
     "NEMFORCER_DOMINANCEUNLOCKABLE_UNLOCKABLE_NAME" : "Enforcer Némésis : Démolition"
+    "NEMFORCER_PROC_UPPERCUT" : "Uppercut",
+    "NEMFORCER_PROC_SLAM" : "Chelem",
+    "NEMFORCER_PROC_JAM" : "Chelem",
     }
 }

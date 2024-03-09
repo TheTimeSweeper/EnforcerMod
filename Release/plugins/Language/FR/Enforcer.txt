@@ -99,5 +99,11 @@
     "ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_DESC" : "En tant qu'Enforcer, bloquer une attaque avec votre bouclier.",
     "ENFORCER_STEVEUNLOCKABLE_UNLOCKABLE_NAME" : "Enforcer : Blocs",
     "ENFORCER_PRIMARY_SHOTGUN_NAME_UPGRADE_DESCRIPTION" : "<style=cIsUtility>+5%</style> de dégâts, <style=cIsUtility>+10%</style> d'épaisseur de balle, et <style=cIsUtility>+0,1</style> d'écart entre les balles"
+    "ENFORCER_PROC_BULLET" : "Balle",
+    "ENFORCER_PROC_HAMMER" : "Marteau",
+    "ENFORCER_PROC_BASH" : "Coup",
+    "ENFORCER_PROC_GRENADE" : "Grenade",
+    "ENFORCER_PROC_DAMAGING_GAS" : "Gaz Nocif",
+    "ENFORCER_PROC_SKATEBOARD" : "planche à roulette",
     }
 }

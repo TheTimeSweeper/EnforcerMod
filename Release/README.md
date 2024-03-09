@@ -124,6 +124,9 @@ ___
 ## Changelog
 Full changelog in changelog tab
 
+`3.8.2` 
+- fix missing fr translations (google translated)
+ 
 `3.8.1`  
 - added Russian translation (thanks mark lecarde!)
 - added Japanesse translation (thanks punch!)

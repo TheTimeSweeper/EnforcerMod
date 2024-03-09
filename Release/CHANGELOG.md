@@ -1,4 +1,6 @@
-## Changelog
+`3.8.2`  
+- updated fr translation proc coefficients (google translated)
+
 `3.8.1`  
 - added Russian translation (thanks Mark Lecarde!)
 - added Japanesse translation (thanks Punch!)
