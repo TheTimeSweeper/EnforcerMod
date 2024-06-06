@@ -48,6 +48,10 @@ You can submit a pull request or issue with your language files, or can send it 
 Thanks to those that have and in advance to those that may.
 
 French - StyleMyk
+Chinese - Meteor1014
+Brazilian Portuguese - Kauzok
+Russian - Lecarde
+Japanese - punch
 ___
 
 ## Skills

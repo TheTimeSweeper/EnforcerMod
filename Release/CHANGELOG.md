@@ -1,8 +1,14 @@
+`3.8.3`
+
+- Fixed Nemesis Invasion void fields rounds cleared being hardcoded.
+- Added CN TL (Thanks Meteorite1014!)
+- Added PT-BR TL (Thanks Kauzok!)
+
 `3.8.2`  
 - updated fr translation proc coefficients (google translated)
 
 `3.8.1`  
-- added Russian translation (thanks Mark Lecarde!)
+- added Russian translation (thanks Lecarde!)
 - added Japanesse translation (thanks Punch!)
 - added betterUI proc coefficients to translations
 - adjusted some textures for lower texture scaling (if you want simpson enforcer back I'll put it back)
