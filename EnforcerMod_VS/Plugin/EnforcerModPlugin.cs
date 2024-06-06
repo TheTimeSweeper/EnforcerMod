@@ -391,7 +391,7 @@ namespace EnforcerPlugin {
 
             orig(self);
 
-            if (self.currentRound == 9)
+            if (self.currentRound == self.totalRoundsMax)
             {
                 if (isMonsoon() && Run.instance.stageClearCount >= 5)
                 {
@@ -451,7 +451,7 @@ namespace EnforcerPlugin {
         {
             orig(self);
 
-            if (self.currentRound == 9 || self.currentRound == 10)
+            if (self.currentRound == self.totalRoundsMax || self.currentRound == self.totalRoundsMax + 1)
             {
                 if (isMonsoon() && Run.instance.stageClearCount < 5)
                 {
