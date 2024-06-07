@@ -47,11 +47,11 @@ If you'd like to translate to your langauge, check out the [language folder on g
 You can submit a pull request or issue with your language files, or can send it directly to `thetimesweeper` on discord  
 Thanks to those that have and in advance to those that may.
 
-French - StyleMyk
-Chinese - Meteor1014
-Brazilian Portuguese - Kauzok
-Russian - Lecarde
-Japanese - punch
+French - StyleMyk  
+Chinese - Meteorite1014  
+Brazilian Portuguese - Kauzok  
+Russian - Lecarde  
+Japanese - punch  
 ___
 
 ## Skills
@@ -128,12 +128,11 @@ ___
 ## Changelog
 Full changelog in changelog tab
 
-`3.8.2` 
-- fix missing fr translations (google translated)
- 
-`3.8.1`  
-- added Russian translation (thanks mark lecarde!)
-- added Japanesse translation (thanks punch!)
-- added betterUI proc coefficients to translations
-- adjusted some textures for lower texture scaling (if you want simpson enforcer back I'll put it back)
-- moved changelog to CHANGELOG.md
+`3.8.4`
+- fixed CN and BR translations breaking the universe
+
+`3.8.3`
+
+- Fixed Nemesis Invasion void fields rounds cleared being hardcoded.
+- Added CN TL (Thanks Meteorite1014!)
+- Added PT-BR TL (Thanks Kauzok!)

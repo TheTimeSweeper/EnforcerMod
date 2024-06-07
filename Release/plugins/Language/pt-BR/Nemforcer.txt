@@ -28,7 +28,7 @@
     "NEMFORCER_SECONDARY_SLAM_DESCRIPTION" : "<style=cIsDamage>Atordoante.</style> Enquanto estiver na postura da metralhadora, <style=cIsHealth>desça</style> violentamente com seu martelo, causando <style=cIsDamage>600% de dano</style> e <style=cIsDamage>empurrando</style> todos os inimigos atingidos. <style=cIsUtility>Explode projéteis.</style>",
     "NEMFORCER_UTILITY_GAS_NAME" : "Granada XM47",
     "NEMFORCER_UTILITY_GAS_DESCRIPTION" : "Arremesse uma granada que explode em uma núvem de <style=cIsUtility>gás corrosivo</style> que <style=cIsUtility>desacelra</style> e causa <style=cIsDamage>200% de dano por segundo</style> e dura <style=cIsDamage>16 segundos</style>.",
-    "NEMFORCER_UTILITY_JUMP_NAME" : Super Pulo do Dedede",
+    "NEMFORCER_UTILITY_JUMP_NAME" : "Super Pulo do Dedede",
     "NEMFORCER_UTILITY_JUMP_DESCRIPTION" : "Salte no ar e, em seguida, desça com força causando <style=cIsDamage>3.200% de dano</style>. <style=cIsUtility>Causa dano reduzido em alvos fora do centro do impacto.</style>",
     "KEYWORD_GRAPPLE" : "<style=cKeywordName>Agarramento</style><style=cSub>Aplica <style=cIsDamage>atordoamento</style> e tenta <style=cIsUtility>agarrar</style> um inimigo próximo.",
     "NEMFORCER_UTILITY_CRASH_NAME" : "Colisão de Calor",

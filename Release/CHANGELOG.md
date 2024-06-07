@@ -1,3 +1,6 @@
+`3.8.4`
+- fixed CN and BR translations breaking the universe
+
 `3.8.3`
 
 - Fixed Nemesis Invasion void fields rounds cleared being hardcoded.
@@ -15,7 +18,7 @@
 
 `3.8.0`  
 been a year since we updated this fucker. let me know if anything broke.  
-- Added Language Support. see above for translations
+- Added Language Support. see Readme for translations
 - Added new skin in femforcer config
 - Added a lunge to shield bash if inputting forward
 - Fixed nemforcer royal capacitor missing display
