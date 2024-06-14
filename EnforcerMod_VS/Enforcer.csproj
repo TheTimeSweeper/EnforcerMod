@@ -46,6 +46,9 @@
     <Reference Include="SupplyDrop">
       <HintPath>libs\Compat\SupplyDrop.dll</HintPath>
     </Reference>
+    <Reference Include="Survariants">
+      <HintPath>libs\Compat\Survariants.dll</HintPath>
+    </Reference>
     <Reference Include="TILER2">
       <HintPath>libs\Compat\TILER2.dll</HintPath>
     </Reference>

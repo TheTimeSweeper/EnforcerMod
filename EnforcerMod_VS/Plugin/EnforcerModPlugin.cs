@@ -41,6 +41,7 @@ namespace EnforcerPlugin {
     [BepInDependency("com.bepis.r2api.items", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("HIFU.Inferno", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.johnedwa.RTAutoSprintEx", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("pseudopulse.Survariants", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     [BepInPlugin(MODUID, "Enforcer", "3.8.1")]
     public class EnforcerModPlugin : BaseUnityPlugin
@@ -109,6 +110,7 @@ namespace EnforcerPlugin {
         public static bool RiskyArtifactsInstalled = false;
         public static bool autoSprintInstalled = false;
         public static bool ss2uInstalled = false;
+        public static bool survariantsInstalled = false;
 
         public static DamageAPI.ModdedDamageType barrierDamageType;
 
@@ -180,6 +182,9 @@ namespace EnforcerPlugin {
             aetheriumInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KomradeSpectre.Aetherium");
             sivsItemsInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Sivelos.SivsItems");
             supplyDropInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.K1454.SupplyDrop");
+
+            survariantsInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("pseudopulse.Survariants");
+            if (survariantsInstalled) RoR2Application.onLoad += Enforcer.Modules.Compat.SurvariantsCompat.SetHeavyVariant;
 
             //scepter stuff
             ScepterInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter");
