@@ -21,6 +21,7 @@ namespace Modules {
         public static ConfigEntry<bool> globalInvasion;
         public static ConfigEntry<bool> multipleInvasions;
         public static ConfigEntry<bool> kingDededeBoss;
+        public static ConfigEntry<bool> survariantsCompat;
 
         public static ConfigEntry<KeyCode> restKey;
         public static ConfigEntry<KeyCode> saluteKey;
@@ -140,8 +141,13 @@ namespace Modules {
                                      "King Dedede Boss",
                                      false,
                                      "Adds a King Dedede boss that spawns on Sky Meadow and post-loop Titanic Plains.");
+            survariantsCompat
+                = plugin.Config.Bind("01 - General Settings",
+                                     "Compatibility - Survariants",
+                                     true,
+                                     "Heavy TF2 shows up as a survivor variant.");
             #endregion general
-            
+
             #region keybinds
             restKey
                 = plugin.Config.Bind("02 - Keybinds",

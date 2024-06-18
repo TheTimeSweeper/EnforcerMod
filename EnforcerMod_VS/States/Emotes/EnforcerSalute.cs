@@ -1,10 +1,10 @@
-﻿using EntityStates.Enforcer;
+﻿using Modules;
 using RoR2;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Enforcer.Emotes {
-    public class EnforcerSalute : EnforcerMain
+    public class EnforcerSalute : EntityStates.Enforcer.EnforcerMain
     {
         protected string soundString;
         protected string animString;
@@ -46,7 +46,7 @@ namespace Enforcer.Emotes {
                 this.activePlayID = Util.PlaySound(soundString, base.gameObject);
             }
 
-            if (NetworkServer.active) base.characterBody.AddBuff(Modules.Buffs.bigSlowBuff);
+            if (NetworkServer.active) base.characterBody.AddBuff(Buffs.bigSlowBuff);
 
             this.initialTime = Time.fixedTime;
         }
@@ -93,7 +93,7 @@ namespace Enforcer.Emotes {
 
             base.characterBody.hideCrosshair = false;
 
-            if (NetworkServer.active) base.characterBody.RemoveBuff(Modules.Buffs.bigSlowBuff);
+            if (NetworkServer.active) base.characterBody.RemoveBuff(Buffs.bigSlowBuff);
 
             if (base.GetAimAnimator()) base.GetAimAnimator().enabled = true;
             this.animator.SetLayerWeight(animator.GetLayerIndex("AimPitch"), 1);

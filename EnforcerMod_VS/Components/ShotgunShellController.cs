@@ -30,8 +30,8 @@ namespace Enforcer {
                     this.triggered = true;
                     AkSoundEngine.SetRTPCValue("Shell_Velocity", rb.velocity.magnitude);
 
-                    if (Random.value > 0.5f) Util.PlaySound(Modules.Sounds.ShellHittingFloorSlow, this.gameObject);
-                    else Util.PlaySound(Modules.Sounds.ShellHittingFloorFast, this.gameObject);
+                    if (Random.value > 0.5f) Util.PlaySound(Sounds.ShellHittingFloorSlow, this.gameObject);
+                    else Util.PlaySound(Sounds.ShellHittingFloorFast, this.gameObject);
                 }
             }
         }
