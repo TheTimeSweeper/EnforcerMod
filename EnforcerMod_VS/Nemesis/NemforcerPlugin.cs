@@ -50,7 +50,7 @@ namespace EnforcerPlugin {
         public SkillLocator skillLocator;
 
         public static float nemforcerRegenBuffAmount = 4f;
-        public static float nemforcerRegenBuffDuration = 5f;
+        public static float nemforcerRegenBuffDuration = 4f;
 
         public void Init()
         {
