@@ -285,7 +285,7 @@ namespace EnforcerPlugin {
             On.RoR2.ArenaMissionController.EndRound += ArenaMissionController_EndRound;
             On.RoR2.EscapeSequenceController.BeginEscapeSequence += EscapeSequenceController_BeginEscapeSequence;
             On.RoR2.UI.MainMenu.BaseMainMenuScreen.OnEnter += BaseMainMenuScreen_OnEnter;
-            On.RoR2.CharacterSelectBarController.Awake += CharacterSelectBarController_Awake;
+            if (!Modules.Config.survariantsCompat.Value || !survariantsInstalled) On.RoR2.CharacterSelectBarController.Awake += CharacterSelectBarController_Awake;
             On.RoR2.MapZone.TryZoneStart += MapZone_TryZoneStart;
             On.RoR2.HealthComponent.Suicide += HealthComponent_Suicide;
             //On.RoR2.TeleportOutController.OnStartClient += TeleportOutController_OnStartClient;
