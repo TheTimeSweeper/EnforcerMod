@@ -631,6 +631,33 @@ namespace EnforcerPlugin {
             {
                 args.baseRegenAdd += NemforcerPlugin.nemforcerRegenBuffAmount + 0.2f * NemforcerPlugin.nemforcerRegenBuffAmount * (sender.level - 1f);
             }
+
+            //regen passive
+            //Added isPlayerControlled check because regen on enemies simply turns them into a DPS check that can't even be whittled down.
+            if (!NemforcerPlugin.balancedNemforcer.Value
+                && sender.isPlayerControlled
+                && (sender.bodyIndex == EnforcerModPlugin.NemesisEnforcerBodyIndex || sender.bodyIndex == EnforcerModPlugin.NemesisEnforcerBossBodyIndex))
+            {
+                HealthComponent hp = sender.healthComponent;
+                float regenValue = hp.fullCombinedHealth * NemforcerPlugin.passiveRegenBonus;
+                float regen = Mathf.SmoothStep(regenValue, 0, hp.combinedHealth / hp.fullCombinedHealth);
+
+                // reduce it while taking damage, scale it back up over time- only apply this to the normal boss and let ultra keep the bullshit regen
+                /*if (sender.teamComponent.teamIndex == TeamIndex.Monster && sender.baseNameToken == "NEMFORCER_NAME")
+                {
+                    float maxRegenValue = regen;
+                    float i = Mathf.Clamp(sender.outOfDangerStopwatch, 0f, 5f);
+                    regen = Util.Remap(i, 0f, 5f, 0f, maxRegenValue);
+                }*/
+
+                args.baseRegenAdd += regen;
+
+                /*if (sender.teamComponent.teamIndex == TeamIndex.Monster)
+                {
+                    sender.regen *= 0.8f;   //Would rather do this via args
+                    if (sender.HasBuff(RoR2Content.Buffs.SuperBleed) || sender.HasBuff(RoR2Content.Buffs.Bleeding) || sender.HasBuff(RoR2Content.Buffs.OnFire)) sender.regen = 0f;
+                }*/
+            }
         }
 
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)

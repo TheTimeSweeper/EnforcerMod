@@ -4,6 +4,7 @@ using RoR2.Skills;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.UIElements.Experimental;
 using static RoR2.CameraTargetParams;
 
 public class NemforcerController : MonoBehaviour
@@ -126,7 +127,9 @@ public class NemforcerController : MonoBehaviour
         float healthRemaining = charHealth.combinedHealth / charHealth.fullCombinedHealth;
         bool hasBuff = charBody.HasBuff(Modules.Buffs.nemforcerRegenBuff);
 
-        if (hasBuff)
+        bool showPassiveVisual = !NemforcerPlugin.balancedNemforcer.Value ? healthRemaining <= 0.5f : hasBuff;
+
+        if (showPassiveVisual)
         {
             if (!passiveIsPlaying)
             {
@@ -135,8 +138,11 @@ public class NemforcerController : MonoBehaviour
                 passiveMoons.Play();
             }
 
-            //float lerp = Mathf.InverseLerp(0.2f, 0.6f, healthRemaining);
-            float lerp = 0.6f;
+            float lerp = Mathf.InverseLerp(0.2f, 0.6f, healthRemaining);
+            if (hasBuff)
+            {
+                lerp = 0.6f;
+            }
 
             passiveLightningEm.rateOverTime = Mathf.SmoothStep(maxLightningIntensity, 0, lerp);
             passiveMoonsEm.rateOverTime = Mathf.SmoothStep(maxMoonIntensity, 0, lerp);

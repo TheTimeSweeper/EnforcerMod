@@ -147,7 +147,7 @@ namespace EntityStates.Nemforcer {
                     blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
                     blastAttack.impactEffect = BeetleGuardMonster.GroundSlam.hitEffectPrefab.GetComponent<EffectComponent>().effectIndex;
                     var result = blastAttack.Fire();
-                    if (result.hitCount > 0)  base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
+                    if (result.hitCount > 0 && NemforcerPlugin.balancedNemforcer.Value)  base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
                 }
 
                 if (NetworkServer.active)

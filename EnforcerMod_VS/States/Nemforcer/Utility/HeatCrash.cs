@@ -5,6 +5,7 @@ using Enforcer.Nemesis;
 using UnityEngine.Networking;
 using Modules;
 using EnforcerPlugin;
+using BepInEx.Configuration;
 
 namespace EntityStates.Nemforcer {
     public class HeatCrash : BaseSkillState
@@ -16,7 +17,7 @@ namespace EntityStates.Nemforcer {
         public static float slamDamageCoefficient = 24f;
         public static float slamProcCoefficient = 1f;
         public static float slamForce = 5000f;
-        public static bool allowChampions = true;
+        public static ConfigEntry<bool> allowChampions;
 
         private bool hasDropped;
         private Vector3 flyVector = Vector3.zero;
@@ -130,7 +131,7 @@ namespace EntityStates.Nemforcer {
             blastAttack.damageType = DamageType.Stun1s;
             blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
             var result = blastAttack.Fire();
-            if (result.hitCount > 0) base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
+            if (result.hitCount > 0 && NemforcerPlugin.balancedNemforcer.Value) base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
 
             AkSoundEngine.SetRTPCValue("M2_Charge", 100f);
             Util.PlaySound(Sounds.NemesisSmash, base.gameObject);
@@ -211,7 +212,7 @@ namespace EntityStates.Nemforcer {
             search.FilterOutGameObject(base.gameObject);
 
             var results = search.GetResults();
-            if (!allowChampions)
+            if (!allowChampions.Value)
             {
                 results = results.Where(hurtBox =>
                 {
