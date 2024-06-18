@@ -17,7 +17,7 @@ namespace Enforcer.Modules.Compat
             if (!Config.survariantsCompat.Value) return;
 
             SurvivorDef enforcer = SurvivorCatalog.GetSurvivorDef(SurvivorCatalog.GetSurvivorIndexFromBodyIndex(BodyCatalog.FindBodyIndex("EnforcerBody")));
-            SurvivorDef heavyTF2 = SurvivorCatalog.GetSurvivorDef(SurvivorCatalog.GetSurvivorIndexFromBodyIndex(BodyCatalog.FindBodyIndex("NemforcerBody")));
+            SurvivorDef heavyTF2 = SurvivorCatalog.GetSurvivorDef(SurvivorCatalog.GetSurvivorIndexFromBodyIndex(BodyCatalog.FindBodyIndex("NemesisEnforcerBody")));
 
             if (enforcer && heavyTF2)
             {
