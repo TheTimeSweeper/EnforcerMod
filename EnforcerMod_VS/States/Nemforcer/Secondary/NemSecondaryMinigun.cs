@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using RoR2.Projectile;
 using System;
 using Modules;
+using EnforcerPlugin;
 
 namespace EntityStates.Nemforcer {
     public class HammerSlam : BaseSkillState
@@ -145,8 +146,8 @@ namespace EntityStates.Nemforcer {
                     blastAttack.damageType = DamageType.Stun1s;
                     blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
                     blastAttack.impactEffect = BeetleGuardMonster.GroundSlam.hitEffectPrefab.GetComponent<EffectComponent>().effectIndex;
-
-                    blastAttack.Fire();
+                    var result = blastAttack.Fire();
+                    if (result.hitCount > 0)  base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
                 }
 
                 if (NetworkServer.active)

@@ -4,6 +4,7 @@ using System.Linq;
 using Enforcer.Nemesis;
 using UnityEngine.Networking;
 using Modules;
+using EnforcerPlugin;
 
 namespace EntityStates.Nemforcer {
     public class HeatCrash : BaseSkillState
@@ -15,6 +16,7 @@ namespace EntityStates.Nemforcer {
         public static float slamDamageCoefficient = 24f;
         public static float slamProcCoefficient = 1f;
         public static float slamForce = 5000f;
+        public static bool allowChampions = true;
 
         private bool hasDropped;
         private Vector3 flyVector = Vector3.zero;
@@ -127,7 +129,8 @@ namespace EntityStates.Nemforcer {
             blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
             blastAttack.damageType = DamageType.Stun1s;
             blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
-            blastAttack.Fire();
+            var result = blastAttack.Fire();
+            if (result.hitCount > 0) base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
 
             AkSoundEngine.SetRTPCValue("M2_Charge", 100f);
             Util.PlaySound(Sounds.NemesisSmash, base.gameObject);
@@ -207,7 +210,16 @@ namespace EntityStates.Nemforcer {
             search.RefreshCandidates();
             search.FilterOutGameObject(base.gameObject);
 
-            HurtBox target = search.GetResults().FirstOrDefault<HurtBox>();
+            var results = search.GetResults();
+            if (!allowChampions)
+            {
+                results = results.Where(hurtBox =>
+                {
+                    return hurtBox.healthComponent && hurtBox.healthComponent.body && !hurtBox.healthComponent.body.isChampion;
+                });
+            }
+
+            HurtBox target = results.FirstOrDefault<HurtBox>();
             if (target)
             {
                 if (target.healthComponent && target.healthComponent.body)

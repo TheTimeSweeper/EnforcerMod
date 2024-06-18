@@ -1,4 +1,5 @@
-﻿using Modules;
+﻿using EnforcerPlugin;
+using Modules;
 using RoR2;
 using System;
 using UnityEngine;
@@ -219,6 +220,8 @@ namespace EntityStates.Nemforcer {
         private Vector3 storedVelocity;
         private NemforcerController nemController;
 
+        private bool proccedRegen = false;
+
         private GameObject soundGO;
 
         public override void OnEnter()
@@ -381,6 +384,7 @@ namespace EntityStates.Nemforcer {
 
                         if (this.stopwatch <= 0.75f * this.duration && this.attack.Fire())//lazily hardcoding dont mind me
                         {
+                            ProcRegenAuthority();
                             if (this.charge >= 1 && UnityEngine.Random.value <= 0.01f)
                             {
                                 Util.PlaySound(Sounds.HomeRun, healthComponent.gameObject);
@@ -401,6 +405,7 @@ namespace EntityStates.Nemforcer {
                     {
                         if (this.attack.Fire())
                         {
+                            ProcRegenAuthority();
                             if (this.charge >= 1 && UnityEngine.Random.value <= 0.01f)
                             {
                                 Util.PlaySound(Sounds.HomeRun, healthComponent.gameObject);
@@ -428,6 +433,13 @@ namespace EntityStates.Nemforcer {
                     }
                 }
             }
+        }
+
+        private void ProcRegenAuthority()
+        {
+            if (proccedRegen || !base.isAuthority) return;
+            proccedRegen = true;
+            base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
         }
 
         public override void OnSerialize(NetworkWriter writer)
@@ -588,6 +600,7 @@ namespace EntityStates.Nemforcer {
                 blastAttack.damageType = DamageType.Stun1s;
                 blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
                 BlastAttack.Result result = blastAttack.Fire();
+                if (result.hitCount > 0) base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
 
                 Vector3 directionFlat = base.GetAimRay().direction;
                 directionFlat.y = 0;

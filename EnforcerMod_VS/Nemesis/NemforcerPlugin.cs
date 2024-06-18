@@ -47,9 +47,10 @@ namespace EnforcerPlugin {
         public static SkillDef minigunUpDef;//skilldef used while gun is up
         public static SkillDef jumpDef;
 
-        public const float passiveRegenBonus = 0.025f;
-
         public SkillLocator skillLocator;
+
+        public static float nemforcerRegenBuffAmount = 4f;
+        public static float nemforcerRegenBuffDuration = 5f;
 
         public void Init()
         {
@@ -199,10 +200,10 @@ namespace EnforcerPlugin {
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             bodyComponent.rootMotionInMainState = false;
             bodyComponent.mainRootSpeed = 0;
-            bodyComponent.baseMaxHealth = 224;
-            bodyComponent.levelMaxHealth = 56;
-            bodyComponent.baseRegen = 0.5f;
-            bodyComponent.levelRegen = 0.25f;
+            bodyComponent.baseMaxHealth = 160;
+            bodyComponent.levelMaxHealth = 48;
+            bodyComponent.baseRegen = 1f;
+            bodyComponent.levelRegen = 0.2f;
             bodyComponent.baseMaxShield = 0;
             bodyComponent.levelMaxShield = 0;
             bodyComponent.baseMoveSpeed = 7;

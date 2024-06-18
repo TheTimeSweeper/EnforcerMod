@@ -120,12 +120,13 @@ public class NemforcerController : MonoBehaviour
     private void UpdatePassiveEffect()
     {
         //dont give dedede the cool effect for obvious reasons
-        if (charBody.baseNameToken == "DEDEDE_NAME") return;
+        if (charBody.bodyIndex == EnforcerModPlugin.DededeBodyIndex) return;
         if (passiveLightning == null || passiveMoons == null) return;
 
         float healthRemaining = charHealth.combinedHealth / charHealth.fullCombinedHealth;
+        bool hasBuff = charBody.HasBuff(Modules.Buffs.nemforcerRegenBuff);
 
-        if (healthRemaining <= 0.5f)
+        if (hasBuff)
         {
             if (!passiveIsPlaying)
             {

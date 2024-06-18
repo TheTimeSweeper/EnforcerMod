@@ -180,6 +180,8 @@ namespace EntityStates.Nemforcer {
                             base.SmallHop(base.characterMotor, NemHammerSwing.hitHopVelocity);
                         }
 
+                        //Probably should have a dedicated "OnHitAuthority" instead of placing this here.
+                        base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
                         this.hasHopped = true;
                     }
 
