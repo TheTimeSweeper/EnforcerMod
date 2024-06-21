@@ -627,10 +627,8 @@ namespace EnforcerPlugin {
                 args.moveSpeedReductionMultAdd += 4f; //self.moveSpeed *= 0.2f;
             }
 
-            if (sender.HasBuff(Modules.Buffs.nemforcerRegenBuff))
-            {
-                args.baseRegenAdd += NemforcerPlugin.nemforcerRegenBuffAmount + 0.2f * NemforcerPlugin.nemforcerRegenBuffAmount * (sender.level - 1f);
-            }
+            int regenBuffCount = sender.GetBuffCount(Modules.Buffs.nemforcerRegenBuff);
+            if (regenBuffCount > 0) args.baseRegenAdd += regenBuffCount * (NemforcerPlugin.nemforcerRegenBuffAmount + 0.2f * NemforcerPlugin.nemforcerRegenBuffAmount * (sender.level - 1f));
 
             //regen passive
             //Added isPlayerControlled check because regen on enemies simply turns them into a DPS check that can't even be whittled down.

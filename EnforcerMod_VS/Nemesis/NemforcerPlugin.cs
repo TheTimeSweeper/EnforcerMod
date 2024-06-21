@@ -54,7 +54,7 @@ namespace EnforcerPlugin {
 
         public static float passiveRegenBonus = 0.025f;
         public static float nemforcerRegenBuffAmount = 4f;
-        public static float nemforcerRegenBuffDuration = 4f;
+        public static float nemforcerRegenBuffDuration = 3f;
 
         public void Init()
         {
