@@ -284,7 +284,7 @@ namespace Modules {
             //passive
             LanguageAPI.Add("NEMFORCER_PASSIVE_NAME", "Colossus");
             LanguageAPI.Add("NEMFORCER_PASSIVE_DESCRIPTION", $"Nemesis Enforcer gains <style=cIsHealing>bonus health regen</style>, based on his current <style=cIsHealth>missing health</style>, up to <style=cIsHealth>{100 * NemforcerPlugin.passiveRegenBonus}% max health</style>.");
-            LanguageAPI.Add("NEMFORCER_PASSIVE_REWORK_DESCRIPTION", $"Nemesis Enforcer's <style=cIsHealing>base health regeneration</style> increases by <style=cIsHealing>+{NemforcerPlugin.nemforcerRegenBuffAmount} hp/s</style> when striking enemies with <style=cIsDamage>melee attacks</style>.");
+            LanguageAPI.Add("NEMFORCER_PASSIVE_REWORK_DESCRIPTION", $"Nemesis Enforcer regenerates <style=cIsHealing>{NemforcerPlugin.nemforcerRegenBuffPercent}%</style> of his <style=cIsHealing>maximum health</style> over {NemforcerPlugin.nemforcerRegenBuffDuration}s when striking enemies with <style=cIsDamage>melee attacks</style>.");
 
             #region Primary
             LanguageAPI.Add("NEMFORCER_PRIMARY_HAMMER_NAME", "Golden Hammer");

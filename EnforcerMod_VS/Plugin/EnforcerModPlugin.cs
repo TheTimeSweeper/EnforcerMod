@@ -628,7 +628,7 @@ namespace EnforcerPlugin {
             }
 
             int regenBuffCount = sender.GetBuffCount(Modules.Buffs.nemforcerRegenBuff);
-            if (regenBuffCount > 0) args.baseRegenAdd += regenBuffCount * (NemforcerPlugin.nemforcerRegenBuffAmount + 0.2f * NemforcerPlugin.nemforcerRegenBuffAmount * (sender.level - 1f));
+            if (regenBuffCount > 0) args.baseRegenAdd += regenBuffCount * sender.maxHealth * NemforcerPlugin.nemforcerRegenBuffPercent;
 
             //regen passive
             //Added isPlayerControlled check because regen on enemies simply turns them into a DPS check that can't even be whittled down.

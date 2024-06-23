@@ -5,14 +5,13 @@
 	- Added Config:
 		- Heat Crash - Allow Bosses (Default: True)
 		- Passive Rework (Beta) (Default: False)
-			- Melee hits grant +4hp/s regen for 3s.
-				- Scales with level.
-				- Stackable.
+			- Melee hits regenerate 5% HP over 3s. Can stack.
 		- Nerf Stats (Default: False)
 			- Reduces HP from 224 (+56) -> 160 (+48)
 			- Changes regen from 0.5 (+0.25) -> 1.0 (+0.2)
+			- Reduces armor from 20 -> 12
 			
-	*Passive Rework + Nerf Stats is intended to bring Nemforcer more to Enforcer's level, rather than being a 'Playable Miniboss.' Nerf Stats will remain disabled by default, but hoping that Passive Rework can be iterated on to reach a good enough state to be the default. Feedback would be appreciated.*
+	*Nerf Stats reduces HP/Armor to Enforcer's level. Passive Rework is an attempt to make his passive more of an active part of his kit, but I'm not sure if it's the right way to go. Feedback would be appreciated.*
 
 `3.8.4`
 - fixed CN and BR translations breaking the universe
