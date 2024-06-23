@@ -632,7 +632,7 @@ namespace EnforcerPlugin {
 
             //regen passive
             //Added isPlayerControlled check because regen on enemies simply turns them into a DPS check that can't even be whittled down.
-            if (!NemforcerPlugin.balancedNemforcer.Value
+            if (!NemforcerPlugin.reworkPassive.Value
                 && sender.isPlayerControlled
                 && (sender.bodyIndex == EnforcerModPlugin.NemesisEnforcerBodyIndex || sender.bodyIndex == EnforcerModPlugin.NemesisEnforcerBossBodyIndex))
             {

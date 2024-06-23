@@ -122,9 +122,10 @@ public class NemforcerController : MonoBehaviour
         if (passiveLightning == null || passiveMoons == null) return;
 
         float healthRemaining = charHealth.combinedHealth / charHealth.fullCombinedHealth;
-        bool hasBuff = charBody.HasBuff(Modules.Buffs.nemforcerRegenBuff);
+        int regenBuffCount = charBody.GetBuffCount(Modules.Buffs.nemforcerRegenBuff);
+        bool hasBuff = regenBuffCount > 0;
 
-        bool showPassiveVisual = !NemforcerPlugin.balancedNemforcer.Value ? healthRemaining <= 0.5f : hasBuff;
+        bool showPassiveVisual = !NemforcerPlugin.reworkPassive.Value ? healthRemaining <= 0.5f : hasBuff;
 
         if (showPassiveVisual)
         {
@@ -138,7 +139,7 @@ public class NemforcerController : MonoBehaviour
             float lerp = Mathf.InverseLerp(0.2f, 0.6f, healthRemaining);
             if (hasBuff)
             {
-                lerp = 0.6f;
+                lerp = Mathf.Max(0f, 1f - 0.2f * regenBuffCount);
             }
 
             passiveLightningEm.rateOverTime = Mathf.SmoothStep(maxLightningIntensity, 0, lerp);

@@ -355,10 +355,15 @@ namespace Modules {
                                      true,
                                      "Heavy TF2 shows up as a survivor variant.");
 
-            NemforcerPlugin.balancedNemforcer = plugin.Config.Bind("09 - heavy tf2",
-                                     "Balanced Stats",
+            NemforcerPlugin.reworkPassive = plugin.Config.Bind("09 - heavy tf2",
+                                     "Passive Rework (Beta)",
                                      false,
-                                     "Reduces Heavy TF2 tankiness and changes his passive.");
+                                     "Passive gives bonus regen on melee hit.");
+
+            NemforcerPlugin.nerfStats = plugin.Config.Bind("09 - heavy tf2",
+                                    "Nerf Stats",
+                                    false,
+                                    "Nerfs health to be closer to other survivors.");
 
             HeatCrash.allowChampions = plugin.Config.Bind("09 - heavy tf2",
                                      "Heat Crash - Allow Bosses",

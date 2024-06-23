@@ -48,7 +48,8 @@ namespace EnforcerPlugin {
         public static SkillDef minigunUpDef;//skilldef used while gun is up
         public static SkillDef jumpDef;
 
-        public static ConfigEntry<bool> balancedNemforcer;
+        public static ConfigEntry<bool> reworkPassive;
+        public static ConfigEntry<bool> nerfStats;
 
         public SkillLocator skillLocator;
 
@@ -237,7 +238,7 @@ namespace EnforcerPlugin {
             bodyComponent.preferredPodPrefab = null;
             bodyComponent.bodyColor = characterColor;
 
-            if (balancedNemforcer.Value)
+            if (nerfStats.Value)
             {
                 bodyComponent.baseMaxHealth = 160f;
                 bodyComponent.levelMaxHealth = 48f;
@@ -728,7 +729,7 @@ namespace EnforcerPlugin {
             skillLocator.passiveSkill.skillDescriptionToken = "NEMFORCER_PASSIVE_DESCRIPTION";
             skillLocator.passiveSkill.icon = Assets.nemIconPassive;
 
-            if (balancedNemforcer.Value) skillLocator.passiveSkill.skillDescriptionToken = "NEMFORCER_PASSIVE_REWORK_DESCRIPTION";
+            if (reworkPassive.Value) skillLocator.passiveSkill.skillDescriptionToken = "NEMFORCER_PASSIVE_REWORK_DESCRIPTION";
         }
 
         private void PrimarySetup() {

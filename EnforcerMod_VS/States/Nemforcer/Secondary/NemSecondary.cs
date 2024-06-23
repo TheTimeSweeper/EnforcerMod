@@ -439,7 +439,7 @@ namespace EntityStates.Nemforcer {
         {
             if (proccedRegen || !base.isAuthority) return;
             proccedRegen = true;
-            if (NemforcerPlugin.balancedNemforcer.Value) base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
+            if (NemforcerPlugin.reworkPassive.Value) base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
         }
 
         public override void OnSerialize(NetworkWriter writer)
@@ -600,7 +600,7 @@ namespace EntityStates.Nemforcer {
                 blastAttack.damageType = DamageType.Stun1s;
                 blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
                 BlastAttack.Result result = blastAttack.Fire();
-                if (result.hitCount > 0 && NemforcerPlugin.balancedNemforcer.Value) base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
+                if (result.hitCount > 0 && NemforcerPlugin.reworkPassive.Value) base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
 
                 Vector3 directionFlat = base.GetAimRay().direction;
                 directionFlat.y = 0;

@@ -193,7 +193,7 @@ namespace EntityStates.Nemforcer {
                         }
 
                         //Probably should have a dedicated "OnHitAuthority" instead of placing this here.
-                        if (NemforcerPlugin.balancedNemforcer.Value) base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
+                        if (NemforcerPlugin.reworkPassive.Value) base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
                         this.hasHopped = true;
                     }
 

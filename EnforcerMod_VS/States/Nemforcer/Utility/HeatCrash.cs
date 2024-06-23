@@ -131,7 +131,7 @@ namespace EntityStates.Nemforcer {
             blastAttack.damageType = DamageType.Stun1s;
             blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
             var result = blastAttack.Fire();
-            if (result.hitCount > 0 && NemforcerPlugin.balancedNemforcer.Value) base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
+            if (result.hitCount > 0 && NemforcerPlugin.reworkPassive.Value) base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
 
             AkSoundEngine.SetRTPCValue("M2_Charge", 100f);
             Util.PlaySound(Sounds.NemesisSmash, base.gameObject);
