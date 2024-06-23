@@ -2,16 +2,19 @@
 
 - Survariants Compat
 - heavy tf2
+	- Now uses standard health regen. 0.5 (+0.25) -> 1.0 (+0.2)
 	- Added Config:
-		- Heat Crash - Allow Bosses (Default: True)
 		- Passive Rework (Beta) (Default: False)
-			- Melee hits regenerate 5% HP over 3s. Can stack.
+			- Melee hits regenerate 2% HP over 3s. Can stack.
+			
+			*Idea is to make this more of an active part of his kit, but I'm not sure how to feel about it. Feedback would be appreciated.*
+			
 		- Nerf Stats (Default: False)
 			- Reduces HP from 224 (+56) -> 160 (+48)
-			- Changes regen from 0.5 (+0.25) -> 1.0 (+0.2)
-			- Reduces armor from 20 -> 12
 			
-	*Nerf Stats reduces HP/Armor to Enforcer's level. Passive Rework is an attempt to make his passive more of an active part of his kit, but I'm not sure if it's the right way to go. Feedback would be appreciated.*
+			*Stats are the same as Enforcer, aside from Nemforcer having 20 armor instead of 12.*
+			
+		- Heat Crash - Allow Bosses (Default: True)
 
 `3.8.4`
 - fixed CN and BR translations breaking the universe

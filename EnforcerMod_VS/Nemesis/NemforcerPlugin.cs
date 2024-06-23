@@ -54,7 +54,7 @@ namespace EnforcerPlugin {
         public SkillLocator skillLocator;
 
         public static float passiveRegenBonus = 0.025f;
-        public static float nemforcerRegenBuffPercent = 0.05f;
+        public static float nemforcerRegenBuffPercent = 0.02f;
         public static float nemforcerRegenBuffDuration = 3f;
 
         public void Init()
@@ -207,8 +207,8 @@ namespace EnforcerPlugin {
             bodyComponent.mainRootSpeed = 0;
             bodyComponent.baseMaxHealth = 224f;
             bodyComponent.levelMaxHealth = 56f;
-            bodyComponent.baseRegen = 0.5f;
-            bodyComponent.levelRegen = 0.25f;
+            bodyComponent.baseRegen = 1f;
+            bodyComponent.levelRegen = 0.2f;
             bodyComponent.baseMaxShield = 0;
             bodyComponent.levelMaxShield = 0;
             bodyComponent.baseMoveSpeed = 7;
@@ -242,9 +242,6 @@ namespace EnforcerPlugin {
             {
                 bodyComponent.baseMaxHealth = 160f;
                 bodyComponent.levelMaxHealth = 48f;
-                bodyComponent.baseRegen = 1f;
-                bodyComponent.levelRegen = 0.2f;
-                bodyComponent.baseArmor = 12f;
             }
 
             Modules.Content.AddEntityState(typeof(EntityStates.Nemforcer.NemforcerMain));
