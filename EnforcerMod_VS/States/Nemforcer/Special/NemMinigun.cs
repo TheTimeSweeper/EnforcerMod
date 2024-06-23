@@ -65,6 +65,11 @@ namespace EntityStates.Nemforcer {
                 }
             }
 
+            if (base.skillLocator && base.skillLocator.primary)  //Hardcoded to be primary since activatorSkillSlot nullrefs
+            {
+                base.characterBody.OnSkillActivated(base.skillLocator.primary);
+            }
+
             /*AkSoundEngine.SetRTPCValue("Minigun_Shooting", 1);
             if (!this.critEndTime.hasPassed)
             {
