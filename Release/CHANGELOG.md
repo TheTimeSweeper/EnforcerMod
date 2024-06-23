@@ -1,3 +1,19 @@
+`3.9.0`
+
+- Survariants Compat
+- heavy tf2
+	- Added Config:
+		- Heat Crash - Allow Bosses (Default: True)
+		- Passive Rework (Beta) (Default: False)
+			- Melee hits grant +4hp/s regen for 3s.
+				- Scales with level.
+				- Stackable.
+		- Nerf Stats (Default: False)
+			- Reduces HP from 224 (+56) -> 160 (+48)
+			- Changes regen from 0.5 (+0.25) -> 1.0 (+0.2)
+			
+	*Passive Rework + Nerf Stats is intended to bring Nemforcer more to Enforcer's level, rather than being a 'Playable Miniboss.' Nerf Stats will remain disabled by default, but hoping that Passive Rework can be iterated on to reach a good enough state to be the default. Feedback would be appreciated.*
+
 `3.8.4`
 - fixed CN and BR translations breaking the universe
 

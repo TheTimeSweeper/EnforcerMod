@@ -1,6 +1,6 @@
 {
     "name": "Enforcer",
-    "version_number": "3.8.4",
+    "version_number": "3.9.0",
     "website_url": "https://github.com/TheTimeSweeper/EnforcerMod",
     "description": "Adds the Enforcer from Risk of Rain 1 as a fully fleshed out playable survivor.",
     "dependencies": [
