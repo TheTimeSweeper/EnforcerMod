@@ -1,8 +1,6 @@
 ﻿using EnforcerPlugin;
 using RoR2;
 using RoR2.Skills;
-using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 using static RoR2.CameraTargetParams;
 
@@ -120,12 +118,16 @@ public class NemforcerController : MonoBehaviour
     private void UpdatePassiveEffect()
     {
         //dont give dedede the cool effect for obvious reasons
-        if (charBody.baseNameToken == "DEDEDE_NAME") return;
+        if (charBody.bodyIndex == EnforcerModPlugin.DededeBodyIndex) return;
         if (passiveLightning == null || passiveMoons == null) return;
 
         float healthRemaining = charHealth.combinedHealth / charHealth.fullCombinedHealth;
+        int regenBuffCount = charBody.GetBuffCount(Modules.Buffs.nemforcerRegenBuff);
+        bool hasBuff = regenBuffCount > 0;
 
-        if (healthRemaining <= 0.5f)
+        bool showPassiveVisual = !NemforcerPlugin.reworkPassive.Value ? healthRemaining <= 0.5f : hasBuff;
+
+        if (showPassiveVisual)
         {
             if (!passiveIsPlaying)
             {
@@ -135,6 +137,10 @@ public class NemforcerController : MonoBehaviour
             }
 
             float lerp = Mathf.InverseLerp(0.2f, 0.6f, healthRemaining);
+            if (hasBuff)
+            {
+                lerp = Mathf.Max(0f, 1f - 0.2f * regenBuffCount);
+            }
 
             passiveLightningEm.rateOverTime = Mathf.SmoothStep(maxLightningIntensity, 0, lerp);
             passiveMoonsEm.rateOverTime = Mathf.SmoothStep(maxMoonIntensity, 0, lerp);

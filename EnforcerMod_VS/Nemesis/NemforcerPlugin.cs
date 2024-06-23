@@ -16,6 +16,7 @@ using RoR2.CharacterAI;
 using RoR2.Navigation;
 using System.Runtime.CompilerServices;
 using Modules;
+using BepInEx.Configuration;
 
 namespace EnforcerPlugin {
     public class NemforcerPlugin
@@ -47,9 +48,14 @@ namespace EnforcerPlugin {
         public static SkillDef minigunUpDef;//skilldef used while gun is up
         public static SkillDef jumpDef;
 
-        public const float passiveRegenBonus = 0.025f;
+        public static ConfigEntry<bool> reworkPassive;
+        public static ConfigEntry<bool> nerfStats;
 
         public SkillLocator skillLocator;
+
+        public static float passiveRegenBonus = 0.025f;
+        public static float nemforcerRegenBuffPercent = 0.02f;
+        public static float nemforcerRegenBuffDuration = 3f;
 
         public void Init()
         {
@@ -199,10 +205,10 @@ namespace EnforcerPlugin {
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             bodyComponent.rootMotionInMainState = false;
             bodyComponent.mainRootSpeed = 0;
-            bodyComponent.baseMaxHealth = 224;
-            bodyComponent.levelMaxHealth = 56;
-            bodyComponent.baseRegen = 0.5f;
-            bodyComponent.levelRegen = 0.25f;
+            bodyComponent.baseMaxHealth = 224f;
+            bodyComponent.levelMaxHealth = 56f;
+            bodyComponent.baseRegen = 1f;
+            bodyComponent.levelRegen = 0.2f;
             bodyComponent.baseMaxShield = 0;
             bodyComponent.levelMaxShield = 0;
             bodyComponent.baseMoveSpeed = 7;
@@ -231,6 +237,12 @@ namespace EnforcerPlugin {
             bodyComponent.skinIndex = 0U;
             bodyComponent.preferredPodPrefab = null;
             bodyComponent.bodyColor = characterColor;
+
+            if (nerfStats.Value)
+            {
+                bodyComponent.baseMaxHealth = 160f;
+                bodyComponent.levelMaxHealth = 48f;
+            }
 
             Modules.Content.AddEntityState(typeof(EntityStates.Nemforcer.NemforcerMain));
             Modules.Content.AddEntityState(typeof(EntityStates.Nemforcer.SpawnState));
@@ -714,6 +726,8 @@ namespace EnforcerPlugin {
             skillLocator.passiveSkill.skillNameToken = "NEMFORCER_PASSIVE_NAME";
             skillLocator.passiveSkill.skillDescriptionToken = "NEMFORCER_PASSIVE_DESCRIPTION";
             skillLocator.passiveSkill.icon = Assets.nemIconPassive;
+
+            if (reworkPassive.Value) skillLocator.passiveSkill.skillDescriptionToken = "NEMFORCER_PASSIVE_REWORK_DESCRIPTION";
         }
 
         private void PrimarySetup() {

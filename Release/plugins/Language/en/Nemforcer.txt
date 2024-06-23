@@ -15,6 +15,7 @@
     "ENFORCER_EVENT_NEMFORCERBOSS_END" : "The void's influence fades...</style>",
     "NEMFORCER_PASSIVE_NAME" : "Colossus",
     "NEMFORCER_PASSIVE_DESCRIPTION" : "Nemesis Enforcer gains <style=cIsHealing>bonus health regen</style>, based on his current <style=cIsHealth>missing health</style>, up to <style=cIsHealth>2.5% max health</style>.",
+    "NEMFORCER_PASSIVE_REWORK_DESCRIPTION" : "Nemesis Enforcer regenerates <style=cIsHealing>2%</style> of his <style=cIsHealing>maximum health</style> over 3s when striking enemies with <style=cIsDamage>melee attacks</style>.",
     "NEMFORCER_PRIMARY_HAMMER_NAME" : "Golden Hammer",
     "NEMFORCER_PRIMARY_HAMMER_DESCRIPTION" : "Swing your hammer for <style=cIsDamage>500%</style> damage.",
     "NEMFORCER_PRIMARY_THROWHAMMER_NAME" : "Throwing Hammer",

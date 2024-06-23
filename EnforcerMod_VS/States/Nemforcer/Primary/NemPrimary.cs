@@ -36,9 +36,18 @@ namespace EntityStates.Nemforcer {
         private Vector3 storedVelocity;
         private bool inVR;
 
+        public bool firstSwing = true;
+
         public override void OnEnter()
         {
             base.OnEnter();
+
+            //Shuriken fix
+            if (!firstSwing && base.skillLocator && base.skillLocator.primary)  //Hardcoded to be primary since activatorSkillSlot nullrefs
+            {
+                base.characterBody.OnSkillActivated(base.skillLocator.primary);
+            }
+
             this.duration = baseDuration / this.attackSpeedStat;
             this.earlyExitDuration = this.duration * earlyExitTime;
             this.hasFired = false;
@@ -132,8 +141,11 @@ namespace EntityStates.Nemforcer {
 
             if (base.fixedAge >= this.earlyExitDuration && base.inputBank.skill1.down)
             {
-                var nextSwing = new NemHammerSwing();
-                nextSwing.currentSwing = this.currentSwing + 1;
+                var nextSwing = new NemHammerSwing()
+                {
+                    firstSwing = false,
+                    currentSwing = this.currentSwing + 1
+                };
                 this.outer.SetNextState(nextSwing);
                 return;
             }
@@ -180,6 +192,8 @@ namespace EntityStates.Nemforcer {
                             base.SmallHop(base.characterMotor, NemHammerSwing.hitHopVelocity);
                         }
 
+                        //Probably should have a dedicated "OnHitAuthority" instead of placing this here.
+                        if (NemforcerPlugin.reworkPassive.Value) base.characterBody.AddTimedBuffAuthority(Modules.Buffs.nemforcerRegenBuff.buffIndex, NemforcerPlugin.nemforcerRegenBuffDuration);
                         this.hasHopped = true;
                     }
 

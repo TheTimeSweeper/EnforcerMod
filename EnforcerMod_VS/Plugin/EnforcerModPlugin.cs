@@ -43,7 +43,7 @@ namespace EnforcerPlugin {
     [BepInDependency("com.johnedwa.RTAutoSprintEx", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("pseudopulse.Survariants", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.8.1")]
+    [BepInPlugin(MODUID, "Enforcer", "3.9.0")]
     public class EnforcerModPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.EnforcerGang.Enforcer";
@@ -94,6 +94,7 @@ namespace EnforcerPlugin {
         public static BodyIndex EnforcerBodyIndex;
         public static BodyIndex NemesisEnforcerBodyIndex;
         public static BodyIndex NemesisEnforcerBossBodyIndex;
+        public static BodyIndex DededeBodyIndex;
 
         public static readonly Color characterColor = new Color(0.26f, 0.27f, 0.46f);
 
@@ -306,6 +307,7 @@ namespace EnforcerPlugin {
             EnforcerBodyIndex = BodyCatalog.FindBodyIndex("EnforcerBody");
             NemesisEnforcerBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBody");
             NemesisEnforcerBossBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody");
+            DededeBodyIndex = BodyCatalog.FindBodyIndex("KingDededeBody");
         }
 
         public static void AddBodyToBlockBlacklist(string bodyName) {
@@ -625,10 +627,14 @@ namespace EnforcerPlugin {
                 args.moveSpeedReductionMultAdd += 4f; //self.moveSpeed *= 0.2f;
             }
 
+            int regenBuffCount = sender.GetBuffCount(Modules.Buffs.nemforcerRegenBuff);
+            if (regenBuffCount > 0) args.baseRegenAdd += regenBuffCount * sender.maxHealth * NemforcerPlugin.nemforcerRegenBuffPercent;
+
             //regen passive
             //Added isPlayerControlled check because regen on enemies simply turns them into a DPS check that can't even be whittled down.
-            //Regen passive is too forgiving, but I don't play enough NemForcer to think of an alternative.
-            if (sender.isPlayerControlled && (sender.bodyIndex == EnforcerModPlugin.NemesisEnforcerBodyIndex || sender.bodyIndex == EnforcerModPlugin.NemesisEnforcerBossBodyIndex)) //Use BodyIndex instead.
+            if (!NemforcerPlugin.reworkPassive.Value
+                && sender.isPlayerControlled
+                && (sender.bodyIndex == EnforcerModPlugin.NemesisEnforcerBodyIndex || sender.bodyIndex == EnforcerModPlugin.NemesisEnforcerBossBodyIndex))
             {
                 HealthComponent hp = sender.healthComponent;
                 float regenValue = hp.fullCombinedHealth * NemforcerPlugin.passiveRegenBonus;

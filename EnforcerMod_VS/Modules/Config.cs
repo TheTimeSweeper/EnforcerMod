@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using EnforcerPlugin;
+using EntityStates.Nemforcer;
 using UnityEngine;
 
 namespace Modules {
@@ -141,11 +142,6 @@ namespace Modules {
                                      "King Dedede Boss",
                                      false,
                                      "Adds a King Dedede boss that spawns on Sky Meadow and post-loop Titanic Plains.");
-            survariantsCompat
-                = plugin.Config.Bind("01 - General Settings",
-                                     "Compatibility - Survariants",
-                                     true,
-                                     "Heavy TF2 shows up as a survivor variant.");
             #endregion general
 
             #region keybinds
@@ -350,6 +346,29 @@ namespace Modules {
                                      20,
                                      "How many degrees must you point to ground to trigger shield down.\nHigher angle means you must be pointing closer to the ground");
 
+            #endregion
+
+            #region heavy tf2
+            survariantsCompat
+                = plugin.Config.Bind("09 - heavy tf2",
+                                     "Compatibility - Survariants",
+                                     true,
+                                     "Heavy TF2 shows up as a survivor variant.");
+
+            NemforcerPlugin.reworkPassive = plugin.Config.Bind("09 - heavy tf2",
+                                     "Passive Rework (Beta)",
+                                     false,
+                                     "Passive gives bonus regen on melee hit.");
+
+            NemforcerPlugin.nerfStats = plugin.Config.Bind("09 - heavy tf2",
+                                    "Nerf Stats",
+                                    false,
+                                    "Nerfs health to be closer to other survivors.");
+
+            HeatCrash.allowChampions = plugin.Config.Bind("09 - heavy tf2",
+                                     "Heat Crash - Allow Bosses",
+                                     true,
+                                     "Allow Heat Crash to grab bosses.");
             #endregion
         }
     }
