@@ -8,7 +8,7 @@
 		- Passive Rework (Beta) (Default: False)
 			- Melee hits regenerate 2% HP over 3s. Can stack.
 			
-			*Idea is to make this more of an active part of his kit, but I'm not sure how to feel about it. Feedback would be appreciated.*
+			*Idea is to make this more of an active part of his kit, but I'm not sure how I feel about it. Feedback would be appreciated.*
 			
 		- Nerf Stats (Default: False)
 			- Reduces HP from 224 (+56) -> 160 (+48)
