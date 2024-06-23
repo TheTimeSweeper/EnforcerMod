@@ -3,6 +3,7 @@
 - Survariants Compat
 - heavy tf2
 	- Now uses standard health regen. 0.5 (+0.25) -> 1.0 (+0.2)
+	- Fixed Shuriken not working with primaries.
 	- Added Config:
 		- Passive Rework (Beta) (Default: False)
 			- Melee hits regenerate 2% HP over 3s. Can stack.
