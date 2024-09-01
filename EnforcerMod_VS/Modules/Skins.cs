@@ -42,7 +42,10 @@ namespace Modules {
 
         private static bool isEnforcerCurrentSkin(CharacterBody characterbody, string skin) {
 
-            return characterbody.bodyIndex == EnforcerModPlugin.EnforcerBodyIndex && SkinIndices.ContainsKey(characterbody.skinIndex) && SkinIndices[characterbody.skinIndex] == skin;
+            if (characterbody.bodyIndex == EnforcerModPlugin.EnforcerBodyIndex)
+                return false;
+
+            return characterbody.modelLocator.modelTransform.GetComponent<ModelSkinController>().skins[characterbody.skinIndex].nameToken == skin; 
         }
 
         public static bool isEnforcerCurrentSkin(CharacterBody characterbody, EnforcerSkin skin)
@@ -61,7 +64,7 @@ namespace Modules {
                     return (int)dicPair.Key;
                 }
             }
-            return 0;
+            return -1;
         }
 
         private static string GetFuckingSkinID(EnforcerSkin skin)
@@ -125,7 +128,7 @@ namespace Modules {
             SkinDefInfo defaultSkinDefInfo = new SkinDefInfo();
             defaultSkinDefInfo.Name = "ENFORCERBODY_DEFAULT_SKIN_NAME";
             defaultSkinDefInfo.NameToken = "ENFORCERBODY_DEFAULT_SKIN_NAME";
-            defaultSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
+            defaultSkinDefInfo.Icon = Asset.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
             defaultSkinDefInfo.RootObject = modelTransform;
 
             defaultSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
@@ -158,7 +161,7 @@ namespace Modules {
             SkinDefInfo masterySkinDefInfo = new SkinDefInfo();
             masterySkinDefInfo.Name = "ENFORCERBODY_MASTERY_SKIN_NAME";
             masterySkinDefInfo.NameToken = "ENFORCERBODY_MASTERY_SKIN_NAME";
-            masterySkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texSexforcerAchievement");
+            masterySkinDefInfo.Icon = Asset.MainAssetBundle.LoadAsset<Sprite>("texSexforcerAchievement");
             masterySkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerMasteryUnlockableDef;
             masterySkinDefInfo.RootObject = modelTransform;
 
@@ -202,7 +205,7 @@ namespace Modules {
             SkinDefInfo grandMasterySkinDefInfo = new SkinDefInfo();
             grandMasterySkinDefInfo.Name = "ENFORCERBODY_TYPHOON_SKIN_NAME";
             grandMasterySkinDefInfo.NameToken = "ENFORCERBODY_TYPHOON_SKIN_NAME";
-            grandMasterySkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texTyphoonAchievement");
+            grandMasterySkinDefInfo.Icon = Asset.MainAssetBundle.LoadAsset<Sprite>("texTyphoonAchievement");
             grandMasterySkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerGrandMasteryUnlockableDef;
             grandMasterySkinDefInfo.RootObject = modelTransform;
 
@@ -246,7 +249,7 @@ namespace Modules {
             SkinDefInfo robitSkinDefInfo = new SkinDefInfo();
             robitSkinDefInfo.Name = "ENFORCERBODY_BOT_SKIN_NAME";
             robitSkinDefInfo.NameToken = "ENFORCERBODY_BOT_SKIN_NAME";
-            robitSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texN4CRAchievement");
+            robitSkinDefInfo.Icon = Asset.MainAssetBundle.LoadAsset<Sprite>("texN4CRAchievement");
             robitSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerRobitUnlockableDef;
             robitSkinDefInfo.RootObject = modelTransform;
 
@@ -289,7 +292,7 @@ namespace Modules {
             SkinDefInfo classicSkinDefInfo = new SkinDefInfo();
             classicSkinDefInfo.Name = "ENFORCERBODY_CLASSIC_SKIN_NAME";
             classicSkinDefInfo.NameToken = "ENFORCERBODY_CLASSIC_SKIN_NAME";
-            classicSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texClassicAchievement");
+            classicSkinDefInfo.Icon = Asset.MainAssetBundle.LoadAsset<Sprite>("texClassicAchievement");
             classicSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerClassicUnlockableDef;
             classicSkinDefInfo.RootObject = modelTransform;
 
@@ -332,7 +335,7 @@ namespace Modules {
             SkinDefInfo nemesisSkinDefInfo = new SkinDefInfo();
             nemesisSkinDefInfo.Name = "ENFORCERBODY_NEMESIS_SKIN_NAME";
             nemesisSkinDefInfo.NameToken = "ENFORCERBODY_NEMESIS_SKIN_NAME";
-            nemesisSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texNemSkinAchievement");
+            nemesisSkinDefInfo.Icon = Asset.MainAssetBundle.LoadAsset<Sprite>("texNemSkinAchievement");
             nemesisSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerNemesisSkinUnlockableDef;
             nemesisSkinDefInfo.RootObject = modelTransform;
 
@@ -358,7 +361,7 @@ namespace Modules {
             defaultSkinDef.rendererInfos.CopyTo(nemesisSkinDefInfo.RendererInfos, 0);
 
             nemesisSkinDefInfo.RendererInfos[0].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorNemShield");
-            nemesisSkinDefInfo.RendererInfos[1].defaultMaterial = Assets.LoadAsset<Material>("matRecolorDesperadoShieldGlass");
+            nemesisSkinDefInfo.RendererInfos[1].defaultMaterial = Asset.LoadAsset<Material>("matRecolorDesperadoShieldGlass");
             //nemesisSkinDefInfo.RendererInfos[2].defaultMaterial = Materials.CreateHotpooMaterial("matSexforcerBoard");
             nemesisSkinDefInfo.RendererInfos[3].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorNemGun");
             //nemesisSkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.white, 0f);
@@ -375,7 +378,7 @@ namespace Modules {
             SkinDefInfo podDoorSkinDefInfo = new SkinDefInfo();
             podDoorSkinDefInfo.Name = "ENFORCERBODY_DOOR_SKIN_NAME";
             podDoorSkinDefInfo.NameToken = "ENFORCERBODY_DOOR_SKIN_NAME";
-            podDoorSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
+            podDoorSkinDefInfo.Icon = Asset.MainAssetBundle.LoadAsset<Sprite>("texEnforcerAchievement");
             podDoorSkinDefInfo.RootObject = modelTransform;
             
             podDoorSkinDefInfo.BaseSkins = Array.Empty<SkinDef>();
@@ -422,7 +425,7 @@ namespace Modules {
                 SkinDefInfo desperadoSkinDefInfo = new SkinDefInfo();
                 desperadoSkinDefInfo.Name = "ENFORCERBODY_DESPERADO_SKIN_NAME";
                 desperadoSkinDefInfo.NameToken = "ENFORCERBODY_DESPERADO_SKIN_NAME";
-                desperadoSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texDesperadoAchievement");
+                desperadoSkinDefInfo.Icon = Asset.MainAssetBundle.LoadAsset<Sprite>("texDesperadoAchievement");
                 desperadoSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerDesperadoSkinUnlockableDef;
                 desperadoSkinDefInfo.RootObject = modelTransform;
 
@@ -448,7 +451,7 @@ namespace Modules {
                 defaultSkinDef.rendererInfos.CopyTo(desperadoSkinDefInfo.RendererInfos, 0);
 
                 desperadoSkinDefInfo.RendererInfos[0].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorDesperadoShield");
-                desperadoSkinDefInfo.RendererInfos[1].defaultMaterial = Assets.LoadAsset<Material>("matRecolorDesperadoShieldGlass");
+                desperadoSkinDefInfo.RendererInfos[1].defaultMaterial = Asset.LoadAsset<Material>("matRecolorDesperadoShieldGlass");
                 //desperadoSkinDefInfo.RendererInfos[2].defaultMaterial = Materials.CreateHotpooMaterial("matSexforcerBoard");
                 desperadoSkinDefInfo.RendererInfos[3].defaultMaterial = Materials.CreateHotpooMaterial("matRecolorDesperadoGun");
                 //desperadoSkinDefInfo.RendererInfos[4].defaultMaterial = Assets.CreateMaterial("matClassicGunSuper", 0f, Color.white, 0f);
@@ -465,7 +468,7 @@ namespace Modules {
                 SkinDefInfo doomSkinDefInfo = new SkinDefInfo();
                 doomSkinDefInfo.Name = "ENFORCERBODY_DOOM_SKIN_NAME";
                 doomSkinDefInfo.NameToken = "ENFORCERBODY_DOOM_SKIN_NAME";
-                doomSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texDoomAchievement");
+                doomSkinDefInfo.Icon = Asset.MainAssetBundle.LoadAsset<Sprite>("texDoomAchievement");
                 doomSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerDoomSkinUnlockableDef;
                 doomSkinDefInfo.RootObject = modelTransform;
 
@@ -509,7 +512,7 @@ namespace Modules {
                 SkinDefInfo engiSkinDefInfo = new SkinDefInfo();
                 engiSkinDefInfo.Name = "ENFORCERBODY_ENGI_SKIN_NAME";
                 engiSkinDefInfo.NameToken = "ENFORCERBODY_ENGI_SKIN_NAME";
-                engiSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texBungusAchievement");
+                engiSkinDefInfo.Icon = Asset.MainAssetBundle.LoadAsset<Sprite>("texBungusAchievement");
                 engiSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerEngiSkinUnlockableDef;
                 engiSkinDefInfo.RootObject = modelTransform;
 
@@ -554,7 +557,7 @@ namespace Modules {
                 SkinDefInfo engiBungusSkinDefInfo = new SkinDefInfo();
                 engiBungusSkinDefInfo.Name = "ENFORCERBODY_ENGIBUNGUS_SKIN_NAME";
                 engiBungusSkinDefInfo.NameToken = "ENFORCERBODY_ENGIBUNGUS_SKIN_NAME";
-                engiBungusSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texBungusAchievement");
+                engiBungusSkinDefInfo.Icon = Asset.MainAssetBundle.LoadAsset<Sprite>("texBungusAchievement");
                 engiBungusSkinDefInfo.UnlockableDef = null;
                 engiBungusSkinDefInfo.RootObject = modelTransform;
 
@@ -598,7 +601,7 @@ namespace Modules {
                 SkinDefInfo stormSkinDefInfo = new SkinDefInfo();
                 stormSkinDefInfo.Name = "ENFORCERBODY_STORM_SKIN_NAME";
                 stormSkinDefInfo.NameToken = "ENFORCERBODY_STORM_SKIN_NAME";
-                stormSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texStormtrooperAchievement");
+                stormSkinDefInfo.Icon = Asset.MainAssetBundle.LoadAsset<Sprite>("texStormtrooperAchievement");
                 stormSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerStormSkinUnlockableDef;
                 stormSkinDefInfo.RootObject = modelTransform;
 
@@ -645,7 +648,7 @@ namespace Modules {
                 SkinDefInfo minecraftSkinDefInfo = new SkinDefInfo();
                 minecraftSkinDefInfo.Name = "ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME";
                 minecraftSkinDefInfo.NameToken = "ENFORCERBODY_FUCKINGSTEVE_SKIN_NAME";
-                minecraftSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texSbeveAchievement");
+                minecraftSkinDefInfo.Icon = Asset.MainAssetBundle.LoadAsset<Sprite>("texSbeveAchievement");
                 minecraftSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerSteveUnlockableDef;
                 minecraftSkinDefInfo.RootObject = modelTransform;
 
@@ -685,7 +688,7 @@ namespace Modules {
                 SkinDefInfo fuckingFrogSkinDefInfo = new SkinDefInfo();
                 fuckingFrogSkinDefInfo.Name = "ENFORCERBODY_FUCKINGFROG_SKIN_NAME";
                 fuckingFrogSkinDefInfo.NameToken = "ENFORCERBODY_FUCKINGFROG_SKIN_NAME";
-                fuckingFrogSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texZeroSuitAchievement");
+                fuckingFrogSkinDefInfo.Icon = Asset.MainAssetBundle.LoadAsset<Sprite>("texZeroSuitAchievement");
                 fuckingFrogSkinDefInfo.UnlockableDef = EnforcerUnlockables.enforcerFrogUnlockableDef;
                 fuckingFrogSkinDefInfo.RootObject = modelTransform;
 
@@ -730,7 +733,7 @@ namespace Modules {
                 SkinDefInfo femforcerSkinDefInfo = new SkinDefInfo();
                 femforcerSkinDefInfo.Name = "ENFORCERBODY_FEMFORCER_SKIN_NAME";
                 femforcerSkinDefInfo.NameToken = "ENFORCERBODY_FEMFORCER_SKIN_NAME";
-                femforcerSkinDefInfo.Icon = Assets.MainAssetBundle.LoadAsset<Sprite>("texFemSkin");
+                femforcerSkinDefInfo.Icon = Asset.MainAssetBundle.LoadAsset<Sprite>("texFemSkin");
                 femforcerSkinDefInfo.UnlockableDef = null;
                 femforcerSkinDefInfo.RootObject = modelTransform;
 
@@ -820,7 +823,7 @@ namespace Modules {
                 meshReplacements.Add(
                 new SkinDef.MeshReplacement {
                     renderer = rendererinfos[i].renderer,
-                    mesh = Assets.MainAssetBundle.LoadAsset<Mesh>(meshes[i])
+                    mesh = Asset.MainAssetBundle.LoadAsset<Mesh>(meshes[i])
                 });
             }
 

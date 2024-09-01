@@ -77,9 +77,9 @@ namespace EntityStates.Nemforcer {
                 base.PlayCrossfade("Legs, Override", swingAnimState, "HammerSwing.playbackRate", this.duration, 0.05f);
             }
 
-            NetworkSoundEventDef hitSound = Assets.nemHammerHitSoundEvent;
+            NetworkSoundEventDef hitSound = Asset.nemHammerHitSoundEvent;
 
-            if (base.characterBody.skinIndex == 2) hitSound = Assets.nemAxeHitSoundEvent;
+            if (base.characterBody.skinIndex == 2) hitSound = Asset.nemAxeHitSoundEvent;
 
             float dmg = NemHammerSwing.damageCoefficient;
 
@@ -90,8 +90,8 @@ namespace EntityStates.Nemforcer {
             this.attack.teamIndex = base.GetTeam();
             this.attack.damage = dmg * this.damageStat;
             this.attack.procCoefficient = 1;
-            this.attack.hitEffectPrefab = Assets.nemImpactFX;
-            if (base.characterBody.skinIndex == 2) this.attack.hitEffectPrefab = Assets.nemAxeImpactFX;
+            this.attack.hitEffectPrefab = Asset.nemImpactFX;
+            if (base.characterBody.skinIndex == 2) this.attack.hitEffectPrefab = Asset.nemAxeImpactFX;
             this.attack.forceVector = Vector3.zero;
             this.attack.pushAwayForce = 1800f;
             this.attack.hitBoxGroup = hitBoxGroup;
@@ -103,7 +103,7 @@ namespace EntityStates.Nemforcer {
         {
             base.FixedUpdate();
 
-            this.hitPauseTimer -= Time.fixedDeltaTime;
+            this.hitPauseTimer -= Time.deltaTime;
 
             if (this.hitPauseTimer <= 0f && this.inHitPause)
             {
@@ -114,7 +114,7 @@ namespace EntityStates.Nemforcer {
 
             if (!this.inHitPause)
             {
-                this.stopwatch += Time.fixedDeltaTime;
+                this.stopwatch += Time.deltaTime;
             }
             else
             {
@@ -174,7 +174,7 @@ namespace EntityStates.Nemforcer {
 
                 base.AddRecoil(-1f * NemHammerSwing.attackRecoil, -2f * NemHammerSwing.attackRecoil, -0.5f * NemHammerSwing.attackRecoil, 0.5f * NemHammerSwing.attackRecoil);
 
-                if (base.isAuthority) EffectManager.SimpleMuzzleFlash(Assets.nemSwingFX, base.gameObject, "SwingCenter", true);
+                if (base.isAuthority) EffectManager.SimpleMuzzleFlash(Asset.nemSwingFX, base.gameObject, "SwingCenter", true);
             }
 
             if (base.isAuthority) 

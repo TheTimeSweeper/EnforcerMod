@@ -169,7 +169,7 @@ namespace EntityStates.Nemforcer {
             this.baseFireRate = 1f / MinigunFire.baseFireInterval;
             this.baseBulletsPerSecond = (float)MinigunFire.baseBulletCount * this.baseFireRate;
 
-            this.fireTimer -= Time.fixedDeltaTime;
+            this.fireTimer -= Time.deltaTime;
 
             float rateLerp = Mathf.InverseLerp(minFireRate, maxFireRate, currentFireRate);
             float rate = Mathf.Lerp(0.5f, 2, rateLerp);

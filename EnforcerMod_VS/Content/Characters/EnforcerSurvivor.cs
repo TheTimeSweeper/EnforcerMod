@@ -25,10 +25,10 @@ namespace Modules.Characters {
             bodyNameToken = ENFORCER_PREFIX + "NAME",
             subtitleNameToken = ENFORCER_PREFIX + "SUBTITLE",
             bodyColor = new Color(0.26f, 0.27f, 0.46f),
-            characterPortrait = Assets.charPortrait,
+            characterPortrait = Asset.charPortrait,
             sortPosition = 5.1f,
 
-            crosshair = Modules.Assets.LoadCrosshair("SMG"),
+            crosshair = Modules.Asset.LoadCrosshair("SMG"),
             podPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod"),
 
             //stats
@@ -407,7 +407,7 @@ namespace Modules.Characters {
 
             SkillDef tearGasScepterDef = EnforcerSkillDefs.UtilitySkillDef_TearGas();
             tearGasScepterDef.activationState = new SerializableEntityStateType(typeof(AimDamageGas));
-            tearGasScepterDef.icon = Assets.icon30TearGasScepter;
+            tearGasScepterDef.icon = Asset.icon30TearGasScepter;
             tearGasScepterDef.skillDescriptionToken = "ENFORCER_UTILITY_TEARGASSCEPTER_DESCRIPTION";
             tearGasScepterDef.skillName = "ENFORCER_UTILITY_TEARGASSCEPTER_NAME";
             tearGasScepterDef.skillNameToken = "ENFORCER_UTILITY_TEARGASSCEPTER_NAME";
@@ -420,7 +420,7 @@ namespace Modules.Characters {
             
             SkillDef shockGrenadeDef = EnforcerSkillDefs.UtilitySkillDef_StunGrenade();
             shockGrenadeDef.activationState = new SerializableEntityStateType(typeof(ShockGrenade));
-            shockGrenadeDef.icon = Assets.icon31StunGrenadeScepter;
+            shockGrenadeDef.icon = Asset.icon31StunGrenadeScepter;
             shockGrenadeDef.skillDescriptionToken = "ENFORCER_UTILITY_SHOCKGRENADE_DESCRIPTION";
             shockGrenadeDef.skillName = "ENFORCER_UTILITY_SHOCKGRENADE_NAME";
             shockGrenadeDef.skillNameToken = "ENFORCER_UTILITY_SHOCKGRENADE_NAME";

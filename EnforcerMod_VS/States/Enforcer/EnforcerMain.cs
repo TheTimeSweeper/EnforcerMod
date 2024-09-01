@@ -232,7 +232,7 @@ namespace EntityStates.Enforcer {
                     {
                         howdareyoucallafuckingboolflagyoufag = true;
                         float bungusMult = bungusCount * 0.35f;
-                        this.bungusStopwatch += (1 + bungusMult) * Time.fixedDeltaTime;
+                        this.bungusStopwatch += (1 + bungusMult) * Time.deltaTime;
 
                         Bungus?.Invoke(this.bungusStopwatch);
                     }
@@ -272,7 +272,7 @@ namespace EntityStates.Enforcer {
                         base.characterDirection.moveVector = this.idealDirection;
                         if (base.characterMotor && !(base.characterMotor.disableAirControlUntilCollision))
                         {
-                            base.characterMotor.rootMotion += this.GetIdealVelocity() * Time.fixedDeltaTime;
+                            base.characterMotor.rootMotion += this.GetIdealVelocity() * Time.deltaTime;
                         }
                     }
                     if (base.isGrounded)
@@ -326,7 +326,7 @@ namespace EntityStates.Enforcer {
             if (this.animator)
             {
                 bool sirensOn = this.lightController.sirenToggle;
-                this.animator.SetFloat("shitpost", sirensOn ? 1 : 0, 0.1f, Time.fixedDeltaTime);
+                this.animator.SetFloat("shitpost", sirensOn ? 1 : 0, 0.1f, Time.deltaTime);
             }
         }
 

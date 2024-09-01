@@ -23,14 +23,14 @@ namespace Modules {
 
         internal static void RegisterBuffs() {
 
-            protectAndServeBuff = AddNewBuff("Heavyweight", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffProtectAndServe"), EnforcerModPlugin.characterColor, false, false);
-            energyShieldBuff = AddNewBuff("EnergyShield", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffProtectAndServe"), EnforcerModPlugin.characterColor, false, false);
-            skateboardBuff = AddNewBuff("Swag", Assets.LoadBuffSprite("RoR2/Base/SprintOutOfCombat/bdWhipBoost.asset"), EnforcerModPlugin.characterColor, false, false);
-            minigunBuff = AddNewBuff("MinigunStance", Assets.MainAssetBundle.LoadAsset<Sprite>("texBuffMinigun"), new Color(1, 0.7176f, 0.1725f), false, false);
+            protectAndServeBuff = AddNewBuff("Heavyweight", Asset.MainAssetBundle.LoadAsset<Sprite>("texBuffProtectAndServe"), EnforcerModPlugin.characterColor, false, false);
+            energyShieldBuff = AddNewBuff("EnergyShield", Asset.MainAssetBundle.LoadAsset<Sprite>("texBuffProtectAndServe"), EnforcerModPlugin.characterColor, false, false);
+            skateboardBuff = AddNewBuff("Swag", Asset.LoadBuffSprite("RoR2/Base/SprintOutOfCombat/bdWhipBoost.asset"), EnforcerModPlugin.characterColor, false, false);
+            minigunBuff = AddNewBuff("MinigunStance", Asset.MainAssetBundle.LoadAsset<Sprite>("texBuffMinigun"), new Color(1, 0.7176f, 0.1725f), false, false);
             nemforcerRegenBuff = AddNewBuff("NemforcerRegen", Addressables.LoadAssetAsync<BuffDef>("RoR2/Base/Croco/bdCrocoRegen.asset").WaitForCompletion().iconSprite, new Color32(210, 50, 22, 255), true, false);
 
-            Sprite slowIcon =  Assets.LoadBuffSprite("RoR2/Base/Common/bdSlow50.asset");
-            Sprite cloakIcon = Assets.LoadBuffSprite("RoR2/Base/Common/bdCloak.asset");
+            Sprite slowIcon =  Asset.LoadBuffSprite("RoR2/Base/Common/bdSlow50.asset");
+            Sprite cloakIcon = Asset.LoadBuffSprite("RoR2/Base/Common/bdCloak.asset");
 
             smallSlowBuff = AddNewBuff("NemSmallSelfSlow", slowIcon, new Color(0.647f, 0.168f, 0.184f), false, true);
             bigSlowBuff = AddNewBuff("NemBigSelfSlow", slowIcon, new Color(0.65f, 0.078f, 0.078f), false, true);

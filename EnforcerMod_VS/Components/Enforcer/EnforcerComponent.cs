@@ -233,7 +233,7 @@ public class EnforcerComponent : MonoBehaviour
 
     public static event Action<GameObject> BlockedGet = delegate { };
 
-    public void AttackBlocked(GameObject gameObject)
+    public void OnAttackBlocked(GameObject gameObject)
     {
         BlockedGet(gameObject);
     }

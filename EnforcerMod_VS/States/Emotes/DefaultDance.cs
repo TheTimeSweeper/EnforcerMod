@@ -27,7 +27,7 @@ namespace EntityStates.Enforcer {
             base.FixedUpdate();
 
             base.StartAimMode(1, false);
-            base.characterMotor.rootMotion = /*base.characterDirection.forward*/GetAimRay().direction * this.moveSpeedStat * base.characterBody.sprintingSpeedMultiplier * Time.fixedDeltaTime;
+            base.characterMotor.rootMotion = /*base.characterDirection.forward*/GetAimRay().direction * this.moveSpeedStat * base.characterBody.sprintingSpeedMultiplier * Time.deltaTime;
         }
     }
 

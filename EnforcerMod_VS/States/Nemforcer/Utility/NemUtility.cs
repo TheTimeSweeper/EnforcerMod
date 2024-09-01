@@ -42,7 +42,7 @@ namespace EntityStates.Nemforcer {
         public override void FixedUpdate()
         {
             base.characterBody.SetAimTimer(0.25f);
-            this.fixedAge += Time.fixedDeltaTime;
+            this.fixedAge += Time.deltaTime;
 
             bool flag = false;
 

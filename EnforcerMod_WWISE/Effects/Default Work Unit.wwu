@@ -1,83 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{B2B2331F-042B-4732-927B-82747C06E23F}" SchemaVersion="97">
+<WwiseDocument Type="WorkUnit" ID="{B2B2331F-042B-4732-927B-82747C06E23F}" SchemaVersion="119">
 	<Effects>
 		<WorkUnit Name="Default Work Unit" ID="{B2B2331F-042B-4732-927B-82747C06E23F}" PersistMode="Standalone">
 			<ChildrenList>
 				<Effect Name="Skateboard" ID="{8BB7E81D-7417-49E6-A0BF-5571728E4C9A}" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
 					<PropertyList>
-						<Property Name="OutputGain" Type="Real32">
-							<RTPCList>
-								<RTPC Name="" ID="{0D1FAA90-3E50-4A2D-B7A4-1D99CC6CC6A4}" ShortID="513929036">
-									<ReferenceList>
-										<Reference Name="ControlInput">
-											<ObjectRef Name="Skateboard_Speed" ID="{01E365C3-6230-47A8-8518-CAE87834428F}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-										</Reference>
-									</ReferenceList>
-									<Curve Name="" ID="{42EC226A-4BEA-4B84-8DB9-2E373EA58DB8}">
-										<PropertyList>
-											<Property Name="Flags" Type="int32" Value="3"/>
-										</PropertyList>
-										<PointList>
-											<Point>
-												<XPos>0</XPos>
-												<YPos>0</YPos>
-												<Flags>5</Flags>
-											</Point>
-											<Point>
-												<XPos>1</XPos>
-												<YPos>0</YPos>
-												<Flags>0</Flags>
-											</Point>
-											<Point>
-												<XPos>1.001</XPos>
-												<YPos>2</YPos>
-												<Flags>0</Flags>
-											</Point>
-											<Point>
-												<XPos>4</XPos>
-												<YPos>2</YPos>
-												<Flags>37</Flags>
-											</Point>
-										</PointList>
-									</Curve>
-								</RTPC>
-							</RTPCList>
-						</Property>
-						<Property Name="TimeStretch" Type="Real32">
-							<RTPCList>
-								<RTPC Name="" ID="{53C04534-486A-42C4-987E-45D90399941E}" ShortID="796667385">
-									<ReferenceList>
-										<Reference Name="ControlInput">
-											<ObjectRef Name="Skateboard_Speed" ID="{01E365C3-6230-47A8-8518-CAE87834428F}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-										</Reference>
-									</ReferenceList>
-									<Curve Name="" ID="{85EC3B7D-20CA-477D-B92D-BDA936E3F957}">
-										<PropertyList>
-											<Property Name="Flags" Type="int32" Value="1"/>
-										</PropertyList>
-										<PointList>
-											<Point>
-												<XPos>0</XPos>
-												<YPos>100</YPos>
-												<Flags>5</Flags>
-											</Point>
-											<Point>
-												<XPos>1</XPos>
-												<YPos>100</YPos>
-												<Flags>0</Flags>
-											</Point>
-											<Point>
-												<XPos>4</XPos>
-												<YPos>25</YPos>
-												<Flags>37</Flags>
-											</Point>
-										</PointList>
-									</Curve>
-								</RTPC>
-							</RTPCList>
-						</Property>
 						<Property Name="WindowSize" Type="int32" Value="256"/>
 					</PropertyList>
+					<ObjectLists>
+						<ObjectList Name="RTPC">
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{0D1FAA90-3E50-4A2D-B7A4-1D99CC6CC6A4}" ShortID="513929036">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="OutputGain"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Skateboard_Speed" ID="{01E365C3-6230-47A8-8518-CAE87834428F}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{42EC226A-4BEA-4B84-8DB9-2E373EA58DB8}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="3"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>0</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>1</XPos>
+																<YPos>0</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>1.001</XPos>
+																<YPos>2</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>4</XPos>
+																<YPos>2</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{53C04534-486A-42C4-987E-45D90399941E}" ShortID="796667385">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="TimeStretch"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Skateboard_Speed" ID="{01E365C3-6230-47A8-8518-CAE87834428F}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{85EC3B7D-20CA-477D-B92D-BDA936E3F957}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="1"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>100</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>1</XPos>
+																<YPos>100</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>4</XPos>
+																<YPos>25</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
 				</Effect>
 			</ChildrenList>
 		</WorkUnit>

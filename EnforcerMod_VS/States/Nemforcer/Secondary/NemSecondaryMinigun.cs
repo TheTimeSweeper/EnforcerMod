@@ -281,7 +281,7 @@ namespace EntityStates.Nemforcer {
 
                 if (base.isAuthority)
                 {
-                    EffectManager.SimpleMuzzleFlash(Assets.nemSlamSwingFX, base.gameObject, "SwingUppercut", true);
+                    EffectManager.SimpleMuzzleFlash(Asset.nemSlamSwingFX, base.gameObject, "SwingUppercut", true);
                 }
             }
         }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{8308211E-1672-460C-9F59-BD056B906BDC}" SchemaVersion="97">
+<WwiseDocument Type="WorkUnit" ID="{8308211E-1672-460C-9F59-BD056B906BDC}" SchemaVersion="119">
 	<InteractiveMusic>
 		<WorkUnit Name="Default Work Unit" ID="{8308211E-1672-460C-9F59-BD056B906BDC}" PersistMode="Standalone">
 			<ChildrenList>
@@ -10,6 +10,26 @@
 						</Reference>
 						<Reference Name="OutputBus">
 							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{71621DCA-C33E-4EB6-A641-CA59DB723722}"/>
+						</Reference>
+						<Reference Name="TransitionRoot">
+							<Custom>
+								<MusicTransition Name="Root" ID="{4F538CED-73EB-4CE1-8A6F-A4F67B9D2E92}">
+									<PropertyList>
+										<Property Name="IsFolder" Type="bool" Value="True"/>
+									</PropertyList>
+									<ChildrenList>
+										<MusicTransition Name="Transition" ID="{9406C17B-CF53-45E4-9BB1-672BE576CC8C}">
+											<PropertyList>
+												<Property Name="DestinationJumpPositionPreset" Type="int16" Value="1"/>
+												<Property Name="ExitSourceAt" Type="int16" Value="0"/>
+												<Property Name="PlaySourcePostExit" Type="bool" Value="False"/>
+											</PropertyList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</ChildrenList>
+									<TransitionInfo/>
+								</MusicTransition>
+							</Custom>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -31,6 +51,16 @@
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{71621DCA-C33E-4EB6-A641-CA59DB723722}"/>
 										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{83DA2329-CB81-47A7-8B45-7149151B57F9}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="minigun_shoot" ID="{BBE2DD1A-F119-4356-B0C9-FBF0C9FA1C3B}">
@@ -41,39 +71,53 @@
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
-									<TransitionList>
-										<MusicTransition Name="Root" ID="{83DA2329-CB81-47A7-8B45-7149151B57F9}">
-											<PropertyList>
-												<Property Name="IsFolder" Type="bool" Value="True"/>
-											</PropertyList>
-											<TransitionInfo/>
-										</MusicTransition>
-									</TransitionList>
-									<SequenceList>
-										<MusicTrackSequence Name="" ID="{8F493D67-1037-4C86-99B9-9D1CE3BDA360}">
-											<ClipList>
-												<MusicClip Name="minigun_shoot" ID="{354B917B-28D6-4EF6-BA86-1C6556C6B82E}">
-													<PropertyList>
-														<Property Name="EndTrimOffset" Type="Real64" Value="4000.92970521542"/>
-														<Property Name="FadeInMode" Type="int16" Value="0"/>
-														<Property Name="FadeOutMode" Type="int16" Value="0"/>
-													</PropertyList>
-													<AudioSourceRef Name="minigun_shoot" ID="{BBE2DD1A-F119-4356-B0C9-FBF0C9FA1C3B}"/>
-												</MusicClip>
-											</ClipList>
-										</MusicTrackSequence>
-									</SequenceList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{8F493D67-1037-4C86-99B9-9D1CE3BDA360}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="minigun_shoot" ID="{354B917B-28D6-4EF6-BA86-1C6556C6B82E}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="4000.92970521542"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="minigun_shoot" ID="{BBE2DD1A-F119-4356-B0C9-FBF0C9FA1C3B}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
 								</MusicTrack>
 							</ChildrenList>
-							<CueList>
-								<MusicCue Name="Entry Cue" ID="{5975A433-5E63-45D6-8E18-8F87669354C4}"/>
-								<MusicCue Name="Exit Cue" ID="{C0A5A176-6620-42F6-B290-D197CBFA1174}">
-									<PropertyList>
-										<Property Name="CueType" Type="int16" Value="1"/>
-										<Property Name="TimeMs" Type="Real64" Value="4000.92970521542"/>
-									</PropertyList>
-								</MusicCue>
-							</CueList>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<Reference>
+										<Local>
+											<MusicCue Name="Entry Cue" ID="{5975A433-5E63-45D6-8E18-8F87669354C4}"/>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Exit Cue" ID="{C0A5A176-6620-42F6-B290-D197CBFA1174}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="4000.92970521542"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 						</MusicSegment>
 						<MusicSegment Name="minigun_shoot_crit" ID="{569FE766-994A-4A1E-BB2D-319E70F20212}" ShortID="694763815">
 							<PropertyList>
@@ -93,6 +137,16 @@
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{71621DCA-C33E-4EB6-A641-CA59DB723722}"/>
 										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{C125CE1B-085D-4948-A96B-EB106F633F65}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="minigun_shoot_crit" ID="{4E58E5E6-F113-4933-A45D-937AA102134C}">
@@ -103,59 +157,55 @@
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
-									<TransitionList>
-										<MusicTransition Name="Root" ID="{C125CE1B-085D-4948-A96B-EB106F633F65}">
-											<PropertyList>
-												<Property Name="IsFolder" Type="bool" Value="True"/>
-											</PropertyList>
-											<TransitionInfo/>
-										</MusicTransition>
-									</TransitionList>
-									<SequenceList>
-										<MusicTrackSequence Name="" ID="{665058A2-EEB4-45CA-AFAA-9ED18FEB15B9}">
-											<ClipList>
-												<MusicClip Name="minigun_shoot_crit" ID="{44D28A87-F6AD-4FCB-9E8D-1E4544AD8986}">
-													<PropertyList>
-														<Property Name="EndTrimOffset" Type="Real64" Value="4000.92970521542"/>
-														<Property Name="FadeInMode" Type="int16" Value="0"/>
-														<Property Name="FadeOutMode" Type="int16" Value="0"/>
-													</PropertyList>
-													<AudioSourceRef Name="minigun_shoot_crit" ID="{4E58E5E6-F113-4933-A45D-937AA102134C}"/>
-												</MusicClip>
-											</ClipList>
-										</MusicTrackSequence>
-									</SequenceList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{665058A2-EEB4-45CA-AFAA-9ED18FEB15B9}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="minigun_shoot_crit" ID="{44D28A87-F6AD-4FCB-9E8D-1E4544AD8986}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="4000.92970521542"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="minigun_shoot_crit" ID="{4E58E5E6-F113-4933-A45D-937AA102134C}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
 								</MusicTrack>
 							</ChildrenList>
-							<CueList>
-								<MusicCue Name="Entry Cue" ID="{D47C3BC8-73BB-49E5-91A1-25781E2B1C05}"/>
-								<MusicCue Name="Exit Cue" ID="{B3F14FA6-CB85-4D2E-8ED8-8C24DDC0FCD4}">
-									<PropertyList>
-										<Property Name="CueType" Type="int16" Value="1"/>
-										<Property Name="TimeMs" Type="Real64" Value="4000.92970521542"/>
-									</PropertyList>
-								</MusicCue>
-							</CueList>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<Reference>
+										<Local>
+											<MusicCue Name="Entry Cue" ID="{D47C3BC8-73BB-49E5-91A1-25781E2B1C05}"/>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Exit Cue" ID="{B3F14FA6-CB85-4D2E-8ED8-8C24DDC0FCD4}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="4000.92970521542"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 						</MusicSegment>
 					</ChildrenList>
-					<TransitionList>
-						<MusicTransition Name="Root" ID="{4F538CED-73EB-4CE1-8A6F-A4F67B9D2E92}">
-							<PropertyList>
-								<Property Name="IsFolder" Type="bool" Value="True"/>
-							</PropertyList>
-							<ChildrenList>
-								<MusicTransition Name="Transition" ID="{9406C17B-CF53-45E4-9BB1-672BE576CC8C}">
-									<PropertyList>
-										<Property Name="DestinationJumpPositionPreset" Type="int16" Value="1"/>
-										<Property Name="ExitSourceAt" Type="int16" Value="0"/>
-										<Property Name="PlaySourcePostExit" Type="bool" Value="False"/>
-									</PropertyList>
-									<TransitionInfo/>
-								</MusicTransition>
-							</ChildrenList>
-							<TransitionInfo/>
-						</MusicTransition>
-					</TransitionList>
 				</MusicSwitchContainer>
 			</ChildrenList>
 		</WorkUnit>

@@ -1,39 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}" SchemaVersion="97">
+<WwiseDocument Type="WorkUnit" ID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}" SchemaVersion="119">
 	<AudioObjects>
 		<WorkUnit Name="Default Work Unit" ID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}" PersistMode="Standalone">
 			<ChildrenList>
 				<ActorMixer Name="SFX Mixxer" ID="{84C10AC2-34C9-465E-9E01-9D25EC3412C7}" ShortID="870888702">
-					<PropertyList>
-						<Property Name="Volume" Type="Real64">
-							<RTPCList>
-								<RTPC Name="" ID="{5D8E777C-FF62-492B-BEA5-1B5366F30BAE}" ShortID="432311124">
-									<ReferenceList>
-										<Reference Name="ControlInput">
-											<ObjectRef Name="Volume_SFX" ID="{2469D2AC-64F4-43D2-A06E-BA5F88FF7028}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-										</Reference>
-									</ReferenceList>
-									<Curve Name="" ID="{97E56788-9C68-4E37-BF2D-84B9C217D658}">
-										<PropertyList>
-											<Property Name="Flags" Type="int32" Value="3"/>
-										</PropertyList>
-										<PointList>
-											<Point>
-												<XPos>0</XPos>
-												<YPos>-200</YPos>
-												<Flags>5</Flags>
-											</Point>
-											<Point>
-												<XPos>100</XPos>
-												<YPos>0</YPos>
-												<Flags>37</Flags>
-											</Point>
-										</PointList>
-									</Curve>
-								</RTPC>
-							</RTPCList>
-						</Property>
-					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{244E287B-D56D-4AC4-8659-5E34595BE03F}"/>
@@ -326,44 +296,6 @@
 															</Modifier>
 														</ModifierInfo>
 													</ModifierList>
-													<RTPCList>
-														<RTPC Name="" ID="{DC8D689C-A505-4C36-95F1-55261FDD26FF}" ShortID="744889183">
-															<ReferenceList>
-																<Reference Name="ControlInput">
-																	<ObjectRef Name="Shell_Velocity" ID="{4315C14E-0F8B-4D93-B8DC-53FEEE8077B7}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-																</Reference>
-															</ReferenceList>
-															<Curve Name="" ID="{FFFC23DB-32FE-4A0A-B0B4-2CFB393455DB}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>5</Flags>
-																		<SegmentShape>Exp2</SegmentShape>
-																	</Point>
-																	<Point>
-																		<XPos>4</XPos>
-																		<YPos>-20</YPos>
-																		<Flags>0</Flags>
-																		<SegmentShape>Exp1</SegmentShape>
-																	</Point>
-																	<Point>
-																		<XPos>5</XPos>
-																		<YPos>-10</YPos>
-																		<Flags>0</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>0</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</RTPC>
-													</RTPCList>
 												</Property>
 											</PropertyList>
 											<ReferenceList>
@@ -527,6 +459,57 @@
 													</ChildrenList>
 												</RandomSequenceContainer>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="RTPC">
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{DC8D689C-A505-4C36-95F1-55261FDD26FF}" ShortID="744889183">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Volume"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="Shell_Velocity" ID="{4315C14E-0F8B-4D93-B8DC-53FEEE8077B7}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{FFFC23DB-32FE-4A0A-B0B4-2CFB393455DB}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="3"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>-200</YPos>
+																						<Flags>5</Flags>
+																						<SegmentShape>Exp2</SegmentShape>
+																					</Point>
+																					<Point>
+																						<XPos>4</XPos>
+																						<YPos>-20</YPos>
+																						<Flags>0</Flags>
+																						<SegmentShape>Exp1</SegmentShape>
+																					</Point>
+																					<Point>
+																						<XPos>5</XPos>
+																						<YPos>-10</YPos>
+																						<Flags>0</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>100</XPos>
+																						<YPos>0</YPos>
+																						<Flags>37</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
 											<GroupingInfo>
 												<GroupingBehaviorList>
 													<GroupingBehavior>
@@ -2194,9 +2177,13 @@
 													</ChildrenList>
 												</RandomSequenceContainer>
 											</ChildrenList>
-											<Playlist>
-												<ItemRef Name="Shots 3" ID="{53B54DD9-CFC4-43A2-BB61-40ECE0E5DAAA}"/>
-											</Playlist>
+											<ObjectLists>
+												<ObjectList Name="Playlist">
+													<Reference>
+														<ObjectRef Name="Shots 3" ID="{53B54DD9-CFC4-43A2-BB61-40ECE0E5DAAA}" WorkUnitID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}"/>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
 										</RandomSequenceContainer>
 										<Sound Name="Bungus AR" ID="{B4421164-C5FC-493C-8D06-5D3B793B2F7C}" ShortID="384130218">
 											<PropertyList>
@@ -2355,64 +2342,10 @@
 												<Property Name="3DSpatialization" Type="int16" Value="1"/>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 												<Property Name="OverridePositioning" Type="bool" Value="True"/>
-												<Property Name="Pitch" Type="int32">
-													<RTPCList>
-														<RTPC Name="" ID="{0154ECB2-E0C3-4CAD-9436-9DF60EF54465}" ShortID="97304492">
-															<ReferenceList>
-																<Reference Name="ControlInput">
-																	<ObjectRef Name="Gas Timer" ID="{40F44692-B3D0-4C16-8DDF-646555CB3578}" WorkUnitID="{06217C1C-B8F5-4A42-B350-49494484886A}"/>
-																</Reference>
-															</ReferenceList>
-															<Curve Name="" ID="{507CB31A-A043-44CE-A714-9FCF52829733}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="65537"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-300</YPos>
-																		<Flags>21</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>1</XPos>
-																		<YPos>0</YPos>
-																		<Flags>53</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</RTPC>
-													</RTPCList>
-												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-2</Value>
 													</ValueList>
-													<RTPCList>
-														<RTPC Name="" ID="{B6ADDA01-11CE-481C-A8A7-C5F3E95495C6}" ShortID="572264130">
-															<ReferenceList>
-																<Reference Name="ControlInput">
-																	<ObjectRef Name="Gas Timer" ID="{40F44692-B3D0-4C16-8DDF-646555CB3578}" WorkUnitID="{06217C1C-B8F5-4A42-B350-49494484886A}"/>
-																</Reference>
-															</ReferenceList>
-															<Curve Name="" ID="{DB1FB6E0-E61E-4FC5-A948-02B92BD86783}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>21</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>1</XPos>
-																		<YPos>0</YPos>
-																		<Flags>53</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</RTPC>
-													</RTPCList>
 												</Property>
 											</PropertyList>
 											<ReferenceList>
@@ -2435,6 +2368,80 @@
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="RTPC">
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{0154ECB2-E0C3-4CAD-9436-9DF60EF54465}" ShortID="97304492">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Pitch"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="Gas Timer" ID="{40F44692-B3D0-4C16-8DDF-646555CB3578}" WorkUnitID="{06217C1C-B8F5-4A42-B350-49494484886A}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{507CB31A-A043-44CE-A714-9FCF52829733}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="65537"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>-300</YPos>
+																						<Flags>21</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>1</XPos>
+																						<YPos>0</YPos>
+																						<Flags>53</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{B6ADDA01-11CE-481C-A8A7-C5F3E95495C6}" ShortID="572264130">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Volume"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="Gas Timer" ID="{40F44692-B3D0-4C16-8DDF-646555CB3578}" WorkUnitID="{06217C1C-B8F5-4A42-B350-49494484886A}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{DB1FB6E0-E61E-4FC5-A948-02B92BD86783}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="3"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>-200</YPos>
+																						<Flags>21</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>1</XPos>
+																						<YPos>0</YPos>
+																						<Flags>53</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
 											<ActiveSourceList>
 												<ActiveSource Name="Gas Sound" ID="{1A330A0F-B695-451C-BE86-1C92BD814473}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -2670,11 +2677,19 @@
 													</ActiveSourceList>
 												</Sound>
 											</ChildrenList>
-											<Playlist>
-												<ItemRef Name="siren loop spawn" ID="{5C476B91-CAEC-4723-B606-E38EA32AC015}"/>
-												<ItemRef Name="piercer siren" ID="{13CD9E24-E506-4497-A39D-725EE80EDA2F}"/>
-												<ItemRef Name="Siren loop" ID="{258FA3BC-84AC-438B-AD30-E7D0EFABC365}"/>
-											</Playlist>
+											<ObjectLists>
+												<ObjectList Name="Playlist">
+													<Reference>
+														<ObjectRef Name="siren loop spawn" ID="{5C476B91-CAEC-4723-B606-E38EA32AC015}" WorkUnitID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}"/>
+													</Reference>
+													<Reference>
+														<ObjectRef Name="piercer siren" ID="{13CD9E24-E506-4497-A39D-725EE80EDA2F}" WorkUnitID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}"/>
+													</Reference>
+													<Reference>
+														<ObjectRef Name="Siren loop" ID="{258FA3BC-84AC-438B-AD30-E7D0EFABC365}" WorkUnitID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}"/>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
 										</RandomSequenceContainer>
 										<Sound Name="Croak siren" ID="{15C193B7-E592-43FF-9379-1EED8D3617B5}" ShortID="840148314">
 											<PropertyList>
@@ -2875,10 +2890,16 @@
 													</ActiveSourceList>
 												</Sound>
 											</ChildrenList>
-											<Playlist>
-												<ItemRef Name="doom1" ID="{C5F5EDD8-FBBD-48A0-B14E-7716BD31DDF8}"/>
-												<ItemRef Name="doom2" ID="{FF713CDE-C3C0-4236-B2C9-EFCFDD297BB4}"/>
-											</Playlist>
+											<ObjectLists>
+												<ObjectList Name="Playlist">
+													<Reference>
+														<ObjectRef Name="doom1" ID="{C5F5EDD8-FBBD-48A0-B14E-7716BD31DDF8}" WorkUnitID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}"/>
+													</Reference>
+													<Reference>
+														<ObjectRef Name="doom2" ID="{FF713CDE-C3C0-4236-B2C9-EFCFDD297BB4}" WorkUnitID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}"/>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
 										</RandomSequenceContainer>
 									</ChildrenList>
 								</ActorMixer>
@@ -3375,10 +3396,16 @@
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>
-									<Playlist>
-										<ItemRef Name="Earlstep 5" ID="{A5841A2A-FBFF-4585-B4C6-1A4C66043805}"/>
-										<ItemRef Name="Earlstep 2" ID="{8D54BF10-0984-4636-8BC0-86B9133F73EB}"/>
-									</Playlist>
+									<ObjectLists>
+										<ObjectList Name="Playlist">
+											<Reference>
+												<ObjectRef Name="Earlstep 5" ID="{A5841A2A-FBFF-4585-B4C6-1A4C66043805}" WorkUnitID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}"/>
+											</Reference>
+											<Reference>
+												<ObjectRef Name="Earlstep 2" ID="{8D54BF10-0984-4636-8BC0-86B9133F73EB}" WorkUnitID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}"/>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
 								</RandomSequenceContainer>
 								<ActorMixer Name="Skateboard" ID="{3F8A14AB-58D4-45C5-B663-94833B48B0B7}" ShortID="739039382">
 									<PropertyList>
@@ -3459,86 +3486,11 @@
 															</Modifier>
 														</ModifierInfo>
 													</ModifierList>
-													<RTPCList>
-														<RTPC Name="" ID="{00A9D7AD-281C-488E-ACF9-7D4AB93DAA42}" ShortID="814782365">
-															<ReferenceList>
-																<Reference Name="ControlInput">
-																	<ObjectRef Name="Skateboard_Speed" ID="{01E365C3-6230-47A8-8518-CAE87834428F}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-																</Reference>
-															</ReferenceList>
-															<Curve Name="" ID="{4840B1F5-FAC4-47AA-819F-599BBD4735C1}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="65537"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-1200</YPos>
-																		<Flags>5</Flags>
-																		<SegmentShape>Log3</SegmentShape>
-																	</Point>
-																	<Point>
-																		<XPos>1</XPos>
-																		<YPos>0</YPos>
-																		<Flags>0</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>4</XPos>
-																		<YPos>600</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</RTPC>
-													</RTPCList>
 												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-1</Value>
 													</ValueList>
-													<RTPCList>
-														<RTPC Name="" ID="{49B493DE-286C-43C5-95AC-589B231FC340}" ShortID="356116718">
-															<ReferenceList>
-																<Reference Name="ControlInput">
-																	<ObjectRef Name="Skateboard_Speed" ID="{01E365C3-6230-47A8-8518-CAE87834428F}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-																</Reference>
-															</ReferenceList>
-															<Curve Name="" ID="{F44FE8E1-C9A0-4B64-8DF5-3221463B17D9}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>5</Flags>
-																		<SegmentShape>Log3</SegmentShape>
-																	</Point>
-																	<Point>
-																		<XPos>0.05</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>0</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>0.25</XPos>
-																		<YPos>-2</YPos>
-																		<Flags>0</Flags>
-																		<SegmentShape>Log3</SegmentShape>
-																	</Point>
-																	<Point>
-																		<XPos>1</XPos>
-																		<YPos>0</YPos>
-																		<Flags>0</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>4</XPos>
-																		<YPos>0.85224</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</RTPC>
-													</RTPCList>
 												</Property>
 											</PropertyList>
 											<ReferenceList>
@@ -3558,6 +3510,103 @@
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="RTPC">
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{00A9D7AD-281C-488E-ACF9-7D4AB93DAA42}" ShortID="814782365">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Pitch"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="Skateboard_Speed" ID="{01E365C3-6230-47A8-8518-CAE87834428F}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{4840B1F5-FAC4-47AA-819F-599BBD4735C1}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="65537"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>-1200</YPos>
+																						<Flags>5</Flags>
+																						<SegmentShape>Log3</SegmentShape>
+																					</Point>
+																					<Point>
+																						<XPos>1</XPos>
+																						<YPos>0</YPos>
+																						<Flags>0</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>4</XPos>
+																						<YPos>600</YPos>
+																						<Flags>37</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{49B493DE-286C-43C5-95AC-589B231FC340}" ShortID="356116718">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Volume"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="Skateboard_Speed" ID="{01E365C3-6230-47A8-8518-CAE87834428F}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{F44FE8E1-C9A0-4B64-8DF5-3221463B17D9}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="3"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>-200</YPos>
+																						<Flags>5</Flags>
+																						<SegmentShape>Log3</SegmentShape>
+																					</Point>
+																					<Point>
+																						<XPos>0.05</XPos>
+																						<YPos>-200</YPos>
+																						<Flags>0</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>0.25</XPos>
+																						<YPos>-2</YPos>
+																						<Flags>0</Flags>
+																						<SegmentShape>Log3</SegmentShape>
+																					</Point>
+																					<Point>
+																						<XPos>1</XPos>
+																						<YPos>0</YPos>
+																						<Flags>0</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>4</XPos>
+																						<YPos>0.85224</YPos>
+																						<Flags>37</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
 											<ActiveSourceList>
 												<ActiveSource Name="grindmetal03" ID="{C5AC8F7B-1B4E-40B7-B7FD-EEC0128F2B02}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -3717,76 +3766,10 @@
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 												<Property Name="OverrideEffect" Type="bool" Value="True"/>
-												<Property Name="Pitch" Type="int32">
-													<RTPCList>
-														<RTPC Name="" ID="{3F23A01C-1A55-46E2-88C6-4BF86920040F}" ShortID="188504139">
-															<ReferenceList>
-																<Reference Name="ControlInput">
-																	<ObjectRef Name="Skateboard_Speed" ID="{01E365C3-6230-47A8-8518-CAE87834428F}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-																</Reference>
-															</ReferenceList>
-															<Curve Name="" ID="{E4EF49BC-A32B-48EC-8940-0D726460811E}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="65537"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-600</YPos>
-																		<Flags>5</Flags>
-																		<SegmentShape>Log1</SegmentShape>
-																	</Point>
-																	<Point>
-																		<XPos>1</XPos>
-																		<YPos>0</YPos>
-																		<Flags>0</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>4</XPos>
-																		<YPos>600</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</RTPC>
-													</RTPCList>
-												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-3</Value>
 													</ValueList>
-													<RTPCList>
-														<RTPC Name="" ID="{C1F172E7-C7CB-4B00-B0A6-9ABCED6E103E}" ShortID="361835153">
-															<ReferenceList>
-																<Reference Name="ControlInput">
-																	<ObjectRef Name="Skateboard_Speed" ID="{01E365C3-6230-47A8-8518-CAE87834428F}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-																</Reference>
-															</ReferenceList>
-															<Curve Name="" ID="{0F93CFBC-E820-4BEB-898C-035D844C74DC}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>5</Flags>
-																		<SegmentShape>Log3</SegmentShape>
-																	</Point>
-																	<Point>
-																		<XPos>1</XPos>
-																		<YPos>0</YPos>
-																		<Flags>0</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>4</XPos>
-																		<YPos>1</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</RTPC>
-													</RTPCList>
 												</Property>
 											</PropertyList>
 											<ReferenceList>
@@ -3806,6 +3789,92 @@
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="RTPC">
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{3F23A01C-1A55-46E2-88C6-4BF86920040F}" ShortID="188504139">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Pitch"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="Skateboard_Speed" ID="{01E365C3-6230-47A8-8518-CAE87834428F}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{E4EF49BC-A32B-48EC-8940-0D726460811E}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="65537"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>-600</YPos>
+																						<Flags>5</Flags>
+																						<SegmentShape>Log1</SegmentShape>
+																					</Point>
+																					<Point>
+																						<XPos>1</XPos>
+																						<YPos>0</YPos>
+																						<Flags>0</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>4</XPos>
+																						<YPos>600</YPos>
+																						<Flags>37</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{C1F172E7-C7CB-4B00-B0A6-9ABCED6E103E}" ShortID="361835153">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Volume"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="Skateboard_Speed" ID="{01E365C3-6230-47A8-8518-CAE87834428F}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{0F93CFBC-E820-4BEB-898C-035D844C74DC}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="3"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>-200</YPos>
+																						<Flags>5</Flags>
+																						<SegmentShape>Log3</SegmentShape>
+																					</Point>
+																					<Point>
+																						<XPos>1</XPos>
+																						<YPos>0</YPos>
+																						<Flags>0</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>4</XPos>
+																						<YPos>1</YPos>
+																						<Flags>37</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
 											<ActiveSourceList>
 												<ActiveSource Name="rollconcrete02" ID="{E25E69F4-EEED-4AC5-8695-50874D160CA2}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -4097,32 +4166,6 @@
 													<ValueList>
 														<Value>-3</Value>
 													</ValueList>
-													<RTPCList>
-														<RTPC Name="" ID="{F698FB39-4776-4872-B302-E731044A0085}" ShortID="364331194">
-															<ReferenceList>
-																<Reference Name="ControlInput">
-																	<ObjectRef Name="M2_Charge" ID="{9D5D4BFD-4AB1-4893-BF5A-111B904CCA2E}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-																</Reference>
-															</ReferenceList>
-															<Curve Name="" ID="{93B1EEA6-4C52-4D71-9B93-B0B6F25EC49A}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>5</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>0</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</RTPC>
-													</RTPCList>
 												</Property>
 											</PropertyList>
 											<ReferenceList>
@@ -4142,6 +4185,45 @@
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="RTPC">
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{F698FB39-4776-4872-B302-E731044A0085}" ShortID="364331194">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Volume"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="M2_Charge" ID="{9D5D4BFD-4AB1-4893-BF5A-111B904CCA2E}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{93B1EEA6-4C52-4D71-9B93-B0B6F25EC49A}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="3"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>-200</YPos>
+																						<Flags>5</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>100</XPos>
+																						<YPos>0</YPos>
+																						<Flags>37</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
 											<ActiveSourceList>
 												<ActiveSource Name="HammerFlameBurst" ID="{DBC57312-923A-40FF-A0E4-B3D6E5C6BFA7}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -4155,71 +4237,11 @@
 															<Modifier Name="" ID="{63B3740E-8E51-4C87-AD00-F0B295D7EC3A}"/>
 														</ModifierInfo>
 													</ModifierList>
-													<RTPCList>
-														<RTPC Name="" ID="{A368CD8F-024B-4EC9-96D5-ED47AF192BC7}" ShortID="425548551">
-															<ReferenceList>
-																<Reference Name="ControlInput">
-																	<ObjectRef Name="M2_Charge" ID="{9D5D4BFD-4AB1-4893-BF5A-111B904CCA2E}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-																</Reference>
-															</ReferenceList>
-															<Curve Name="" ID="{0B83DA3D-BFAE-4801-BB56-5840A27D01A9}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="65537"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>0</YPos>
-																		<Flags>5</Flags>
-																		<SegmentShape>Exp2</SegmentShape>
-																	</Point>
-																	<Point>
-																		<XPos>90</XPos>
-																		<YPos>600</YPos>
-																		<Flags>0</Flags>
-																		<SegmentShape>Exp3</SegmentShape>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>-400</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</RTPC>
-													</RTPCList>
 												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-14</Value>
 													</ValueList>
-													<RTPCList>
-														<RTPC Name="" ID="{73F83D66-2C17-4534-9A1D-E48427F3A362}" ShortID="277944457">
-															<ReferenceList>
-																<Reference Name="ControlInput">
-																	<ObjectRef Name="M2_Charge" ID="{9D5D4BFD-4AB1-4893-BF5A-111B904CCA2E}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-																</Reference>
-															</ReferenceList>
-															<Curve Name="" ID="{481519E0-8776-4DAF-9591-69ED6332EEB1}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>5</Flags>
-																		<SegmentShape>Log1</SegmentShape>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>0</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</RTPC>
-													</RTPCList>
 												</Property>
 											</PropertyList>
 											<ReferenceList>
@@ -4239,6 +4261,88 @@
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="RTPC">
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{A368CD8F-024B-4EC9-96D5-ED47AF192BC7}" ShortID="425548551">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Pitch"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="M2_Charge" ID="{9D5D4BFD-4AB1-4893-BF5A-111B904CCA2E}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{0B83DA3D-BFAE-4801-BB56-5840A27D01A9}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="65537"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>0</YPos>
+																						<Flags>5</Flags>
+																						<SegmentShape>Exp2</SegmentShape>
+																					</Point>
+																					<Point>
+																						<XPos>90</XPos>
+																						<YPos>600</YPos>
+																						<Flags>0</Flags>
+																						<SegmentShape>Exp3</SegmentShape>
+																					</Point>
+																					<Point>
+																						<XPos>100</XPos>
+																						<YPos>-400</YPos>
+																						<Flags>37</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{73F83D66-2C17-4534-9A1D-E48427F3A362}" ShortID="277944457">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Volume"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="M2_Charge" ID="{9D5D4BFD-4AB1-4893-BF5A-111B904CCA2E}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{481519E0-8776-4DAF-9591-69ED6332EEB1}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="3"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>-200</YPos>
+																						<Flags>5</Flags>
+																						<SegmentShape>Log1</SegmentShape>
+																					</Point>
+																					<Point>
+																						<XPos>100</XPos>
+																						<YPos>0</YPos>
+																						<Flags>37</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
 											<ActiveSourceList>
 												<ActiveSource Name="HammerFlameLoop" ID="{B5B4B386-6A79-4268-BF84-EC3B663B59C0}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -4267,33 +4371,6 @@
 													<ValueList>
 														<Value>-4</Value>
 													</ValueList>
-													<RTPCList>
-														<RTPC Name="" ID="{984E6EA5-4666-4302-B7B1-2A9A0ACCAC85}" ShortID="372606020">
-															<ReferenceList>
-																<Reference Name="ControlInput">
-																	<ObjectRef Name="M2_Charge" ID="{9D5D4BFD-4AB1-4893-BF5A-111B904CCA2E}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-																</Reference>
-															</ReferenceList>
-															<Curve Name="" ID="{C5BCA792-F816-4494-83F0-D9F2094561A9}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>0</YPos>
-																		<Flags>5</Flags>
-																		<SegmentShape>Exp1</SegmentShape>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</RTPC>
-													</RTPCList>
 												</Property>
 											</PropertyList>
 											<ReferenceList>
@@ -4313,6 +4390,46 @@
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="RTPC">
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{984E6EA5-4666-4302-B7B1-2A9A0ACCAC85}" ShortID="372606020">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Volume"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="M2_Charge" ID="{9D5D4BFD-4AB1-4893-BF5A-111B904CCA2E}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{C5BCA792-F816-4494-83F0-D9F2094561A9}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="3"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>0</YPos>
+																						<Flags>5</Flags>
+																						<SegmentShape>Exp1</SegmentShape>
+																					</Point>
+																					<Point>
+																						<XPos>100</XPos>
+																						<YPos>-200</YPos>
+																						<Flags>37</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
 											<ActiveSourceList>
 												<ActiveSource Name="HammerSlamS" ID="{BBA5F9E7-20FF-44D2-A186-B2E3E6974C0B}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -4341,33 +4458,6 @@
 													<ValueList>
 														<Value>-6</Value>
 													</ValueList>
-													<RTPCList>
-														<RTPC Name="" ID="{A33C9448-FF36-43E4-B410-6D20F47F979C}" ShortID="467234887">
-															<ReferenceList>
-																<Reference Name="ControlInput">
-																	<ObjectRef Name="M2_Charge" ID="{9D5D4BFD-4AB1-4893-BF5A-111B904CCA2E}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-																</Reference>
-															</ReferenceList>
-															<Curve Name="" ID="{B2545AF4-F1F9-4D0F-A0F2-43927F775BC3}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>5</Flags>
-																		<SegmentShape>Log1</SegmentShape>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>0</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</RTPC>
-													</RTPCList>
 												</Property>
 											</PropertyList>
 											<ReferenceList>
@@ -4387,6 +4477,46 @@
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="RTPC">
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{A33C9448-FF36-43E4-B410-6D20F47F979C}" ShortID="467234887">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Volume"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="M2_Charge" ID="{9D5D4BFD-4AB1-4893-BF5A-111B904CCA2E}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{B2545AF4-F1F9-4D0F-A0F2-43927F775BC3}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="3"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>-200</YPos>
+																						<Flags>5</Flags>
+																						<SegmentShape>Log1</SegmentShape>
+																					</Point>
+																					<Point>
+																						<XPos>100</XPos>
+																						<YPos>0</YPos>
+																						<Flags>37</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
 											<ActiveSourceList>
 												<ActiveSource Name="HammerSlamL" ID="{42424296-BB68-45AF-A17C-32ACDE1147F7}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -4656,46 +4786,6 @@
 										</Sound>
 										<BlendContainer Name="Minigun Shoot" ID="{8F81F79B-6CCD-48C4-9E12-6E1D43AC8DFE}" ShortID="543400297">
 											<PropertyList>
-												<Property Name="Pitch" Type="int32">
-													<RTPCList>
-														<RTPC Name="" ID="{94ABE29F-4B32-49F5-B185-4099919D1BA5}" ShortID="454842941">
-															<ReferenceList>
-																<Reference Name="ControlInput">
-																	<ObjectRef Name="Minigun_Speed" ID="{CDCB7440-F13C-494D-9E1C-9E8B5095A723}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-																</Reference>
-															</ReferenceList>
-															<Curve Name="" ID="{E5A44211-96B5-40A2-8734-524D9791DC12}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="65537"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-2400</YPos>
-																		<Flags>5</Flags>
-																		<SegmentShape>Log3</SegmentShape>
-																	</Point>
-																	<Point>
-																		<XPos>1</XPos>
-																		<YPos>0</YPos>
-																		<Flags>0</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>5</XPos>
-																		<YPos>600</YPos>
-																		<Flags>0</Flags>
-																		<SegmentShape>Log3</SegmentShape>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>900</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</RTPC>
-													</RTPCList>
-												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-2</Value>
@@ -4718,66 +4808,6 @@
 															<ValueList>
 																<Value>-3</Value>
 															</ValueList>
-															<RTPCList>
-																<RTPC Name="" ID="{3BAE7595-E78A-4D84-A0FD-D535D79BD752}" ShortID="699183356">
-																	<ReferenceList>
-																		<Reference Name="ControlInput">
-																			<ObjectRef Name="Minigun_Crit" ID="{A09BB8A7-2B77-447E-8F74-84E61E238A08}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-																		</Reference>
-																	</ReferenceList>
-																	<Curve Name="" ID="{DC0BFFD6-8908-47FB-AF15-780B63C737A9}">
-																		<PropertyList>
-																			<Property Name="Flags" Type="int32" Value="3"/>
-																		</PropertyList>
-																		<PointList>
-																			<Point>
-																				<XPos>0</XPos>
-																				<YPos>-200</YPos>
-																				<Flags>5</Flags>
-																			</Point>
-																			<Point>
-																				<XPos>0.999</XPos>
-																				<YPos>-200</YPos>
-																				<Flags>0</Flags>
-																			</Point>
-																			<Point>
-																				<XPos>1</XPos>
-																				<YPos>0</YPos>
-																				<Flags>37</Flags>
-																			</Point>
-																		</PointList>
-																	</Curve>
-																</RTPC>
-																<RTPC Name="" ID="{2836C7E4-1E1A-4F6B-A3B1-0AED435F82B9}" ShortID="283419802">
-																	<ReferenceList>
-																		<Reference Name="ControlInput">
-																			<ObjectRef Name="Minigun_Shooting" ID="{D1ED5F7E-BB0A-4974-ABA3-42A34B24890A}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-																		</Reference>
-																	</ReferenceList>
-																	<Curve Name="" ID="{7EDF56D7-231F-455A-98A1-5DF49782D24B}">
-																		<PropertyList>
-																			<Property Name="Flags" Type="int32" Value="3"/>
-																		</PropertyList>
-																		<PointList>
-																			<Point>
-																				<XPos>0</XPos>
-																				<YPos>-200</YPos>
-																				<Flags>5</Flags>
-																			</Point>
-																			<Point>
-																				<XPos>0.999</XPos>
-																				<YPos>-200</YPos>
-																				<Flags>0</Flags>
-																			</Point>
-																			<Point>
-																				<XPos>1</XPos>
-																				<YPos>0</YPos>
-																				<Flags>37</Flags>
-																			</Point>
-																		</PointList>
-																	</Curve>
-																</RTPC>
-															</RTPCList>
 														</Property>
 													</PropertyList>
 													<ReferenceList>
@@ -4797,6 +4827,90 @@
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
+													<ObjectLists>
+														<ObjectList Name="RTPC">
+															<Reference>
+																<Local>
+																	<RTPC Name="" ID="{3BAE7595-E78A-4D84-A0FD-D535D79BD752}" ShortID="699183356">
+																		<PropertyList>
+																			<Property Name="PropertyName" Type="string" Value="Volume"/>
+																		</PropertyList>
+																		<ReferenceList>
+																			<Reference Name="ControlInput">
+																				<ObjectRef Name="Minigun_Crit" ID="{A09BB8A7-2B77-447E-8F74-84E61E238A08}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+																			</Reference>
+																			<Reference Name="Curve">
+																				<Custom>
+																					<Curve Name="" ID="{DC0BFFD6-8908-47FB-AF15-780B63C737A9}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="3"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0</XPos>
+																								<YPos>-200</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>0.999</XPos>
+																								<YPos>-200</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>1</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</Custom>
+																			</Reference>
+																		</ReferenceList>
+																	</RTPC>
+																</Local>
+															</Reference>
+															<Reference>
+																<Local>
+																	<RTPC Name="" ID="{2836C7E4-1E1A-4F6B-A3B1-0AED435F82B9}" ShortID="283419802">
+																		<PropertyList>
+																			<Property Name="PropertyName" Type="string" Value="Volume"/>
+																		</PropertyList>
+																		<ReferenceList>
+																			<Reference Name="ControlInput">
+																				<ObjectRef Name="Minigun_Shooting" ID="{D1ED5F7E-BB0A-4974-ABA3-42A34B24890A}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+																			</Reference>
+																			<Reference Name="Curve">
+																				<Custom>
+																					<Curve Name="" ID="{7EDF56D7-231F-455A-98A1-5DF49782D24B}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="3"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0</XPos>
+																								<YPos>-200</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>0.999</XPos>
+																								<YPos>-200</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>1</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</Custom>
+																			</Reference>
+																		</ReferenceList>
+																	</RTPC>
+																</Local>
+															</Reference>
+														</ObjectList>
+													</ObjectLists>
 													<ActiveSourceList>
 														<ActiveSource Name="minigun_shoot_crit" ID="{5C0A7834-C001-49B1-A2E6-0392DEFE5D01}" Platform="Linked"/>
 													</ActiveSourceList>
@@ -4808,66 +4922,6 @@
 															<ValueList>
 																<Value>-3</Value>
 															</ValueList>
-															<RTPCList>
-																<RTPC Name="" ID="{31B6317A-9077-4CD1-83DA-72ADC155DEC6}" ShortID="3227630">
-																	<ReferenceList>
-																		<Reference Name="ControlInput">
-																			<ObjectRef Name="Minigun_Shooting" ID="{D1ED5F7E-BB0A-4974-ABA3-42A34B24890A}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-																		</Reference>
-																	</ReferenceList>
-																	<Curve Name="" ID="{21851135-B273-46F6-8121-7D245B86FEF9}">
-																		<PropertyList>
-																			<Property Name="Flags" Type="int32" Value="3"/>
-																		</PropertyList>
-																		<PointList>
-																			<Point>
-																				<XPos>0</XPos>
-																				<YPos>-200</YPos>
-																				<Flags>5</Flags>
-																			</Point>
-																			<Point>
-																				<XPos>0.999</XPos>
-																				<YPos>-200</YPos>
-																				<Flags>0</Flags>
-																			</Point>
-																			<Point>
-																				<XPos>1</XPos>
-																				<YPos>0</YPos>
-																				<Flags>37</Flags>
-																			</Point>
-																		</PointList>
-																	</Curve>
-																</RTPC>
-																<RTPC Name="" ID="{27848AE2-9E28-4F60-9645-14E28348F62D}" ShortID="323953365">
-																	<ReferenceList>
-																		<Reference Name="ControlInput">
-																			<ObjectRef Name="Minigun_Crit" ID="{A09BB8A7-2B77-447E-8F74-84E61E238A08}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-																		</Reference>
-																	</ReferenceList>
-																	<Curve Name="" ID="{55FF5993-DADF-4E6B-9BCF-D2034E095919}">
-																		<PropertyList>
-																			<Property Name="Flags" Type="int32" Value="3"/>
-																		</PropertyList>
-																		<PointList>
-																			<Point>
-																				<XPos>0</XPos>
-																				<YPos>0</YPos>
-																				<Flags>5</Flags>
-																			</Point>
-																			<Point>
-																				<XPos>0.001</XPos>
-																				<YPos>-200</YPos>
-																				<Flags>0</Flags>
-																			</Point>
-																			<Point>
-																				<XPos>1</XPos>
-																				<YPos>-200</YPos>
-																				<Flags>37</Flags>
-																			</Point>
-																		</PointList>
-																	</Curve>
-																</RTPC>
-															</RTPCList>
 														</Property>
 													</PropertyList>
 													<ReferenceList>
@@ -4887,6 +4941,90 @@
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
+													<ObjectLists>
+														<ObjectList Name="RTPC">
+															<Reference>
+																<Local>
+																	<RTPC Name="" ID="{31B6317A-9077-4CD1-83DA-72ADC155DEC6}" ShortID="3227630">
+																		<PropertyList>
+																			<Property Name="PropertyName" Type="string" Value="Volume"/>
+																		</PropertyList>
+																		<ReferenceList>
+																			<Reference Name="ControlInput">
+																				<ObjectRef Name="Minigun_Shooting" ID="{D1ED5F7E-BB0A-4974-ABA3-42A34B24890A}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+																			</Reference>
+																			<Reference Name="Curve">
+																				<Custom>
+																					<Curve Name="" ID="{21851135-B273-46F6-8121-7D245B86FEF9}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="3"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0</XPos>
+																								<YPos>-200</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>0.999</XPos>
+																								<YPos>-200</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>1</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</Custom>
+																			</Reference>
+																		</ReferenceList>
+																	</RTPC>
+																</Local>
+															</Reference>
+															<Reference>
+																<Local>
+																	<RTPC Name="" ID="{27848AE2-9E28-4F60-9645-14E28348F62D}" ShortID="323953365">
+																		<PropertyList>
+																			<Property Name="PropertyName" Type="string" Value="Volume"/>
+																		</PropertyList>
+																		<ReferenceList>
+																			<Reference Name="ControlInput">
+																				<ObjectRef Name="Minigun_Crit" ID="{A09BB8A7-2B77-447E-8F74-84E61E238A08}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+																			</Reference>
+																			<Reference Name="Curve">
+																				<Custom>
+																					<Curve Name="" ID="{55FF5993-DADF-4E6B-9BCF-D2034E095919}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="3"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>0.001</XPos>
+																								<YPos>-200</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>1</XPos>
+																								<YPos>-200</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</Custom>
+																			</Reference>
+																		</ReferenceList>
+																	</RTPC>
+																</Local>
+															</Reference>
+														</ObjectList>
+													</ObjectLists>
 													<ActiveSourceList>
 														<ActiveSource Name="minigun_shoot" ID="{D3993845-CD60-40C8-949C-3E1F05732095}" Platform="Linked"/>
 													</ActiveSourceList>
@@ -4899,37 +5037,6 @@
 															<ValueList>
 																<Value>-2</Value>
 															</ValueList>
-															<RTPCList>
-																<RTPC Name="" ID="{D5DE576E-303F-485A-B396-DD278B5825DB}" ShortID="541266396">
-																	<ReferenceList>
-																		<Reference Name="ControlInput">
-																			<ObjectRef Name="Minigun_Shooting" ID="{D1ED5F7E-BB0A-4974-ABA3-42A34B24890A}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
-																		</Reference>
-																	</ReferenceList>
-																	<Curve Name="" ID="{8FD5C97C-2A97-43D1-B132-BB715FD0280A}">
-																		<PropertyList>
-																			<Property Name="Flags" Type="int32" Value="3"/>
-																		</PropertyList>
-																		<PointList>
-																			<Point>
-																				<XPos>0</XPos>
-																				<YPos>0</YPos>
-																				<Flags>5</Flags>
-																			</Point>
-																			<Point>
-																				<XPos>0.001</XPos>
-																				<YPos>-200</YPos>
-																				<Flags>0</Flags>
-																			</Point>
-																			<Point>
-																				<XPos>1</XPos>
-																				<YPos>-200</YPos>
-																				<Flags>37</Flags>
-																			</Point>
-																		</PointList>
-																	</Curve>
-																</RTPC>
-															</RTPCList>
 														</Property>
 													</PropertyList>
 													<ReferenceList>
@@ -4967,11 +5074,108 @@
 															</ActiveSourceList>
 														</Sound>
 													</ChildrenList>
-													<Playlist>
-														<ItemRef Name="minigun_spin" ID="{B8852A5A-E3A6-4BF9-A211-69C929ED6963}"/>
-													</Playlist>
+													<ObjectLists>
+														<ObjectList Name="Playlist">
+															<Reference>
+																<ObjectRef Name="minigun_spin" ID="{B8852A5A-E3A6-4BF9-A211-69C929ED6963}" WorkUnitID="{1C67AF7D-5882-4C54-B9B9-D45FC9526A2B}"/>
+															</Reference>
+														</ObjectList>
+														<ObjectList Name="RTPC">
+															<Reference>
+																<Local>
+																	<RTPC Name="" ID="{D5DE576E-303F-485A-B396-DD278B5825DB}" ShortID="541266396">
+																		<PropertyList>
+																			<Property Name="PropertyName" Type="string" Value="Volume"/>
+																		</PropertyList>
+																		<ReferenceList>
+																			<Reference Name="ControlInput">
+																				<ObjectRef Name="Minigun_Shooting" ID="{D1ED5F7E-BB0A-4974-ABA3-42A34B24890A}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+																			</Reference>
+																			<Reference Name="Curve">
+																				<Custom>
+																					<Curve Name="" ID="{8FD5C97C-2A97-43D1-B132-BB715FD0280A}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="3"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>0.001</XPos>
+																								<YPos>-200</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>1</XPos>
+																								<YPos>-200</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</Custom>
+																			</Reference>
+																		</ReferenceList>
+																	</RTPC>
+																</Local>
+															</Reference>
+														</ObjectList>
+													</ObjectLists>
 												</RandomSequenceContainer>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="RTPC">
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{94ABE29F-4B32-49F5-B185-4099919D1BA5}" ShortID="454842941">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Pitch"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="Minigun_Speed" ID="{CDCB7440-F13C-494D-9E1C-9E8B5095A723}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{E5A44211-96B5-40A2-8734-524D9791DC12}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="65537"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>-2400</YPos>
+																						<Flags>5</Flags>
+																						<SegmentShape>Log3</SegmentShape>
+																					</Point>
+																					<Point>
+																						<XPos>1</XPos>
+																						<YPos>0</YPos>
+																						<Flags>0</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>5</XPos>
+																						<YPos>600</YPos>
+																						<Flags>0</Flags>
+																						<SegmentShape>Log3</SegmentShape>
+																					</Point>
+																					<Point>
+																						<XPos>100</XPos>
+																						<YPos>900</YPos>
+																						<Flags>37</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
 										</BlendContainer>
 										<Sound Name="minigun_wind_up" ID="{D915F9FB-8D13-4C44-ACE5-0B7E7E1E1A87}" ShortID="194272872">
 											<PropertyList>
@@ -5531,6 +5735,45 @@
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
+					<ObjectLists>
+						<ObjectList Name="RTPC">
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{5D8E777C-FF62-492B-BEA5-1B5366F30BAE}" ShortID="432311124">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="Volume"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Volume_SFX" ID="{2469D2AC-64F4-43D2-A06E-BA5F88FF7028}" WorkUnitID="{05A84644-46BB-40DF-9375-76EC1D4F1A9A}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{97E56788-9C68-4E37-BF2D-84B9C217D658}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="3"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-200</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>0</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
 				</ActorMixer>
 			</ChildrenList>
 		</WorkUnit>

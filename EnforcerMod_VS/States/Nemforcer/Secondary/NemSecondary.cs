@@ -108,7 +108,7 @@ namespace EntityStates.Nemforcer {
                 if (NetworkServer.active) base.characterBody.RemoveBuff(Buffs.smallSlowBuff);
             }
 
-            if (base.characterMotor.velocity.y <= 0) this.fallTime += Time.fixedDeltaTime;
+            if (base.characterMotor.velocity.y <= 0) this.fallTime += Time.deltaTime;
             else this.fallTime = 0;
 
             Vector3 dir = GetAimRay().direction.normalized;
@@ -118,7 +118,7 @@ namespace EntityStates.Nemforcer {
 
             bool slamming = looking && falling && !base.characterMotor.isGrounded;
 
-            if (this.animator) this.animator.SetFloat("airSlamReady", slamming ? -1 : 0, 0.1f, Time.fixedDeltaTime);
+            if (this.animator) this.animator.SetFloat("airSlamReady", slamming ? -1 : 0, 0.1f, Time.deltaTime);
 
             if (base.isAuthority && ((!base.IsKeyDownAuthority() && base.fixedAge >= 0.1f)) && !base.IsKeyDownAuthority())
             {
@@ -278,9 +278,9 @@ namespace EntityStates.Nemforcer {
             //ill optimize this effect later maybe
             //if (base.isAuthority && this.charge >= 0.9f) EffectManager.SimpleMuzzleFlash(EnforcerPlugin.Assets.nemDashFX, base.gameObject, "MainHurtbox", true);
 
-            NetworkSoundEventDef hitSound = Assets.nemHammerHitSoundEvent;
+            NetworkSoundEventDef hitSound = Asset.nemHammerHitSoundEvent;
 
-            if (base.characterBody.skinIndex == 2) hitSound = Assets.nemAxeHitSoundEvent;
+            if (base.characterBody.skinIndex == 2) hitSound = Asset.nemAxeHitSoundEvent;
 
             this.attack = new OverlapAttack();
             this.attack.damageType = DamageType.Stun1s;
@@ -289,8 +289,8 @@ namespace EntityStates.Nemforcer {
             this.attack.teamIndex = base.GetTeam();
             this.attack.damage = this.damageCoefficient * this.damageStat;
             this.attack.procCoefficient = 1;
-            this.attack.hitEffectPrefab = Assets.nemHeavyImpactFX;
-            if (base.characterBody.skinIndex == 2) this.attack.hitEffectPrefab = Assets.nemAxeImpactFXVertical;
+            this.attack.hitEffectPrefab = Asset.nemHeavyImpactFX;
+            if (base.characterBody.skinIndex == 2) this.attack.hitEffectPrefab = Asset.nemAxeImpactFXVertical;
             this.attack.forceVector = Vector3.up * this.knockupForce;
             this.attack.pushAwayForce = 500f;
             this.attack.hitBoxGroup = hitBoxGroup;
@@ -324,7 +324,7 @@ namespace EntityStates.Nemforcer {
             float rot = animator.GetFloat("baseRotate");
             this.nemController.pseudoAimMode(rot);
 
-            if (!this.inHitPause) this.stopwatch += Time.fixedDeltaTime;
+            if (!this.inHitPause) this.stopwatch += Time.deltaTime;
 
             if (this.stopwatch >= this.duration)
             {
@@ -379,7 +379,7 @@ namespace EntityStates.Nemforcer {
                             if (this.charge > 0.21f) base.SmallHop(base.characterMotor, this.hopVelocity);
                             base.AddRecoil(-1f * this.recoil, -2f * this.recoil, -0.5f * this.recoil, 0.5f * this.recoil);
 
-                            EffectManager.SimpleMuzzleFlash(Assets.nemUppercutSwingFX, base.gameObject, "SwingUppercut", true);
+                            EffectManager.SimpleMuzzleFlash(Asset.nemUppercutSwingFX, base.gameObject, "SwingUppercut", true);
                         }
 
                         if (this.stopwatch <= 0.75f * this.duration && this.attack.Fire())//lazily hardcoding dont mind me
@@ -424,7 +424,7 @@ namespace EntityStates.Nemforcer {
                 {
                     base.characterMotor.velocity = Vector3.zero;
                     if (this.animator) this.animator.SetFloat("Uppercut.playbackRate", 0f);
-                    this.hitPauseTimer -= Time.fixedDeltaTime;
+                    this.hitPauseTimer -= Time.deltaTime;
                     if (this.hitPauseTimer < 0f)
                     {
                         base.ConsumeHitStopCachedState(this.hitStopCachedState, base.characterMotor, this.animator);
@@ -528,13 +528,13 @@ namespace EntityStates.Nemforcer {
 
             if (base.isAuthority)
             {
-                EffectManager.SimpleMuzzleFlash(Assets.nemSlamSwingFX, base.gameObject, "SwingUppercut", true);
-                if (this.charge >= 0.6f) EffectManager.SimpleMuzzleFlash(Assets.nemSlamDownFX, base.gameObject, "MainHurtbox", true);
+                EffectManager.SimpleMuzzleFlash(Asset.nemSlamSwingFX, base.gameObject, "SwingUppercut", true);
+                if (this.charge >= 0.6f) EffectManager.SimpleMuzzleFlash(Asset.nemSlamDownFX, base.gameObject, "MainHurtbox", true);
             }
 
-            NetworkSoundEventDef hitSound = Assets.nemHammerHitSoundEvent;
+            NetworkSoundEventDef hitSound = Asset.nemHammerHitSoundEvent;
 
-            if (base.characterBody.skinIndex == 2) hitSound = Assets.nemAxeHitSoundEvent;
+            if (base.characterBody.skinIndex == 2) hitSound = Asset.nemAxeHitSoundEvent;
 
             this.attack = new OverlapAttack();
             this.attack.damageType = DamageType.Stun1s;
@@ -543,8 +543,8 @@ namespace EntityStates.Nemforcer {
             this.attack.teamIndex = base.GetTeam();
             this.attack.damage = this.damageCoefficient * this.damageStat;
             this.attack.procCoefficient = 1;
-            this.attack.hitEffectPrefab = Assets.nemHeavyImpactFX;
-            if (base.characterBody.skinIndex == 2) this.attack.hitEffectPrefab = Assets.nemAxeImpactFXVertical;
+            this.attack.hitEffectPrefab = Asset.nemHeavyImpactFX;
+            if (base.characterBody.skinIndex == 2) this.attack.hitEffectPrefab = Asset.nemAxeImpactFXVertical;
             this.attack.forceVector = Vector3.up * HammerAirSlam.knockupForce;
             this.attack.pushAwayForce = 50f;
             this.attack.hitBoxGroup = hitBoxGroup;
@@ -623,7 +623,7 @@ namespace EntityStates.Nemforcer {
         {
             base.FixedUpdate();
             base.characterBody.isSprinting = true;
-            this.fallStopwatch += Time.fixedDeltaTime;
+            this.fallStopwatch += Time.deltaTime;
 
             if (!base.characterMotor.disableAirControlUntilCollision  || base.characterMotor.isGrounded)
             {
@@ -662,7 +662,7 @@ namespace EntityStates.Nemforcer {
                 {
                     base.characterMotor.velocity = Vector3.zero;
                     if (this.animator) this.animator.SetFloat("HammerCharge.playbackRate", 0f);
-                    this.hitPauseTimer -= Time.fixedDeltaTime;
+                    this.hitPauseTimer -= Time.deltaTime;
                     if (this.hitPauseTimer < 0f)
                     {
                         base.ConsumeHitStopCachedState(this.hitStopCachedState, base.characterMotor, this.animator);

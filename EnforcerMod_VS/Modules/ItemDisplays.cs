@@ -41,7 +41,7 @@ namespace Modules {
 
             gatDronePrefab = LoadDisplay("DisplayGoldGat").InstantiateClone("DisplayEnforcerGatDrone", false);
 
-            GameObject gatDrone = Assets.gatDrone.InstantiateClone("GatDrone", false);
+            GameObject gatDrone = Asset.gatDrone.InstantiateClone("GatDrone", false);
 
             Material gatMaterial = gatDrone.GetComponentInChildren<MeshRenderer>().material;
             Material newMaterial = Object.Instantiate(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);

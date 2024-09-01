@@ -31,7 +31,7 @@ namespace Modules.Characters {
             skillDefRiotShotgun.rechargeStock = 1;
             skillDefRiotShotgun.requiredStock = 1;
             skillDefRiotShotgun.stockToConsume = 1;
-            skillDefRiotShotgun.icon = Assets.icon10Shotgun;
+            skillDefRiotShotgun.icon = Asset.icon10Shotgun;
             skillDefRiotShotgun.skillDescriptionToken = "ENFORCER_PRIMARY_SHOTGUN_DESCRIPTION";
             skillDefRiotShotgun.skillName = "ENFORCER_PRIMARY_SHOTGUN_NAME";
             skillDefRiotShotgun.skillNameToken = "ENFORCER_PRIMARY_SHOTGUN_NAME";
@@ -57,7 +57,7 @@ namespace Modules.Characters {
             skillDefSuperShotgun.rechargeStock = 1;
             skillDefSuperShotgun.requiredStock = 1;
             skillDefSuperShotgun.stockToConsume = 1;
-            skillDefSuperShotgun.icon = Assets.icon11SuperShotgun;
+            skillDefSuperShotgun.icon = Asset.icon11SuperShotgun;
             skillDefSuperShotgun.skillDescriptionToken = "ENFORCER_PRIMARY_SUPERSHOTGUN_DESCRIPTION";
             skillDefSuperShotgun.skillName = "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME";
             skillDefSuperShotgun.skillNameToken = "ENFORCER_PRIMARY_SUPERSHOTGUN_NAME";
@@ -84,7 +84,7 @@ namespace Modules.Characters {
             skillDefAssaultRifle.rechargeStock = 1;
             skillDefAssaultRifle.requiredStock = 1;
             skillDefAssaultRifle.stockToConsume = 1;
-            skillDefAssaultRifle.icon = Assets.icon12AssaultRifle;
+            skillDefAssaultRifle.icon = Asset.icon12AssaultRifle;
             skillDefAssaultRifle.skillDescriptionToken = "ENFORCER_PRIMARY_RIFLE_DESCRIPTION";
             skillDefAssaultRifle.skillName = "ENFORCER_PRIMARY_RIFLE_NAME";
             skillDefAssaultRifle.skillNameToken = "ENFORCER_PRIMARY_RIFLE_NAME";
@@ -110,7 +110,7 @@ namespace Modules.Characters {
             skillDefHammer.rechargeStock = 1;
             skillDefHammer.requiredStock = 1;
             skillDefHammer.stockToConsume = 1;
-            skillDefHammer.icon = Assets.icon13Hammer;
+            skillDefHammer.icon = Asset.icon13Hammer;
             skillDefHammer.skillDescriptionToken = "ENFORCER_PRIMARY_HAMMER_DESCRIPTION";
             skillDefHammer.skillName = "ENFORCER_PRIMARY_HAMMER_NAME";
             skillDefHammer.skillNameToken = "ENFORCER_PRIMARY_HAMMER_NAME";
@@ -136,7 +136,7 @@ namespace Modules.Characters {
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.icon20ShieldBash;
+            mySkillDef.icon = Asset.icon20ShieldBash;
             mySkillDef.skillName = "ENFORCER_SECONDARY_BASH_NAME";
             mySkillDef.skillNameToken = "ENFORCER_SECONDARY_BASH_NAME";
             mySkillDef.skillDescriptionToken = "ENFORCER_SECONDARY_BASH_DESCRIPTION";
@@ -165,7 +165,7 @@ namespace Modules.Characters {
             tearGasDef.rechargeStock = 1;
             tearGasDef.requiredStock = 1;
             tearGasDef.stockToConsume = 1;
-            tearGasDef.icon = Assets.icon30TearGas;
+            tearGasDef.icon = Asset.icon30TearGas;
             tearGasDef.skillDescriptionToken = "ENFORCER_UTILITY_TEARGAS_DESCRIPTION";
             tearGasDef.skillName = "ENFORCER_UTILITY_TEARGAS_NAME";
             tearGasDef.skillNameToken = "ENFORCER_UTILITY_TEARGAS_NAME";
@@ -194,7 +194,7 @@ namespace Modules.Characters {
             stunGrenadeDef.rechargeStock = 1;
             stunGrenadeDef.requiredStock = 1;
             stunGrenadeDef.stockToConsume = 1;
-            stunGrenadeDef.icon = Assets.icon31StunGrenade;
+            stunGrenadeDef.icon = Asset.icon31StunGrenade;
             stunGrenadeDef.skillDescriptionToken = "ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION";
             stunGrenadeDef.skillName = "ENFORCER_UTILITY_STUNGRENADE_NAME";
             stunGrenadeDef.skillNameToken = "ENFORCER_UTILITY_STUNGRENADE_NAME";
@@ -223,7 +223,7 @@ namespace Modules.Characters {
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.icon40Shield;
+            mySkillDef.icon = Asset.icon40Shield;
             mySkillDef.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDUP_DESCRIPTION";
             mySkillDef.skillName = "ENFORCER_SPECIAL_SHIELDUP_NAME";
             mySkillDef.skillNameToken = "ENFORCER_SPECIAL_SHIELDUP_NAME";
@@ -249,7 +249,7 @@ namespace Modules.Characters {
             mySkillDef2.rechargeStock = 1;
             mySkillDef2.requiredStock = 1;
             mySkillDef2.stockToConsume = 1;
-            mySkillDef2.icon = Assets.icon40ShieldOff;
+            mySkillDef2.icon = Asset.icon40ShieldOff;
             mySkillDef2.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDDOWN_DESCRIPTION";
             mySkillDef2.skillName = "ENFORCER_SPECIAL_SHIELDDOWN_NAME";
             mySkillDef2.skillNameToken = "ENFORCER_SPECIAL_SHIELDDOWN_NAME";
@@ -275,7 +275,7 @@ namespace Modules.Characters {
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.testIcon;
+            mySkillDef.icon = Asset.testIcon;
             mySkillDef.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDON_DESCRIPTION";
             mySkillDef.skillName = "ENFORCER_SPECIAL_SHIELDON_NAME";
             mySkillDef.skillNameToken = "ENFORCER_SPECIAL_SHIELDON_NAME";
@@ -300,7 +300,7 @@ namespace Modules.Characters {
             mySkillDef2.rechargeStock = 1;
             mySkillDef2.requiredStock = 1;
             mySkillDef2.stockToConsume = 1;
-            mySkillDef2.icon = Assets.testIcon;
+            mySkillDef2.icon = Asset.testIcon;
             mySkillDef2.skillDescriptionToken = "ENFORCER_SPECIAL_SHIELDOFF_DESCRIPTION";
             mySkillDef2.skillName = "ENFORCER_SPECIAL_SHIELDOFF_NAME";
             mySkillDef2.skillNameToken = "ENFORCER_SPECIAL_SHIELDOFF_NAME";
@@ -326,7 +326,7 @@ namespace Modules.Characters {
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.icon42SkateBoard;
+            mySkillDef.icon = Asset.icon42SkateBoard;
             mySkillDef.skillDescriptionToken = "ENFORCER_SPECIAL_BOARDUP_DESCRIPTION";
             mySkillDef.skillName = "ENFORCER_SPECIAL_BOARDUP_NAME";
             mySkillDef.skillNameToken = "ENFORCER_SPECIAL_BOARDUP_NAME";
@@ -351,7 +351,7 @@ namespace Modules.Characters {
             mySkillDef2.rechargeStock = 1;
             mySkillDef2.requiredStock = 1;
             mySkillDef2.stockToConsume = 1;
-            mySkillDef2.icon = Assets.icon42SkateBoardOff;
+            mySkillDef2.icon = Asset.icon42SkateBoardOff;
             mySkillDef2.skillDescriptionToken = "ENFORCER_SPECIAL_BOARDDOWN_DESCRIPTION";
             mySkillDef2.skillName = "ENFORCER_SPECIAL_BOARDDOWN_NAME";
             mySkillDef2.skillNameToken = "ENFORCER_SPECIAL_BOARDDOWN_NAME";

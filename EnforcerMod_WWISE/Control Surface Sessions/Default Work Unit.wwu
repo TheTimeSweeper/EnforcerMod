@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{FAD54136-D60C-498A-A4F2-D8ABE8E5251E}" SchemaVersion="97">
+<WwiseDocument Type="WorkUnit" ID="{FAD54136-D60C-498A-A4F2-D8ABE8E5251E}" SchemaVersion="119">
 	<ControlSurfaceSessions>
 		<WorkUnit Name="Default Work Unit" ID="{FAD54136-D60C-498A-A4F2-D8ABE8E5251E}" PersistMode="Standalone">
 			<ChildrenList>

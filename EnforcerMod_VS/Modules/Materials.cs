@@ -18,11 +18,11 @@ namespace Modules {
             }
 
             //Material mat = UnityEngine.Object.Instantiate<Material>(Assets.commandoMat);
-            tempMat = Assets.LoadAsset<Material>(materialName);
+            tempMat = Asset.LoadAsset<Material>(materialName);
 
             if (!tempMat) {
                 Debug.LogError("Failed to load material: " + materialName + " - Check to see that the name in your Unity project matches the one in this code");
-                return new Material(Assets.hotpoo);
+                return new Material(Asset.hotpoo);
             }
 
             return tempMat.SetHotpooMaterial();
@@ -57,7 +57,7 @@ namespace Modules {
                 emissionColor = tempMat.GetColor("_EmissionColor");
             }
 
-            tempMat.shader = Assets.hotpoo;
+            tempMat.shader = Asset.hotpoo;
 
             //apply values after shader is set
             tempMat.SetColor("_Color", tempMat.GetColor("_Color"));

@@ -17,7 +17,7 @@ namespace Modules
 
         internal static GameObject CreateDisplayPrefab(string displayModelName, GameObject prefab, BodyInfo bodyInfo) {
 
-            GameObject newModel = Assets.LoadSurvivorModel(displayModelName);
+            GameObject newModel = Asset.LoadSurvivorModel(displayModelName);
 
             CharacterModel characterModel = newModel.GetComponent<CharacterModel>();
 
@@ -41,7 +41,7 @@ namespace Modules
             GameObject newBodyPrefab = PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/" + bodyInfo.bodyNameToClone + "Body"), bodyName);
 
             Transform modelBaseTransform = null;
-            GameObject bundleModel = Assets.LoadSurvivorModel(modelName);
+            GameObject bundleModel = Asset.LoadSurvivorModel(modelName);
             if (bundleModel == null) {
                 Debug.LogError($"could not load model from bundle {modelName}");
                 bundleModel = newBodyPrefab.GetComponentInChildren<CharacterModel>().gameObject;
@@ -176,7 +176,7 @@ namespace Modules
 
             characterModel.autoPopulateLightInfos = true;
             characterModel.invisibilityCount = 0;
-            characterModel.temporaryOverlays = new List<TemporaryOverlay>();
+            characterModel.temporaryOverlays = new List<TemporaryOverlayInstance>();
 
             if (!preattached) {
                 SetupCustomRendererInfos(characterModel, customInfos);

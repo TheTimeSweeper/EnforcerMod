@@ -16,6 +16,7 @@ using RoR2.Projectile;
 using RoR2.Skills;
 using RoR2.UI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -43,7 +44,7 @@ namespace EnforcerPlugin {
     [BepInDependency("com.johnedwa.RTAutoSprintEx", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("pseudopulse.Survariants", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.9.0")]
+    [BepInPlugin(MODUID, "Enforcer", "3.9.1")]
     public class EnforcerModPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.EnforcerGang.Enforcer";
@@ -140,15 +141,13 @@ namespace EnforcerPlugin {
 
             Modules.Config.ConfigShit(this);
             
-            Assets.Initialize();
+            Asset.Initialize();
             Modules.Tokens.GenerateLanguageTokens();
             Modules.Languages.Init();
         }
 
         private void Start() {
             Logger.LogInfo("[Initializing Enforcer]");
-
-            SoundBanks.Init();
 
             SetupModCompat();
 
@@ -255,11 +254,11 @@ namespace EnforcerPlugin {
             if (!VRAPI.VR.enabled || !VRAPI.MotionControls.enabled) return;
 
             VREnabled = true;
-            Assets.loadVRBundle();
-            VRAPI.MotionControls.AddHandPrefab(Assets.vrEnforcerDominantHand);
-            VRAPI.MotionControls.AddHandPrefab(Assets.vrEnforcerNonDominantHand);
-            VRAPI.MotionControls.AddHandPrefab(Assets.vrNemforcerDominantHand);
-            VRAPI.MotionControls.AddHandPrefab(Assets.vrNemforcerNonDominantHand);
+            Asset.loadVRBundle();
+            VRAPI.MotionControls.AddHandPrefab(Asset.vrEnforcerDominantHand);
+            VRAPI.MotionControls.AddHandPrefab(Asset.vrEnforcerNonDominantHand);
+            VRAPI.MotionControls.AddHandPrefab(Asset.vrNemforcerDominantHand);
+            VRAPI.MotionControls.AddHandPrefab(Asset.vrNemforcerNonDominantHand);
             VRAPI.MotionControls.AddSkillBindingOverride("EnforcerBody", SkillSlot.Primary, SkillSlot.Secondary, SkillSlot.Special, SkillSlot.Utility);
             VRAPI.MotionControls.AddSkillBindingOverride("NemesisEnforcerBody", SkillSlot.Primary, SkillSlot.Utility, SkillSlot.Special, SkillSlot.Secondary);
         }
@@ -275,10 +274,8 @@ namespace EnforcerPlugin {
             //On.EntityStates.BaseState.OnEnter += BaseState_OnEnter;
             //On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnEnemyHit;
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
-            On.RoR2.CharacterBody.Update += CharacterBody_Update;
             On.RoR2.CharacterBody.OnLevelUp += CharacterBody_OnLevelChanged;
             On.RoR2.CharacterMaster.OnInventoryChanged += CharacterMaster_OnInventoryChanged;
-            //On.RoR2.BodyCatalog.SetBodyPrefabs += BodyCatalog_SetBodyPrefabs;
             On.RoR2.ContentManagement.ContentManager.SetContentPacks += ContentManager_SetContentPacks;
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
             On.RoR2.ArenaMissionController.BeginRound += ArenaMissionController_BeginRound;
@@ -293,21 +290,8 @@ namespace EnforcerPlugin {
             On.RoR2.EntityStateMachine.SetState += EntityStateMachine_SetState;
             On.RoR2.DamageInfo.ModifyDamageInfo += DamageInfo_ModifyDamageInfo;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
-            On.RoR2.BodyCatalog.Init += BodyCatalog_Init;
-        }
-
-        private void BodyCatalog_Init(On.RoR2.BodyCatalog.orig_Init orig) {
-
-            orig();
-
-            for (int i = 0; i < GuaranteedBlockBlacklistBodyNames.Count; i++) {
-                AddBodyToBlockBlacklist(GuaranteedBlockBlacklistBodyNames[i]);
-            }
-
-            EnforcerBodyIndex = BodyCatalog.FindBodyIndex("EnforcerBody");
-            NemesisEnforcerBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBody");
-            NemesisEnforcerBossBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody");
-            DededeBodyIndex = BodyCatalog.FindBodyIndex("KingDededeBody");
+            //On.RoR2.BodyCatalog.Init += BodyCatalog_Init;
+            On.RoR2.BodyCatalog.SetBodyPrefabs += BodyCatalog_SetBodyPrefabs;
         }
 
         public static void AddBodyToBlockBlacklist(string bodyName) {
@@ -553,20 +537,47 @@ namespace EnforcerPlugin {
             orig(self);
         }
 
+        //private IEnumerator BodyCatalog_Init(On.RoR2.BodyCatalog.orig_Init orig) {
+
+        //    var origReturn = orig();
+
+        //    for (int i = 0; i < GuaranteedBlockBlacklistBodyNames.Count; i++) {
+        //        AddBodyToBlockBlacklist(GuaranteedBlockBlacklistBodyNames[i]);
+        //    }
+
+        //    EnforcerBodyIndex = BodyCatalog.FindBodyIndex("EnforcerBody");
+        //    NemesisEnforcerBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBody");
+        //    NemesisEnforcerBossBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody");
+        //    DededeBodyIndex = BodyCatalog.FindBodyIndex("KingDededeBody");
+
+        //    return origReturn;
+        //}
+
         private void BodyCatalog_SetBodyPrefabs(On.RoR2.BodyCatalog.orig_SetBodyPrefabs orig, GameObject[] newBodyPrefabs)
         {
-            //nicely done brother
-            for (int i = 0; i < newBodyPrefabs.Length; i++)
-            {                                                                             
-                if (newBodyPrefabs[i].name == "EnforcerBody" && newBodyPrefabs[i] != EnforcerSurvivor.instance.bodyPrefab)
-                {
-                    newBodyPrefabs[i].name = "OldEnforcerBody";
-                }
-            }
+            ////nicely done brother
+            //for (int i = 0; i < newBodyPrefabs.Length; i++)
+            //{                                                                             
+            //    if (newBodyPrefabs[i].name == "EnforcerBody" && newBodyPrefabs[i] != EnforcerSurvivor.instance.bodyPrefab)
+            //    {
+            //        newBodyPrefabs[i].name = "OldEnforcerBody";
+            //    }
+            //}
+
             orig(newBodyPrefabs);
+
+            for (int i = 0; i < GuaranteedBlockBlacklistBodyNames.Count; i++)
+            {
+                AddBodyToBlockBlacklist(GuaranteedBlockBlacklistBodyNames[i]);
+            }
+
+            EnforcerBodyIndex = BodyCatalog.FindBodyIndex("EnforcerBody");
+            NemesisEnforcerBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBody");
+            NemesisEnforcerBossBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody");
+            DededeBodyIndex = BodyCatalog.FindBodyIndex("KingDededeBody");
         }
 
-        private void ContentManager_SetContentPacks(On.RoR2.ContentManagement.ContentManager.orig_SetContentPacks orig, List<RoR2.ContentManagement.ReadOnlyContentPack> newContentPacks) {
+        private IEnumerator ContentManager_SetContentPacks(On.RoR2.ContentManagement.ContentManager.orig_SetContentPacks orig, List<RoR2.ContentManagement.ReadOnlyContentPack> newContentPacks) {
 
             for (int i = 0; i < newContentPacks.Count; i++) {
                 var contentPack = newContentPacks[i];
@@ -576,7 +587,7 @@ namespace EnforcerPlugin {
                     body.name = "OldEnforcerBody";
                 }
             }
-            orig(newContentPacks);
+            return orig(newContentPacks);
         }
 
         private void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender, RecalculateStatsAPI.StatHookEventArgs args)
@@ -664,7 +675,7 @@ namespace EnforcerPlugin {
 
             if (self) 
             {
-                //doesn't work in recalculatestatsapi for some reason
+                //doesn't work in recalculatestatsapi
                 if (self.HasBuff(Modules.Buffs.protectAndServeBuff)) {
                     self.maxJumpCount = 0;
                 }
@@ -716,6 +727,7 @@ namespace EnforcerPlugin {
 
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
+            Log.Warning("ouch");
             //Tear Gas damage numbers
             if (info.damageColorIndex == DamageColorIndex.Default && self.body.HasBuff(Buffs.impairedBuff)) {
                 info.damageColorIndex = DamageColorIndex.WeakPoint;
@@ -724,7 +736,7 @@ namespace EnforcerPlugin {
             bool blocked = false;
             bool isEnforcer = self.body.bodyIndex == EnforcerModPlugin.EnforcerBodyIndex;
 
-            if (DamageAPI.HasModdedDamageType(info,barrierDamageType) && isEnforcer) { 
+            if (DamageAPI.HasModdedDamageType(info,barrierDamageType) && isEnforcer) {
                 blocked = true;
             }
 
@@ -754,15 +766,17 @@ namespace EnforcerPlugin {
                         //check angle-based blocking
                         if (enforcerComponent.isShielding && !blocked) {
                             //don't block dots or bypassblock
-                            if (!info.damageType.HasFlag(DamageType.DoT) && !info.damageType.HasFlag(DamageType.BypassBlock)) {
+                            if (!info.damageType.damageType.HasFlag(DamageType.DoT) && !info.damageType.damageType.HasFlag(DamageType.BypassBlock)) {
                                 //check if the damage source is the attacker
                                 if(info.attacker == info.inflictor) {
                                     //check against blacklist, block attacker position
                                     if (!GuaranteedBlockBlacklist.Contains(attackerBody.bodyIndex)) {
+
                                         blocked |= enforcerComponent.GetShieldBlock(attackerBody.corePosition, 55f);
                                     }
                                     //if inflictor (usually projectile) is separate from attacker, block based on inflictor
-                                } else if(info.inflictor != null){
+                                } else if(info.inflictor != null)
+                                {
                                     blocked |= enforcerComponent.GetShieldBlock(info.inflictor.transform.position, 55f);
                                 }
                             }
@@ -782,7 +796,7 @@ namespace EnforcerPlugin {
                     }
 
                     if (enforcerComponent && blocked) {
-                        enforcerComponent.AttackBlocked(self.body.gameObject);
+                        enforcerComponent.OnAttackBlocked(self.body.gameObject);
                     }
                 }
             }
@@ -804,10 +818,10 @@ namespace EnforcerPlugin {
                 info.rejected = true;
             }
 
-            if (self.body.name == "EnergyShield")
-            {
-                info.damage = info.procCoefficient;
-            }
+            //if (self.body.name == "EnergyShield")
+            //{
+            //    info.damage = info.procCoefficient;
+            //}
 
             orig(self, info);
         }
@@ -936,7 +950,7 @@ namespace EnforcerPlugin {
 
             if (UnityEngine.Random.value <= 0.1f)
             {
-                GameObject hammer = Instantiate(Assets.nemesisHammer);
+                GameObject hammer = Instantiate(Asset.nemesisHammer);
                 hammer.transform.position = new Vector3(35, 4.5f, 21);
                 hammer.transform.rotation = Quaternion.Euler(new Vector3(45, 270, 0));
                 hammer.transform.localScale = new Vector3(12, 12, 340);
@@ -955,7 +969,7 @@ namespace EnforcerPlugin {
             orig(self);
         }
 
-        private void HealthComponent_Suicide(On.RoR2.HealthComponent.orig_Suicide orig, HealthComponent self, GameObject killerOverride, GameObject inflictorOverride, DamageType damageType) {
+        private void HealthComponent_Suicide(On.RoR2.HealthComponent.orig_Suicide orig, HealthComponent self, GameObject killerOverride, GameObject inflictorOverride, DamageTypeCombo damageType) {
 
             if (damageType == DamageType.VoidDeath) {
                 //Debug.LogWarning("voidDeath");
@@ -1000,16 +1014,16 @@ namespace EnforcerPlugin {
             return angle < ShieldBlockAngle;
         }*/
 
-        private void CharacterBody_Update(On.RoR2.CharacterBody.orig_Update orig, CharacterBody self)
-        {
-            if (self.name == "EnergyShield")
-            {
-                return;
-            }
-            orig(self);
-        }
+        //how long have we had a hook to characterbody.update just fucking doing nothing dude what the fuck
+        //private void CharacterBody_Update(On.RoR2.CharacterBody.orig_Update orig, CharacterBody self)
+        //{
+        //    if (self.name == "EnergyShield")
+        //    {
+        //        return;
+        //    }
+        //    orig(self);
+        //}
         #endregion
-
 
         #region projectiles and effects
         private void RegisterProjectile()
@@ -1021,7 +1035,7 @@ namespace EnforcerPlugin {
             ProjectileController stunGrenadeController = stunGrenade.GetComponent<ProjectileController>();
             ProjectileImpactExplosion stunGrenadeImpact = stunGrenade.GetComponent<ProjectileImpactExplosion>();
 
-            GameObject stunGrenadeModel = Assets.stunGrenadeModel.InstantiateClone("StunGrenadeGhost", true);
+            GameObject stunGrenadeModel = Asset.stunGrenadeModel.InstantiateClone("StunGrenadeGhost", true);
             stunGrenadeModel.AddComponent<NetworkIdentity>();
             stunGrenadeModel.AddComponent<ProjectileGhostController>();
 
@@ -1049,7 +1063,7 @@ namespace EnforcerPlugin {
             ProjectileController shockGrenadeController = shockGrenade.GetComponent<ProjectileController>();
             ProjectileImpactExplosion shockGrenadeImpact = shockGrenade.GetComponent<ProjectileImpactExplosion>();
 
-            GameObject shockGrenadeModel = Assets.stunGrenadeModelAlt.InstantiateClone("ShockGrenadeGhost", true);
+            GameObject shockGrenadeModel = Asset.stunGrenadeModelAlt.InstantiateClone("ShockGrenadeGhost", true);
             shockGrenadeModel.AddComponent<NetworkIdentity>();
             shockGrenadeModel.AddComponent<ProjectileGhostController>();
 
@@ -1094,7 +1108,7 @@ namespace EnforcerPlugin {
 
             filter.teamIndex = TeamIndex.Player;
             
-            GameObject grenadeModel = Assets.tearGasGrenadeModel.InstantiateClone("TearGasGhost", true);
+            GameObject grenadeModel = Asset.tearGasGrenadeModel.InstantiateClone("TearGasGhost", true);
             grenadeModel.AddComponent<NetworkIdentity>();
             grenadeModel.AddComponent<ProjectileGhostController>();
 
@@ -1150,7 +1164,7 @@ namespace EnforcerPlugin {
             //this is weird but it works
 
             Destroy(tearGasPrefab.transform.GetChild(0).gameObject);
-            GameObject gasFX = Assets.tearGasEffectPrefab.InstantiateClone("FX", false);
+            GameObject gasFX = Asset.tearGasEffectPrefab.InstantiateClone("FX", false);
             gasFX.AddComponent<TearGasComponent>();
             gasFX.AddComponent<DestroyOnTimer>().duration = 12f;
             gasFX.transform.parent = tearGasPrefab.transform;
@@ -1184,7 +1198,7 @@ namespace EnforcerPlugin {
             HitBoxGroup gasHitboxGroup = dotZone.GetComponent<HitBoxGroup>();
             gasHitboxGroup.hitBoxes = new HitBox[] { gasHitboxGroup.gameObject.AddComponent<HitBox>() };
 
-            GameObject scepterGrenadeModel = Assets.tearGasGrenadeModelAlt.InstantiateClone("TearGasScepterGhost", true);
+            GameObject scepterGrenadeModel = Asset.tearGasGrenadeModelAlt.InstantiateClone("TearGasScepterGhost", true);
             scepterGrenadeModel.AddComponent<NetworkIdentity>();
             scepterGrenadeModel.AddComponent<ProjectileGhostController>();
 
@@ -1227,7 +1241,7 @@ namespace EnforcerPlugin {
             scepterTearGasDamage.force = -10;
 
             Destroy(damageGasEffect.transform.GetChild(0).gameObject);
-            GameObject scepterGasFX = Assets.tearGasEffectPrefabAlt.InstantiateClone("FX", false);
+            GameObject scepterGasFX = Asset.tearGasEffectPrefabAlt.InstantiateClone("FX", false);
             scepterGasFX.AddComponent<TearGasComponent>();
             scepterGasFX.AddComponent<DestroyOnTimer>().duration = 12f;
             scepterGasFX.transform.parent = damageGasEffect.transform;

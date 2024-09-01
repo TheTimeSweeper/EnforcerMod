@@ -16,7 +16,7 @@ namespace EnforcerPlugin.Achievements {
         public override string AchievementDescToken { get => AchievementTokenPrefix + "UNLOCKABLE_ACHIEVEMENT_DESC"; }
         public override string UnlockableNameToken { get => AchievementTokenPrefix + "UNLOCKABLE_UNLOCKABLE_NAME"; }
 
-        public override Sprite Sprite => Assets.MainAssetBundle.LoadAsset<Sprite>(AchievementSpriteName);
+        public override Sprite Sprite => Asset.MainAssetBundle.LoadAsset<Sprite>(AchievementSpriteName);
 
         public override Func<string> GetHowToUnlock
         {

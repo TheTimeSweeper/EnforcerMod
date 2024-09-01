@@ -132,7 +132,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         public override void FixedUpdate() {
             base.FixedUpdate();
 
-            firingStopwatch += Time.fixedDeltaTime;
+            firingStopwatch += Time.deltaTime;
 
             if (!hasFired) {
                 hasFired = true;

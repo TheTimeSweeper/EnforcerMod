@@ -94,14 +94,14 @@ namespace EnforcerPlugin {
             EnforcerModPlugin.Destroy(main.transform.Find("CameraPivot").gameObject);
             EnforcerModPlugin.Destroy(main.transform.Find("AimOrigin").gameObject);
 
-            GameObject model = Assets.MainAssetBundle.LoadAsset<GameObject>(mdlName);
+            GameObject model = Asset.MainAssetBundle.LoadAsset<GameObject>(mdlName);
 
             return GameObject.Instantiate(model);
         }
 
         private static void CreateDisplayPrefab()
         {
-            GameObject tempDisplay = Assets.MainAssetBundle.LoadAsset<GameObject>("NemforcerDisplay");
+            GameObject tempDisplay = Asset.MainAssetBundle.LoadAsset<GameObject>("NemforcerDisplay");
 
             ChildLocator childLocator = tempDisplay.GetComponent<ChildLocator>();
 
@@ -111,7 +111,7 @@ namespace EnforcerPlugin {
             {
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = Assets.CreateMaterial("matNemforcer", 5f, Color.white, 0),
+                    defaultMaterial = Asset.CreateMaterial("matNemforcer", 5f, Color.white, 0),
                     renderer = childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
@@ -132,7 +132,7 @@ namespace EnforcerPlugin {
                 },
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = Assets.CreateMaterial("matNemforcer", 5f, Color.white, 0),
+                    defaultMaterial = Asset.CreateMaterial("matNemforcer", 5f, Color.white, 0),
                     renderer = childLocator.FindChild("GrenadeR").GetComponentInChildren<MeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = true
@@ -151,7 +151,7 @@ namespace EnforcerPlugin {
 
             characterModel.autoPopulateLightInfos = true;
             characterModel.invisibilityCount = 0;
-            characterModel.temporaryOverlays = new List<TemporaryOverlay>();
+            characterModel.temporaryOverlays = new List<TemporaryOverlayInstance>();
 
             characterModel.mainSkinnedMeshRenderer = characterModel.baseRendererInfos[characterModel.baseRendererInfos.Length - 1].renderer.gameObject.GetComponent<SkinnedMeshRenderer>();
 
@@ -231,7 +231,7 @@ namespace EnforcerPlugin {
             bodyComponent._defaultCrosshairPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
             bodyComponent.aimOriginTransform = gameObject3.transform;
             bodyComponent.hullClassification = HullClassification.Human;
-            bodyComponent.portraitIcon = Assets.nemCharPortrait;
+            bodyComponent.portraitIcon = Asset.nemCharPortrait;
             bodyComponent.isChampion = false;
             bodyComponent.currentVehicle = null;
             bodyComponent.skinIndex = 0U;
@@ -286,7 +286,7 @@ namespace EnforcerPlugin {
             {
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = Assets.CreateMaterial("matNemforcer", 5f, Color.white, 0),
+                    defaultMaterial = Asset.CreateMaterial("matNemforcer", 5f, Color.white, 0),
                     renderer = childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
@@ -315,7 +315,7 @@ namespace EnforcerPlugin {
                 //keep body last for teleporter particles
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = Assets.CreateMaterial("matNemforcer", 5f, Color.white, 0),
+                    defaultMaterial = Asset.CreateMaterial("matNemforcer", 5f, Color.white, 0),
                     renderer = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
@@ -331,7 +331,7 @@ namespace EnforcerPlugin {
 
             characterModel.autoPopulateLightInfos = true;
             characterModel.invisibilityCount = 0;
-            characterModel.temporaryOverlays = new List<TemporaryOverlay>();
+            characterModel.temporaryOverlays = new List<TemporaryOverlayInstance>();
 
             characterModel.mainSkinnedMeshRenderer = characterModel.baseRendererInfos[characterModel.baseRendererInfos.Length - 1].renderer.gameObject.GetComponent<SkinnedMeshRenderer>();
 
@@ -375,27 +375,27 @@ namespace EnforcerPlugin {
             capsuleCollider.height = 1.82f;
             capsuleCollider.direction = 1;
 
-            KinematicCharacterMotor kinematicCharacterMotor = characterBodyPrefab.GetComponent<KinematicCharacterMotor>();
-            kinematicCharacterMotor.CharacterController = characterMotor;
-            kinematicCharacterMotor.Capsule = capsuleCollider;
-            kinematicCharacterMotor.Rigidbody = rigidbody;
+            //KinematicCharacterMotor kinematicCharacterMotor = characterBodyPrefab.GetComponent<KinematicCharacterMotor>();
+            //kinematicCharacterMotor.CharacterController = characterMotor;
+            //kinematicCharacterMotor.Capsule = capsuleCollider;
+            //kinematicCharacterMotor.Rigidbody = rigidbody;
 
-            kinematicCharacterMotor.DetectDiscreteCollisions = false;
-            kinematicCharacterMotor.GroundDetectionExtraDistance = 0f;
-            kinematicCharacterMotor.MaxStepHeight = 0.2f;
-            kinematicCharacterMotor.MinRequiredStepDepth = 0.1f;
-            kinematicCharacterMotor.MaxStableSlopeAngle = 55f;
-            kinematicCharacterMotor.MaxStableDistanceFromLedge = 0.5f;
-            kinematicCharacterMotor.PreventSnappingOnLedges = false;
-            kinematicCharacterMotor.MaxStableDenivelationAngle = 55f;
-            kinematicCharacterMotor.RigidbodyInteractionType = RigidbodyInteractionType.None;
-            kinematicCharacterMotor.PreserveAttachedRigidbodyMomentum = true;
-            kinematicCharacterMotor.HasPlanarConstraint = false;
-            kinematicCharacterMotor.PlanarConstraintAxis = Vector3.up;
-            kinematicCharacterMotor.StepHandling = StepHandlingMethod.None;
-            kinematicCharacterMotor.LedgeHandling = true;
-            kinematicCharacterMotor.InteractiveRigidbodyHandling = true;
-            kinematicCharacterMotor.SafeMovement = false;
+            //kinematicCharacterMotor.DiscreteCollisionEvents = false;
+            //kinematicCharacterMotor.GroundDetectionExtraDistance = 0f;
+            //kinematicCharacterMotor.MaxStepHeight = 0.2f;
+            //kinematicCharacterMotor.MinRequiredStepDepth = 0.1f;
+            //kinematicCharacterMotor.MaxStableSlopeAngle = 55f;
+            //kinematicCharacterMotor.MaxStableDistanceFromLedge = 0.5f;
+            //kinematicCharacterMotor.ledge = false;
+            //kinematicCharacterMotor.MaxStableDenivelationAngle = 55f;
+            //kinematicCharacterMotor.RigidbodyInteractionType = RigidbodyInteractionType.None;
+            //kinematicCharacterMotor.PreserveAttachedRigidbodyMomentum = true;
+            //kinematicCharacterMotor.HasPlanarConstraint = false;
+            //kinematicCharacterMotor.PlanarConstraintAxis = Vector3.up;
+            //kinematicCharacterMotor.StepHandling = StepHandlingMethod.None;
+            //kinematicCharacterMotor.LedgeHandling = true;
+            //kinematicCharacterMotor.InteractiveRigidbodyHandling = true;
+            //kinematicCharacterMotor.SafeMovement = false;
 
             HealthComponent healthComponent = characterBodyPrefab.GetComponent<HealthComponent>();
 
@@ -577,7 +577,7 @@ namespace EnforcerPlugin {
             ProjectileController hammerController = hammerProjectile.GetComponent<ProjectileController>();
             ProjectileImpactExplosion hammerImpact = hammerProjectile.GetComponent<ProjectileImpactExplosion>();
 
-            GameObject hammerModel = Assets.hammerProjectileModel.InstantiateClone("HammerProjectileGhost", true);
+            GameObject hammerModel = Asset.hammerProjectileModel.InstantiateClone("HammerProjectileGhost", true);
             hammerModel.AddComponent<NetworkIdentity>();
             hammerModel.AddComponent<ProjectileGhostController>();
             hammerController.transform.localScale *= 1.75f;
@@ -604,7 +604,7 @@ namespace EnforcerPlugin {
             hammerController.startSound = "";
             hammerController.procCoefficient = 1;
 
-            GameObject gordoModel = Assets.gordoProjectileModel.InstantiateClone("HammerProjectileGhostGordo", true);
+            GameObject gordoModel = Asset.gordoProjectileModel.InstantiateClone("HammerProjectileGhostGordo", true);
             gordoModel.AddComponent<NetworkIdentity>();
             gordoModel.AddComponent<ProjectileGhostController>();
             gordoProjectileGhost = gordoModel;
@@ -646,7 +646,7 @@ namespace EnforcerPlugin {
             buffWard2.expireDuration = 0;
             buffWard2.animateRadius = false;
 
-            GameObject nemGrenadeModel = Assets.nemGasGrenadeModel.InstantiateClone("NemGasGrenadeGhost", true);
+            GameObject nemGrenadeModel = Asset.nemGasGrenadeModel.InstantiateClone("NemGasGrenadeGhost", true);
             nemGrenadeModel.AddComponent<NetworkIdentity>();
             nemGrenadeModel.AddComponent<ProjectileGhostController>();
 
@@ -689,7 +689,7 @@ namespace EnforcerPlugin {
             nemGasDamage.force = -10;
 
             EnforcerModPlugin.Destroy(nemGas.transform.GetChild(0).gameObject);
-            GameObject gasFX = Assets.nemGasEffectPrefab.InstantiateClone("FX", false);
+            GameObject gasFX = Asset.nemGasEffectPrefab.InstantiateClone("FX", false);
             gasFX.AddComponent<TearGasComponent>();
             gasFX.AddComponent<DestroyOnTimer>().duration = 12f;
             gasFX.transform.parent = nemGas.transform;
@@ -725,7 +725,7 @@ namespace EnforcerPlugin {
             skillLocator.passiveSkill.enabled = true;
             skillLocator.passiveSkill.skillNameToken = "NEMFORCER_PASSIVE_NAME";
             skillLocator.passiveSkill.skillDescriptionToken = "NEMFORCER_PASSIVE_DESCRIPTION";
-            skillLocator.passiveSkill.icon = Assets.nemIconPassive;
+            skillLocator.passiveSkill.icon = Asset.nemIconPassive;
 
             if (reworkPassive.Value) skillLocator.passiveSkill.skillDescriptionToken = "NEMFORCER_PASSIVE_REWORK_DESCRIPTION";
         }
@@ -824,7 +824,7 @@ namespace EnforcerPlugin {
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.nIcon1;
+            mySkillDef.icon = Asset.nIcon1;
             mySkillDef.skillDescriptionToken = "NEMFORCER_PRIMARY_HAMMER_DESCRIPTION";
             mySkillDef.skillName = "NEMFORCER_PRIMARY_HAMMER_NAME";
             mySkillDef.skillNameToken = "NEMFORCER_PRIMARY_HAMMER_NAME";
@@ -852,7 +852,7 @@ namespace EnforcerPlugin {
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.nIcon1C;
+            mySkillDef.icon = Asset.nIcon1C;
             mySkillDef.skillDescriptionToken = "NEMFORCER_PRIMARY_THROWHAMMER_DESCRIPTION";
             mySkillDef.skillName = "NEMFORCER_PRIMARY_THROWHAMMER_NAME";
             mySkillDef.skillNameToken = "NEMFORCER_PRIMARY_THROWHAMMER_NAME";
@@ -878,7 +878,7 @@ namespace EnforcerPlugin {
             mySkillDef2.rechargeStock = 1;
             mySkillDef2.requiredStock = 1;
             mySkillDef2.stockToConsume = 1;
-            mySkillDef2.icon = Assets.nIcon1B;
+            mySkillDef2.icon = Asset.nIcon1B;
             mySkillDef2.skillDescriptionToken = "NEMFORCER_PRIMARY_MINIGUN_DESCRIPTION";
             mySkillDef2.skillName = "NEMFORCER_PRIMARY_MINIGUN_NAME";
             mySkillDef2.skillNameToken = "NEMFORCER_PRIMARY_MINIGUN_NAME";
@@ -904,7 +904,7 @@ namespace EnforcerPlugin {
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.nIcon2;
+            mySkillDef.icon = Asset.nIcon2;
             mySkillDef.skillDescriptionToken = "NEMFORCER_SECONDARY_BASH_DESCRIPTION";
             mySkillDef.skillName = "NEMFORCER_SECONDARY_BASH_NAME";
             mySkillDef.skillNameToken = "NEMFORCER_SECONDARY_BASH_NAME";
@@ -932,7 +932,7 @@ namespace EnforcerPlugin {
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.nIcon2B;
+            mySkillDef.icon = Asset.nIcon2B;
             mySkillDef.skillDescriptionToken = "NEMFORCER_SECONDARY_SLAM_DESCRIPTION";
             mySkillDef.skillName = "NEMFORCER_SECONDARY_SLAM_NAME";
             mySkillDef.skillNameToken = "NEMFORCER_SECONDARY_SLAM_NAME";
@@ -965,7 +965,7 @@ namespace EnforcerPlugin {
             utilityDef1.rechargeStock = 1;
             utilityDef1.requiredStock = 1;
             utilityDef1.stockToConsume = 1;
-            utilityDef1.icon = Assets.nIcon3B;
+            utilityDef1.icon = Asset.nIcon3B;
             utilityDef1.skillDescriptionToken = "ENFORCER_UTILITY_STUNGRENADE_DESCRIPTION";
             utilityDef1.skillName = "ENFORCER_UTILITY_STUNGRENADE_NAME";
             utilityDef1.skillNameToken = "ENFORCER_UTILITY_STUNGRENADE_NAME";
@@ -994,7 +994,7 @@ namespace EnforcerPlugin {
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.nIcon3;
+            mySkillDef.icon = Asset.nIcon3;
             mySkillDef.skillDescriptionToken = "NEMFORCER_UTILITY_GAS_DESCRIPTION";
             mySkillDef.skillName = "NEMFORCER_UTILITY_GAS_NAME";
             mySkillDef.skillNameToken = "NEMFORCER_UTILITY_GAS_NAME";
@@ -1020,7 +1020,7 @@ namespace EnforcerPlugin {
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.testIcon;
+            mySkillDef.icon = Asset.testIcon;
             mySkillDef.skillDescriptionToken = "NEMFORCER_UTILITY_JUMP_DESCRIPTION";
             mySkillDef.skillName = "NEMFORCER_UTILITY_JUMP_NAME";
             mySkillDef.skillNameToken = "NEMFORCER_UTILITY_JUMP_NAME";
@@ -1048,7 +1048,7 @@ namespace EnforcerPlugin {
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.nIcon3C;
+            mySkillDef.icon = Asset.nIcon3C;
             mySkillDef.skillDescriptionToken = "NEMFORCER_UTILITY_CRASH_DESCRIPTION";
             mySkillDef.skillName = "NEMFORCER_UTILITY_CRASH_NAME";
             mySkillDef.skillNameToken = "NEMFORCER_UTILITY_CRASH_NAME";
@@ -1078,7 +1078,7 @@ namespace EnforcerPlugin {
             mySkillDef.rechargeStock = 1;
             mySkillDef.requiredStock = 1;
             mySkillDef.stockToConsume = 1;
-            mySkillDef.icon = Assets.nIcon4;
+            mySkillDef.icon = Asset.nIcon4;
             mySkillDef.skillDescriptionToken = "NEMFORCER_SPECIAL_MINIGUNUP_DESCRIPTION";
             mySkillDef.skillName = "NEMFORCER_SPECIAL_MINIGUNUP_NAME";
             mySkillDef.skillNameToken = "NEMFORCER_SPECIAL_MINIGUNUP_NAME";
@@ -1103,7 +1103,7 @@ namespace EnforcerPlugin {
             mySkillDef2.rechargeStock = 1;
             mySkillDef2.requiredStock = 1;
             mySkillDef2.stockToConsume = 1;
-            mySkillDef2.icon = Assets.nIcon4B;
+            mySkillDef2.icon = Asset.nIcon4B;
             mySkillDef2.skillDescriptionToken = "NEMFORCER_SPECIAL_MINIGUNDOWN_DESCRIPTION";
             mySkillDef2.skillName = "NEMFORCER_SPECIAL_MINIGUNDOWN_NAME";
             mySkillDef2.skillNameToken = "NEMFORCER_SPECIAL_MINIGUNDOWN_NAME";
@@ -1161,7 +1161,7 @@ namespace EnforcerPlugin {
             charBody.baseArmor = 20;
             charBody.levelArmor = 0;
             charBody.baseJumpCount = 1;
-            charBody.portraitIcon = Assets.nemBossPortrait;
+            charBody.portraitIcon = Asset.nemBossPortrait;
             charBody.isChampion = true;
             charBody.skinIndex = 0U;
             charBody.bodyColor = characterColor;
@@ -1218,7 +1218,7 @@ namespace EnforcerPlugin {
             charBody.baseArmor = 20;
             charBody.levelArmor = 0;
             charBody.baseJumpCount = 1;
-            charBody.portraitIcon = Assets.nemBossPortrait;
+            charBody.portraitIcon = Asset.nemBossPortrait;
             charBody.isChampion = true;
             charBody.skinIndex = 0U;
             charBody.bodyColor = characterColor;
@@ -2020,7 +2020,7 @@ namespace EnforcerPlugin {
             bodyComponent._defaultCrosshairPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Crosshair/SimpleDotCrosshair");
             bodyComponent.aimOriginTransform = gameObject3.transform;
             bodyComponent.hullClassification = HullClassification.Human;
-            bodyComponent.portraitIcon = Assets.nemCharPortrait;
+            bodyComponent.portraitIcon = Asset.nemCharPortrait;
             bodyComponent.isChampion = false;
             bodyComponent.currentVehicle = null;
             bodyComponent.skinIndex = 0U;
@@ -2065,7 +2065,7 @@ namespace EnforcerPlugin {
             {
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = Assets.CreateMaterial("matDedede"),
+                    defaultMaterial = Asset.CreateMaterial("matDedede"),
                     renderer = childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
@@ -2094,15 +2094,15 @@ namespace EnforcerPlugin {
                 //keep body last for teleporter particles
                 new CharacterModel.RendererInfo
                 {
-                    defaultMaterial = Assets.CreateMaterial("matDedede"),
+                    defaultMaterial = Asset.CreateMaterial("matDedede"),
                     renderer = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>(),
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false
                 }
             };
 
-            childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh = Assets.dededeBossMesh;
-            childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh = Assets.dededeHammerMesh;
+            childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh = Asset.dededeBossMesh;
+            childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh = Asset.dededeHammerMesh;
 
             Shader hotpoo = RoR2.LegacyResourcesAPI.Load<Shader>("Shaders/Deferred/hgstandard");
 
@@ -2113,7 +2113,7 @@ namespace EnforcerPlugin {
 
             characterModel.autoPopulateLightInfos = true;
             characterModel.invisibilityCount = 0;
-            characterModel.temporaryOverlays = new List<TemporaryOverlay>();
+            characterModel.temporaryOverlays = new List<TemporaryOverlayInstance>();
 
             characterModel.mainSkinnedMeshRenderer = characterModel.baseRendererInfos[characterModel.baseRendererInfos.Length - 1].renderer.gameObject.GetComponent<SkinnedMeshRenderer>();
 
@@ -2157,27 +2157,27 @@ namespace EnforcerPlugin {
             capsuleCollider.height = 1.82f;
             capsuleCollider.direction = 1;
 
-            KinematicCharacterMotor kinematicCharacterMotor = dededePrefab.GetComponent<KinematicCharacterMotor>();
-            kinematicCharacterMotor.CharacterController = characterMotor;
-            kinematicCharacterMotor.Capsule = capsuleCollider;
-            kinematicCharacterMotor.Rigidbody = rigidbody;
+            //KinematicCharacterMotor kinematicCharacterMotor = dededePrefab.GetComponent<KinematicCharacterMotor>();
+            //kinematicCharacterMotor.CharacterController = characterMotor;
+            //kinematicCharacterMotor.Capsule = capsuleCollider;
+            //kinematicCharacterMotor.Rigidbody = rigidbody;
 
-            kinematicCharacterMotor.DetectDiscreteCollisions = false;
-            kinematicCharacterMotor.GroundDetectionExtraDistance = 0f;
-            kinematicCharacterMotor.MaxStepHeight = 0.2f;
-            kinematicCharacterMotor.MinRequiredStepDepth = 0.1f;
-            kinematicCharacterMotor.MaxStableSlopeAngle = 55f;
-            kinematicCharacterMotor.MaxStableDistanceFromLedge = 0.5f;
-            kinematicCharacterMotor.PreventSnappingOnLedges = false;
-            kinematicCharacterMotor.MaxStableDenivelationAngle = 55f;
-            kinematicCharacterMotor.RigidbodyInteractionType = RigidbodyInteractionType.None;
-            kinematicCharacterMotor.PreserveAttachedRigidbodyMomentum = true;
-            kinematicCharacterMotor.HasPlanarConstraint = false;
-            kinematicCharacterMotor.PlanarConstraintAxis = Vector3.up;
-            kinematicCharacterMotor.StepHandling = StepHandlingMethod.None;
-            kinematicCharacterMotor.LedgeHandling = true;
-            kinematicCharacterMotor.InteractiveRigidbodyHandling = true;
-            kinematicCharacterMotor.SafeMovement = false;
+            //kinematicCharacterMotor.DetectDiscreteCollisions = false;
+            //kinematicCharacterMotor.GroundDetectionExtraDistance = 0f;
+            //kinematicCharacterMotor.MaxStepHeight = 0.2f;
+            //kinematicCharacterMotor.MinRequiredStepDepth = 0.1f;
+            //kinematicCharacterMotor.MaxStableSlopeAngle = 55f;
+            //kinematicCharacterMotor.MaxStableDistanceFromLedge = 0.5f;
+            //kinematicCharacterMotor.PreventSnappingOnLedges = false;
+            //kinematicCharacterMotor.MaxStableDenivelationAngle = 55f;
+            //kinematicCharacterMotor.RigidbodyInteractionType = RigidbodyInteractionType.None;
+            //kinematicCharacterMotor.PreserveAttachedRigidbodyMomentum = true;
+            //kinematicCharacterMotor.HasPlanarConstraint = false;
+            //kinematicCharacterMotor.PlanarConstraintAxis = Vector3.up;
+            //kinematicCharacterMotor.StepHandling = StepHandlingMethod.None;
+            //kinematicCharacterMotor.LedgeHandling = true;
+            //kinematicCharacterMotor.InteractiveRigidbodyHandling = true;
+            //kinematicCharacterMotor.SafeMovement = false;
 
             HealthComponent healthComponent = dededePrefab.GetComponent<HealthComponent>();
 
@@ -2348,7 +2348,7 @@ namespace EnforcerPlugin {
             charBody.baseArmor = 20;
             charBody.levelArmor = 0;
             charBody.baseJumpCount = 6;
-            charBody.portraitIcon = Assets.MainAssetBundle.LoadAsset<Sprite>("texDededeIcon").texture;
+            charBody.portraitIcon = Asset.MainAssetBundle.LoadAsset<Sprite>("texDededeIcon").texture;
             charBody.isChampion = true;
             charBody.skinIndex = 0U;
             charBody.bodyColor = Color.red;

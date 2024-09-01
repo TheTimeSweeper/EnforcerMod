@@ -460,8 +460,8 @@ public class EnforcerWeaponComponent : MonoBehaviour {
 
         this.shellObjects = new GameObject[EnforcerWeaponComponent.maxShellCount + 1];
 
-        GameObject desiredShell = Assets.shotgunShell;
-        if (this.GetWeapon() == EquippedGun.SUPER) desiredShell = Assets.superShotgunShell;
+        GameObject desiredShell = Asset.shotgunShell;
+        if (this.GetWeapon() == EquippedGun.SUPER) desiredShell = Asset.superShotgunShell;
 
         for (int i = 0; i < EnforcerWeaponComponent.maxShellCount; i++) {
             this.shellObjects[i] = GameObject.Instantiate(desiredShell, this.childLocator.FindChild("Gun"), false);

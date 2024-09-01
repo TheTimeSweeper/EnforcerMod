@@ -19,7 +19,7 @@ namespace Enforcer.Modules.Compat
             SurvivorDef enforcer = SurvivorCatalog.GetSurvivorDef(SurvivorCatalog.GetSurvivorIndexFromBodyIndex(BodyCatalog.FindBodyIndex("EnforcerBody")));
             SurvivorDef heavyTF2 = SurvivorCatalog.GetSurvivorDef(SurvivorCatalog.GetSurvivorIndexFromBodyIndex(BodyCatalog.FindBodyIndex("NemesisEnforcerBody")));
 
-            if (enforcer && heavyTF2)
+            if (enforcer && heavyTF2 && SurvivorVariantCatalog.SurvivorVariantDefs.Find((variantDef) => { return variantDef.VariantSurvivor == heavyTF2; }) == null)
             {
                 SurvivorVariantDef variant = ScriptableObject.CreateInstance<SurvivorVariantDef>();
                 (variant as ScriptableObject).name = heavyTF2.cachedName;

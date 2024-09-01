@@ -88,18 +88,18 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             attack.teamIndex = GetTeam();
             attack.damage = damage * damageStat;
             attack.procCoefficient = 1;
-            attack.hitEffectPrefab = Assets.hammerImpactFX;
+            attack.hitEffectPrefab = Asset.hammerImpactFX;
             attack.forceVector = Vector3.down * downwardForce;
             attack.pushAwayForce = pushawayForce;
             attack.hitBoxGroup = hitBoxGroup;
             attack.isCrit = RollCrit();
-            attack.impactSound = Assets.hammerHitSoundEvent.index;
+            attack.impactSound = Asset.hammerHitSoundEvent.index;
         }
 
         public override void FixedUpdate() {
             base.FixedUpdate();
 
-            hitPauseTimer -= Time.fixedDeltaTime;
+            hitPauseTimer -= Time.deltaTime;
 
             if (hitPauseTimer <= 0f && inHitPause) {
                 ConsumeHitStopCachedState(hitStopCachedState, characterMotor, animator);
@@ -107,7 +107,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             }
 
             if (!inHitPause) {
-                stopwatch += Time.fixedDeltaTime;
+                stopwatch += Time.deltaTime;
             } else {
                 if (characterMotor) characterMotor.velocity = Vector3.zero;
                 if (animator) animator.SetFloat("HammerSwing.playbackRate", 0f);
@@ -149,7 +149,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                     AddRecoil(-1f * attackRecoil, -2f * attackRecoil, -0.5f * attackRecoil, 0.5f * attackRecoil);
 
                     string muzzleString = "ShieldHitbox";
-                    EffectManager.SimpleMuzzleFlash(Assets.hammerSwingFX, gameObject, muzzleString, true);
+                    EffectManager.SimpleMuzzleFlash(Asset.hammerSwingFX, gameObject, muzzleString, true);
 
                     if (slamPrefab) {
                         Vector3 sex = childLocator.FindChild("HammerMuzzle").transform.position;

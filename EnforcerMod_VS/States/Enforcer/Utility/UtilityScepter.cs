@@ -33,7 +33,7 @@ namespace EntityStates.Enforcer {
         public override void FixedUpdate()
         {
             base.characterBody.SetAimTimer(0.25f);
-            this.fixedAge += Time.fixedDeltaTime;
+            this.fixedAge += Time.deltaTime;
 
             bool isShielded = base.HasBuff(Buffs.protectAndServeBuff) || base.HasBuff(Buffs.energyShieldBuff);
             //if (!isShielded) base.PlayAnimation("RightArm, Override", "FireRifle");

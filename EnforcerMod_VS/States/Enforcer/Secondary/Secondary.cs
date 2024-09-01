@@ -128,7 +128,7 @@ namespace EntityStates.Enforcer {
 
                 if (base.isAuthority)
                 {
-                    EffectManager.SimpleMuzzleFlash(Assets.shieldBashFX, base.gameObject, hitboxString, true);
+                    EffectManager.SimpleMuzzleFlash(Asset.shieldBashFX, base.gameObject, hitboxString, true);
                     base.AddRecoil(-0.5f * ShieldBash.recoilAmplitude * 3f, -0.5f * ShieldBash.recoilAmplitude * 3f, -0.5f * ShieldBash.recoilAmplitude * 8f, 0.5f * ShieldBash.recoilAmplitude * 3f);
 
                     Vector3 center = childLocator.FindChild(hitboxString).position;
@@ -535,7 +535,7 @@ namespace EntityStates.Enforcer {
             this.attack.hitBoxGroup = hitBoxGroup;
             this.attack.isCrit = base.RollCrit();
 
-            if (base.isAuthority) EffectManager.SimpleMuzzleFlash(Assets.shoulderBashFX, base.gameObject, "ShieldHitbox", true);
+            if (base.isAuthority) EffectManager.SimpleMuzzleFlash(Asset.shoulderBashFX, base.gameObject, "ShieldHitbox", true);
         }
 
         private void RecalculateSpeed()
@@ -657,7 +657,7 @@ namespace EntityStates.Enforcer {
                 else
                 {
                     base.characterMotor.velocity = Vector3.zero;
-                    this.hitPauseTimer -= Time.fixedDeltaTime;
+                    this.hitPauseTimer -= Time.deltaTime;
                     if (this.hitPauseTimer < 0f)
                     {
                         this.inHitPause = false;

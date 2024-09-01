@@ -41,7 +41,7 @@ namespace EntityStates.Nemforcer {
             {
                 base.HandleMovements();
 
-                base.characterMotor.rootMotion += this.flyVector * ((0.8f * this.moveSpeedStat) * Mage.FlyUpState.speedCoefficientCurve.Evaluate(base.fixedAge / SuperDededeJump.jumpDuration) * Time.fixedDeltaTime);
+                base.characterMotor.rootMotion += this.flyVector * ((0.8f * this.moveSpeedStat) * Mage.FlyUpState.speedCoefficientCurve.Evaluate(base.fixedAge / SuperDededeJump.jumpDuration) * Time.deltaTime);
                 base.characterMotor.velocity.y = 0f;
             }
         }

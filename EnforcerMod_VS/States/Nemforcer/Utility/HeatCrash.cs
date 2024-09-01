@@ -26,6 +26,7 @@ namespace EntityStates.Nemforcer {
         private Transform slamCenterIndicatorInstance;
         private Ray downRay;
         private NemforcerGrabController grabController;
+        private float jankEndTime = -1;
 
         public override void OnEnter()
         {
@@ -59,7 +60,7 @@ namespace EntityStates.Nemforcer {
 
             if (!this.hasDropped)
             {
-                base.characterMotor.rootMotion += this.flyVector * ((0.6f * this.moveSpeedStat) * Mage.FlyUpState.speedCoefficientCurve.Evaluate(base.fixedAge / HeatCrash.jumpDuration) * Time.fixedDeltaTime);
+                base.characterMotor.rootMotion += this.flyVector * ((0.6f * this.moveSpeedStat) * Mage.FlyUpState.speedCoefficientCurve.Evaluate(base.fixedAge / HeatCrash.jumpDuration) * Time.deltaTime);
                 base.characterMotor.velocity.y = 0f;
 
                 this.AttemptGrab(5f);
@@ -75,9 +76,14 @@ namespace EntityStates.Nemforcer {
                 this.StartDrop();
             }
 
-            if (this.hasDropped && base.isAuthority && !base.characterMotor.disableAirControlUntilCollision)
+            if (this.hasDropped && base.isAuthority && !base.characterMotor.disableAirControlUntilCollision && jankEndTime <0)
             {
                 this.LandingImpact();
+                jankEndTime = fixedAge + 0.2f;
+            }
+
+            if(jankEndTime > 0 && fixedAge > jankEndTime)
+            {
                 this.outer.SetNextStateToMain();
             }
         }
@@ -116,7 +122,7 @@ namespace EntityStates.Nemforcer {
         {
             if (this.grabController) this.grabController.Release();
 
-            base.characterMotor.velocity *= 0.1f;
+            SmallHop(characterMotor, 10);
 
             BlastAttack blastAttack = new BlastAttack();
             blastAttack.radius = SuperDededeJump.slamRadius;
