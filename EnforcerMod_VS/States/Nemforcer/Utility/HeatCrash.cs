@@ -70,7 +70,7 @@ namespace EntityStates.Nemforcer {
             {
                 this.CreateIndicator();
             }
-
+            
             if (base.fixedAge >= HeatCrash.jumpDuration && !this.hasDropped)
             {
                 this.StartDrop();

@@ -1,5 +1,14 @@
-`3.9.0`
+`3.11.0`
+- fixed nemforcer secondary slam taking fall damage
+- added "FixInvincibleMithrix" as a hard dependency until either gearbox fixes chronic expansion or we add an item display
+- fixed missing VFX
+- added Spanish (Spain) translation (thanks Bagre!)
 
+`3.10.0`
+- sots fix
+- added slight hop after heat crash that should maybe combat falling through the floor when grabbing bosses
+
+`3.9.0`
 - Survariants Compat
 - heavy tf2
 	- Now uses standard health regen. 0.5 (+0.25) -> 1.0 (+0.2)

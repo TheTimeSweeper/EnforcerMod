@@ -44,7 +44,7 @@ namespace EnforcerPlugin {
     [BepInDependency("com.johnedwa.RTAutoSprintEx", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("pseudopulse.Survariants", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.9.1")]
+    [BepInPlugin(MODUID, "Enforcer", "3.11.0")]
     public class EnforcerModPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.EnforcerGang.Enforcer";
@@ -727,7 +727,6 @@ namespace EnforcerPlugin {
 
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
-            Log.Warning("ouch");
             //Tear Gas damage numbers
             if (info.damageColorIndex == DamageColorIndex.Default && self.body.HasBuff(Buffs.impairedBuff)) {
                 info.damageColorIndex = DamageColorIndex.WeakPoint;

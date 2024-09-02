@@ -3,12 +3,12 @@
 - Includes a bunch of unlockable alternate skills and skins
 - Includes support for Ancient Scepter, VR, and a few other mods
 
-[![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/Release/readme/screen0.png)]()
+![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/Release/readme/screen0.png)
 
-[![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/Release/readme/screen1.png)]()
-[![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/Release/readme/screen2.png)]()
+![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/Release/readme/screen1.png)
+![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/Release/readme/screen2.png)
 
-[![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/8817c519fd461e0afbb8920bc6a5d6c40a0dbc40/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/texEnforcerIcon.png)]()
+![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/8817c519fd461e0afbb8920bc6a5d6c40a0dbc40/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/texEnforcerIcon.png)
 
 Join the discord server to share any feedback/bugs/suggestions- https://discord.gg/HpQB9fC  
 Or ping/message me directly (`thetimesweeper`) with all the nastiest feedback you can think of
@@ -52,6 +52,8 @@ Chinese - Meteorite1014
 Brazilian Portuguese - Kauzok  
 Russian - Lecarde  
 Japanese - punch  
+Spanish (Spain) - Bagre
+Spanish (Mexico) - same as Spain
 ___
 
 ## Skills
@@ -73,14 +75,14 @@ ___
 | Heavy Machine Gun | ![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/AssaultRifleIcon.png) | Unload a barrage of bullets for `130%` damage. While using `Protect and Serve` has increased accuracy, but slower movement speed. | Proc: `1` |
 | Stun Grenade | ![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/Skills/StunGrenadeIcon.png) | `Stunning`. Launch a stun grenade, dealing `540%` damage. Store up to 3 grenades. | Proc: `1`, CD: `7 sec` |
 
-[![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)]()
+![Gnome's true dedication](https://i.imgur.com/txUzvAY.png)
 
 ___
 
 ## VR 
 Enforcer is now compatible with [Dr.Bibop's VRMod](https://thunderstore.io/package/DrBibop/VRMod/). make sure you have [VRAPI installed](https://thunderstore.io/package/DrBibop/VRAPI/).  
 Huge thanks to Dr.Bibop and PureDark for the *full* VR implementation  
-[![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/Release/readme/enforvr.png)]()
+![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/master/Release/readme/enforvr.png)
 
 #### Guns
  - aimed with dominant hand
@@ -128,11 +130,8 @@ ___
 ## Changelog
 Full changelog in changelog tab
 
-`3.8.4`
-- fixed CN and BR translations breaking the universe
-
-`3.8.3`
-
-- Fixed Nemesis Invasion void fields rounds cleared being hardcoded.
-- Added CN TL (Thanks Meteorite1014!)
-- Added PT-BR TL (Thanks Kauzok!)
+`3.11.0`
+- fixed nemforcer secondary slam taking fall damage
+- added "FixInvincibleMithrix" as a hard dependency until either gearbox fixes chronic expansion or we add an item display
+- fixed missing vfx
+- added Spanish (Spain) translation (thanks Bagre!)

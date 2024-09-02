@@ -497,9 +497,14 @@ namespace EntityStates.Nemforcer {
 
         private GameObject soundGO;
 
+        private float jankEndTime = -1;
+
         public override void OnEnter()
         {
             base.OnEnter();
+
+            base.characterBody.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
+
             this.duration = HammerAirSlam.baseDuration / this.attackSpeedStat;
             this.hasFired = false;
             base.characterBody.isSprinting = false;
@@ -556,6 +561,15 @@ namespace EntityStates.Nemforcer {
 
         public override void OnExit()
         {
+
+            base.characterBody.bodyFlags &= ~CharacterBody.BodyFlags.IgnoreFallDamage;
+
+            base.OnExit();
+        }
+
+        private void FireBlast()
+        {
+
             if (base.cameraTargetParams)
             {
                 base.cameraTargetParams.fovOverride = -1f;
@@ -565,13 +579,6 @@ namespace EntityStates.Nemforcer {
 
             if (NetworkServer.active) base.characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
 
-            this.FireBlast();
-
-            base.OnExit();
-        }
-
-        private void FireBlast()
-        {
             Vector3 sex = this.childLocator.FindChild("HammerHitbox").transform.position;
             this.radius = Util.Remap(this.fallStopwatch + this.baseFallTime, 0f, 8f, HammerAirSlam.minRadius, HammerAirSlam.maxRadius);
             this.recoil += 0.5f * this.radius;
@@ -625,7 +632,14 @@ namespace EntityStates.Nemforcer {
             base.characterBody.isSprinting = true;
             this.fallStopwatch += Time.deltaTime;
 
-            if (!base.characterMotor.disableAirControlUntilCollision  || base.characterMotor.isGrounded)
+            if ((!base.characterMotor.disableAirControlUntilCollision  || base.characterMotor.isGrounded) && jankEndTime < 0)
+            {
+                jankEndTime = fixedAge + 0.2f;
+
+                this.FireBlast(); 
+            }
+
+            if (jankEndTime > 0 && fixedAge > jankEndTime)
             {
                 this.outer.SetNextStateToMain();
                 return;

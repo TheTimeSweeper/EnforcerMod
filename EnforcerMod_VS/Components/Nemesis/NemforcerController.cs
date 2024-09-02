@@ -67,7 +67,7 @@ public class NemforcerController : MonoBehaviour
         charMotor = GetComponent<CharacterMotor>();
         charHealth = GetComponent<HealthComponent>();
         cameraShit = GetComponent<CameraTargetParams>();
-        childLocator = GetComponentInChildren<ChildLocator>();
+        childLocator = charBody.modelLocator.modelTransform.GetComponent<ChildLocator>();
 
         if(EnforcerModPlugin.VREnabled)
             nemforcerVRController = GetComponentInChildren<NemforcerVRController>();

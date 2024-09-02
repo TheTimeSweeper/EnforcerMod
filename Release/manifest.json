@@ -1,15 +1,16 @@
 {
     "name": "Enforcer",
-    "version_number": "3.9.0",
+    "version_number": "3.11.0",
     "website_url": "https://github.com/TheTimeSweeper/EnforcerMod",
     "description": "Adds the Enforcer from Risk of Rain 1 as a fully fleshed out playable survivor.",
-    "dependencies": [
-        "bbepis-BepInExPack-5.4.1905",
-        "RiskofThunder-R2API_Core-5.0.3",
-        "RiskofThunder-R2API_Prefab-1.0.1",
-        "RiskofThunder-R2API_RecalculateStats-1.0.0",
-        "RiskofThunder-R2API_Unlockable-1.0.0",
-        "RiskofThunder-R2API_Director-1.0.0",
-        "RiskofThunder-R2API_DamageType-1.0.0"
-    ]
+  "dependencies": [
+    "bbepis-BepInExPack-5.4.1905",
+    "RiskofThunder-R2API_Core-5.0.3",
+    "RiskofThunder-R2API_Prefab-1.0.1",
+    "RiskofThunder-R2API_RecalculateStats-1.0.0",
+    "RiskofThunder-R2API_Unlockable-1.0.0",
+    "RiskofThunder-R2API_Director-1.0.0",
+    "RiskofThunder-R2API_DamageType-1.0.0",
+    "riskofresources-FixInvincibleMithrix-0.0.1"
+  ]
 }
