@@ -1,13 +1,14 @@
 ﻿using RoR2;
+using RoR2.Achievements;
 
 namespace EnforcerPlugin.Achievements {
 
-    public class StunGrenadeAchievement : GenericModdedUnlockable
+    [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID", 3, null)]
+    public class StunGrenadeAchievement : BaseAchievement
     {
-        public override string AchievementTokenPrefix => "ENFORCER_STUNGRENADE";
-        public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
-
-        public override string AchievementSpriteName => "texStunGrenadeAchievement";
+        public const string identifier = "ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_ID" + knee.grow;
+        public const string unlockableIdentifier = "ENFORCER_STUNGRENADEUNLOCKABLE_REWARD_ID" + knee.grow;
+        public const string AchievementSpriteName = "texStunGrenadeAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex()
         {

@@ -27,7 +27,7 @@ namespace Modules {
         }
 
         private static void RegisterEnforcerTokens() {
-
+            
             #region Enforcer
 
             const string characterName = "Enforcer";
@@ -166,70 +166,53 @@ namespace Modules {
 
             #region Achievements
             //character
-            LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_NAME", "Riot");
-            LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_DESC", "Kill a Magma Worm, a Wandering Vagrant and a Stone Titan in a single run.");
-            LanguageAPI.Add("ENFORCER_CHARACTERUNLOCKABLE_UNLOCKABLE_NAME", "Riot");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID"), "Riot");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID"), "Kill a Magma Worm, a Wandering Vagrant and a Stone Titan in a single run.");
 
-            LanguageAPI.Add("ENFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Mastery");
-            LanguageAPI.Add("ENFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Monsoon.");
-            LanguageAPI.Add("ENFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Mastery");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("ENFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_ID"), "Enforcer: Mastery");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("ENFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_ID"), "As Enforcer, beat the game or obliterate on Monsoon.");
 
-            string masteryFootnote = EnforcerModPlugin.starstormInstalled ? "" : "\n<color=#8888>(Counts any difficulty Typhoon or higher)</color>";
-
-            LanguageAPI.Add("ENFORCER_GRANDMASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Grand Mastery");
-            LanguageAPI.Add("ENFORCER_GRANDMASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, beat the game or obliterate on Typhoon or Eclipse." + masteryFootnote);
-            LanguageAPI.Add("ENFORCER_GRANDMASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Grand Mastery");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("ENFORCER_GRANDMASTERYUNLOCKABLE_ACHIEVEMENT_ID"), "Enforcer: Grand Mastery");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("ENFORCER_GRANDMASTERYUNLOCKABLE_ACHIEVEMENT_ID"), "As Enforcer, beat the game or obliterate on Typhoon or Eclipse.\n<color=#8888>(Counts any difficulty Typhoon or higher)</color>");
 
             //skills
-            LanguageAPI.Add("ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Rip and Tear...");
-            LanguageAPI.Add("ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, kill 20 imps in a single run.");
-            LanguageAPI.Add("ENFORCER_DOOMUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Rip and Tear...");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_ID"), "Enforcer: Rip and Tear...");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("ENFORCER_DOOMUNLOCKABLE_ACHIEVEMENT_ID"), "As Enforcer, kill 20 imps in a single run.");
 
-            LanguageAPI.Add("ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Rapidfire");
-            LanguageAPI.Add("ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, reach +400% attack speed.");
-            LanguageAPI.Add("ENFORCER_RIFLEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Rapidfire");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_ID"), "Enforcer: Rapidfire");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_ID"), "As Enforcer, reach +400% attack speed.");
 
-            LanguageAPI.Add("ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Crowd Control");
-            LanguageAPI.Add("ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, have 20 enemies under the effects of Tear Gas at once.");
-            LanguageAPI.Add("ENFORCER_STUNGRENADEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Crowd Control");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_ID"), "Enforcer: Crowd Control");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("ENFORCER_STUNGRENADEUNLOCKABLE_ACHIEVEMENT_ID"), "As Enforcer, have 20 enemies under the effects of Tear Gas at once.");
 
             //skans                                                       //technically not robocop quote but a lot more understandable in general
-            LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: We Have the Technology");
-            LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, fall and be brought back to life.");
-            LanguageAPI.Add("ENFORCER_ROBITUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: We Have the Technology");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_ID"), "Enforcer: We Have the Technology");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_ID"), "As Enforcer, fall and be brought back to life.");
 
 
-            LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Clearance");
-            LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, stabilize the Cell in the Void Fields.");
-            LanguageAPI.Add("ENFORCER_NEMESISSKINUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Clearance");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_ID"), "Enforcer: Clearance");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_ID"), "As Enforcer, stabilize the Cell in the Void Fields.");
 
-            LanguageAPI.Add("ENFORCER_DOOMINTERNALUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: ...Until it is done");
-            LanguageAPI.Add("ENFORCER_DOOMINTERNALUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, kill 10 imp overlords in a single run.");
-            LanguageAPI.Add("ENFORCER_DOOMINTERNALUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: ...Until it is done");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("ENFORCER_DOOMINTERNALUNLOCKABLE_ACHIEVEMENT_ID"), "Enforcer: ...Until it is done");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("ENFORCER_DOOMINTERNALUNLOCKABLE_ACHIEVEMENT_ID"), "As Enforcer, kill 10 imp overlords in a single run.");
 
-            LanguageAPI.Add("ENFORCER_CLASSICUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Schmoovin'");
-            LanguageAPI.Add("ENFORCER_CLASSICUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, show off your dance moves.");
-            LanguageAPI.Add("ENFORCER_CLASSICUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Schmoovin'");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("ENFORCER_CLASSICUNLOCKABLE_ACHIEVEMENT_ID"), "Enforcer: Schmoovin'");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("ENFORCER_CLASSICUNLOCKABLE_ACHIEVEMENT_ID"), "As Enforcer, show off your dance moves.");
 
-            LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Rules of Nature");
-            LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, Defeat the unique guardian of Gilded Coast by pushing it off the edge of the map.");
-            LanguageAPI.Add("ENFORCER_DESPERADOUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Rules of Nature");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_ID"), "Enforcer: Rules of Nature");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_ID"), "As Enforcer, Defeat the unique guardian of Gilded Coast by pushing it off the edge of the map.");
 
-            LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Enforcing Perfection");
-            LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, become one with the Bungus.");
-            LanguageAPI.Add("ENFORCER_BUNGUSUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Enforcing Perfection");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_ID"), "Enforcer: Enforcing Perfection");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_ID"), "As Enforcer, become one with the Bungus.");
 
-            LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Long Live the Empire");
-            LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, defeat an elite Solus Control Unit.");
-            LanguageAPI.Add("ENFORCER_STORMTROOPERUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Long Live the Empire");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_ID"), "Enforcer: Long Live the Empire");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("ENFORCER_STORMTROOPERUNLOCKABLE_ACHIEVEMENT_ID"), "As Enforcer, defeat an elite Solus Control Unit.");
 
-            LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Through Thick and Thin");
-            LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, make a friend on the moon.");
-            LanguageAPI.Add("ENFORCER_FROGUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Through Thick and Thin");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_ID"), "Enforcer: Through Thick and Thin");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_ID"), "As Enforcer, make a friend on the moon.");
 
-            LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_NAME", "Enforcer: Blocks");
-            LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, block an attack with your shield.");
-            LanguageAPI.Add("ENFORCER_STEVEUNLOCKABLE_UNLOCKABLE_NAME", "Enforcer: Blocks");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_ID"), "Enforcer: Blocks");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_ID"), "As Enforcer, block an attack with your shield.");
 
             #endregion Achievements
 
@@ -344,24 +327,18 @@ namespace Modules {
 
             #region Achievements
             //character
-            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_NAME", "???");
-            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_DESC", "As Enforcer, on monsoon or higher, stabilize the Void Fields and defeat Enforcer's Vestige.");
-            LanguageAPI.Add("ENFORCER_NEMESIS2UNLOCKABLE_UNLOCKABLE_NAME", "???");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_ID"), "???");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_ID"), "As Enforcer, on monsoon or higher, stabilize the Void Fields and defeat Enforcer's Vestige.");
 
-            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Mastery");
-            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Monsoon.");
-            LanguageAPI.Add("NEMFORCER_MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Mastery");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_ID"), "Nemesis Enforcer: Mastery");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_ID"), "As Nemesis Enforcer, beat the game or obliterate on Monsoon.");
 
-            string masteryFootnote = EnforcerModPlugin.starstormInstalled ? "" : "\n<color=#8888>(Counts any difficulty Typhoon or higher)</color>";
-
-            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Grand Mastery");
-            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, beat the game or obliterate on Typhoon or Eclipse." + masteryFootnote);
-            LanguageAPI.Add("NEMFORCER_TYPHOONUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Grand Mastery");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_ID"), "Nemesis Enforcer: Grand Mastery");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_ID"), "As Nemesis Enforcer, beat the game or obliterate on Typhoon or Eclipse.\n<color=#8888>(Counts any difficulty Typhoon or higher)</color>");
 
             //sken
-            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_NAME", "Nemesis Enforcer: Demolition");
-            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_DESC", "As Nemesis Enforcer, destroy 5 projectiles at once with Dominance.");
-            LanguageAPI.Add("NEMFORCER_DOMINANCEUNLOCKABLE_UNLOCKABLE_NAME", "Nemesis Enforcer: Demolition");
+            LanguageAPI.Add(Tokens.GetAchievementNameToken("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_ID"), "Nemesis Enforcer: Demolition");
+            LanguageAPI.Add(Tokens.GetAchievementDescToken("NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_ID"), "As Nemesis Enforcer, destroy 5 projectiles at once with Dominance.");
             #endregion
 
             #region betterui
@@ -369,6 +346,21 @@ namespace Modules {
             LanguageAPI.Add("NEMFORCER_PROC_SLAM", "Slam");
             LanguageAPI.Add("NEMFORCER_PROC_JAM", "Jam");
             #endregion
+        }
+
+        /// <summary>
+        /// gets langauge token from achievement's registered identifier
+        /// </summary>
+        public static string GetAchievementNameToken(string identifier)
+        {
+            return $"ACHIEVEMENT_{identifier.ToUpperInvariant()}_NAME";
+        }
+        /// <summary>
+        /// gets langauge token from achievement's registered identifier
+        /// </summary>
+        public static string GetAchievementDescToken(string identifier)
+        {
+            return $"ACHIEVEMENT_{identifier.ToUpperInvariant()}_DESCRIPTION";
         }
     }
 }

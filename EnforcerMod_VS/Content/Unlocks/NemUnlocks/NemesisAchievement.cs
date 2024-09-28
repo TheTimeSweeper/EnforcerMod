@@ -1,13 +1,14 @@
 ﻿using RoR2;
+using RoR2.Achievements;
 
 namespace EnforcerPlugin.Achievements
 {
-    internal class NemesisAchievement : GenericModdedUnlockable
+    [RegisterAchievement(identifier, unlockableIdentifier, null, 5, null)]
+    internal class NemesisAchievement : BaseAchievement
     {
-        public override string AchievementTokenPrefix => "ENFORCER_NEMESIS2";
-        public override string PrerequisiteUnlockableIdentifier => "";
-
-        public override string AchievementSpriteName => "texNemesisUnlockAchievement";
+        public const string identifier = "ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_ID";
+        public const string unlockableIdentifier = "ENFORCER_NEMESIS2UNLOCKABLE_REWARD_ID";
+        public const string AchievementSpriteName = "texNemesisUnlockAchievement";
 
         private void CheckDeath(Run run) {
             Grant();

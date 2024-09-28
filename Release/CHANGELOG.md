@@ -1,3 +1,13 @@
+
+`3.11.2`
+- fixed achievements, adding lunar coin rewards
+- removed debug code including cycling skins on G
+- separated english from the language files so it is updated with configs (untested)
+
+`3.11.1`
+- fixed skin-specific goodies not working
+- removed fixinvinciblemithrix dependency
+
 `3.11.0`
 - fixed nemforcer secondary slam taking fall damage
 - added "FixInvincibleMithrix" as a hard dependency until either gearbox fixes chronic expansion or we add an item display

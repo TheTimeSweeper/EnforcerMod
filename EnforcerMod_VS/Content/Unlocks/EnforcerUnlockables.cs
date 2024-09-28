@@ -2,6 +2,7 @@
 using R2API;
 using EnforcerPlugin.Achievements;
 using EnforcerPlugin;
+using UnityEngine;
 
 namespace EnforcerPlugin.Achievements {
     public static class knee {
@@ -47,37 +48,72 @@ namespace Modules {
             //      lol fucking that was a year ago you have to search from:timesweeper i was retarded for saying this
             //if the pull requests gets accepted I'll add the other needed ones to this
             //      fucking it was never merged in i'm reeing so hard right now
-            enforcerUnlockableDef = Config.forceUnlock.Value ? null : UnlockableAPI.AddUnlockable<EnforcerUnlockAchievement>(typeof(EnforcerUnlockAchievement.EnforcerUnlockAchievementServer));
+            enforcerUnlockableDef = Config.forceUnlock.Value ? null : Modules.Content.CreateAndAddUnlockbleDef(
+                EnforcerUnlockAchievement.unlockableIdentifier,
+                Modules.Tokens.GetAchievementNameToken(EnforcerUnlockAchievement.identifier),
+                Asset.MainAssetBundle.LoadAsset<Sprite>(EnforcerUnlockAchievement.AchievementSpriteName)); 
+            
+            enforcerMasteryUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(
+                MasteryAchievementButEpic.unlockableIdentifier,
+                Modules.Tokens.GetAchievementNameToken(MasteryAchievementButEpic.identifier),
+                Asset.MainAssetBundle.LoadAsset<Sprite>(MasteryAchievementButEpic.AchievementSpriteName));
+            enforcerGrandMasteryUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(
+                GrandMasteryAchievement.unlockableIdentifier,
+                Modules.Tokens.GetAchievementNameToken(GrandMasteryAchievement.identifier),
+                Asset.MainAssetBundle.LoadAsset<Sprite>(GrandMasteryAchievement.AchievementSpriteName)); 
 
-            enforcerMasteryUnlockableDef = UnlockableAPI.AddUnlockable<MasteryAchievementButEpic>();
-            enforcerGrandMasteryUnlockableDef = UnlockableAPI.AddUnlockable<GrandMasteryAchievement>();
+            enforcerDoomUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(
+                DoomAchievement.unlockableIdentifier,
+                Modules.Tokens.GetAchievementNameToken(DoomAchievement.identifier),
+                Asset.MainAssetBundle.LoadAsset<Sprite>(DoomAchievement.AchievementSpriteName));
 
-            enforcerDoomUnlockableDef = UnlockableAPI.AddUnlockable<DoomAchievement>(typeof(DoomAchievement.DoomAchievementServer));
-            enforcerARUnlockableDef = UnlockableAPI.AddUnlockable<AssaultRifleAchievement>();
-            enforcerStunGrenadeUnlockableDef = UnlockableAPI.AddUnlockable<StunGrenadeAchievement>();
+            enforcerARUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(
+                AssaultRifleAchievement.unlockableIdentifier,
+                Modules.Tokens.GetAchievementNameToken(AssaultRifleAchievement.identifier),
+                Asset.MainAssetBundle.LoadAsset<Sprite>(AssaultRifleAchievement.AchievementSpriteName));
 
-            enforcerRobitUnlockableDef = UnlockableAPI.AddUnlockable<RobitAchievement>(typeof(RobitAchievement.RobitAchievementServer));
-            enforcerNemesisSkinUnlockableDef = UnlockableAPI.AddUnlockable<RecolorNemesisSkinAchievement>(typeof(RecolorNemesisSkinAchievement.RecolorNemesisSkinAchievementServer));
-            enforcerClassicUnlockableDef = UnlockableAPI.AddUnlockable<ClassicAchievement>();
+            enforcerStunGrenadeUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(
+                StunGrenadeAchievement.unlockableIdentifier,
+                Modules.Tokens.GetAchievementNameToken(StunGrenadeAchievement.identifier),
+                Asset.MainAssetBundle.LoadAsset<Sprite>(StunGrenadeAchievement.AchievementSpriteName));
+            
+            enforcerRobitUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(
+                RobitAchievement.unlockableIdentifier,
+                Modules.Tokens.GetAchievementNameToken(RobitAchievement.identifier),
+                Asset.MainAssetBundle.LoadAsset<Sprite>(RobitAchievement.AchievementSpriteName));
+            enforcerNemesisSkinUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(
+                RecolorNemesisSkinAchievement.unlockableIdentifier,
+                Modules.Tokens.GetAchievementNameToken(RecolorNemesisSkinAchievement.identifier),
+                Asset.MainAssetBundle.LoadAsset<Sprite>(RecolorNemesisSkinAchievement.AchievementSpriteName)); 
+            enforcerClassicUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(
+                ClassicAchievement.unlockableIdentifier, 
+                Modules.Tokens.GetAchievementNameToken(ClassicAchievement.identifier), 
+                Asset.MainAssetBundle.LoadAsset<Sprite>(ClassicAchievement.AchievementSpriteName));
             
             if (!Config.hateFun.Value)
             {
-                enforcerDoomSkinUnlockableDef = UnlockableAPI.AddUnlockable<DoomAchievement2>(typeof(DoomAchievement2.DoomAchievement2Server));
-                enforcerDesperadoSkinUnlockableDef = UnlockableAPI.AddUnlockable<DesperadoAchievement>(typeof(DesperadoAchievement.DesperadoAchievementServer));
-                enforcerEngiSkinUnlockableDef = UnlockableAPI.AddUnlockable<BungusAchievement>();
-                enforcerStormSkinUnlockableDef = UnlockableAPI.AddUnlockable<StormtrooperAchievement>(typeof(StormtrooperAchievement.StormtrooperAchievementServer));
+                enforcerDoomSkinUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(
+                    DoomAchievement2.unlockableIdentifier, 
+                    Modules.Tokens.GetAchievementNameToken(DoomAchievement2.identifier), 
+                    Asset.MainAssetBundle.LoadAsset<Sprite>(DoomAchievement2.AchievementSpriteName));
+                enforcerDesperadoSkinUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(DesperadoAchievement.unlockableIdentifier, Modules.Tokens.GetAchievementNameToken(DesperadoAchievement.identifier), Asset.MainAssetBundle.LoadAsset<Sprite>(DesperadoAchievement.AchievementSpriteName));
+                enforcerEngiSkinUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(BungusAchievement.unlockableIdentifier, Modules.Tokens.GetAchievementNameToken(BungusAchievement.identifier), Asset.MainAssetBundle.LoadAsset<Sprite>(BungusAchievement.AchievementSpriteName));
+                enforcerStormSkinUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(StormtrooperAchievement.unlockableIdentifier, Modules.Tokens.GetAchievementNameToken(StormtrooperAchievement.identifier), Asset.MainAssetBundle.LoadAsset<Sprite>(StormtrooperAchievement.AchievementSpriteName));
             }
             
             if (Config.cursed.Value)
             {
-                enforcerSteveUnlockableDef = UnlockableAPI.AddUnlockable<SteveAchievement>(typeof(SteveAchievement.SteveAchievementServer));
-                enforcerFrogUnlockableDef = UnlockableAPI.AddUnlockable<FrogAchievement>(typeof(FrogAchievement.FrogAchievementServer));
+                enforcerSteveUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(SteveAchievement.unlockableIdentifier, Modules.Tokens.GetAchievementNameToken(SteveAchievement.identifier), Asset.MainAssetBundle.LoadAsset<Sprite>(SteveAchievement.AchievementSpriteName));
+                enforcerFrogUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(FrogAchievement.unlockableIdentifier, Modules.Tokens.GetAchievementNameToken(FrogAchievement.identifier), Asset.MainAssetBundle.LoadAsset<Sprite>(FrogAchievement.AchievementSpriteName));
             }
 
-            nemesisUnlockableDef = UnlockableAPI.AddUnlockable<NemesisAchievement>();
-            nemMasteryUnlockableDef = UnlockableAPI.AddUnlockable<NemMasteryAchievement>();
-            nemGrandMasteryUnlockableDef = UnlockableAPI.AddUnlockable<NemGrandMasteryAchievement>();
-            nemDominanceUnlockableDef = UnlockableAPI.AddUnlockable<NemDominanceAchievement>();
+            nemesisUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(NemesisAchievement.unlockableIdentifier, Modules.Tokens.GetAchievementNameToken(NemesisAchievement.identifier), Asset.MainAssetBundle.LoadAsset<Sprite>(NemesisAchievement.AchievementSpriteName));
+            nemMasteryUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(
+                    NemMasteryAchievementButEpic.unlockableIdentifier,
+                    Modules.Tokens.GetAchievementNameToken(NemMasteryAchievementButEpic.identifier),
+                    Asset.MainAssetBundle.LoadAsset<Sprite>(NemMasteryAchievementButEpic.AchievementSpriteName)); 
+            nemGrandMasteryUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(NemGrandMasteryAchievement.unlockableIdentifier, Modules.Tokens.GetAchievementNameToken(NemGrandMasteryAchievement.identifier), Asset.MainAssetBundle.LoadAsset<Sprite>(NemGrandMasteryAchievement.AchievementSpriteName));
+            nemDominanceUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(NemDominanceAchievement.unlockableIdentifier, Modules.Tokens.GetAchievementNameToken(NemDominanceAchievement.identifier), Asset.MainAssetBundle.LoadAsset<Sprite>(NemDominanceAchievement.AchievementSpriteName));
         }
     }
 }

@@ -1,21 +1,25 @@
-﻿namespace EnforcerPlugin.Achievements
+﻿using RoR2;
+
+namespace EnforcerPlugin.Achievements
 {
-    public class MasteryAchievementButEpic : BaseMasteryUnlockable
+    [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID", 10, null)]
+    public class MasteryAchievementButEpic : BaseMasteryAchievement
     {
-        public override string AchievementTokenPrefix => "ENFORCER_MASTERY";
-        public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
-        public override string AchievementSpriteName => "texNemforcerEnforcer";
+        public const string identifier = "ENFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_ID";
+        public const string unlockableIdentifier = "ENFORCER_MASTERYUNLOCKABLE_REWARD_ID";
+        public const string AchievementSpriteName = "texSexforcerAchievement";
         
         public override string RequiredCharacterBody => "EnforcerBody";
 
         public override float RequiredDifficultyCoefficient => 3f;
     }
 
-    public class GrandMasteryAchievement: BaseMasteryUnlockable
+    [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID", 10, null)]
+    public class GrandMasteryAchievement: BaseMasteryAchievement
     {
-        public override string AchievementTokenPrefix => "ENFORCER_GRANDMASTERY";
-        public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
-        public override string AchievementSpriteName => "texTyphoonAchievement";
+        public const string identifier = "ENFORCER_GRANDMASTERYUNLOCKABLE_ACHIEVEMENT_ID";
+        public const string unlockableIdentifier = "ENFORCER_GRANDMASTERYUNLOCKABLE_REWARD_ID";
+        public const string AchievementSpriteName = "texTyphoonAchievement";
 
         public override string RequiredCharacterBody => "EnforcerBody";
 

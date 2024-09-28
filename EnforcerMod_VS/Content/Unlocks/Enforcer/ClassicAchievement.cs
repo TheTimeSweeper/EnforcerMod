@@ -1,14 +1,15 @@
 ﻿using Modules;
 using RoR2;
+using RoR2.Achievements;
 
 namespace EnforcerPlugin.Achievements
-{    
-    public class ClassicAchievement : GenericModdedUnlockable
+{
+    [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID", 1, null)]
+    public class ClassicAchievement : BaseAchievement
     {
-        public override string AchievementTokenPrefix => "ENFORCER_CLASSIC" + knee.grow;
-        public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
-
-        public override string AchievementSpriteName => "texClassicAchievement";
+        public const string identifier = "ENFORCER_CLASSICUNLOCKABLE_ACHIEVEMENT_ID" + knee.grow;
+        public const string unlockableIdentifier = "ENFORCER_CLASSICUNLOCKABLE_REWARD_ID" + knee.grow;
+        public const string AchievementSpriteName = "texClassicAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex()
         {

@@ -1,13 +1,14 @@
 ﻿using RoR2;
+using RoR2.Achievements;
 
 namespace EnforcerPlugin.Achievements {
 
-    public class AssaultRifleAchievement : GenericModdedUnlockable
+    [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID", 3, null)]
+    public class AssaultRifleAchievement : BaseAchievement
     {
-        public override string AchievementTokenPrefix => "ENFORCER_RIFLE";
-        public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
-
-        public override string AchievementSpriteName => "texAssaultRifleAchievement";
+        public const string identifier = "ENFORCER_RIFLEUNLOCKABLE_ACHIEVEMENT_ID";
+        public const string unlockableIdentifier = "ENFORCER_RIFLEUNLOCKABLE_REWARD_ID";
+        public const string AchievementSpriteName = "texAssaultRifleAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex()
         {

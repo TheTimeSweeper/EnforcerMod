@@ -181,7 +181,7 @@ namespace EnforcerPlugin {
             altSkinDefInfo.Name = "NEMFORCERBODY_ENFORCER_SKIN_NAME";
             altSkinDefInfo.NameToken = "NEMFORCERBODY_ENFORCER_SKIN_NAME";
             altSkinDefInfo.Icon = Asset.MainAssetBundle.LoadAsset<Sprite>("texNemforcerEnforcer");
-            altSkinDefInfo.UnlockableDef = null;
+            altSkinDefInfo.UnlockableDef = EnforcerUnlockables.nemDominanceUnlockableDef;
             altSkinDefInfo.RootObject = model;
 
             altSkinDefInfo.BaseSkins = new SkinDef[] { defaultSkinDef };

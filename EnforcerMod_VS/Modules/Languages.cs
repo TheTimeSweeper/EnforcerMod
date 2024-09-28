@@ -9,7 +9,7 @@ namespace Modules {
         public static string TokensOutput = "";
 
         public static bool printingEnabled => false;
-
+        
         internal static string languageRoot => System.IO.Path.Combine(Files.assemblyDir, "Language");
         
         public static void Init() {
@@ -32,6 +32,9 @@ namespace Modules {
         }
 
         public static void Add(string token, string text) {
+
+            R2API.LanguageAPI.Add(token, text, "en");
+
             if (!printingEnabled) return;
 
             //add a token formatted to language file
@@ -49,7 +52,7 @@ namespace Modules {
 
             //write a language file txt next to your mod. must have a folder called Language next to your mod dll.
             if (!string.IsNullOrEmpty(fileName)) {
-                string path = Path.Combine(Files.assemblyDir, "Language", "en", fileName);
+                string path = Path.Combine(Files.assemblyDir, "Language", "english", fileName);
                 File.WriteAllText(path, strings);
             }
 

@@ -1,17 +1,18 @@
 ﻿using RoR2;
 using R2API;
+using RoR2.Achievements;
 
 namespace EnforcerPlugin.Achievements
 {
 
     //networked when R2API updates
-        //fuck you for never updating
-    public class EnforcerUnlockAchievement : GenericModdedUnlockable {
-
-        public override string AchievementTokenPrefix => "ENFORCER_CHARACTER";
-        public override string PrerequisiteUnlockableIdentifier => "";
-
-        public override string AchievementSpriteName => "texEnforcerUnlockAchievement";
+    //fuck you for never updating
+    [RegisterAchievement(identifier, unlockableIdentifier, null, 3, typeof(EnforcerUnlockAchievementServer))]
+    public class EnforcerUnlockAchievement : BaseAchievement
+    {
+        public const string identifier = "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
+        public const string unlockableIdentifier = "ENFORCER_CHARACTERUNLOCKABLE_REWARD_ID";
+        public const string AchievementSpriteName = "texEnforcerUnlockAchievement";
         //need to network this, only gives it to the host rn
             //after a fucking year it finally happened
 
@@ -24,7 +25,7 @@ namespace EnforcerPlugin.Achievements
             base.OnUninstall();
         }
 
-        public class EnforcerUnlockAchievementServer : RoR2.Achievements.BaseServerAchievement {
+        public class EnforcerUnlockAchievementServer : BaseServerAchievement {
 
             public bool magmaWormKilled;
             public bool wanderingVagrantKilled;

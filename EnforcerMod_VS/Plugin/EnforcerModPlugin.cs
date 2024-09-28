@@ -44,7 +44,7 @@ namespace EnforcerPlugin {
     [BepInDependency("com.johnedwa.RTAutoSprintEx", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("pseudopulse.Survariants", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.11.0")]
+    [BepInPlugin(MODUID, "Enforcer", "3.11.2")]
     public class EnforcerModPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.EnforcerGang.Enforcer";
@@ -290,8 +290,8 @@ namespace EnforcerPlugin {
             On.RoR2.EntityStateMachine.SetState += EntityStateMachine_SetState;
             On.RoR2.DamageInfo.ModifyDamageInfo += DamageInfo_ModifyDamageInfo;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
-            //On.RoR2.BodyCatalog.Init += BodyCatalog_Init;
-            On.RoR2.BodyCatalog.SetBodyPrefabs += BodyCatalog_SetBodyPrefabs;
+            On.RoR2.BodyCatalog.Init += BodyCatalog_Init;
+            //On.RoR2.BodyCatalog.SetBodyPrefabs += BodyCatalog_SetBodyPrefabs;
         }
 
         public static void AddBodyToBlockBlacklist(string bodyName) {
@@ -537,21 +537,20 @@ namespace EnforcerPlugin {
             orig(self);
         }
 
-        //private IEnumerator BodyCatalog_Init(On.RoR2.BodyCatalog.orig_Init orig) {
+        private IEnumerator BodyCatalog_Init(On.RoR2.BodyCatalog.orig_Init orig)
+        {
+            yield return orig();
 
-        //    var origReturn = orig();
+            for (int i = 0; i < GuaranteedBlockBlacklistBodyNames.Count; i++)
+            {
+                AddBodyToBlockBlacklist(GuaranteedBlockBlacklistBodyNames[i]);
+            }
 
-        //    for (int i = 0; i < GuaranteedBlockBlacklistBodyNames.Count; i++) {
-        //        AddBodyToBlockBlacklist(GuaranteedBlockBlacklistBodyNames[i]);
-        //    }
-
-        //    EnforcerBodyIndex = BodyCatalog.FindBodyIndex("EnforcerBody");
-        //    NemesisEnforcerBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBody");
-        //    NemesisEnforcerBossBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody");
-        //    DededeBodyIndex = BodyCatalog.FindBodyIndex("KingDededeBody");
-
-        //    return origReturn;
-        //}
+            EnforcerBodyIndex = BodyCatalog.FindBodyIndex("EnforcerBody");
+            NemesisEnforcerBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBody");
+            NemesisEnforcerBossBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody");
+            DededeBodyIndex = BodyCatalog.FindBodyIndex("KingDededeBody");
+        }
 
         private void BodyCatalog_SetBodyPrefabs(On.RoR2.BodyCatalog.orig_SetBodyPrefabs orig, GameObject[] newBodyPrefabs)
         {
@@ -565,16 +564,6 @@ namespace EnforcerPlugin {
             //}
 
             orig(newBodyPrefabs);
-
-            for (int i = 0; i < GuaranteedBlockBlacklistBodyNames.Count; i++)
-            {
-                AddBodyToBlockBlacklist(GuaranteedBlockBlacklistBodyNames[i]);
-            }
-
-            EnforcerBodyIndex = BodyCatalog.FindBodyIndex("EnforcerBody");
-            NemesisEnforcerBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBody");
-            NemesisEnforcerBossBodyIndex = BodyCatalog.FindBodyIndex("NemesisEnforcerBossBody");
-            DededeBodyIndex = BodyCatalog.FindBodyIndex("KingDededeBody");
         }
 
         private IEnumerator ContentManager_SetContentPacks(On.RoR2.ContentManagement.ContentManager.orig_SetContentPacks orig, List<RoR2.ContentManagement.ReadOnlyContentPack> newContentPacks) {

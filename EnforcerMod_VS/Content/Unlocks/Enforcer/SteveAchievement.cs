@@ -1,12 +1,14 @@
 ﻿using RoR2;
+using RoR2.Achievements;
 using UnityEngine;
 
 namespace EnforcerPlugin.Achievements {
-    public class SteveAchievement : GenericModdedUnlockable {
-        public override string AchievementTokenPrefix => "ENFORCER_STEVE" + knee.grow;
-        public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
-
-        public override string AchievementSpriteName => "texSbeveAchievement";
+    [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID", 1, typeof(SteveAchievementServer))]
+    public class SteveAchievement : BaseAchievement
+    {
+        public const string identifier = "ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_ID" + knee.grow;
+        public const string unlockableIdentifier = "ENFORCER_STEVEUNLOCKABLE_REWARD_ID" + knee.grow;
+        public const string AchievementSpriteName = "texSbeveAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex() {
             return BodyCatalog.FindBodyIndex("EnforcerBody");

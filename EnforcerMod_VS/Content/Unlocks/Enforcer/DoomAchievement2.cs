@@ -1,14 +1,15 @@
 ﻿using Modules;
 using RoR2;
+using RoR2.Achievements;
 
 namespace EnforcerPlugin.Achievements
 {
-    public class DoomAchievement2 : GenericModdedUnlockable
+    [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID", 5, typeof(DoomAchievement2Server))]
+    public class DoomAchievement2 : BaseAchievement
     {
-        public override string AchievementTokenPrefix => "ENFORCER_DOOMINTERNAL" + knee.grow;
-        public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
-
-        public override string AchievementSpriteName => "texDoomAchievement";
+        public const string identifier = "ENFORCER_DOOMINTERNALUNLOCKABLE_ACHIEVEMENT_ID" + knee.grow;
+        public const string unlockableIdentifier = "ENFORCER_DOOMINTERNALUNLOCKABLE_REWARD_ID" + knee.grow;
+        public const string AchievementSpriteName = "texDoomAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex()
         {

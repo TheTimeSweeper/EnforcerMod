@@ -1,12 +1,13 @@
 ﻿using RoR2;
+using RoR2.Achievements;
 
 namespace EnforcerPlugin.Achievements {
-    public class NemDominanceAchievement : GenericModdedUnlockable {
-
-        public override string AchievementTokenPrefix => "NEMFORCER_DOMINANCE" + knee.grow;
-        public override string PrerequisiteUnlockableIdentifier => "ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_ID";
-
-        public override string AchievementSpriteName => "texNemforcerEnforcer";
+    [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_ID", 3, null)]
+    public class NemDominanceAchievement : BaseAchievement
+    {
+        public const string identifier = "NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_ID" + knee.grow;
+        public const string unlockableIdentifier = "NEMFORCER_DOMINANCEUNLOCKABLE_REWARD_ID" + knee.grow;
+        public const string AchievementSpriteName = "texNemforcerEnforcer";
 
         public override BodyIndex LookUpRequiredBodyIndex() {
             return BodyCatalog.FindBodyIndex("NemesisEnforcerBody");

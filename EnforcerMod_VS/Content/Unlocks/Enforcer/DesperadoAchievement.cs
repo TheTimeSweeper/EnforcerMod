@@ -1,15 +1,16 @@
 ﻿using Modules;
 using RoR2;
+using RoR2.Achievements;
 using UnityEngine;
 
 namespace EnforcerPlugin.Achievements {
 
-    public class DesperadoAchievement : GenericModdedUnlockable
+    [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID", 3, typeof(DesperadoAchievementServer))]
+    public class DesperadoAchievement : BaseAchievement
     {
-        public override string AchievementTokenPrefix => "ENFORCER_DESPERADO" + knee.grow;
-        public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
-
-        public override string AchievementSpriteName => "texDesperadoAchievement";
+        public const string identifier = "ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_ID" + knee.grow;
+        public const string unlockableIdentifier = "ENFORCER_DESPERADOUNLOCKABLE_REWARD_ID" + knee.grow;
+        public const string AchievementSpriteName = "texDesperadoAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex() {
             return BodyCatalog.FindBodyIndex("EnforcerBody");

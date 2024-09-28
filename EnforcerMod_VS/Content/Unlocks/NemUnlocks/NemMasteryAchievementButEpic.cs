@@ -1,21 +1,26 @@
-﻿namespace EnforcerPlugin.Achievements
+﻿using RoR2;
+
+namespace EnforcerPlugin.Achievements
 {
-    public class NemMasteryAchievementButEpic : BaseMasteryUnlockable
+
+    [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_ID", 10, null)]
+    public class NemMasteryAchievementButEpic : BaseMasteryAchievement
     {
-        public override string AchievementTokenPrefix => "NEMFORCER_MASTERY";
-        public override string PrerequisiteUnlockableIdentifier => "ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_ID";
-        public override string AchievementSpriteName => "texNemforcerMastery";
+        public const string identifier = "NEMFORCER_MASTERYUNLOCKABLE_ACHIEVEMENT_ID";
+        public const string unlockableIdentifier = "NEMFORCER_MASTERYUNLOCKABLE_REWARD_ID";
+        public const string AchievementSpriteName = "texNemforcerMastery";
 
         public override string RequiredCharacterBody => "NemesisEnforcerBody";
 
         public override float RequiredDifficultyCoefficient => 3f;
     }
 
-    public class NemGrandMasteryAchievement : BaseMasteryUnlockable
+    [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_ID", 10, null)]
+    public class NemGrandMasteryAchievement : BaseMasteryAchievement
     {
-        public override string AchievementTokenPrefix => "NEMFORCER_TYPHOON";
-        public override string PrerequisiteUnlockableIdentifier => "ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_ID";
-        public override string AchievementSpriteName => "texNemforcerMastery";
+        public const string identifier = "NEMFORCER_TYPHOONUNLOCKABLE_ACHIEVEMENT_ID";
+        public const string unlockableIdentifier = "NEMFORCER_TYPHOONUNLOCKABLE_REWARD_ID";
+        public const string AchievementSpriteName = "texNemforcerMastery";
 
         public override string RequiredCharacterBody => "NemesisEnforcerBody";
 

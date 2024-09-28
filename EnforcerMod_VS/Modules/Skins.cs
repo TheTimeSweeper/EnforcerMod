@@ -42,7 +42,7 @@ namespace Modules {
 
         private static bool isEnforcerCurrentSkin(CharacterBody characterbody, string skin) {
 
-            if (characterbody.bodyIndex == EnforcerModPlugin.EnforcerBodyIndex)
+            if (characterbody.bodyIndex != EnforcerModPlugin.EnforcerBodyIndex)
                 return false;
 
             return characterbody.modelLocator.modelTransform.GetComponent<ModelSkinController>().skins[characterbody.skinIndex].nameToken == skin; 

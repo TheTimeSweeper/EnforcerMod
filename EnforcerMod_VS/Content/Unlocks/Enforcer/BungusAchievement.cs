@@ -1,13 +1,15 @@
 ﻿using Modules;
 using RoR2;
+using RoR2.Achievements;
 
-namespace EnforcerPlugin.Achievements {
-    public class BungusAchievement : GenericModdedUnlockable {
-
-        public override string AchievementTokenPrefix => "ENFORCER_BUNGUS" + knee.grow;
-        public override string PrerequisiteUnlockableIdentifier => "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID";
-
-        public override string AchievementSpriteName => "texBungusAchievement";
+namespace EnforcerPlugin.Achievements
+{
+    [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID", 3, null)]
+    public class BungusAchievement : BaseAchievement
+    {
+        public const string identifier = "ENFORCER_BUNGUSUNLOCKABLE_ACHIEVEMENT_ID";
+        public const string unlockableIdentifier = "ENFORCER_BUNGUSUNLOCKABLE_REWARD_ID";
+        public const string AchievementSpriteName = "texBungusAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex() {
             return BodyCatalog.FindBodyIndex("EnforcerBody");

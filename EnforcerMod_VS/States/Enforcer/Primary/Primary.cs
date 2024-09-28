@@ -37,8 +37,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
         protected string muzzleString;
         protected float beefDuration;
 
-        protected EnforcerComponent enforcerComponent;
-        
+        protected EnforcerComponent enforcerComponent;        
 
         public override void OnEnter() {
             base.OnEnter();

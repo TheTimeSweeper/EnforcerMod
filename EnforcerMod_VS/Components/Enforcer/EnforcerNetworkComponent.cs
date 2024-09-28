@@ -11,19 +11,6 @@ public class EnforcerNetworkComponent : NetworkBehaviour {
     public int parries;
     private int skin;
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            Uhh(skin);
-            skin++;
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            skin = 0;
-        }
-    }
-
     #region applyskin
     public void Uhh(int skin) {
         if (skin == -1)

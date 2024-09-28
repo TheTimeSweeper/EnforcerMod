@@ -126,12 +126,3 @@ ___
 - Help
 
 ___
-
-## Changelog
-Full changelog in changelog tab
-
-`3.11.0`
-- fixed nemforcer secondary slam taking fall damage
-- added "FixInvincibleMithrix" as a hard dependency until either gearbox fixes chronic expansion or we add an item display
-- fixed missing vfx
-- added Spanish (Spain) translation (thanks Bagre!)

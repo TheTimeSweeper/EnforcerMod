@@ -41,6 +41,17 @@ namespace Modules {
 
             ContentPacks.unlockableDefs.Add(unlockableDef);
         }
+        internal static UnlockableDef CreateAndAddUnlockbleDef(string identifier, string nameToken, Sprite achievementIcon)
+        {
+            UnlockableDef unlockableDef = ScriptableObject.CreateInstance<UnlockableDef>();
+            unlockableDef.cachedName = identifier;
+            unlockableDef.nameToken = nameToken;
+            unlockableDef.achievementIcon = achievementIcon;
+
+            AddUnlockableDef(unlockableDef);
+
+            return unlockableDef;
+        }
 
         public static void AddSkillDef(SkillDef skillDef) {
 

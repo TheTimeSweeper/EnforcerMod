@@ -60,6 +60,7 @@ namespace Modules {
             contentPack.skillDefs.Add(skillDefs.ToArray());
             contentPack.skillFamilies.Add(skillFamilies.ToArray());
             contentPack.survivorDefs.Add(survivorDefs.ToArray());
+            contentPack.unlockableDefs.Add(unlockableDefs.ToArray());
 
             args.ReportProgress(1f);
 
