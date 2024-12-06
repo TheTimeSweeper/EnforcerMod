@@ -961,9 +961,9 @@ namespace EnforcerPlugin {
 
             if (damageType == DamageType.VoidDeath) {
                 //Debug.LogWarning("voidDeath");
-                if (self.body.bodyIndex == EnforcerModPlugin.NemesisEnforcerBodyIndex || self.body.bodyIndex == EnforcerModPlugin.NemesisEnforcerBossBodyIndex) {
+                if (self.body && (self.body.bodyIndex == EnforcerModPlugin.NemesisEnforcerBodyIndex || self.body.bodyIndex == EnforcerModPlugin.NemesisEnforcerBossBodyIndex)) {
                     //Debug.LogWarning("nemmememme");
-                    if (self.body.teamComponent.teamIndex != TeamIndex.Player) {
+                    if (self.body.teamComponent && self.body.teamComponent.teamIndex != TeamIndex.Player) {
                         //Debug.LogWarning("spookyscary");
                         return;
                     }
