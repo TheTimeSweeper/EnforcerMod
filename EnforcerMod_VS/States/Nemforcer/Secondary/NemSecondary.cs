@@ -283,7 +283,7 @@ namespace EntityStates.Nemforcer {
             if (base.characterBody.skinIndex == 2) hitSound = Asset.nemAxeHitSoundEvent;
 
             this.attack = new OverlapAttack();
-            this.attack.damageType = DamageType.Stun1s;
+            this.attack.damageType = (DamageTypeCombo) DamageType.Stun1s | DamageSource.Secondary;
             this.attack.attacker = base.gameObject;
             this.attack.inflictor = base.gameObject;
             this.attack.teamIndex = base.GetTeam();

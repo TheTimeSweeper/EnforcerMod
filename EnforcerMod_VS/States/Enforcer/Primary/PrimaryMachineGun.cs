@@ -97,7 +97,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
                     origin = aimRay.origin,
                     damage = characterBody.damage * damageCoefficient,
                     damageColorIndex = DamageColorIndex.Default,
-                    damageType = DamageType.Generic,
+                    damageType = DamageTypeCombo.GenericPrimary,
                     falloffModel = BulletAttack.FalloffModel.DefaultBullet,
                     maxDistance = range,
                     force = force,

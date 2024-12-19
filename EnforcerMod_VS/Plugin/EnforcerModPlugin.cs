@@ -44,7 +44,7 @@ namespace EnforcerPlugin {
     [BepInDependency("com.johnedwa.RTAutoSprintEx", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("pseudopulse.Survariants", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.11.2")]
+    [BepInPlugin(MODUID, "Enforcer", "3.11.3")]
     public class EnforcerModPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.EnforcerGang.Enforcer";
@@ -1129,7 +1129,7 @@ namespace EnforcerPlugin {
             grenadeDamage.crit = false;
             grenadeDamage.damage = 0f;
             grenadeDamage.damageColorIndex = DamageColorIndex.Default;
-            grenadeDamage.damageType = DamageType.Stun1s;
+            grenadeDamage.damageType = (DamageTypeCombo) DamageType.Stun1s | DamageSource.Utility;
             grenadeDamage.force = 0;
 
             tearGasDamage.crit = false;
@@ -1219,13 +1219,13 @@ namespace EnforcerPlugin {
             scepterGrenadeDamage.crit = false;
             scepterGrenadeDamage.damage = 0f;
             scepterGrenadeDamage.damageColorIndex = DamageColorIndex.Default;
-            scepterGrenadeDamage.damageType = DamageType.Stun1s;
+            scepterGrenadeDamage.damageType = (DamageTypeCombo)DamageType.Stun1s | DamageSource.Utility;
             scepterGrenadeDamage.force = 0;
 
             scepterTearGasDamage.crit = false;
             scepterTearGasDamage.damage = 1f;
             scepterTearGasDamage.damageColorIndex = DamageColorIndex.WeakPoint;
-            scepterTearGasDamage.damageType = DamageType.Generic;
+            scepterTearGasDamage.damageType = DamageTypeCombo.GenericUtility;
             scepterTearGasDamage.force = -10;
 
             Destroy(damageGasEffect.transform.GetChild(0).gameObject);

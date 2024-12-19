@@ -82,7 +82,7 @@ namespace EntityStates.Enforcer.NeutralSpecial {
             HitBoxGroup hitBoxGroup = FindHitBoxGroup(hitboxString);
 
             attack = new OverlapAttack();
-            attack.damageType = DamageType.Generic;
+            attack.damageType = DamageTypeCombo.GenericPrimary;
             attack.attacker = gameObject;
             attack.inflictor = gameObject;
             attack.teamIndex = GetTeam();

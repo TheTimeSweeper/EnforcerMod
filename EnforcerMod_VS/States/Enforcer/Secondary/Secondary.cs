@@ -143,7 +143,7 @@ namespace EntityStates.Enforcer {
                     blastAttack.falloffModel = BlastAttack.FalloffModel.None;
                     blastAttack.baseForce = 0f;
                     blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
-                    blastAttack.damageType = DamageType.Stun1s;
+                    blastAttack.damageType = (DamageTypeCombo) DamageType.Stun1s | DamageSource.Secondary;
                     blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
                     blastAttack.impactEffect = BeetleGuardMonster.GroundSlam.hitEffectPrefab.GetComponent<EffectComponent>().effectIndex;
 

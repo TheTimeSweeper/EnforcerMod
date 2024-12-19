@@ -60,7 +60,7 @@ namespace EntityStates.Enforcer {
                     crit = base.RollCrit(),
                     damage = StunGrenade.damageCoefficient * this.damageStat,
                     damageColorIndex = DamageColorIndex.Default,
-                    damageTypeOverride = DamageType.Stun1s,
+                    damageTypeOverride = (DamageTypeCombo) DamageType.Stun1s | DamageSource.Utility,
                     force = 0f,
                     owner = base.gameObject,
                     position = aimRay.origin,

@@ -135,7 +135,7 @@ namespace EntityStates.Nemforcer {
                 origin = aimRay.origin,
                 damage = damage,
                 damageColorIndex = DamageColorIndex.Default,
-                damageType = DamageType.Generic,
+                damageType = DamageTypeCombo.GenericPrimary,
                 falloffModel = BulletAttack.FalloffModel.DefaultBullet,
                 maxDistance = MinigunFire.bulletMaxDistance,
                 force = force,

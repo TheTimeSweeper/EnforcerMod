@@ -111,7 +111,7 @@ namespace EntityStates.Nemforcer {
             blastAttack.falloffModel = BlastAttack.FalloffModel.SweetSpot;
             blastAttack.baseForce = SuperDededeJump.slamForce;
             blastAttack.teamIndex = TeamComponent.GetObjectTeam(blastAttack.attacker);
-            blastAttack.damageType = DamageType.Stun1s;
+            blastAttack.damageType = (DamageTypeCombo)DamageType.Stun1s | DamageSource.Utility;
             blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
             blastAttack.Fire();
 

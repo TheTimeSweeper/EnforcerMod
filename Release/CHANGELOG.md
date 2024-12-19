@@ -1,3 +1,5 @@
+`3.11.3`
+- fixed for latest game update
 
 `3.11.2`
 - fixed achievements, adding lunar coin rewards

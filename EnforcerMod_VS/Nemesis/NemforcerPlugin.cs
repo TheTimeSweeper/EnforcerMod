@@ -679,13 +679,13 @@ namespace EnforcerPlugin {
             nemGrenadeDamage.crit = false;
             nemGrenadeDamage.damage = 0f;
             nemGrenadeDamage.damageColorIndex = DamageColorIndex.Default;
-            nemGrenadeDamage.damageType = DamageType.Stun1s;
+            nemGrenadeDamage.damageType = (DamageTypeCombo)DamageType.Stun1s | DamageSource.Utility;
             nemGrenadeDamage.force = 0;
 
             nemGasDamage.crit = false;
             nemGasDamage.damage = 1f;
             nemGasDamage.damageColorIndex = DamageColorIndex.WeakPoint;
-            nemGasDamage.damageType = DamageType.Generic;
+            nemGasDamage.damageType = DamageTypeCombo.GenericUtility;
             nemGasDamage.force = -10;
 
             EnforcerModPlugin.Destroy(nemGas.transform.GetChild(0).gameObject);

@@ -133,7 +133,7 @@ namespace EntityStates.Enforcer {
                     crit = base.RollCrit(),
                     damage = ShockGrenade.damageCoefficient * this.damageStat,
                     damageColorIndex = DamageColorIndex.Default,
-                    damageTypeOverride = DamageType.Shock5s,
+                    damageTypeOverride = (DamageTypeCombo) DamageType.Shock5s |  DamageSource.Utility,
                     force = 0f,
                     owner = base.gameObject,
                     position = aimRay.origin,

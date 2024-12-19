@@ -65,7 +65,7 @@ namespace EntityStates.Nemforcer {
                 baseDamage = base.characterBody.damage * HammerSlam.blastDamageCoefficient,
                 falloffModel = BlastAttack.FalloffModel.None,
                 baseForce = 1f,
-                damageType = DamageType.Generic,
+                damageType = (DamageTypeCombo)DamageType.Stun1s | DamageSource.Secondary,
                 attackerFiltering = AttackerFiltering.NeverHitSelf,
             };
             projectileBlastAttack.teamIndex = TeamComponent.GetObjectTeam(projectileBlastAttack.attacker);
