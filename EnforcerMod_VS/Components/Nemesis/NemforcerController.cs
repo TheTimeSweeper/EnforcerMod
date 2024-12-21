@@ -190,9 +190,18 @@ public class NemforcerController : MonoBehaviour
                 var characterModel = charBody.modelLocator?.modelTransform.GetComponentInChildren<CharacterModel>();
                 if (characterModel)
                 {
-                    characterModel.baseRendererInfos[0].defaultMaterial = characterModel.gameObject.GetComponent<ModelSkinController>().skins[charBody.skinIndex].rendererInfos[0].defaultMaterial;
-                    if (charBody.master.inventory.GetItemCount(RoR2Content.Items.ArmorReductionOnHit) > 0) 
+                    if (charBody.master.inventory.GetItemCount(RoR2Content.Items.ArmorReductionOnHit) > 0)
+                    {
                         characterModel.baseRendererInfos[0].defaultMaterial = null;
+                    } else
+                    {
+                        //should probably just disable the gameobject like we do in other characters lol
+                        ModelSkinController modelSkinController = characterModel.gameObject.GetComponent<ModelSkinController>();
+                        if (characterModel.baseRendererInfos.Length > 0 && modelSkinController.skins.Length < charBody.skinIndex && modelSkinController.skins[charBody.skinIndex].rendererInfos.Length > 0)
+                        {
+                            characterModel.baseRendererInfos[0].defaultMaterial = modelSkinController.skins[charBody.skinIndex].rendererInfos[0].defaultMaterial;
+                        }
+                    }
                 }
             }
         }
