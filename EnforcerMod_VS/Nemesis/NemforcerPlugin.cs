@@ -1450,7 +1450,7 @@ namespace EnforcerPlugin {
             followDriver.activationRequiresTargetLoS = false;
             followDriver.maxDistance = Mathf.Infinity;
             followDriver.minDistance = 0f;
-            followDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
+            followDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
             followDriver.ignoreNodeGraph = false;
             followDriver.moveInputScale = 1f;
             followDriver.driverUpdateTimerOverride = -1f;
@@ -1703,7 +1703,7 @@ namespace EnforcerPlugin {
             followDriver.activationRequiresTargetLoS = false;
             followDriver.maxDistance = Mathf.Infinity;
             followDriver.minDistance = 0f;
-            followDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
+            followDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
             followDriver.ignoreNodeGraph = false;
             followDriver.moveInputScale = 1f;
             followDriver.driverUpdateTimerOverride = -1f;
@@ -1936,7 +1936,7 @@ namespace EnforcerPlugin {
             strafeIdleDriver.maxDistance = 80f;
             strafeIdleDriver.minDistance = 8f;
             strafeIdleDriver.requireSkillReady = true;
-            strafeIdleDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
+            strafeIdleDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
             strafeIdleDriver.ignoreNodeGraph = false;
             strafeIdleDriver.moveInputScale = 1f;
             strafeIdleDriver.driverUpdateTimerOverride = -1f;
@@ -1956,7 +1956,7 @@ namespace EnforcerPlugin {
             followDriver.activationRequiresTargetLoS = false;
             followDriver.maxDistance = Mathf.Infinity;
             followDriver.minDistance = 0f;
-            followDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
+            followDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
             followDriver.ignoreNodeGraph = false;
             followDriver.moveInputScale = 1f;
             followDriver.driverUpdateTimerOverride = -1f;
@@ -2580,7 +2580,7 @@ namespace EnforcerPlugin {
             followDriver.activationRequiresTargetLoS = false;
             followDriver.maxDistance = Mathf.Infinity;
             followDriver.minDistance = 0f;
-            followDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
+            followDriver.aimType = AISkillDriver.AimType.AtCurrentEnemy;
             followDriver.ignoreNodeGraph = false;
             followDriver.moveInputScale = 1f;
             followDriver.driverUpdateTimerOverride = -1f;

@@ -44,7 +44,7 @@ namespace EnforcerPlugin {
     [BepInDependency("com.johnedwa.RTAutoSprintEx", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("pseudopulse.Survariants", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.11.3")]
+    [BepInPlugin(MODUID, "Enforcer", "3.11.6")]
     public class EnforcerModPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.EnforcerGang.Enforcer";
@@ -484,52 +484,34 @@ namespace EnforcerPlugin {
 
         private void EscapeSequenceController_BeginEscapeSequence(On.RoR2.EscapeSequenceController.orig_BeginEscapeSequence orig, EscapeSequenceController self)
         {
-            if (isMonsoon())
+            for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
             {
-                for (int i = CharacterMaster.readOnlyInstancesList.Count - 1; i >= 0; i--)
+                CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
+                bool hasInvaded = false;
+
+                bool shouldEvenCheck = isMonsoon() && (master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody") || Modules.Config.globalInvasion.Value);
+                bool voidRock = master.inventory.GetItemCount(ItemCatalog.FindItemIndex("VoidRock")) > 0;
+                if ((shouldEvenCheck || voidRock) && master.GetBody())
                 {
-                    CharacterMaster master = CharacterMaster.readOnlyInstancesList[i];
-                    bool hasInvaded = false;
-
-                    if (!Modules.Config.globalInvasion.Value)
+                    var j = master.gameObject.GetComponent<NemesisInvasion>();
+                    
+                    if (voidRock)
                     {
-                        if (master.teamIndex == TeamIndex.Player && master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody") && master.GetBody())
+                        if (!j)
                         {
-                            var j = master.gameObject.GetComponent<NemesisInvasion>();
-                            if (j)
-                            {
-                                if (j.pendingInvasion && !j.hasInvaded)
-                                {
-                                    j.pendingInvasion = false;
-                                    j.hasInvaded = true;
-
-                                    if (Modules.Config.multipleInvasions.Value) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
-                                    else if (!hasInvaded) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
-
-                                    hasInvaded = true;
-                                }
-                            }
+                            j = master.gameObject.AddComponent<NemesisInvasion>();
                         }
+                        j.pendingInvasion = true;
                     }
-                    else
+                    if (j && j.pendingInvasion && !j.hasInvaded)
                     {
-                        if (master.teamIndex == TeamIndex.Player && master.playerCharacterMasterController && master.GetBody())
-                        {
-                            var j = master.gameObject.GetComponent<NemesisInvasion>();
-                            if (j)
-                            {
-                                if (j.pendingInvasion && !j.hasInvaded)
-                                {
-                                    j.pendingInvasion = false;
-                                    j.hasInvaded = true;
+                        j.pendingInvasion = false;
+                        j.hasInvaded = true;
 
-                                    if (Modules.Config.multipleInvasions.Value) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
-                                    else if (!hasInvaded) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+                        if (Modules.Config.multipleInvasions.Value) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
+                        else if (!hasInvaded) NemesisInvasionManager.PerformInvasion(new Xoroshiro128Plus(Run.instance.seed));
 
-                                    hasInvaded = true;
-                                }
-                            }
-                        }
+                        hasInvaded = true;
                     }
                 }
             }

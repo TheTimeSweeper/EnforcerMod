@@ -99,11 +99,12 @@ namespace EntityStates.Nemforcer {
 
                 if (this.nemController) this.nemController.hammerChargeLarge.Play();
 
-                if (base.cameraTargetParams)
-                {
-                    base.cameraTargetParams.RemoveRequest(aimRequest);
-                    //base.cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
-                }
+                //gearbox did a brokey
+                //if (base.cameraTargetParams)
+                //{
+                //    base.cameraTargetParams.RemoveRequest(aimRequest);
+                //    //base.cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
+                //}
 
                 if (NetworkServer.active) base.characterBody.RemoveBuff(Buffs.smallSlowBuff);
             }
@@ -153,11 +154,12 @@ namespace EntityStates.Nemforcer {
             if (this.chargePlayID != 0) AkSoundEngine.StopPlayingID(this.chargePlayID);
             if (this.flameLoopPlayID != 0) AkSoundEngine.StopPlayingID(this.flameLoopPlayID);
 
-            if (base.cameraTargetParams)
-            {
-                base.cameraTargetParams.RemoveRequest(aimRequest);
-                //base.cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
-            }
+            //gearbox did a brokey
+            //if (base.cameraTargetParams)
+            //{
+            //    base.cameraTargetParams.RemoveRequest(aimRequest);
+            //    //base.cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
+            //}
 
             if (this.nemController)
             {

@@ -1,3 +1,16 @@
+`3.11.6`
+- fixed error on new moon invasion checking code
+- fixed nemforcer AI for real this time
+
+`3.11.5`
+- removed nemforcer m2 camera code cause gearbox did an oopsie
+- fixed nemforcer AI dashing wrong direction when using charged hammer
+- made nemforcer invade when ss2 void rock is picked up (untested)
+    - this triggers our invasion at mithrix. he is still not part of the ss2 invasion sorry lol
+
+`3.11.4`
+- fixed index out of range spam
+
 `3.11.3`
 - fixed for latest game update
 
