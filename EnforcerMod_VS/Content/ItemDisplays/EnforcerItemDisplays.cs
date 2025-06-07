@@ -24,7 +24,7 @@ namespace EnforcerPlugin {
 
             ItemDisplayRuleSet itemDisplayRuleSet = ScriptableObject.CreateInstance<ItemDisplayRuleSet>();
 
-            itemRules = new List<ItemDisplayRuleSet.KeyAssetRuleGroup>();
+            EnforcerItemDisplays.itemRules = new List<ItemDisplayRuleSet.KeyAssetRuleGroup>();
 
             #region Display Rules
 
@@ -44,8 +44,16 @@ namespace EnforcerPlugin {
 
             #endregion Display Rules
 
-            ItemDisplayRuleSet.KeyAssetRuleGroup[] item = itemRules.ToArray();
-            itemDisplayRuleSet.keyAssetRuleGroups = item;
+            for (int i = EnforcerItemDisplays.itemRules.Count - 1; i >= 0; i--)
+            {
+                if (EnforcerItemDisplays.itemRules[i].keyAsset == null)
+                {
+                    EnforcerItemDisplays.itemRules.RemoveAt(i);
+                }
+            }
+
+            ItemDisplayRuleSet.KeyAssetRuleGroup[] itemRules = EnforcerItemDisplays.itemRules.ToArray();
+            itemDisplayRuleSet.keyAssetRuleGroups = itemRules;
 
             characterModel.itemDisplayRuleSet = itemDisplayRuleSet;
         }

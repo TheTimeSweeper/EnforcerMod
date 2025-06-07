@@ -17,21 +17,8 @@ namespace Modules.Characters {
 
         public virtual GameObject displayPrefab { get; set; }
 
-        public override void InitializeCharacter() {
-
-            if (characterEnabledConfig != null && !characterEnabledConfig.Value)
-                return;
-            
-            InitializeUnlockables();
-
-            base.InitializeCharacter();
-
-            InitializeSurvivor();
-        }
-
         protected override void InitializeCharacterBodyAndModel() {
             base.InitializeCharacterBodyAndModel();
-            InitializeDisplayPrefab();
         }
 
         protected virtual void InitializeSurvivor() {

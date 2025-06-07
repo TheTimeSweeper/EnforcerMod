@@ -387,6 +387,14 @@ namespace EnforcerPlugin {
             #endregion*/
             #endregion
 
+            for (int i = itemRules.Count - 1; i >= 0; i--)
+            {
+                if (itemRules[i].keyAsset == null)
+                {
+                    itemRules.RemoveAt(i);
+                }
+            }
+
             ItemDisplayRuleSet.KeyAssetRuleGroup[] item = itemRules.ToArray();
             itemDisplayRuleSet.keyAssetRuleGroups = item;
 

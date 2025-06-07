@@ -44,7 +44,7 @@ namespace Modules {
             GameObject gatDrone = Asset.gatDrone.InstantiateClone("GatDrone", false);
 
             Material gatMaterial = gatDrone.GetComponentInChildren<MeshRenderer>().material;
-            Material newMaterial = Object.Instantiate(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+            Material newMaterial = new Material(Asset.hotpoo);
 
             newMaterial.SetColor("_Color", gatMaterial.GetColor("_Color"));
             newMaterial.SetTexture("_MainTex", gatMaterial.GetTexture("_MainTex"));

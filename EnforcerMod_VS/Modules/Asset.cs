@@ -14,10 +14,11 @@ using UnityEngine.AddressableAssets;
 namespace Modules {
 
     internal static class Asset {
+
         public static AssetBundle MainAssetBundle = null;
         public static AssetBundle VRAssetBundle = null;
 
-        internal static Shader hotpoo = RoR2.LegacyResourcesAPI.Load<Shader>("Shaders/Deferred/HGStandard");
+        internal static Shader hotpoo;
         #region why did we do it this way
         public static Texture charPortrait;
 
@@ -123,6 +124,8 @@ namespace Modules {
         internal static NetworkSoundEventDef nemAxeHitSoundEvent;
 
         public static void Initialize() {
+
+            hotpoo = Addressables.LoadAssetAsync<Shader>(RoR2BepInExPack.GameAssetPaths.RoR2_Base_Shaders.HGStandard_shader).WaitForCompletion();
 
             PopulateBundles();
 
@@ -241,7 +244,7 @@ namespace Modules {
             stunGrenadeModelAlt = MainAssetBundle.LoadAsset<GameObject>("ShockGrenade");
             //replace the texture here bc the emission is important
             MeshRenderer shockGrenadeMesh = stunGrenadeModelAlt.GetComponentInChildren<MeshRenderer>();
-            Material shockGrenadeMaterial = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+            Material shockGrenadeMaterial = new Material(hotpoo);
             shockGrenadeMaterial.SetColor("_Color", Color.white);
             shockGrenadeMaterial.SetTexture("_MainTex", MainAssetBundle.LoadAsset<Material>("matShockGrenade").GetTexture("_MainTex"));
             shockGrenadeMaterial.SetColor("_EmColor", Color.white);

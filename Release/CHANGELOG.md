@@ -1,3 +1,8 @@
+`3.11.7`
+- fixed for memop udpate
+- *some sounds are still missing*
+- *boss version and king dedede untested*
+
 `3.11.6`
 - fixed error on new moon invasion checking code
 - fixed nemforcer AI for real this time

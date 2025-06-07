@@ -413,6 +413,7 @@ namespace EnforcerPlugin {
             }
 
             skinController.skins = skinDefs.ToArray();
+            NemforcerPlugin.characterDisplayPrefab.AddComponent<ModelSkinController>().skins = skinController.skins;
 
             for (int i = 0; i < skinDefs.Count; i++)
             {

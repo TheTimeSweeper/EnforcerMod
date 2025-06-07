@@ -22,7 +22,7 @@ namespace EnforcerPlugin {
     public class NemforcerPlugin
     {
         public static GameObject characterBodyPrefab;
-        public static GameObject characterDisplay;
+        public static GameObject characterDisplayPrefab;
         public static GameObject doppelganger;
         public static GameObject bossPrefab;
         public static GameObject bossMaster;
@@ -105,57 +105,9 @@ namespace EnforcerPlugin {
 
             ChildLocator childLocator = tempDisplay.GetComponent<ChildLocator>();
 
-            CharacterModel characterModel = tempDisplay.AddComponent<CharacterModel>();
-            characterModel.body = null;
-            characterModel.baseRendererInfos = new CharacterModel.RendererInfo[]
-            {
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = Asset.CreateMaterial("matNemforcer", 5f, Color.white, 0),
-                    renderer = childLocator.FindChild("HammerModel").GetComponentInChildren<SkinnedMeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("AltHammer").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("AltHammer").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("GrenadeL").GetComponentInChildren<MeshRenderer>().material,
-                    renderer = childLocator.FindChild("GrenadeL").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = Asset.CreateMaterial("matNemforcer", 5f, Color.white, 0),
-                    renderer = childLocator.FindChild("GrenadeR").GetComponentInChildren<MeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = true
-                },
-                //keep body last for teleporter particles
-                // god can i just say i fucking hate this
-                // fix your shit hopoo
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>().material,
-                    renderer = childLocator.FindChild("Model").GetComponentInChildren<SkinnedMeshRenderer>(),
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false
-                }
-            };
+            CharacterModel displayCharacterModel = tempDisplay.AddComponent<CharacterModel>();
 
-            characterModel.autoPopulateLightInfos = true;
-            characterModel.invisibilityCount = 0;
-            characterModel.temporaryOverlays = new List<TemporaryOverlayInstance>();
-
-            characterModel.mainSkinnedMeshRenderer = characterModel.baseRendererInfos[characterModel.baseRendererInfos.Length - 1].renderer.gameObject.GetComponent<SkinnedMeshRenderer>();
-
-            characterDisplay = tempDisplay;
+            characterDisplayPrefab = tempDisplay;
         }
 
         private static void CreatePrefab()
@@ -561,9 +513,9 @@ namespace EnforcerPlugin {
 
         private void RegisterCharacter()
         {
-            characterDisplay.AddComponent<NetworkIdentity>();
+            characterDisplayPrefab.AddComponent<NetworkIdentity>();
 
-            Modules.Survivors.RegisterNewSurvivor(characterBodyPrefab, characterDisplay, "NEMFORCER", EnforcerUnlockables.nemesisUnlockableDef, 5.101f);
+            Modules.Survivors.RegisterNewSurvivor(characterBodyPrefab, characterDisplayPrefab, "NEMFORCER", EnforcerUnlockables.nemesisUnlockableDef, 5.101f);
 
             SkillSetup();
 

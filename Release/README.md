@@ -10,7 +10,7 @@
 
 ![](https://raw.githubusercontent.com/TheTimeSweeper/EnforcerMod/8817c519fd461e0afbb8920bc6a5d6c40a0dbc40/EnforcerMod_Unity/Enforcer/Assets/Enforcer/Enforcer/Icons/texEnforcerIcon.png)
 
-Join the discord server to share any feedback/bugs/suggestions- https://discord.gg/HpQB9fC  
+Join the discord server to share any feedback/bugs/suggestions- https://discord.gg/ZFcAa2nhwT  
 Or ping/message me directly (`thetimesweeper`) with all the nastiest feedback you can think of
 
 ___

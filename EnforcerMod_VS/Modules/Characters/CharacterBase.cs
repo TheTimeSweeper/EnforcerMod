@@ -25,25 +25,6 @@ namespace Modules.Characters {
 
         public virtual void Initialize() {
             instance = this;
-            InitializeCharacter();
-        }
-
-        public virtual void InitializeCharacter() {
-
-            InitializeCharacterBodyAndModel();
-            InitializeCharacterMaster();
-
-            InitializeEntityStateMachine();
-            InitializeSkills();
-
-            InitializeHitboxes();
-            InitializeHurtboxes(bodyPrefab.GetComponent<HealthComponent>());
-
-            InitializeSkins();
-            InitializeItemDisplays();
-
-            //survivor?
-            InitializeDoppelganger();
         }
 
         protected virtual void InitializeCharacterBodyAndModel() {

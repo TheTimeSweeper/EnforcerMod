@@ -12,6 +12,7 @@ using EnforcerPlugin;
 using R2API;
 using System.Runtime.CompilerServices;
 using RoR2.CharacterAI;
+using static Rewired.UI.ControlMapper.ControlMapper;
 
 namespace Modules.Characters {
     public class EnforcerSurvivor : SurvivorBase {
@@ -106,7 +107,36 @@ namespace Modules.Characters {
 
         public override void Initialize() {
             base.Initialize();
+
+            if (characterEnabledConfig != null && !characterEnabledConfig.Value)
+                return;
+
             Hooks();
+            InitializeCharacter();
+            InitializeSurvivor();
+        }
+
+
+        public void InitializeCharacter()
+        {
+
+            InitializeUnlockables();
+
+            InitializeCharacterBodyAndModel();
+            InitializeCharacterMaster();
+            InitializeDisplayPrefab();
+
+            InitializeEntityStateMachine();
+            InitializeSkills();
+
+            InitializeHitboxes();
+            InitializeHurtboxes(bodyPrefab.GetComponent<HealthComponent>());
+
+            InitializeSkins();
+            InitializeItemDisplays();
+
+            //survivor?
+            InitializeDoppelganger();
         }
 
         private void Hooks() {
@@ -662,6 +692,7 @@ namespace Modules.Characters {
 
         public override void InitializeSkins() {
             Skins.RegisterSkins();
+            displayPrefab.AddComponent<ModelSkinController>().skins = bodyPrefab.GetComponentInChildren<ModelSkinController>().skins;
         }
 
         #endregion
