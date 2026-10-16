@@ -35,14 +35,14 @@ namespace EnforcerPlugin.Achievements
                 base.OnInstall();
 
                 this.ResetKills();
-                GlobalEventManager.onCharacterDeathGlobal += this.CheckDeath;
+                GlobalEventManager.onCharacterDeathServer += this.CheckDeath;
                 Run.onRunStartGlobal += ResetOnRunStart;
             }
 
             public override void OnUninstall() {
                 base.OnUninstall();
 
-                GlobalEventManager.onCharacterDeathGlobal -= this.CheckDeath;
+                GlobalEventManager.onCharacterDeathServer -= this.CheckDeath;
                 Run.onRunStartGlobal -= ResetOnRunStart;
             }
 

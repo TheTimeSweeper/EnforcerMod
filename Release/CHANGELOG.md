@@ -1,3 +1,9 @@
+`3.12.0`
+temp update for Halloyed Conclective
+- item displays temporarily disabled
+- fixed hmg being white (?)
+- removed a FindObjectsOfType used for tear gas achievement checking
+
 `3.11.9`
 - Disabled shield knockback scaling against 'the guy'
 - recompiled for AC even though I'm pretty sure it didn't even need it

@@ -7,7 +7,6 @@ using UnityEngine;
 namespace Modules {
 
     internal class Config {
-
         public static ConfigEntry<bool> forceUnlock;
         public static ConfigEntry<bool> classicShotgun;
         public static ConfigEntry<bool> classicIcons;
@@ -67,77 +66,82 @@ namespace Modules {
         public static ConfigEntry<bool> physicalVRShieldDown;
         public static ConfigEntry<int> physicalVRShieldDownAngle;
 
+        private const string Section1 = "01 - General Settings";
+        private const string Section2 = "02 - Keybinds";
+        private const string Section3 = "03 - Character Stats";
+        private const string Section4 = "04 - Riot Shotgun 3.4.0";
+
         public static void ConfigShit(BaseUnityPlugin plugin) {
 
             #region general
             forceUnlock
-                = plugin.Config.Bind("01 - General Settings",
+                = plugin.Config.Bind(Section1,
                                      "Force Unlock",
                                      false,
                                      "Makes Enforcer unlocked by default");
             classicShotgun
-                = plugin.Config.Bind("01 - General Settings",
+                = plugin.Config.Bind(Section1,
                                      "Classic Shotgun",
                                      false,
                                      "Use RoR1 shotgun sound");
             classicIcons
-                = plugin.Config.Bind("01 - General Settings",
+                = plugin.Config.Bind(Section1,
                                      "Classic Icons",
                                      false,
                                      "Use RoR1 skill icons");
             headSize
-                = plugin.Config.Bind("01 - General Settings",
+                = plugin.Config.Bind(Section1,
                                      "Head Size",
                                      1f,
                                      "Changes the size of Enforcer's head");
             sprintShieldCancel
-                = plugin.Config.Bind("01 - General Settings",
+                = plugin.Config.Bind(Section1,
                                      "Sprint Cancels Shield",
                                      true,
                                      "Allows Protect and Serve to be cancelled by pressing sprint rather than special again");
             sirenOnDeflect
-                = plugin.Config.Bind("01 - General Settings",
+                = plugin.Config.Bind(Section1,
                                      "Siren on Deflect",
                                      true,
                                      "Play siren sound upon deflecting a projectile");
             useNeedlerCrosshair
-                = plugin.Config.Bind("01 - General Settings",
+                = plugin.Config.Bind(Section1,
                                      "Visions Crosshair",
                                      true,
                                      "Gives every survivor the custom crosshair for Visions of Heresy");
             cursed
-                = plugin.Config.Bind("01 - General Settings",
+                = plugin.Config.Bind(Section1,
                                      "Cursed",
                                      false,
                                      "Enables extra/unfinished content. Enable at own risk.");
             hateFun
-              = plugin.Config.Bind("01 - General Settings",
+              = plugin.Config.Bind(Section1,
                                    "I hate fun",
                                    false,
                                    "Set true to further disable extra content, namely skins and their achievements");
             femSkin
-              = plugin.Config.Bind("01 - General Settings",
+              = plugin.Config.Bind(Section1,
                                    "Femforcer",
                                    false,
                                    "Enables femforcer skins. Not for good boys and girls.");
 
             shellSounds
-                = plugin.Config.Bind("01 - General Settings",
+                = plugin.Config.Bind(Section1,
                                      "Shell Sounds",
                                      true,
                                      "Play a sound when ejected shotgun shells hit the ground");
             globalInvasion
-                = plugin.Config.Bind("01 - General Settings",
+                = plugin.Config.Bind(Section1,
                                      "Global Invasion",
                                      false,
                                      "Allows invasions when playing any character, not just Enforcer. Purely for fun.");
             multipleInvasions
-                = plugin.Config.Bind("01 - General Settings",
+                = plugin.Config.Bind(Section1,
                                      "Multiple Invasion Bosses",
                                      false,
                                      "Allows multiple bosses to spawn from an invasion.");
             kingDededeBoss
-                = plugin.Config.Bind("01 - General Settings",
+                = plugin.Config.Bind(Section1,
                                      "King Dedede Boss",
                                      false,
                                      "Adds a King Dedede boss that spawns on Sky Meadow and post-loop Titanic Plains.");
@@ -145,29 +149,29 @@ namespace Modules {
 
             #region keybinds
             restKey
-                = plugin.Config.Bind("02 - Keybinds",
+                = plugin.Config.Bind(Section2,
                                      "Rest Emote",
                                      KeyCode.Alpha1,
                                      "Key used to Chair");
             saluteKey
-                = plugin.Config.Bind("02 - Keybinds",
+                = plugin.Config.Bind(Section2,
                                      "Salute Emote",
                                      KeyCode.Alpha2,
                                      "Key used to Salute");
 
                 danceKey
-                    = plugin.Config.Bind("02 - Keybinds",
+                    = plugin.Config.Bind(Section2,
                                          "Dance Moves Emote",
                                          KeyCode.Alpha3,
                                          "the Default one");
                 runKey
-                    = plugin.Config.Bind("02 - Keybinds",
+                    = plugin.Config.Bind(Section2,
                                             "Earl Run Emote",
                                             KeyCode.Alpha4,
                                             "FLINT LOCKWOOD");
             
             sirensKey
-                = plugin.Config.Bind("02 - Keybinds",
+                = plugin.Config.Bind(Section2,
                                         "Sirens",
                                         KeyCode.CapsLock,
                                         "Key used to toggle sirens");
@@ -175,52 +179,52 @@ namespace Modules {
 
             #region character stats
             baseHealth
-                = plugin.Config.Bind("03 - Character Stats",
+                = plugin.Config.Bind(Section3,
                                      "Base Health",
                                      160f,
                                      "");
             healthGrowth
-                = plugin.Config.Bind("03 - Character Stats",
+                = plugin.Config.Bind(Section3,
                                      "Health Growth",
                                      48f,
                                      "");
             baseRegen
-                = plugin.Config.Bind("03 - Character Stats",
+                = plugin.Config.Bind(Section3,
                                      "Base Health Regen",
                                      1f,
                                      "");
             regenGrowth
-                = plugin.Config.Bind("03 - Character Stats",
+                = plugin.Config.Bind(Section3,
                                      "Health Regen Growth",
                                      0.2f,
                                      "");
             baseArmor
-                = plugin.Config.Bind("03 - Character Stats",
+                = plugin.Config.Bind(Section3,
                                      "Base Armor",
                                      12f,
                                      "");
             armorGrowth
-                = plugin.Config.Bind("03 - Character Stats",
+                = plugin.Config.Bind(Section3,
                                      "Armor Growth",
                                      0f,
                                      "");
             baseDamage
-                = plugin.Config.Bind("03 - Character Stats",
+                = plugin.Config.Bind(Section3,
                                      "Base Damage",
                                      12f,
                                      "");
             damageGrowth
-                = plugin.Config.Bind("03 - Character Stats",
+                = plugin.Config.Bind(Section3,
                                      "Damage Growth",
                                      2.4f,
                                      "");
             baseMovementSpeed
-                = plugin.Config.Bind("03 - Character Stats",
+                = plugin.Config.Bind(Section3,
                                      "Base Movement Speed",
                                      7f,
                                      "");
             baseCrit
-                = plugin.Config.Bind("03 - Character Stats",
+                = plugin.Config.Bind(Section3,
                                      "Base Crit",
                                      1f,
                                      "");
@@ -228,27 +232,27 @@ namespace Modules {
 
             #region riot
             shotgunDamage
-                = plugin.Config.Bind("04 - Riot Shotgun 3.4.0",
+                = plugin.Config.Bind(Section4,
                                      "Damage Coefficient",
                                      0.6f,
                                      "Damage of each pellet");
             shotgunProcCoefficient
-                = plugin.Config.Bind("04 - Riot Shotgun 3.4.0",
+                = plugin.Config.Bind(Section4,
                                      "Proc Coefficient",
                                      0.5f,
                                      "Proc Coefficient of each pellet");
             shotgunBulletCount
-                = plugin.Config.Bind("04 - Riot Shotgun 3.4.0",
+                = plugin.Config.Bind(Section4,
                                      "Bullet Count",
                                      6,
                                      "Amount of pellets fired");
             shotgunRange
-                = plugin.Config.Bind("04 - Riot Shotgun 3.4.0",
+                = plugin.Config.Bind(Section4,
                                      "Range",
                                      64f,
                                      "Maximum range");
             shotgunSpread
-                = plugin.Config.Bind("04 - Riot Shotgun 3.4.0",
+                = plugin.Config.Bind(Section4,
                                      "Spread",
                                      5.5f,
                                      "Maximum spread");

@@ -1,4 +1,5 @@
 ﻿using EntityStates;
+using EntityStates.Enforcer;
 using Modules;
 using Modules.Characters;
 using RoR2;
@@ -52,7 +53,7 @@ public class EnforcerComponent : MonoBehaviour
     float initialTime = 0;
 
     public ChildLocator childLocator;
-    public CameraTargetParams cameraShit2;
+    public CameraTargetParams cameraTargetParamsShit2;
 
     private GameObject energyShield;
     public EnergyShieldControler energyShieldControler;
@@ -81,7 +82,7 @@ public class EnforcerComponent : MonoBehaviour
         childLocator = GetComponentInChildren<ChildLocator>();
         head = childLocator.FindChild("Head");
 
-        cameraShit2 = GetComponentInChildren<CameraTargetParams>();
+        cameraTargetParamsShit2 = GetComponentInChildren<CameraTargetParams>();
 
         /*energyShield = childLocator.FindChild("EnergyShield").gameObject;
 
@@ -158,14 +159,14 @@ public class EnforcerComponent : MonoBehaviour
                 priority = 0,
             };
 
-            camOverrideHandle = cameraShit2.AddParamsOverride(request, 0.6f);
+            camOverrideHandle = cameraTargetParamsShit2.AddParamsOverride(request, 0.6f);
         } else {
 
-            for (int i = cameraShit2.cameraParamsOverrides.Count - 1; i >= 0; i--) {
+            for (int i = cameraTargetParamsShit2.cameraParamsOverrides.Count - 1; i >= 0; i--) {
 
-                camOverrideHandle.target = cameraShit2.cameraParamsOverrides[i];
+                camOverrideHandle.target = cameraTargetParamsShit2.cameraParamsOverrides[i];
 
-                cameraShit2.RemoveParamsOverride(camOverrideHandle, 0.3f);
+                cameraTargetParamsShit2.RemoveParamsOverride(camOverrideHandle, 0.3f);
             }
 
         }

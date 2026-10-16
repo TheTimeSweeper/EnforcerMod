@@ -65,6 +65,7 @@ namespace EnforcerPlugin {
             CreatePrefab();
             CreateDisplayPrefab();
             RegisterCharacter();
+            //todo dlc4 item displays
             //NemItemDisplays.RegisterDisplays();
             RegisterProjectiles();
             NemforcerSkins.RegisterSkins();

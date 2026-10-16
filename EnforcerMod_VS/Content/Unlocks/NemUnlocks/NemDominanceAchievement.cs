@@ -5,8 +5,8 @@ namespace EnforcerPlugin.Achievements {
     [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_NEMESIS2UNLOCKABLE_ACHIEVEMENT_ID", 3, null)]
     public class NemDominanceAchievement : BaseAchievement
     {
-        public const string identifier = "NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_ID" + knee.grow;
-        public const string unlockableIdentifier = "NEMFORCER_DOMINANCEUNLOCKABLE_REWARD_ID" + knee.grow;
+        public const string identifier = "NEMFORCER_DOMINANCEUNLOCKABLE_ACHIEVEMENT_ID" + Iter.ator;
+        public const string unlockableIdentifier = "NEMFORCER_DOMINANCEUNLOCKABLE_REWARD_ID" + Iter.ator;
         public const string AchievementSpriteName = "texNemforcerEnforcer";
 
         public override BodyIndex LookUpRequiredBodyIndex() {

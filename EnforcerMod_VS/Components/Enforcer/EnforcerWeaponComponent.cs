@@ -419,7 +419,7 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                     if (characterModel)
                     {
                         //characterModel.baseRendererInfos[0].defaultMaterial = characterModel.gameObject.GetComponent<ModelSkinController>().skins[charBody.skinIndex].rendererInfos[0].defaultMaterial;
-                        //if (charBody.master.inventory.GetItemCount(ItemIndex.ArmorReductionOnHit) > 0) characterModel.baseRendererInfos[0].defaultMaterial = null;
+                        //if (charBody.master.inventory.GetItemCountEffective(ItemIndex.ArmorReductionOnHit) > 0) characterModel.baseRendererInfos[0].defaultMaterial = null;
                     }
                 }*/
                 /*else
@@ -428,7 +428,7 @@ public class EnforcerWeaponComponent : MonoBehaviour {
                     if (characterModel)
                     {
                         float num = 0f;
-                        if (charBody.master.inventory.GetItemCount(ItemIndex.ArmorReductionOnHit) > 0) num = 1f;
+                        if (charBody.master.inventory.GetItemCountEffective(ItemIndex.ArmorReductionOnHit) > 0) num = 1f;
 
                         var animator = characterModel.GetComponent<Animator>();
                         if (animator) animator.SetFloat("shitpost", num);

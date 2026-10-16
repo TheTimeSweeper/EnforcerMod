@@ -51,7 +51,7 @@ namespace Modules {
         public static bool isEnforcerCurrentSkin(CharacterBody characterbody, EnforcerSkin skin)
         {
             if (skin == EnforcerSkin.RECOLORENGIBUNG) {
-                return characterbody.inventory.GetItemCount(RoR2Content.Items.Mushroom) > 0 && isEnforcerCurrentSkin(characterbody, GetFuckingSkinID(EnforcerSkin.RECOLORENGI));
+                return characterbody.inventory.GetItemCountEffective(RoR2Content.Items.Mushroom) > 0 && isEnforcerCurrentSkin(characterbody, GetFuckingSkinID(EnforcerSkin.RECOLORENGI));
             }
 
             return isEnforcerCurrentSkin(characterbody, GetFuckingSkinID(skin));

@@ -190,7 +190,7 @@ public class NemforcerController : MonoBehaviour
                 var characterModel = charBody.modelLocator?.modelTransform.GetComponentInChildren<CharacterModel>();
                 if (characterModel)
                 {
-                    if (charBody.master.inventory.GetItemCount(RoR2Content.Items.ArmorReductionOnHit) > 0)
+                    if (charBody.master.inventory.GetItemCountEffective(RoR2Content.Items.ArmorReductionOnHit) > 0)
                     {
                         characterModel.baseRendererInfos[0].defaultMaterial = null;
                     } else

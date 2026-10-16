@@ -5,8 +5,8 @@ using EnforcerPlugin;
 using UnityEngine;
 
 namespace EnforcerPlugin.Achievements {
-    public static class knee {
-        public const string grow = "";
+    public static class Iter {
+        public const string ator = "";
     }
 }
 

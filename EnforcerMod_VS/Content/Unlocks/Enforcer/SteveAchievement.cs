@@ -6,8 +6,8 @@ namespace EnforcerPlugin.Achievements {
     [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID", 1, typeof(SteveAchievementServer))]
     public class SteveAchievement : BaseAchievement
     {
-        public const string identifier = "ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_ID" + knee.grow;
-        public const string unlockableIdentifier = "ENFORCER_STEVEUNLOCKABLE_REWARD_ID" + knee.grow;
+        public const string identifier = "ENFORCER_STEVEUNLOCKABLE_ACHIEVEMENT_ID" + Iter.ator;
+        public const string unlockableIdentifier = "ENFORCER_STEVEUNLOCKABLE_REWARD_ID" + Iter.ator;
         public const string AchievementSpriteName = "texSbeveAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex() {

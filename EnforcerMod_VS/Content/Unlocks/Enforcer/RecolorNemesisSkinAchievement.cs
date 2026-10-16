@@ -6,8 +6,8 @@ namespace EnforcerPlugin.Achievements {
     [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID", 3, typeof(RecolorNemesisSkinAchievementServer))]
     public class RecolorNemesisSkinAchievement : BaseAchievement
     {
-        public const string identifier = "ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_ID" + knee.grow;
-        public const string unlockableIdentifier = "ENFORCER_NEMESISSKINUNLOCKABLE_REWARD_ID" + knee.grow;
+        public const string identifier = "ENFORCER_NEMESISSKINUNLOCKABLE_ACHIEVEMENT_ID" + Iter.ator;
+        public const string unlockableIdentifier = "ENFORCER_NEMESISSKINUNLOCKABLE_REWARD_ID" + Iter.ator;
         public const string AchievementSpriteName = "texNemSkinAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex() {

@@ -26,8 +26,8 @@ namespace Modules {
             PopulateDisplaysFromBody("MageBody");
             PopulateDisplaysFromBody("LunarExploderBody");
 
-            CreateFuckingGatDrone();
-            AddCustomLightningArm();
+            //CreateFuckingGatDrone();
+            //AddCustomLightningArm();
 
             //foreach (KeyValuePair<string, GameObject> pair in itemDisplayPrefabs)
             //{

@@ -8,8 +8,8 @@ namespace EnforcerPlugin.Achievements {
     [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID", 3, typeof(DesperadoAchievementServer))]
     public class DesperadoAchievement : BaseAchievement
     {
-        public const string identifier = "ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_ID" + knee.grow;
-        public const string unlockableIdentifier = "ENFORCER_DESPERADOUNLOCKABLE_REWARD_ID" + knee.grow;
+        public const string identifier = "ENFORCER_DESPERADOUNLOCKABLE_ACHIEVEMENT_ID" + Iter.ator;
+        public const string unlockableIdentifier = "ENFORCER_DESPERADOUNLOCKABLE_REWARD_ID" + Iter.ator;
         public const string AchievementSpriteName = "texDesperadoAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex() {
@@ -34,13 +34,13 @@ namespace EnforcerPlugin.Achievements {
             public override void OnInstall() {
                 base.OnInstall();
 
-                GlobalEventManager.onCharacterDeathGlobal += onCharacterDeathGlobal;
+                GlobalEventManager.onCharacterDeathServer += onCharacterDeathGlobal;
             }
 
             public override void OnUninstall() {
                 base.OnUninstall();
 
-                GlobalEventManager.onCharacterDeathGlobal -= onCharacterDeathGlobal;
+                GlobalEventManager.onCharacterDeathServer -= onCharacterDeathGlobal;
             }
 
             private void onCharacterDeathGlobal(DamageReport report) {

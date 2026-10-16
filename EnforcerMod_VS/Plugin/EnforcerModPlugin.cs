@@ -1,28 +1,18 @@
 using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.Logging;
 using EntityStates;
 using EntityStates.Enforcer;
-using EntityStates.Enforcer.NeutralSpecial;
-using IL.RoR2.ContentManagement;
-using KinematicCharacterController;
 using Modules;
 using Modules.Characters;
 using R2API;
 using R2API.Utils;
 using RoR2;
-using RoR2.CharacterAI;
 using RoR2.Projectile;
-using RoR2.Skills;
 using RoR2.UI;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -44,7 +34,7 @@ namespace EnforcerPlugin {
     [BepInDependency("com.johnedwa.RTAutoSprintEx", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("pseudopulse.Survariants", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, "Enforcer", "3.11.9")]
+    [BepInPlugin(MODUID, "Enforcer", "3.11.10")]
     public class EnforcerModPlugin : BaseUnityPlugin
     {
         public const string MODUID = "com.EnforcerGang.Enforcer";
@@ -157,7 +147,8 @@ namespace EnforcerPlugin {
 
             barrierDamageType = DamageAPI.ReserveDamageType();
 
-            ItemDisplays.PopulateDisplays();
+            //todo dlc4 item displays
+            //ItemDisplays.PopulateDisplays();
 
             Modules.Buffs.RegisterBuffs();
             RegisterProjectile();
@@ -168,7 +159,9 @@ namespace EnforcerPlugin {
             Hook();
             //new Modules.ContentPacks().CreateContentPack();
             RoR2.ContentManagement.ContentManager.collectContentPackProviders += ContentManager_collectContentPackProviders;
-            RoR2.ContentManagement.ContentManager.onContentPacksAssigned += ContentManager_onContentPacksAssigned;
+
+            //todo dlc4 item displays
+            //RoR2.ContentManagement.ContentManager.onContentPacksAssigned += ContentManager_onContentPacksAssigned;
             //RoR2.RoR2Application.onLoad += LateSetupItemDisplays;
             if (TestValueManager.testingEnabled) {
                 gameObject.AddComponent<TestValueManager>();
@@ -292,7 +285,35 @@ namespace EnforcerPlugin {
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             On.RoR2.BodyCatalog.Init += BodyCatalog_Init;
             //On.RoR2.BodyCatalog.SetBodyPrefabs += BodyCatalog_SetBodyPrefabs;
+            //IL.RoR2.RunCameraManager.Update += RunCameraManager_Update;
         }
+
+        //private void RunCameraManager_Update(MonoMod.Cil.ILContext il)
+        //{
+        //    //oh fuck it's been so long
+        //    //else if (networkUserBodyObject)
+        //    //{
+        //    //    cameraRigController.nextTarget = networkUserBodyObject;
+        //    //    cameraRigController.cameraMode = CameraModePlayerBasic.playerBasic;
+        //    //}
+        //    //right after setting cameramode to player basic, check if networkUserBodyObject has enforcer shield controller is shielded and set cameramode to timecrisis instead
+        //    ILCursor cursor = new ILCursor(il);
+        //    cursor.GotoNext(MoveType.After,
+        //        Instruction => Instruction.MatchLdloc(10),// load local variable camerarigcontroller 
+        //        Instruction => Instruction.MatchLdsfld("RoR2.CameraModes.CameraModePlayerBasic", "playerBasic")
+        //        );
+        //    cursor.Emit(OpCodes.Ldloc, 14); // load local variable networkUserBodyObject
+
+        //    cursor.EmitDelegate<Func<CameraModePlayerBasic, GameObject, CameraModeBase>>((playerBasic, bodyObject) =>
+        //    {
+        //        if (bodyObject.GetComponent<EnforcerComponent>().isShielding)
+        //        {
+        //            return CameraModeTimeCrisis.mode;
+        //        }
+        //        return playerBasic;
+        //    }); 
+
+        //} 
 
         public static void AddBodyToBlockBlacklist(string bodyName) {
             BodyIndex index = BodyCatalog.FindBodyIndex(bodyName);
@@ -490,7 +511,7 @@ namespace EnforcerPlugin {
                 bool hasInvaded = false;
 
                 bool shouldEvenCheck = isMonsoon() && (master.bodyPrefab == BodyCatalog.FindBodyPrefab("EnforcerBody") || Modules.Config.globalInvasion.Value);
-                bool voidRock = master.inventory.GetItemCount(ItemCatalog.FindItemIndex("VoidRock")) > 0;
+                bool voidRock = master.inventory.GetItemCountEffective(ItemCatalog.FindItemIndex("VoidRock")) > 0;
                 if ((shouldEvenCheck || voidRock) && master.GetBody())
                 {
                     var j = master.gameObject.GetComponent<NemesisInvasion>();
@@ -552,9 +573,9 @@ namespace EnforcerPlugin {
 
             for (int i = 0; i < newContentPacks.Count; i++) {
                 var contentPack = newContentPacks[i];
-                if (contentPack.identifier == "RoR2.Junk") {
-                    
-                    GameObject body = contentPack.bodyPrefabs.Find("EnforcerBody");
+                GameObject body = contentPack.bodyPrefabs.Find("EnforcerBody");
+                if (body && body != EnforcerSurvivor.instance.bodyPrefab)
+                {
                     body.name = "OldEnforcerBody";
                 }
             }
@@ -673,7 +694,7 @@ namespace EnforcerPlugin {
 
             if (self.hasBody) {
                 if (self.inventory && Modules.Config.useNeedlerCrosshair.Value) {
-                    if (self.inventory.GetItemCount(RoR2Content.Items.LunarPrimaryReplacement) > 0) {
+                    if (self.inventory.GetItemCountEffective(RoR2Content.Items.LunarPrimaryReplacement) > 0) {
                         self.GetBody()._defaultCrosshairPrefab = needlerCrosshair;
 
                         //CrosshairUtils.RequestOverrideForBody(self.GetBody(), needlerCrosshair, CrosshairUtils.OverridePriority.Skill);

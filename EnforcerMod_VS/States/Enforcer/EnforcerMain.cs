@@ -45,6 +45,7 @@ namespace EntityStates.Enforcer {
 
         public static event Action<float> Bungus = delegate { };
 
+        //todo (lol) all of this needs to be separated into separate components or states.
         public override void OnEnter()
         {
             base.OnEnter();
@@ -227,7 +228,7 @@ namespace EntityStates.Enforcer {
 
                 if (base.characterMotor.velocity == Vector3.zero && base.characterMotor.isGrounded)
                 {
-                    int bungusCount = base.characterBody.master.inventory.GetItemCount(RoR2Content.Items.Mushroom);
+                    int bungusCount = base.characterBody.master.inventory.GetItemCountEffective(RoR2Content.Items.Mushroom);
                     if (bungusCount > 0)
                     {
                         howdareyoucallafuckingboolflagyoufag = true;
@@ -330,11 +331,59 @@ namespace EntityStates.Enforcer {
             }
         }
 
-        public override void ProcessJump() {
-            base.ProcessJump();
-            skateJump = true;
-            //base.characterMotor.disableAirControlUntilCollision |= true;
-        }
+        //todo figureout what skatejump was for and move it to here probably
+        //public override bool TryPerformJump(float horizontalBonus, float verticalBonus)
+        //{
+        //    return base.TryPerformJump(horizontalBonus, verticalBonus);
+        //}
+
+        //public override void ProcessJump() {
+        //    if (enforcerComponent && enforcerComponent.isShielding)
+        //    {
+        //        base.ProcessJump();
+        //    } 
+        //    else
+        //    {
+        //        base.ProcessJump(false);
+        //    }
+        //    //actually not used?
+        //    skateJump = true;
+        //    //base.characterMotor.disableAirControlUntilCollision |= true;
+        //}
+
+        //public override bool TryPerformJump(float horizontalBonus, float verticalBonus)
+        //{
+        //    if (enforcerComponent && enforcerComponent.isShielding)
+        //    {
+        //        return base.TryPerformJump(horizontalBonus, verticalBonus);
+        //    }
+
+        //    //enforcercharactermainshielded.TryPerformJump overrides genericcharactermain.TryPerformJump without going through it so we have to bring it back here
+        //    //shield mode refactor when? I know, I'm sorry
+        //    GenericCharacterMain.ApplyJumpVelocity(base.characterMotor, base.characterBody, horizontalBonus, verticalBonus, false);
+        //    if (base.sfxLocator != null && !string.IsNullOrEmpty(base.sfxLocator.jumpSound))
+        //    {
+        //        Util.PlaySound(base.sfxLocator.jumpSound, this.outer.gameObject);
+        //    }
+        //    if (this.hasModelAnimator)
+        //    {
+        //        int layerIndex = base.modelAnimator.GetLayerIndex("Body");
+        //        if (layerIndex >= 0)
+        //        {
+        //            if (base.characterMotor.jumpCount == 0 || base.characterBody.baseJumpCount == 1)
+        //            {
+        //                base.modelAnimator.CrossFadeInFixedTime("Jump", this.smoothingParameters.intoJumpTransitionTime, layerIndex);
+        //            }
+        //            else
+        //            {
+        //                base.modelAnimator.CrossFadeInFixedTime("BonusJump", this.smoothingParameters.intoJumpTransitionTime, layerIndex);
+        //            }
+        //        }
+        //    }
+        //    base.characterMotor.jumpCount++;
+        //    base.characterBody.TriggerJumpEventGlobally();
+        //    return true;
+        //}
 
         public override void UpdateAnimationParameters() {
             base.UpdateAnimationParameters();

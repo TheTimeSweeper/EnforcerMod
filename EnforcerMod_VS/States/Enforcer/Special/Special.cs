@@ -4,8 +4,31 @@ using UnityEngine.Networking;
 using RoR2;
 using Modules;
 using Modules.Characters;
+using RoR2.CameraModes;
 
 namespace EntityStates.Enforcer {
+
+
+    //public class CameraModeTimeCrisis : CameraModePlayerBasic
+    //{
+    //    public static CameraModeTimeCrisis mode = new CameraModeTimeCrisis();
+
+    //    public override void ApplyLookInputInternal(object rawInstanceData, in CameraModeContext context, in ApplyLookInputArgs input)
+    //    {
+    //        CameraModePlayerBasic.InstanceData instanceData = (CameraModePlayerBasic.InstanceData)rawInstanceData;
+    //        var pitchyaw = instanceData.pitchYaw;
+    //        base.ApplyLookInputInternal(rawInstanceData, context, input);
+    //        instanceData.pitchYaw = pitchyaw;
+    //    }
+    //    public override void UpdateInternal(object rawInstanceData, in CameraModeContext context, out UpdateResult result)
+    //    {
+
+    //        CameraModePlayerBasic.InstanceData instanceData = (CameraModePlayerBasic.InstanceData)rawInstanceData;
+    //        base.UpdateInternal(rawInstanceData, context, out result);
+
+    //    }q
+    //}
+
     public class ProtectAndServe : BaseSkillState
     {
         public static float enterDuration = 0.5f;

@@ -288,16 +288,8 @@ namespace Modules.Characters {
         protected override void InitializeEntityStateMachine() {
             base.InitializeEntityStateMachine();
 
-            EntityStateMachine octagonapus = bodyPrefab.AddComponent<EntityStateMachine>();
-
-            octagonapus.customName = "EnforcerParry";
-
-            NetworkStateMachine networkStateMachine = bodyPrefab.GetComponent<NetworkStateMachine>();
-            networkStateMachine.stateMachines = networkStateMachine.stateMachines.Append(octagonapus).ToArray();
-
-            SerializableEntityStateType idleState = new SerializableEntityStateType(typeof(Idle));
-            octagonapus.initialStateType = idleState;
-            octagonapus.mainStateType = idleState;
+            EntityStateMachine octagonapus = Prefabs.AddEntityStateMachine(bodyPrefab, "EnforcerParry");
+            EntityStateMachine lungeMachine = Prefabs.AddEntityStateMachine(bodyPrefab, "ExtraLunge");
         }
         #endregion characterbody stuff
 

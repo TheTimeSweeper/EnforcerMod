@@ -15,6 +15,45 @@ Or ping/message me directly (`thetimesweeper`) with all the nastiest feedback yo
 
 ___
 
+## Addressing official Enforcer
+With the official release of Enforcer into RoR2 via the Hallowed Concepts DLC, a few questions may arise.
+
+### What's the point of the mod now?
+- For one, if you don't know, this mod has some more content (and an entire other secret character) that the official enforcer doesn't.  
+- For two, despite being based on the same formula, the characters actually play pretty differently. Long story short, RoR2 Enforcer strays a bit from the RoR1 play style to be a bit more aggressive. This mod aims to stay true to the true Enforcer experience and lean into the bunker-down identity of the original character. Official Enforcer is the modern RoR2 Enforcer experience. Mod Enforcer is the more traditional vanilla-feeling RoR Enforcer experience
+
+### Is Gearbox gonna take this down?
+No. Gearbox treats the modding community pretty well. That's all the shilling I'll do.
+
+### What's next for the mod?
+**Is it going to be abandoned?**  
+No. It will be maintained and updated as it always is.
+
+**Is it going to be subsumed into the official version as skins and alt skills?**  
+No. but anyone is free to port mod skins and skills to official and visa versa. We have no plans on doing so outright
+
+**If not, then what?**  
+My goal is to have both Enforcers able to stand side by side as valid characters in their own right, as mentioned above, in a few ways.
+- Quality: 
+  - Currently, Official Enforcer clears Mod Enforcer pretty hard, in my opinion, and a lot of it is just in terms of quality. There was a ton more development, experience, collaboration, and resources put into the guy. It's hard to compete with that.
+  - Thankfully, we can yoink a lot of the work on feel, juice and visuals, and I'm looking into updating the mod's animations. We can also take advantage of the work and QA done on some aspects of the Official version that overlap with ours. Off the top of my head:
+    - shield bash projectile deflecting can be updated to be closer to official enforcer's parry
+    - blocking code can be solidified to the new official tech
+    - shielded lunge is fun we can steal that
+    - that said...
+- Design:
+  - I want them to stand side-by-side, but not as the same character. I want them to be different enough so there's merit in both of them existing.
+  - Long story short, Official Enforcer encourages a gameplay loop that leaves the shield more often. I want Mod Enforcer to lean into the shielded gameplay, and make that more interesting. 
+    - What exactly this means we will have to wait and see. Keep in mind, I don't want to just change him for the sake of being different. I believe these two design avenues are valid to go down. If these changes end up making the character too different from what people have grown used to in the mod, there will be legacy config options.
+- Power Level:
+  - Of course, with RoR2 DLC comes unavoidable power creep. If you're in a lobby with both Enforcers, Official is going to outcompete simply on damage.
+  - I don't want to succumb to power creep and just buff him to modern ror2 levels, but I'm looking into a way to easily save and set configs on the fly so you can easily swap from your desired Modern power level and Classic vanilla-feeling power level. 
+
+
+I hope you look forward to these updates, but they will take some time. Lately I just haven't gotten the energy I once had...  
+Have fun, and thanks for havin fun.
+___
+
 ## Credits
 Gnome - Coding  
 rob - Cooding  
@@ -28,6 +67,8 @@ Violet Chaolan - Sounds
 LucidInceptor (2cute2game) - Modeling  
 bruh - Modeling, swag, animation  
 Paysus - Animations  
+Domi - Animations  
+Bog - Rigging  
 Dr.Bibop - VR implementation  
 PureDark - VR implementation  
 Dotflare - texture assistance  

@@ -7,8 +7,8 @@ namespace EnforcerPlugin.Achievements {
     [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID", 5, typeof(FrogAchievementServer))]
     public class FrogAchievement : BaseAchievement
     {
-        public const string identifier = "ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_ID" + knee.grow;
-        public const string unlockableIdentifier = "ENFORCER_FROGUNLOCKABLE_REWARD_ID" + knee.grow;
+        public const string identifier = "ENFORCER_FROGUNLOCKABLE_ACHIEVEMENT_ID" + Iter.ator;
+        public const string unlockableIdentifier = "ENFORCER_FROGUNLOCKABLE_REWARD_ID" + Iter.ator;
         public const string AchievementSpriteName = "texZeroSuitAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex() {

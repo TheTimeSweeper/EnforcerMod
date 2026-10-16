@@ -7,8 +7,8 @@ namespace EnforcerPlugin.Achievements
     [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID", 5, typeof(DoomAchievement2Server))]
     public class DoomAchievement2 : BaseAchievement
     {
-        public const string identifier = "ENFORCER_DOOMINTERNALUNLOCKABLE_ACHIEVEMENT_ID" + knee.grow;
-        public const string unlockableIdentifier = "ENFORCER_DOOMINTERNALUNLOCKABLE_REWARD_ID" + knee.grow;
+        public const string identifier = "ENFORCER_DOOMINTERNALUNLOCKABLE_ACHIEVEMENT_ID" + Iter.ator;
+        public const string unlockableIdentifier = "ENFORCER_DOOMINTERNALUNLOCKABLE_REWARD_ID" + Iter.ator;
         public const string AchievementSpriteName = "texDoomAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex()

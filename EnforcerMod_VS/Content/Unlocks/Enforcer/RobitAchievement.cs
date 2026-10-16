@@ -7,8 +7,8 @@ namespace EnforcerPlugin.Achievements {
     [RegisterAchievement(identifier, unlockableIdentifier, "ENFORCER_CHARACTERUNLOCKABLE_ACHIEVEMENT_ID", 3, typeof(RobitAchievementServer))]
     public class RobitAchievement : BaseAchievement
     {
-        public const string identifier = "ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_ID" + knee.grow;
-        public const string unlockableIdentifier = "ENFORCER_ROBITUNLOCKABLE_REWARD_ID" + knee.grow;
+        public const string identifier = "ENFORCER_ROBITUNLOCKABLE_ACHIEVEMENT_ID" + Iter.ator;
+        public const string unlockableIdentifier = "ENFORCER_ROBITUNLOCKABLE_REWARD_ID" + Iter.ator;
         public const string AchievementSpriteName = "texN4CRAchievement";
 
         public override BodyIndex LookUpRequiredBodyIndex() {
